@@ -4,6 +4,7 @@ import android.net.Uri
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
@@ -15,8 +16,8 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
@@ -41,7 +42,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -92,8 +93,25 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(containerId.toDccDetails())
     }
 
-    fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
-        // TODO check for duplicate and then restore
+    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+        val currentCoronaTest = submissionRepository.testForType(recycledCoronaTest.type).first()
+        when {
+            currentCoronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
+                recycledCoronaTest.toRestoreRecycledTestRequest()
+            )
+            // Test result was available on recycling time
+            !recycledCoronaTest.isPending -> {
+                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.identifier)
+                CoronaTestResult.Home
+            }
+            // Test was pending and No active test of same type
+            else -> {
+                recycledCoronaTestsRepository.restoreCoronaTest(recycledCoronaTest.identifier)
+                CoronaTestResult.PendingTestResult(recycledCoronaTest)
+            }
+        }.also {
+            result.postValue(it)
+        }
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {

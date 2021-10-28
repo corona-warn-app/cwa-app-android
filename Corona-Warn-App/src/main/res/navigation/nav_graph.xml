@@ -100,7 +100,22 @@
         android:id="@+id/recyclerBinOverviewFragment"
         android:name="de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragment"
         android:label="@layout/recycler_bin_overview_fragment"
-        tools:layout="@layout/recycler_bin_overview_fragment" />
+        tools:layout="@layout/recycler_bin_overview_fragment">
+
+        <action
+            android:id="@+id/action_recyclerBinOverviewFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment" />
+
+        <action
+            android:id="@+id/action_recyclerBinOverviewFragment_to_pendingTestResult"
+            app:destination="@id/submissionTestResultPendingFragment" />
+
+        <action
+            android:id="@+id/action_recyclerBinOverviewFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 
     <!-- Settings -->
     <fragment
@@ -631,7 +646,7 @@
             android:id="@+id/action_newReleaseInfoFragment_to_onboardingDeltaNotificationsFragment"
             app:destination="@id/onboardingDeltaNotificationsFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/surveyConsentFragment"
@@ -860,6 +875,18 @@
             app:destination="@id/submissionDeletionWarningFragment"
             app:popUpTo="@id/universalScanner"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_universalScanner_to_pendingTestResult"
+            app:destination="@id/submissionTestResultPendingFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_universalScanner_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <action
@@ -875,7 +902,7 @@
             android:id="@+id/action_onboardingDeltaNotificationsFragment_to_onboardingDeltaAnalyticsFragment"
             app:destination="@id/onboardingDeltaAnalyticsFragment"
             app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
 
 </navigation>

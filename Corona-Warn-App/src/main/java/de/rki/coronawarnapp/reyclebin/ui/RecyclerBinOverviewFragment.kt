@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -57,20 +58,35 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
             positiveButtonAction = { viewModel.onRemoveAllItemsConfirmation() }
         )
 
-        is RecyclerBinEvent.RemoveCertificate -> viewModel.onRemoveItem(event.item)
+        is RecyclerBinEvent.RemoveCertificate -> viewModel.onRemoveCertificate(event.certificate)
 
         is RecyclerBinEvent.ConfirmRestoreCertificate -> RecycleBinDialogType.RestoreCertificateConfirmation.show(
             fragment = this,
-            positiveButtonAction = { viewModel.onRestoreConfirmation(event.item) }
+            positiveButtonAction = { viewModel.onRestoreCertificateConfirmation(event.certificate) }
         )
 
-        is RecyclerBinEvent.ConfirmRestoreTest -> {
-            // TODO
-        }
+        is RecyclerBinEvent.ConfirmRestoreTest -> RecycleBinDialogType.RestoreTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.onRestoreTestConfirmation(event.test) }
+        )
 
-        is RecyclerBinEvent.RemoveTest -> {
-            // TODO
-        }
+        is RecyclerBinEvent.RemoveTest -> viewModel.onRemoveTest(event.test)
+        is RecyclerBinEvent.PendingTestResult -> doNavigate(
+            RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToPendingTestResult(
+                testType = event.coronaTest.type,
+                forceTestResultUpdate = true
+            )
+        )
+
+        is RecyclerBinEvent.RestoreDuplicateTest -> doNavigate(
+            RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToSubmissionDeletionWarningFragment(
+                event.restoreRecycledTestRequest
+            )
+        )
+
+        RecyclerBinEvent.Home -> doNavigate(
+            RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToMainFragment()
+        )
     }
 
     private fun onMenuItemClicked(item: MenuItem): Boolean = when (item.itemId) {

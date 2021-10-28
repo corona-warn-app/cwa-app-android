@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.reyclebin.coronatest
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -11,7 +12,7 @@ class RecycledCoronaTestsRepository @Inject constructor(
 
 ) {
 
-    val tests: Flow<Set<RecycledCoronaTest>> = recycledCoronaTestsStorage.tests
+    val tests: Flow<Set<CoronaTest>> = recycledCoronaTestsStorage.tests
 
     suspend fun findCoronaTest(coronaTestQrCodeHash: String): RecycledCoronaTest? {
         return recycledCoronaTestsStorage.findTest(coronaTestQrCodeHash)
@@ -21,15 +22,15 @@ class RecycledCoronaTestsRepository @Inject constructor(
         // TODO
     }
 
-    suspend fun restoreCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
+    suspend fun restoreCoronaTest(coronaTestIdentifier: TestIdentifier) {
         // TODO
     }
 
-    suspend fun deleteCoronaTest(recycledCoronaTest: RecycledCoronaTest) {
+    suspend fun deleteCoronaTest(recycledCoronaTest: CoronaTest) {
         // TODO
     }
 
-    suspend fun deleteAllCoronaTest(recycledCoronaTests: Set<RecycledCoronaTest>) {
+    suspend fun deleteAllCoronaTest(recycledCoronaTests: Set<CoronaTest>) {
         // TODO
     }
 

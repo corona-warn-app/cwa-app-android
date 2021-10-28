@@ -116,7 +116,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
     private fun mockCertificate() = mockk<RecoveryCertificate>().apply {
         every { fullName } returns "Max Mustermann"
-        every { fullNameStandardizedFormatted } returns "MUSTERMANN, MAX"
+        every { fullNameStandardizedFormatted } returns "MUSTERMANN<<MAX"
         every { dateOfBirthFormatted } returns "1969-01-08"
         every { targetDisease } returns "COVID-19"
         every { testedPositiveOnFormatted } returns "2021-05-24"

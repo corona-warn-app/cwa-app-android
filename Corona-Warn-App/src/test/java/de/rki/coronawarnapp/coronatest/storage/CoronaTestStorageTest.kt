@@ -128,8 +128,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "testResult": 2,
                     "lastUpdatedAt": 2001,
                     "isDccConsentGiven": true,
-                    "isDccDataSetCreated": true,
-                    "qrCodeHash": ""
+                    "isDccDataSetCreated": true
                 }
             ]
         """.toComparableJsonPretty()
@@ -212,8 +211,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "dateOfBirth": "2021-12-24",
                     "isDccSupportedByPoc": true,
                     "isDccConsentGiven": true,
-                    "isDccDataSetCreated": true,
-                    "qrCodeHash": ""
+                    "isDccDataSetCreated": true
                 }
             ]
         """.toComparableJsonPretty()

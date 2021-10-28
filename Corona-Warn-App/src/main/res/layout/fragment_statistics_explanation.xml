@@ -250,6 +250,50 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_hospitalization_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_seven_day_hospitalization_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_occupied_beds_in_intensive_care_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_occupied_beds_in_intensive_care_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_explanation_confirmed_new_infection_title"
@@ -440,6 +484,16 @@
                     android:text="@string/statistics_explanation_trend_title" />
 
                 <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:focusable="true"
+                    android:text="@string/statistics_explanation_trend" />
+
+                <TextView
                     android:id="@+id/statistics_explanation_trend_text"
                     style="@style/body2"
                     android:layout_width="match_parent"
@@ -447,8 +501,9 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_explanation_trend_text"
                     android:focusable="true"
-                    tools:text="@string/statistics_explanation_trend_text" />
+                    android:text="@string/statistics_explanation_trend_text" />
 
                 <TextView
                     style="@style/headline6"
