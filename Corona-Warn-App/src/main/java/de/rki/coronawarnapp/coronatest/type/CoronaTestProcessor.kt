@@ -28,4 +28,8 @@ interface CoronaTestProcessor {
     suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest
 
     suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest
+
+    suspend fun recycle(test: CoronaTest): CoronaTest
+
+    suspend fun restore(test: CoronaTest): CoronaTest
 }

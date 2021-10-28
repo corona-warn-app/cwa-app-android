@@ -33,7 +33,7 @@ class CoronaTestCensor @Inject constructor(
     init {
         listOf(
             contactDiaryRepository.testResults,
-            coronaTestRepository.coronaTests
+            coronaTestRepository.allCoronaTests
         ).merge()
             .filterNotNull()
             .onEach { tests ->
