@@ -54,7 +54,7 @@ data class PCRCoronaTest(
     override val labId: String? = null,
 
     @SerializedName("qrCodeHash")
-    override val qrCodeHash: String = "",
+    override val qrCodeHash: String? = null,
 
     @SerializedName("recycledAt")
     override var recycledAt: Instant? = null,

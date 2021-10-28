@@ -120,9 +120,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
                         }
                     )
                 is SelectedStatisticsLocation.SelectedFederalState ->
-                    context.getString(R.string.statistics_card_local_hospitalization_text).format(
-                        context.getString(selectedLocation.federalState.labelStringRes)
-                    )
+                    context.getString(R.string.statistics_secondary_value_description)
             }
         }
     }
