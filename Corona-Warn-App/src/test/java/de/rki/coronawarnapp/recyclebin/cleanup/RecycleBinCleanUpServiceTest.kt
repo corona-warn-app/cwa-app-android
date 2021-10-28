@@ -40,7 +40,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
 
     private fun createInstance() = RecycleBinCleanUpService(
         recycledCertificatesProvider = recycledCertificatesProvider,
-        recycledCoronaTestsRepository = recycledCoronaTestsProvider,
+        recycledCoronaTestsProvider = recycledCoronaTestsProvider,
         timeStamper = timeStamper
     )
 

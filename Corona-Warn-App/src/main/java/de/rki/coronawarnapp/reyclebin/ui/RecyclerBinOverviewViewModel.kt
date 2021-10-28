@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
@@ -32,7 +31,7 @@ import java.lang.IllegalArgumentException
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-   private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
+    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
     private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -118,8 +117,8 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         val containerIds = recycledCertificates.first().map { it.containerId }
         recycledCertificatesProvider.deleteAllCertificate(containerIds)
 
-        val tests = recycledCoronaTestsProvider.tests.first()
-        recycledCoronaTestsProvider.deleteAllCoronaTest(tests)
+        val testsIdentifiers = recycledCoronaTestsProvider.tests.first().map { it.identifier }
+        recycledCoronaTestsProvider.deleteAllCoronaTest(testsIdentifiers)
     }
 
     fun onRemoveCertificate(item: CwaCovidCertificate) = launch {
@@ -134,7 +133,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
 
     fun onRemoveTest(coronaTest: CoronaTest) = launch {
         Timber.d("onRemoveTest(item=%s)", coronaTest.identifier)
-        recycledCoronaTestsProvider.deleteCoronaTest(coronaTest)
+        recycledCoronaTestsProvider.deleteCoronaTest(coronaTest.identifier)
     }
 
     fun onRestoreTestConfirmation(coronaTest: CoronaTest) = launch {

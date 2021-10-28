@@ -20,9 +20,10 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     /**
      * Find corona test in recycled items
-     * @return [RecycledCoronaTest] if found , otherwise `null`
+     * @return [CoronaTest] if found , otherwise `null`
      */
-    suspend fun findCoronaTest(coronaTestQrCodeHash: String): CoronaTest? {
+    suspend fun findCoronaTest(coronaTestQrCodeHash: String?): CoronaTest? {
+        if (coronaTestQrCodeHash == null) return null
         Timber.tag(TAG).d("findCoronaTest(coronaTestQrCodeHash=%s)", coronaTestQrCodeHash)
         return tests.first()
             .find { it.qrCodeHash == coronaTestQrCodeHash }

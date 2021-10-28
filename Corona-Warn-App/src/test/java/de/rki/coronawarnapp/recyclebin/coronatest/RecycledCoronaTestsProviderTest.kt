@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.recyclebin.coronatest
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsStorage
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,19 +15,18 @@ import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
     @RelaxedMockK private lateinit var coronaTestsRepository: CoronaTestRepository
-    @RelaxedMockK private lateinit var recycledCoronaTestsStorage: RecycledCoronaTestsStorage
+    @RelaxedMockK private lateinit var recycledCoronaTestsStorage: CoronaTestStorage
     @MockK private lateinit var timeStamper: TimeStamper
 
     private val now = Instant.parse("2021-10-13T12:00:00.000Z")
@@ -38,12 +37,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         registrationToken = "PCR_registrationToken",
         testResult = CoronaTestResult.PCR_INVALID,
         lastUpdatedAt = now,
-        qrCodeHash = "PCR_qrCodeHash"
-    )
-
-    private val recycledPCR = RecycledCoronaTest(
-        recycledAt = now,
-        coronaTest = pcrTest
+        qrCodeHash = "PCR_qrCodeHash",
+        recycledAt = null
     )
 
     private val ratTest = RACoronaTest(
@@ -53,142 +48,121 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         testResult = CoronaTestResult.RAT_INVALID,
         testedAt = now,
         lastUpdatedAt = now,
-        qrCodeHash = "RAT_qrCodeHash"
+        qrCodeHash = "RAT_qrCodeHash",
+        recycledAt = null
     )
 
-    private val recycledRAT = RecycledCoronaTest(
-        recycledAt = now,
-        coronaTest = ratTest
+    private val recycledPcrTest = PCRCoronaTest(
+        identifier = "PCR-1",
+        registeredAt = now,
+        registrationToken = "PCR_registrationToken-1",
+        testResult = CoronaTestResult.PCR_INVALID,
+        lastUpdatedAt = now,
+        qrCodeHash = "PCR_qrCodeHash-1",
+        recycledAt = now
     )
 
-    private val testSet = setOf(recycledPCR, recycledRAT)
+    private val recycledRatTest = RACoronaTest(
+        identifier = "RAT-1",
+        registeredAt = now,
+        registrationToken = "RAT_registrationToken-1",
+        testResult = CoronaTestResult.RAT_INVALID,
+        testedAt = now,
+        lastUpdatedAt = now,
+        qrCodeHash = "RAT_qrCodeHash-1",
+        recycledAt = now
+    )
+
+    private val testSet = setOf(recycledPcrTest, recycledRatTest, pcrTest, ratTest)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns now
-        coEvery { recycledCoronaTestsStorage.load() } returns testSet
+        coEvery { recycledCoronaTestsStorage.coronaTests } returns testSet
     }
 
-    private fun createInstance(scope: CoroutineScope) = RecycledCoronaTestsRepository(
-        appScope = scope,
-        dispatcherProvider = TestDispatcherProvider(),
+    private fun createInstance() = RecycledCoronaTestsProvider(
         coronaTestRepository = coronaTestsRepository,
-        recycledCoronaTestsStorage = recycledCoronaTestsStorage,
-        timeStamper = timeStamper
     )
 
     @Test
     fun `restores data from storage storage and does not saved restored data`() =
         runBlockingTest2(ignoreActive = true) {
-            coEvery { recycledCoronaTestsStorage.load() } returns emptySet()
+            coEvery { recycledCoronaTestsStorage.coronaTests } returns emptySet()
 
-            createInstance(this).tests.first() shouldBe emptySet()
+            createInstance().tests.first() shouldBe emptySet()
             coVerify(exactly = 1) {
-                recycledCoronaTestsStorage.load()
+                recycledCoronaTestsStorage.coronaTests
             }
 
+            coEvery { recycledCoronaTestsStorage.coronaTests } returns testSet
 
-            coEvery { recycledCoronaTestsStorage.load() } returns testSet
-
-            createInstance(this).tests.first() shouldBe testSet
+            createInstance().tests.first() shouldBe testSet
             coVerify(exactly = 2) {
-                recycledCoronaTestsStorage.load()
+                recycledCoronaTestsStorage.coronaTests
             }
 
             coVerify(exactly = 0) {
-                recycledCoronaTestsStorage.save(any())
+                recycledCoronaTestsStorage.coronaTests = any()
             }
         }
 
     @Test
     fun `clear data`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).run {
+        createInstance().run {
             tests.first() shouldBe testSet
-
-            clear()
             tests.first() shouldBe emptySet()
         }
 
         coVerify {
-            recycledCoronaTestsStorage.save(emptySet())
+            recycledCoronaTestsStorage.coronaTests = emptySet()
         }
     }
 
     @Test
     fun `remove recycled test`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).run {
+        createInstance().run {
             tests.first() shouldBe testSet
 
-            deleteCoronaTest(recycledPCR)
-            tests.first() shouldBe setOf(recycledRAT)
+            deleteCoronaTest(recycledPcrTest.identifier)
+            tests.first() shouldBe setOf(recycledRatTest)
 
-            deleteCoronaTest(recycledRAT)
+            deleteCoronaTest(recycledRatTest.identifier)
             tests.first() shouldBe emptySet()
 
-            deleteCoronaTest(recycledRAT)
+            deleteCoronaTest(recycledRatTest.identifier)
             tests.first() shouldBe emptySet()
         }
 
         coVerifyOrder {
-            recycledCoronaTestsStorage.save(setOf(recycledRAT))
-            recycledCoronaTestsStorage.save(emptySet())
+            recycledCoronaTestsStorage.coronaTests = setOf(recycledRatTest)
+            recycledCoronaTestsStorage.coronaTests = emptySet()
         }
     }
 
     @Test
     fun `remove all recycled tests`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).run {
+        createInstance().run {
             tests.first() shouldBe testSet
 
-            deleteAllCoronaTest(testSet)
+            deleteAllCoronaTest(testSet.map { it.identifier })
             tests.first() shouldBe emptySet()
         }
 
         coVerify {
-            recycledCoronaTestsStorage.save(emptySet())
+            recycledCoronaTestsStorage.coronaTests = emptySet()
         }
     }
 
     @Test
     fun `find test for qrCodeHash`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).run {
-            findCoronaTest(recycledPCR.coronaTest.qrCodeHash) shouldBe recycledPCR
-            findCoronaTest(recycledRAT.coronaTest.qrCodeHash) shouldBe recycledRAT
+        createInstance().run {
+            findCoronaTest(recycledPcrTest.qrCodeHash) shouldBe recycledPcrTest
+            findCoronaTest(recycledRatTest.qrCodeHash) shouldBe recycledRatTest
             findCoronaTest("Please return null") shouldBe null
-        }
-    }
-
-    @Test
-    fun `add corona test - test not found`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { recycledCoronaTestsStorage.load() } returns emptySet()
-        coEvery { coronaTestsRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
-
-        createInstance(this).run {
-            assertThrows<CoronaTestNotFoundException> {
-                addCoronaTest(recycledPCR.coronaTest)
-            }
-
-            tests.first() shouldBe emptySet()
-        }
-    }
-
-    @Test
-    fun `add corona test - happy path`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { recycledCoronaTestsStorage.load() } returns emptySet()
-        coEvery { coronaTestsRepository.removeTest(pcrTest.identifier) } returns pcrTest
-
-        createInstance(this).run {
-            tests.first() shouldBe emptySet()
-
-            addCoronaTest(pcrTest)
-            tests.first() shouldBe setOf(recycledPCR)
-        }
-
-        coVerify {
-            coronaTestsRepository.removeTest(pcrTest.identifier)
-            recycledCoronaTestsStorage.save(setOf(recycledPCR))
+            findCoronaTest(null) shouldBe null
         }
     }
 
@@ -196,26 +170,30 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     fun `restore corona test - throws`() = runBlockingTest2(ignoreActive = true) {
         coEvery { coronaTestsRepository.restoreTest(any()) } throws Exception("Test error")
 
-        createInstance(this).run {
+        createInstance().run {
             assertThrows<Exception> {
-                restoreCoronaTest(recycledPCR)
+                restoreCoronaTest(recycledPcrTest.identifier)
             }
 
             tests.first() shouldBe testSet
+        }
+
+        coVerify {
+            coronaTestsRepository.restoreTest(recycledRatTest.identifier)
         }
     }
 
     @Test
     fun `restore corona test - happy path`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).run {
+        createInstance().run {
             tests.first() shouldBe testSet
 
-            restoreCoronaTest(recycledRAT)
-            tests.first() shouldBe setOf(recycledPCR)
+            restoreCoronaTest(recycledRatTest.identifier)
+            tests.first() shouldBe setOf(recycledPcrTest)
         }
 
         coVerify {
-            //coronaTestsRepository.restoreTest(ratTest)
+            coronaTestsRepository.restoreTest(recycledRatTest.identifier)
         }
     }
 }

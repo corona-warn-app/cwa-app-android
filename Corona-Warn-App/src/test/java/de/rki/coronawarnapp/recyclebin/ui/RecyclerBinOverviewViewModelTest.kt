@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
@@ -48,7 +47,6 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
 
     @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @RelaxedMockK private lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
-    @RelaxedMockK private lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
     @RelaxedMockK private lateinit var submissionRepository: SubmissionRepository
 
     private val recycledRAT = RACoronaTest(
@@ -123,7 +121,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             flowOf(setOf(recCert, testCert, vaccCert))
 
         every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
-        coEvery { recycledCoronaTestsRepository.restoreCoronaTest(any()) } just Runs
+        coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
     }
 
     @Test
@@ -232,7 +230,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             events.getOrAwaitValue() shouldBe
                 RecyclerBinEvent.RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest())
         }
-        coVerify(exactly = 0) { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -244,7 +242,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             events.getOrAwaitValue() shouldBe
                 RecyclerBinEvent.RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest())
         }
-        coVerify(exactly = 0) { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -255,7 +253,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             onRestoreTestConfirmation(recycledCoronaTest)
             events.getOrAwaitValue() shouldBe RecyclerBinEvent.PendingTestResult(recycledCoronaTest)
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -267,7 +265,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             onRestoreTestConfirmation(recycledCoronaTest)
             events.getOrAwaitValue() shouldBe RecyclerBinEvent.PendingTestResult(recycledCoronaTest)
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -277,7 +275,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             onRestoreTestConfirmation(recycledPCR)
             events.getOrAwaitValue() shouldBe RecyclerBinEvent.Home
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -288,6 +286,6 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
             onRestoreTestConfirmation(recycledRAT)
             events.getOrAwaitValue() shouldBe RecyclerBinEvent.Home
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 }

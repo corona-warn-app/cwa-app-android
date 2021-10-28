@@ -121,7 +121,6 @@ internal class DataResetTest : BaseTest() {
         recoveryCertificateRepository = recoveryCertificateRepository,
         dscRepository = dscRepository,
         boosterRulesRepository = boosterRulesRepository,
-        recycledCoronaTestsProvider = recycledCoronaTestsProvider
     )
 
     @Test
@@ -162,7 +161,6 @@ internal class DataResetTest : BaseTest() {
             recoveryCertificateRepository.clear()
             dscRepository.clear()
             boosterRulesRepository.clear()
-            recycledCoronaTestsProvider.clear()
         }
     }
 }
