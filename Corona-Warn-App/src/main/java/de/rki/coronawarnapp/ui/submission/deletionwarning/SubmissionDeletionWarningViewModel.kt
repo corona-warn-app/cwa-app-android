@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -17,6 +19,7 @@ import timber.log.Timber
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
+    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
 ) : CWAViewModel() {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -57,6 +60,10 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                         allowTestReplacement = true
                     )
             )
+
+            is RestoreRecycledTestRequest -> {
+                recycledCoronaTestsRepository.restoreCoronaTest(request.identifier)
+            }
         }
     }
 

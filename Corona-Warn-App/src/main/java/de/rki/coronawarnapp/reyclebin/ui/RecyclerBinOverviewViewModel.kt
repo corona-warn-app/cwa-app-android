@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.reyclebin.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
@@ -16,6 +17,7 @@ import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -29,7 +31,8 @@ import java.lang.IllegalArgumentException
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentEvent = SingleLiveEvent<RecyclerBinEvent>()
@@ -50,7 +53,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         val recyclerBinItems = mapNotNull {
             when (it) {
                 is CwaCovidCertificate -> mapCertToRecyclerBinItem(it)
-                is RecycledCoronaTest -> mapTestToRecyclerBinItem(it)
+                is CoronaTest -> mapTestToRecyclerBinItem(it)
                 else -> throw IllegalArgumentException("Can't convert $it to RecyclerBinItem")
             }
         }
@@ -61,7 +64,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
     }
 
-    private fun mapTestToRecyclerBinItem(recycledTest: RecycledCoronaTest): RecyclerBinItem? = CoronaTestCard.Item(
+    private fun mapTestToRecyclerBinItem(recycledTest: CoronaTest): RecyclerBinItem = CoronaTestCard.Item(
         test = recycledTest,
         onRemove = { test, position ->
             currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))
@@ -111,18 +114,48 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
 
     fun onRemoveAllItemsConfirmation() = launch {
         Timber.d("onRemoveAllItemsConfirmation()")
-        val itemToDelete = recycledCertificates.first().map { it.containerId }
-        recycledCertificatesProvider.deleteAllCertificate(itemToDelete)
+        val containerIds = recycledCertificates.first().map { it.containerId }
+        recycledCertificatesProvider.deleteAllCertificate(containerIds)
+
+        val tests = recycledCoronaTestsRepository.tests.first()
+        recycledCoronaTestsRepository.deleteAllCoronaTest(tests)
     }
 
-    fun onRemoveItem(item: CwaCovidCertificate) = launch {
-        Timber.d("onRemoveSingleItemConfirmation(item=%s)", item)
+    fun onRemoveCertificate(item: CwaCovidCertificate) = launch {
+        Timber.d("onRemoveCertificate(item=%s)", item.containerId)
         recycledCertificatesProvider.deleteCertificate(item.containerId)
     }
 
-    fun onRestoreConfirmation(item: CwaCovidCertificate) = launch {
-        Timber.d("onRestoreConfirmation(item=%s)", item)
+    fun onRestoreCertificateConfirmation(item: CwaCovidCertificate) = launch {
+        Timber.d("onRestoreCertificateConfirmation(item=%s)", item.containerId)
         recycledCertificatesProvider.restoreCertificate(item.containerId)
+    }
+
+    fun onRemoveTest(coronaTest: CoronaTest) = launch {
+        Timber.d("onRemoveTest(item=%s)", coronaTest.identifier)
+        recycledCoronaTestsRepository.deleteCoronaTest(coronaTest)
+    }
+
+    fun onRestoreTestConfirmation(coronaTest: CoronaTest) = launch {
+        Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
+        val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
+        when {
+            currentCoronaTest != null -> RecyclerBinEvent.RestoreDuplicateTest(
+                coronaTest.toRestoreRecycledTestRequest()
+            )
+            // Test result was available on recycling time
+            !coronaTest.isPending -> {
+                recycledCoronaTestsRepository.restoreCoronaTest(coronaTest.identifier)
+                RecyclerBinEvent.Home
+            }
+            // Test was pending and No active test of same type
+            else -> {
+                recycledCoronaTestsRepository.restoreCoronaTest(coronaTest.identifier)
+                RecyclerBinEvent.PendingTestResult(coronaTest)
+            }
+        }.also {
+            currentEvent.postValue(it)
+        }
     }
 
     @AssistedFactory

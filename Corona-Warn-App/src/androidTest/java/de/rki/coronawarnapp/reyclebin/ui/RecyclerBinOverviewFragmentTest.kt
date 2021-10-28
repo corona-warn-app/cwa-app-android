@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -15,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
@@ -140,21 +140,14 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { validUntil } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTz()
         }
 
-    private fun mockRATest(): RecycledCoronaTest =
-        RecycledCoronaTest(
-            coronaTest = mockk<RACoronaTest> {
-                every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
-            },
-            recycledAt = Instant.now()
-        )
+    private fun mockRATest(): CoronaTest =
+        mockk<RACoronaTest> {
+            every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+        }
 
-    private fun mockPCRTest(): RecycledCoronaTest =
-        RecycledCoronaTest(
-            coronaTest = mockk<PCRCoronaTest> {
-                every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
-            },
-            recycledAt = Instant.now()
-        )
+    private fun mockPCRTest() = mockk<PCRCoronaTest> {
+        every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+    }
 }
 
 @Module
