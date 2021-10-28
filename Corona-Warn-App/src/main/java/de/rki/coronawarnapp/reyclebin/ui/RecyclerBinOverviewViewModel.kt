@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.reyclebin.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
@@ -26,7 +27,7 @@ import timber.log.Timber
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentEvent = SingleLiveEvent<RecyclerBinEvent>()
@@ -35,7 +36,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
 
     val listItems: LiveData<List<RecyclerBinItem>> = combine(
-        recycledCoronaTestsRepository.tests,
+        recycledCoronaTestsProvider.tests,
         recycledCertificates
     ) { recycledTests, recycledCertificates ->
         recycledTests.toRecycledItems() +
@@ -51,7 +52,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
     }
 
-    private fun Collection<RecycledCoronaTest>.toRecycledItems(): List<RecyclerBinItem> {
+    private fun Collection<CoronaTest>.toRecycledItems(): List<RecyclerBinItem> {
         // TODO
         return emptyList()
     }

@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
@@ -49,7 +49,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var dccSettings: CovidCertificateSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
-    @MockK lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
+    @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 
     @BeforeEach
     fun setup() {
@@ -60,7 +60,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         every { Uri.parse(any()) } returns mockk()
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
-        every { recycledCoronaTestsRepository.tests } returns flowOf(emptySet())
+        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
     }
 
     @Test
@@ -130,6 +130,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
         recycledCertificatesProvider = recycledCertificatesProvider,
-        recycledCoronaTestsRepository = recycledCoronaTestsRepository
+        recycledCoronaTestsRepository = recycledCoronaTestsProvider
     )
 }

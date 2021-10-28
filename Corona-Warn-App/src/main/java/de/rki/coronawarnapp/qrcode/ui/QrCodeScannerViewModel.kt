@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
@@ -41,7 +41,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -123,7 +123,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
         Timber.tag(TAG).d("onCoronaTestQrCode()")
-        val recycledCoronaTest = recycledCoronaTestsRepository.findCoronaTest(qrCode.rawQrCode.toSHA256())
+        val recycledCoronaTest = recycledCoronaTestsProvider.findCoronaTest(qrCode.rawQrCode.toSHA256())
 
         if (recycledCoronaTest != null) {
             // TODO show the dialog

@@ -6,10 +6,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTest
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsStorage
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -18,7 +16,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,7 +24,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 
-class RecycledCoronaTestsRepositoryTest : BaseTest() {
+class RecycledCoronaTestsProviderTest : BaseTest() {
 
     @RelaxedMockK private lateinit var coronaTestsRepository: CoronaTestRepository
     @RelaxedMockK private lateinit var recycledCoronaTestsStorage: RecycledCoronaTestsStorage

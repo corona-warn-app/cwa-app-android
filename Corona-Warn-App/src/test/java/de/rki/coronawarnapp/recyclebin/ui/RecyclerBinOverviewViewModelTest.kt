@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinEvent
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewViewModel
@@ -36,7 +36,7 @@ import testhelpers.extensions.getOrAwaitValue
 class RecyclerBinOverviewViewModelTest : BaseTest() {
 
     @RelaxedMockK private lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
-    @RelaxedMockK private lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
+    @RelaxedMockK private lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 
     private val recCert: RecoveryCertificate = mockk {
         every { containerId } returns RecoveryCertificateContainerId("recCert")
@@ -58,7 +58,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         get() = RecyclerBinOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
             recycledCertificatesProvider = recycledCertificatesProvider,
-            recycledCoronaTestsRepository = recycledCoronaTestsRepository,
+            recycledCoronaTestsProvider = recycledCoronaTestsProvider,
         )
 
     @BeforeEach
@@ -68,7 +68,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         every { recycledCertificatesProvider.recycledCertificates } returns
             flowOf(setOf(recCert, testCert, vaccCert))
 
-        every { recycledCoronaTestsRepository.tests } returns flowOf(emptySet())
+        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
     }
 
     @Test

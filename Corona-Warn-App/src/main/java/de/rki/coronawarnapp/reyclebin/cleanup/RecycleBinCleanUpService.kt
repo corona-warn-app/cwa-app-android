@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @Reusable
 class RecycleBinCleanUpService @Inject constructor(
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    private val recycledCoronaTestsRepository: RecycledCoronaTestsRepository,
+    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
     private val timeStamper: TimeStamper
 ) {
 
