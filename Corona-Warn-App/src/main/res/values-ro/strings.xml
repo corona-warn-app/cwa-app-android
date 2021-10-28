@@ -23,7 +23,7 @@
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Setări"</string>
     <!-- XMIT: application trash -->
-    <string name="menu_trash">"Coș de gunoi"</string>
+    <string name="menu_trash">"Coș de reciclare"</string>
 
     <!-- ####################################
                Notification
@@ -929,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Fișier imposibil de citit"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Formatul de fișier nu este acceptat de Corona-Warn-App. Selectați un fișier compatibil."</string>
+    <string name="qr_code_file_not_readable_body">"Codul QR nu este acceptat de Corona-Warn-App. Selectați un fișier cu un cod QR potrivit."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Fișierul selectat poate să fie deteriorat sau protejat prin parolă și nu a putut fi citit. Selectați un fișier potrivit."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"Niciun cod QR detectat"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Selectați un document sau o fotografie cu un cod QR."</string>
+    <string name="qr_code_no_qr_code_body">"Niciun cod QR nu a fost detectat în fișierul selectat. Alegeți un alt fișier."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Niciun cod QR potrivit"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu poate fi scanat de Corona-Warn-App. Selectați un cod QR potrivit."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu este acceptat de Corona-Warn-App. Selectați un cod QR potrivit."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->

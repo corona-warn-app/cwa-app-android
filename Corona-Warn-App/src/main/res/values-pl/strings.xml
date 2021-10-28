@@ -929,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Nie można odczytać pliku"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Format pliku nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz kompatybilny plik."</string>
+    <string name="qr_code_file_not_readable_body">"Kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz plik z odpowiednim kodem QR."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Wybrany plik może być uszkodzony lub chroniony hasłem i nie można go odczytać. Wybierz odpowiedni plik."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"Nie wykryto kodu QR"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Wybierz dokument lub zdjęcie z kodem QR."</string>
+    <string name="qr_code_no_qr_code_body">"Nie wykryto kodu QR w wybranym pliku. Wybierz inny plik."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Brak odpowiedniego kodu QR"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Kod QR nie może zostać zeskanowany przez aplikację Corona-Warn-App. Wybierz odpowiedni kod QR."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz odpowiedni kod QR."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
