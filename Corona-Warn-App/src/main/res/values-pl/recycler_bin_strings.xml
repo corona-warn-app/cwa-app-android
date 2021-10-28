@@ -8,7 +8,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Kosz jest pusty"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Usunięte testy i certyfikaty są przenoszone do kosza i wyświetlane tutaj."</string>
+    <string name="recycler_bin_empty_description">"Usunięte certyfikaty są przenoszone do kosza i wyświetlane tutaj."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Usuń wszystko"</string>
 
