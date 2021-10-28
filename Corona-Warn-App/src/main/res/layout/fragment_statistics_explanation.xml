@@ -151,9 +151,9 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="@dimen/guideline_end"
-                    android:contentDescription="@string/statistics_explanation_7_day_confirmed_new_infection_text"
+                    android:contentDescription="@string/statistics_explanation_seven_day_incidence_text"
                     android:focusable="true"
-                    android:text="@string/statistics_explanation_7_day_confirmed_new_infection_text" />
+                    android:text="@string/statistics_explanation_seven_day_incidence_text" />
 
                 <TextView
                     style="@style/headline6"

@@ -1514,8 +1514,6 @@
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
-    <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
-    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalization"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
