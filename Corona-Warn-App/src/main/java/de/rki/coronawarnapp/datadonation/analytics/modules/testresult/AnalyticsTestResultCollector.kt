@@ -126,8 +126,20 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.testResult.update { testResult }
 
-        if (testResult.isFinal) {
+        if (testResult.isFinal && type.settings.finalTestResultReceivedAt.value == null) {
             type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
+
+            val reportedEwHashs = type.settings.exposureWindowsAtTestRegistration.value?.map {
+                it.sha256Hash()
+            } ?: emptyList()
+
+            val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filter {
+                !reportedEwHashs.contains(it.sha256Hash())
+            }
+
+            type.settings.exposureWindowsUntilTestResult.update {
+                newExposureWindows
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 
 // internal data structures used to store data -- do not modify
 data class AnalyticsExposureWindow(
@@ -18,7 +19,9 @@ data class AnalyticsExposureWindow(
     val normalizedTime: Double,
     @SerializedName("transmissionRiskLevel")
     val transmissionRiskLevel: Int
-)
+) {
+    fun sha256Hash() = toString().toSHA256()
+}
 
 data class AnalyticsScanInstance(
     @SerializedName("minAttenuation")

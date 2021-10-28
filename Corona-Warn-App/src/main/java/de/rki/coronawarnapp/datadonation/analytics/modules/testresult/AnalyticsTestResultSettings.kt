@@ -125,6 +125,12 @@ open class AnalyticsTestResultSettings(
         writer = FlowPreference.gsonWriter(gson)
     )
 
+    val exposureWindowsUntilTestResult: FlowPreference<List<AnalyticsExposureWindow>?> = prefs.createFlowPreference(
+        key = PREFS_KEY_EXPOSURE_WINDOWS_UNTIL_TEST_RESULT + sharedPrefKeySuffix,
+        reader = FlowPreference.gsonReader<List<AnalyticsExposureWindow>?>(gson, null),
+        writer = FlowPreference.gsonWriter(gson)
+    )
+
     fun clear() = prefs.clearAndNotify()
 
     companion object {
@@ -150,5 +156,8 @@ open class AnalyticsTestResultSettings(
 
         private const val PREFS_KEY_EXPOSURE_WINDOWS_AT_REGISTRATION =
             "testResultDonor.exposureWindowsAtTestRegistration"
+
+        private const val PREFS_KEY_EXPOSURE_WINDOWS_UNTIL_TEST_RESULT =
+            "testResultDonor.exposureWindowsUntilTestResult"
     }
 }
