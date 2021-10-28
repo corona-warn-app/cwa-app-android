@@ -8,7 +8,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Кошчето е празно"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Когато изтривате тестове и сертификати, те се преместват в кошчето и се показват там."</string>
+    <string name="recycler_bin_empty_description">"Когато изтривате сертификати, те се преместват в кошчето и се показват там."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Изтриване на всички"</string>
 
