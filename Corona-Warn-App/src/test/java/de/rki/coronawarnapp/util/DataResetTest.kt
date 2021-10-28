@@ -121,7 +121,7 @@ internal class DataResetTest : BaseTest() {
         recoveryCertificateRepository = recoveryCertificateRepository,
         dscRepository = dscRepository,
         boosterRulesRepository = boosterRulesRepository,
-        recycledCoronaTestsRepository = recycledCoronaTestsProvider
+        recycledCoronaTestsProvider = recycledCoronaTestsProvider
     )
 
     @Test
