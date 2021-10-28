@@ -117,19 +117,21 @@ class DccBoosterRulesValidator @Inject constructor(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun findRecentRecoveryCertificate(dccList: List<CwaCovidCertificate>): RecoveryCertificate? {
-    val recCertificates = dccList.filterIsInstance<RecoveryCertificate>()
-    val recentFirstResultOnCert = recCertificates.maxByOrNull { it.testedPositiveOn } ?: return null
-    return recCertificates
-        .filter { it.testedPositiveOn == recentFirstResultOnCert.testedPositiveOn }
-        .maxByOrNull { it.headerIssuedAt }
-}
+fun findRecentRecoveryCertificate(dccList: List<CwaCovidCertificate>): RecoveryCertificate? = dccList
+    .filterIsInstance<RecoveryCertificate>()
+    .maxWithOrNull(
+        compareBy(
+            { it.testedPositiveOn },
+            { it.headerIssuedAt }
+        )
+    )
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-fun findRecentVaccinationCertificate(dccList: List<CwaCovidCertificate>): VaccinationCertificate? {
-    val vacCertificates = dccList.filterIsInstance<VaccinationCertificate>()
-    val recentVaccinatedOnCert = vacCertificates.maxByOrNull { it.vaccinatedOn } ?: return null
-    return vacCertificates
-        .filter { it.vaccinatedOn == recentVaccinatedOnCert.vaccinatedOn }
-        .maxByOrNull { it.headerIssuedAt }
-}
+fun findRecentVaccinationCertificate(dccList: List<CwaCovidCertificate>): VaccinationCertificate? = dccList
+    .filterIsInstance<VaccinationCertificate>()
+    .maxWithOrNull(
+        compareBy(
+            { it.vaccinatedOn },
+            { it.headerIssuedAt }
+        )
+    )

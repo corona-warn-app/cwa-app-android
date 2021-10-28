@@ -61,4 +61,15 @@ class BoosterNotificationTest : BaseTest() {
         createInstance().showBoosterNotification(personIdentifier)
         verify { notificationHelper.sendNotification(any(), any()) }
     }
+
+    @Test
+    fun `cancel booster notification`() = runBlockingTest {
+        val personIdentifier = CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1990-10-10",
+            firstNameStandardized = "firstNameStandardized",
+            lastNameStandardized = "lastNameStandardized"
+        )
+        createInstance().cancelNotification(personIdentifier)
+        verify { notificationHelper.cancelNotification(any()) }
+    }
 }

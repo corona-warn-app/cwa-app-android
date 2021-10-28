@@ -26,12 +26,12 @@ class BoosterNotificationService @Inject constructor(
 ) {
     private val mutex = Mutex()
 
-    suspend fun checkBoosterNotification() = mutex.withLock {
+    suspend fun checkBoosterNotification(forceCheck: Boolean = false) = mutex.withLock {
         Timber.tag(TAG).v("checkBoosterNotification() - Started")
 
         val lastCheck = covidCertificateSettings.lastDccBoosterCheck.value
 
-        if (lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
+        if (!forceCheck && lastCheck.toLocalDateUtc() == timeStamper.nowUTC.toLocalDateUtc()) {
             Timber.tag(TAG).d("Last check was within 24h, skipping.")
             return
         }
@@ -84,6 +84,7 @@ class BoosterNotificationService @Inject constructor(
             vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
+            boosterNotification.cancelNotification(personIdentifier)
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, rule?.identifier)
         }
     }

@@ -41,6 +41,7 @@ class DigitalCovidCertificateNotificationsTest : BaseTest() {
         notificationManager.apply {
             every { createNotificationChannel(capture(channelSlot)) } just Runs
             every { notify(any(), any()) } just Runs
+            every { cancel(any()) } just Runs
         }
     }
 
@@ -59,6 +60,15 @@ class DigitalCovidCertificateNotificationsTest : BaseTest() {
         verify {
             notificationManager.createNotificationChannel(any<NotificationChannelCompat>())
             notificationManager.notify(1, any())
+        }
+    }
+
+    @Test
+    fun `cancel notification`() {
+        val instance = createInstance()
+        instance.cancelNotification(1)
+        verify {
+            notificationManager.cancel(1)
         }
     }
 
