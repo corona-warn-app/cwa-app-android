@@ -27,4 +27,4 @@ class AnalyticsExposureWindowsSettings @Inject constructor(
     fun clear() = prefs.clearAndNotify()
 }
 
-private val PREFS_KEY_CURRENT_EXPOSURE_WINDOWS = "analytics_currentExposureWindows"
+private const val PREFS_KEY_CURRENT_EXPOSURE_WINDOWS = "analytics_currentExposureWindows"
