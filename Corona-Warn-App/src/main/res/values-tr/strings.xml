@@ -23,7 +23,7 @@
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Ayarlar"</string>
     <!-- XMIT: application trash -->
-    <string name="menu_trash">"Çöp kutusu"</string>
+    <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
 
     <!-- ####################################
                Notification
@@ -929,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Dosya Okunamıyor"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Corona-Warn-App dosya biçimini desteklemiyor. Lütfen uyumlu bir dosya seçin."</string>
+    <string name="qr_code_file_not_readable_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun QR kod içeren bir dosya seçin."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Seçilen dosya bozuk ya da parola korumalı olabilir. Dosya okunamadı. Lütfen uygun bir dosya seçin."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"QR Kod Tespit Edilmedi"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Lütfen QR kod bulunan bir belge veya fotoğraf seçin."</string>
+    <string name="qr_code_no_qr_code_body">"Seçilen dosyada QR kod tespit edilmedi. Lütfen farklı bir dosya seçin."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu tarayamıyor. Lütfen uygun bir QR kod seçin."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod seçin."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1514,8 +1514,6 @@
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
-    <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
-    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hastaneye Yatış Sayısı"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
