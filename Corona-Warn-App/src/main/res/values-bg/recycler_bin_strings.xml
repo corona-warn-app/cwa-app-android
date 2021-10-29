@@ -8,7 +8,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Кошчето е празно"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Когато изтривате тестове и сертификати, те се преместват в кошчето и се показват там."</string>
+    <string name="recycler_bin_empty_description">"Когато изтривате сертификати, те се преместват в кошчето и се показват там."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Изтриване на всички"</string>
 
@@ -16,7 +16,7 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Възстановяване на сертификат"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"QR кодът вече е регистриран на устройството ви. Можете да възстановите сертификата от кошчето. "</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"QR кодът вече е регистриран на устройството Ви. Сертификатът ще бъде възстановен от кошчето."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
