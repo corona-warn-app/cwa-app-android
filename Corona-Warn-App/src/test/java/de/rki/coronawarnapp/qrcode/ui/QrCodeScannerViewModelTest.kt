@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
@@ -58,7 +58,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var dccSettings: CovidCertificateSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
-    @MockK lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
+    @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 
     private val recycledRAT = RACoronaTest(
         identifier = "rat-identifier",
@@ -68,7 +68,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         testResult = CoronaTestResult.RAT_REDEEMED,
         testedAt = Instant.EPOCH,
         isDccConsentGiven = false,
-        isDccSupportedByPoc = false
+        isDccSupportedByPoc = false,
     )
 
     private val anotherRAT = RACoronaTest(
@@ -109,8 +109,8 @@ class QrCodeScannerViewModelTest : BaseTest() {
         every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         every { Uri.parse(any()) } returns mockk()
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
-        every { recycledCoronaTestsRepository.tests } returns flowOf(emptySet())
-        coEvery { recycledCoronaTestsRepository.restoreCoronaTest(any()) } just Runs
+        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
+        coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
     }
 
     @Test
@@ -176,7 +176,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledPCR)
             result.getOrAwaitValue() shouldBe RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest())
         }
-        coVerify(exactly = 0) { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -187,7 +187,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledRAT)
             result.getOrAwaitValue() shouldBe RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest())
         }
-        coVerify(exactly = 0) { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -198,7 +198,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledCoronaTest)
             result.getOrAwaitValue() shouldBe PendingTestResult(recycledCoronaTest)
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -210,7 +210,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledCoronaTest)
             result.getOrAwaitValue() shouldBe PendingTestResult(recycledCoronaTest)
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -220,7 +220,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledPCR)
             result.getOrAwaitValue() shouldBe Home
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     @Test
@@ -231,7 +231,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledRAT)
             result.getOrAwaitValue() shouldBe Home
         }
-        coVerify { recycledCoronaTestsRepository.restoreCoronaTest(any()) }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
 
     fun viewModel() = QrCodeScannerViewModel(
@@ -245,6 +245,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
         recycledCertificatesProvider = recycledCertificatesProvider,
-        recycledCoronaTestsRepository = recycledCoronaTestsRepository
+        recycledCoronaTestsProvider = recycledCoronaTestsProvider
     )
 }

@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -79,7 +79,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var boosterRulesRepository: BoosterRulesRepository
-    @MockK lateinit var recycledCoronaTestsRepository: RecycledCoronaTestsRepository
+    @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 
     @BeforeEach
     fun setUp() {
@@ -121,7 +121,6 @@ internal class DataResetTest : BaseTest() {
         recoveryCertificateRepository = recoveryCertificateRepository,
         dscRepository = dscRepository,
         boosterRulesRepository = boosterRulesRepository,
-        recycledCoronaTestsRepository = recycledCoronaTestsRepository
     )
 
     @Test
@@ -162,7 +161,6 @@ internal class DataResetTest : BaseTest() {
             recoveryCertificateRepository.clear()
             dscRepository.clear()
             boosterRulesRepository.clear()
-            recycledCoronaTestsRepository.clear()
         }
     }
 }

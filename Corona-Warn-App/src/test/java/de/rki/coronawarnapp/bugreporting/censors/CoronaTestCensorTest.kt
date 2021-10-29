@@ -65,7 +65,7 @@ class CoronaTestCensorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { coronaTestRepository.coronaTests } returns coronaTests
+        every { coronaTestRepository.allCoronaTests } returns coronaTests
         every { contactDiaryRepository.testResults } returns contactDiaryTestResults
     }
 
@@ -85,7 +85,7 @@ class CoronaTestCensorTest : BaseTest() {
         instance.checkLog(filterMe)!!
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and ########-####-####-####-########9876"
 
-        verify { coronaTestRepository.coronaTests }
+        verify { coronaTestRepository.allCoronaTests }
     }
 
     @Test
@@ -96,7 +96,7 @@ class CoronaTestCensorTest : BaseTest() {
         instance.checkLog(filterMe)!!
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier and ########-####-####-####-########9876"
 
-        verify { coronaTestRepository.coronaTests }
+        verify { coronaTestRepository.allCoronaTests }
     }
 
     @Test

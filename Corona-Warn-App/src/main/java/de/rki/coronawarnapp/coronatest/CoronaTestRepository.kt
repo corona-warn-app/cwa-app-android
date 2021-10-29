@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -55,7 +56,25 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
-    val coronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
+    /**
+     * Returns a flow with an unfiltered set of [CoronaTest]
+     */
+    val allCoronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
+        .shareLatest()
+
+    /**
+     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isNotRecycled]
+     */
+    val coronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+        tests.filter { it.isNotRecycled }.toSet()
+    }.shareLatest()
+
+    /**
+     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isRecycled]
+     */
+    val recycledCoronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+        tests.filter { it.isRecycled }.toSet()
+    }.shareLatest()
 
     init {
         internalData.data
@@ -159,8 +178,30 @@ class CoronaTestRepository @Inject constructor(
         return removedTest!!
     }
 
-    suspend fun restoreTest(coronaTest: CoronaTest) {
-        // TODO
+    /**
+     * Move Corona test to recycled state.
+     * it does not throw any exception if test is not found
+     */
+    suspend fun recycleTest(identifier: TestIdentifier): Unit = try {
+        Timber.tag(TAG).d("recycleTest(identifier=%s)", identifier)
+        modifyTest(identifier) { processor, test ->
+            processor.recycle(test)
+        }
+    } catch (e: CoronaTestNotFoundException) {
+        Timber.tag(TAG).e(e)
+    }
+
+    /**
+     * Restore Corona Test from recycled state.
+     * it does not throw any exception if test is not found
+     */
+    suspend fun restoreTest(identifier: TestIdentifier): Unit = try {
+        Timber.tag(TAG).d("restoreTest(identifier=%s)", identifier)
+        modifyTest(identifier) { processor, test ->
+            processor.restore(test)
+        }
+    } catch (e: CoronaTestNotFoundException) {
+        Timber.tag(TAG).e(e)
     }
 
     /**
@@ -289,6 +330,11 @@ class CoronaTestRepository @Inject constructor(
             processor.markDccCreated(before, created)
         }
     }
+
+    private fun Flow<Set<CoronaTest>>.shareLatest() = shareLatest(
+        tag = TAG,
+        scope = appScope
+    )
 
     companion object {
         const val TAG = "CoronaTestRepository"

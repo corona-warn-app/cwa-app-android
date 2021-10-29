@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.reyclebin
+package de.rki.coronawarnapp.recyclebin.covidcertificate
 
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
