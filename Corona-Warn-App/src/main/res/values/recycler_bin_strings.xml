@@ -4,11 +4,11 @@
     ###################################### -->
 
     <!-- XHED: recycler bin overview title -->
-    <string name="recycler_bin_title">"Trash"</string>
+    <string name="recycler_bin_title">"Recycle Bin"</string>
     <!-- XHED: empty recycler bin label -->
-    <string name="recycler_bin_empty_label">"The Trash is Empty"</string>
+    <string name="recycler_bin_empty_label">"The Recycle Bin Is Empty"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"When you remove tests and certificates, they are moved to the trash and displayed here."</string>
+    <string name="recycler_bin_empty_description">"When you remove certificates, they are moved to the recycle bin and displayed here."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Remove All"</string>
 
@@ -16,13 +16,13 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Restore Certificate"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"Der QR-Code wurde bereits auf Ihrem Smartphone registriert. Das Zertifikat wird aus dem Papierkorb wiederhergestellt."</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"The QR code has already been registered on your smartphone. The certificate will be restored from the recycle bin."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
     <string name="recycle_bin_recycle_certificate_dialog_title">"Do you want to remove the certificate?"</string>
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
-    <string name="recycle_bin_recycle_certificate_dialog_message">"The certificate will be moved to the trash. You’ll find the trash on the “Status” tab page, under the three dots on the upper right. You can permanently delete or restore it there. The certificate will be deleted automatically after 30 days."</string>
+    <string name="recycle_bin_recycle_certificate_dialog_message">"The certificate will be moved to the recycle bin. You’ll find the recycle bin on the “Status” tab page, under the three dots on the upper right. You can permanently delete or restore it there. The certificate will be deleted automatically after 30 days."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
     <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Remove Certificate"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
@@ -37,7 +37,7 @@
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
-    <string name="recycle_bin_remove_all_dialog_title">"Do you want to empty the trash?"</string>
+    <string name="recycle_bin_remove_all_dialog_title">"Do you want to empty the recycle bin?"</string>
     <!-- XTXT: Recycle Bin - remove all dialog message -->
     <string name="recycle_bin_remove_all_dialog_message">"You will no longer be able to restore its contents."</string>
     <!-- XBUT: Recycle Bin - remove all dialog positive button -->
