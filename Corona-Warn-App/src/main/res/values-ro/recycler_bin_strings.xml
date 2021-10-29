@@ -4,11 +4,11 @@
     ###################################### -->
 
     <!-- XHED: recycler bin overview title -->
-    <string name="recycler_bin_title">"Coș de gunoi"</string>
+    <string name="recycler_bin_title">"Coș de reciclare"</string>
     <!-- XHED: empty recycler bin label -->
-    <string name="recycler_bin_empty_label">"Coșul de gunoi este gol"</string>
+    <string name="recycler_bin_empty_label">"Coșul de reciclare este gol"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Când eliminați testele și certificatele, acestea sunt mutate în coșul de gunoi și sunt afișate acolo."</string>
+    <string name="recycler_bin_empty_description">"Când eliminați certificatele, acestea sunt mutate în coșul de reciclare și sunt afișate acolo."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Eliminare toate"</string>
 
@@ -16,13 +16,13 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Restaurare certificat"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"Codul QR a fost deja înregistrat pe smartphone-ul dvs. Puteți restaura certificatul din coșul de gunoi. "</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"Codul QR a fost deja înregistrat pe smartphone-ul dvs. Certificatul va fi restaurat din coșul de reciclare."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
     <string name="recycle_bin_recycle_certificate_dialog_title">"Doriți să eliminați certificatul?"</string>
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
-    <string name="recycle_bin_recycle_certificate_dialog_message">"Certificatul va fi mutat în coșul de gunoi. Veți găsi coșul de gunoi pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, puteți șterge definitiv sau restaura certificatul. Certificatul va fi șters automat după 30 de zile."</string>
+    <string name="recycle_bin_recycle_certificate_dialog_message">"Certificatul va fi mutat în coșul de reciclare. Veți găsi coșul de reciclare pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, puteți șterge definitiv sau restaura certificatul. Certificatul va fi șters automat după 30 de zile."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
     <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Eliminare certificat"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
@@ -37,7 +37,7 @@
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
-    <string name="recycle_bin_remove_all_dialog_title">"Doriți să goliți coșul de gunoi?"</string>
+    <string name="recycle_bin_remove_all_dialog_title">"Doriți să goliți coșul de reciclare?"</string>
     <!-- XTXT: Recycle Bin - remove all dialog message -->
     <string name="recycle_bin_remove_all_dialog_message">"Nu veți mai putea restaura conținutul său."</string>
     <!-- XBUT: Recycle Bin - remove all dialog positive button -->

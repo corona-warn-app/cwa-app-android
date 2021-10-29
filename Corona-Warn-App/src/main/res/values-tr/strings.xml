@@ -23,7 +23,7 @@
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Ayarlar"</string>
     <!-- XMIT: application trash -->
-    <string name="menu_trash">"Çöp kutusu"</string>
+    <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
 
     <!-- ####################################
                Notification
@@ -929,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Dosya Okunamıyor"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Corona-Warn-App dosya biçimini desteklemiyor. Lütfen uyumlu bir dosya seçin."</string>
+    <string name="qr_code_file_not_readable_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun QR kod içeren bir dosya seçin."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Seçilen dosya bozuk ya da parola korumalı olabilir. Dosya okunamadı. Lütfen uygun bir dosya seçin."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"QR Kod Tespit Edilmedi"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Lütfen QR kod bulunan bir belge veya fotoğraf seçin."</string>
+    <string name="qr_code_no_qr_code_body">"Seçilen dosyada QR kod tespit edilmedi. Lütfen farklı bir dosya seçin."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu tarayamıyor. Lütfen uygun bir QR kod seçin."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod seçin."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -963,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Paylaşmamayı isteseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
+    <string name="submission_consent_main_first_point">"Test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -978,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Onayınız gönüllülük esasına dayalıdır."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Paylaşmamayı seçseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
+    <string name="submission_no_consent_second_point">"Test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1479,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Dün/Düne kadar"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7 Günlük Ortalama"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1514,8 +1514,6 @@
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
-    <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
-    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hastaneye Yatış Sayısı"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->

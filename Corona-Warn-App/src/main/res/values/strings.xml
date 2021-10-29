@@ -23,7 +23,7 @@
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Settings"</string>
     <!-- XMIT: application trash -->
-    <string name="menu_trash">"Trash"</string>
+    <string name="menu_trash">"Recycle Bin"</string>
 
     <!-- ####################################
                Notification
@@ -929,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"File Unreadable"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"The file format is not supported by the Corona-Warn-App. Please select a compatible file."</string>
+    <string name="qr_code_file_not_readable_body">"The QR code is not supported by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"The selected file may be damaged or password-protected and could not be read. Please select a suitable file."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"No QR Code Detected"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Please select a document or photo with a QR code."</string>
+    <string name="qr_code_no_qr_code_body">"No QR code was detected in the selected file. Please choose a different file."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a suitable QR code."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code is not supported by the Corona-Warn-App. Please select a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -963,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Detailed Information on Data Processing and Your Consent"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"You can retrieve your test result even if you do not want to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_consent_main_first_point">"If you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -978,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Your consent is voluntary."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_no_consent_second_point">"If you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1479,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Day Average"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1514,8 +1514,6 @@
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
-    <!-- XTXT: Explanation screen 7 days incidents confirmed new infections text -->
-    <string name="statistics_explanation_7_day_confirmed_new_infection_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalization"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
