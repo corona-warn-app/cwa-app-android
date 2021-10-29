@@ -43,6 +43,18 @@ class BoosterCheckScheduler @Inject constructor(
             .launchIn(appScope)
     }
 
+    fun runNow() {
+        Timber.d("runNow()")
+        foregroundState.isInForeground
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                Timber.v("Run booster rules")
+                boosterNotificationService.checkBoosterNotification(forceCheck = true)
+            }
+            .launchIn(appScope)
+    }
+
     private fun schedulePeriodicWorker() {
         Timber.v("Setting up periodic worker for booster notification check")
         workManager.enqueueUniquePeriodicWork(UNIQUE_WORKER_NAME, ExistingPeriodicWorkPolicy.KEEP, buildWorkRequest())
