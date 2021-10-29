@@ -4,15 +4,19 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -25,6 +29,8 @@ import testhelpers.coroutines.runBlockingTest2
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
     @RelaxedMockK private lateinit var coronaTestsRepository: CoronaTestRepository
+    @RelaxedMockK private lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @RelaxedMockK private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
     @MockK private lateinit var timeStamper: TimeStamper
 
     private val now = Instant.parse("2021-10-13T12:00:00.000Z")
@@ -59,10 +65,14 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         every { timeStamper.nowUTC } returns now
         coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(recycledTests)
         coEvery { coronaTestsRepository.removeTest(any()) } returns mockk()
+        every { analyticsKeySubmissionCollector.reset(any()) } just Runs
+        every { analyticsTestResultCollector.clear(any()) } just Runs
     }
 
     private fun createInstance() = RecycledCoronaTestsProvider(
         coronaTestRepository = coronaTestsRepository,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        analyticsTestResultCollector = analyticsTestResultCollector
     )
 
     @Test
@@ -115,6 +125,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
         coVerify {
             coronaTestsRepository.restoreTest(recycledRatTest.identifier)
+            analyticsKeySubmissionCollector.reset(any())
+            analyticsTestResultCollector.clear(any())
         }
     }
 
@@ -126,6 +138,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
         coVerify {
             coronaTestsRepository.restoreTest(recycledPcrTest.identifier)
+            analyticsKeySubmissionCollector.reset(any())
+            analyticsTestResultCollector.clear(any())
         }
     }
 }

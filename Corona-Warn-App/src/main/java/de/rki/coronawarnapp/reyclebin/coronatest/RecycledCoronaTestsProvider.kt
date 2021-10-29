@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -14,6 +16,8 @@ import javax.inject.Inject
 @Reusable
 class RecycledCoronaTestsProvider @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
+    private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) {
 
     val tests: Flow<Set<CoronaTest>> = coronaTestRepository.recycledCoronaTests
@@ -37,6 +41,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     suspend fun restoreCoronaTest(identifier: TestIdentifier) {
         Timber.tag(TAG).d("restoreCoronaTest(identifier=%s)", identifier)
+        resetAnalytics(identifier)
         coronaTestRepository.restoreTest(identifier)
     }
 
@@ -54,6 +59,16 @@ class RecycledCoronaTestsProvider @Inject constructor(
         identifiers
             .toSet()
             .forEach { deleteCoronaTest(identifier = it) }
+    }
+
+    private suspend fun resetAnalytics(identifier: TestIdentifier) {
+        Timber.tag(TAG).d("resetAnalytics(identifier=%s)", identifier)
+        tests.first().find { it.identifier == identifier }?.type
+            ?.let {
+                analyticsKeySubmissionCollector.reset(it)
+                analyticsTestResultCollector.clear(it)
+                Timber.tag(TAG).d("resetAnalytics() - end")
+            }
     }
 
     companion object {
