@@ -62,7 +62,9 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
             every { ptRiskLevelAtTestRegistration } returns mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
             every { ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns mockFlowPreference(1)
             every { ptHoursSinceHighRiskWarningAtTestRegistration } returns mockFlowPreference(1)
-            every { exposureWindowsAtTestRegistration } returns mockFlowPreference(listOf(analyticsExposureWindow))
+            every { exposureWindowsAtTestRegistration } returns
+                mockFlowPreference(listOf(analyticsExposureWindow, analyticsExposureWindow))
+            every { exposureWindowsUntilTestResult } returns mockFlowPreference(listOf(analyticsExposureWindow))
         }
         every { timeStamper.nowUTC } returns baseTime
 
@@ -86,17 +88,20 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
     @Test
     fun `No donation when test result is INVALID`() = runBlockingTest {
         every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.RAT_INVALID)
+        every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is REDEEMED`() = runBlockingTest {
         every { testResultSettings.testResult } returns mockFlowPreference(CoronaTestResult.RAT_REDEEMED)
+        every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
         testResultDonor.beginDonation(TestRequest) shouldBe AnalyticsTestResultDonor.TestResultMetadataNoContribution
     }
 
     @Test
     fun `No donation when test result is PENDING and hours isn't greater or equal to config hours`() {
+        every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
         runBlockingTest {
             every { testResultSettings.testResult } returns
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
@@ -113,6 +118,7 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 mockFlowPreference(CoronaTestResult.PCR_OR_RAT_PENDING)
             val timeDayBefore = baseTime.minus(Duration.standardDays(1))
             every { testResultSettings.testRegisteredAt } returns mockFlowPreference(timeDayBefore)
+            every { testResultSettings.finalTestResultReceivedAt } returns mockFlowPreference(null)
 
             val donation =
                 testResultDonor.beginDonation(TestRequest) as AnalyticsTestResultDonor.TestResultMetadataContribution
@@ -123,7 +129,8 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 hoursSinceTestRegistration shouldBe 24
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
-                exposureWindowsAtTestRegistrationCount shouldBe 1
+                exposureWindowsAtTestRegistrationCount shouldBe 2
+                exposureWindowsUntilTestResultCount shouldBe 1
             }
         }
     }
@@ -143,7 +150,8 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 hoursSinceTestRegistration shouldBe 0
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
-                exposureWindowsAtTestRegistrationCount shouldBe 1
+                exposureWindowsAtTestRegistrationCount shouldBe 2
+                exposureWindowsUntilTestResultCount shouldBe 1
             }
         }
     }
@@ -163,7 +171,8 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
                 hoursSinceTestRegistration shouldBe 0
                 hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
                 daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
-                exposureWindowsAtTestRegistrationCount shouldBe 1
+                exposureWindowsAtTestRegistrationCount shouldBe 2
+                exposureWindowsUntilTestResultCount shouldBe 1
             }
         }
     }
@@ -190,7 +199,8 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
             riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_LOW
             hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
-            exposureWindowsAtTestRegistrationCount shouldBe 1
+            exposureWindowsAtTestRegistrationCount shouldBe 2
+            exposureWindowsUntilTestResultCount shouldBe 1
         }
     }
 
@@ -217,7 +227,8 @@ class AnalyticsRATestResultDonorTest : BaseTest() {
             riskLevelAtTestRegistration shouldBe PpaData.PPARiskLevel.RISK_LEVEL_HIGH
             hoursSinceHighRiskWarningAtTestRegistration shouldBe 1
             daysSinceMostRecentDateAtRiskLevelAtTestRegistration shouldBe 1
-            exposureWindowsAtTestRegistrationCount shouldBe 1
+            exposureWindowsAtTestRegistrationCount shouldBe 2
+            exposureWindowsUntilTestResultCount shouldBe 1
         }
     }
 
