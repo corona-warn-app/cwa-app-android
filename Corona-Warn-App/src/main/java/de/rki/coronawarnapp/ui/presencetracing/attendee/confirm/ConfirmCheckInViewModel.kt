@@ -35,7 +35,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
 
     private val autoCheckOutLength = MutableStateFlow(
         Duration.standardMinutes(
-            verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes(timeStamper.nowUTC).toLong()
+            verifiedTraceLocation.traceLocation.getDefaultAutoCheckoutLengthInMinutes().toLong()
         )
     )
 
@@ -65,10 +65,10 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         launch {
             val now = timeStamper.nowUTC
             checkInRepository.addCheckIn(
-                verifiedTraceLocation.toCheckIn(
+                toCheckIn(
                     checkInStart = now,
-                    createJournalEntry = createJournalEntry.first(),
-                    checkInEnd = now + autoCheckOutLength.value
+                    checkInEnd = now + autoCheckOutLength.value,
+                    createJournalEntry = createJournalEntry.first()
                 )
             )
             events.postValue(ConfirmCheckInNavigation.ConfirmNavigation)
@@ -87,7 +87,7 @@ class ConfirmCheckInViewModel @AssistedInject constructor(
         autoCheckOutLength.value = duration
     }
 
-    private fun VerifiedTraceLocation.toCheckIn(
+    private fun toCheckIn(
         checkInStart: Instant,
         checkInEnd: Instant,
         completed: Boolean = false,
