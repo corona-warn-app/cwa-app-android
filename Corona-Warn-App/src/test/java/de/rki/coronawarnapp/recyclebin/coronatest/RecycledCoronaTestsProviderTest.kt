@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.recyclebin.coronatest
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -8,11 +9,13 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Analyti
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
@@ -78,10 +81,12 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     @Test
     fun `Recycled Tests are retrieved`() =
         runBlockingTest2(ignoreActive = true) {
-            coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(emptySet())
+            createInstance().tests.first() shouldBe recycledTests
 
+            coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(emptySet())
             createInstance().tests.first() shouldBe emptySet()
-            coVerify(exactly = 1) {
+
+            coVerify(exactly = 2) {
                 coronaTestsRepository.recycledCoronaTests
             }
         }
@@ -94,7 +99,10 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
             deleteCoronaTest(recycledRatTest.identifier)
         }
 
-        coVerify(exactly = 2) { coronaTestsRepository.removeTest(any()) }
+        coVerifyOrder {
+            coronaTestsRepository.removeTest(recycledPcrTest.identifier)
+            coronaTestsRepository.removeTest(recycledRatTest.identifier)
+        }
     }
 
     @Test
@@ -104,7 +112,23 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
             deleteAllCoronaTest(recycledTests.map { it.identifier })
         }
 
-        coVerify(exactly = 2) { coronaTestsRepository.removeTest(any()) }
+        coVerify(exactly = 1) {
+            coronaTestsRepository.removeTest(recycledPcrTest.identifier)
+            coronaTestsRepository.removeTest(recycledRatTest.identifier)
+        }
+    }
+
+    @Test
+    fun `Delete recycled test does not throw if test not found`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { coronaTestsRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
+
+        shouldNotThrowAnyUnit {
+            createInstance().deleteCoronaTest("I do not exist")
+        }
+
+        coVerify {
+            coronaTestsRepository.removeTest(any())
+        }
     }
 
     @Test
@@ -139,7 +163,6 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         coVerify {
             coronaTestsRepository.restoreTest(recycledPcrTest.identifier)
             analyticsKeySubmissionCollector.reset(any())
-            analyticsTestResultCollector.clear(any())
         }
     }
 }
