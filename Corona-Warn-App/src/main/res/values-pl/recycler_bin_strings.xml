@@ -33,7 +33,7 @@
     <!-- XTXT: Recycle Bin - restore -->
     <string name="recycle_bin_restore">"Odzyskaj"</string>
     <!-- XTXT: Recycle Bin - remove permanently -->
-    <string name="recycle_bin_remove_permanently">"Usuń trwale"</string>
+    <string name="recycle_bin_remove_permanently">"Usuń trwale wszystko"</string>
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
