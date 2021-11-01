@@ -70,7 +70,14 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
-        val priorityCertificate = personCertificates.highestPriorityCertificate
+        val priorityCertificate = try {
+            personCertificates.highestPriorityCertificate
+        } catch (e: NoSuchElementException) {
+            Timber.e(e)
+            events.postValue(Back)
+            return UiState(name = "", emptyList())
+        }
+
         val certificateItems = mutableListOf<CertificateItem>().apply {
             when {
                 priorityCertificate.isValid -> colorShade
