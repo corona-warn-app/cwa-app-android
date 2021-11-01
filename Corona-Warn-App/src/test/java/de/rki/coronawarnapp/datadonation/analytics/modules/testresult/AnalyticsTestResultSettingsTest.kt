@@ -116,5 +116,9 @@ class AnalyticsTestResultSettingsTest : BaseTest() {
         pcrStorage.exposureWindowsAtTestRegistration.update { listOf(analyticsExposureWindow) }
         pcrStorage.exposureWindowsAtTestRegistration.value shouldBe listOf(analyticsExposureWindow)
         raStorage.exposureWindowsAtTestRegistration.value shouldBe null
+
+        pcrStorage.exposureWindowsUntilTestResult.update { listOf(analyticsExposureWindow) }
+        pcrStorage.exposureWindowsUntilTestResult.value shouldBe listOf(analyticsExposureWindow)
+        raStorage.exposureWindowsUntilTestResult.value shouldBe null
     }
 }
