@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.pcr
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.joda.time.Instant

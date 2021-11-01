@@ -37,8 +37,7 @@ class RACoronaTestTest : BaseTest() {
             testedAt = Instant.EPOCH,
         )
         val testConfig = CoronaTestConfigContainer()
-
-
+        
         instance.getState(Instant.EPOCH, testConfig) shouldNotBe RACoronaTest.State.RECYCLED
 
         instance.recycledAt = Instant.EPOCH
