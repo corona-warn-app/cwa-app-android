@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen
 
+import de.rki.coronawarnapp.appconfig.CoronaTestConfigContainer
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -22,5 +24,24 @@ class RACoronaTestTest : BaseTest() {
         instance.isFinal shouldBe true
         instance.copy(testResult = CoronaTestResult.RAT_POSITIVE).isFinal shouldBe false
         instance.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED).isFinal shouldBe true
+    }
+
+    @Test
+    fun `Recycled test state is RECYCLED`() {
+        val instance = RACoronaTest(
+            identifier = "identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = Instant.EPOCH,
+            registrationToken = "token",
+            testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED,
+            testedAt = Instant.EPOCH,
+        )
+        val testConfig = CoronaTestConfigContainer()
+
+
+        instance.getState(Instant.EPOCH, testConfig) shouldNotBe RACoronaTest.State.RECYCLED
+
+        instance.recycledAt = Instant.EPOCH
+        instance.getState(Instant.EPOCH, testConfig) shouldBe RACoronaTest.State.RECYCLED
     }
 }
