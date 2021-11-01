@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Days
 import javax.inject.Inject
@@ -57,9 +56,6 @@ class AnalyticsExposureWindowRepository @Inject constructor(
         dao.deleteReported(dao.getAllReported())
     }
 }
-
-@VisibleForTesting
-internal fun AnalyticsExposureWindow.sha256Hash() = toString().toSHA256()
 
 @VisibleForTesting
 internal fun AnalyticsExposureWindow.toWrapper(key: String) =
