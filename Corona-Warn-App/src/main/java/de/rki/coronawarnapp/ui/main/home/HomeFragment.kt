@@ -1,7 +1,12 @@
 package de.rki.coronawarnapp.ui.main.home
 
 import android.content.DialogInterface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ImageSpan
+import android.view.Menu
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
@@ -12,7 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.tracing.ui.TracingExplanationDialog
 import de.rki.coronawarnapp.ui.main.home.popups.DeviceTimeIncorrectDialog
@@ -32,11 +40,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
-import android.text.Spannable
-import android.text.style.ImageSpan
-import android.text.SpannableString
-import android.graphics.drawable.Drawable
-import android.view.Menu
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -166,6 +169,13 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
+    private fun showMoveToRecycleBinDialog(identifier: TestIdentifier) {
+        RecycleBinDialogType.RecycleTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage(identifier) }
+        )
+    }
+
     private fun showRiskLevelLoweredDialog() {
         val riskLevelLoweredDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
@@ -207,20 +217,26 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToSubmissionDispatcher()
             )
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
-            HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionNegativeAntigenTestResultFragment()
+            is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
+                HomeFragmentDirections.actionMainFragmentToSubmissionNegativeAntigenTestResultFragment(event.identifier)
             )
-            is HomeFragmentEvents.ShowDeleteTestDialog -> showRemoveTestDialog(event.type, event.submission)
+            is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.type)
             )
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.type)
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
+                    event.type,
+                    event.identifier
+                )
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(event.type)
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
+                    event.type,
+                    event.identifier
+                )
             )
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
@@ -230,7 +246,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
                     event.testType,
-                    event.forceUpdate
+                    event.identifier,
+                    event.forceUpdate,
                 )
             )
             HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(

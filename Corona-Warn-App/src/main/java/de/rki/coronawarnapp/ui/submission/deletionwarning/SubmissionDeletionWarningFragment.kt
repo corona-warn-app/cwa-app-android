@@ -84,7 +84,10 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                             .run { findNavController().navigate(this, navOptions) }
 
                     else ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testType = state.test.type,
+                            testIdentifier = state.test.identifier
+                        )
                             .run { findNavController().navigate(this, navOptions) }
                 }
             }

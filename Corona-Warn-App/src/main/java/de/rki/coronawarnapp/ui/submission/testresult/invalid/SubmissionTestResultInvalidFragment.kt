@@ -9,7 +9,8 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -28,7 +29,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultInvalidViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testType, navArgs.testIdentifier)
         }
     )
 
@@ -40,7 +41,9 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         viewModel.onTestOpened()
 
         binding.apply {
-            submissionTestResultButtonInvalidRemoveTest.setOnClickListener { moveTestToRecycleBin() }
+            submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
+                showMoveToRecycleBinDialog()
+            }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
 
@@ -67,22 +70,15 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         }
     }
 
+    private fun showMoveToRecycleBinDialog() {
+        RecycleBinDialogType.RecycleTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
+        )
+    }
+
     override fun onResume() {
         super.onResume()
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun moveTestToRecycleBin() {
-        val moveTestDialog = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_test_result_dialog_move_test_to_recycle_bin_title,
-            message = R.string.submission_test_result_dialog_move_test_to_recycle_bin_body,
-            positiveButton = R.string.submission_test_result_dialog_move_test_to_recycle_bin_button,
-            negativeButton = R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.moveTestToRecycleBinStorage()
-            }
-        )
-        DialogHelper.showDialog(moveTestDialog)
     }
 }

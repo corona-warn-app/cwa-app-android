@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main.home
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 
 sealed class HomeFragmentEvents {
 
@@ -22,11 +23,13 @@ sealed class HomeFragmentEvents {
 
     object OpenFAQUrl : HomeFragmentEvents()
 
-    object GoToRapidTestResultNegativeFragment : HomeFragmentEvents()
+    data class GoToRapidTestResultNegativeFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
 
-    data class GoToPcrTestResultNegativeFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+    data class GoToPcrTestResultNegativeFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+        HomeFragmentEvents()
 
-    data class GoToTestResultKeysSharedFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+    data class GoToTestResultKeysSharedFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+        HomeFragmentEvents()
 
     data class OpenIncompatibleUrl(val scanningSupported: Boolean) : HomeFragmentEvents() {
         @get:StringRes
@@ -41,12 +44,19 @@ sealed class HomeFragmentEvents {
 
     data class GoToTestResultPendingFragment(
         val testType: CoronaTest.Type,
-        val forceUpdate: Boolean = false
+        val forceUpdate: Boolean = false,
+        val identifier: TestIdentifier
     ) : HomeFragmentEvents()
 
-    data class ShowDeleteTestDialog(val type: CoronaTest.Type, val submission: Boolean = true) : HomeFragmentEvents()
+    data class ShowDeleteTestDialog(
+        val type: CoronaTest.Type,
+        val submission: Boolean = true,
+        val identifier: TestIdentifier
+    ) : HomeFragmentEvents()
 
-    data class GoToTestResultAvailableFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+    data class GoToTestResultAvailableFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+        HomeFragmentEvents()
 
-    data class GoToTestResultPositiveFragment(val type: CoronaTest.Type) : HomeFragmentEvents()
+    data class GoToTestResultPositiveFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+        HomeFragmentEvents()
 }

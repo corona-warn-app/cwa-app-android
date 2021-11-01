@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
@@ -106,6 +108,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val timeStamper: TimeStamper,
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
+    private val recycledTestProvider: RecycledCoronaTestsProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var isLoweredRiskLevelDialogBeingShown = false
@@ -193,22 +196,24 @@ class HomeFragmentViewModel @AssistedInject constructor(
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
-                        add(testPCR.toTestCardItem())
+                        add(testPCR.toTestCardItem(testPCR?.identifier ?: ""))
                     } else {
-                        add(testRAT.toTestCardItem(coronaTestParameters))
-                        add(testPCR.toTestCardItem())
+                        add(testRAT.toTestCardItem(coronaTestParameters, testRAT?.identifier ?: ""))
+                        add(testPCR.toTestCardItem(testPCR?.identifier ?: ""))
                     }
                 }
                 else -> {
-                    add(testPCR.toTestCardItem())
+                    add(testPCR.toTestCardItem(testPCR?.identifier ?: ""))
                     if (stateRAT != SubmissionStateRAT.NoTest) {
-                        add(testRAT.toTestCardItem(coronaTestParameters))
+                        add(testRAT.toTestCardItem(coronaTestParameters, testRAT?.identifier ?: ""))
                         add(
                             TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
                                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
                             }
                         )
-                    } else add(testRAT.toTestCardItem(coronaTestParameters))
+                    } else {
+                        add(testRAT.toTestCardItem(coronaTestParameters, testRAT?.identifier ?: ""))
+                    }
                 }
             }
 
@@ -314,67 +319,107 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasTracingExplanationDialogShown = true
     }
 
-    private fun PCRCoronaTest?.toTestCardItem() = when (val state = this.toSubmissionState()) {
-        is SubmissionStatePCR.NoTest -> TestUnregisteredCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
+    private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
+        when (val state = this.toSubmissionState()) {
+            is SubmissionStatePCR.NoTest -> TestUnregisteredCard.Item(state) {
+                events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
+            }
+            is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
+            is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
+                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(PCR, testIdentifier))
+            }
+            is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(
+                state = state,
+                onClickAction = {
+                    events.postValue(
+                        HomeFragmentEvents.GoToTestResultPositiveFragment(
+                            PCR,
+                            testIdentifier
+                        )
+                    )
+                },
+                onRemoveAction = {
+                    events.postValue(
+                        HomeFragmentEvents.ShowDeleteTestDialog(
+                            PCR,
+                            false,
+                            identifier = testIdentifier
+                        )
+                    )
+                }
+            )
+            is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
+                events.postValue(HomeFragmentEvents.GoToPcrTestResultNegativeFragment(PCR, testIdentifier))
+            }
+            is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
+                events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(PCR, identifier = testIdentifier))
+            }
+            is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
+                events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(PCR, identifier = testIdentifier))
+            }
+            is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
+                events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(PCR, true, testIdentifier))
+            }
+            is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
+                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(PCR, testIdentifier))
+            }
         }
-        is SubmissionStatePCR.FetchingResult -> TestFetchingCard.Item(state)
-        is SubmissionStatePCR.TestResultReady -> PcrTestReadyCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(PCR))
-        }
-        is SubmissionStatePCR.TestPositive -> PcrTestPositiveCard.Item(
-            state = state,
-            onClickAction = { events.postValue(HomeFragmentEvents.GoToTestResultPositiveFragment(PCR)) },
-            onRemoveAction = { events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(PCR, false)) }
-        )
-        is SubmissionStatePCR.TestNegative -> PcrTestNegativeCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToPcrTestResultNegativeFragment(PCR))
-        }
-        is SubmissionStatePCR.TestInvalid -> PcrTestInvalidCard.Item(state) {
-            events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(PCR))
-        }
-        is SubmissionStatePCR.TestError -> PcrTestErrorCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(PCR))
-        }
-        is SubmissionStatePCR.TestPending -> PcrTestPendingCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(PCR, true))
-        }
-        is SubmissionStatePCR.SubmissionDone -> PcrTestSubmissionDoneCard.Item(state) {
-            events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(PCR))
-        }
-    }
 
-    private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig) =
+    private fun RACoronaTest?.toTestCardItem(coronaTestConfig: CoronaTestConfig, testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState(timeStamper.nowUTC, coronaTestConfig)) {
             is SubmissionStateRAT.NoTest -> TestUnregisteredCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
             }
             is SubmissionStateRAT.FetchingResult -> TestFetchingCard.Item(state)
             is SubmissionStateRAT.TestResultReady -> RapidTestReadyCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(RAPID_ANTIGEN))
+                events.postValue(HomeFragmentEvents.GoToTestResultAvailableFragment(RAPID_ANTIGEN, testIdentifier))
             }
             is SubmissionStateRAT.TestPositive -> RapidTestPositiveCard.Item(
                 state = state,
-                onClickAction = { events.postValue(HomeFragmentEvents.GoToTestResultPositiveFragment(RAPID_ANTIGEN)) },
-                onRemoveAction = { events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(RAPID_ANTIGEN, false)) }
+                onClickAction = {
+                    events.postValue(
+                        HomeFragmentEvents.GoToTestResultPositiveFragment(
+                            RAPID_ANTIGEN,
+                            testIdentifier
+                        )
+                    )
+                },
+                onRemoveAction = {
+                    events.postValue(
+                        HomeFragmentEvents.ShowDeleteTestDialog(
+                            RAPID_ANTIGEN,
+                            false,
+                            identifier = testIdentifier
+                        )
+                    )
+                }
             )
             is SubmissionStateRAT.TestNegative -> RapidTestNegativeCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToRapidTestResultNegativeFragment)
+                events.postValue(HomeFragmentEvents.GoToRapidTestResultNegativeFragment(testIdentifier))
             }
             is SubmissionStateRAT.TestInvalid -> RapidTestInvalidCard.Item(state) {
-                events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(RAPID_ANTIGEN))
+                events.postValue(HomeFragmentEvents.ShowDeleteTestDialog(RAPID_ANTIGEN, identifier = testIdentifier))
             }
             is SubmissionStateRAT.TestError -> RapidTestErrorCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(RAPID_ANTIGEN))
+                events.postValue(
+                    HomeFragmentEvents.GoToTestResultPendingFragment(
+                        RAPID_ANTIGEN,
+                        identifier = testIdentifier
+                    )
+                )
             }
             is SubmissionStateRAT.TestPending -> RapidTestPendingCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultPendingFragment(RAPID_ANTIGEN, true))
+                events.postValue(
+                    HomeFragmentEvents.GoToTestResultPendingFragment(
+                        RAPID_ANTIGEN, true, testIdentifier
+                    )
+                )
             }
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 submissionRepository.removeTestFromDevice(RAPID_ANTIGEN)
             }
             is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
-                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(RAPID_ANTIGEN))
+                events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(RAPID_ANTIGEN, testIdentifier))
             }
         }
 
@@ -407,6 +452,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
             onCardClick = { events.postValue(HomeFragmentEvents.GoToRiskDetailsFragment) },
             onRetryClick = { refreshRiskResult() }
         )
+    }
+
+    fun moveTestToRecycleBinStorage(identifier: TestIdentifier) = launch {
+        recycledTestProvider.recycleCoronaTest(identifier)
     }
 
     @AssistedFactory

@@ -9,8 +9,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeysSharedBinding
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -33,7 +35,7 @@ class SubmissionTestResultKeysSharedFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultKeysSharedViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testType, navArgs.testIdentifier)
         }
     )
 
@@ -60,7 +62,13 @@ class SubmissionTestResultKeysSharedFragment :
             }
         }
 
-        viewModel.showDeleteTestDialog.observe2(this) { moveTestToRecycleBin() }
+        viewModel.showDeleteTestDialog.observe2(this) {
+            showMoveToRecycleBinDialog()
+        }
+
+        viewModel.routeToScreen.observe2(this) { navDirections ->
+            navDirections?.let { doNavigate(it) } ?: popBackStack()
+        }
     }
 
     override fun onResume() {
@@ -68,22 +76,10 @@ class SubmissionTestResultKeysSharedFragment :
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun navigateBack() {
-        popBackStack()
-    }
-
-    private fun moveTestToRecycleBin() {
-        val moveTestDialog = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.submission_test_result_dialog_move_test_to_recycle_bin_title,
-            message = R.string.submission_test_result_dialog_move_test_to_recycle_bin_body,
-            positiveButton = R.string.submission_test_result_dialog_move_test_to_recycle_bin_button,
-            negativeButton = R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.moveTestToRecycleBinStorage()
-                navigateBack()
-            }
+    private fun showMoveToRecycleBinDialog() {
+        RecycleBinDialogType.RecycleTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
         )
-        DialogHelper.showDialog(moveTestDialog)
     }
 }
