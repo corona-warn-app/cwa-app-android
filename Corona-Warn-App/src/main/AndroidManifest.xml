@@ -98,7 +98,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Main"
             android:windowSoftInputMode="adjustResize" />

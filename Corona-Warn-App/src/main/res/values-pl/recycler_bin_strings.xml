@@ -8,7 +8,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Kosz jest pusty"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Usunięte testy i certyfikaty są przenoszone do kosza i wyświetlane tutaj."</string>
+    <string name="recycler_bin_empty_description">"Usunięte certyfikaty są przenoszone do kosza i wyświetlane tutaj."</string>
     <!-- XHED: recycler bin remove all menu item -->
     <string name="recycler_bin_remove_all">"Usuń wszystko"</string>
 
@@ -16,7 +16,7 @@
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
     <string name="recycle_bin_restore_dgc_dialog_title">"Odzyskaj certyfikat"</string>
     <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
-    <string name="recycle_bin_restore_dgc_dialog_message">"Kod QR został już zarejestrowany na Twoim smartfonie. Możesz odzyskać certyfikat z kosza. "</string>
+    <string name="recycle_bin_restore_dgc_dialog_message">"Kod QR został już zarejestrowany na Twoim smartfonie. Certyfikat zostanie odzyskany z kosza."</string>
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
@@ -33,7 +33,7 @@
     <!-- XTXT: Recycle Bin - restore -->
     <string name="recycle_bin_restore">"Odzyskaj"</string>
     <!-- XTXT: Recycle Bin - remove permanently -->
-    <string name="recycle_bin_remove_permanently">"Usuń trwale"</string>
+    <string name="recycle_bin_remove_permanently">"Usuń trwale wszystko"</string>
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
