@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.submission.testresult.pending
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.http.CwaWebException
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.kotest.matchers.shouldBe
@@ -28,6 +30,8 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
+    @MockK lateinit var testIdentifier: TestIdentifier
 
     private val testFlow = MutableStateFlow<CoronaTest?>(null)
 
@@ -46,7 +50,9 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
             dispatcherProvider = scope.asDispatcherProvider(),
             submissionRepository = submissionRepository,
             testType = testType,
-            initialUpdate = forceInitialUpdate
+            initialUpdate = forceInitialUpdate,
+            recycledTestProvider = recycledTestProvider,
+            testIdentifier = testIdentifier
         )
 
     @Test
