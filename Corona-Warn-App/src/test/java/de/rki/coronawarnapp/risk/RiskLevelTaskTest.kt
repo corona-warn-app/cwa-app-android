@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.diagnosiskeys.download.createMockCachedKeyInfo
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -19,6 +20,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -48,6 +50,7 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
+    @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -100,6 +103,7 @@ class RiskLevelTaskTest : BaseTest() {
             every { aggregateResults(any(), any()) } returns testAggregatedResult
         }
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
+        coEvery { analyticsTestResultCollector.reportRiskResultsPerWindow(any()) } just Runs
     }
 
     private fun createTask() = RiskLevelTask(
@@ -113,6 +117,7 @@ class RiskLevelTaskTest : BaseTest() {
         keyCacheRepository = keyCacheRepository,
         coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
+        analyticsTestResultCollector = analyticsTestResultCollector
     )
 
     private fun mockCachedKey(
@@ -240,7 +245,6 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevels.calculateRisk(any(), any()) } returns null
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
-        coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
 
         coronaTests.value = setOf(
             mockk<CoronaTest>().apply {
@@ -265,6 +269,10 @@ class RiskLevelTaskTest : BaseTest() {
             ewAggregatedRiskResult = testAggregatedResult,
             listOf()
         )
+        coVerify(exactly = 1) {
+            analyticsExposureWindowCollector.reportRiskResultsPerWindow(any())
+            analyticsTestResultCollector.reportRiskResultsPerWindow(any())
+        }
     }
 
     @Test

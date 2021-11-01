@@ -1,5 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
+import androidx.annotation.VisibleForTesting
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
@@ -9,8 +12,11 @@ import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwR
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -25,7 +31,17 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val raSettings: AnalyticsRATestResultSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val timeStamper: TimeStamper,
+    private val exposureWindowsSettings: AnalyticsExposureWindowsSettings
 ) {
+
+    fun reportRiskResultsPerWindow(riskResultsPerWindow: Map<ExposureWindow, RiskResult>) {
+        val exposureWindows = riskResultsPerWindow.map {
+            it.key.toModel(it.value)
+        }
+        exposureWindowsSettings.currentExposureWindows.update {
+            exposureWindows
+        }
+    }
 
     suspend fun reportTestRegistered(type: CoronaTest.Type) {
         if (analyticsDisabled) return
@@ -86,6 +102,10 @@ class AnalyticsTestResultCollector @Inject constructor(
         type.settings.ptRiskLevelAtTestRegistration.update {
             lastResult.ptRiskLevelResult.riskState.toMetadataRiskLevel()
         }
+
+        type.settings.exposureWindowsAtTestRegistration.update {
+            exposureWindowsSettings.currentExposureWindows.value
+        }
     }
 
     fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
@@ -107,8 +127,16 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.testResult.update { testResult }
 
-        if (testResult.isFinal) {
+        if (testResult.isFinal && type.settings.finalTestResultReceivedAt.value == null) {
             type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
+
+            val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
+                type.settings.exposureWindowsAtTestRegistration.value
+            ) ?: emptyList()
+
+            type.settings.exposureWindowsUntilTestResult.update {
+                newExposureWindows
+            }
         }
     }
 
@@ -128,4 +156,33 @@ class AnalyticsTestResultCollector @Inject constructor(
             PCR -> pcrSettings
             RAPID_ANTIGEN -> raSettings
         }
+}
+
+private fun ExposureWindow.toModel(result: RiskResult) = AnalyticsExposureWindow(
+    calibrationConfidence = calibrationConfidence,
+    dateMillis = dateMillisSinceEpoch,
+    infectiousness = infectiousness,
+    reportType = reportType,
+    normalizedTime = result.normalizedTime,
+    transmissionRiskLevel = result.transmissionRiskLevel,
+    analyticsScanInstances = scanInstances.map { it.toModel() }
+)
+
+private fun ScanInstance.toModel() = AnalyticsScanInstance(
+    minAttenuation = minAttenuationDb,
+    typicalAttenuation = typicalAttenuationDb,
+    secondsSinceLastScan = secondsSinceLastScan
+)
+
+@VisibleForTesting
+internal fun List<AnalyticsExposureWindow>.filterExposureWindows(
+    reportedEw: List<AnalyticsExposureWindow>?
+): List<AnalyticsExposureWindow> {
+    val reportedEwHashs = reportedEw?.map {
+        it.sha256Hash()
+    } ?: return this
+
+    return filter {
+        !reportedEwHashs.contains(it.sha256Hash())
+    }
 }
