@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.reyclebin.cleanup
 
 import androidx.annotation.VisibleForTesting
 import dagger.Reusable
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -24,33 +27,55 @@ class RecycleBinCleanUpService @Inject constructor(
 
     private val mutex = Mutex()
 
-    suspend fun clearRecycledCertificates() = mutex.withLock {
-        Timber.tag(TAG).d("clearRecycledCertificates() - Started")
+    suspend fun clearRecycledItems() = mutex.withLock {
+        Timber.tag(TAG).d("clearRecycledItems() - Started")
+
 
         val now = timeStamper.nowUTC
         Timber.tag(TAG).d("now=%s", now)
 
-        val allRecycledCerts = recycledCertificatesProvider.recycledCertificates.first()
-        Timber.tag(TAG).d("allRecycledCerts=%s", allRecycledCerts)
+        val allRecycledItems: Set<Recyclable> = allRecycledCerts() + allRecycledCoronaTests()
+        Timber.tag(TAG).d("allRecycledItems=%s", allRecycledItems)
 
-        val recycledCertsExceededRetentionDays = allRecycledCerts
+        val recycledItemsExceededRetentionDays = allRecycledItems
             .filter { it.retentionTimeInRecycleBin(now = now) > RETENTION_DAYS }
-        Timber.tag(TAG).d("recycledCertsExceededRetentionDays=%s", recycledCertsExceededRetentionDays)
+            .also { Timber.tag(TAG).d("recycledItemsExceededRetentionDays=%s", it) }
 
-        if (recycledCertsExceededRetentionDays.isEmpty()) {
+        if (recycledItemsExceededRetentionDays.isEmpty()) {
             Timber.tag(TAG).d(
-                message = "No recycled cert exceeded the retention time of %d days, returning early",
+                message = "No recycled item exceeded the retention time of %d days, returning early",
                 RETENTION_DAYS.standardDays
             )
             return
         }
 
-        // TODO clean up outdated recycled tests
+        recycledItemsExceededRetentionDays
+            .filterIsInstance<CwaCovidCertificate>()
+            .deleteRecycledCerts()
 
-        recycledCertsExceededRetentionDays.map { it.containerId }
-            .also { recycledCertificatesProvider.deleteAllCertificate(it) }
+        recycledItemsExceededRetentionDays
+            .filterIsInstance<CoronaTest>()
+            .deleteRecycledCoronaTests()
 
-        Timber.tag(TAG).d("clearRecycledCertificates() - Finished")
+        Timber.tag(TAG).d("clearRecycledItems() - Finished")
+    }
+
+    private suspend fun allRecycledCerts() = recycledCertificatesProvider.recycledCertificates.first()
+        .also { Timber.tag(TAG).d("allRecycledCerts=%s", it) }
+
+    private suspend fun allRecycledCoronaTests() = recycledCoronaTestsProvider.tests.first()
+        .also { Timber.tag(TAG).d("allRecycledCoronaTests=%s", it) }
+
+    private suspend fun Collection<CwaCovidCertificate>.deleteRecycledCerts() {
+        Timber.tag(TAG).d("deleteRecycledCerts=%s", this)
+        val containerIds = map { it.containerId }
+        recycledCertificatesProvider.deleteAllCertificate(containerIds)
+    }
+
+    private suspend fun Collection<CoronaTest>.deleteRecycledCoronaTests() {
+        Timber.tag(TAG).d("deleteRecycledCoronaTests=%s", this)
+        val identifiers = map { it.identifier }
+        recycledCoronaTestsProvider.deleteAllCoronaTest(identifiers)
     }
 
     companion object {

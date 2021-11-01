@@ -63,7 +63,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     fun `No recycled items, nothing to delete`() = runBlockingTest {
         every { recycledCertificatesProvider.recycledCertificates } returns flowOf(emptySet())
 
-        createInstance().clearRecycledCertificates()
+        createInstance().clearRecycledItems()
 
         coVerify(exactly = 0) { recycledCertificatesProvider.deleteAllCertificate(any()) }
     }
@@ -78,7 +78,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
             setOf(certWith5DaysOfRetention, certWith15DaysOfRetention, certWith25DaysOfRetention)
         )
 
-        createInstance().clearRecycledCertificates()
+        createInstance().clearRecycledItems()
 
         coVerify(exactly = 0) { recycledCertificatesProvider.deleteAllCertificate(any()) }
     }
@@ -96,7 +96,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
             )
         )
 
-        createInstance().clearRecycledCertificates()
+        createInstance().clearRecycledItems()
 
         val containerIds = listOf(cert30DaysAnd1Ms.containerId)
         coVerify(exactly = 1) { recycledCertificatesProvider.deleteAllCertificate(containerIds) }
