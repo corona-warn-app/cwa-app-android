@@ -392,4 +392,22 @@ class PCRProcessorTest : BaseTest() {
             labId shouldBe "labId"
         }
     }
+
+    @Test
+    fun `recycle sets recycledAt`() = runBlockingTest {
+        val pcrTest = defaultTest.copy(recycledAt = null)
+
+        createInstance().run {
+            recycle(pcrTest) shouldBe pcrTest.copy(recycledAt = nowUTC)
+        }
+    }
+
+    @Test
+    fun `restore clears recycledAt`() = runBlockingTest {
+        val pcrTest = defaultTest.copy(recycledAt = nowUTC)
+
+        createInstance().run {
+            restore(pcrTest) shouldBe pcrTest.copy(recycledAt = null)
+        }
+    }
 }
