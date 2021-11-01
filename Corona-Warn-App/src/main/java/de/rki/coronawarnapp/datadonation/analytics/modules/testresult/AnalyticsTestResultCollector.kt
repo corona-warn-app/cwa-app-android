@@ -175,8 +175,9 @@ private fun ScanInstance.toModel() = AnalyticsScanInstance(
 )
 
 @VisibleForTesting
-internal fun List<AnalyticsExposureWindow>.filterExposureWindows(reportedEw: List<AnalyticsExposureWindow>?)
-    : List<AnalyticsExposureWindow> {
+internal fun List<AnalyticsExposureWindow>.filterExposureWindows(
+    reportedEw: List<AnalyticsExposureWindow>?
+): List<AnalyticsExposureWindow> {
     val reportedEwHashs = reportedEw?.map {
         it.sha256Hash()
     } ?: return this
