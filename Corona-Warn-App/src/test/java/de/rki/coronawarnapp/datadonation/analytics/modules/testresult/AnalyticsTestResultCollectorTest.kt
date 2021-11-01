@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -21,6 +22,7 @@ import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -47,6 +49,9 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
     @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
+
+    @MockK lateinit var analyticsExposureWindow1: AnalyticsExposureWindow
+    @MockK lateinit var analyticsExposureWindow2: AnalyticsExposureWindow
 
     private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
@@ -287,5 +292,23 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         verify {
             raTestResultSettings.clear()
         }
+    }
+
+    @Test
+    fun `filtering known windows`() {
+        every { analyticsExposureWindow1.sha256Hash() } returns "hash1"
+        every { analyticsExposureWindow2.sha256Hash() } returns "hash2"
+
+        listOf(analyticsExposureWindow1, analyticsExposureWindow2).filterExposureWindows(
+            listOf(analyticsExposureWindow2)
+        ) shouldBe listOf(analyticsExposureWindow1)
+
+        listOf(analyticsExposureWindow1, analyticsExposureWindow2).filterExposureWindows(
+            listOf()
+        ) shouldBe listOf(analyticsExposureWindow1, analyticsExposureWindow2)
+
+        listOf<AnalyticsExposureWindow>().filterExposureWindows(
+            listOf(analyticsExposureWindow1, analyticsExposureWindow2)
+        ) shouldBe listOf()
     }
 }

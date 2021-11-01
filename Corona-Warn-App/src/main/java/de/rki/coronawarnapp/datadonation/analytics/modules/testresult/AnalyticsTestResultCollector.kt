@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -129,13 +130,9 @@ class AnalyticsTestResultCollector @Inject constructor(
         if (testResult.isFinal && type.settings.finalTestResultReceivedAt.value == null) {
             type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
 
-            val reportedEwHashs = type.settings.exposureWindowsAtTestRegistration.value?.map {
-                it.sha256Hash()
-            } ?: emptyList()
-
-            val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filter {
-                !reportedEwHashs.contains(it.sha256Hash())
-            }
+            val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
+                type.settings.exposureWindowsAtTestRegistration.value
+            ) ?: emptyList()
 
             type.settings.exposureWindowsUntilTestResult.update {
                 newExposureWindows
@@ -176,3 +173,15 @@ private fun ScanInstance.toModel() = AnalyticsScanInstance(
     typicalAttenuation = typicalAttenuationDb,
     secondsSinceLastScan = secondsSinceLastScan
 )
+
+@VisibleForTesting
+internal fun List<AnalyticsExposureWindow>.filterExposureWindows(reportedEw: List<AnalyticsExposureWindow>?)
+    : List<AnalyticsExposureWindow> {
+    val reportedEwHashs = reportedEw?.map {
+        it.sha256Hash()
+    } ?: return this
+
+    return filter {
+        !reportedEwHashs.contains(it.sha256Hash())
+    }
+}
