@@ -31,7 +31,6 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testType: CoronaTest.Type
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
-    @MockK lateinit var testIdentifier: TestIdentifier
 
     private val testFlow = MutableStateFlow<CoronaTest?>(null)
 
@@ -52,7 +51,7 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
             testType = testType,
             initialUpdate = forceInitialUpdate,
             recycledTestProvider = recycledTestProvider,
-            testIdentifier = testIdentifier
+            testIdentifier = ""
         )
 
     @Test
