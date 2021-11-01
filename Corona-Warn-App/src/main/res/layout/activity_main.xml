@@ -42,7 +42,8 @@
         android:contentDescription="@string/bottom_nav_scanner_title"
         app:backgroundTint="@color/fab_tint"
         app:elevation="2dp"
-        app:layout_anchor="@id/bottom_app_bar"
+        android:layout_marginBottom="32dp"
+        android:layout_gravity="bottom|center"
         app:srcCompat="@drawable/ic_nav_qrcode"
         app:tint="@android:color/white" />
 
