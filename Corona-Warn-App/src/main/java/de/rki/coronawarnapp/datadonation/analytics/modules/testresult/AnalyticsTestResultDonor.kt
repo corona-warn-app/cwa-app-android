@@ -1,14 +1,15 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,34 +50,41 @@ abstract class AnalyticsTestResultDonor(
             return TestResultMetadataNoContribution
         }
 
+        val hoursSinceTestRegistrationTime = Duration(
+            timestampAtRegistration,
+            testResultSettings.finalTestResultReceivedAt.value ?: timeStamper.nowUTC
+        ).standardHours.toInt()
+
         val configHours = request.currentConfig.analytics.hoursSinceTestRegistrationToSubmitTestResultMetadata
-        val hoursSinceTestRegistrationTime = Duration(timestampAtRegistration, timeStamper.nowUTC).standardHours.toInt()
         val isDiffHoursMoreThanConfigHoursForPendingTest = hoursSinceTestRegistrationTime >= configHours
         Timber.i("hoursSinceTestRegistrationTime=$hoursSinceTestRegistrationTime, configHours=$configHours")
 
         return when {
-            /**
-             * If test is pending and
-             * More than <hoursSinceTestRegistration> hours have passed since the test was registered,
-             * it is included in the next submission and removed afterwards.
-             * That means if the test result turns POS or NEG afterwards, this will not submitted
-             */
-            testResult.isPending && isDiffHoursMoreThanConfigHoursForPendingTest ->
-                pendingTestMetadataDonation(
-                    hoursSinceTestRegistrationTime = hoursSinceTestRegistrationTime,
-                    testResult = testResult,
-                )
 
             /**
              * If the test result turns POSITIVE or NEGATIVE,
              * it is included in the next submission. Afterwards,
              * the collected metric data is removed.
              */
-            testResult.isFinal ->
-                finalTestMetadataDonation(
-                    timestampAtRegistration,
+            testResult.isFinal -> {
+                createDonation(
+                    hoursSinceTestRegistrationTime,
                     testResult,
                 )
+            }
+
+            /**
+             * If test is pending and
+             * More than <hoursSinceTestRegistration> hours have passed since the test was registered,
+             * it is included in the next submission and removed afterwards.
+             * That means if the test result turns POS or NEG afterwards, this will not be submitted again
+             */
+            testResult.isPending && isDiffHoursMoreThanConfigHoursForPendingTest ->
+                createDonation(
+                    hoursSinceTestRegistrationTime,
+                    testResult,
+                )
+
             else -> {
                 Timber.d("Skipping Data donation")
                 TestResultMetadataNoContribution
@@ -84,17 +92,22 @@ abstract class AnalyticsTestResultDonor(
         }
     }
 
-    override suspend fun deleteData() = cleanUp()
-
-    private fun cleanUp() {
+    override suspend fun deleteData() {
         Timber.d("Cleaning data")
         testResultSettings.clear()
     }
 
-    private fun pendingTestMetadataDonation(
+    private fun createDonation(
         hoursSinceTestRegistrationTime: Int,
         testResult: CoronaTestResult,
     ): DonorModule.Contribution {
+
+        val exposureWindowsAtTestRegistration =
+            testResultSettings.exposureWindowsAtTestRegistration.value?.asPpaData() ?: emptyList()
+
+        val exposureWindowsUntilTestResult =
+            testResultSettings.exposureWindowsUntilTestResult.value?.asPpaData() ?: emptyList()
+
         val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
             .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
             .setHoursSinceHighRiskWarningAtTestRegistration(
@@ -112,43 +125,12 @@ abstract class AnalyticsTestResultDonor(
             .setTestResult(testResult.toPPATestResult())
             .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
             .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
+            .addAllExposureWindowsAtTestRegistration(exposureWindowsAtTestRegistration)
+            .addAllExposureWindowsUntilTestResult(exposureWindowsUntilTestResult)
             .build()
 
-        Timber.i("Pending test result metadata:%s", formString(testResultMetaData))
-        return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
-    }
-
-    private fun finalTestMetadataDonation(
-        registrationTime: Instant,
-        testResult: CoronaTestResult,
-    ): DonorModule.Contribution {
-        val finalTestResultReceivedAt = testResultSettings.finalTestResultReceivedAt.value
-        val hoursSinceTestRegistrationTime = if (finalTestResultReceivedAt != null) {
-            Timber.i("finalTestResultReceivedAt: %s", finalTestResultReceivedAt)
-            Timber.i("registrationTime: %s", registrationTime)
-            Duration(registrationTime, finalTestResultReceivedAt).standardHours.toInt().also {
-                Timber.i("Calculated hoursSinceTestRegistrationTime: %s", it)
-            }
-        } else {
-            Timber.i("Default hoursSinceTestRegistrationTime")
-            DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME
-        }
-
-        val testResultMetaData = PpaData.PPATestResultMetadata.newBuilder()
-            .setHoursSinceTestRegistration(hoursSinceTestRegistrationTime)
-            .setHoursSinceHighRiskWarningAtTestRegistration(
-                testResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration.value
-            )
-            .setDaysSinceMostRecentDateAtRiskLevelAtTestRegistration(
-                testResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration.value
-            )
-            .setTestResult(testResult.toPPATestResult())
-            .setRiskLevelAtTestRegistration(testResultSettings.ewRiskLevelAtTestRegistration.value)
-            .setPtRiskLevelAtTestRegistration(testResultSettings.ptRiskLevelAtTestRegistration.value)
-            .build()
-
-        Timber.i("Final test result metadata:\n%s", formString(testResultMetaData))
-        return TestResultMetadataContribution(testResultMetaData, ::cleanUp)
+        Timber.i("Test result metadata:%s", formString(testResultMetaData))
+        return TestResultMetadataContribution(testResultMetaData, ::deleteData)
     }
 
     private fun CoronaTestResult.toPPATestResult(): PpaData.PPATestResult {
@@ -195,8 +177,29 @@ abstract class AnalyticsTestResultDonor(
         override suspend fun injectData(protobufContainer: PpaData.PPADataAndroid.Builder) = Unit
         override suspend fun finishDonation(successful: Boolean) = Unit
     }
+}
 
-    companion object {
-        private const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION_TIME = -1
+@VisibleForTesting
+internal fun List<AnalyticsExposureWindow>.asPpaData() = map {
+    val scanInstances = it.analyticsScanInstances.map { scanInstance ->
+        PpaData.PPAExposureWindowScanInstance.newBuilder()
+            .setMinAttenuation(scanInstance.minAttenuation)
+            .setTypicalAttenuation(scanInstance.typicalAttenuation)
+            .setSecondsSinceLastScan(scanInstance.secondsSinceLastScan)
+            .build()
     }
+
+    val exposureWindow = PpaData.PPAExposureWindow.newBuilder()
+        .setDate(it.dateMillis / 1000)
+        .setCalibrationConfidence(it.calibrationConfidence)
+        .setInfectiousnessValue(it.infectiousness)
+        .setReportTypeValue(it.reportType)
+        .addAllScanInstances(scanInstances)
+        .build()
+
+    PpaData.PPANewExposureWindow.newBuilder()
+        .setExposureWindow(exposureWindow)
+        .setNormalizedTime(it.normalizedTime)
+        .setTransmissionRiskLevel(it.transmissionRiskLevel)
+        .build()
 }
