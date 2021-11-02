@@ -10,16 +10,19 @@ import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
-    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider
+    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
+    private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel() {
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
@@ -63,6 +66,10 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
             is RestoreRecycledTestRequest -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
+                val test = submissionRepository.testForType(request.type).first()
+                if (test != null) {
+                    recycledCoronaTestsProvider.recycleCoronaTest(test.identifier)
+                }
                 if (request.fromRecycleBin) {
                     SubmissionDeletionWarningFragmentDirections.actionSubmissionDeletionWarningFragmentToRecycleBin()
                 } else {
