@@ -143,32 +143,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
     }
 
-    private fun showRemoveTestDialog(type: CoronaTest.Type, submission: Boolean) {
-        val title =
-            if (submission) R.string.submission_test_result_dialog_remove_test_title
-            else R.string.submission_test_result_dialog_remove_test_title_no_submission
-        val msg =
-            if (submission) R.string.submission_test_result_dialog_remove_test_message
-            else R.string.submission_test_result_dialog_remove_test_message_no_submission
-
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            title,
-            msg,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.deregisterWarningAccepted(type)
-            }
-        )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            if (submission) {
-                getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-            }
-        }
-    }
-
     private fun showMoveToRecycleBinDialog(identifier: TestIdentifier) {
         RecycleBinDialogType.RecycleTestConfirmation.show(
             fragment = this,
