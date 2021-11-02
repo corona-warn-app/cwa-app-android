@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
@@ -78,6 +79,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var boosterRulesRepository: BoosterRulesRepository
+    @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
 
     @BeforeEach
     fun setUp() {
@@ -118,7 +120,8 @@ internal class DataResetTest : BaseTest() {
         validationRepository = validationRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
         dscRepository = dscRepository,
-        boosterRulesRepository = boosterRulesRepository
+        boosterRulesRepository = boosterRulesRepository,
+        exposureWindowsSettings = exposureWindowsSettings
     )
 
     @Test
@@ -127,6 +130,7 @@ internal class DataResetTest : BaseTest() {
 
         coVerify(exactly = 1) {
             analytics.setAnalyticsEnabled(false)
+            exposureWindowsSettings.clear()
             submissionRepository.reset()
             keyCacheRepository.clear()
             appConfigProvider.clear()
