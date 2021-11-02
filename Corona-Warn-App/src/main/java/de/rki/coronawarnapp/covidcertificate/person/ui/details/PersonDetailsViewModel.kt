@@ -70,10 +70,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
-        val priorityCertificate = try {
-            personCertificates.highestPriorityCertificate
-        } catch (e: NoSuchElementException) {
-            Timber.e(e)
+        val priorityCertificate = personCertificates.highestPriorityCertificate
+        if (priorityCertificate == null) {
             events.postValue(Back)
             return UiState(name = "", emptyList())
         }
@@ -115,7 +113,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
             add(cwaUserCard(personCertificates))
 
-            personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
+            personCertificates.certificates.forEach { addCardItem(it, priorityCertificate) }
         }
 
         return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)

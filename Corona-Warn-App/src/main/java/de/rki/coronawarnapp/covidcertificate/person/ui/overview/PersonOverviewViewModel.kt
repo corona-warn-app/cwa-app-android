@@ -73,19 +73,21 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 val certificate = person.highestPriorityCertificate
                 val badgeCount = person.badgeCount
                 val color = PersonColorShade.shadeFor(index)
-                add(
-                    PersonCertificateCard.Item(
-                        certificate = certificate,
-                        colorShade = color,
-                        badgeCount = badgeCount,
-                        onClickAction = { _, position ->
-                            events.postValue(
-                                OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color)
-                            )
-                        },
-                        onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
+                if (certificate != null) {
+                    add(
+                        PersonCertificateCard.Item(
+                            certificate = certificate,
+                            colorShade = color,
+                            badgeCount = badgeCount,
+                            onClickAction = { _, position ->
+                                events.postValue(
+                                    OpenPersonDetailsFragment(person.personIdentifier.codeSHA256, position, color)
+                                )
+                            },
+                            onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
+                        )
                     )
-                )
+                }
             }
     }
 
@@ -110,7 +112,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     private fun Set<PersonCertificates>.filterNotPending() = this
         .filter { !it.hasPendingTestCertificate() }
-        .sortedBy { it.highestPriorityCertificate.fullName }
+        .sortedBy { it.highestPriorityCertificate?.fullName }
         .sortedByDescending { it.isCwaUser }
 
     fun refreshCertificate(containerId: TestCertificateContainerId) = launch(scope = appScope) {
