@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -138,11 +140,16 @@ class CoronaTestRepository @Inject constructor(
             }
 
             toMutableMap().apply {
-                this[newTest.identifier] = newTest
-                if (existing != null) {
-                    Timber.tag(TAG).w("We already have a test of this type, recycling old test: %s", request)
-                    this[existing.identifier] = getProcessor(existing.type).recycle(existing)
+                existing?.let {
+                    Timber.tag(TAG).w("We already have a test of this type, moving old test to recycle bin: %s", it)
+                    try {
+                        this[it.identifier] = getProcessor(it.type).recycle(it)
+                    } catch (e: Exception) {
+                        e.report(ExceptionCategory.INTERNAL)
+                    }
                 }
+
+                this[newTest.identifier] = newTest
             }
         }
 
