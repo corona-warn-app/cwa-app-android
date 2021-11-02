@@ -228,7 +228,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.apply {
             onRestoreTestConfirmation(recycledPCR)
             events.getOrAwaitValue() shouldBe
-                RecyclerBinEvent.RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest())
+                RecyclerBinEvent.RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest(true))
         }
         coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -240,7 +240,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.apply {
             onRestoreTestConfirmation(recycledRAT)
             events.getOrAwaitValue() shouldBe
-                RecyclerBinEvent.RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest())
+                RecyclerBinEvent.RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest(true))
         }
         coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -251,7 +251,6 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         instance.apply {
             onRestoreTestConfirmation(recycledCoronaTest)
-            events.getOrAwaitValue() shouldBe RecyclerBinEvent.PendingTestResult(recycledCoronaTest)
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -263,7 +262,6 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         instance.apply {
             onRestoreTestConfirmation(recycledCoronaTest)
-            events.getOrAwaitValue() shouldBe RecyclerBinEvent.PendingTestResult(recycledCoronaTest)
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -273,7 +271,6 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
         instance.apply {
             onRestoreTestConfirmation(recycledPCR)
-            events.getOrAwaitValue() shouldBe RecyclerBinEvent.Home
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -284,7 +281,6 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
 
         instance.apply {
             onRestoreTestConfirmation(recycledRAT)
-            events.getOrAwaitValue() shouldBe RecyclerBinEvent.Home
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
