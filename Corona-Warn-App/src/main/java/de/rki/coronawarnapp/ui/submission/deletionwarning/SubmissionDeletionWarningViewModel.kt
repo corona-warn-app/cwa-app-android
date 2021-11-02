@@ -65,20 +65,23 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
             )
 
             is RestoreRecycledTestRequest -> {
-                recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
                 val test = submissionRepository.testForType(request.type).first()
                 if (test != null) {
                     recycledCoronaTestsProvider.recycleCoronaTest(test.identifier)
                 }
-                if (request.fromRecycleBin) {
+                recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
+                val directions = if (request.fromRecycleBin) {
                     SubmissionDeletionWarningFragmentDirections.actionSubmissionDeletionWarningFragmentToRecycleBin()
                 } else {
                     SubmissionDeletionWarningFragmentDirections
                         .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
                             testType = request.type,
-                            forceTestResultUpdate = true
+                            forceTestResultUpdate = true,
+                            testIdentifier = request.identifier
                         )
                 }
+
+                routeToScreen.postValue(directions)
             }
         }
     }
