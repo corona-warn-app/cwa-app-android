@@ -8,8 +8,8 @@ data class PersonCertificates(
     val isCwaUser: Boolean = false,
     val badgeCount: Int = 0
 ) {
-    val personIdentifier: CertificatePersonIdentifier
-        get() = certificates.first().personIdentifier
+    val personIdentifier: CertificatePersonIdentifier?
+        get() = certificates.firstOrNull()?.personIdentifier
 
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
         certificates.findHighestPriorityCertificate()
