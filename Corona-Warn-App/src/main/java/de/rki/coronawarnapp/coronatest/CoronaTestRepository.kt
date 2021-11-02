@@ -103,7 +103,7 @@ class CoronaTestRepository @Inject constructor(
     suspend fun registerTest(
         request: TestRegistrationRequest,
         preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
-            if (currentTests.any { it.type == request.type }) {
+            if (currentTests.any { it.type == request.type && it.isNotRecycled }) {
                 throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
             true
@@ -129,7 +129,7 @@ class CoronaTestRepository @Inject constructor(
                 throw IllegalStateException("PreCondition for current tests not fullfilled.")
             }
 
-            val existing = values.singleOrNull { it.type == request.type }
+            val existing = values.singleOrNull { it.type == request.type && it.isNotRecycled }
 
             val newTest = processor.create(request).also {
                 Timber.tag(TAG).i("New test created: %s", it)
@@ -142,14 +142,13 @@ class CoronaTestRepository @Inject constructor(
             if (existing != null) {
                 Timber.tag(TAG).w("We already have a test of this type, removing old test: %s", request)
                 try {
-                    getProcessor(existing.type).onRemove(existing)
+                    getProcessor(existing.type).recycle(existing)
                 } catch (e: Exception) {
                     e.report(ExceptionCategory.INTERNAL)
                 }
             }
 
             toMutableMap().apply {
-                existing?.let { remove(it.identifier) }
                 this[newTest.identifier] = newTest
             }
         }

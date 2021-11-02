@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -304,10 +303,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    fun deregisterWarningAccepted(type: CoronaTest.Type) {
-        submissionRepository.removeTestFromDevice(type)
-    }
-
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
@@ -417,6 +412,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
+            // TODO: change this to move to recycle bin
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
                 submissionRepository.removeTestFromDevice(RAPID_ANTIGEN)
             }
