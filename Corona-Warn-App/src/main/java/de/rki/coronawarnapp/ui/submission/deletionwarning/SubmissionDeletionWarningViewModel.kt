@@ -63,6 +63,15 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
 
             is RestoreRecycledTestRequest -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
+                if (request.fromRecycleBin) {
+                    SubmissionDeletionWarningFragmentDirections.actionSubmissionDeletionWarningFragmentToRecycleBin()
+                } else {
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                            testType = request.type,
+                            forceTestResultUpdate = true
+                        )
+                }
             }
         }
     }
