@@ -402,4 +402,22 @@ class RAProcessorTest : BaseTest() {
             labId shouldBe "labId"
         }
     }
+
+    @Test
+    fun `recycle sets recycledAt`() = runBlockingTest {
+        val raTest = defaultTest.copy(recycledAt = null)
+
+        createInstance().run {
+            recycle(raTest) shouldBe raTest.copy(recycledAt = nowUTC)
+        }
+    }
+
+    @Test
+    fun `restore clears recycledAt`() = runBlockingTest {
+        val raTest = defaultTest.copy(recycledAt = nowUTC)
+
+        createInstance().run {
+            restore(raTest) shouldBe raTest.copy(recycledAt = null)
+        }
+    }
 }
