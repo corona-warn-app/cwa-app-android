@@ -21,6 +21,7 @@
     <dimen name="line_height_large">28sp</dimen>
     <dimen name="line_height_normal">24sp</dimen>
     <dimen name="line_height_small">20sp</dimen>
+    <dimen name="line_height_tiny">16sp</dimen>
 
     <dimen name="font_line_spacing_extra">4sp</dimen>
 
