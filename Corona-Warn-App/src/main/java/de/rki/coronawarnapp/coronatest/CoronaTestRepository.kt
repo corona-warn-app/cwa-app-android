@@ -11,8 +11,6 @@ import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
@@ -139,17 +137,12 @@ class CoronaTestRepository @Inject constructor(
                 throw IllegalStateException("PostCondition for new tests not fullfilled.")
             }
 
-            if (existing != null) {
-                Timber.tag(TAG).w("We already have a test of this type, removing old test: %s", request)
-                try {
-                    getProcessor(existing.type).recycle(existing)
-                } catch (e: Exception) {
-                    e.report(ExceptionCategory.INTERNAL)
-                }
-            }
-
             toMutableMap().apply {
                 this[newTest.identifier] = newTest
+                if (existing != null) {
+                    Timber.tag(TAG).w("We already have a test of this type, recycling old test: %s", request)
+                    this[existing.identifier] = getProcessor(existing.type).recycle(existing)
+                }
             }
         }
 
