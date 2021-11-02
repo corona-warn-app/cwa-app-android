@@ -45,6 +45,7 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
             headline.text = vm.title.get(requireContext())
 
             newReleaseInfoNextButton.isGone = args.comesFromInfoScreen
+            newReleaseInfoBottom.isGone = args.comesFromInfoScreen
 
             if (args.comesFromInfoScreen) {
                 toolbar.setNavigationIcon(R.drawable.ic_back)
