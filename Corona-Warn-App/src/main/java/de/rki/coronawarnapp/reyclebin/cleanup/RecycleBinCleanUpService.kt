@@ -2,8 +2,6 @@ package de.rki.coronawarnapp.reyclebin.cleanup
 
 import androidx.annotation.VisibleForTesting
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
@@ -15,6 +13,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.Days
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,32 +29,11 @@ class RecycleBinCleanUpService @Inject constructor(
     suspend fun clearRecycledItems() = mutex.withLock {
         Timber.tag(TAG).d("clearRecycledItems() - Started")
 
-
         val now = timeStamper.nowUTC
         Timber.tag(TAG).d("now=%s", now)
 
-        val allRecycledItems: Set<Recyclable> = allRecycledCerts() + allRecycledCoronaTests()
-        Timber.tag(TAG).d("allRecycledItems=%s", allRecycledItems)
-
-        val recycledItemsExceededRetentionDays = allRecycledItems
-            .filter { it.retentionTimeInRecycleBin(now = now) > RETENTION_DAYS }
-            .also { Timber.tag(TAG).d("recycledItemsExceededRetentionDays=%s", it) }
-
-        if (recycledItemsExceededRetentionDays.isEmpty()) {
-            Timber.tag(TAG).d(
-                message = "No recycled item exceeded the retention time of %d days, returning early",
-                RETENTION_DAYS.standardDays
-            )
-            return
-        }
-
-        recycledItemsExceededRetentionDays
-            .filterIsInstance<CwaCovidCertificate>()
-            .deleteRecycledCerts()
-
-        recycledItemsExceededRetentionDays
-            .filterIsInstance<CoronaTest>()
-            .deleteRecycledCoronaTests()
+        deleteRecycledCerts(now)
+        deleteRecycledCoronaTests(now)
 
         Timber.tag(TAG).d("clearRecycledItems() - Finished")
     }
@@ -66,16 +44,38 @@ class RecycleBinCleanUpService @Inject constructor(
     private suspend fun allRecycledCoronaTests() = recycledCoronaTestsProvider.tests.first()
         .also { Timber.tag(TAG).d("allRecycledCoronaTests=%s", it) }
 
-    private suspend fun Collection<CwaCovidCertificate>.deleteRecycledCerts() {
-        Timber.tag(TAG).d("deleteRecycledCerts=%s", this)
-        val containerIds = map { it.containerId }
-        recycledCertificatesProvider.deleteAllCertificate(containerIds)
+    private suspend fun deleteRecycledCerts(now: Instant) {
+        Timber.tag(TAG).d("deleteRecycledCerts()")
+        allRecycledCerts().deleteRecycledItemsOutOfRetention(now) { items ->
+            val containerIds = items.map { it.containerId }
+            recycledCertificatesProvider.deleteAllCertificate(containerIds)
+        }
     }
 
-    private suspend fun Collection<CoronaTest>.deleteRecycledCoronaTests() {
-        Timber.tag(TAG).d("deleteRecycledCoronaTests=%s", this)
-        val identifiers = map { it.identifier }
-        recycledCoronaTestsProvider.deleteAllCoronaTest(identifiers)
+    private suspend fun deleteRecycledCoronaTests(now: Instant) {
+        Timber.tag(TAG).d("deleteRecycledCoronaTests()")
+        allRecycledCoronaTests().deleteRecycledItemsOutOfRetention(now = now) { items ->
+            val identifiers = items.map { it.identifier }
+            recycledCoronaTestsProvider.deleteAllCoronaTest(identifiers)
+        }
+    }
+
+    private inline fun <reified T : Recyclable> Collection<T>.deleteRecycledItemsOutOfRetention(
+        now: Instant,
+        deleteAction: (Collection<T>) -> Unit
+    ) {
+        val recycledItemsExceededRetentionDays = filter { it.retentionTimeInRecycleBin(now = now) > RETENTION_DAYS }
+            .also { Timber.tag(TAG).d("recycledItemsExceededRetentionDays=%s", it) }
+
+        if (recycledItemsExceededRetentionDays.isEmpty()) {
+            Timber.tag(TAG).d(
+                message = "No recycled item exceeded the retention time of %d days, returning early",
+                RETENTION_DAYS.standardDays
+            )
+            return
+        }
+
+        deleteAction(recycledItemsExceededRetentionDays)
     }
 
     companion object {
