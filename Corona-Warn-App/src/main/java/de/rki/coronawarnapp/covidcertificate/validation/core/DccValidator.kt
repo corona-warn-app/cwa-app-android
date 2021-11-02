@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDateTime
 import timber.log.Timber
+import java.util.Date
 import javax.inject.Inject
 
 class DccValidator @Inject constructor(
@@ -29,7 +30,7 @@ class DccValidator @Inject constructor(
     ): DccValidation {
         Timber.tag(TAG).v("validateDcc(country=%s)", userInput.arrivalCountry)
 
-        val signatureCheckPassed = isSignatureValid(certificate)
+        val signatureCheckPassed = isSignatureValid(certificate, userInput.arrivalDateTime.toDate())
         val expirationCheckPassed = certificate.expiresAfter(userInput.arrivalDateTime)
         val jsonSchemaCheckPassed = dccJsonSchemaValidator.isValid(certificate.certificateJson).isValid
 
@@ -50,8 +51,8 @@ class DccValidator @Inject constructor(
         )
     }
 
-    private suspend fun isSignatureValid(dccData: DccData<out DccV1.MetaData>): Boolean = try {
-        dscSignatureValidator.validateSignature(dccData)
+    private suspend fun isSignatureValid(dccData: DccData<out DccV1.MetaData>, date: Date): Boolean = try {
+        dscSignatureValidator.validateSignature(dccData, date = date)
         true
     } catch (e: Exception) {
         Timber.tag(TAG).d(e)

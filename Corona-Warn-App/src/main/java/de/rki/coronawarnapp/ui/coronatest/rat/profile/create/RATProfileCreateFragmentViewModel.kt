@@ -2,20 +2,22 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
-    private val ratProfileSettings: RATProfileSettings
+    private val ratProfileSettings: RATProfileSettings,
+    @Assisted private val format: DateTimeFormatter = DateTimeFormat.mediumDate()
 ) : CWAViewModel() {
 
     private val profileData = MutableLiveData(RATProfileData())
@@ -100,9 +102,7 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<RATProfileCreateFragmentViewModel>
-
-    companion object {
-        val format: DateTimeFormatter = DateTimeFormat.mediumDate()
+    interface Factory : CWAViewModelFactory<RATProfileCreateFragmentViewModel> {
+        fun create(formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel
     }
 }

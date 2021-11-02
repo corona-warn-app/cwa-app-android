@@ -20,7 +20,7 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
     ) = with(testCase) {
 
         createTraceLocation(this)
-            .getDefaultAutoCheckoutLengthInMinutes(now) shouldBe expectedDefaultAutoCheckoutLength
+            .getDefaultAutoCheckoutLengthInMinutes() shouldBe expectedDefaultAutoCheckoutLength
     }
 
     private fun createTraceLocation(testCase: DefaultAutoCheckoutLengthTestCase) = TraceLocation(
@@ -47,16 +47,12 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
         @JvmStatic
         fun provideArguments() = listOf(
             DefaultAutoCheckoutLengthTestCase(
-                // now doesn't matter, as defaultCheckInLengthInMinutes is not null
-                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 defaultCheckInLengthInMinutes = 30,
                 startDate = null,
                 endDate = null,
                 expectedDefaultAutoCheckoutLength = 30,
             ),
             DefaultAutoCheckoutLengthTestCase(
-                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
-                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // min valid length = 00:15h
                 defaultCheckInLengthInMinutes = 0,
                 startDate = null,
@@ -64,8 +60,6 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 expectedDefaultAutoCheckoutLength = MIN_VALID_LENGTH
             ),
             DefaultAutoCheckoutLengthTestCase(
-                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
-                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // TraceLocations with CWA can actually only have 15 minute interval lengths. However, a trace location
                 // created by a third party could create arbitrary lengths.
                 // 22 min should be rounded to 15
@@ -75,8 +69,6 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 expectedDefaultAutoCheckoutLength = 15
             ),
             DefaultAutoCheckoutLengthTestCase(
-                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
-                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // TraceLocations with CWA can actually only have 15 minute interval lengths. However, a trace location
                 // created by a third party could create arbitrary lengths.
                 // 23 min should be rounded to 30
@@ -86,8 +78,6 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 expectedDefaultAutoCheckoutLength = 30
             ),
             DefaultAutoCheckoutLengthTestCase(
-                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
-                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // max valid length = 23:45h
                 defaultCheckInLengthInMinutes = MAX_VALID_LENGTH,
                 startDate = null,
@@ -95,8 +85,6 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 expectedDefaultAutoCheckoutLength = MAX_VALID_LENGTH
             ),
             DefaultAutoCheckoutLengthTestCase(
-                // now doesn't matter here, as defaultCheckInLengthInMinutes is not null
-                now = Instant.parse("1970-01-01T00:00:00.000Z"),
                 // max valid length = 23:45h
                 // TraceLocations with CWA can actually only have a max length of 23:45h. However, a trace location
                 // created by a third party could have a bigger length.
@@ -106,81 +94,45 @@ class DefaultAutoCheckoutLengthTest : BaseTest() {
                 expectedDefaultAutoCheckoutLength = MAX_VALID_LENGTH
             ),
             DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-23T17:00:00.000Z"),
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
                 endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // use 23:45h if user checks in earlier than 23:45 before the event ends
+                // 2 hours duration
+                expectedDefaultAutoCheckoutLength = 120
+            ),
+            DefaultAutoCheckoutLengthTestCase(
+                defaultCheckInLengthInMinutes = null,
+                startDate = Instant.parse("2021-12-24T15:05:00.000Z"),
+                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
+                // 1 hour 55 minutes duration rounded to 2 hours
+                expectedDefaultAutoCheckoutLength = 120
+            ),
+            DefaultAutoCheckoutLengthTestCase(
+                defaultCheckInLengthInMinutes = null,
+                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
+                endDate = Instant.parse("2021-12-24T15:05:00.000Z"),
+                // 5 minutes duration rounded to 15 minutes
+                expectedDefaultAutoCheckoutLength = MIN_VALID_LENGTH
+            ),
+            DefaultAutoCheckoutLengthTestCase(
+                defaultCheckInLengthInMinutes = null,
+                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
+                endDate = Instant.parse("2021-12-26T15:00:00.000Z"),
+                // More than 1 day duration
                 expectedDefaultAutoCheckoutLength = MAX_VALID_LENGTH
             ),
             DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-23T17:30:00.000Z"),
                 defaultCheckInLengthInMinutes = null,
                 startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // 23:30h in minutes
-                expectedDefaultAutoCheckoutLength = (TimeUnit.HOURS.toMinutes(23) + 30).toInt()
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T16:00:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                expectedDefaultAutoCheckoutLength = 60
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T17:01:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                expectedDefaultAutoCheckoutLength = 15
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T17:30:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // We take the min value when the user checks in after the event has already ended
-                expectedDefaultAutoCheckoutLength = 15
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T16:31:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 29min ->  we round to the nearest 15 minutes
-                expectedDefaultAutoCheckoutLength = 30
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T16:38:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 22min ->  we round to the nearest 15 minutes
-                expectedDefaultAutoCheckoutLength = 15
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T16:59:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // Event ends in 1min ->  we are not rounding to 0 but to the min value (15min)
-                expectedDefaultAutoCheckoutLength = 15
-            ),
-            DefaultAutoCheckoutLengthTestCase(
-                now = Instant.parse("2021-12-24T17:00:00.000Z"),
-                defaultCheckInLengthInMinutes = null,
-                startDate = Instant.parse("2021-12-24T15:00:00.000Z"),
-                endDate = Instant.parse("2021-12-24T17:00:00.000Z"),
-                // We check in at event end, return min value (15min)
-                expectedDefaultAutoCheckoutLength = 15
+                endDate = Instant.parse("2021-12-24T15:50:00.000Z"),
+                // 50 minutes duration rounded to 45
+                expectedDefaultAutoCheckoutLength = 45
             )
         )
     }
 }
 
 data class DefaultAutoCheckoutLengthTestCase(
-    val now: Instant,
     val defaultCheckInLengthInMinutes: Int?,
     val startDate: Instant?,
     val endDate: Instant?,

@@ -27,7 +27,8 @@ class QrCodeValidator @Inject constructor(
      */
     suspend fun validate(rawString: String): QrCode = findExtractor(rawString)
         ?.extract(rawString)
-        ?.also { Timber.i("Extracted data from QR code is %s", it) }
+        // QR code could contains anything, don't write decoded data into logs to prevent privacy issues
+        ?.also { Timber.i("Data from ${it::class.simpleName} QR code has been extracted") }
         ?: throw UnsupportedQrCodeException()
 
     private suspend fun findExtractor(rawString: String): QrCodeExtractor<*>? {

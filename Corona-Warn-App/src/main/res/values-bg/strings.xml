@@ -22,6 +22,8 @@
     <string name="menu_information">"За приложението"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Настройки"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Кошче"</string>
 
     <!-- ####################################
                Notification
@@ -34,6 +36,8 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"Имате нови съобщения от приложението Corona-Warn-App."</string>
+    <!-- XTXT: Notification body certificate -->
+    <string name="notification_body_certificate">"Проверете валидността на своите сертификати."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"Можете да помогнете!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -95,7 +99,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
-        <item quantity="zero">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="zero">"Няма излагане на риск"</item>
         <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="few">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="many">"Брой дни с излагания с нисък риск - %1$d"</item>
@@ -104,7 +108,7 @@
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Брой дни с излагания на нисък риск: 1"</item>
         <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
-        <item quantity="zero">"Брой дни с излагания с нисък риск - %1$d"</item>
+        <item quantity="zero">"Няма излагане на риск"</item>
         <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="few">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="many">"Брой дни с излагания с нисък риск - %1$d"</item>
@@ -159,9 +163,9 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"ЧЗВ"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Тук можете да намерите отговори на често задавани въпроси относно приложението Corona-Warn-App. Ще Ви пренасочим към външен уебсайт на правителството на Германия."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_body">"Тук можете да намерите отговори на често задавани въпроси относно приложението Corona-Warn-App. Ще Ви пренасочим към външния уебсайт coronawarn.app."</string>
+    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
+    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Тук можете да намерите отговори на често задавани въпроси относно приложението Corona-Warn-App. Ще Ви пренасочим към външен уебсайт."</string>
 
@@ -274,7 +278,8 @@
     <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора проявяват такива при случаи на пробив в защитата на ваксината. Направете си тест, ако забележите съмнителни симптоми."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
     <string name="risk_details_increased_risk_faq_vaccination">"Ако все още не сте се ваксинирали, консултирайте се с личния си лекар или се обадете на телефона на Общата служба за медицинска помощ, за да си запазите час за тест. След теста обсъдете с личния си лекар възможността за ваксинация срещу SARS-CoV-2."</string>
-
+    <!-- XTXT: risk details - normal risk vaccination bullet -->
+    <string name="risk_details_normal_risk_faq_vaccination">"Ваксинирайте се срещу вируса SARS-CoV-2, ако все още не сте го направили."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
     <string name="risk_details_behavior_body_ventilation">"Проветрявайте затворените помещения по няколко пъти на ден. За целта отворете прозорците възможно най-широко за няколко минути (т.нар. ударно проветряване)."</string>
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
@@ -622,24 +627,10 @@
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Известия"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"Желаете ли да активирате известията за Вашия статус на риск от заразяване с COVID-19?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Разрешаване на автоматични известия за Вашия статус на риск от заразяване с COVID-19."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Посочете за какво желаете да получавате известия"</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"За да активирате известията от Corona-Warn-App, трябва да разрешите известяването от настройките на Вашето устройство."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Активиране на известия"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Известия"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Промяна на Вашия риск от заразяване"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Статус на Вашия тест за коронавирус"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Към настройките на устройството"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Жена, която получава известие от приложението Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -909,25 +900,6 @@
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Да"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_negative">"Не"</string>
-
-    <!-- Permission Rationale Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Изисква се разрешение за използване на камерата"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Разрешете на приложението да използва камерата, за да сканира QR кода."</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"Разрешавам"</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Не разрешавам"</string>
-
-    <!-- Permission Denied Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission denied  -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Необходим е достъп до камерата"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Моля, отворете настройките на устройството си и разрешете на приложението да сканира QR кода през камерата."</string>
-    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Невалиден QR код"</string>
@@ -939,7 +911,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Отказ"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"Сканиране на QR кода"</string>
+    <string name="qr_code_scan_title">"Скенер за QR кодове"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Позиционирайте QR кода в рамката."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -957,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Файлът не се чете"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Форматът на файла не се поддържа от Corona-Warn-App. Моля, изберете съвместим файл."</string>
+    <string name="qr_code_file_not_readable_body">"QR кодът не се поддържа от Corona-Warn-App. Моля, изберете файл с подходящ QR код."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Възможно е избраният файл да е повреден или защитен с парола и не може да бъде прочетен. Моля, изберете подходящ файл."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"Не е намерен QR код"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Моля, изберете документ или снимка с QR код."</string>
+    <string name="qr_code_no_qr_code_body">"В избрания файл не е открит QR код. Моля, изберете друг файл."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Няма подходящ QR код"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"QR кодът не може да бъде сканиран от Corona-Warn-App. Моля, изберете файл с подходящ QR код."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"QR кодът не се поддържа от Corona-Warn-App. Моля, изберете  подходящ QR код."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -991,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Подробна информация за обработването на данни и Вашето съгласие"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте. Ако обаче споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
+    <string name="submission_consent_main_first_point">"Ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -1006,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Вашето съгласие е доброволно."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Можете да получите резултата от Вашия тест, без да е необходимо да го споделяте, но ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
+    <string name="submission_no_consent_second_point">"Ако споделите резултата си, ще помогнете на другите да се предпазят от заразяване."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Вашата самоличност няма да бъде разкрита. Другите потребители няма да узнаят кой е споделил резултата от теста си."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1426,11 +1398,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"Потвърдени нови случаи на заразяване на 100 000 души"</string>
+    <string name="statistics_card_local_incidence_value_description">"Нови случаи на заразяване"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Информация"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Изтриване"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"Хоспитализации в %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1458,6 +1432,10 @@
     <string name="statistics_primary_value_current">"В момента"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"До %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Нови случаи на заразяване"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Хоспитализации"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1478,12 +1456,20 @@
     <string name="statistics_explanation_local_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души в посочения окръг или федерална провинция."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
+    <!-- XHED: Explanation screen seven day hospitalization title -->
+    <string name="statistics_explanation_seven_day_hospitalization_title">"7-дневна заболеваемост с хоспитализация"</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care title -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"Пациенти с COVID-19 в интензивни отделения"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
+    <!-- XTXT: Explanation screen seven day hospitalization text -->
+    <string name="statistics_explanation_seven_day_hospitalization_text">"Общ брой приети в болница пациенти заради COVID-19 през последните 7 дни (по дата на регистриране) на 100 000 души."</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care text -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Съотношение на пациентите в интензивни отделения заради COVID-19 спрямо общия капацитет на интензивните отделения."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-дневно репродуктивно число R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Репродуктивното число R указва средно колко души заразява от своя страна едно заразено лице. Текущата стойност взема предвид данните от последните 5 дни."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Репродуктивното число R указва средно колко души заразява от своя страна едно заразено лице."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"ЧЗВ относно статистиката"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1493,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Вчера/до вчера"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Брой за предишния ден/до предишния ден. Ако все още няма данни за предишния ден, се показва последната дата, за която има данни."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7 дни средно"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1504,8 +1490,10 @@
     <string name="statistics_explanation_period_total_text">"Общ брой от началото на годината или от стартирането на приложението (15 юни 2020 г.)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Тенденция"</string>
+    <!-- XTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend">"Тенденцията сравнява стойността от предишния ден със стойността от предишните два дни (за 7-дневна заболеваемост, 7-дневна заболеваемост с хоспитализация, пациенти с COVID-19 в интензивни отделения, 7-дневно репродуктивно число R) а при 7-дневната тенденция средната стойност за последните 7 дни се сравнява със съответната стойност за предишния 7-дневен период (за 7-дневната средна стойност на потвърдени нови случаи на заразяване, броя предупреждения от потребители на приложението, поставени дози ваксини). Използва се съответната версия на данни, която е публикувана първоначално, а последващите актуализации не се вземат предвид."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Посоката на стрелката указва дали тенденцията е към нарастване, намаляване или стабилизиране, т.е. отклонението е по-малко от 1%% спрямо предишния ден или от 5%% спрямо предишната седмица. Цветът указва тенденцията като положителна (зелено), отрицателна (червено) или неутрална (сиво). За определяне на тенденцията стойността от предишния ден се сравнява с тази от преди два дни, а при 7-дневната тенденция средната стойност за последните 7 дни се сравнява със съответната стойност за предишния 7-дневен период."</string>
+    <string name="statistics_explanation_trend_text">"Посоката на стрелката указва дали тенденцията е към нарастване, намаляване или стабилизиране, т.е. отклонението е по-малко от 1%% спрямо предишния ден или от 5%% спрямо предишната седмица (като се вземат предвид десетичните знаци). Цветът указва тенденцията като положителна (зелено), отрицателна (червено) или неутрална (сиво)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Възможни са следните тенденции:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1521,11 +1509,21 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Абстрактно изображение на смартфон с 4 контейнера за данни"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"За повече подробности относно съдържанието на отделните показатели, прочетете нашия блог."</string>
+    <string name="statistics_explanation_blog">"За повече подробности относно отделните показатели прочетете нашия блог."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Блог."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Хоспитализация"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Общ брой приети в болница пациенти заради COVID-19 през последните 7 дни (по дата на регистриране) на 100 000 души."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души в посочения окръг или федерална провинция. Данните за хоспитализация се отнасят за съответната провинция в Германия."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"Пациенти с COVID-19 в интензивни отделения"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"Съотношение на пациентите в интензивни отделения заради COVID-19 спрямо общия капацитет на интензивните отделения."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Плочка „Статистика“"</string>
@@ -1536,7 +1534,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"Лица, получили поне една доза ваксина"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"В национален мащаб"</string>
+    <string name="statistics_nationwide_text">"В национален мащаб"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"от населението"</string>
 
@@ -1564,7 +1562,23 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили първа доза ваксина."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"За повече информация вижте страницата „ЧЗВ“:"</string>
+    <string name="statistics_faq_text">"На страницата ни за „ЧЗВ“ ще намерите отговори на често задавани въпроси:"</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"ЧЗВ"</string>
+
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7-дневна заболеваемост с хоспитализация"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"В национален мащаб"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"Хоспитализации на пациенти с COVID-19 на 100 000 души"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"Пациенти с COVID-19 в интензивни отделения"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"Процент на заетостта от пациенти с COVID-19 на всички легла от интензивните отделения."</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1785,13 +1799,15 @@
     <string name="statistics_trend_stable">"Тенденция: Стабилизиране"</string>
 
     <!-- XHED: Title for BottomNav main screen title -->
-    <string name="bottom_nav_home_title">"Начален екран"</string>
+    <string name="bottom_nav_home_title">"Статус"</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">"Дневник"</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">"Регистрация"</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
     <string name="bottom_nav_certificates_title">"Сертификати"</string>
+    <!-- XHED: Title for BottomNav scanner screen title -->
+    <string name="bottom_nav_scanner_title">"Сканиране"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
@@ -1932,12 +1948,6 @@
     <string name="trace_location_onboarding_body_stay">"Моля, отбележете продължителността на престоя си възможно най-точно, за да може да получите адекватни предупреждения."</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">"Приемам"</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">"Разрешаване на достъп до камерата"</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">"За да използвате камерата на телефона си за сканиране на QR кодове, трябва да разрешите на приложението да получи достъп до нея от настройките на устройството си."</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">"Отворете менюто за настройки"</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">"Трима души стоят до висока маса и двама от тях гледат телефоните си."</string>
     <!-- XMIT: Trace location poster print -->
@@ -1988,4 +1998,44 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
+
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Бележка за сигурността"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Открихме признаци за администраторски правомощия (известни и като основни правомощия) на устройството ви. Това означава, че има увеличен риск други приложения на смартфона ви да осъществят достъп до данните в приложението Corona-Warn-App."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"ЧЗВ относно сигурността на приложението"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"ОК"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">"Изисква се достъп до камерата"</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">"Моля, отворете системните настройки и разрешете на приложението да сканира QR кода."</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">"Настройки"</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Изисква се достъп до камерата"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Разрешете на приложението да използва камерата, за да сканира QR кода."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"Разрешавам"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"Не разрешавам"</string>
+
+    <!--    UQS Tooltip-->
+    <!-- XHED: UQS Tooltip title -->
+    <string name="fab_scanner_tip_title">"Скенер за QR кодове"</string>
+    <!-- XTXT: UQS Tooltip subtitle -->
+    <string name="fab_scanner_tip_subtitle">"Използвайте този скенер, за да сканирате тестове, сертификати и регистрации."</string>
+
 </resources>

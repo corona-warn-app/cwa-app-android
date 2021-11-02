@@ -80,7 +80,7 @@ class VerificationServer @Inject constructor(
     suspend fun pollTestResult(
         token: RegistrationToken
     ): CoronaTestResultResponse = withContext(Dispatchers.IO) {
-        Timber.tag(TAG).v("retrieveTestResults(token=%s)", token)
+        Timber.tag(TAG).v("pollTestResult(token=%s)", token)
 
         val requiredHeaderPadding = run {
             var size = HEADER_SIZE_OUR_DATA
@@ -110,7 +110,7 @@ class VerificationServer @Inject constructor(
             )
         )
 
-        Timber.tag(TAG).d("retrieveTestResults(token=%s) -> %s", token, response)
+        Timber.tag(TAG).d("pollTestResult(token=%s) -> %s", token, response)
 
         CoronaTestResultResponse.fromResponse(response)
     }

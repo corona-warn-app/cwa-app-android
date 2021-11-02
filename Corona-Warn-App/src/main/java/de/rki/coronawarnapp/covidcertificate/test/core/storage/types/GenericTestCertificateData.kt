@@ -33,6 +33,9 @@ data class GenericTestCertificateData(
     // Imported Certificates are already scanned some time ago and shouldn't show a badge
     @SerializedName("certificateSeenByUser")
     override val certificateSeenByUser: Boolean = true,
+
+    @SerializedName("recycledAt")
+    override val recycledAt: Instant? = null,
 ) : ScannedTestCertificate() {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null

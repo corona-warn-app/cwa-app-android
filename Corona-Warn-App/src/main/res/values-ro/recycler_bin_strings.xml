@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Recycler Bin
+    ###################################### -->
+
+    <!-- XHED: recycler bin overview title -->
+    <string name="recycler_bin_title">"Coș de reciclare"</string>
+    <!-- XHED: empty recycler bin label -->
+    <string name="recycler_bin_empty_label">"Coșul de reciclare este gol"</string>
+    <!-- XHED: empty recycler bin description -->
+    <string name="recycler_bin_empty_description">"Când eliminați certificatele, acestea sunt mutate în coșul de reciclare și sunt afișate acolo."</string>
+    <!-- XHED: recycler bin remove all menu item -->
+    <string name="recycler_bin_remove_all">"Eliminare toate"</string>
+
+    <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
+    <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
+    <string name="recycle_bin_restore_dgc_dialog_title">"Restaurare certificat"</string>
+    <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
+    <string name="recycle_bin_restore_dgc_dialog_message">"Codul QR a fost deja înregistrat pe smartphone-ul dvs. Certificatul va fi restaurat din coșul de reciclare."</string>
+
+    <!-- DGC  - Recycle certificate dialog-->
+    <!-- XHED: Recycle Bin - recycle certificate dialog title -->
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Doriți să eliminați certificatul?"</string>
+    <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
+    <string name="recycle_bin_recycle_certificate_dialog_message">"Certificatul va fi mutat în coșul de reciclare. Veți găsi coșul de reciclare pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, puteți șterge definitiv sau restaura certificatul. Certificatul va fi șters automat după 30 de zile."</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Eliminare certificat"</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
+    <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Anulare"</string>
+
+    <!-- XTXT: Recycle Bin - overview subheader -->
+    <string name="recycle_bin_overview_subheader">"Atingeți cele trei puncte de lângă un element pentru a-l restaura. Elementele vor fi șterse automat după 30 de zile."</string>
+    <!-- XTXT: Recycle Bin - restore -->
+    <string name="recycle_bin_restore">"Restaurare"</string>
+    <!-- XTXT: Recycle Bin - remove permanently -->
+    <string name="recycle_bin_remove_permanently">"Ștergere definitivă tot"</string>
+
+    <!-- Recycle bin remove all dialog-->
+    <!-- XHED: Recycle Bin - remove all dialog title -->
+    <string name="recycle_bin_remove_all_dialog_title">"Doriți să goliți coșul de reciclare?"</string>
+    <!-- XTXT: Recycle Bin - remove all dialog message -->
+    <string name="recycle_bin_remove_all_dialog_message">"Nu veți mai putea restaura conținutul său."</string>
+    <!-- XBUT: Recycle Bin - remove all dialog positive button -->
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Eliminare"</string>
+    <!-- XBUT: Recycle Bin - remove all dialog negative button -->
+    <string name="recycle_bin_remove_all_dialog_negative_button">"Anulare"</string>
+
+    <!-- Recycle bin restore certificate dialog-->
+    <!-- XHED: Recycle Bin - restore certificate dialog title -->
+    <string name="recycle_bin_restore_certificate_dialog_title">"Restaurare certificat"</string>
+    <!-- XTXT: Recycle Bin - restore certificate dialog message -->
+    <string name="recycle_bin_restore_certificate_dialog_message">"Certificatul restaurat va fi mutat în locația sa originală. Apoi, îl veți găsi pe pagina de tab „Certificate”."</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog positive button -->
+    <string name="recycle_bin_restore_certificate_dialog_positive_button">"Restaurare"</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog negative button -->
+    <string name="recycle_bin_restore_certificate_dialog_negative_button">"Anulare"</string>
+
+    <!-- Recycle bin restore test dialog-->
+    <!-- XHED: Recycle Bin - restore test dialog title -->
+    <string name="recycle_bin_restore_test_dialog_title">"Restaurare test"</string>
+    <!-- XTXT: Recycle Bin - restore test dialog message -->
+    <string name="recycle_bin_restore_test_dialog_message">"Testul restaurat va fi mutat în locația sa originală. Apoi, îl veți găsi pe pagina de tab „Stare”."</string>
+    <!-- XBUT: Recycle Bin - restore test dialog positive button -->
+    <string name="recycle_bin_restore_test_dialog_positive_button">"Restaurare"</string>
+    <!-- XBUT: Recycle Bin - restore test dialog negative button -->
+    <string name="recycle_bin_restore_test_dialog_negative_button">"Anulare"</string>
+</resources>

@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
 import de.rki.coronawarnapp.qrcode.QrCodeScannerModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
+import de.rki.coronawarnapp.rootdetection.RootDetectionModule
 import de.rki.coronawarnapp.service.ServiceBinder
 import de.rki.coronawarnapp.statistics.StatisticsModule
 import de.rki.coronawarnapp.submission.SubmissionModule
@@ -86,6 +87,7 @@ import javax.inject.Singleton
         CoronaTestModule::class,
         DigitalCovidCertificateModule::class,
         QrCodeScannerModule::class,
+        RootDetectionModule::class,
         InAppUpdateModule::class,
     ]
 )

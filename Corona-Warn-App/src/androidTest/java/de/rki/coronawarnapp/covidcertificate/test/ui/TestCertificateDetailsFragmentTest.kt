@@ -164,7 +164,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         override val fullNameFormatted: String
             get() = "Schneider, Andrea"
         override val fullNameStandardizedFormatted: String
-            get() = "SCHNEIDER, ANDREA"
+            get() = "SCHNEIDER<<ANDREA"
         override val dateOfBirthFormatted: String
             get() = "1943-04-18"
         override val personIdentifier: CertificatePersonIdentifier
@@ -195,6 +195,10 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
 
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
+            override val isNew: Boolean get() = false
+
+            override val recycledAt: Instant? get() = null
+
             override fun getState(): CwaCovidCertificate.State = state
         }
     }

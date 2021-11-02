@@ -16,16 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Uniwersalny skaner kodów QR"</item>
-        <item>"Importuj kod QR"</item>
-        <item>"Dostosowanie do czasu trwania kontaktu"</item>
+        <item>"Lokalny 7-dniowy wskaźnik hospitalizacji"</item>
+        <item>"Zmiana linku do Często zadawanych pytań"</item>
+        <item>"Przypisywanie certyfikatów"</item>
+        <item>"Odzyskaj certyfikaty"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz teraz skanować wszystkie dokumenty obsługiwane przez aplikację Corona-Warn-App, niezależnie od tego, gdzie otworzysz skaner kodów QR w aplikacji:\n\n• Testy PCR\n• Szybkie testy\n• Zameldowania obecności w wydarzeniach\n• Certyfikaty"</item>
-        <item>"Możesz teraz używać skanera kodów QR do importowania kodów QR ze zdjęć lub plików PDF."</item>
-        <item>"Minimalny czas trwania kontaktu w dzienniku kontaktów został skrócony z 15 minut do 10 minut. Dokonane już wpisy dotyczące kontaktów zostały automatycznie dostosowane. Przejrzyj wpisy w dzienniku i dostosuj je w razie potrzeby."</item>
+        <item>"Na lokalnych kafelkach 7-dniowej zapadalności na nowe zakażenia wyświetlany jest teraz również 7-dniowy wskaźnik hospitalizacji. Ponieważ jest on dostępny tylko na poziomie kraju związkowego, po wybraniu okręgu zostanie wyświetlony wskaźnik hospitalizacji dla danego kraju związkowego."</item>
+        <item>"Po wywołaniu Często zadawanych pytań w aplikacji następuje przekierowanie na strony w coronawarn.app. Tam znajdziesz więcej informacji dotyczących Twoich pytań."</item>
+        <item>"Przypisywanie certyfikatów do osób jest teraz bardziej odporne na błędy. Aplikacja ignoruje teraz różne liczby spacji w nazwiskach, dzięki czemu możliwe jest przypisanie certyfikatów do tej samej osoby pomimo takich różnic."</item>
+        <item>"Usunięte certyfikaty są przenoszone do kosza. Można je odzyskać w ciągu 30 dni."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +35,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>

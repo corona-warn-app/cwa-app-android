@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CameraPermissionCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -32,7 +30,6 @@ import timber.log.Timber
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
-    cameraPermissionProvider: CameraPermissionProvider,
     valueSetsRepository: ValueSetsRepository,
     private val testCertificateRepository: TestCertificateRepository,
     @AppContext context: Context,
@@ -46,17 +43,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val personCertificates: LiveData<List<PersonCertificatesItem>> = combine(
-        cameraPermissionProvider.deniedPermanently,
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
-    ) { denied, persons, tcWrappers ->
-        Timber.tag(TAG).d("denied=%s, persons=%s, tcWrappers=%s", denied, persons, tcWrappers)
+    ) { persons, tcWrappers ->
+        Timber.tag(TAG).d("persons=%s, tcWrappers=%s", persons, tcWrappers)
 
         mutableListOf<PersonCertificatesItem>().apply {
-            if (denied) {
-                Timber.tag(TAG).d("Camera permission is denied")
-                add(CameraPermissionCard.Item { events.postValue(OpenAppDeviceSettings) })
-            }
             addPersonItems(persons, tcWrappers)
         }
     }.asLiveData(dispatcherProvider.Default)
@@ -64,8 +56,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
         testCertificateRepository.deleteCertificate(containerId)
     }
-
-    fun onScanQrCode() = events.postValue(ScanQrCode)
 
     private fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,

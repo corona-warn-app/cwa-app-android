@@ -1,13 +1,15 @@
 package de.rki.coronawarnapp.risk
 
+import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
-import de.rki.coronawarnapp.diagnosiskeys.storage.pkgDateTime
+import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -46,6 +48,7 @@ class RiskLevelTask @Inject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -125,18 +128,19 @@ class RiskLevelTask @Inject constructor(
         return calculateRiskLevel(configData)
     }
 
-    private suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
+    @VisibleForTesting
+    internal suspend fun areKeyPkgsOutDated(nowUTC: Instant): Boolean {
         Timber.tag(TAG).d("Evaluating areKeyPkgsOutDated(nowUTC=%s)", nowUTC)
 
         val latestDownload = keyCacheRepository.getAllCachedKeys().maxByOrNull {
-            it.info.pkgDateTime
+            it.info.sortDateTime
         }
         if (latestDownload == null) {
             Timber.w("areKeyPkgsOutDated(): No downloads available, why is the RiskLevelTask running? Aborting!")
             return true
         }
 
-        val downloadAge = Duration(latestDownload.info.pkgDateTime, nowUTC).also {
+        val downloadAge = Duration(latestDownload.info.sortDateTime, nowUTC).also {
             Timber.d("areKeyPkgsOutDated(): Age is %dh for latest key package: %s", it.standardHours, latestDownload)
         }
 
@@ -179,6 +183,7 @@ class RiskLevelTask @Inject constructor(
             }.toMap()
 
         analyticsExposureWindowCollector.reportRiskResultsPerWindow(riskResultsPerWindow)
+        analyticsTestResultCollector.reportRiskResultsPerWindow(riskResultsPerWindow)
 
         return riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
     }

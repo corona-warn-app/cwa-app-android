@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.statistics.source
 import de.rki.coronawarnapp.server.protocols.internal.stats.CardHeaderOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.stats.StatisticsOuterClass
-import de.rki.coronawarnapp.statistics.IncidenceStats
+import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
@@ -27,14 +27,14 @@ class StatisticsParserTest : BaseTest() {
     @Test
     fun `default parsing of all types`() {
         val statisticsProto = StatisticsOuterClass.Statistics.newBuilder().apply {
-            addAllCardIdSequence(listOf(1, 3, 2, 4))
+            addAllCardIdSequence(listOf(1, 3, 10, 4))
             addKeyFigureCards(INFECTION_PROTO)
             addKeyFigureCards(KEYSUBMISSION_PROTO)
-            addKeyFigureCards(INCIDENCE_PROTO)
+            addKeyFigureCards(INCIDENCE_AND_HOSPITALISATION_PROTO)
             addKeyFigureCards(SEVENDAYRVALUE_PROTO)
         }.build().toByteArray()
         createInstance().parse(statisticsProto) shouldBe StatisticsData(
-            listOf(INFECTION_STATS, KEYSUBMISSION_STATS, INCIDENCE_STATS, SEVENDAYRVALUE_STATS)
+            listOf(INFECTION_STATS, KEYSUBMISSION_STATS, INCIDENCE_AND_HOSPITALISATION_STATS, SEVENDAYRVALUE_STATS)
         )
     }
 
@@ -193,9 +193,9 @@ class StatisticsParserTest : BaseTest() {
             )
         )
 
-        val INCIDENCE_PROTO = KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
+        val INCIDENCE_AND_HOSPITALISATION_PROTO = KeyFigureCardOuterClass.KeyFigureCard.newBuilder().apply {
             CardHeaderOuterClass.CardHeader.newBuilder().apply {
-                cardId = 2
+                cardId = 10
                 updatedAt = 1604839761
             }.build().let { header = it }
             listOf(
@@ -206,17 +206,33 @@ class StatisticsParserTest : BaseTest() {
                     trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
                     trendSemantic =
                         KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
+                    value = 1.74
+                    decimals = 2
+                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                    trendSemantic =
+                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
                 }.build()
             ).let { addAllKeyFigures(it) }
         }.build()
 
-        val INCIDENCE_STATS = IncidenceStats(
+        val INCIDENCE_AND_HOSPITALISATION_STATS = IncidenceAndHospitalizationStats(
             updatedAt = Instant.ofEpochSecond(1604839761),
             keyFigures = listOf(
                 KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
                     rank = KeyFigureCardOuterClass.KeyFigure.Rank.PRIMARY
                     value = 98.9
                     decimals = 1
+                    trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
+                    trendSemantic =
+                        KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC
+                }.build(),
+                KeyFigureCardOuterClass.KeyFigure.newBuilder().apply {
+                    rank = KeyFigureCardOuterClass.KeyFigure.Rank.SECONDARY
+                    value = 1.74
+                    decimals = 2
                     trend = KeyFigureCardOuterClass.KeyFigure.Trend.UNSPECIFIED_TREND
                     trendSemantic =
                         KeyFigureCardOuterClass.KeyFigure.TrendSemantic.UNSPECIFIED_TREND_SEMANTIC

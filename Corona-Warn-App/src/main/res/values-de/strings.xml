@@ -23,6 +23,8 @@
     <string name="menu_information">"App-Informationen"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Einstellungen"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Papierkorb"</string>
 
     <!-- ####################################
                Notification
@@ -35,6 +37,8 @@
     <string name="notification_headline">"Corona-Warn-App"</string>
     <!-- XTXT: Notification body -->
     <string name="notification_body">"Es gibt Neuigkeiten von Ihrer Corona-Warn-App."</string>
+    <!-- XTXT: Notification body certificate -->
+    <string name="notification_body_certificate">"Überprüfen Sie die Gültigkeit Ihrer Zertifikate."</string>
     <!-- XHED: Notification title - Reminder to share a positive test result-->
     <string name="notification_headline_share_positive_result">"Helfen Sie mit!"</string>
     <!-- XTXT: Notification body - Reminder to share a positive test result-->
@@ -160,9 +164,9 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website der Bundesregierung weitergeleitet."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq"</string>
+    <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf die externe Website coronawarn.app weitergeleitet."</string>
+    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
+    <string name="main_about_link">"https://www.coronawarn.app/de/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
 
@@ -624,24 +628,10 @@
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Mitteilungen"</string>
-    <!-- XHED: settings(notification) - multiline headline below illustration, active -->
-    <string name="settings_notifications_headline_active">"Möchten Sie Mitteilungen zu Ihrem COVID-19-Risikostatus aktivieren?"</string>
     <!-- XTXT: settings(notification) - text in row on settings overview -->
     <string name="settings_notifications_body_description">"Erlauben Sie automatische Benachrichtigungen zu Ihrem COVID-19-Risikostatus."</string>
-    <!-- YTXT: settings(notification) - description text when it notifications are enabled -->
-    <string name="settings_notifications_body_active">"Legen Sie fest, zu welchen Themen Sie informiert bleiben möchten."</string>
     <!-- XTXT: settings(notification) - explains what the user has to do to activate settings -->
     <string name="settings_notifications_body_inactive">"Um Mitteilungen in der Corona-Warn-App zu aktivieren, müssen Sie Mitteilungen in Ihren Geräteeinstellungen zulassen."</string>
-    <!-- XHED: settings(notification) - card headline -->
-    <string name="settings_notifications_headline_card">"Mitteilungen aktivieren"</string>
-    <!-- XHED: settings - notification headline on settings overview -->
-    <string name="settings_notifications_subtitle_notification">"Mitteilungen"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_risk">"Ändern Ihres Infektionsrisikos"</string>
-    <!-- XTXT: settings(notification) - next to a switch -->
-    <string name="settings_notifications_subtitle_update_test">"Status Ihres Coronavirus-Tests"</string>
-    <!-- XBUT: settings(notification) - go to operating settings -->
-    <string name="settings_notifications_button_open_settings">"Geräteeinstellungen öffnen"</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, active -->
     <string name="settings_notifications_illustration_description_active">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
     <!-- XACT: main (overview) - illustraction description, explanation image, displays notificatin status, inactive -->
@@ -911,25 +901,6 @@
     <string name="submission_error_dialog_confirm_cancellation_button_positive">"Ja"</string>
     <!-- XBUT: Negative button for keys submission process cancellation -->
     <string name="submission_error_dialog_confirm_cancellation_button_negative">"Nein"</string>
-
-    <!-- Permission Rationale Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission rationale  -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_headline">"Kamera-Zugriff benötigt"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_body">"Bitte erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_positive">"Erlauben"</string>
-    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
-    <string name="submission_qr_code_scan_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
-
-    <!-- Permission Denied Dialog -->
-    <!-- XHED: Dialog headline QR Scan permission denied  -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_headline">"Kamerazugriff benötigt"</string>
-    <!-- YTXT: Dialog Body text for QR Scan permission denied -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_body">"Bitte gehen Sie in die Geräteeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
-    <!-- XBUT: Dialog(QR Scan permission denied) - button -->
-    <string name="submission_qr_code_scan_permission_denied_dialog_button">"OK"</string>
-
     <!-- QR Code Scan Invalid Dialog -->
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
@@ -941,7 +912,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Abbrechen"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"QR-Code Scan"</string>
+    <string name="qr_code_scan_title">"QR-Code-Scanner"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Positionieren Sie den QR-Code in den Rahmen."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -955,21 +926,21 @@
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">QR-Code wird gelesen …</string>
     <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht in der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
+    <string name="un_supported_qrcode_message">"Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte scannen Sie einen geeigneten QR-Code."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">Datei nicht lesbar</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">Das Dateiformat wird von Corona-Warn-App nicht unterstützt. Bitte wählen Sie eine kompatible Datei.</string>
+    <string name="qr_code_file_not_readable_body">Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte wählen Sie eine Datei mit einem geeigneten QR-Code.</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">Die gewählte Datei ist möglicherweise beschädigt oder passwortgeschützt und konnte daher nicht gelesen werden. Bitte wählen Sie eine geeignete Datei.</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">Kein QR-Code erkannt</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">Bitte wählen Sie ein Dokument oder ein Foto mit einem vorhanden QR-Code.</string>
+    <string name="qr_code_no_qr_code_body">In der gewählten Datei konnte kein QR-Code erkannt werden. Bitte wählen Sie eine andere Datei.</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">Kein geeigneter QR-Code</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code kann nicht in der Corona-Warn-App gescannt werden. Bitte wählen Sie eine Datei mit einem geeigneten QR-Code.</string>
+    <string name="qr_code_no_suitable_qr_code_body">Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte wählen Sie einen geeigneten QR-Code.</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -993,7 +964,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dieses nicht teilen möchten. Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
+    <string name="submission_consent_main_first_point">"Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -1008,7 +979,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Ihr Einverständnis ist freiwillig."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Sie können Ihr Testergebnis auch abrufen, wenn Sie dies nicht teilen. Wenn Sie ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
+    <string name="submission_no_consent_second_point">"Wenn Sie Ihr Testergebnis teilen, helfen Sie jedoch mit, Ihre Mitmenschen vor Ansteckungen zu schützen."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1428,11 +1399,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"bestätigte Neuinfektionen je 100.000 Einwohner"</string>
+    <string name="statistics_card_local_incidence_value_description">"Neuinfektionen"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Entfernen"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"Hospitalisierungen in %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1460,6 +1433,10 @@
     <string name="statistics_primary_value_current">"Aktuell"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Bis %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Neuinfektionen"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hospitalisierungen"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1480,12 +1457,20 @@
     <string name="statistics_explanation_local_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Tage-Inzidenz"</string>
+    <!-- XHED: Explanation screen seven day hospitalization title -->
+    <string name="statistics_explanation_seven_day_hospitalization_title">"7-Tage-Inzidenz Hospitalisierung"</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care title -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <!-- XTXT: Explanation screen seven day hospitalization text -->
+    <string name="statistics_explanation_seven_day_hospitalization_text">"Gesamtzahl der Krankenhausaufnahmen aufgrund von COVID-19 der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <!-- XHED: Explanation screen occupied beds in intensive care text -->
+    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Anteil der an COVID-19 erkrankten Personen auf Intensivstationen im Verhältnis zur Gesamtbettenanzahl."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Tage-R-Wert"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden. Der aktuelle Wert berücksichtigt Daten bis vor 5 Tagen."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Die Reproduktionszahl R gibt an, wie viele Personen im Durchschnitt von einer infizierten Person angesteckt wurden."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"FAQ zu Statistiken"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1495,7 +1480,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Gestern / Bis gestern"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Zahl für den Vortag / bis zum Vortag. Wenn für den Vortag noch keine Zahl vorliegt, wird das Datum des letzten Tages angezeigt, für den eine Zahl vorliegt."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Gesamtzahl der bestätigten Neuinfektionen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Tage-Mittelwert"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1506,8 +1491,10 @@
     <string name="statistics_explanation_period_total_text">"Gesamtzahl seit Jahresbeginn 2020 bzw. Einführung der App (15. Juni 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
+    <!-- XTXT: Explanation screen trend text -->
+    <string name="statistics_explanation_trend">"Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen (betr. 7-Tage-Inzidenz, 7-Tage-Inzidenz Hospitalisierung, COVID-19-Erkrankte auf Intensivstationen, 7-Tage-R-Wert) bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage (7-Tage-Mittelwert der bestätigten Neuinfektionen, der warnenden Personen, der verabreichten Impfdosen). Dabei wird jeweils der Datenstand der Erstveröffentlichung genommen; nachfolgende Aktualisierungen werden nicht berücksichtigt."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung von weniger als 1%% im Vortagesvergleich bzw. 5%% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau). Der Trend vergleicht den Wert vom Vortag mit dem Wert von vor zwei Tagen bzw. für die 7-Tage-Trends den Mittelwert der letzten 7 Tage mit dem der vorausgegangenen 7 Tage."</string>
+    <string name="statistics_explanation_trend_text">"Die Pfeilrichtung zeigt an, ob der Trend nach oben oder nach unten geht oder relativ stabil ist, d.h. eine Abweichung (jeweils unter Berücksichtigung nur der angezeigten Nachkommastellen) von weniger als 1%% im Vortagesvergleich bzw. 5%% im Vorwochenvergleich aufweist. Die Farbe bewertet diesen Trend als positiv (grün), negativ (rot) oder neutral (grau)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Beispiele für die angezeigten Trends:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1523,11 +1510,21 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakte Darstellung eines Smartphones mit vier Platzhaltern für Informationen"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Mehr inhaltliche Details zu einzelnen Kennzahlen finden Sie im Blog."</string>
+    <string name="statistics_explanation_blog">"Mehr inhaltliche Details zu den einzelnen Kennzahlen finden Sie im Blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/de/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalisierung"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Gesamtzahl der Krankenhausaufnahmen aufgrund von COVID-19 der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Gesamtzahl der bestätigten Neuinfektionen bzw. Hospitalisierungen der letzten 7 Tage (nach Meldedatum) pro 100.000 Einwohner im konfigurierten Kreis oder Bundesland. Die Hospitalisierungsdaten beziehen sich auf das zugehörige Bundesland."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"Anteil der an COVID-19 erkrankten Personen auf Intensivstationen im Verhältnis zur Gesamtbettenanzahl."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Statistikkarte"</string>
@@ -1538,7 +1535,7 @@
     <!-- XHED: Title for vaccinated once statistics card -->
     <string name="statistics_vaccinated_once_card_title">"Mindestens einmal geimpfte Personen"</string>
     <!-- XTXT: Nationwide text -->
-    <string name="statistics_vaccinated_nationwide_text">"Bundesweit"</string>
+    <string name="statistics_nationwide_text">"Bundesweit"</string>
     <!-- XTXT: Vaccination primary value footnote text -->
     <string name="statistics_vaccination_primary_value_footnote">"der Bevölkerung"</string>
 
@@ -1566,7 +1563,23 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Anzahl der an das RKI übermittelten Personen, die die erste Impfdosis erhalten haben."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Weitere Informationen finden Sie in den FAQ:"</string>
+    <string name="statistics_faq_text">"Häufig gestellte Fragen und die passenden Antworten finden Sie in den FAQ."</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"FAQ"</string>
+
+    <!-- Seven Day Hospitalization Statistics Card -->
+    <!-- XHED: Title for seven day hospitalization stats -->
+    <string name="statistics_seven_day_hospitalization_card_title">"7-Tage-Inzidenz Hospitalisierung"</string>
+    <!-- XTXT: Nationwide text -->
+    <string name="statistics_seven_day_hospitalization_nationwide_text">"Bundesweit"</string>
+    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
+    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19-Hospitalisierungen je 100.000 Einwohner"</string>
+
+    <!-- Occupied Intensive Care Statistics Card -->
+    <!-- XHED: Title for occupied intensive care card -->
+    <string name="statistics_occupied_intensive_care_card_title">"COVID-19-Erkrankte auf Intensivstationen"</string>
+    <!-- XTXT: Ocupation of all intensive care beds -->
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19-Belegung aller betreibbaren Intensivbetten"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
@@ -1787,13 +1800,15 @@
     <string name="statistics_trend_stable">Trend stabil</string>
 
     <!-- XHED: Title for BottomNav main screen title -->
-    <string name="bottom_nav_home_title">Startseite</string>
+    <string name="bottom_nav_home_title">Status</string>
     <!-- XHED: Title for BottomNav diary screen title -->
     <string name="bottom_nav_diary_title">Tagebuch</string>
     <!-- XHED: Title for BottomNav check-in screen title -->
     <string name="bottom_nav_check_ins_title">Check-in</string>
     <!-- XHED: Title for BottomNav certificates screen title -->
     <string name="bottom_nav_certificates_title">"Zertifikate"</string>
+    <!-- XHED: Title for BottomNav scanner screen title -->
+    <string name="bottom_nav_scanner_title">"Scannen"</string>
     <!-- ####################################
            Data Donation & Survey
     ###################################### -->
@@ -1934,12 +1949,6 @@
     <string name="trace_location_onboarding_body_stay">Bitte geben Sie Ihre Aufenthaltszeit so genau wie möglich an, damit gezielt gewarnt werden kann.</string>
     <!-- XACT: Button/Dialog label to consent-->
     <string name="trace_location_onboarding_body_confirm">Einverstanden</string>
-    <!--  XHED: Trace location check-ins camera permission card title-->
-    <string name="trace_location_attendee_camera_card_title">Zugriff auf Kamera erlauben</string>
-    <!--  XTXT: Trace location check-ins camera permission card susbtitle-->
-    <string name="trace_location_attendee_camera_card_subtitle">Um die Kamera für das Scannen des QR-Codes zu nutzen, müssen Sie die Verwendung der Kamera in den Geräteeinstellungen zur App zulassen.</string>
-    <!--  XBUT: Trace location check-ins camera permission card button-->
-    <string name="trace_location_attendee_camera_card_button">Einstellungen öffnen</string>
     <!--  YMSG: Trace location onboarding image description-->
     <string name="trace_location_onboarding_content_description">Drei Personen an einem Stehtisch, zwei von ihnen schauen auf ihr Smartphone.</string>
     <!-- XMIT: Trace location poster print -->
@@ -1999,4 +2008,44 @@
     <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/de/faq/#part_incompat"</string>
     <!-- XTXT: Incompitability faq link for full incompatibility -->
     <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/de/faq/#full_incompat"</string>
+
+    <!-- XHED: App Root Detection dialog title -->
+    <string name="root_dialog_title">"Sicherheitshinweis"</string>
+    <!-- XTXT: App Root Detection dialog message -->
+    <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
+    <!-- XTXT: App Root Detection link label -->
+    <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
+    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
+    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/de/faq/#root_detection_android"</string>
+    <!-- XBUT: App Root Detection button -->
+    <string name="root_dialog_button">"OK"</string>
+
+    <!-- ####################################
+        Incompatibility warning card
+    ###################################### -->
+
+    <!-- Permission Denied Dialog -->
+    <!-- XHED: UQS camera permission dialog title -->
+    <string name="camera_permission_dialog_title">Kamerazugriff benötigt</string>
+    <!-- XTXT: UQS camera permission dialog message -->
+    <string name="camera_permission_dialog_message">Bitte gehen Sie in die Systemeinstellungen und erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen.</string>
+    <!-- XBUT: UQS camera permission dialog settings -->
+    <string name="camera_permission_dialog_settings">Einstellungen</string>
+
+    <!-- Permission Rationale Dialog -->
+    <!-- XHED: Dialog headline QR Scan permission rationale  -->
+    <string name="camera_permission_rationale_dialog_headline">"Kamera-Zugriff benötigt"</string>
+    <!-- YTXT: Dialog Body text for QR Scan permission rationale -->
+    <string name="camera_permission_rationale_dialog_body">"Bitte erlauben Sie der App die Benutzung der Kamera, um den QR-Code zu scannen."</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - positive button (right) -->
+    <string name="camera_permission_rationale_dialog_button_positive">"Erlauben"</string>
+    <!-- XBUT: Dialog(QR Scan permission rationale) - negative button (left) -->
+    <string name="camera_permission_rationale_dialog_button_negative">"Nicht erlauben"</string>
+
+    <!--    UQS Tooltip-->
+    <!-- XHED: UQS Tooltip title -->
+    <string name="fab_scanner_tip_title">QR-Code-Scanner</string>
+    <!-- XTXT: UQS Tooltip subtitle -->
+    <string name="fab_scanner_tip_subtitle">Scannen Sie Tests, Zertifikate und Check-ins mit diesem Scanner.</string>
+
 </resources>

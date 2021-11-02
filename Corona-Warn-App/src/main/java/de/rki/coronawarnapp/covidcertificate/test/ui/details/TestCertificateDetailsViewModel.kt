@@ -43,9 +43,9 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun openFullScreen() = qrCode?.let { events.postValue(TestCertificateDetailsNavigation.FullQrCode(it)) }
 
-    fun onDeleteTestCertificateConfirmed() = launch {
-        Timber.d("Removing Test Certificate=$containerId")
-        testCertificateRepository.deleteCertificate(containerId)
+    fun recycleTestCertificateConfirmed() = launch(scope = appScope) {
+        Timber.d("Recycling Test Certificate=$containerId")
+        testCertificateRepository.recycleCertificate(containerId)
         events.postValue(TestCertificateDetailsNavigation.Back)
     }
 
@@ -61,7 +61,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
 
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
-        if (covidCertificate.value?.isNewlyRetrieved == true && !fromScanner) {
+        if (covidCertificate.value?.isNew == true && !fromScanner) {
             testCertificateRepository.markCertificateAsSeenByUser(containerId)
         } else {
             testCertificateRepository.acknowledgeState(containerId)

@@ -15,7 +15,7 @@
     <!-- XTXT: Person overview no certificates subtitle-->
     <string name="person_overview_no_certificates_subtitle">"Certificatele de vaccinare digitale, certificatele de recuperare și certificatele de test salvate sunt afișate aici."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
-    <string name="person_overview_no_certificates_subtitle_2">"Pentru a adăuga un certificat, scanați codul QR corespunzător."</string>
+    <string name="person_overview_no_certificates_subtitle_2">"Pentru a scana codul QR al certificatului, utilizați butonul “Scanare” din bara de navigare inferioară."</string>
     <!-- XBUT: Person overview certificates scan button-->
     <string name="person_overview_scan_button">"Certificat"</string>
     <!-- XTXT: Person overview no certificates image content description-->
@@ -53,7 +53,16 @@
     <string name="vaccination_consent_accept_button">"Continuare"</string>
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <string name="vaccination_days_since_last_shot">"Ultima vaccinare: acum %1$d zi(le)"</string>
+    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
+        <item quantity="one">"Ultima vaccinare: acum %1$d zi"</item>
+        <item quantity="other">"Ultima vaccinare: acum %1$d zi(le)"</item>
+        <item quantity="zero">"Ultima vaccinare astăzi"</item>
+        <item quantity="two">"Ultima vaccinare: acum %1$d zi(le)"</item>
+        <item quantity="few">"Ultima vaccinare: acum %1$d zi(le)"</item>
+        <item quantity="many">"Ultima vaccinare: acum %1$d zi(le)"</item>
+    </plurals>
+    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
+    <string name="vaccination_days_since_last_shot_today">"Ultima vaccinare astăzi"</string>
     <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
     <string name="vaccination_list_immunity_card_body">"Ați primit toate vaccinările planificate în acest moment. Protecția prin vaccinare este completă."</string>
     <!-- XTXT: Vaccination card title -->
@@ -62,8 +71,10 @@
     <string name="vaccination_card_booster_eligible_description">"%1$s (ID regulă: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
     <string name="vaccination_card_booster_eligible_faq">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
-    <!-- XTXT: Vaccination card booster eligible FAQ Link -->
-    <string name="vaccination_card_booster_eligible_faq_link">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-englisch/corona-warn-app-faq-1758636"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link English-->
+    <string name="vaccination_card_booster_eligible_faq_link_english">"https://www.coronawarn.app/en/faq/#vac_booster"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link German-->
+    <string name="vaccination_card_booster_eligible_faq_link_german">"https://www.coronawarn.app/de/faq/#vac_booster"</string>
     <!-- XTXT: Vaccination card booster eligible faq link keyword -->
     <string name="vaccination_card_booster_eligible_faq_link_container">"Întrebări frecvente"</string>
 
@@ -82,20 +93,20 @@
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"vaccinat(ă) pe %s"</string>
+    <string name="vaccination_certificate_vaccinated_on">"Vaccinat(ă) pe %s"</string>
     <!-- XTXT: Vaccination  card doses-->
     <string name="vaccination_certificate_doses">"Vaccinarea %1$d din %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Certificat de vaccinare"</string>
 
     <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_unti_immunity" tools:ignore="UnusedQuantity">
+    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
         <item quantity="one">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zi."</item>
         <item quantity="other">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
         <item quantity="zero">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
         <item quantity="two">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
-        <item quantity="few">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
-        <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
+        <item quantity="few">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
+        <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
     </plurals>
 
     <!-- XTXT: Vaccination only one shot required -->
@@ -115,12 +126,6 @@
     <string name="recovery_certificate_name">"Certificat de recuperare"</string>
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"valabil până la %s"</string>
-
-    <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Doriți să eliminați certificatul?"</string>
-    <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="recovery_certificate_details_dialog_remove_test_message">"Dacă eliminați certificatul de recuperare, nu îl mai puteți utiliza ca dovadă în aplicație."</string>
-
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->

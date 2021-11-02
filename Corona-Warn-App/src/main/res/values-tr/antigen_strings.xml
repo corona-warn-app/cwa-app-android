@@ -116,7 +116,7 @@
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Sonucun çıktığı tarih:"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Hızlı testiniz eklendi."</string>
+    <string name="coronatest_negative_antigen_result_first_info_title">"Hızlı testiniz eklendi"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
     <string name="coronatest_negative_antigen_result_first_info_body">"Test sonucu 48 saat süreyle burada görüntülenir."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
@@ -173,7 +173,7 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Kişisel verilerinizle bir profil oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
+    <string name="rat_profile_onboarding_title">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
     <string name="rat_profile_onboarding_subtitle">"Hızlı test profili oluşturduğunuzda her hızlı testten önce kişisel verilerinizi yeniden doldurmanız gerekmez."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->

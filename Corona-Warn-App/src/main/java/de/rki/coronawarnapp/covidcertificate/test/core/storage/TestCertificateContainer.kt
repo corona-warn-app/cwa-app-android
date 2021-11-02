@@ -38,6 +38,9 @@ data class TestCertificateContainer(
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(data.identifier)
 
+    override val recycledAt: Instant?
+        get() = data.recycledAt
+
     val registrationToken: String?
         get() = when (data) {
             is RetrievedTestCertificate -> data.registrationToken
@@ -158,15 +161,17 @@ data class TestCertificateContainer(
             override val lastSeenStateChangeAt: Instant?
                 get() = data.lastSeenStateChangeAt
 
-            override val isNewlyRetrieved: Boolean
+            override val isNew: Boolean
                 get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
             override val hasNotificationBadge: Boolean
                 get() {
                     val state = getState()
-                    return isNewlyRetrieved ||
-                        (state is State.Invalid && state != lastSeenStateChange)
+                    return (state is State.Invalid && state != lastSeenStateChange) || isNew
                 }
+
+            override val recycledAt: Instant?
+                get() = data.recycledAt
 
             override fun toString(): String = "TestCertificate($containerId)"
         }

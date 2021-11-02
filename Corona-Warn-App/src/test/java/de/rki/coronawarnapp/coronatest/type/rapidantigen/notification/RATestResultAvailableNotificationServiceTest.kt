@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen.notification
 
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
@@ -37,7 +36,6 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK(relaxed = true) lateinit var navDeepLinkBuilder: NavDeepLinkBuilder
     @MockK lateinit var pendingIntent: PendingIntent
     @MockK lateinit var navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>
-    @MockK lateinit var notificationManager: NotificationManager
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
@@ -49,10 +47,8 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         mockkObject(CoronaWarnApplication)
 
         every { CoronaWarnApplication.getAppContext() } returns context
-        every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
         every { navDeepLinkBuilderProvider.get() } returns navDeepLinkBuilder
         every { navDeepLinkBuilder.createPendingIntent() } returns pendingIntent
-        every { cwaSettings.isNotificationsTestEnabled.value } returns true
 
         every { notificationHelper.newBaseBuilder() } returns mockk(relaxed = true)
     }
@@ -62,7 +58,6 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
         notificationHelper = notificationHelper,
-        cwaSettings = cwaSettings,
         coronaTestRepository = coronaTestRepository,
         appScope = scope,
     )
@@ -100,23 +95,6 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
                 notificationId = any(),
                 notification = any()
             )
-        }
-    }
-
-    @Test
-    fun `test notification in background disabled`() = runBlockingTest {
-        coEvery { foregroundState.isInForeground } returns flow { emit(false) }
-        every { cwaSettings.isNotificationsTestEnabled.value } returns false
-
-        createInstance().apply {
-            showTestResultAvailableNotification(mockk())
-
-            verify(exactly = 0) {
-                notificationHelper.sendNotification(
-                    notificationId = any(),
-                    notification = any()
-                )
-            }
         }
     }
 }

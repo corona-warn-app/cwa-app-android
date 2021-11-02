@@ -44,6 +44,8 @@ data class RecoveryCertificateContainer(
     val personIdentifier: CertificatePersonIdentifier
         get() = certificateData.certificate.personIdentifier
 
+    override val recycledAt: Instant? = data.recycledAt
+
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
         certificateState: State,
@@ -141,8 +143,14 @@ data class RecoveryCertificateContainer(
             override val hasNotificationBadge: Boolean
                 get() {
                     val state = getState()
-                    return (state !is State.Valid && state != lastSeenStateChange) || !data.certificateSeenByUser
+                    return (state !is State.Valid && state != lastSeenStateChange) || isNew
                 }
+
+            override val isNew: Boolean
+                get() = !data.certificateSeenByUser
+
+            override val recycledAt: Instant?
+                get() = data.recycledAt
 
             override fun toString(): String = "RecoveryCertificate($containerId)"
         }

@@ -16,16 +16,18 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Evrensel QR Kod Tarayıcı"</item>
-        <item>"QR Kodu İçe Aktar"</item>
-        <item>"Temas Süresi Ayarlaması"</item>
+        <item>"Yerel 7 Günlük Hastaneye Yatış Olayı"</item>
+        <item>"SSS Bağlantısında Değişiklik"</item>
+        <item>"Sertifika Ataması"</item>
+        <item>"Sertifikaları Geri Yükleme"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık Corona-Warn-App\'te QR kod tarayıcıyı nerede açarsanız açın uygulamanın desteklediği tüm belgeleri tarayabilirsiniz:\n\n• PCR testleri\n• Hızlı testler\n• Etkinlik check-in\'leri\n• Sertifikalar"</item>
-        <item>"Artık QR kod tarayıcıyı kullanarak fotoğraf veya PDF dosyalarından QR kodları içe aktarabilirsiniz."</item>
-        <item>"Temas güncesindeki minimum temas süresi 15 dakika yerine 10 dakikaya indirildi. Mevcut temas girişleri otomatik olarak ayarlandı. Günce girişlerinizi gözden geçirin ve gerekiyorsa ayarlayın."</item>
+        <item>"7 günlük yeni enfeksiyon olayına ilişkin yerel kutucuklarında artık 7 günlük hastaneye yatış olayı da görüntülenmektedir. Bu önemli değer yalnızca eyalet düzeyinde kullanılabilir olduğu için bir bölge seçilirse ilgili eyalete ilişkin hastaneye yatış oranı görüntülenecektir."</item>
+        <item>"Uygulamada bir SSS\'ye ulaşmak istediğinizde artık coronawarn.app adresindeki sayfalara yönlendiriliyorsunuz. Bu sayfalarda sorularınız hakkında daha ayrıntılı bilgi bulabileceksiniz."</item>
+        <item>"Sertifikaların kişilere atanması konusunda daha fazla hata tolere edilebilir hale getirildi. Uygulama artık adlarda farklı sayıda boşluk olmasını göz ardı etmekte ve bu sayede bu tür farklılıklara rağmen sertifikalar aynı kişiye atanabilmektedir."</item>
+        <item>"Kaldırılan sertifikalar çöp kutusuna taşınır. Bu sertifikalar 30 gün içinde geri yüklenebilir."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +35,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>

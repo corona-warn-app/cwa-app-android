@@ -97,4 +97,9 @@ fun testCertificate(
 
     override val dccData: DccData<*>
         get() = mockk()
+    override val isNew: Boolean
+        get() = false
+
+    override val recycledAt: Instant?
+        get() = null
 }

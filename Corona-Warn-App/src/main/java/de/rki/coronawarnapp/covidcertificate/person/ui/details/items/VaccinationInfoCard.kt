@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.comm
 import de.rki.coronawarnapp.databinding.VaccinationInfoCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import setTextWithUrl
+import java.util.Locale
 
 class VaccinationInfoCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<VaccinationInfoCard.Item, VaccinationInfoCardBinding>(
@@ -31,10 +32,14 @@ class VaccinationInfoCard(parent: ViewGroup) :
         val boosterRule = curItem.boosterRule
         val daysSinceLastVaccination = curItem.daysSinceLastVaccination
         title.text = context.resources.getString(R.string.vaccination_state_title)
-        subtitle.text = context.resources.getString(
-            R.string.vaccination_days_since_last_shot,
-            daysSinceLastVaccination
-        )
+        subtitle.text = when (daysSinceLastVaccination) {
+            0 -> context.resources.getString(R.string.vaccination_days_since_last_shot_today)
+            else -> context.resources.getQuantityString(
+                R.plurals.vaccination_days_since_last_shot,
+                daysSinceLastVaccination ?: 0,
+                daysSinceLastVaccination
+            )
+        }
 
         when (vaccinationStatus) {
             VaccinatedPerson.Status.COMPLETE -> {
@@ -43,7 +48,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
                         R.string.vaccination_list_immunity_tomorrow_card_body
                     )
                     daysUntilImmunity != null -> context.resources.getQuantityString(
-                        R.plurals.vaccination_certificate_days_unti_immunity,
+                        R.plurals.vaccination_certificate_days_until_immunity,
                         daysUntilImmunity,
                         daysUntilImmunity
                     )
@@ -60,10 +65,14 @@ class VaccinationInfoCard(parent: ViewGroup) :
 
                 body2Faq.isVisible = true
                 boosterBadge.isVisible = curItem.hasBoosterNotification
+                val faqLink = when (Locale.getDefault().language) {
+                    Locale.GERMAN.language -> R.string.vaccination_card_booster_eligible_faq_link_german
+                    else -> R.string.vaccination_card_booster_eligible_faq_link_english
+                }
                 body2Faq.setTextWithUrl(
                     R.string.vaccination_card_booster_eligible_faq,
                     R.string.vaccination_card_booster_eligible_faq_link_container,
-                    R.string.vaccination_card_booster_eligible_faq_link
+                    faqLink
                 )
             }
 

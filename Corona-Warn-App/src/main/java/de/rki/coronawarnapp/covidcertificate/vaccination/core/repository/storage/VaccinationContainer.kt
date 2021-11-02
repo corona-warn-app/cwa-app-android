@@ -31,6 +31,7 @@ data class VaccinationContainer internal constructor(
     @SerializedName("lastSeenStateChange") val lastSeenStateChange: State? = null,
     @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
     @SerializedName("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
+    @SerializedName("recycledAt") override val recycledAt: Instant? = null,
 ) : CertificateRepoContainer {
 
     // Either set by [ContainerPostProcessor] or via [toVaccinationContainer]
@@ -171,8 +172,13 @@ data class VaccinationContainer internal constructor(
         override val hasNotificationBadge: Boolean
             get() {
                 val state = getState()
-                return (state !is State.Valid && state != lastSeenStateChange) || !certificateSeenByUser
+                return (state !is State.Valid && state != lastSeenStateChange) || isNew
             }
+
+        override val isNew: Boolean get() = !certificateSeenByUser
+
+        override val recycledAt: Instant?
+            get() = this@VaccinationContainer.recycledAt
 
         override fun toString(): String = "VaccinationCertificate($containerId)"
     }

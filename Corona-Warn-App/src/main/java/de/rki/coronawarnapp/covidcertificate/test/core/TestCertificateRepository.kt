@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -81,21 +82,38 @@ class TestCertificateRepository @Inject constructor(
         valueSetsRepository.latestTestCertificateValueSets,
         dscRepository.dscData
     ) { certMap, valueSets, _ ->
-        certMap.values.map { container ->
-            val state = when {
-                container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
-                else -> container.testCertificateQRCode?.data?.let {
-                    dccStateChecker.checkState(it).first()
-                } ?: CwaCovidCertificate.State.Invalid()
-            }
+        certMap.values
+            .filter { it.isNotRecycled }
+            .map { container ->
+                val state = when {
+                    container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
+                    else -> container.testCertificateQRCode?.data?.let {
+                        dccStateChecker.checkState(it).first()
+                    } ?: CwaCovidCertificate.State.Invalid()
+                }
 
-            TestCertificateWrapper(
-                valueSets = valueSets,
-                container = container,
-                certificateState = state,
-            )
-        }.toSet()
+                TestCertificateWrapper(
+                    valueSets = valueSets,
+                    container = container,
+                    certificateState = state,
+                )
+            }.toSet()
     }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<TestCertificate>> = internalData.data
+        .map { certMap ->
+            certMap.values
+                .filter { it.isRecycled }
+                .mapNotNull { it.toTestCertificate(certificateState = CwaCovidCertificate.State.Recycled) }
+                .toSet()
+        }
         .shareLatest(
             tag = TAG,
             scope = appScope
@@ -458,6 +476,58 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
+    /**
+     * Move Test certificate to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun recycleCertificate(containerId: TestCertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=%s)", containerId)
+        internalData.updateBlocking {
+            val current = this[containerId]
+            if (current == null) {
+                Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("recycleCertificate couldn't recycle pending TC %s", containerId)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = updateRecycledAt(current.data, timeStamper.nowUTC)
+            )
+
+            mutate { this[containerId] = updated }
+        }
+    }
+
+    /**
+     * Restore Test certificate from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun restoreCertificate(containerId: TestCertificateContainerId) {
+        Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
+        internalData.updateBlocking {
+            val current = this[containerId]
+            if (current == null) {
+                Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            if (current.isCertificateRetrievalPending) {
+                Timber.tag(TAG).w("restoreCertificate couldn't restore pending TC %s", containerId)
+                return@updateBlocking this
+            }
+
+            val updated = current.copy(
+                data = updateRecycledAt(current.data, null)
+            )
+
+            mutate { this[containerId] = updated }
+        }
+    }
+
     private fun updateLastSeenStateData(
         data: BaseTestCertificateData,
         state: CwaCovidCertificate.State
@@ -486,6 +556,17 @@ class TestCertificateRepository @Inject constructor(
             is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
             is RACertificateData -> data.copy(notifiedInvalidAt = now)
             is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
+        }
+    }
+
+    private fun updateRecycledAt(
+        data: BaseTestCertificateData,
+        time: Instant?
+    ): BaseTestCertificateData {
+        return when (data) {
+            is PCRCertificateData -> data.copy(recycledAt = time)
+            is RACertificateData -> data.copy(recycledAt = time)
+            is GenericTestCertificateData -> data.copy(recycledAt = time)
         }
     }
 

@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -81,17 +82,36 @@ class RecoveryCertificateRepository @Inject constructor(
         internalData.data,
         dscRepository.dscData
     ) { set, _ ->
-        set.map { container ->
-            val state = dccStateChecker.checkState(container.certificateData).first()
-            RecoveryCertificateWrapper(
-                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                container = container,
-                certificateState = state
-            )
-        }.toSet().also { Timber.d("Test: $it") }
+        set
+            .filter { it.isNotRecycled }
+            .map { container ->
+                val state = dccStateChecker.checkState(container.certificateData).first()
+                RecoveryCertificateWrapper(
+                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                    container = container,
+                    certificateState = state
+                )
+            }.toSet()
     }
 
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = internalData.data
+        .map { container ->
+            container
+                .filter { it.isRecycled }
+                .map {
+                    it.toRecoveryCertificate(certificateState = CwaCovidCertificate.State.Recycled)
+                }
+                .toSet()
+        }
         .shareLatest(
             tag = TAG,
             scope = appScope
@@ -207,6 +227,48 @@ class RecoveryCertificateRepository @Inject constructor(
             this.minus(toUpdate).plus(
                 toUpdate.copy(data = toUpdate.data.copy(certificateSeenByUser = true)).also {
                     Timber.tag(TAG).d("markAsSeenByUser Updated %s", it)
+                }
+            )
+        }
+    }
+
+    /**
+     * Move Recovery certificate to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun recycleCertificate(containerId: RecoveryCertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = toUpdate.data.copy(recycledAt = timeStamper.nowUTC)).also {
+                    Timber.tag(TAG).d("recycleCertificate updated %s", it)
+                }
+            )
+        }
+    }
+
+    /**
+     * Restore Recovery certificate from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun restoreCertificate(containerId: RecoveryCertificateContainerId) {
+        Timber.tag(TAG).d("restoreCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdate = singleOrNull { it.containerId == containerId }
+            if (toUpdate == null) {
+                Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            this.minus(toUpdate).plus(
+                toUpdate.copy(data = toUpdate.data.copy(recycledAt = null)).also {
+                    Timber.tag(TAG).d("restoreCertificate updated %s", it)
                 }
             )
         }

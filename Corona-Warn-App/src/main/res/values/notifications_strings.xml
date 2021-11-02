@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+                  Common
+    ###################################### -->
+    <!-- XHED: notification management: delta onboarding: header -->
+    <string name="nm_notification_settings">"Manage Notifications"</string>
+    <!-- XHED: notification management: delta onboarding: header -->
+    <string name="nm_notification_enabled">"Activate Notifications"</string>
+    <!-- XTXT: notification management: inactive text -->
+    <string name="nm_notifications_body_inactive">"To activate notifications in the Corona-Warn-App, you must allow notifications in your device settings."</string>
+    <!-- XTXT: notification management: active text -->
+    <string name="nm_notifications_body_active_beginning">"You can define the following settings here:"</string>
+    <!-- XTXT: notification management: delta onboarding: point 1 -->
+    <string name="nm_point_overall">"You want to receive notifications in general"</string>
+    <!-- XTXT: notification management: delta onboarding: point 2 -->
+    <string name="nm_point_block_screen">"You want notification texts to be displayed on your lock screen"</string>
+    <!-- XTXT: notification management: delta onboarding: point 3 -->
+    <string name="nm_point_unclock_screen">"You do not want notification texts to be displayed until you unlock your smartphone"</string>
+    <!-- XHED: notification management: delta onboarding: faq -->
+    <string name="nm_faq">"For details on the settings for your operating system, please see our FAQ page."</string>
+    <!-- XTXT: notification management: delta onboarding: faq label -->
+    <string name="nm_faq_label">"FAQ"</string>
+    <!-- XTXT: notification management: delta onboarding: faq link -->
+    <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
+
+    <!-- ####################################
+                  Delta Onboarding
+    ###################################### -->
+
+    <!-- XTXT: notification management: delta onboarding: body -->
+    <string name="nm_delta_onboarding_body">"The settings for notifications are now managed centrally in the device settings of your smartphone."</string>
+    <!-- XTXT: notification management: delta onboarding: subtitle -->
+    <string name="nm_delta_onboarding_subtitle">"Depending on your operating system version and device model, you can define:"</string>
+    <!-- XBUT: notification management: delta onboarding: device settings button -->
+    <string name="nm_delta_onboarding_device_settings_button">"Open Device Settings"</string>
+
+</resources>

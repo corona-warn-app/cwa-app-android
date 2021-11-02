@@ -14,6 +14,9 @@ message FederalStateData {
   int64 updatedAt = 2;
   SevenDayIncidenceData sevenDayIncidence = 3;
 
+  int64 sevenDayHospitalizationIncidenceUpdatedAt = 4;
+  SevenDayIncidenceData sevenDayHospitalizationIncidence = 5;
+
   enum FederalState {
     FEDERAL_STATE_SH = 0;
     FEDERAL_STATE_HH = 1;

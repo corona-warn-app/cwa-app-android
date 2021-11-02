@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.net.toUri
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -47,6 +48,8 @@ class ContactDiaryOnboardingFragment : Fragment(R.layout.contact_diary_onboardin
                     navigationContentDescription = getString(R.string.accessibility_close)
                     setNavigationOnClickListener { vm.onBackButtonPress() }
                 }
+            } else {
+                binding.root.updatePadding(bottom = resources.getDimensionPixelSize(R.dimen.spacing_fab_padding))
             }
 
             contactDiaryOnboardingPrivacyInformation.setOnClickListener {
