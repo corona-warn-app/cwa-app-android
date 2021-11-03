@@ -77,6 +77,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                         .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
                             testType = request.type,
                             forceTestResultUpdate = true,
+                            testIdentifier = request.identifier
                         )
                 }
 
