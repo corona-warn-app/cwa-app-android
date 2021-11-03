@@ -44,7 +44,10 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         recycledCertificates,
         recycledTests
     ) { recycledCerts, recycledTests ->
-        recycledCerts.plus(recycledTests).toRecyclerBinItems()
+        recycledCerts
+            .plus(recycledTests)
+            .sortedByDescending { it.recycledAt }
+            .toRecyclerBinItems()
     }.asLiveData2()
 
     private fun Collection<Any>.toRecyclerBinItems(): List<RecyclerBinItem> {
