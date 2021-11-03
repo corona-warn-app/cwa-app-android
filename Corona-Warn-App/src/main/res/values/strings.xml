@@ -22,6 +22,8 @@
     <string name="menu_information">"App Information"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Settings"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Recycle Bin"</string>
 
     <!-- ####################################
                Notification
@@ -161,9 +163,9 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"FAQ"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external German government website."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_body">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to the external website coronawarn.app."</string>
+    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
+    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Here you can find answers to frequently asked questions about the Corona-Warn-App. You will be forwarded to an external website."</string>
 
@@ -909,7 +911,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Cancel"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"QR Code Scan"</string>
+    <string name="qr_code_scan_title">"QR Code Scanner"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Position the QR code in the frame."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -927,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"File Unreadable"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"The file format is not supported by the Corona-Warn-App. Please select a compatible file."</string>
+    <string name="qr_code_file_not_readable_body">"The QR code is not supported by the Corona-Warn-App. Please select a file with a suitable QR code."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"The selected file may be damaged or password-protected and could not be read. Please select a suitable file."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"No QR Code Detected"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Please select a document or photo with a QR code."</string>
+    <string name="qr_code_no_qr_code_body">"No QR code was detected in the selected file. Please choose a different file."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"The QR code cannot be scanned by the Corona-Warn-App. Please select a suitable QR code."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"The QR code is not supported by the Corona-Warn-App. Please select a suitable QR code."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -961,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Detailed Information on Data Processing and Your Consent"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"You can retrieve your test result even if you do not want to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_consent_main_first_point">"If you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -976,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Your consent is voluntary."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"You can retrieve your test result even if you do not choose to share it. But if you share your test result, you will help to protect others against infection."</string>
+    <string name="submission_no_consent_second_point">"If you share your test result, you will help to protect others against infection."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Your identity will remain secret. Other users will not find out who has shared a test result."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1396,11 +1398,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"confirmed new infections per 100,000 residents"</string>
+    <string name="statistics_card_local_incidence_value_description">"New Infections"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Remove"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"Hospitalizations in %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1428,6 +1432,10 @@
     <string name="statistics_primary_value_current">"Currently"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Up to %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"New Infections"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hospitalizations"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1461,7 +1469,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further. The current value takes data up to the last 5 days into account."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"FAQ for the statistics"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1471,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Number for the previous day/up to the previous day. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Day Average"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1501,11 +1509,21 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstract picture of a smartphone with four placeholders for information"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"For more details about the content of the individual key figures, read our blog."</string>
+    <string name="statistics_explanation_blog">"For more details about the individual key figures, read our blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalization"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Total number of hospital admissions due to COVID-19 in the last 7 days (by reporting date) per 100,000 residents."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents in the configured district or federal state. The hospitalization data refers to the corresponding German state."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"COVID-19 Patients in Intensive Care Units"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"Proportion of people in intensive care units due to COVID-19 in relation to total ICU capacity."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Statistics tile"</string>
@@ -1544,7 +1562,9 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Number of persons reported to the RKI who have received the first dose of the vaccine."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"For further information, please see our FAQ page:"</string>
+    <string name="statistics_faq_text">"You’ll find answers to frequently asked questions on our FAQ page:"</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"FAQ"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->

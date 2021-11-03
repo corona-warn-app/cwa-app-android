@@ -22,6 +22,8 @@
     <string name="menu_information">"Uygulama Bilgileri"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Ayarlar"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
 
     <!-- ####################################
                Notification
@@ -161,9 +163,9 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"SSS"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Alman hükûmetinin harici bir web sitesine yönlendirileceksiniz."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-tuerkisch"</string>
+    <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. coronawarn.app harici web sitesine yönlendirileceksiniz."</string>
+    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
+    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
@@ -909,7 +911,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"İptal"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"QR Kod Tarama"</string>
+    <string name="qr_code_scan_title">"QR Kod Tarayıcı"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"QR kodu çerçeveye sığdırın."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -927,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Dosya Okunamıyor"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Corona-Warn-App dosya biçimini desteklemiyor. Lütfen uyumlu bir dosya seçin."</string>
+    <string name="qr_code_file_not_readable_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun QR kod içeren bir dosya seçin."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Seçilen dosya bozuk ya da parola korumalı olabilir. Dosya okunamadı. Lütfen uygun bir dosya seçin."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"QR Kod Tespit Edilmedi"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Lütfen QR kod bulunan bir belge veya fotoğraf seçin."</string>
+    <string name="qr_code_no_qr_code_body">"Seçilen dosyada QR kod tespit edilmedi. Lütfen farklı bir dosya seçin."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu tarayamıyor. Lütfen uygun bir QR kod seçin."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod seçin."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -961,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Veri İşleme ve Onayınız Hakkında Ayrıntılı Bilgiler"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Paylaşmamayı isteseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
+    <string name="submission_consent_main_first_point">"Test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -976,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Onayınız gönüllülük esasına dayalıdır."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Paylaşmamayı seçseniz de test sonucunuzu alabilirsiniz. Ancak test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
+    <string name="submission_no_consent_second_point">"Test sonucunuzu paylaşırsanız diğer kullanıcıların enfeksiyona karşı korunmasına yardımcı olursunuz."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Kimliğiniz gizli tutulacaktır. Diğer kullanıcılar, kimin test sonucunu paylaştığını öğrenmeyecektir."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1396,11 +1398,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Yerel 7 Günlük Olay"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"her 100.000 vatandaşta onaylanan yeni enfeksiyon sayısı"</string>
+    <string name="statistics_card_local_incidence_value_description">"Yeni Enfeksiyon Sayısı"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Bilgi"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Kaldır"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"%s için hastaneye yatış sayısı"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1428,6 +1432,10 @@
     <string name="statistics_primary_value_current">"Şu Anda"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"%s tarihine kadar"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Yeni Enfeksiyon Sayısı"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hastaneye Yatış Sayısı"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1461,7 +1469,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir. Geçerli değerde, en fazla son 5 günün verileri dikkate alınır."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"istatistikler için SSS."</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1471,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Dün/Düne kadar"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Önceki güne ait/önceki güne kadar olan sayıdır. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7 Günlük Ortalama"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1501,11 +1509,21 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Münferit önemli değerlerin içeriği hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
+    <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Hastaneye Yatış Sayısı"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Son 7 günde COVID-19 nedeniyle her 100.000 vatandaşta toplam hastaneye giriş sayısı."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Konfigüre edilen bölgede veya federal eyalette her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı. Hastaneye yatış verilerinde, Almanya\'daki ilgili eyaleti referans alınır."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"Yoğun Bakım Ünitelerindeki COVID-19 Hastaları"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"COVID-19 nedeniyle yoğun bakım ünitesinde bulunan kişilerin toplam yoğun bakım ünitesi kapasitesine oranı."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"İstatistik kutucuğu"</string>
@@ -1544,7 +1562,9 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"RKI\'ye aşının ilk dozunu aldıkları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın:"</string>
+    <string name="statistics_faq_text">"Sık sorulan soruların yanıtlarını SSS sayfamızda bulabilirsiniz:"</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"SSS"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->

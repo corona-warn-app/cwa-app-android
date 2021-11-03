@@ -52,6 +52,9 @@ data class PCRCertificateData internal constructor(
 
     @SerializedName("certificateSeenByUser")
     override val certificateSeenByUser: Boolean = false,
+
+    @SerializedName("recycledAt")
+    override val recycledAt: Instant? = null,
 ) : RetrievedTestCertificate() {
 
     // Otherwise GSON unsafes reflection to create this class, and sets the LAZY to null

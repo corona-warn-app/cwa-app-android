@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.util.formatter
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.getLocale
-import de.rki.coronawarnapp.statistics.IncidenceStats
+import de.rki.coronawarnapp.statistics.IncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.InfectionStats
 import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
@@ -70,13 +70,18 @@ class FormatterStatisticsHelperTest : BaseTest() {
     }
 
     @Test
-    fun `IncidenceStats primary label test`() {
-        IncidenceStats(today, listOf()).getPrimaryLabel(context) shouldBe UNTIL_TODAY
-        IncidenceStats(yesterday, listOf()).getPrimaryLabel(context) shouldBe UNTIL_YESTERDAY
-        IncidenceStats(
+    fun `IncidenceAndHospitalizationStats primary and secondary label test`() {
+        IncidenceAndHospitalizationStats(today, listOf()).getPrimaryLabel(context) shouldBe UNTIL_TODAY
+        getSecondaryLabel(context, today) shouldBe UNTIL_TODAY
+
+        IncidenceAndHospitalizationStats(yesterday, listOf()).getPrimaryLabel(context) shouldBe UNTIL_YESTERDAY
+        getSecondaryLabel(context, yesterday) shouldBe UNTIL_YESTERDAY
+
+        IncidenceAndHospitalizationStats(
             Instant.parse("2021-01-13T00:00:00Z"),
             listOf()
         ).getPrimaryLabel(context) shouldBe "Until 13.01.2021"
+        getSecondaryLabel(context, Instant.parse("2021-01-13T00:00:00Z")) shouldBe "Until 13.01.2021"
     }
 
     @Test

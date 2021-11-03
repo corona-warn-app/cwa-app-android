@@ -99,7 +99,7 @@
     <!-- XTXT: submission result antigen fragment card patient name placeholder -->
     <string name="submission_test_result_antigen_patient_name_placeholder">"%1$s %2$s"</string>
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
-    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"geboren %1$s"</string>
+    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Geboren %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
     <string name="coronatest_negative_antigen_result_time_date_placeholder">"Ausgestellt: %1$s, %2$s Uhr"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
@@ -117,7 +117,7 @@
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Ergebnis liegt vor seit"</string>
     <!-- XHED: coronatest negative antigen result first info title -->
-    <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt."</string>
+    <string name="coronatest_negative_antigen_result_first_info_title">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XTXT: coronatest negative antigen result first info body -->
     <string name="coronatest_negative_antigen_result_first_info_body">"Das Test-Ergebnis wird 48 Stunden hier angezeigt."</string>
     <!-- XHED: coronatest negative antigen result second info title -->
@@ -184,7 +184,7 @@
     <!-- XTXT: Create RAT Qr code profile description-->
     <string name="rat_qr_code_profile_description">Bitte zeigen Sie diesen QR-Code an der Teststelle vor, um Ihre persönlichen Daten schnell erfassen zu lassen. Bitte halten Sie zusätzlich Ihren Personalausweis bereit.</string>
     <!-- XTXT: Create RAT Qr code profile birth date-->
-    <string name="rat_qr_code_profile_birth_date">geboren %1$s</string>
+    <string name="rat_qr_code_profile_birth_date">Geboren %1$s</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">Weiter</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->

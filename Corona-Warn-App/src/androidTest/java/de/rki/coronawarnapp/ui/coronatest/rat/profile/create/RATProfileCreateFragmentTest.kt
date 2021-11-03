@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import org.joda.time.format.DateTimeFormatter
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -25,7 +26,7 @@ class RATProfileCreateFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : RATProfileCreateFragmentViewModel.Factory {
-                override fun create(): RATProfileCreateFragmentViewModel = viewModel
+                override fun create(formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel = viewModel
             }
         )
 

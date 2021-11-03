@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestRes
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -35,6 +36,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.storage.retention.TraceLocationDbCleanUpScheduler
+import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpScheduler
 import de.rki.coronawarnapp.risk.changedetection.CombinedRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.changedetection.EwRiskLevelChangeDetector
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
@@ -52,6 +54,7 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -93,6 +96,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
     @Inject lateinit var securityProvider: SecurityProvider
     @Inject lateinit var boosterCheckScheduler: BoosterCheckScheduler
+    @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
+    @Inject lateinit var vaccinationStorage: VaccinationStorage
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -119,6 +124,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
+
+        runBlocking { vaccinationStorage.reorganizeData() }
 
         securityProvider.setup()
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
@@ -166,6 +173,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         shareTestResultNotificationService.setup()
         dccStateCheckScheduler.setup()
         boosterCheckScheduler.setup()
+        recycleBinCleanUpScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

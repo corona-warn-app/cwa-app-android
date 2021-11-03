@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.adapter.RuntimeTypeAdapterFactory
@@ -12,7 +13,7 @@ import org.joda.time.Instant
 /**
  * For use with the UI
  */
-interface CwaCovidCertificate {
+interface CwaCovidCertificate : Recyclable {
     // Header
     val headerIssuer: String
     val headerIssuedAt: Instant
@@ -94,6 +95,8 @@ interface CwaCovidCertificate {
                 const val URL_INVALID_SIGNATURE_EN = "https://www.coronawarn.app/en/faq/#hc_signature_invalid"
             }
         }
+
+        object Recycled : State("Recycled")
 
         companion object {
             val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory

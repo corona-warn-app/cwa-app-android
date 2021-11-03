@@ -29,8 +29,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
@@ -95,6 +97,21 @@ class VaccinationRepository @Inject constructor(
     }
 
     val vaccinationInfos: Flow<Set<VaccinatedPerson>> = freshVaccinationInfos
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<VaccinationCertificate>> = vaccinationInfos
+        .map { persons ->
+            persons
+                .map { it.recycledVaccinationCertificates }
+                .flatten()
+                .toSet()
+        }
         .shareLatest(
             tag = TAG,
             scope = appScope
@@ -358,6 +375,58 @@ class VaccinationRepository @Inject constructor(
             Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
+        }
+    }
+
+    /**
+     * Move Vaccination certificate to recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun recycleCertificate(containerId: VaccinationCertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+            val newVaccination = toUpdateVaccination.copy(recycledAt = timeStamper.nowUTC)
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
+            this.minus(toUpdatePerson).plus(newPerson)
+        }
+    }
+
+    /**
+     * Restore Vaccination certificate from recycled state.
+     * it does not throw any exception if certificate is not found
+     */
+    suspend fun restoreCertificate(containerId: VaccinationCertificateContainerId) {
+        Timber.tag(TAG).d("restoreCertificate(containerId=$containerId)")
+        internalData.updateBlocking {
+            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+
+            if (toUpdatePerson == null) {
+                Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
+                return@updateBlocking this
+            }
+
+            val toUpdateVaccination = toUpdatePerson.findVaccination(containerId)!!
+            val newVaccination = toUpdateVaccination.copy(recycledAt = null)
+            newVaccination.qrCodeExtractor = qrCodeExtractor
+            val newPerson = toUpdatePerson.copy(
+                data = toUpdatePerson.data.copy(
+                    vaccinations = toUpdatePerson.data.vaccinations.minus(toUpdateVaccination).plus(newVaccination)
+                )
+            )
+            this.minus(toUpdatePerson).plus(newPerson)
         }
     }
 

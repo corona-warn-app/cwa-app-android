@@ -22,6 +22,8 @@
     <string name="menu_information">"Informacje o aplikacji"</string>
     <!-- XMIT: application settings -->
     <string name="menu_settings">"Ustawienia"</string>
+    <!-- XMIT: application trash -->
+    <string name="menu_trash">"Kosz"</string>
 
     <!-- ####################################
                Notification
@@ -161,9 +163,9 @@
     <!-- XHED: main, FAQ -->
     <string name="main_about_headline">"Często zadawane pytania"</string>
     <!-- XTXT: main, explains faq on card -->
-    <string name="main_about_body">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową administracji Niemiec."</string>
-    <!-- XTXT: FAQ link, should be translated  -->
-    <string name="main_about_link">"https://www.bundesregierung.de/corona-warn-app-faq-englisch"</string>
+    <string name="main_about_body">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową coronawarn.app."</string>
+    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
+    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową."</string>
 
@@ -909,7 +911,7 @@
     <string name="submission_qr_code_scan_invalid_dialog_button_negative">"Anuluj"</string>
 
     <!-- QR Code Scan Screen -->
-    <string name="qr_code_scan_title">"Skan kodu QR"</string>
+    <string name="qr_code_scan_title">"Skaner kodów QR"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body">"Ustaw kod QR w ramce."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
@@ -927,17 +929,17 @@
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Nie można odczytać pliku"</string>
     <!-- XTXT: QR Code error message body  -->
-    <string name="qr_code_file_not_readable_body">"Format pliku nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz kompatybilny plik."</string>
+    <string name="qr_code_file_not_readable_body">"Kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz plik z odpowiednim kodem QR."</string>
     <!-- XTXT: QR Code error message body  -->
     <string name="qr_code_file_corrupted_body">"Wybrany plik może być uszkodzony lub chroniony hasłem i nie można go odczytać. Wybierz odpowiedni plik."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_qr_code_title">"Nie wykryto kodu QR"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_qr_code_body">"Wybierz dokument lub zdjęcie z kodem QR."</string>
+    <string name="qr_code_no_qr_code_body">"Nie wykryto kodu QR w wybranym pliku. Wybierz inny plik."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_title">"Brak odpowiedniego kodu QR"</string>
     <!-- XTXT: QR Code error message title  -->
-    <string name="qr_code_no_suitable_qr_code_body">"Kod QR nie może zostać zeskanowany przez aplikację Corona-Warn-App. Wybierz odpowiedni kod QR."</string>
+    <string name="qr_code_no_suitable_qr_code_body">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz odpowiedni kod QR."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -961,7 +963,7 @@
     <!-- YTXT: Page bottom text for consent screen -->
     <string name="submission_consent_main_bottom_body">"Szczegółowe informacje na temat przetwarzania danych i Twojej zgodzie"</string>
     <!-- YTXT: Body for consent main section first point  -->
-    <string name="submission_consent_main_first_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
+    <string name="submission_consent_main_first_point">"Jeśli udostępnisz wynik testu, pomożesz chronić innych przed zakażeniem."</string>
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swój wynik testu."</string>
     <!-- YTXT: Body for consent main section third point  -->
@@ -976,7 +978,7 @@
     <!-- YTXT: Body for no consent section first point  -->
     <string name="submission_no_consent_first_point">"Twoja zgoda jest dobrowolna."</string>
     <!-- YTXT: Body for no consent section second point  -->
-    <string name="submission_no_consent_second_point">"Możesz pobrać swój wynik testu, nawet jeśli nie zamierzasz go udostępniać. Jeśli jednak zdecydujesz się na jego udostępnienie, pomożesz chronić innych przed zakażeniem."</string>
+    <string name="submission_no_consent_second_point">"Jeśli udostępnisz wynik testu, pomożesz chronić innych przed zakażeniem."</string>
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Twoja tożsamość nie zostanie ujawniona. Inni użytkownicy nie dowiedzą się, kto udostępnił swoje wyniki testów."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
@@ -1396,11 +1398,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Lokalna 7-dniowa zapadalność"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"potwierdzone nowe zakażenia na 100 000 mieszkańców"</string>
+    <string name="statistics_card_local_incidence_value_description">"Nowe zakażenia"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Informacje"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Usuń"</string>
+    <!-- XTXT: Local hospitalization statistics text -->
+    <string name="statistics_card_local_hospitalization_text">"Hospitalizacje w %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1428,6 +1432,10 @@
     <string name="statistics_primary_value_current">"Aktualnie"</string>
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Do %s"</string>
+    <!-- XTXT: Statistics primary value description -->
+    <string name="statistics_primary_value_description">"Nowe zakażenia"</string>
+    <!-- XTXT: Statistics secondary value description -->
+    <string name="statistics_secondary_value_description">"Hospitalizacje"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1461,7 +1469,7 @@
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
-    <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraża przeciętna osoba zakażona. Bieżąca wartość uwzględnia dane z ostatnich 5 dni."</string>
+    <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraziła przeciętna osoba zakażona."</string>
     <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
     <string name="statistics_explanation_seven_day_r_link_label">"Często zadawane pytania dotyczące statystyk"</string>
     <!-- XHED: Explanation screen legend title -->
@@ -1471,7 +1479,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Wczoraj/do wczoraj"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Liczba dotycząca dnia poprzedniego/okresu do dnia poprzedniego. Jeśli dane liczbowe za poprzedni dzień nie są jeszcze dostępne, wyświetlana jest ostatnia data, dla której istnieją dane."</string>
+    <string name="statistics_explanation_period_yesterday_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-dniowa średnia"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1501,11 +1509,21 @@
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakcyjne zdjęcie smartfona z czterema symbolami zastępczymi do celów informacyjnych"</string>
     <!-- XTXT: Statistics explanation blog text -->
-    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących zawartości poszczególnych wskaźników, przeczytaj nasz blog."</string>
+    <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
     <!-- XTXT: Statistics explanation blog text url -->
     <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation title -->
+    <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalizacja"</string>
+    <!-- XTXT: Explanation screen 7 days hospitalisation text -->
+    <string name="statistics_explanation_7_day_hospitalisation_text">"Całkowita liczba przyjęć do szpitala z powodu COVID-19 w ciągu ostatnich 7 dni (wg daty raportowania) na 100 000 mieszkańców."</string>
+    <!-- XTXT: Explanation screen 7 days locale incidents text -->
+    <string name="statistics_explanation_7_day_locale_incidents_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty raportowania) na 100 000 mieszkańców w skonfigurowanym okręgu lub kraju związkowym. Dane dotyczące hospitalizacji odnoszą się do odpowiedniego niemieckiego kraju związkowego."</string>
+    <!-- XTXT: Explanation screen 7 days intensive care title -->
+    <string name="statistics_explanation_intensive_care_title">"Pacjenci z COVID-19 na oddziałach intensywnej terapii"</string>
+    <!-- XTXT: Explanation screen 7 days intensive care text -->
+    <string name="statistics_explanation_intensive_care_text">"Stosunek liczby osób przebywających na oddziałach intensywnej terapii z powodu COVID-19 do całkowitej liczby łóżek OIT."</string>
 
     <!-- XTXT: Statistics Card Announcement -->
     <string name="accessibility_statistics_card_announcement">"Kafelek statystyk"</string>
@@ -1544,11 +1562,13 @@
     <!-- XTXT: Statistics number of vaccinated people at least text -->
     <string name="statistics_people_vaccinated_at_least_once_text">"Liczba osób zgłoszonych w RKI, które otrzymały pierwszą dawkę szczepionki."</string>
     <!-- XTXT: Statistics FAQ text -->
-    <string name="statistics_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”:"</string>
+    <string name="statistics_faq_text">"Odpowiedzi na najczęściej zadawane pytania znajdują się na naszej stronie „Często zadawane pytania”:"</string>
+    <!-- XTXT: Statistics FAQ label -->
+    <string name="statistics_faq_label">"Często zadawane pytania"</string>
 
     <!-- Seven Day Hospitalization Statistics Card -->
     <!-- XHED: Title for seven day hospitalization stats -->
-    <string name="statistics_seven_day_hospitalization_card_title">"7-dniowy współczynnik hospitalizacji"</string>
+    <string name="statistics_seven_day_hospitalization_card_title">"7-dniowy wskaźnik hospitalizacji"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_seven_day_hospitalization_nationwide_text">"W całym kraju"</string>
     <!-- XTXT: Hospitalizations per 100.000 inhabitants -->

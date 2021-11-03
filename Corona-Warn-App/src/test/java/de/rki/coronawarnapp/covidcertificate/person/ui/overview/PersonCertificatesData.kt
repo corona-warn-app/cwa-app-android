@@ -99,4 +99,7 @@ fun testCertificate(
         get() = mockk()
     override val isNew: Boolean
         get() = false
+
+    override val recycledAt: Instant?
+        get() = null
 }

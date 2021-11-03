@@ -93,7 +93,7 @@
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"aşı tarihi: %s"</string>
+    <string name="vaccination_certificate_vaccinated_on">"Aşı tarihi: %s"</string>
     <!-- XTXT: Vaccination  card doses-->
     <string name="vaccination_certificate_doses">"Aşı %1$d / %2$d"</string>
     <!-- XTXT: Vaccination card name-->
@@ -126,12 +126,6 @@
     <string name="recovery_certificate_name">"İyileşme Sertifikası"</string>
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"geçerlilik sonu: %s"</string>
-
-    <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Sertifikayı kaldırmak istiyor musunuz?"</string>
-    <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="recovery_certificate_details_dialog_remove_test_message">"İyileşme sertifikasını kaldırırsanız artık bunu uygulamada kanıt olarak kullanamazsınız."</string>
-
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->

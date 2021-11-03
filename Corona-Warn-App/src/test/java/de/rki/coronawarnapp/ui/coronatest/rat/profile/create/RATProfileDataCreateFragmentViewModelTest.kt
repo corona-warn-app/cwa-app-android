@@ -9,8 +9,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
@@ -118,7 +118,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @Test
     fun birthDateChanged() {
         viewModel().apply {
-            birthDateChanged("Jan 1, 2021")
+            birthDateChanged("1.1.2021")
             profile.getOrAwaitValue().apply {
                 birthDate shouldBe birthDate
                 isValid shouldBe true
@@ -216,5 +216,5 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel() = RATProfileCreateFragmentViewModel(ratProfileSettings)
+    fun viewModel() = RATProfileCreateFragmentViewModel(ratProfileSettings, formatter)
 }

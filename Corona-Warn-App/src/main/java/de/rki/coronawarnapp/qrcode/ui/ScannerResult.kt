@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.util.ui.LazyString
 
@@ -13,6 +14,7 @@ object InProgress : ScannerResult
 sealed class DccResult : ScannerResult {
     data class Details(val uri: Uri) : DccResult()
     data class Onboarding(val dccQrCode: DccQrCode) : DccResult()
+    data class InRecycleBin(val recycledContainerId: CertificateContainerId) : DccResult()
 }
 
 sealed class CheckInResult : ScannerResult {

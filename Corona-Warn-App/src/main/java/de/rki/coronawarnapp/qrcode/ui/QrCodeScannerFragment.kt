@@ -20,6 +20,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.tag
@@ -192,15 +193,17 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
-        val uri = when (scannerResult) {
-            is DccResult.Details -> scannerResult.uri
+        when (scannerResult) {
+            is DccResult.Details -> findNavController().navigate(scannerResult.uri, navOptions)
             is DccResult.Onboarding -> {
                 qrcodeSharedViewModel.putDccQrCode(scannerResult.dccQrCode)
-                CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.uniqueCertificateIdentifier)
+                findNavController().navigate(
+                    CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.uniqueCertificateIdentifier),
+                    navOptions
+                )
             }
+            is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
         }
-
-        findNavController().navigate(uri, navOptions)
     }
 
     private fun onCheckInResult(scannerResult: CheckInResult) {
@@ -237,6 +240,15 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             addTarget(R.id.qrcode_scan_container)
             duration = animationDuration
         }
+    }
+
+    private fun showRestoreDgcConfirmation(containerId: CertificateContainerId) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.recycle_bin_restore_dgc_dialog_title)
+            .setCancelable(false)
+            .setMessage(R.string.recycle_bin_restore_dgc_dialog_message)
+            .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCertificate(containerId) }
+            .show()
     }
 
     companion object {

@@ -93,7 +93,7 @@
          VACCINATION CERTIFICATE STRINGS BELOW
          ##################################################### -->
     <!-- XTXT: Vaccination certificate vaccinated on -->
-    <string name="vaccination_certificate_vaccinated_on">"zaszczepiono dnia %s"</string>
+    <string name="vaccination_certificate_vaccinated_on">"Zaszczepiono dnia %s"</string>
     <!-- XTXT: Vaccination  card doses-->
     <string name="vaccination_certificate_doses">"Szczepienie %1$d %2$d"</string>
     <!-- XTXT: Vaccination card name-->
@@ -126,12 +126,6 @@
     <string name="recovery_certificate_name">"Certyfikat statusu ozdrowieńca"</string>
     <!-- XTXT: Recovery certificate valid until -->
     <string name="recovery_certificate_valid_until">"ważne do %s"</string>
-
-    <!-- XTXT: Detail green certificate diaglog title -->
-    <string name="recovery_certificate_details_dialog_remove_test_title">"Czy chcesz usunąć certyfikat?"</string>
-    <!-- XTXT: Detail green certificate diaglog message -->
-    <string name="recovery_certificate_details_dialog_remove_test_message">"Po usunięciu certyfikatu statusu ozdrowieńca jego użycie jako dowodu w aplikacji nie będzie już możliwe."</string>
-
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
