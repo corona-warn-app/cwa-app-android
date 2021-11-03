@@ -142,7 +142,6 @@ class DataReset @Inject constructor(
         validationRepository.clear()
 
         boosterRulesRepository.clear()
-
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }

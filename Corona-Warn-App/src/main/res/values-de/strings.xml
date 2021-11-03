@@ -905,7 +905,9 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR-Code ist ungültig"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf einem Smartphone registriert. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Der QR-Code ist ungültig oder wurde bereits auf Ihrem Smartphone registriert.
+Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden.
+Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierkorb wiederherstellen."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Erneut versuchen"</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1058,6 +1060,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test kann nur einmal gescannt werden"</string>
+    <!-- XHED: Dialog title for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Wollen Sie Ihr Testergebnis entfernen?"</string>
+    <!-- XTXT: Dialog body for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Das Testergebnis wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts. Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Testergebnis automatisch gelöscht."</string>
+    <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Testergebnis entfernen"</string>
     <!-- XHED: Dialog title for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sind Sie sicher, dass Sie Ihren Test entfernen wollen?"</string>
     <!-- YTXT: Dialog text for test removal -->

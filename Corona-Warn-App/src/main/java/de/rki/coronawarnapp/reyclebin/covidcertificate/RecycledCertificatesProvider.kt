@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.reyclebin
+package de.rki.coronawarnapp.reyclebin.covidcertificate
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -20,7 +20,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class RecycledItemsProvider @Inject constructor(
+class RecycledCertificatesProvider @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
@@ -78,6 +78,6 @@ class RecycledItemsProvider @Inject constructor(
     }
 
     companion object {
-        val TAG = tag<RecycledItemsProvider>()
+        val TAG = tag<RecycledCertificatesProvider>()
     }
 }

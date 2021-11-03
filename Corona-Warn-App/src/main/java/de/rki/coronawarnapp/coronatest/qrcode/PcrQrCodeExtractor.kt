@@ -12,7 +12,7 @@ class PcrQrCodeExtractor @Inject constructor() : QrCodeExtractor<CoronaTestQRCod
     override suspend fun extract(rawString: String): CoronaTestQRCode.PCR {
         val guid = extractGUID(rawString)
         PcrQrCodeCensor.lastGUID = guid
-        return CoronaTestQRCode.PCR(qrCodeGUID = guid)
+        return CoronaTestQRCode.PCR(qrCodeGUID = guid, rawQrCode = rawString)
     }
 
     private fun extractGUID(rawString: String): CoronaTestGUID {

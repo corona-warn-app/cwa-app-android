@@ -94,7 +94,10 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                             .run { findNavController().navigate(this, navOptions) }
 
                     else ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testType = state.test.type,
+                            testIdentifier = state.test.identifier
+                        )
                             .run { findNavController().navigate(this, navOptions) }
                 }
             }

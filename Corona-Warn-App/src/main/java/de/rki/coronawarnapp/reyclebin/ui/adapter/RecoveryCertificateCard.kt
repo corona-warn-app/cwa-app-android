@@ -31,6 +31,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = latestItem!!.certificate
 
+        certificateIcon.setImageResource(R.drawable.ic_certificates_filled_white)
+        certificatePersonName.isGone = false
         certificateInfoLine1.isGone = true
         certificateInfoLine2.text = context.getString(
             R.string.recovery_certificate_valid_until,

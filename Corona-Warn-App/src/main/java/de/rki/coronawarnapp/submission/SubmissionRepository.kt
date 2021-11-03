@@ -101,7 +101,7 @@ class SubmissionRepository @Inject constructor(
         val coronaTest = coronaTestRepository.registerTest(
             request = request,
             preCondition = { currentTests ->
-                if (currentTests.any { it.type == request.type }) {
+                if (currentTests.any { it.type == request.type && it.isNotRecycled }) {
                     Timber.tag(TAG).i("Test type already exists, will try to replace.")
                 }
                 true

@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -68,6 +69,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var bluetoothSupport: BluetoothSupport
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
     @MockK lateinit var networkStateProvider: NetworkStateProvider
+    @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
 
     @BeforeEach
     fun setup() {
@@ -113,7 +115,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         timeStamper = timeStamper,
         bluetoothSupport = bluetoothSupport,
         localStatisticsConfigStorage = localStatisticsConfigStorage,
-        networkStateProvider = networkStateProvider
+        networkStateProvider = networkStateProvider,
+        recycledTestProvider = recycledTestProvider
     )
 
     @Test
