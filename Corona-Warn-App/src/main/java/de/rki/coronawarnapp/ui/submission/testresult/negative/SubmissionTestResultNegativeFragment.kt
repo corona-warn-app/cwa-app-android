@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.testresult.negative
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -12,8 +11,8 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -33,7 +32,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultNegativeViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testType, navArgs.testIdentifier)
         }
     )
 
@@ -45,7 +44,9 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         viewModel.onTestOpened()
 
         binding.apply {
-            submissionTestResultButtonNegativeRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
+            submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
+                showMoveToRecycleBinDialog()
+            }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
             testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
@@ -109,20 +110,10 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun removeTestAfterConfirmation() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.deregisterTestFromDevice()
-            }
+    private fun showMoveToRecycleBinDialog() {
+        RecycleBinDialogType.RecycleTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
         )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
     }
 }

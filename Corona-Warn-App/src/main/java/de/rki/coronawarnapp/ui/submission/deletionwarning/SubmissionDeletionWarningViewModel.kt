@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.deletionwarning
 
-import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -8,18 +7,24 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
+    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
+    private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel() {
 
-    val routeToScreen = SingleLiveEvent<NavDirections>()
+    val routeToScreen = SingleLiveEvent<DuplicateWarningEvent>()
     val registrationState = registrationStateProcessor.state.asLiveData2()
 
     internal fun getTestType(): CoronaTest.Type = testRegistrationRequest.type
@@ -45,18 +50,44 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 }
 
                 routeToScreen.postValue(
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+                    DuplicateWarningEvent.Direction(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+                    )
                 )
             }
 
             is CoronaTestQRCode -> routeToScreen.postValue(
-                SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(
-                        request,
-                        allowTestReplacement = true
-                    )
+                DuplicateWarningEvent.Direction(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(
+                            request,
+                            allowTestReplacement = true
+                        )
+                )
             )
+
+            is RestoreRecycledTestRequest -> {
+                val test = submissionRepository.testForType(request.type).first()
+                if (test != null) {
+                    recycledCoronaTestsProvider.recycleCoronaTest(test.identifier)
+                }
+                recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
+                val directions = if (request.fromRecycleBin) {
+                    DuplicateWarningEvent.Back
+                } else {
+                    DuplicateWarningEvent.Direction(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                                testType = request.type,
+                                forceTestResultUpdate = true,
+                                testIdentifier = request.identifier
+                            )
+                    )
+                }
+
+                routeToScreen.postValue(directions)
+            }
         }
     }
 

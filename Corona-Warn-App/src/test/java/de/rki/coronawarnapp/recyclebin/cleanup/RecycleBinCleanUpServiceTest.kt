@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.recyclebin.cleanup
 
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -25,7 +27,8 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     private val now = Instant.parse("2021-10-13T12:00:00.000Z")
 
     @MockK lateinit var timeStamper: TimeStamper
-    @RelaxedMockK lateinit var recycledItemsProvider: RecycledItemsProvider
+    @RelaxedMockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
+    @RelaxedMockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 
     @BeforeEach
     fun setup() {
@@ -35,7 +38,8 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     }
 
     private fun createInstance() = RecycleBinCleanUpService(
-        recycledItemsProvider = recycledItemsProvider,
+        recycledCertificatesProvider = recycledCertificatesProvider,
+        recycledCoronaTestsProvider = recycledCoronaTestsProvider,
         timeStamper = timeStamper
     )
 
@@ -49,6 +53,13 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         }
     }
 
+    private fun createTest(days: Int) = createTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
+
+    private fun createTest(recycleTime: Instant): CoronaTest = mockk {
+        every { recycledAt } returns recycleTime
+        every { identifier } returns recycleTime.toString()
+    }
+
     @Test
     fun `Check days of retention for recycle bin`() {
         RecycleBinCleanUpService.RETENTION_DAYS.standardDays shouldBe 30
@@ -56,44 +67,65 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
 
     @Test
     fun `No recycled items, nothing to delete`() = runBlockingTest {
-        every { recycledItemsProvider.recycledCertificates } returns flowOf(emptySet())
+        every { recycledCertificatesProvider.recycledCertificates } returns flowOf(emptySet())
+        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
 
-        createInstance().clearRecycledCertificates()
+        createInstance().clearRecycledItems()
 
-        coVerify(exactly = 0) { recycledItemsProvider.deleteAllCertificate(any()) }
+        coVerify(exactly = 0) {
+            recycledCertificatesProvider.deleteAllCertificate(any())
+            recycledCoronaTestsProvider.deleteAllCoronaTest(any())
+        }
     }
 
     @Test
     fun `Retention time in recycle bin too short, nothing to delete`() = runBlockingTest {
-        val certWith5DaysOfRetention = createCert(5)
-        val certWith15DaysOfRetention = createCert(15)
-        val certWith25DaysOfRetention = createCert(25)
+        val certWith0DaysOfRetention = createCert(0)
+        val certWith30DaysOfRetention = createCert(30)
+        val testWith0DaysOfRetention = createTest(0)
+        val testWith30DaysOfRetention = createTest(30)
 
-        every { recycledItemsProvider.recycledCertificates } returns flowOf(
-            setOf(certWith5DaysOfRetention, certWith15DaysOfRetention, certWith25DaysOfRetention)
+        every { recycledCertificatesProvider.recycledCertificates } returns flowOf(
+            setOf(certWith0DaysOfRetention, certWith30DaysOfRetention)
         )
 
-        createInstance().clearRecycledCertificates()
+        every { recycledCoronaTestsProvider.tests } returns flowOf(
+            setOf(testWith0DaysOfRetention, testWith30DaysOfRetention)
+        )
 
-        coVerify(exactly = 0) { recycledItemsProvider.deleteAllCertificate(any()) }
+        createInstance().clearRecycledItems()
+
+        coVerify(exactly = 0) {
+            recycledCertificatesProvider.deleteAllCertificate(any())
+            recycledCoronaTestsProvider.deleteAllCoronaTest(any())
+        }
     }
 
     @Test
     fun `Time difference between recycledAt and now is greater than 30 days with ms precision`() = runBlockingTest {
         val nowMinus30Days = now.minus(Days.days(30).toStandardDuration())
-        val certExact30Days = createCert(nowMinus30Days)
-        val cert30DaysAnd1Ms = createCert(nowMinus30Days.minus(1))
+        val nowMinus30DaysAnd1Ms = nowMinus30Days.minus(1)
 
-        every { recycledItemsProvider.recycledCertificates } returns flowOf(
-            setOf(
-                certExact30Days,
-                cert30DaysAnd1Ms
-            )
+        val certExact30Days = createCert(nowMinus30Days)
+        val cert30DaysAnd1Ms = createCert(nowMinus30DaysAnd1Ms)
+        val testExact30Days = createTest(nowMinus30Days)
+        val test30DaysAnd1Ms = createTest(nowMinus30DaysAnd1Ms)
+
+        every { recycledCertificatesProvider.recycledCertificates } returns flowOf(
+            setOf(certExact30Days, cert30DaysAnd1Ms)
         )
 
-        createInstance().clearRecycledCertificates()
+        every { recycledCoronaTestsProvider.tests } returns flowOf(
+            setOf(testExact30Days, test30DaysAnd1Ms)
+        )
+
+        createInstance().clearRecycledItems()
 
         val containerIds = listOf(cert30DaysAnd1Ms.containerId)
-        coVerify(exactly = 1) { recycledItemsProvider.deleteAllCertificate(containerIds) }
+        val identifiers = listOf(test30DaysAnd1Ms.identifier)
+        coVerify(exactly = 1) {
+            recycledCertificatesProvider.deleteAllCertificate(containerIds)
+            recycledCoronaTestsProvider.deleteAllCoronaTest(identifiers)
+        }
     }
 }

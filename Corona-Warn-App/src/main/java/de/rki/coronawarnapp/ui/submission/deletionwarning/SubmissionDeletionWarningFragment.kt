@@ -84,14 +84,20 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                             .run { findNavController().navigate(this, navOptions) }
 
                     else ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testType = state.test.type,
+                            testIdentifier = state.test.identifier
+                        )
                             .run { findNavController().navigate(this, navOptions) }
                 }
             }
 
-            viewModel.routeToScreen.observe2(this) {
-                Timber.d("Navigating to %s", it)
-                doNavigate(it)
+            viewModel.routeToScreen.observe2(this) { event ->
+                Timber.d("Navigating to %s", event)
+                when (event) {
+                    DuplicateWarningEvent.Back -> popBackStack()
+                    is DuplicateWarningEvent.Direction -> doNavigate(event.direction)
+                }
             }
         }
     }

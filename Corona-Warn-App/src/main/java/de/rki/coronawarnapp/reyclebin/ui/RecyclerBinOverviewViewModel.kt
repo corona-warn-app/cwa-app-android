@@ -3,75 +3,106 @@ package de.rki.coronawarnapp.reyclebin.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.reyclebin.RecycledItemsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
+import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val recycledItemsProvider: RecycledItemsProvider
+    private val recycledCertificatesProvider: RecycledCertificatesProvider,
+    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
+    private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val currentEvent = SingleLiveEvent<RecyclerBinEvent>()
     val events: LiveData<RecyclerBinEvent> = currentEvent
 
-    private val recycledCertificates = recycledItemsProvider.recycledCertificates
+    private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
+    private val recycledTests = recycledCoronaTestsProvider.tests
 
-    val listItems: LiveData<List<RecyclerBinItem>> = recycledCertificates
-        .map { it.toRecyclerBinItems() }
-        .asLiveData2()
+    val listItems: LiveData<List<RecyclerBinItem>> = combine(
+        recycledCertificates,
+        recycledTests
+    ) { recycledCerts, recycledTests ->
+        recycledCerts
+            .plus(recycledTests)
+            .sortedByDescending { it.recycledAt }
+            .toRecyclerBinItems()
+    }.asLiveData2()
 
-    private fun Collection<CwaCovidCertificate>.toRecyclerBinItems(): List<RecyclerBinItem> {
-        val certificateItems = mapNotNull { mapCertToCertItem(it) }
+    private fun Collection<Any>.toRecyclerBinItems(): List<RecyclerBinItem> {
+        val recyclerBinItems = mapNotNull {
+            when (it) {
+                is CwaCovidCertificate -> mapCertToRecyclerBinItem(it)
+                is CoronaTest -> mapTestToRecyclerBinItem(it)
+                else -> throw IllegalArgumentException("Can't convert $it to RecyclerBinItem")
+            }
+        }
 
-        return when (certificateItems.isNotEmpty()) {
-            true -> listOf(OverviewSubHeaderItem).plus(certificateItems)
+        return when (recyclerBinItems.isNotEmpty()) {
+            true -> listOf(OverviewSubHeaderItem).plus(recyclerBinItems)
             false -> emptyList()
         }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
     }
 
-    private fun mapCertToCertItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
+    private fun mapTestToRecyclerBinItem(recycledTest: CoronaTest): RecyclerBinItem = CoronaTestCard.Item(
+        test = recycledTest,
+        onRemove = { test, position ->
+            currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))
+        },
+        onRestore = { test ->
+            currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreTest(test))
+        }
+    )
+
+    private fun mapCertToRecyclerBinItem(cert: CwaCovidCertificate): RecyclerBinItem? = when (cert) {
         is TestCertificate -> TestCertificateCard.Item(
             certificate = cert,
             onRemove = { certificate, position ->
-                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                currentEvent.postValue(RecyclerBinEvent.RemoveCertificate(certificate, position))
             },
             onRestore = { certificate ->
-                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
 
         is VaccinationCertificate -> VaccinationCertificateCard.Item(
             certificate = cert,
             onRemove = { certificate, position ->
-                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                currentEvent.postValue(RecyclerBinEvent.RemoveCertificate(certificate, position))
             },
             onRestore = { certificate ->
-                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
 
         is RecoveryCertificate -> RecoveryCertificateCard.Item(
             certificate = cert,
             onRemove = { certificate, position ->
-                currentEvent.postValue(RecyclerBinEvent.RemoveItem(certificate, position))
+                currentEvent.postValue(RecyclerBinEvent.RemoveCertificate(certificate, position))
             },
             onRestore = { certificate ->
-                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreItem(certificate))
+                currentEvent.postValue(RecyclerBinEvent.ConfirmRestoreCertificate(certificate))
             }
         )
         else -> null
@@ -84,18 +115,37 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
 
     fun onRemoveAllItemsConfirmation() = launch {
         Timber.d("onRemoveAllItemsConfirmation()")
-        val itemToDelete = recycledCertificates.first().map { it.containerId }
-        recycledItemsProvider.deleteAllCertificate(itemToDelete)
+        val containerIds = recycledCertificates.first().map { it.containerId }
+        recycledCertificatesProvider.deleteAllCertificate(containerIds)
+
+        val testsIdentifiers = recycledCoronaTestsProvider.tests.first().map { it.identifier }
+        recycledCoronaTestsProvider.deleteAllCoronaTest(testsIdentifiers)
     }
 
-    fun onRemoveItem(item: CwaCovidCertificate) = launch {
-        Timber.d("onRemoveSingleItemConfirmation(item=%s)", item)
-        recycledItemsProvider.deleteCertificate(item.containerId)
+    fun onRemoveCertificate(item: CwaCovidCertificate) = launch {
+        Timber.d("onRemoveCertificate(item=%s)", item.containerId)
+        recycledCertificatesProvider.deleteCertificate(item.containerId)
     }
 
-    fun onRestoreConfirmation(item: CwaCovidCertificate) = launch {
-        Timber.d("onRestoreConfirmation(item=%s)", item)
-        recycledItemsProvider.restoreCertificate(item.containerId)
+    fun onRestoreCertificateConfirmation(item: CwaCovidCertificate) = launch {
+        Timber.d("onRestoreCertificateConfirmation(item=%s)", item.containerId)
+        recycledCertificatesProvider.restoreCertificate(item.containerId)
+    }
+
+    fun onRemoveTest(coronaTest: CoronaTest) = launch {
+        Timber.d("onRemoveTest(item=%s)", coronaTest.identifier)
+        recycledCoronaTestsProvider.deleteCoronaTest(coronaTest.identifier)
+    }
+
+    fun onRestoreTestConfirmation(coronaTest: CoronaTest) = launch {
+        Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
+        val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
+        when {
+            currentCoronaTest != null -> currentEvent.postValue(
+                RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(fromRecycleBin = true))
+            )
+            else -> recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
+        }
     }
 
     @AssistedFactory
