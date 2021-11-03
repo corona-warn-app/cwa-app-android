@@ -20,6 +20,6 @@ message DGCBlocklistParameters {
 }
 
 message DGCBlockedUVCIChunk {
-  repeated uint32 incides = 1;
+  repeated uint32 indices = 1;
   bytes hash = 2;
 }
