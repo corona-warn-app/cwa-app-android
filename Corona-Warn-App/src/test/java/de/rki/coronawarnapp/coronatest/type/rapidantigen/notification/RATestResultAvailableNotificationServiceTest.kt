@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -84,6 +85,7 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         val instance = createInstance()
         val coronaTest = mockk<CoronaTest>().apply {
             every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+            every { identifier } returns TestIdentifier()
         }
         instance.showTestResultAvailableNotification(coronaTest)
 

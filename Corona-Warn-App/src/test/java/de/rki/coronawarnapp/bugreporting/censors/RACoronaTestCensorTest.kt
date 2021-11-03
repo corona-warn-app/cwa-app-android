@@ -34,7 +34,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return censored LogLine`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(
+        every { coronaTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
                     every { firstName } returns "John"
@@ -59,7 +59,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `censoring should still work when test gets deleted`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(
+        every { coronaTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
                     every { firstName } returns "John"
@@ -86,7 +86,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return return null if no corona tests are stored`() = runBlocking {
-        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
+        every { coronaTestRepository.allCoronaTests } returns flowOf(emptySet())
 
         val censor = createInstance(this)
 
@@ -97,7 +97,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
-        every { coronaTestRepository.coronaTests } returns flowOf(
+        every { coronaTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
                     every { firstName } returns "John"

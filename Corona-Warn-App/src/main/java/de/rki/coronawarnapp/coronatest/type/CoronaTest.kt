@@ -2,9 +2,10 @@ package de.rki.coronawarnapp.coronatest.type
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
-interface CoronaTest {
+interface CoronaTest : Recyclable {
     val identifier: TestIdentifier
     val type: Type
 
@@ -53,6 +54,8 @@ interface CoronaTest {
 
     //  The ID of the lab that uploaded the test result
     val labId: String?
+
+    val qrCodeHash: String?
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")

@@ -52,6 +52,12 @@ data class PCRCoronaTest(
 
     @SerializedName("labId")
     override val labId: String? = null,
+
+    @SerializedName("qrCodeHash")
+    override val qrCodeHash: String? = null,
+
+    @SerializedName("recycledAt")
+    override var recycledAt: Instant? = null,
 ) : CoronaTest {
 
     override val type: CoronaTest.Type
@@ -76,13 +82,16 @@ data class PCRCoronaTest(
         get() = isPositive && !isSubmitted
 
     val state: State
-        get() = when (testResult) {
-            CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
-            CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
-            CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
-            CoronaTestResult.PCR_INVALID -> State.INVALID
-            CoronaTestResult.PCR_OR_RAT_REDEEMED -> State.REDEEMED
-            else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
+        get() = when {
+            isRecycled -> State.RECYCLED
+            else -> when (testResult) {
+                CoronaTestResult.PCR_OR_RAT_PENDING -> State.PENDING
+                CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
+                CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
+                CoronaTestResult.PCR_INVALID -> State.INVALID
+                CoronaTestResult.PCR_OR_RAT_REDEEMED -> State.REDEEMED
+                else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
+            }
         }
 
     override val isDccSupportedByPoc: Boolean
@@ -94,5 +103,6 @@ data class PCRCoronaTest(
         POSITIVE,
         NEGATIVE,
         REDEEMED,
+        RECYCLED,
     }
 }

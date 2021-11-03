@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -55,7 +56,24 @@ class CoronaTestRepository @Inject constructor(
         }
     }
 
-    val coronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
+    /**
+     * Returns a flow with an unfiltered set of [CoronaTest]
+     */
+    val allCoronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
+
+    /**
+     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isNotRecycled]
+     */
+    val coronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+        tests.filter { it.isNotRecycled }.toSet()
+    }
+
+    /**
+     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isRecycled]
+     */
+    val recycledCoronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+        tests.filter { it.isRecycled }.toSet()
+    }
 
     init {
         internalData.data
@@ -85,7 +103,7 @@ class CoronaTestRepository @Inject constructor(
     suspend fun registerTest(
         request: TestRegistrationRequest,
         preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
-            if (currentTests.any { it.type == request.type }) {
+            if (currentTests.any { it.type == request.type && it.isNotRecycled }) {
                 throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
             true
@@ -111,7 +129,7 @@ class CoronaTestRepository @Inject constructor(
                 throw IllegalStateException("PreCondition for current tests not fullfilled.")
             }
 
-            val existing = values.singleOrNull { it.type == request.type }
+            val existing = values.singleOrNull { it.type == request.type && it.isNotRecycled }
 
             val newTest = processor.create(request).also {
                 Timber.tag(TAG).i("New test created: %s", it)
@@ -121,17 +139,16 @@ class CoronaTestRepository @Inject constructor(
                 throw IllegalStateException("PostCondition for new tests not fullfilled.")
             }
 
-            if (existing != null) {
-                Timber.tag(TAG).w("We already have a test of this type, removing old test: %s", request)
-                try {
-                    getProcessor(existing.type).onRemove(existing)
-                } catch (e: Exception) {
-                    e.report(ExceptionCategory.INTERNAL)
-                }
-            }
-
             toMutableMap().apply {
-                existing?.let { remove(it.identifier) }
+                existing?.let {
+                    Timber.tag(TAG).w("We already have a test of this type, moving old test to recycle bin: %s", it)
+                    try {
+                        this[it.identifier] = getProcessor(it.type).recycle(it)
+                    } catch (e: Exception) {
+                        e.report(ExceptionCategory.INTERNAL)
+                    }
+                }
+
                 this[newTest.identifier] = newTest
             }
         }
@@ -157,6 +174,32 @@ class CoronaTestRepository @Inject constructor(
         }
 
         return removedTest!!
+    }
+
+    /**
+     * Move Corona test to recycled state.
+     * it does not throw any exception if test is not found
+     */
+    suspend fun recycleTest(identifier: TestIdentifier): Unit = try {
+        Timber.tag(TAG).d("recycleTest(identifier=%s)", identifier)
+        modifyTest(identifier) { processor, test ->
+            processor.recycle(test)
+        }
+    } catch (e: CoronaTestNotFoundException) {
+        Timber.tag(TAG).e(e)
+    }
+
+    /**
+     * Restore Corona Test from recycled state.
+     * it does not throw any exception if test is not found
+     */
+    suspend fun restoreTest(identifier: TestIdentifier): Unit = try {
+        Timber.tag(TAG).d("restoreTest(identifier=%s)", identifier)
+        modifyTest(identifier) { processor, test ->
+            processor.restore(test)
+        }
+    } catch (e: CoronaTestNotFoundException) {
+        Timber.tag(TAG).e(e)
     }
 
     /**
@@ -285,6 +328,11 @@ class CoronaTestRepository @Inject constructor(
             processor.markDccCreated(before, created)
         }
     }
+
+    private fun Flow<Set<CoronaTest>>.shareLatest() = shareLatest(
+        tag = TAG,
+        scope = appScope
+    )
 
     companion object {
         const val TAG = "CoronaTestRepository"
