@@ -91,18 +91,22 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
 
     private val recCert: RecoveryCertificate = mockk {
         every { containerId } returns RecoveryCertificateContainerId("recCert")
+        every { recycledAt } returns Instant.EPOCH
     }
 
     private val testCert: TestCertificate = mockk {
         every { containerId } returns TestCertificateContainerId("testCert")
+        every { recycledAt } returns Instant.EPOCH
     }
 
     private val vaccCert: VaccinationCertificate = mockk {
         every { containerId } returns VaccinationCertificateContainerId("vaccCert")
+        every { recycledAt } returns Instant.EPOCH
     }
 
     private val cwaCert: CwaCovidCertificate = mockk {
         every { containerId } returns mockk()
+        every { recycledAt } returns Instant.EPOCH
     }
 
     private val instance: RecyclerBinOverviewViewModel
