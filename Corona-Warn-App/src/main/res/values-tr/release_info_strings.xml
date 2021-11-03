@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Yerel 7 Günlük Hastaneye Yatış Olayı"</item>
+        <item>"Testler için Geri Dönüşüm Kutusunun İşlevi"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"7 günlük yeni enfeksiyon olayına ilişkin yerel kutucuklarında artık 7 günlük hastaneye yatış olayı da görüntülenmektedir. Bu önemli değer yalnızca eyalet düzeyinde kullanılabilir olduğu için bir bölge seçilirse ilgili eyalete ilişkin hastaneye yatış oranı görüntülenecektir."</item>
+        <item>"Daha önce uygulamada sildiğiniz hızlı testleri ve PCR testlerini geri yükleyebilirsiniz. Yani yanlışlıkla sildiğiniz nesneleri geri yükleyebilirsiniz."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
