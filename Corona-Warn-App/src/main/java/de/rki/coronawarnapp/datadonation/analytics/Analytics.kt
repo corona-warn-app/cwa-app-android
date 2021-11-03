@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.LastAnalyticsSubmissionLogger
 import de.rki.coronawarnapp.datadonation.safetynet.DeviceAttestation
 import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException
+import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
+import de.rki.coronawarnapp.datadonation.safetynet.SafetyNetException.Type.INTERNAL_ERROR
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaDataRequestAndroid
 import de.rki.coronawarnapp.storage.OnboardingSettings
@@ -66,9 +68,10 @@ class Analytics @Inject constructor(
             Timber.tag(TAG).d("Analytics upload finished")
 
             Result(successful = true)
-        } catch (err: Exception) {
-            err.reportProblem(tag = TAG, info = "An error occurred during analytics submission")
-            val retry = err is SafetyNetException && err.type == SafetyNetException.Type.ATTESTATION_REQUEST_FAILED
+        } catch (exception: Exception) {
+            exception.reportProblem(tag = TAG, info = "An error occurred during analytics submission")
+            val retry = exception is SafetyNetException &&
+                exception.type in listOf(ATTESTATION_REQUEST_FAILED, INTERNAL_ERROR)
             Result(successful = false, shouldRetry = retry)
         }
     }
