@@ -771,12 +771,6 @@
             app:destination="@id/requestCovidCertificateFragment"
             app:popUpTo="@id/submissionDeletionWarningFragment"
             app:popUpToInclusive="true" />
-
-        <action
-            android:id="@+id/action_submissionDeletionWarningFragment_to_recycleBin"
-            app:destination="@id/recyclerBinOverviewFragment"
-            app:popUpTo="@id/recyclerBinOverviewFragment"
-            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
