@@ -412,9 +412,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
-            // TODO: change this to move to recycle bin
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
-                submissionRepository.removeTestFromDevice(RAPID_ANTIGEN)
+                events.postValue(HomeFragmentEvents.RecycleTest(testIdentifier))
             }
             is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(RAPID_ANTIGEN, testIdentifier))

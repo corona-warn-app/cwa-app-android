@@ -227,6 +227,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             HomeFragmentEvents.GoToFederalStateSelection -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
+            is HomeFragmentEvents.RecycleTest -> viewModel.moveTestToRecycleBinStorage(event.identifier)
         }
     }
 
