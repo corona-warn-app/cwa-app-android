@@ -138,21 +138,10 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
         val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
         when {
-            currentCoronaTest != null -> RecyclerBinEvent.RestoreDuplicateTest(
-                coronaTest.toRestoreRecycledTestRequest()
+            currentCoronaTest != null -> currentEvent.postValue(
+                RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(fromRecycleBin = true))
             )
-            // Test result was available on recycling time
-            !coronaTest.isPending -> {
-                recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
-                RecyclerBinEvent.Home
-            }
-            // Test was pending and No active test of same type
-            else -> {
-                recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
-                RecyclerBinEvent.PendingTestResult(coronaTest)
-            }
-        }.also {
-            currentEvent.postValue(it)
+            else -> recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
         }
     }
 

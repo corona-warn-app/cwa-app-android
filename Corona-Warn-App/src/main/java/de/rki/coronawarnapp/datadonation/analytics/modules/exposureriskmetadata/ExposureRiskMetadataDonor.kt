@@ -30,14 +30,11 @@ class ExposureRiskMetadataDonor @Inject constructor(
 
         return ExposureRiskMetadataContribution(
             contributionProto = erMetadata,
-            onContributionFinished = {
-                if (it) {
+            onContributionFinished = { wasSuccessful ->
+                if (wasSuccessful) {
+                    // overwrite data with current metadata
                     analyticsSettings.previousExposureRiskMetadata.update {
                         erMetadata
-                    }
-                } else {
-                    analyticsSettings.previousExposureRiskMetadata.update {
-                        null
                     }
                 }
             }

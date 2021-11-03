@@ -71,22 +71,10 @@ class RecyclerBinOverviewFragment : Fragment(R.layout.recycler_bin_overview_frag
         )
 
         is RecyclerBinEvent.RemoveTest -> viewModel.onRemoveTest(event.test)
-        is RecyclerBinEvent.PendingTestResult -> doNavigate(
-            RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToPendingTestResult(
-                testType = event.coronaTest.type,
-                testIdentifier = event.coronaTest.identifier,
-                forceTestResultUpdate = true
-            )
-        )
-
         is RecyclerBinEvent.RestoreDuplicateTest -> doNavigate(
             RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToSubmissionDeletionWarningFragment(
                 event.restoreRecycledTestRequest
             )
-        )
-
-        RecyclerBinEvent.Home -> doNavigate(
-            RecyclerBinOverviewFragmentDirections.actionRecyclerBinOverviewFragmentToMainFragment()
         )
     }
 
