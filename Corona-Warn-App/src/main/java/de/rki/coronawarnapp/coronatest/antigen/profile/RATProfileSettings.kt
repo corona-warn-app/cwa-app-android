@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.coronatest.antigen.profile
 
 import android.content.Context
-import androidx.core.content.edit
 import com.google.gson.Gson
 import dagger.Reusable
 import de.rki.coronawarnapp.util.di.AppContext
@@ -41,8 +40,10 @@ class RATProfileSettings @Inject constructor(
         defaultValue = false
     )
 
-    fun deleteProfile() = prefs.edit(commit = true) {
-        remove(PREFS_KEY_PROFILE)
+    fun deleteProfile() {
+        prefs.apply {
+            profile.update { null }
+        }
     }
 
     fun clear() = prefs.clearAndNotify()
