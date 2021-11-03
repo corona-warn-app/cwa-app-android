@@ -27,8 +27,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.PendingTestResult
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.Home
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestResult
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -196,7 +195,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
-            result.getOrAwaitValue() shouldBe PendingTestResult(recycledCoronaTest)
+            result.getOrAwaitValue() shouldBe TestResult(recycledCoronaTest)
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -208,7 +207,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
-            result.getOrAwaitValue() shouldBe PendingTestResult(recycledCoronaTest)
+            result.getOrAwaitValue() shouldBe TestResult(recycledCoronaTest)
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -218,7 +217,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
         viewModel().apply {
             restoreCoronaTest(recycledPCR)
-            result.getOrAwaitValue() shouldBe Home
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -229,7 +227,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
         viewModel().apply {
             restoreCoronaTest(recycledRAT)
-            result.getOrAwaitValue() shouldBe Home
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }

@@ -17,6 +17,4 @@ sealed class RecyclerBinEvent {
     data class ConfirmRestoreTest(val test: CoronaTest) : RecyclerBinEvent()
 
     data class RestoreDuplicateTest(val restoreRecycledTestRequest: RestoreRecycledTestRequest) : RecyclerBinEvent()
-    data class PendingTestResult(val coronaTest: CoronaTest) : RecyclerBinEvent()
-    object Home : RecyclerBinEvent()
 }
