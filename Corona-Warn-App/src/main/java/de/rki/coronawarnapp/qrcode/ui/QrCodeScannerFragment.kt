@@ -194,14 +194,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     )
                 )
             }
-            is CoronaTestResult.PendingTestResult -> doNavigate(
+            is CoronaTestResult.TestResult -> doNavigate(
                 QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
                     testType = scannerResult.coronaTest.type,
                     forceTestResultUpdate = true
                 )
-            )
-            CoronaTestResult.Home -> doNavigate(
-                QrCodeScannerFragmentDirections.actionUniversalScannerToMainFragment()
             )
         }
     }

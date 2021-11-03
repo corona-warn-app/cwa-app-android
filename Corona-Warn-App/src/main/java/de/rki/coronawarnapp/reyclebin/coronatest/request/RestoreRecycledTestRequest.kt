@@ -11,12 +11,14 @@ data class RestoreRecycledTestRequest(
     override val identifier: String,
     override val isDccSupportedByPoc: Boolean,
     override val isDccConsentGiven: Boolean,
-    override val dateOfBirth: LocalDate? = null // Test does not have DoB
+    override val dateOfBirth: LocalDate? = null, // Test does not have DoB
+    val fromRecycleBin: Boolean = false
 ) : TestRegistrationRequest
 
-fun CoronaTest.toRestoreRecycledTestRequest() = RestoreRecycledTestRequest(
+fun CoronaTest.toRestoreRecycledTestRequest(fromRecycleBin: Boolean = false) = RestoreRecycledTestRequest(
     type = type,
     identifier = identifier,
     isDccSupportedByPoc = isDccSupportedByPoc,
-    isDccConsentGiven = isDccConsentGiven
+    isDccConsentGiven = isDccConsentGiven,
+    fromRecycleBin = fromRecycleBin
 )
