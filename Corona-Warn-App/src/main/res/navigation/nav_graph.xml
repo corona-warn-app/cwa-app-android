@@ -335,6 +335,9 @@
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
         <argument
+            android:name="testIdentifier"
+            app:argType="string" />
+        <argument
             android:name="forceTestResultUpdate"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -601,6 +604,9 @@
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+        <argument
+            android:name="testIdentifier"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultInvalidFragment"
@@ -610,12 +616,20 @@
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+        <argument
+            android:name="testIdentifier"
+            app:argType="string" />
+
     </fragment>
     <fragment
         android:id="@+id/submissionNegativeAntigenTestResultFragment"
         android:name="de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeFragment"
         android:label="SubmissionNegativeAntigenTestResultFragment"
-        tools:layout="@layout/fragment_submission_antigen_test_result_negative" />
+        tools:layout="@layout/fragment_submission_antigen_test_result_negative">
+        <argument
+            android:name="testIdentifier"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
@@ -757,12 +771,6 @@
             app:destination="@id/requestCovidCertificateFragment"
             app:popUpTo="@id/submissionDeletionWarningFragment"
             app:popUpToInclusive="true" />
-
-        <action
-            android:id="@+id/action_submissionDeletionWarningFragment_to_recycleBin"
-            app:destination="@id/recyclerBinOverviewFragment"
-            app:popUpTo="@id/recyclerBinOverviewFragment"
-            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
@@ -813,6 +821,9 @@
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+        <argument
+            android:name="testIdentifier"
+            app:argType="string" />
     </fragment>
 
 

@@ -22,9 +22,8 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import timber.log.Timber
 import java.lang.IllegalArgumentException
 
@@ -41,13 +40,15 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
     private val recycledTests = recycledCoronaTestsProvider.tests
 
-    val listItems: LiveData<List<RecyclerBinItem>> = listOf(
+    val listItems: LiveData<List<RecyclerBinItem>> = combine(
         recycledCertificates,
-        recycledTests,
-    )
-        .merge()
-        .map { it.toRecyclerBinItems() }
-        .asLiveData2()
+        recycledTests
+    ) { recycledCerts, recycledTests ->
+        recycledCerts
+            .plus(recycledTests)
+            .sortedByDescending { it.recycledAt }
+            .toRecyclerBinItems()
+    }.asLiveData2()
 
     private fun Collection<Any>.toRecyclerBinItems(): List<RecyclerBinItem> {
         val recyclerBinItems = mapNotNull {

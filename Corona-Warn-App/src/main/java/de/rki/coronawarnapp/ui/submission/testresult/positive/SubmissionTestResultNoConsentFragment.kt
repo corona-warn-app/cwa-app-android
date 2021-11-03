@@ -9,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
-import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -27,6 +26,8 @@ class SubmissionTestResultNoConsentFragment :
     Fragment(R.layout.fragment_submission_test_result_positive_no_consent),
     AutoInject {
 
+    private val navArgs by navArgs<SubmissionTestResultNoConsentFragmentArgs>()
+
     @Inject lateinit var appShortcutsHelper: AppShortcutsHelper
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val binding: FragmentSubmissionTestResultPositiveNoConsentBinding by viewBinding()
@@ -37,8 +38,6 @@ class SubmissionTestResultNoConsentFragment :
             factory.create(navArgs.testType)
         }
     )
-
-    private val navArgs by navArgs<SubmissionTestResultPendingFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

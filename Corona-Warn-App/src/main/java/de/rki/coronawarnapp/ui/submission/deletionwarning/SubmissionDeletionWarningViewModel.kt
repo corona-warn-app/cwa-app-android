@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.deletionwarning
 
-import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -25,7 +24,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
 ) : CWAViewModel() {
 
-    val routeToScreen = SingleLiveEvent<NavDirections>()
+    val routeToScreen = SingleLiveEvent<DuplicateWarningEvent>()
     val registrationState = registrationStateProcessor.state.asLiveData2()
 
     internal fun getTestType(): CoronaTest.Type = testRegistrationRequest.type
@@ -51,17 +50,21 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 }
 
                 routeToScreen.postValue(
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+                    DuplicateWarningEvent.Direction(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
+                    )
                 )
             }
 
             is CoronaTestQRCode -> routeToScreen.postValue(
-                SubmissionDeletionWarningFragmentDirections
-                    .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(
-                        request,
-                        allowTestReplacement = true
-                    )
+                DuplicateWarningEvent.Direction(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionConsentFragment(
+                            request,
+                            allowTestReplacement = true
+                        )
+                )
             )
 
             is RestoreRecycledTestRequest -> {
@@ -71,13 +74,16 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 }
                 recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
                 val directions = if (request.fromRecycleBin) {
-                    SubmissionDeletionWarningFragmentDirections.actionSubmissionDeletionWarningFragmentToRecycleBin()
+                    DuplicateWarningEvent.Back
                 } else {
-                    SubmissionDeletionWarningFragmentDirections
-                        .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                            testType = request.type,
-                            forceTestResultUpdate = true,
-                        )
+                    DuplicateWarningEvent.Direction(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                                testType = request.type,
+                                forceTestResultUpdate = true,
+                                testIdentifier = request.identifier
+                            )
+                    )
                 }
 
                 routeToScreen.postValue(directions)

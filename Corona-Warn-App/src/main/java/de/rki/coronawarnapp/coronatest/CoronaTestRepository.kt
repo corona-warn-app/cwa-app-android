@@ -60,21 +60,20 @@ class CoronaTestRepository @Inject constructor(
      * Returns a flow with an unfiltered set of [CoronaTest]
      */
     val allCoronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
-        .shareLatest()
 
     /**
      * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isNotRecycled]
      */
     val coronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isNotRecycled }.toSet()
-    }.shareLatest()
+    }
 
     /**
      * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isRecycled]
      */
     val recycledCoronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
-    }.shareLatest()
+    }
 
     init {
         internalData.data
@@ -104,7 +103,7 @@ class CoronaTestRepository @Inject constructor(
     suspend fun registerTest(
         request: TestRegistrationRequest,
         preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
-            if (currentTests.any { it.type == request.type }) {
+            if (currentTests.any { it.type == request.type && it.isNotRecycled }) {
                 throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
             true
@@ -130,7 +129,7 @@ class CoronaTestRepository @Inject constructor(
                 throw IllegalStateException("PreCondition for current tests not fullfilled.")
             }
 
-            val existing = values.singleOrNull { it.type == request.type }
+            val existing = values.singleOrNull { it.type == request.type && it.isNotRecycled }
 
             val newTest = processor.create(request).also {
                 Timber.tag(TAG).i("New test created: %s", it)
@@ -140,17 +139,16 @@ class CoronaTestRepository @Inject constructor(
                 throw IllegalStateException("PostCondition for new tests not fullfilled.")
             }
 
-            if (existing != null) {
-                Timber.tag(TAG).w("We already have a test of this type, removing old test: %s", request)
-                try {
-                    getProcessor(existing.type).onRemove(existing)
-                } catch (e: Exception) {
-                    e.report(ExceptionCategory.INTERNAL)
-                }
-            }
-
             toMutableMap().apply {
-                existing?.let { remove(it.identifier) }
+                existing?.let {
+                    Timber.tag(TAG).w("We already have a test of this type, moving old test to recycle bin: %s", it)
+                    try {
+                        this[it.identifier] = getProcessor(it.type).recycle(it)
+                    } catch (e: Exception) {
+                        e.report(ExceptionCategory.INTERNAL)
+                    }
+                }
+
                 this[newTest.identifier] = newTest
             }
         }
