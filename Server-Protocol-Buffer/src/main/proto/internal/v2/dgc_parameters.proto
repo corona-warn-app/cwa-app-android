@@ -7,9 +7,19 @@ message DGCParameters {
 
   DGCTestCertificateParameters testCertificateParameters = 1;
   uint32 expirationThresholdInDays = 2;
+  DGCBlocklistParameters blockListParameters = 3;
 }
 
 message DGCTestCertificateParameters {
   uint32 waitAfterPublicKeyRegistrationInSeconds = 1;
   uint32 waitForRetryInSeconds = 2;
+}
+
+message DGCBlocklistParameters {
+  repeated DGCBlockedUVCIChunk blockedUvciChunks = 1;
+}
+
+message DGCBlockedUVCIChunk {
+  repeated uint32 incides = 1;
+  bytes hash = 2;
 }
