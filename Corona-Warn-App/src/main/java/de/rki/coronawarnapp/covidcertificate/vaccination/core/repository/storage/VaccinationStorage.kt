@@ -57,10 +57,12 @@ class VaccinationStorage @Inject constructor(
                 remove(it)
             }
             persons.forEach {
-                val raw = gson.toJson(it)
-                val identifier = it.identifier
-                Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
-                putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                if (it.vaccinations.isNotEmpty()) {
+                    val raw = gson.toJson(it)
+                    val identifier = it.identifier
+                    Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
+                    putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                }
             }
         }
     }
@@ -84,7 +86,7 @@ internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPe
         it.identifier
     }.filter {
         !it.value.isNullOrEmpty()
-    }.map {
+    }.mapNotNull {
         if (it.value.size > 1) {
             val newestData = it.value.maxByOrNull {
                 it.lastBoosterNotifiedAt ?: Instant.EPOCH
