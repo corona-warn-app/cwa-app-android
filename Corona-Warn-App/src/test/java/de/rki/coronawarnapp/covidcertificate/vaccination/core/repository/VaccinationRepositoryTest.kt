@@ -243,7 +243,9 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first()
         advanceUntilIdle()
 
-        coVerify { storage.load() }
-        coVerify(exactly = 0) { storage.save(any()) }
+        coVerify {
+            storage.load()
+            storage.save(any())
+        }
     }
 }
