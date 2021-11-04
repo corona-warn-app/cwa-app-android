@@ -25,6 +25,7 @@ import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.MockSharedPreferences
 import javax.inject.Inject
 
+@Suppress("MaxLineLength")
 class VaccinationStorageTest : BaseTest() {
 
     @MockK lateinit var context: Context
