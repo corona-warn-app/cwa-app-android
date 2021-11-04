@@ -104,4 +104,12 @@ class VaccinationStorageTest : BaseTest() {
 
         createInstance().load().single().vaccinations.first().qrCodeExtractor shouldNotBe null
     }
+
+    @Test
+    fun `data migration`() = runBlockingTest {
+        val instance = createInstance()
+        instance.save(setOf(testData.personAData2Vac))
+        instance.reorganizeData()
+        instance.load() shouldBe setOf(testData.personAData2Vac)
+    }
 }
