@@ -28,7 +28,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -73,7 +72,6 @@ class VaccinationRepository @Inject constructor(
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
-            .drop(1) // Initial emission, restored from storage.
             .onEach { vaccinatedPersons ->
                 Timber.tag(TAG).v("Vaccination data changed: %s", vaccinatedPersons)
                 storage.save(vaccinatedPersons.map { it.data }.toSet())

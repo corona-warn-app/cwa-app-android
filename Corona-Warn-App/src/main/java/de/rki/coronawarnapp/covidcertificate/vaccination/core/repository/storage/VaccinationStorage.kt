@@ -56,21 +56,13 @@ class VaccinationStorage @Inject constructor(
                 Timber.tag(TAG).v("Removing data for %s", it)
                 remove(it)
             }
-            persons.forEach {
+            persons.groupDataByIdentifier().forEach {
                 val raw = gson.toJson(it)
                 val identifier = it.identifier
                 Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
                 putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
             }
         }
-    }
-
-    /*
-    * Groups vaccinations by identifier
-    * Performs data migration if identifier changes
-    */
-    suspend fun reorganizeData() {
-        save(load().groupDataByIdentifier())
     }
 
     companion object {
