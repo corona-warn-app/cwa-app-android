@@ -22,7 +22,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Sie können in der App Schnelltests und PCR-Tests nach dem Löschen wiederherstellen. Sie haben somit die Möglichkeit, Objekte, die sie versehentlich gelöscht haben, wiederherzustellen.</item>
+        <item>Entfernte Schnelltests und PCR-Tests werden jetzt auch in den Papierkorb verschoben. Sie haben somit die Möglichkeit, versehentlich gelöschte Tests wiederherzustellen.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
