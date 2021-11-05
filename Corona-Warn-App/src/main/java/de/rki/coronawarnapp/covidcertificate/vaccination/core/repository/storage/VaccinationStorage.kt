@@ -73,7 +73,24 @@ class VaccinationStorage @Inject constructor(
     }
 }
 
-internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> {
+ internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> =
+        filterNot { it.vaccinations.isNullOrEmpty() }
+            .groupBy { it.identifier }
+            .mapNotNull { entry ->
+                val personDataList = entry.value
+                if (personDataList.isEmpty()) {
+                    Timber.v("Person data list was empty, returning early")
+                    return@mapNotNull null
+                }
+
+                val newestData = personDataList.maxByOrNull {
+                    it.lastBoosterNotifiedAt ?: Instant.EPOCH
+                }
+                val vaccinations = personDataList.flatMap { it.vaccinations }.toSet()
+                newestData?.copy(vaccinations = vaccinations)
+            }.toSet()
+
+
     return asSequence().filter {
         !it.vaccinations.isNullOrEmpty()
     }.groupBy {
