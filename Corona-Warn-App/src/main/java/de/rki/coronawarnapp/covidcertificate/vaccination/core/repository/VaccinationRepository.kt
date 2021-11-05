@@ -23,13 +23,12 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -59,11 +58,10 @@ class VaccinationRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        val boosterRules = boosterRulesRepository.rules.first().associateBy { it.identifier }
         storage.load()
             .map { personContainer ->
                 VaccinatedPerson(
-                    data = personContainer.copy(boosterRule = dccValidationRule(boosterRules, personContainer)),
+                    data = personContainer,
                     certificateStates = personContainer.getStates(),
                     valueSet = null,
                 )
@@ -89,11 +87,17 @@ class VaccinationRepository @Inject constructor(
     val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
-        dscRepository.dscData
-    ) { personDatas, currentValueSet, _ ->
+        dscRepository.dscData,
+        boosterRulesRepository.rules
+    ) { personDatas, currentValueSet, _, boosterRules ->
+        val rulesMap = boosterRules.associateBy { it.identifier }
         personDatas.map { person ->
             val stateMap = person.data.getStates()
-            person.copy(valueSet = currentValueSet, certificateStates = stateMap)
+            person.copy(
+                valueSet = currentValueSet,
+                certificateStates = stateMap,
+                data = person.data.copy(boosterRule = dccValidationRule(rulesMap, person.data))
+            )
         }.toSet().also { Timber.d("Test: $it") }
     }
 
