@@ -326,7 +326,7 @@ class VaccinationRepository @Inject constructor(
 
             val updatedPerson = vaccinatedPerson.copy(
                 data = vaccinatedPerson.data.copy(
-                    lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.boosterRule?.identifier
+                    lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.boosterRuleIdentifier
                 )
             )
 
