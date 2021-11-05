@@ -96,6 +96,8 @@ interface CwaCovidCertificate : Recyclable {
             }
         }
 
+        object Blocked : State("Blocked")
+
         object Recycled : State("Recycled")
 
         companion object {
