@@ -85,20 +85,33 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
  */
 private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<VaccinationCertificate>()
-    .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
+): CwaCovidCertificate? {
+    val twoDoseVaccines = listOf("EU/1/20/1528", "EU/1/21/1529", "EU/1/20/1507")
+    val isOlderThanTwoWeeks = { certificate: VaccinationCertificate ->
+        Days.daysBetween(
+            certificate.rawCertificate.vaccination.vaccinatedOn,
+            nowUtc.toLocalDateUtc()
+        ).days > 14
     }
-    .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
-    }
-    .maxWithOrNull(
-        compareBy(
-            { it.rawCertificate.vaccination.vaccinatedOn },
-            { it.headerIssuedAt }
+    return this
+        .filterIsInstance<VaccinationCertificate>()
+        .filter { with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses } }
+        .filter {
+            with(it.rawCertificate.vaccination) {
+                when {
+                    totalSeriesOfDoses > 2 && twoDoseVaccines.contains(medicalProductId) -> true
+                    totalSeriesOfDoses == 1 && twoDoseVaccines.contains(medicalProductId) -> true
+                    else -> isOlderThanTwoWeeks(it)
+                }
+            }
+        }
+        .maxWithOrNull(
+            compareBy(
+                { it.rawCertificate.vaccination.vaccinatedOn },
+                { it.headerIssuedAt }
+            )
         )
-    )
+}
 
 /**
  * 4
