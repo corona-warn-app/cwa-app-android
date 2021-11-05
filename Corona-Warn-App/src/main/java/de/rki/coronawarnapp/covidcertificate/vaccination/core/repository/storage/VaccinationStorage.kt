@@ -56,7 +56,7 @@ class VaccinationStorage @Inject constructor(
                 Timber.tag(TAG).v("Removing data for %s", it)
                 remove(it)
             }
-            persons.forEach {
+            persons.groupDataByIdentifier().forEach {
                 if (it.vaccinations.isNotEmpty()) {
                     val raw = gson.toJson(it)
                     val identifier = it.identifier

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -49,6 +50,7 @@ class VaccinationRepository @Inject constructor(
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
     @AppScope private val appScope: CoroutineScope,
+    private val boosterRulesRepository: BoosterRulesRepository,
     dscRepository: DscRepository
 ) {
 
@@ -57,10 +59,11 @@ class VaccinationRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
+        val boosterRules = boosterRulesRepository.rules.first().associateBy { it.identifier }
         storage.load()
             .map { personContainer ->
                 VaccinatedPerson(
-                    data = personContainer,
+                    data = personContainer.copy(boosterRule = dccValidationRule(boosterRules, personContainer)),
                     certificateStates = personContainer.getStates(),
                     valueSet = null,
                 )
@@ -344,7 +347,7 @@ class VaccinationRepository @Inject constructor(
             }
 
             val updatedPerson = vaccinatedPerson.copy(
-                data = vaccinatedPerson.data.copy(boosterRule = rule)
+                data = vaccinatedPerson.data.copy(boosterRuleIdentifier = rule?.identifier)
             )
 
             Timber.tag(TAG).d("updateBoosterRule updatedPerson=%s", updatedPerson)
@@ -425,6 +428,18 @@ class VaccinationRepository @Inject constructor(
                 )
             )
             this.minus(toUpdatePerson).plus(newPerson)
+        }
+    }
+
+    private fun dccValidationRule(
+        boosterRules: Map<String, DccValidationRule>,
+        personContainer: VaccinatedPersonData
+    ): DccValidationRule? {
+        val boosterRuleIdentifier = personContainer.boosterRuleIdentifier
+        return if (boosterRuleIdentifier == null) {
+            null
+        } else {
+            boosterRules.getOrDefault(boosterRuleIdentifier, null)
         }
     }
 
