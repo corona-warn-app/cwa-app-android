@@ -45,7 +45,7 @@ class VaccinationStorage @Inject constructor(
                 requireNotNull(personData.identifier)
             }
         }
-        return persons.toSet()
+        return persons.toSet().groupDataByIdentifier()
     }
 
     suspend fun save(persons: Set<VaccinatedPersonData>) = mutex.withLock {
@@ -56,7 +56,7 @@ class VaccinationStorage @Inject constructor(
                 Timber.tag(TAG).v("Removing data for %s", it)
                 remove(it)
             }
-            persons.groupDataByIdentifier().forEach {
+            persons.forEach {
                 if (it.vaccinations.isNotEmpty()) {
                     val raw = gson.toJson(it)
                     val identifier = it.identifier
