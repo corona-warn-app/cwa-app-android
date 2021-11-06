@@ -45,7 +45,7 @@ class VaccinationStorage @Inject constructor(
                 requireNotNull(personData.identifier)
             }
         }
-        return persons.toSet()
+        return persons.toSet().groupDataByIdentifier()
     }
 
     suspend fun save(persons: Set<VaccinatedPersonData>) = mutex.withLock {
@@ -57,20 +57,14 @@ class VaccinationStorage @Inject constructor(
                 remove(it)
             }
             persons.forEach {
-                val raw = gson.toJson(it)
-                val identifier = it.identifier
-                Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
-                putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                if (it.vaccinations.isNotEmpty()) {
+                    val raw = gson.toJson(it)
+                    val identifier = it.identifier
+                    Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
+                    putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                }
             }
         }
-    }
-
-    /*
-    * Groups vaccinations by identifier
-    * Performs data migration if identifier changes
-    */
-    suspend fun reorganizeData() {
-        save(load().groupDataByIdentifier())
     }
 
     companion object {
@@ -79,22 +73,19 @@ class VaccinationStorage @Inject constructor(
     }
 }
 
-internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> {
-    return groupBy {
-        it.identifier
-    }.filter {
-        !it.value.isNullOrEmpty()
-    }.map {
-        if (it.value.size > 1) {
-            val newestData = it.value.maxByOrNull {
+internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> =
+    filterNot { it.vaccinations.isNullOrEmpty() }
+        .groupBy { it.identifier }
+        .mapNotNull { entry ->
+            val personDataList = entry.value
+            if (personDataList.isEmpty()) {
+                Timber.v("Person data list was empty, returning early")
+                return@mapNotNull null
+            }
+
+            val newestData = personDataList.maxByOrNull {
                 it.lastBoosterNotifiedAt ?: Instant.EPOCH
             }
-            val vaccinations = it.value.flatMap {
-                it.vaccinations
-            }.toSet()
-            newestData!!.copy(vaccinations)
-        } else {
-            it.value.first()
-        }
-    }.toSet()
-}
+            val vaccinations = personDataList.flatMap { it.vaccinations }.toSet()
+            newestData?.copy(vaccinations = vaccinations)
+        }.toSet()
