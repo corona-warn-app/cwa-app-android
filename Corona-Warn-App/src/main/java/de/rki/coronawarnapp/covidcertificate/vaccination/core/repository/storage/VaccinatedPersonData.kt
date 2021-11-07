@@ -9,8 +9,9 @@ data class VaccinatedPersonData(
     @SerializedName("vaccinationData")
     val vaccinations: Set<VaccinationContainer> = emptySet(),
 
-    @SerializedName("boosterRule")
-    val boosterRule: DccValidationRule? = null,
+    @Transient val boosterRule: DccValidationRule? = null,
+    @SerializedName("boosterRuleIdentifier")
+    val boosterRuleIdentifier: String? = null,
 
     @SerializedName("lastSeenBoosterRuleIdentifier")
     val lastSeenBoosterRuleIdentifier: String? = null,
