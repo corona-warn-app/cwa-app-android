@@ -16,6 +16,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -115,6 +116,62 @@ class VaccinationStorageTest : BaseTest() {
 
             instance.load().single().apply {
                 this shouldBe personData
+                this.vaccinations shouldBe setOf(
+                    testData.personAVac1Container,
+                    vaccinationContainer2
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `store one person has booster`() {
+        val vaccinationContainer2 = testData.personAVac2Container.copy(
+            notifiedInvalidAt = Instant.ofEpochSecond(1234),
+            notifiedBlockedAt = Instant.ofEpochSecond(1234),
+            notifiedExpiredAt = Instant.ofEpochSecond(1234),
+            notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
+        )
+        val personData = testData.personAData2Vac.copy(
+            vaccinations = setOf(testData.personAVac1Container, vaccinationContainer2),
+            boosterRule = mockk(),
+            boosterRuleIdentifier = "boosterRuleIdentifier"
+        )
+        runBlockingTest {
+            val instance = createInstance()
+            instance.save(setOf(personData))
+
+            val json =
+                (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
+
+            json.toComparableJsonPretty() shouldBe """
+                {
+                    "vaccinationData": [
+                        {
+                            "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                            "scannedAt": 1620062834471,
+                            "lastSeenStateChange": {
+                                "expiresAt": 1620062834471,
+                                "type": "ExpiringSoon"
+                            },
+                            "lastSeenStateChangeAt": 1620062834471,
+                            "certificateSeenByUser": true
+                        }, {
+                            "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
+                            "scannedAt": 1620069934471,
+                            "notifiedExpiresSoonAt": 1234000,
+                            "notifiedExpiredAt": 1234000,
+                            "notifiedInvalidAt": 1234000,
+                            "notifiedBlockedAt": 1234000,
+                            "certificateSeenByUser": true
+                        }
+                    ],
+                    "boosterRuleIdentifier": "boosterRuleIdentifier"
+                }
+            """.toComparableJsonPretty()
+
+            instance.load().single().apply {
+                this shouldBe personData.copy(boosterRule = null) // Booster rule is not persisted
                 this.vaccinations shouldBe setOf(
                     testData.personAVac1Container,
                     vaccinationContainer2
