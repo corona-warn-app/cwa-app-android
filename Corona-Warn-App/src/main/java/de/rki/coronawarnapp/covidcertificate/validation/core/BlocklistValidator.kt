@@ -3,12 +3,14 @@ package de.rki.coronawarnapp.covidcertificate.validation.core
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DCC_BLOCKED
 import javax.inject.Inject
 
 class BlocklistValidator @Inject constructor() {
 
-    fun isValid(dccData: DccData<*>, blocklist: List<CovidCertificateConfig.BlockedChunk>): Boolean {
+    fun validate(dccData: DccData<*>, blocklist: List<CovidCertificateConfig.BlockedChunk>) {
         val chunks = parseIdentifierToChunks(dccData.certificate.payload.uniqueCertificateIdentifier)
         blocklist.forEach {
             val hash = it.indices.mapNotNull { index ->
@@ -19,9 +21,8 @@ class BlocklistValidator @Inject constructor() {
             }
                 .joinToString("/")
                 .toSHA256()
-            if (hash == it.hash.hex()) return false
+            if (hash == it.hash.hex()) throw InvalidHealthCertificateException(HC_DCC_BLOCKED)
         }
-        return true
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

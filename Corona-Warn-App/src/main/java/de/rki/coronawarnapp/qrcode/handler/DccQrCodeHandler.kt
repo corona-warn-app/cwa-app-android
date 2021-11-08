@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.BlocklistValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
-import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_DCC_BLOCKED
 import javax.inject.Inject
 
 class DccQrCodeHandler @Inject constructor(
@@ -30,11 +29,8 @@ class DccQrCodeHandler @Inject constructor(
      */
     suspend fun handleQrCode(dccQrCode: DccQrCode, blockListParameters: List<CovidCertificateConfig.BlockedChunk>):
         CertificateContainerId {
-            if (!blocklistValidator.isValid(dccData = dccQrCode.data, blocklist = blockListParameters)) {
-                throw InvalidHealthCertificateException(HC_DCC_BLOCKED)
-            }
+            blocklistValidator.validate(dccData = dccQrCode.data, blocklist = blockListParameters)
             dscSignatureValidator.validateSignature(dccData = dccQrCode.data)
-            // TODO: Invalidate Fake certificates
             return when (dccQrCode) {
                 is RecoveryCertificateQRCode -> recoveryCertificateRepository.registerCertificate(dccQrCode).containerId
                 is VaccinationCertificateQRCode -> vaccinationRepository.registerCertificate(dccQrCode).containerId

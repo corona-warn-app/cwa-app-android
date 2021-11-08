@@ -47,7 +47,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { blocklistValidator.isValid(any(), any()) } returns true
+        every { blocklistValidator.validate(any(), any()) } just Runs
         coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } just Runs
 
         coEvery { testCertificateRepository.registerCertificate(any()) } returns testCertificateContainer

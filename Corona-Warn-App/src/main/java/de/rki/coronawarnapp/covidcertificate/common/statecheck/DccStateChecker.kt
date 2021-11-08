@@ -31,12 +31,13 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
 
-        if (!blocklistValidator.isValid(
+        try {
+            blocklistValidator.validate(
                 dccData = dccData,
                 blocklist = appConfig.covidCertificateParameters.blockListParameters
             )
-        ) {
-            Timber.tag(TAG).w("Certificate is in the blocklist")
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "Certificate is in the blocklist")
             return@combine CwaCovidCertificate.State.Blocked
         }
 
