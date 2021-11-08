@@ -46,6 +46,7 @@ class DccStateCheckerTest : BaseTest() {
 
         every { configData.covidCertificateParameters } returns covidCertificateConfig
         every { covidCertificateConfig.expirationThreshold } returns Duration.standardDays(10)
+        every { covidCertificateConfig.blockListParameters } returns emptyList()
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
         every { blocklistValidator.isValid(any(), any()) } returns true // TODO: more tests
 
