@@ -21,18 +21,18 @@ import java.math.BigInteger
 
 /**
  * Based on
- * https://github.com/ehn-digital-green-development/hcert-kotlin/blob/23203fbb71f53524ee643a9df116264f87b5b32a/src/main/kotlin/ehn/techiop/hcert/kotlin/chain/common/Base45Encoder.kt
+ * https://github.com/corona-warn-app/cwa-app-android/blob/84fb3841ebdc01168a77ddff5570ae5ce678058d/Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/encoding/Base45Decoder.kt
+ *
  */
 
-private val ENCODING_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".encodeToByteArray()
-private val DECODING_CHARSET = ByteArray(256) { -1 }.also { charset ->
-    ENCODING_CHARSET.forEachIndexed { index, byte ->
+private const val DIVISOR = 45
+private const val ENCODING_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
+private val decoding_charset = ByteArray(256) { -1 }.also { charset ->
+    ENCODING_CHARSET.encodeToByteArray().forEachIndexed { index, byte ->
         charset[byte.toInt()] = index.toByte()
     }
 }
-private const val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
 private val int256 = BigInteger.valueOf(256)
-private const val DIVISOR = 45
 
 object Base45Decoder {
 
@@ -55,7 +55,7 @@ object Base45Decoder {
 
     private fun encodeTwoChars(list: List<UByte>) =
         generateSequenceByDivRem(toTwoCharValue(list))
-            .map { alphabet[it] }.toList()
+            .map { ENCODING_CHARSET[it] }.toList()
 
     private fun toTwoCharValue(list: List<UByte>) =
         list.reversed().foldIndexed(0L) { index, acc, element ->
@@ -71,7 +71,7 @@ object Base45Decoder {
     @Throws(IllegalArgumentException::class)
     fun decode(input: String): ByteArray =
         input.toByteArray().asSequence().map {
-            DECODING_CHARSET[it.toInt()].also { index ->
+            decoding_charset[it.toInt()].also { index ->
                 if (index < 0) throw IllegalArgumentException("Invalid characters in input.")
             }
         }.chunked(3) { chunk ->
