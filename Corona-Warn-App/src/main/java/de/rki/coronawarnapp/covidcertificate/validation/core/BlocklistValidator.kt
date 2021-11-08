@@ -19,8 +19,8 @@ class BlocklistValidator @Inject constructor() {
                     null
             }
                 .joinToString("/")
-                .toSHA256(format = HashExtensions.Format.BASE64)
-            if (hash == it.hash.base64()) return false
+                .toSHA256()
+            if (hash == it.hash.hex()) return false
         }
         return true
     }

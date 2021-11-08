@@ -36,6 +36,7 @@ class DccStateChecker @Inject constructor(
                 blocklist = appConfig.covidCertificateParameters.blockListParameters
             )
         ) {
+            Timber.tag(TAG).w("Certificate is in the blocklist")
             return@combine CwaCovidCertificate.State.Blocked
         }
 

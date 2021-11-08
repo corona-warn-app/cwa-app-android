@@ -107,6 +107,7 @@ interface CwaCovidCertificate : Recyclable {
                 .registerSubtype(ExpiringSoon::class.java, "ExpiringSoon")
                 .registerSubtype(Expired::class.java, "Expired")
                 .registerSubtype(Invalid::class.java, "Invalid")
+                .registerSubtype(Blocked::class.java, "Blocked")
         }
     }
 }
