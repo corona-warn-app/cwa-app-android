@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -47,6 +48,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var dccSettings: CovidCertificateSettings
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var recycledItemsProvider: RecycledItemsProvider
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     @BeforeEach
     fun setup() {
@@ -125,6 +127,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
-        recycledItemsProvider = recycledItemsProvider
+        recycledItemsProvider = recycledItemsProvider,
+        appConfigProvider = appConfigProvider
     )
 }
