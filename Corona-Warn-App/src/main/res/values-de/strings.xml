@@ -1316,7 +1316,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Sie lassen sich testen?"</string>
     <!-- XBUT: submission status card show results button -->
-    <string name="submission_status_card_button_show_results">"Testergebnis abrufen"</string>
+    <string name="submission_status_card_button_show_results">"Test anzeigen"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Test löschen"</string>
     <!-- XHED: submission status card positive result subtitle -->
