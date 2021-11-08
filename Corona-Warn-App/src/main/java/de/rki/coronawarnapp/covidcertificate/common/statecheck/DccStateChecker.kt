@@ -31,7 +31,11 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
 
-        if (!blocklistValidator.isValid(dccData = dccData, blocklist = appConfig.covidCertificateParameters.blockListParameters)) {
+        if (!blocklistValidator.isValid(
+                dccData = dccData,
+                blocklist = appConfig.covidCertificateParameters.blockListParameters
+            )
+        ) {
             return@combine CwaCovidCertificate.State.Blocked
         }
 

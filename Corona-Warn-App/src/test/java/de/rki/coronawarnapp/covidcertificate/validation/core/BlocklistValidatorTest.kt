@@ -21,10 +21,11 @@ internal class BlocklistValidatorTest {
     }
 
     @Test
-    fun isValid() {
+    fun `Test chunks validation`() {
         every { dccData.certificate.payload.uniqueCertificateIdentifier } returns "foo/bar::baz#999lizards"
         BlocklistValidator().isValid(
-            dccData, listOf(
+            dccData,
+            listOf(
                 CovidCertificateConfigMapper.BlockedUvciChunk(
                     listOf(1),
                     "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9".decodeHex()
@@ -34,7 +35,8 @@ internal class BlocklistValidatorTest {
 
         every { dccData.certificate.payload.uniqueCertificateIdentifier } returns "foo/baz::baz#999lizards"
         BlocklistValidator().isValid(
-            dccData, listOf(
+            dccData,
+            listOf(
                 CovidCertificateConfigMapper.BlockedUvciChunk(
                     listOf(1),
                     "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9".decodeHex()
@@ -44,7 +46,8 @@ internal class BlocklistValidatorTest {
 
         every { dccData.certificate.payload.uniqueCertificateIdentifier } returns "foo/bar::baz#999lizards"
         BlocklistValidator().isValid(
-            dccData, listOf(
+            dccData,
+            listOf(
                 CovidCertificateConfigMapper.BlockedUvciChunk(
                     listOf(0, 1),
                     "cc5d46bdb4991c6eae3eb739c9c8a7a46fe9654fab79c47b4fe48383b5b25e1c".decodeHex()
@@ -54,7 +57,8 @@ internal class BlocklistValidatorTest {
 
         every { dccData.certificate.payload.uniqueCertificateIdentifier } returns "foo/baz::baz#999lizards"
         BlocklistValidator().isValid(
-            dccData, listOf(
+            dccData,
+            listOf(
                 CovidCertificateConfigMapper.BlockedUvciChunk(
                     listOf(0, 1),
                     "cc5d46bdb4991c6eae3eb739c9c8a7a46fe9654fab79c47b4fe48383b5b25e1c".decodeHex()
