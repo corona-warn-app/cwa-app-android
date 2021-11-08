@@ -567,7 +567,7 @@ class TestCertificateRepository @Inject constructor(
                 is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
             }
             // Test certificates notifies only about invalid and blocked states
-            else -> throw  UnsupportedOperationException("$state is not supported.")
+            else -> throw UnsupportedOperationException("$state is not supported.")
         }
     }
 
