@@ -23,10 +23,18 @@ import java.math.BigInteger
  * Based on
  * https://github.com/ehn-digital-green-development/hcert-kotlin/blob/23203fbb71f53524ee643a9df116264f87b5b32a/src/main/kotlin/ehn/techiop/hcert/kotlin/chain/common/Base45Encoder.kt
  */
+
+private val ENCODING_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".encodeToByteArray()
+private val DECODING_CHARSET = ByteArray(256) { -1 }.also { charset ->
+    ENCODING_CHARSET.forEachIndexed { index, byte ->
+        charset[byte.toInt()] = index.toByte()
+    }
+}
+private const val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
+private val int256 = BigInteger.valueOf(256)
+private const val DIVISOR = 45
+
 object Base45Decoder {
-    private const val alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
-    private val int45 = BigInteger.valueOf(45)
-    private val int256 = BigInteger.valueOf(256)
 
     fun encode(input: ByteArray) =
         input.asSequence()
@@ -46,42 +54,44 @@ object Base45Decoder {
     }
 
     private fun encodeTwoChars(list: List<UByte>) =
-        generateSequenceByDivRem(toTwoCharValue(list), 45)
+        generateSequenceByDivRem(toTwoCharValue(list))
             .map { alphabet[it] }.toList()
 
     private fun toTwoCharValue(list: List<UByte>) =
         list.reversed().foldIndexed(0L) { index, acc, element ->
-            pow(int256, index) * element.toShort() + acc
+            pow(index) * element.toShort() + acc
         }
 
-    fun decode(input: String) =
-        input.chunked(3).map(this::decodeThreeCharsPadded)
-            .flatten().map { it.toByte() }.toByteArray()
+    private fun generateSequenceByDivRem(seed: Long) =
+        generateSequence(seed) { if (it >= DIVISOR) it.div(DIVISOR) else null }
+            .map { it.rem(DIVISOR).toInt() }
 
-    private fun decodeThreeCharsPadded(input: String): List<UByte> {
-        val result = decodeThreeChars(input).toMutableList()
-        when (input.length) {
-            3 -> while (result.size < 2) result += 0U
+    private fun pow(exp: Int) = int256.pow(exp).toLong()
+
+    @Throws(IllegalArgumentException::class)
+    fun decode(input: String): ByteArray =
+        input.toByteArray().asSequence().map {
+            DECODING_CHARSET[it.toInt()].also { index ->
+                if (index < 0) throw IllegalArgumentException("Invalid characters in input.")
+            }
+        }.chunked(3) { chunk ->
+            if (chunk.size < 2) throw IllegalArgumentException("Invalid input length.")
+            chunk.reversed().toInt(45).toBase(base = 256, count = chunk.size - 1).reversed()
+        }.flatten().toList().toByteArray()
+
+    /** Converts integer to a list of [count] integers in the given [base]. */
+    @Throws(IllegalArgumentException::class)
+    private fun Int.toBase(base: Int, count: Int): List<Byte> =
+        mutableListOf<Byte>().apply {
+            var tmp = this@toBase
+            repeat(count) {
+                add((tmp % base).toByte())
+                tmp /= base
+            }
+            if (tmp != 0) throw IllegalArgumentException("Invalid character sequence.")
         }
-        return result.reversed()
-    }
 
-    private fun decodeThreeChars(list: String) =
-        generateSequenceByDivRem(fromThreeCharValue(list), 256)
-            .map { it.toUByte() }.toList()
-
-    private fun fromThreeCharValue(list: String): Long {
-        return list.foldIndexed(
-            0L
-        ) { index, acc: Long, element ->
-            if (!alphabet.contains(element)) throw IllegalArgumentException(element.toString())
-            pow(int45, index) * alphabet.indexOf(element) + acc
-        }
-    }
-
-    private fun generateSequenceByDivRem(seed: Long, divisor: Int) =
-        generateSequence(seed) { if (it >= divisor) it.div(divisor) else null }
-            .map { it.rem(divisor).toInt() }
-
-    private fun pow(base: BigInteger, exp: Int) = base.pow(exp).toLong()
+    /** Converts list of bytes in given [base] to an integer. */
+    private fun List<Byte>.toInt(base: Int): Int =
+        fold(0) { acc, i -> acc * base + i.toUByte().toInt() }
 }
