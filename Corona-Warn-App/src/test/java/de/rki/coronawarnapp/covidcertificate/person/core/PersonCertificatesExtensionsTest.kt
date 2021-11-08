@@ -314,6 +314,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
+            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1507"
             every { getState() } returns mockk<State.Expired>()
         }
 
@@ -322,6 +323,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-02")
+            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1507"
             every { getState() } returns mockk<State.Expired>()
         }
 
