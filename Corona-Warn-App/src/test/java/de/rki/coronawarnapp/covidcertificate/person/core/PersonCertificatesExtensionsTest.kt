@@ -246,7 +246,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         // Add Vaccination 1/2 and < 14 days
         certificatesList.add(fifth)
         certificatesList.findHighestPriorityCertificate() shouldBe fifth
-        //Add Recovery < 180 days
+        // Add Recovery < 180 days
         certificatesList.add(sixth)
         certificatesList.findHighestPriorityCertificate() shouldBe sixth
         // Add J&J vaccine < 14 days, after a recovery certificate should still give recovery certificate priority
