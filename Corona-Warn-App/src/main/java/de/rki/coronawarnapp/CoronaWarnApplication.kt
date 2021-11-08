@@ -54,7 +54,6 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -124,8 +123,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.plant(rollingLogHistory)
 
         Timber.v("onCreate(): WorkManager setup done: $workManager")
-
-        runBlocking { vaccinationStorage.reorganizeData() }
 
         securityProvider.setup()
         // See de.rki.coronawarnapp.util.coil.CoilModule::class
