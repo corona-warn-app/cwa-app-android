@@ -199,11 +199,13 @@ class PersonDetailsViewModelTest : BaseTest() {
                     every { doseNumber } returns number
                     every { totalSeriesOfDoses } returns 2
                     every { vaccinatedOn } returns localDate
+                    every { medicalProductId } returns "EU/1/20/1528"
                 }
             }
             every { containerId } returns vcContainerId
             every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
+            every { medicalProductName } returns "EU/1/20/1528"
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isFinalShot } returns final
