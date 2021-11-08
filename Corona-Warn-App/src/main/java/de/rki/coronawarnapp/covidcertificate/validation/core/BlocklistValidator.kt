@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.validation.core
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
-import de.rki.coronawarnapp.util.HashExtensions
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import javax.inject.Inject
 
