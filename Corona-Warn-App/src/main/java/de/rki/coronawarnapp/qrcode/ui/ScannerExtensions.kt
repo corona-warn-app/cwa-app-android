@@ -37,6 +37,9 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
                         context.openUrl(R.string.error_dcc_already_registered_faq_link)
                     }
                 }
+                throwable.isBlocked -> {
+                    // TODO: implement dialog
+                }
             }
         }
     }

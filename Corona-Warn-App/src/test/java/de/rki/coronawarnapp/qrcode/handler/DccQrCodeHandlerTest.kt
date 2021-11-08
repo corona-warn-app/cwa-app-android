@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.BlocklistValidator
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -33,6 +34,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var recoverCertificateRepository: RecoveryCertificateRepository
     @MockK lateinit var dscSignatureValidator: DscSignatureValidator
+    @MockK lateinit var blocklistValidator: BlocklistValidator
 
     @MockK lateinit var testCertificateContainer: TestCertificateContainer
     @MockK lateinit var recoveryCertificateContainer: RecoveryCertificateContainer
@@ -55,12 +57,14 @@ class DccQrCodeHandlerTest : BaseTest() {
             .apply { every { containerId } returns recoveryCertID }
     }
 
+    // TODO: more tests
+
     @Test
     fun `handleQrCode calls Vax repo`() = runBlockingTest {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
             every { data } returns mockk()
         }
-        handler().handleQrCode(dccQrCode) shouldBe vaccinationCertID
+        handler().handleQrCode(dccQrCode, emptyList()) shouldBe vaccinationCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationRepository.registerCertificate(any())
@@ -72,7 +76,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         val dccQrCode = mockk<TestCertificateQRCode>().apply {
             every { data } returns mockk()
         }
-        handler().handleQrCode(dccQrCode) shouldBe testCertID
+        handler().handleQrCode(dccQrCode, emptyList()) shouldBe testCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
@@ -84,7 +88,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         val dccQrCode = mockk<RecoveryCertificateQRCode>().apply {
             every { data } returns mockk()
         }
-        handler().handleQrCode(dccQrCode) shouldBe recoveryCertID
+        handler().handleQrCode(dccQrCode, emptyList()) shouldBe recoveryCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())
@@ -95,6 +99,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         testCertificateRepository = testCertificateRepository,
         vaccinationRepository = vaccinationRepository,
         recoveryCertificateRepository = recoverCertificateRepository,
-        dscSignatureValidator = dscSignatureValidator
+        dscSignatureValidator = dscSignatureValidator,
+        blocklistValidator = blocklistValidator
     )
 }

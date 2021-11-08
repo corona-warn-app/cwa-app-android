@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.ui.onboarding
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -11,13 +12,15 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     @Assisted private val dccQrCode: DccQrCode?,
     private val dccQrCodeHandler: DccQrCodeHandler,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    private val appConfigProvider: AppConfigProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<Event>()
@@ -26,7 +29,12 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
         covidCertificateSettings.isOnboarded.update { true }
         val event = if (dccQrCode != null) {
             try {
-                val containerId = dccQrCodeHandler.handleQrCode(dccQrCode)
+                val containerId = dccQrCodeHandler.handleQrCode(
+                    dccQrCode = dccQrCode,
+                    blockListParameters = appConfigProvider.currentConfig.first()
+                        .covidCertificateParameters
+                        .blockListParameters
+                )
                 Event.NavigateToDccDetailsScreen(containerId)
             } catch (e: Exception) {
                 Timber.d(e, "handleQrCode failed")

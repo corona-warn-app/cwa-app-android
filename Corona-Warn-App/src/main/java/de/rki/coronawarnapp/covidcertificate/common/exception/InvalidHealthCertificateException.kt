@@ -88,6 +88,8 @@ open class InvalidHealthCertificateException(
 
     val isAlreadyRegistered: Boolean get() = errorCode == ErrorCode.ALREADY_REGISTERED
 
+    val isBlocked: Boolean get() = errorCode == ErrorCode.HC_DCC_BLOCKED
+
     open val errorMessage: LazyString
         get() = when (errorCode) {
             ErrorCode.STORING_FAILED -> CachedString { context ->
@@ -95,6 +97,9 @@ open class InvalidHealthCertificateException(
             }
             ErrorCode.ALREADY_REGISTERED -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
+            }
+            ErrorCode.HC_DCC_BLOCKED -> CachedString { context ->
+                "TODO: error dialog"
             }
             in codesCertificateInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_CERTIFICATE_INVALID)

@@ -115,5 +115,9 @@ interface CwaCovidCertificate : Recyclable {
             if (this is Recycled && other is Recycled) return true
             return super.equals(other)
         }
+
+        override fun hashCode(): Int {
+            return type.hashCode()
+        }
     }
 }
