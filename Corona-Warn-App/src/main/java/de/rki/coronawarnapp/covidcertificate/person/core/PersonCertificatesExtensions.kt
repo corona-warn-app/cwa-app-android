@@ -100,6 +100,7 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
             with(it.rawCertificate.vaccination) {
                 when {
                     totalSeriesOfDoses > 2 && twoDoseVaccines.contains(medicalProductId) -> true
+                    totalSeriesOfDoses == 2 && medicalProductId !in twoDoseVaccines -> true
                     totalSeriesOfDoses == 1 && twoDoseVaccines.contains(medicalProductId) -> true
                     else -> isOlderThanTwoWeeks(it)
                 }
