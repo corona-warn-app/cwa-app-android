@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import io.kotest.matchers.ints.shouldBeExactly
+import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -59,5 +60,10 @@ class VaccinationGroupingTest : BaseTest() {
         result2.find { it.identifier == testData.personBData1Vac.identifier }!!.vaccinations.size shouldBeExactly 1
         result2.count { it.identifier == testData.personBData1Vac.identifier } shouldBeExactly 1
         result2.count { it.identifier == testData.personAData2Vac.identifier } shouldBeExactly 1
+
+        val result3 = setOf<VaccinatedPersonData>().groupDataByIdentifier()
+        result3.count() shouldBeExactly 0
+
+        setOf(testData.personAData2Vac).groupDataByIdentifier().count() shouldBe 1
     }
 }
