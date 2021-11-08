@@ -109,5 +109,11 @@ interface CwaCovidCertificate : Recyclable {
                 .registerSubtype(Invalid::class.java, "Invalid")
                 .registerSubtype(Blocked::class.java, "Blocked")
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this is Blocked && other is Blocked) return true
+            if (this is Recycled && other is Recycled) return true
+            return super.equals(other)
+        }
     }
 }
