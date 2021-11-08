@@ -453,6 +453,7 @@ class TestCertificateRepository @Inject constructor(
         time: Instant
     ) {
         Timber.tag(TAG).d("setNotifiedAboutState(containerId=$containerId, time=$time)")
+
         internalData.updateBlocking {
             val current = this[containerId]
             if (current == null) {
@@ -465,9 +466,8 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            if (state !is CwaCovidCertificate.State.Invalid ||
-                state !is CwaCovidCertificate.State.Blocked
-            ) {
+            val isValid = !(state is CwaCovidCertificate.State.Invalid || state is CwaCovidCertificate.State.Blocked)
+            if (isValid) {
                 Timber.tag(TAG).w("%s is still valid", containerId)
                 return@updateBlocking this
             }
