@@ -239,6 +239,7 @@ class VaccinationRepository @Inject constructor(
                 is CwaCovidCertificate.State.Expired -> toUpdateVaccination.copy(notifiedExpiredAt = time)
                 is CwaCovidCertificate.State.ExpiringSoon -> toUpdateVaccination.copy(notifiedExpiresSoonAt = time)
                 is CwaCovidCertificate.State.Invalid -> toUpdateVaccination.copy(notifiedInvalidAt = time)
+                is CwaCovidCertificate.State.Blocked -> toUpdateVaccination.copy(notifiedBlockedAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 
