@@ -109,23 +109,14 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    private fun CoronaTest.toCoronaTestResult(): CoronaTestResult = when (testResult) {
-        TestResult.PCR_OR_RAT_PENDING,
-        TestResult.RAT_PENDING -> CoronaTestResult.TestPending(test = this)
-
-        TestResult.PCR_NEGATIVE,
-        TestResult.RAT_NEGATIVE -> CoronaTestResult.TestNegative(test = this)
-
-        TestResult.PCR_POSITIVE,
-        TestResult.RAT_POSITIVE -> when (isAdvancedConsentGiven) {
+    private fun CoronaTest.toCoronaTestResult(): CoronaTestResult = when {
+        isPending -> CoronaTestResult.TestPending(test = this)
+        isNegative -> CoronaTestResult.TestNegative(test = this)
+        isPositive -> when (isAdvancedConsentGiven) {
             true -> CoronaTestResult.TestPositive(test = this)
             false -> CoronaTestResult.WarnOthers(test = this)
         }
-
-        TestResult.PCR_INVALID,
-        TestResult.PCR_OR_RAT_REDEEMED,
-        TestResult.RAT_REDEEMED,
-        TestResult.RAT_INVALID -> CoronaTestResult.TestInvalid(test = this)
+        else -> CoronaTestResult.TestInvalid(test = this)
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
@@ -173,5 +164,3 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         private val TAG = tag<QrCodeScannerViewModel>()
     }
 }
-
-private typealias TestResult = de.rki.coronawarnapp.coronatest.server.CoronaTestResult
