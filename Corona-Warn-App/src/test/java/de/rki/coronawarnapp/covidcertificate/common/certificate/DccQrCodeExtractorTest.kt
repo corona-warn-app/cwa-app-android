@@ -18,11 +18,13 @@ import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
+import okio.internal.commonAsUtf8ToByteArray
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -122,7 +124,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
-                "6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:",
+                Base45Decoder.encode("I'm taking my space".commonAsUtf8ToByteArray()),
                 mode = Mode.CERT_VAC_STRICT
             )
         }.errorCode shouldBe HC_ZLIB_DECOMPRESSION_FAILED
@@ -375,5 +377,15 @@ class DccQrCodeExtractorTest : BaseTest() {
             mode = Mode.CERT_REC_STRICT
         )
         verify { assetManager.open(any()) }
+    }
+
+    @Test
+    fun `invalid base45 encoding fails`() {
+        shouldThrow<InvalidHealthCertificateException> {
+            extractor.extract(
+                VaccinationQrCodeTestData.invalidBase45,
+                mode = Mode.CERT_SINGLE_STRICT
+            )
+        }.errorCode shouldBe HC_BASE45_DECODING_FAILED
     }
 }
