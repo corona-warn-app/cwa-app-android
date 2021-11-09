@@ -160,13 +160,6 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() = runBlockingTest {
-        shouldThrow<InvalidHealthCertificateException> {
-            extractor.extract("6BFOABCDEFGHIJKLMNOPQRSTUVWXYZ %*+-./:")
-        }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.HC_ZLIB_DECOMPRESSION_FAILED
-    }
-
-    @Test
     fun `vaccination certificate fails with NO_TEST_ENTRY`() {
         shouldThrow<InvalidTestCertificateException> {
             extractor.extract(VaccinationQrCodeTestData.certificateMissing, mode = DccV1Parser.Mode.CERT_TEST_STRICT)
