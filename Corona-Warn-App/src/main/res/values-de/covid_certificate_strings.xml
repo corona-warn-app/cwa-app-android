@@ -154,6 +154,9 @@
     <string name="error_dcc_in_blocklist_message">"Das Zertifikat wurde von der ausstellenden Behörde zurückgerufen. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
     <!-- XTXT: DCC QR code scan error title-->
     <string name="error_dcc_in_blocklist_title">"Zertifikat ungültig"</string>
+    <!-- XTXT: DCC QR code scan error title-->
+    <string name="error_dcc_in_blocklist_faq">"FAQ zu ungültigen Zertifikaten"</string>
+
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_scan_again">Das Zertifikat konnte nicht auf Ihrem Smartphone gespeichert werden. Bitte versuchen Sie es später noch einmal oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: DCC QR code scan error message-->
