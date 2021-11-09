@@ -21,6 +21,8 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.permission.CameraSettings
@@ -38,6 +40,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccHandler: DccQrCodeHandler,
     private val checkInHandler: CheckInQrCodeHandler,
+    private val dccTicketingQrCodeHandler: DccTicketingQrCodeHandler,
     private val submissionRepository: SubmissionRepository,
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
@@ -75,11 +78,26 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
                 is CheckInQrCode -> onCheckInQrCode(qrCode)
                 is DccQrCode -> onDccQrCode(qrCode)
+                is DccTicketingQrCode -> onTicketValidationQrCode(qrCode)
             }
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onScanResult failed")
             result.postValue(Error(error = e))
         }
+    }
+
+    private suspend fun onTicketValidationQrCode(qrCode: DccTicketingQrCode) {
+        try {
+            // TODO finalise it
+            dccTicketingQrCodeHandler.handleQrCode(qrCode)
+        } catch (e: Exception) {
+            Timber.tag(TAG).d(e, "onTicketValidationQrCode failed")
+            result.postValue(Error(error = e))
+        }
+    }
+
+    fun onAcceptDccTicketingWarning() {
+        // TODO navigate to ?? ASK UX
     }
 
     fun setCameraDeniedPermanently(denied: Boolean) {
