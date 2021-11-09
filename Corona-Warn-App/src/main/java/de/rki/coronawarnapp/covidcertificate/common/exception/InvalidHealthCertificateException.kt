@@ -99,12 +99,11 @@ open class InvalidHealthCertificateException(
                 context.getString(ERROR_MESSAGE_ALREADY_REGISTERED)
             }
             ErrorCode.HC_DCC_BLOCKED -> CachedString { context ->
-                "TODO: error dialog"
+                context.getString(ERROR_MESSAGE_CERT_BLOCKED_MESSAGE)
             }
             in codesCertificateInvalid -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_CERTIFICATE_INVALID)
             }
-
             in signatureErrorCodes -> CachedString { context ->
                 context.getString(ERROR_MESSAGE_SIGNATURE_INVALID)
             }
@@ -113,8 +112,17 @@ open class InvalidHealthCertificateException(
             }
         }
 
+    val errorTitle: LazyString?
+        get() = when(errorCode) {
+            ErrorCode.HC_DCC_BLOCKED -> CachedString { context ->
+                context.getString(ERROR_MESSAGE_CERT_BLOCKED_TITLE)
+            }
+            else -> null
+        }
+
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
+            title = errorTitle?.get(context),
             description = errorMessage.get(context) + " ($errorCode)"
         )
     }
@@ -124,3 +132,5 @@ private const val ERROR_MESSAGE_SIGNATURE_INVALID = R.string.dcc_signature_valid
 private const val ERROR_MESSAGE_CERTIFICATE_INVALID = R.string.error_dcc_invalid
 private const val ERROR_MESSAGE_SCAN_AGAIN = R.string.error_dcc_scan_again
 private const val ERROR_MESSAGE_ALREADY_REGISTERED = R.string.error_dcc_already_registered
+private const val ERROR_MESSAGE_CERT_BLOCKED_MESSAGE = R.string.error_dcc_in_blocklist_message
+private const val ERROR_MESSAGE_CERT_BLOCKED_TITLE = R.string.error_dcc_in_blocklist_title
