@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.ONE_SHOT_VACCINES
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.TWO_SHOT_VACCINES
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Days
@@ -88,8 +90,6 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
 private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     nowUtc: Instant
 ): CwaCovidCertificate? {
-    val oneDoseVaccines = listOf("EU/1/20/1525")
-    val twoDoseVaccines = listOf("EU/1/20/1528", "EU/1/21/1529", "EU/1/20/1507")
     val isOlderThanTwoWeeks = { certificate: VaccinationCertificate ->
         Days.daysBetween(
             certificate.rawCertificate.vaccination.vaccinatedOn,
@@ -102,9 +102,9 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
         .filter {
             with(it.rawCertificate.vaccination) {
                 when {
-                    totalSeriesOfDoses > 2 && medicalProductId in twoDoseVaccines -> true
-                    totalSeriesOfDoses == 2 && medicalProductId in oneDoseVaccines -> true
-                    totalSeriesOfDoses == 1 && twoDoseVaccines.contains(medicalProductId) -> true
+                    totalSeriesOfDoses > 2 && medicalProductId in TWO_SHOT_VACCINES -> true
+                    totalSeriesOfDoses == 2 && medicalProductId in ONE_SHOT_VACCINES -> true
+                    totalSeriesOfDoses == 1 && TWO_SHOT_VACCINES.contains(medicalProductId) -> true
                     else -> isOlderThanTwoWeeks(it)
                 }
             }
