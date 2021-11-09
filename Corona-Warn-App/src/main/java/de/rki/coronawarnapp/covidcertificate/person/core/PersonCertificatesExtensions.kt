@@ -76,16 +76,19 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
 
 /**
  * 3
- * Series-completing Vaccination Certificate > 14 days:
- * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
- * between the time represented by v[0].dt and the current device time is > 14 days, sorted descending by v[0].dt
- * (i.e. latest first).
+ * Series-completing Vaccination Certificate:
+ * Find Vaccination Certificates where total number of doses == number of administered doses and
+ * 3.1 For vaccines with dose 3/3, priority will be received right away
+ * 3.2 For BioNTech/Moderna/AstraZeneca vaccines that are taken after a recovery, priority will be received right away
+ * 3.3 For J&J vaccines with dose 2/2, priority will be received right away
+ * 3.4 If none of the criteria above is met, priority will be received after a 14 day period
  * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
+ * the firs one is returned as a result of the operation
  */
 private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     nowUtc: Instant
 ): CwaCovidCertificate? {
+    val oneDoseVaccines = listOf("EU/1/20/1525")
     val twoDoseVaccines = listOf("EU/1/20/1528", "EU/1/21/1529", "EU/1/20/1507")
     val isOlderThanTwoWeeks = { certificate: VaccinationCertificate ->
         Days.daysBetween(
@@ -99,8 +102,8 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
         .filter {
             with(it.rawCertificate.vaccination) {
                 when {
-                    totalSeriesOfDoses > 2 && twoDoseVaccines.contains(medicalProductId) -> true
-                    totalSeriesOfDoses == 2 && medicalProductId !in twoDoseVaccines -> true
+                    totalSeriesOfDoses > 2 && medicalProductId in twoDoseVaccines -> true
+                    totalSeriesOfDoses == 2 && medicalProductId in oneDoseVaccines -> true
                     totalSeriesOfDoses == 1 && twoDoseVaccines.contains(medicalProductId) -> true
                     else -> isOlderThanTwoWeeks(it)
                 }
@@ -267,7 +270,10 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule3FindRecentLastShot(nowUtc)?.let {
-            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
+            Timber.d(
+                "Rule 3 match (Vaccination Certificate with full dose that are either booster or > 14 days): %s",
+                it
+            )
             return@mapNotNull it
         }
 
@@ -277,7 +283,7 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule5findTooRecentFinalShot(nowUtc)?.let {
-            Timber.d("Rule 5 match (Series-completing Vaccination Certificate <= 14 days): %s", it)
+            Timber.d("Rule 5 match (Vaccination Certificate with full dose <= 14 days): %s", it)
             return@mapNotNull it
         }
 
