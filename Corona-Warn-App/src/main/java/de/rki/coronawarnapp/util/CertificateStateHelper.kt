@@ -109,6 +109,18 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             startValidationCheckButton.isVisible = isPersonDetails
         }
 
+        is CwaCovidCertificate.State.Blocked -> {
+            expirationStatusIcon.isVisible = badgeCount == 0
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            expirationStatusText.isVisible = badgeCount == 0
+            expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
+            expirationStatusBody.isVisible = isCertificateDetails
+            expirationStatusBody.text = context.getText(R.string.error_dcc_in_blocklist_message)
+            qrSubtitle.isVisible = false
+            startValidationCheckButton.isVisible = isPersonDetails
+        }
+
         is CwaCovidCertificate.State.Valid -> {
             expirationStatusIcon.isVisible = false
             expirationStatusText.isVisible = false
@@ -150,6 +162,10 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
                 isVisible = true
                 text = context.getText(R.string.test_certificate_qr_new)
             }
+        }
+        CwaCovidCertificate.State.Blocked -> {
+            isVisible = true
+            text = context.getText(R.string.error_dcc_in_blocklist_title)
         }
     }
 }
