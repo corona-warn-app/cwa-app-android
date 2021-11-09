@@ -13,8 +13,9 @@ import io.mockk.impl.annotations.MockK
 import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-internal class BlocklistValidatorTest {
+class BlocklistValidatorTest : BaseTest() {
 
     @MockK lateinit var dccData: DccData<DccV1.MetaData>
 
