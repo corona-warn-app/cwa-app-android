@@ -98,7 +98,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             onCovPassInfoAction = { onNavEvent(TestCertificateDetailsNavigation.OpenCovPassInfo) }
         )
 
-        toolbar.menu.findItem(R.id.menu_covid_certificate_export).isVisible = certificate.isNotBlocked
+        toolbar.menu.findItem(R.id.menu_covid_certificate_export).isEnabled = certificate.isNotBlocked
         name.text = certificate.fullNameFormatted
         icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
