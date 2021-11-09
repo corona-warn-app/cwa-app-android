@@ -60,6 +60,7 @@ class DccTicketingQrCodeExtractorTest {
     }
 }
 
+@Suppress("MaxLineLength")
 private const val validQrCode = "{\n" +
     "   \"protocol\": \"DCCVALIDATION\",\n" +
     "   \"protocolVersion\": \"1.0.0\",\n" +
@@ -71,6 +72,7 @@ private const val validQrCode = "{\n" +
     "   \"serviceProvider\": \"Booking Demo\"\n" +
     "}"
 
+@Suppress("MaxLineLength")
 private const val invalidQrCodeMissingServiceProvider = "{\n" +
     "   \"protocol\": \"DCCVALIDATION\",\n" +
     "   \"protocolVersion\": \"1.0.0\",\n" +
@@ -82,6 +84,7 @@ private const val invalidQrCodeMissingServiceProvider = "{\n" +
     "   \"serviceProvider\": \"   \"\n" +
     "}"
 
+@Suppress("MaxLineLength")
 private const val invalidQrCodeWrongProtocol = "{\n" +
     "   \"protocol\": \"WRONG\",\n" +
     "   \"protocolVersion\": \"1.0.0\",\n" +
@@ -93,6 +96,7 @@ private const val invalidQrCodeWrongProtocol = "{\n" +
     "   \"serviceProvider\": \"Booking Demo\"\n" +
     "}"
 
+@Suppress("MaxLineLength")
 private const val invalidQrCodeMissingSubject = "{\n" +
     "   \"protocol\": \"DCCVALIDATION\",\n" +
     "   \"protocolVersion\": \"1.0.0\",\n" +
