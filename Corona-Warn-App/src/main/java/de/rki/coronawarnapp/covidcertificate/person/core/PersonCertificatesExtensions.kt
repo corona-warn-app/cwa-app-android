@@ -85,7 +85,7 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
  * 3.3 For J&J vaccines with dose 2/2, priority will be received right away
  * 3.4 If none of the criteria above is met, priority will be received after a 14 day period
  * If there is one or more certificates matching these requirements,
- * the firs one is returned as a result of the operation
+ * the first one is returned as a result of the operation.
  */
 private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     nowUtc: Instant

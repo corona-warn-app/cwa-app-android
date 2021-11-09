@@ -93,8 +93,20 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(25))
             every { getState() } returns mockk<State.Expired>()
         }
+        // RAT certificate > 24 hours invalid
+        val firstInvalid = mockk<TestCertificate>().apply {
+            every { rawCertificate.test.testType } returns "LP217198-3"
+            every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(25))
+            every { getState() } returns mockk<State.Invalid>()
+        }
         // PCR certificate > 48 hours
         val second = mockk<TestCertificate>().apply {
+            every { rawCertificate.test.testType } returns "LP6464-4"
+            every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(49))
+            every { getState() } returns mockk<State.Expired>()
+        }
+        // PCR certificate > 48 hours invalid
+        val secondInvalid = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(49))
             every { getState() } returns mockk<State.Expired>()
@@ -113,6 +125,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(25)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns false
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate with dose 1/2 and < 14 days since administration
@@ -124,6 +137,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns false
             every { getState() } returns mockk<State.Valid>()
         }
         // Recovery certificate < 180 days old
@@ -144,6 +158,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1525"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type J&J and > 14 days old
@@ -155,6 +170,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(18)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1525"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 1/1 and < 14 days old
@@ -166,6 +182,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 2/2 < 14 days old
@@ -177,6 +194,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 2/2 and > 14 days old
@@ -188,6 +206,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(16)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 1/1 and > 14 days old
@@ -199,6 +218,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(17)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 3/3 < 14 days old
@@ -210,6 +230,19 @@ class PersonCertificatesExtensionsTest : BaseTest() {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns true
+            every { getState() } returns mockk<State.Valid>()
+        }
+        // Vaccination certificate of type Pfizer/Moderna/AZ with dose 3/3 < 14 days old issue at a different time
+        val thirteenthDifferentTime = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns time.minus(Duration.standardDays(1))
+            every { rawCertificate.vaccination.doseNumber } returns 3
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
+            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Valid>()
         }
         // RAT test < 24 hours old
@@ -234,8 +267,14 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         // Start scanning the certificates one by one, starting with RAT > 24 hours old
         certificatesList.add(first)
         certificatesList.findHighestPriorityCertificate() shouldBe first
+        // Add RAT > 24 hours but invalid
+        certificatesList.add(firstInvalid)
+        certificatesList.findHighestPriorityCertificate() shouldBe first
         // Add PCR > 48 hours old
         certificatesList.add(second)
+        certificatesList.findHighestPriorityCertificate() shouldBe second
+        // Add PCR > 48 hours old but invalid
+        certificatesList.add(secondInvalid)
         certificatesList.findHighestPriorityCertificate() shouldBe second
         // Add Recovery > 180 days old
         certificatesList.add(third)
@@ -280,6 +319,9 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         // Add Pfizer/Moderna/AZ 3/3 < 14 days after Pfizer/Moderna/AZ 2/2 > 14 days
         certificatesList.add(thirteenth)
         certificatesList.findHighestPriorityCertificate() shouldBe thirteenth
+        // Add Pfizer/Moderna/AZ 3/3 < 14 days after Pfizer/Moderna/AZ 3/3 < 14 days, issued at 1 day in sooner
+        certificatesList.add(thirteenthDifferentTime)
+        certificatesList.findHighestPriorityCertificate() shouldBe thirteenth
         // Add RAT test < 24 hours old
         certificatesList.add(fourteenth)
         certificatesList.findHighestPriorityCertificate() shouldBe fourteenth
@@ -315,6 +357,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1507"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Expired>()
         }
 
@@ -324,6 +367,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-02")
             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1507"
+            every { isFinalShot } returns true
             every { getState() } returns mockk<State.Expired>()
         }
 
