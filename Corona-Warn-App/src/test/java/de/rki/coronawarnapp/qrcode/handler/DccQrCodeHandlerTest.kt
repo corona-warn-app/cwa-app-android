@@ -58,8 +58,6 @@ class DccQrCodeHandlerTest : BaseTest() {
             .apply { every { containerId } returns recoveryCertID }
     }
 
-    // TODO: more tests
-
     @Test
     fun `handleQrCode calls Vax repo`() = runBlockingTest {
         val dccQrCode = mockk<VaccinationCertificateQRCode>().apply {
@@ -67,6 +65,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         }
         handler().handleQrCode(dccQrCode, emptyList()) shouldBe vaccinationCertID
         coVerifySequence {
+            blocklistValidator.validate(any(), any())
             dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationRepository.registerCertificate(any())
         }
@@ -79,6 +78,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         }
         handler().handleQrCode(dccQrCode, emptyList()) shouldBe testCertID
         coVerifySequence {
+            blocklistValidator.validate(any(), any())
             dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
         }
@@ -91,6 +91,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         }
         handler().handleQrCode(dccQrCode, emptyList()) shouldBe recoveryCertID
         coVerifySequence {
+            blocklistValidator.validate(any(), any())
             dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())
         }
