@@ -135,22 +135,22 @@ class PersonDetailsViewModelTest : BaseTest() {
                         }
                         (get(3) as RecoveryCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(rcContainerId)
+                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(rcContainerId, PersonColorShade.COLOR_INVALID)
                         }
 
                         (get(4) as TestCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(tcsContainerId)
+                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(tcsContainerId, PersonColorShade.COLOR_INVALID)
                         }
 
                         (get(5) as VaccinationCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId, colorShade)
                         }
 
                         (get(6) as VaccinationCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId, colorShade)
                         }
                     }
                 }
