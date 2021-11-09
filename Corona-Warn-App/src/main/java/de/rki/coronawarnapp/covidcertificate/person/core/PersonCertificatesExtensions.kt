@@ -98,7 +98,7 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     }
     return this
         .filterIsInstance<VaccinationCertificate>()
-        .filter { with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses } }
+        .filter { it.isFinalShot }
         .filter {
             with(it.rawCertificate.vaccination) {
                 when {
