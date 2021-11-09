@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
 import com.google.gson.Gson
-import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingException.ErrorCode
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
@@ -29,14 +29,14 @@ class DccTicketingQrCodeExtractor @Inject constructor(
         return try {
             gson.fromJson(this)
         } catch (e: Exception) {
-            throw DccTicketingException(ErrorCode.INIT_DATA_PARSE_ERR)
+            throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_PARSE_ERR)
         }
     }
 
     private fun DccTicketingData.validate(): DccTicketingData {
-        if (protocol != PROTOCOL) throw DccTicketingException(ErrorCode.INIT_DATA_PROTOCOL_INVALID)
-        if (subject.isNullOrBlank()) throw DccTicketingException(ErrorCode.INIT_DATA_SUBJECT_EMPTY)
-        if (serviceProvider.isNullOrBlank()) throw DccTicketingException(ErrorCode.INIT_DATA_SP_EMPTY)
+        if (protocol != PROTOCOL) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_PROTOCOL_INVALID)
+        if (subject.isNullOrBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SUBJECT_EMPTY)
+        if (serviceProvider.isNullOrBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SP_EMPTY)
         return this
     }
 }
