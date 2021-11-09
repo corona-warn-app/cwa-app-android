@@ -27,7 +27,7 @@ class DccTicketingTestFragment : Fragment(R.layout.fragment_test_dcc_ticketing),
         val MENU_ITEM = TestMenuItem(
             title = "DCC Ticketing",
             description = "Dcc Ticketing validation",
-            targetId = R.id.dscFragment
+            targetId = R.id.dccTicketingConsentOneFragment
         )
     }
 }
