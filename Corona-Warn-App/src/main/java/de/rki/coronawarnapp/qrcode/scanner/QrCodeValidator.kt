@@ -14,6 +14,7 @@ class QrCodeValidator @Inject constructor(
     raExtractor: RapidAntigenQrCodeExtractor,
     pcrExtractor: PcrQrCodeExtractor,
     checkInQrCodeExtractor: CheckInQrCodeExtractor,
+    // TODO add extractor
 ) {
     private val extractors = mutableSetOf<QrCodeExtractor<*>>(
         dccQrCodeExtractor,
