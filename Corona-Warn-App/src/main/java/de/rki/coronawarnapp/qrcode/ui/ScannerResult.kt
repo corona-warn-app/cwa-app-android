@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -30,6 +31,12 @@ sealed class CoronaTestResult : ScannerResult {
     data class TestResult(val coronaTest: CoronaTest) : CoronaTestResult()
     data class ConsentTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
     data class InRecycleBin(val recycledCoronaTest: CoronaTest) : CoronaTestResult()
+}
+
+sealed class DccTicketingResult : ScannerResult {
+    data class ConsentI(val qrcode: DccTicketingQrCode) : DccTicketingResult()
+    data class Error(val error: Throwable) : DccTicketingResult()
+    // TODO add rest
 }
 
 data class Error(val error: Throwable) : ScannerResult

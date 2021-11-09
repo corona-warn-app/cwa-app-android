@@ -89,13 +89,24 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
                 is CheckInResult -> onCheckInResult(scannerResult)
-
+                is DccTicketingResult -> onDccTicketingResult(scannerResult)
                 is Error -> showScannerResultErrorDialog(scannerResult.error)
                 InProgress -> binding.qrCodeProcessingView.isVisible = true
             }
         }
 
         setupTransition()
+    }
+
+    private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
+        when (scannerResult) {
+            is DccTicketingResult.ConsentI -> {
+                // TODO
+            }
+            is DccTicketingResult.Error -> {
+                // TODO
+            }
+        }
     }
 
     override fun onResume() {

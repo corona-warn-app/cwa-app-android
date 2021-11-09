@@ -19,6 +19,8 @@
     <!--    Covid certificates graph-->
     <include app:graph="@navigation/covid_certificates_graph" />
 
+    <include app:graph="@navigation/dcc_ticketing_nav_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
