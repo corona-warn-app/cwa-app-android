@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.ONE_SHOT_VACCINES
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.TWO_SHOT_VACCINES
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Days
@@ -76,29 +78,44 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
 
 /**
  * 3
- * Series-completing Vaccination Certificate > 14 days:
- * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
- * between the time represented by v[0].dt and the current device time is > 14 days, sorted descending by v[0].dt
- * (i.e. latest first).
+ * Series-completing Vaccination Certificate:
+ * Find Vaccination Certificates where total number of doses == number of administered doses and
+ * 3.1 For vaccines with dose 3/3, priority will be received right away
+ * 3.2 For BioNTech/Moderna/AstraZeneca vaccines that are taken after a recovery, priority will be received right away
+ * 3.3 For J&J vaccines with dose 2/2, priority will be received right away
+ * 3.4 If none of the criteria above is met, priority will be received after a 14 day period
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
 private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
     nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<VaccinationCertificate>()
-    .filter {
-        with(it.rawCertificate.vaccination) { doseNumber == totalSeriesOfDoses }
+): CwaCovidCertificate? {
+    val isOlderThanTwoWeeks = { certificate: VaccinationCertificate ->
+        Days.daysBetween(
+            certificate.rawCertificate.vaccination.vaccinatedOn,
+            nowUtc.toLocalDateUtc()
+        ).days > 14
     }
-    .filter {
-        Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, nowUtc.toLocalDateUtc()).days > 14
-    }
-    .maxWithOrNull(
-        compareBy(
-            { it.rawCertificate.vaccination.vaccinatedOn },
-            { it.headerIssuedAt }
+    return this
+        .filterIsInstance<VaccinationCertificate>()
+        .filter { it.isFinalShot }
+        .filter {
+            with(it.rawCertificate.vaccination) {
+                when {
+                    totalSeriesOfDoses > 2 && medicalProductId in TWO_SHOT_VACCINES -> true
+                    totalSeriesOfDoses == 2 && medicalProductId in ONE_SHOT_VACCINES -> true
+                    totalSeriesOfDoses == 1 && TWO_SHOT_VACCINES.contains(medicalProductId) -> true
+                    else -> isOlderThanTwoWeeks(it)
+                }
+            }
+        }
+        .maxWithOrNull(
+            compareBy(
+                { it.rawCertificate.vaccination.vaccinatedOn },
+                { it.headerIssuedAt }
+            )
         )
-    )
+}
 
 /**
  * 4
@@ -253,7 +270,10 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule3FindRecentLastShot(nowUtc)?.let {
-            Timber.d("Rule 3 match (Series-completing Vaccination Certificate > 14 days): %s", it)
+            Timber.d(
+                "Rule 3 match (Vaccination Certificate with full dose that are either booster or > 14 days): %s",
+                it
+            )
             return@mapNotNull it
         }
 
@@ -263,7 +283,7 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule5findTooRecentFinalShot(nowUtc)?.let {
-            Timber.d("Rule 5 match (Series-completing Vaccination Certificate <= 14 days): %s", it)
+            Timber.d("Rule 5 match (Vaccination Certificate with full dose <= 14 days): %s", it)
             return@mapNotNull it
         }
 
