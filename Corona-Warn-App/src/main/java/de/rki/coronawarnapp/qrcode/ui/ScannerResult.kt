@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
@@ -34,7 +33,7 @@ sealed class CoronaTestResult : ScannerResult {
     data class TestNegative(val test: CoronaTest) : CoronaTestResult()
     data class TestInvalid(val test: CoronaTest) : CoronaTestResult()
     data class TestPending(val test: CoronaTest) : CoronaTestResult()
-    data class WarnOthers(val test: CoronaTest): CoronaTestResult()
+    data class WarnOthers(val test: CoronaTest) : CoronaTestResult()
 }
 
 data class Error(val error: Throwable) : ScannerResult
