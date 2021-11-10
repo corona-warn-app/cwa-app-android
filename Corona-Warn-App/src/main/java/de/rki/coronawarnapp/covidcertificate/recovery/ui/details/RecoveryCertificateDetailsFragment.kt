@@ -96,6 +96,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
         certificate: RecoveryCertificate
     ) {
+        startValidationCheck.apply {
+            isEnabled = certificate.isNotBlocked
+            defaultButton.isEnabled = certificate.isNotBlocked
+        }
+        toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotBlocked
         qrCodeCard.bindValidityViews(
             certificate,
             isCertificateDetails = true,

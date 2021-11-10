@@ -175,6 +175,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
+        startValidationCheck.apply {
+            isEnabled = certificate.isNotBlocked
+            defaultButton.isEnabled = certificate.isNotBlocked
+        }
+        toolbar.menu.findItem(R.id.menu_covid_certificate_export).isEnabled = certificate.isNotBlocked
         qrCodeCard.bindValidityViews(
             certificate,
             isCertificateDetails = true,
