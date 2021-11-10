@@ -37,13 +37,9 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
                         context.openUrl(R.string.error_dcc_already_registered_faq_link)
                     }
                 }
-                throwable.isBlocked -> {
-                    setTitle(R.string.error_dcc_in_blocklist_title)
-                    setNegativeButton(R.string.error_dcc_in_blocklist_faq) { _, _ ->
-                        context.openUrl(R.string.dcc_signature_validation_dialog_faq_link)
-                    }
-                }
             }
+        } else {
+            setNeutralButton(null, null) // Remove details
         }
     }
 }

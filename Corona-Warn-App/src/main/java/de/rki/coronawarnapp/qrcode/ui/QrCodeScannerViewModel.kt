@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.net.Uri
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
@@ -39,7 +38,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledItemsProvider: RecycledItemsProvider,
-    private val appConfigProvider: AppConfigProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -99,12 +97,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 DccResult.InRecycleBin(recycledContainerId)
             }
             dccSettings.isOnboarded.value -> {
-                val containerId = dccHandler.handleQrCode(
-                    dccQrCode = dccQrCode,
-                    blockListParameters = appConfigProvider.currentConfig.first()
-                        .covidCertificateParameters
-                        .blockListParameters
-                )
+                val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
                 Timber.tag(TAG).d("containerId=$containerId")
                 containerId.toDccDetails()
             }
