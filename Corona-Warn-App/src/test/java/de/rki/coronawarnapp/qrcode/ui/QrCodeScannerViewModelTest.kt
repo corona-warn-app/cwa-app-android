@@ -15,6 +15,8 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestPending
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestNegative
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -27,7 +29,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestResult
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -195,7 +196,9 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
-            result.getOrAwaitValue() shouldBe TestResult(recycledCoronaTest)
+            result.getOrAwaitValue() shouldBe TestPending(
+                recycledCoronaTest
+            )
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -207,7 +210,32 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
-            result.getOrAwaitValue() shouldBe TestResult(recycledCoronaTest)
+            result.getOrAwaitValue() shouldBe TestPending(recycledCoronaTest)
+        }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest PCR test is negative`() {
+        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_NEGATIVE)
+        viewModel().apply {
+            restoreCoronaTest(recycledCoronaTest)
+            result.getOrAwaitValue() shouldBe TestNegative(
+                recycledCoronaTest
+            )
+        }
+        coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `restoreCoronaTest RAT test is negative`() {
+        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+
+        val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.RAT_NEGATIVE)
+        viewModel().apply {
+            restoreCoronaTest(recycledCoronaTest)
+            result.getOrAwaitValue() shouldBe TestNegative(recycledCoronaTest)
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
