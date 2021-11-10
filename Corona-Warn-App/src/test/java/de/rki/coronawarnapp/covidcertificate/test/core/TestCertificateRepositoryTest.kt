@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
@@ -54,18 +55,6 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var dscRepository: DscRepository
 
     @Inject lateinit var testData: TestCertificateTestData
-
-    private val testCertificateNew = PCRCertificateData(
-        identifier = "identifier1",
-        registrationToken = "regtoken1",
-        registeredAt = Instant.EPOCH,
-    )
-
-    private val testCertificateWithPubKey = testCertificateNew.copy(
-        publicKeyRegisteredAt = Instant.EPOCH,
-        rsaPublicKey = mockk(),
-        rsaPrivateKey = mockk(),
-    )
 
     private var storageSet = mutableSetOf<BaseTestCertificateData>()
 
@@ -226,6 +215,126 @@ class TestCertificateRepositoryTest : BaseTest() {
                 cert.isRecycled shouldBe true
                 cert.getState() shouldBe CwaCovidCertificate.State.Recycled
             }
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Cert is not existing`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            TestCertificateContainerId("Not there"),
+            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.testCertificate!!.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            TestCertificateContainerId("identifier"),
+            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.testCertificate!!.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Expired`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            TestCertificateContainerId("identifier"),
+            CwaCovidCertificate.State.Expired(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.testCertificate!!.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Invalid`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            TestCertificateContainerId("identifier"),
+            CwaCovidCertificate.State.Invalid(),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.testCertificate!!.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+            notifiedInvalidAt shouldBe Instant.EPOCH
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Blocked`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            TestCertificateContainerId("identifier"),
+            CwaCovidCertificate.State.Blocked,
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.testCertificate!!.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedExpiredAt shouldBe null
+            notifiedBlockedAt shouldBe Instant.EPOCH
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Valid`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            TestCertificateContainerId("identifier"),
+            CwaCovidCertificate.State.Valid(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.testCertificate!!.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
         }
     }
 }

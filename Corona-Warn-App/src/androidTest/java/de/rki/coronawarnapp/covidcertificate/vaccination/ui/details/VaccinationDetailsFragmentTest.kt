@@ -114,6 +114,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         val vaccinationCertificate = vaccinationCertificate().apply {
             every { doseNumber } returns 2
             every { isValid } returns false
+            every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Invalid()
         }
         return MutableLiveData(VaccinationDetails(vaccinationCertificate, false))
@@ -123,6 +124,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         val vaccinationCertificate = vaccinationCertificate().apply {
             every { doseNumber } returns 2
             every { isValid } returns false
+            every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
         return MutableLiveData(VaccinationDetails(vaccinationCertificate, false))
@@ -149,6 +151,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { fullNameFormatted } returns "Mustermann, Max"
             every { isFinalShot } returns false
+            every { isNotBlocked } returns true
         }
     }
 
