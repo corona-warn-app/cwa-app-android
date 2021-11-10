@@ -9,9 +9,9 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Ihr Papierkorb ist leer"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Wenn Sie Zertifikate entfernen, werden sie in den Papierkorb verschoben und hier angezeigt."</string>
+    <string name="recycler_bin_empty_description">"Wenn Sie Zertifikate löschen, werden sie in den Papierkorb verschoben und hier angezeigt."</string>
     <!-- XHED: recycler bin remove all menu item -->
-    <string name="recycler_bin_remove_all">"Alle entfernen"</string>
+    <string name="recycler_bin_remove_all">"Alle löschen"</string>
 
     <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
@@ -21,11 +21,11 @@
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
-    <string name="recycle_bin_recycle_certificate_dialog_title">"Wollen Sie das Zertifikat entfernen?"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Wollen Sie das Zertifikat löschen?"</string>
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
     <string name="recycle_bin_recycle_certificate_dialog_message">"Das Zertifikat wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts. Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Zertifikat automatisch gelöscht."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
-    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat Entfernen"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Zertifikat löschen"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Abbrechen"</string>
 
@@ -38,11 +38,11 @@
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
-    <string name="recycle_bin_remove_all_dialog_title">"Wollen Sie den Inhalt des Papierkorbs wirklich entfernen?"</string>
+    <string name="recycle_bin_remove_all_dialog_title">"Wollen Sie den Inhalt des Papierkorbs wirklich löschen?"</string>
     <!-- XTXT: Recycle Bin - remove all dialog message -->
     <string name="recycle_bin_remove_all_dialog_message">"Dieser kann dann nicht wiederhergestellt werden."</string>
     <!-- XBUT: Recycle Bin - remove all dialog positive button -->
-    <string name="recycle_bin_remove_all_dialog_positive_button">"Entfernen"</string>
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Löschen"</string>
     <!-- XBUT: Recycle Bin - remove all dialog negative button -->
     <string name="recycle_bin_remove_all_dialog_negative_button">"Abbrechen"</string>
 
