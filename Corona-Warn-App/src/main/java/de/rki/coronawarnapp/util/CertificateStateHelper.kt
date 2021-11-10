@@ -31,7 +31,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
 
     invalidOverlay.isGone = valid || (isCertificateDetails && !certificate.isNotBlocked)
-    image.isEnabled = isCertificateDetails && (valid || !certificate.isNotBlocked) // Disable Qr-Code image from opening full-screen mode
+    image.isEnabled = isCertificateDetails && (valid || !certificate.isNotBlocked) // Disable Qr-Code full-screen mode
 
     val isNewTestCertificate = certificate is TestCertificate && certificate.isNew
     notificationBadge.isVisible = if (isNewTestCertificate) {
