@@ -32,7 +32,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
-import de.rki.coronawarnapp.util.encoding.Base45Decoder
 import de.rki.coronawarnapp.util.encoding.base45
 import timber.log.Timber
 import javax.inject.Inject
@@ -165,7 +164,7 @@ class DccQrCodeExtractor @Inject constructor(
         }
 
     private fun String.decodeBase45(): ByteArray = try {
-        Base45Decoder.decode(this)
+        this.decodeBase45()
     } catch (e: Throwable) {
         Timber.e(e)
         throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)

@@ -15,7 +15,7 @@ private val decodingCharset: Map<Char, Int> = ENCODING_CHARSET.associateWith { E
 @Throws(IllegalArgumentException::class)
 fun String.decodeBase45(): ByteArray = this
     // string length must be a multiple of three or one less
-    .also { require (it.length % 3 != 1) { "Illegal length of Base45 string (${it.length})!" } }
+    .also { require(it.length % 3 != 1) { "Illegal length of Base45 string (${it.length})!" } }
     // convert characters to numbers in range 0..44
     .map { decodingCharset.getOrElse(it) { throw IllegalArgumentException("Illegal Base45 character ($it)!") } }
     .let { numberInput ->
