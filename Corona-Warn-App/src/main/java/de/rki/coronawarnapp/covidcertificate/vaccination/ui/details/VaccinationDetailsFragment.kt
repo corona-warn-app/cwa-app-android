@@ -83,7 +83,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 europaImage.setImageResource(europaStars)
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.getValidQrCode(Locale.getDefault().language)
+                    val request = it.certificate?.getValidQrCode(Locale.getDefault().language, true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)

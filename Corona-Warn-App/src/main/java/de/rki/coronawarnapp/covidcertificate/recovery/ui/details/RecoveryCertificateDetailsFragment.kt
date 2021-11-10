@@ -120,7 +120,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
+            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language, true)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }

@@ -144,7 +144,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
+            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language, true)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
