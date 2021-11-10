@@ -84,7 +84,6 @@ class BoosterNotificationService @Inject constructor(
             vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {
-            boosterNotification.cancelNotification(personIdentifier)
             Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, rule?.identifier)
         }
     }

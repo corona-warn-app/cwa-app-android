@@ -37,10 +37,6 @@ class BoosterNotification @Inject constructor(
         )
     }
 
-    fun cancelNotification(personIdentifier: CertificatePersonIdentifier) {
-        notificationHelper.cancelNotification(System.identityHashCode(personIdentifier))
-    }
-
     private fun buildPendingIntent(personIdentifier: CertificatePersonIdentifier): PendingIntent {
         val args = PersonDetailsFragmentArgs(personCode = personIdentifier.codeSHA256).toBundle()
         return deepLinkBuilderFactory.create(context)

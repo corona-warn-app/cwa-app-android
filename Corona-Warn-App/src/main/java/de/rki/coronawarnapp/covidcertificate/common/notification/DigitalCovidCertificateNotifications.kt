@@ -81,8 +81,4 @@ class DigitalCovidCertificateNotifications @Inject constructor(
         Timber.i("Showing notification for ID=$notificationId: %s", notification)
         notificationManagerCompat.notify(notificationId, notification)
     }
-
-    fun cancelNotification(notificationId: Int) {
-        notificationManagerCompat.cancel(notificationId)
-    }
 }
