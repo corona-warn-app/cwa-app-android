@@ -33,6 +33,7 @@ import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
+import de.rki.coronawarnapp.util.encoding.base45
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -115,7 +116,7 @@ class DccQrCodeExtractor @Inject constructor(
     }
 
     private fun ByteArray.encodeBase45(): String = try {
-        Base45Decoder.encode(this)
+        this.base45()
     } catch (e: Throwable) {
         Timber.e(e, HC_BASE45_ENCODING_FAILED.toString())
         throw InvalidHealthCertificateException(HC_BASE45_ENCODING_FAILED)
