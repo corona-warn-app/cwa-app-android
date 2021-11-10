@@ -47,7 +47,7 @@ data class VaccinationContainer internal constructor(
         preParsedData ?: (
             qrCodeExtractor.extract(
                 vaccinationQrCode,
-                mode = DccV1Parser.Mode.CERT_VAC_LENIENT
+                parserMode = DccV1Parser.Mode.CERT_VAC_LENIENT
             ) as VaccinationCertificateQRCode
             )
             .data
