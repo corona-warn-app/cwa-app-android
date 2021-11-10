@@ -5,5 +5,5 @@ import de.rki.coronawarnapp.qrcode.scanner.QrCode
 
 data class DccTicketingQrCode(
     val qrCode: QrCodeString,
-    val data: DccTicketingData
+    val data: DccTicketingQrCodeData
 ) : QrCode

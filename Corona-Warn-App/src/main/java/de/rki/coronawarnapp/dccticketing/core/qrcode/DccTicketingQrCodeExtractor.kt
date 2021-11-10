@@ -21,7 +21,7 @@ class DccTicketingQrCodeExtractor @Inject constructor(
         )
     }
 
-    private fun String.parse(): DccTicketingData {
+    private fun String.parse(): DccTicketingQrCodeData {
         return try {
             gson.fromJson(this)
         } catch (e: Exception) {
@@ -29,7 +29,7 @@ class DccTicketingQrCodeExtractor @Inject constructor(
         }
     }
 
-    private fun DccTicketingData.validate(): DccTicketingData {
+    private fun DccTicketingQrCodeData.validate(): DccTicketingQrCodeData {
         if (protocol != PROTOCOL) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_PROTOCOL_INVALID)
         if (subject.isNullOrBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SUBJECT_EMPTY)
         if (serviceProvider.isNullOrBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SP_EMPTY)

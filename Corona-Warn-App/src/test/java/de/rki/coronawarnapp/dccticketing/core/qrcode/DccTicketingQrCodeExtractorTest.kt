@@ -5,14 +5,16 @@ import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeEx
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_SP_EMPTY
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_SUBJECT_EMPTY
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 import javax.inject.Inject
 
-class DccTicketingQrCodeExtractorTest {
+class DccTicketingQrCodeExtractorTest : BaseTest() {
 
     @Inject lateinit var extractor: DccTicketingQrCodeExtractor
 
@@ -23,8 +25,10 @@ class DccTicketingQrCodeExtractorTest {
 
     @Test
     fun `happy path extraction`() = runBlockingTest {
-        extractor.canHandle(validQrCode) shouldBe true
-        extractor.extract(validQrCode)
+        shouldNotThrowAny {
+            extractor.canHandle(validQrCode) shouldBe true
+            extractor.extract(validQrCode)
+        }
     }
 
     @Test
@@ -61,54 +65,53 @@ class DccTicketingQrCodeExtractorTest {
 }
 
 @Suppress("MaxLineLength")
-private const val validQrCode = "{\n" +
-    "   \"protocol\": \"DCCVALIDATION\",\n" +
-    "   \"protocolVersion\": \"1.0.0\",\n" +
-    "   \"serviceIdentity\": \"https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity\",\n" +
-    "   \"privacyUrl\": \"https://validation-decorator.example\",\n" +
-    "   \"token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw\",\n" +
-    "   \"consent\": \"Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.\",\n" +
-    "   \"subject\": \"00241d11-27b4-41af-9e77-3418c3eccfd4\",\n" +
-    "   \"serviceProvider\": \"Booking Demo\"\n" +
-    "}"
+private const val validQrCode = """{
+   "protocol": "DCCVALIDATION",
+   "protocolVersion": "1.0.0",
+   "serviceIdentity": "https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity",
+   "privacyUrl": "https://validation-decorator.example",
+   "token": "eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw",
+   "consent": "Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.",
+   "subject": "00241d11-27b4-41af-9e77-3418c3eccfd4",
+   "serviceProvider": "Booking Demo"
+}"""
 
 @Suppress("MaxLineLength")
-private const val invalidQrCodeMissingServiceProvider = "{\n" +
-    "   \"protocol\": \"DCCVALIDATION\",\n" +
-    "   \"protocolVersion\": \"1.0.0\",\n" +
-    "   \"serviceIdentity\": \"https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity\",\n" +
-    "   \"privacyUrl\": \"https://validation-decorator.example\",\n" +
-    "   \"token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw\",\n" +
-    "   \"consent\": \"Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.\",\n" +
-    "   \"subject\": \"00241d11-27b4-41af-9e77-3418c3eccfd4\",\n" +
-    "   \"serviceProvider\": \"   \"\n" +
-    "}"
+private const val invalidQrCodeMissingServiceProvider = """{
+   "protocol": "DCCVALIDATION",
+   "protocolVersion": "1.0.0",
+   "serviceIdentity": "https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity",
+   "privacyUrl": "https://validation-decorator.example",
+   "token": "eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw",
+   "consent": "Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.",
+   "subject": "00241d11-27b4-41af-9e77-3418c3eccfd4",
+   "serviceProvider": "   "
+}"""
 
 @Suppress("MaxLineLength")
-private const val invalidQrCodeWrongProtocol = "{\n" +
-    "   \"protocol\": \"WRONG\",\n" +
-    "   \"protocolVersion\": \"1.0.0\",\n" +
-    "   \"serviceIdentity\": \"https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity\",\n" +
-    "   \"privacyUrl\": \"https://validation-decorator.example\",\n" +
-    "   \"token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw\",\n" +
-    "   \"consent\": \"Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.\",\n" +
-    "   \"subject\": \"00241d11-27b4-41af-9e77-3418c3eccfd4\",\n" +
-    "   \"serviceProvider\": \"Booking Demo\"\n" +
-    "}"
+private const val invalidQrCodeWrongProtocol = """{
+   "protocol": "WRONG",
+   "protocolVersion": "1.0.0",
+   "serviceIdentity": "https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity",
+   "privacyUrl": "https://validation-decorator.example",
+   "token": "eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw",
+   "consent": "Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.",
+   "subject": "00241d11-27b4-41af-9e77-3418c3eccfd4",
+   "serviceProvider": "Booking Demo"
+}"""
 
 @Suppress("MaxLineLength")
-private const val invalidQrCodeMissingSubject = "{\n" +
-    "   \"protocol\": \"DCCVALIDATION\",\n" +
-    "   \"protocolVersion\": \"1.0.0\",\n" +
-    "   \"serviceIdentity\": \"https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity\",\n" +
-    "   \"privacyUrl\": \"https://validation-decorator.example\",\n" +
-    "   \"token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw\",\n" +
-    "   \"consent\": \"Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.\",\n" +
-    "   \"subject\": \"   \",\n" +
-    "   \"serviceProvider\": \"Booking Demo\"\n" +
-    "}"
+private const val invalidQrCodeMissingSubject = """{
+   "protocol": "DCCVALIDATION",
+   "protocolVersion": "1.0.0",
+   "serviceIdentity": "https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity",
+   "privacyUrl": "https://validation-decorator.example",
+   "token": "eyJ0eXAiOiJKV1QiLCJraWQiOiJiUzhEMi9XejV0WT0iLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RnY2EtYm9va2luZy1kZW1vLWV1LXRlc3QuY2ZhcHBzLmV1MTAuaGFuYS5vbmRlbWFuZC5jb20vYXBpL2lkZW50aXR5IiwiZXhwIjoxNjM1NDk2MzYwLCJzdWIiOiIwMDI0MWQxMS0yN2I0LTQxYWYtOWU3Ny0zNDE4YzNlY2NmZDQifQ.X0wUdET3omy3qXyOhBh1UuAUEvfYMCdapv0yVShynfZpc4yS3kH57TrPLgSqS7A9ZhbgIdCIfZwr0Chm1ELyTw",
+   "consent": "Please confirm to start the DCC Exchange flow. If you do not confirm, the flow is aborted.",
+   "serviceProvider": "Booking Demo"
+}"""
 
-private const val invalidJson = "{\n" +
-    "   \"protocol\": \"DCCVALIDATION\",\n" +
-    "   \"cookie\": \"chocolate chip\",\n" +
-    "}"
+private const val invalidJson = """{
+   "protocol": "DCCVALIDATION",
+   "cookie": "chocolate chip",
+}"""
