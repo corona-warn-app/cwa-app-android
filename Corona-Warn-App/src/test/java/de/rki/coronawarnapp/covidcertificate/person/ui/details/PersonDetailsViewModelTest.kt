@@ -221,6 +221,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { containerId } returns rcContainerId
+            every { fullName } returns "Andrea Schneider"
             every { isValid } returns true
             every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
                 every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {
