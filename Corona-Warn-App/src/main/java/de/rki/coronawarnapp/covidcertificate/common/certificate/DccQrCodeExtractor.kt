@@ -33,6 +33,7 @@ import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
 import de.rki.coronawarnapp.util.encoding.base45
+import de.rki.coronawarnapp.util.encoding.decodeBase45
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class DccQrCodeExtractor @Inject constructor(
         return try {
             val parsedData = rawString
                 .removePrefix(PREFIX)
-                .decodeBase45()
+                .decodeBase45ToByteArray()
                 .decompress()
                 .parse(mode)
 
@@ -163,7 +164,7 @@ class DccQrCodeExtractor @Inject constructor(
             else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
         }
 
-    private fun String.decodeBase45(): ByteArray = try {
+    private fun String.decodeBase45ToByteArray(): ByteArray = try {
         this.decodeBase45()
     } catch (e: Throwable) {
         Timber.e(e)
