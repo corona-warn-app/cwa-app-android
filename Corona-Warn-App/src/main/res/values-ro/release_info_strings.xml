@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Puteți restaura testele rapide și testele PCR pe care le-ați șters anterior din aplicație. Aceasta înseamnă că puteți recupera obiectele pe care le-ați șters din greșeală."</item>
+        <item>"Testele rapide și testele PCR eliminate sunt mutate acum tot în coșul de reciclare. Aceasta înseamnă că puteți recupera obiectele pe care le-ați șters din greșeală."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

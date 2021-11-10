@@ -8,9 +8,9 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"The Recycle Bin Is Empty"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"When you remove certificates, they are moved to the recycle bin and displayed here."</string>
-    <!-- XHED: recycler bin remove all menu item -->
-    <string name="recycler_bin_remove_all">"Remove All"</string>
+    <string name="recycler_bin_empty_description">"When you remove certificates and tests, they are moved to the recycle bin and displayed here."</string>
+    <!-- XHED: recycler bin remove all menu items -->
+    <string name="recycler_bin_remove_all">"Delete All Permanently"</string>
 
     <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
@@ -32,8 +32,8 @@
     <string name="recycle_bin_overview_subheader">"Tap the three dots next to an element to restore it. Elements will be deleted automatically after 30 days."</string>
     <!-- XTXT: Recycle Bin - restore -->
     <string name="recycle_bin_restore">"Restore"</string>
-    <!-- XTXT: Recycle Bin - remove permanently -->
-    <string name="recycle_bin_remove_permanently">"Delete All Permanently"</string>
+    <!-- XTXT: Recycle Bin - remove selected item permanently -->
+    <string name="recycle_bin_remove_permanently">"Delete Permanently"</string>
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
@@ -66,10 +66,10 @@
     <string name="recycle_bin_restore_test_dialog_negative_button">"Cancel"</string>
 
     <!-- XHED: Recycle Bin  - Restore Corona Test dialog title -->
-    <string name="recycle_bin_restore_corona_test_dialog_title">"Test wiederherstellen"</string>
+    <string name="recycle_bin_restore_corona_test_dialog_title">"Restore Test"</string>
     <!-- XTXT: Recycle Bin  - Restore Corona Test dialog message -->
-    <string name="recycle_bin_restore_corona_test_dialog_message">"Der QR-Code wurde bereits auf Ihrem Smartphone registriert.  Der Test wird aus dem Papierkorb wiederhergestellt."</string>
+    <string name="recycle_bin_restore_corona_test_dialog_message">"The QR code has already been registered on your smartphone. The test will be restored from the recycle bin."</string>
 
-    <!-- XBUT: Recycle Bin - test item name -->
+  <!-- XBUT: Recycle Bin - test item name -->
     <string name="recycle_bin_test_item_name">"Test"</string>
 </resources>
