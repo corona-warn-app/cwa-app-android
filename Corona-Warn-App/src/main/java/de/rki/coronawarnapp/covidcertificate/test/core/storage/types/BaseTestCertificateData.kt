@@ -12,6 +12,7 @@ sealed class BaseTestCertificateData : Recyclable {
     abstract val registeredAt: Instant
     abstract val certificateReceivedAt: Instant?
     abstract val notifiedInvalidAt: Instant?
+    abstract val notifiedBlockedAt: Instant?
     abstract val lastSeenStateChange: CwaCovidCertificate.State?
     abstract val lastSeenStateChangeAt: Instant?
     abstract val testCertificateQrCode: String?
