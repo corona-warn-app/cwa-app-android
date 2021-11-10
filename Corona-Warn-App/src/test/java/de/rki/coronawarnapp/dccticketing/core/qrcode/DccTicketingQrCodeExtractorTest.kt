@@ -29,7 +29,7 @@ class DccTicketingQrCodeExtractorTest {
 
     @Test
     fun `missing service provider throws exception`() = runBlockingTest {
-        extractor.canHandle(validQrCode) shouldBe true
+        extractor.canHandle(invalidQrCodeMissingServiceProvider) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeMissingServiceProvider)
         }.errorCode shouldBe INIT_DATA_SP_EMPTY
@@ -37,7 +37,7 @@ class DccTicketingQrCodeExtractorTest {
 
     @Test
     fun `wrong protocol throws exception`() = runBlockingTest {
-        extractor.canHandle(validQrCode) shouldBe true
+        extractor.canHandle(invalidQrCodeWrongProtocol) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeWrongProtocol)
         }.errorCode shouldBe INIT_DATA_PROTOCOL_INVALID
@@ -45,7 +45,7 @@ class DccTicketingQrCodeExtractorTest {
 
     @Test
     fun `missing subject throws exception`() = runBlockingTest {
-        extractor.canHandle(validQrCode) shouldBe true
+        extractor.canHandle(invalidQrCodeMissingSubject) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidQrCodeMissingSubject)
         }.errorCode shouldBe INIT_DATA_SUBJECT_EMPTY
@@ -53,7 +53,7 @@ class DccTicketingQrCodeExtractorTest {
 
     @Test
     fun `malformed json throws exception`() = runBlockingTest {
-        extractor.canHandle(validQrCode) shouldBe true
+        extractor.canHandle(invalidJson) shouldBe true
         shouldThrow<DccTicketingInvalidQrCodeException> {
             extractor.extract(invalidJson)
         }.errorCode shouldBe INIT_DATA_PARSE_ERR

@@ -11,11 +11,7 @@ class DccTicketingQrCodeExtractor @Inject constructor(
     @BaseGson private val gson: Gson
 ) : QrCodeExtractor<DccTicketingQrCode> {
     override suspend fun canHandle(rawString: String): Boolean {
-        return try {
-            rawString.startsWith(PREFIX) && gson.fromJson<DccTicketingData>(rawString).protocol == PROTOCOL
-        } catch (e: Exception) {
-            false
-        }
+        return rawString.startsWith(PREFIX)
     }
 
     override suspend fun extract(rawString: String): DccTicketingQrCode {
