@@ -67,6 +67,9 @@ data class RecoveryCertificateContainer(
             override val notifiedInvalidAt: Instant?
                 get() = data.notifiedInvalidAt
 
+            override val notifiedBlockedAt: Instant?
+                get() = data.notifiedBlockedAt
+
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
 
