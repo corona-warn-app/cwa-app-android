@@ -8,9 +8,9 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Geri Dönüşüm Kutusu Boş"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Sertifikaları kaldırdığınızda sertifikalar geri dönüşüm kutusuna taşınır ve burada görüntülenir."</string>
-    <!-- XHED: recycler bin remove all menu item -->
-    <string name="recycler_bin_remove_all">"Tümünü Kaldır"</string>
+    <string name="recycler_bin_empty_description">"Sertifikaları ve testleri kaldırdığınızda sertifikalar ve testler geri dönüşüm kutusuna taşınır ve burada görüntülenir."</string>
+    <!-- XHED: recycler bin remove all menu items -->
+    <string name="recycler_bin_remove_all">"Tümünü Kalıcı Olarak Sil"</string>
 
     <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
@@ -32,8 +32,8 @@
     <string name="recycle_bin_overview_subheader">"Geri yüklemek için bir öğenin yanındaki üç noktaya dokunun. Öğeler 30 gün sonra otomatik olarak silinir."</string>
     <!-- XTXT: Recycle Bin - restore -->
     <string name="recycle_bin_restore">"Geri Yükle"</string>
-    <!-- XTXT: Recycle Bin - remove permanently -->
-    <string name="recycle_bin_remove_permanently">"Tümünü Kalıcı Olarak Sil"</string>
+    <!-- XTXT: Recycle Bin - remove selected item permanently -->
+    <string name="recycle_bin_remove_permanently">"Kalıcı olarak sil"</string>
 
     <!-- Recycle bin remove all dialog-->
     <!-- XHED: Recycle Bin - remove all dialog title -->
@@ -64,4 +64,12 @@
     <string name="recycle_bin_restore_test_dialog_positive_button">"Geri Yükle"</string>
     <!-- XBUT: Recycle Bin - restore test dialog negative button -->
     <string name="recycle_bin_restore_test_dialog_negative_button">"İptal"</string>
+
+    <!-- XHED: Recycle Bin  - Restore Corona Test dialog title -->
+    <string name="recycle_bin_restore_corona_test_dialog_title">"Testi Geri Yükle"</string>
+    <!-- XTXT: Recycle Bin  - Restore Corona Test dialog message -->
+    <string name="recycle_bin_restore_corona_test_dialog_message">"QR kod zaten akıllı telefonunuza kayıtlı. Test geri dönüşüm kutusundan geri yüklenecektir."</string>
+
+  <!-- XBUT: Recycle Bin - test item name -->
+    <string name="recycle_bin_test_item_name">"Test"</string>
 </resources>
