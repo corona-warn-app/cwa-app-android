@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz odzyskać szybkie testy oraz testy PCR, które zostały wcześniej usunięte z aplikacji. Oznacza to możliwość odzyskania przypadkowo usuniętych obiektów."</item>
+        <item>"Usunięte szybkie testy i testy PCR są teraz również przenoszone do kosza. Oznacza to, że możesz odzyskać przypadkowo usunięte obiekty."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

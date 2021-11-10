@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can restore rapid tests and PCR tests that you previously deleted in the app. This means you can recover objects that you deleted accidentally."</item>
+        <item>"Removed rapid tests and PCR tests are now also moved to the recycle bin. This means you can recover objects that you deleted accidentally."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
