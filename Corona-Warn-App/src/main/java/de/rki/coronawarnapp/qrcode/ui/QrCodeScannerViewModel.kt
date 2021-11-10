@@ -97,7 +97,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 DccResult.InRecycleBin(recycledContainerId)
             }
             dccSettings.isOnboarded.value -> {
-                val containerId = dccHandler.handleQrCode(dccQrCode)
+                val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
                 Timber.tag(TAG).d("containerId=$containerId")
                 containerId.toDccDetails()
             }
