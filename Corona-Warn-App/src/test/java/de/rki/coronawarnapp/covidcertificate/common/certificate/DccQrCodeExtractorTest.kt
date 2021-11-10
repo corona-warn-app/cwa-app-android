@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeT
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.util.encoding.Base45Decoder
+import de.rki.coronawarnapp.util.encoding.base45
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -124,7 +125,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
-                Base45Decoder.encode("I'm taking my space".commonAsUtf8ToByteArray()),
+                "I'm taking my space".toByteArray().base45(),
                 mode = Mode.CERT_VAC_STRICT
             )
         }.errorCode shouldBe HC_ZLIB_DECOMPRESSION_FAILED
