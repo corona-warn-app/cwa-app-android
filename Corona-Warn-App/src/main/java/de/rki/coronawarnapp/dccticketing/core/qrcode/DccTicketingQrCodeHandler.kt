@@ -6,12 +6,8 @@ import javax.inject.Inject
 class DccTicketingQrCodeHandler @Inject constructor() {
 
     suspend fun handleQrCode(qrCode: DccTicketingQrCode) {
-        val transactionContext = initTransaction(qrCode)
+        val transactionContext = DccTicketingTransactionContext(initializationData = qrCode.data)
         // todo Request Service Identity Document of Validation Decorator
         // todo Check against allowlist
-    }
-
-    private fun initTransaction(qrCode: DccTicketingQrCode): DccTicketingTransactionContext {
-        return DccTicketingTransactionContext(initializationData = qrCode.data)
     }
 }
