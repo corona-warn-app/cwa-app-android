@@ -31,5 +31,3 @@ data class DccTicketingTransactionContext(
     val resultToken: String? = null,
     val resultTokenPayload: DccTicketingResultToken? = null,
 ) : Parcelable
-
-typealias tbd = String? // todo remove placeholder

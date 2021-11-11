@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class DccTicketingValidationCondition(
+data class DccTicketingValidationCondition(
     @SerializedName("hash")
     val hash: String?,              //(optional)	Hash of the DCC
     @SerializedName("lang")
