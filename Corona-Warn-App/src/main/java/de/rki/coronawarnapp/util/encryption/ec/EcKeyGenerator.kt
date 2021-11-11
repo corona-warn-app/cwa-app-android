@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.util.encryption.ec
 
-import com.google.common.io.BaseEncoding
 import dagger.Reusable
 import de.rki.coronawarnapp.util.encoding.base64
-import org.bouncycastle.math.ec.rfc8032.Ed25519
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.PrivateKey
