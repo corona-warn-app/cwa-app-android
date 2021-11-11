@@ -904,7 +904,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR code is invalid"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is invalid or has been registered on another smartphone already. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is invalid or has been registered on your smartphone already.\nYou will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus the public health authority will be notified through the legally prescribed channel and will contact you.\nIf you have deleted the test in the app, you can restore it from the recycle bin."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Please try again."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1057,6 +1057,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
+    <!-- XHED: Dialog title for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Remove the test result?"</string>
+    <!-- XTXT: Dialog body for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"The test result will be moved to the recycle bin. You’ll find the recycle bin on the “Status” tab page, under the three dots on the upper right. You can permanently delete or restore it there. The test result will be deleted automatically after 30 days."</string>
+    <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Remove Test Result"</string>
     <!-- XHED: Dialog title for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_title_no_submission">"Are you sure you want to remove your test?"</string>
     <!-- YTXT: Dialog text for test removal -->

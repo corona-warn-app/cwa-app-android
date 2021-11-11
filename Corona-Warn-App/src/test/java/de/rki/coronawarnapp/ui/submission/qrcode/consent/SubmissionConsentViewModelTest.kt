@@ -60,7 +60,7 @@ class SubmissionConsentViewModelTest {
         viewModel = SubmissionConsentViewModel(
             interoperabilityRepository = interoperabilityRepository,
             dispatcherProvider = TestDispatcherProvider(),
-            coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID"),
+            coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID", rawQrCode = "rawQrCode"),
             allowReplacement = false,
             tekHistoryProvider = tekHistoryProvider,
             registrationStateProcessor = testRegistrationStateProcessor

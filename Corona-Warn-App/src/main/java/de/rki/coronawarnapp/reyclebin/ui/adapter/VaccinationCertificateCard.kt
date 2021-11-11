@@ -31,6 +31,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = latestItem!!.certificate
 
+        certificateIcon.setImageResource(R.drawable.ic_certificates_filled_white)
+        certificatePersonName.isGone = false
         certificateInfoLine1.isGone = false
         certificateInfoLine1.text = context.getString(
             R.string.vaccination_certificate_doses,

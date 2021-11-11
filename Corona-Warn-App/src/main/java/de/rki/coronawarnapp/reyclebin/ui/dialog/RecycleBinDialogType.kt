@@ -29,6 +29,16 @@ sealed class RecycleBinDialogType {
             )
     }
 
+    object RecycleTestConfirmation : RecycleBinDialogType() {
+        override val config: RecycleBinDialogFragment.Config
+            get() = RecycleBinDialogFragment.Config(
+                titleRes = R.string.submission_test_result_dialog_move_test_to_recycle_bin_title,
+                msgRes = R.string.submission_test_result_dialog_move_test_to_recycle_bin_body,
+                positiveButtonRes = R.string.submission_test_result_dialog_move_test_to_recycle_bin_button,
+                negativeButtonRes = R.string.recycle_bin_recycle_certificate_dialog_negative_button
+            )
+    }
+
     object RestoreCertificateConfirmation : RecycleBinDialogType() {
         override val config: RecycleBinDialogFragment.Config
             get() = RecycleBinDialogFragment.Config(

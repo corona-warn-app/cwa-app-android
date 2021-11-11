@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Local 7-Day Hospitalization Incidence"</item>
+        <item>"Recycle Bin Function for Tests"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The local tiles for the 7-day incidence of new infections now also displays the 7-day hospitalization incidence. Since this key figure is only available at the state level, if a district is selected, the hospitalization rate for the respective state will be displayed."</item>
+        <item>"Removed rapid tests and PCR tests are now also moved to the recycle bin. This means you can recover objects that you deleted accidentally."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

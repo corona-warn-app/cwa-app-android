@@ -29,7 +29,7 @@ class RACoronaTestCensor @Inject constructor(
 
     init {
         coronaTestRepository
-            .coronaTests
+            .allCoronaTests
             .map { it.filterIsInstance<RACoronaTest>() }
             .onEach { mutex.withLock { ratCoronaTestHistory.addAll(it) } }
             .launchIn(debugScope)
