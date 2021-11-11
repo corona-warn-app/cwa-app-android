@@ -17,33 +17,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Lokale 7-Tage-Inzidenz Hospitalisierung</item>
-        <item>Änderung des Links zu Häufige Fragen</item>
-        <item>Zuordnung von Zertifikaten</item>
-        <item>Zertifikate wiederherstellen</item>
+        <item>Papierkorbfunktion für Tests</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Auf den lokalen Kacheln zur 7-Tage-Inzidenz der Neuinfektionen wird nun zusätzlich die 7-Tage-Inzidenz der Hospitalisierung angezeigt. Da diese Kennzahl nur auf Bundeslandebene verfügbar ist, wird bei Auswahl eines Kreises die Hospitalisierung zum jeweiligen Bundesland angezeigt.</item>
-        <item>Wenn Sie in der App die häufigen Fragen aufrufen, werden Sie nun auf Seiten unter coronawarn.app geleitet. Dort finden Sie mehr Details zu Ihren Fragen.</item>
-        <item>Die Zuordnung von Zertifikaten zu Personen wurde fehlertoleranter gestaltet. Die App ignoriert nun eine unterschiedliche Anzahl von Leerzeichen im Namen, sodass die Zertifikate unabhängig davon der gleichen Person zugeordnet werden können.</item>
-        <item>Entfernte Zertifikate werden in einen Papierkorb verschoben. Sie können sie innerhalb von 30 Tagen wiederherstellen.</item>
+        <item>Entfernte Schnelltests und PCR-Tests werden jetzt auch in den Papierkorb verschoben. Sie haben somit die Möglichkeit, versehentlich gelöschte Tests wiederherzustellen.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item></item>
-        <item></item>
-        <item></item>
         <item></item>
     </string-array>
 

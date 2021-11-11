@@ -13,12 +13,14 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
 
     abstract override val type: CoronaTest.Type
     abstract val registrationIdentifier: String
+    abstract val rawQrCode: String
 
     @Parcelize
     data class PCR(
         val qrCodeGUID: CoronaTestGUID,
         override val isDccConsentGiven: Boolean = false,
         override val dateOfBirth: LocalDate? = null,
+        override val rawQrCode: String
     ) : CoronaTestQRCode() {
 
         @IgnoredOnParcel
@@ -41,6 +43,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val dateOfBirth: LocalDate? = null,
         override val isDccConsentGiven: Boolean = false,
         override val isDccSupportedByPoc: Boolean = false,
+        override val rawQrCode: String,
         val hash: RapidAntigenHash,
         val createdAt: Instant,
         val firstName: String? = null,

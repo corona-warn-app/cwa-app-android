@@ -30,7 +30,7 @@ class RecycleBinCleanUpScheduler @Inject constructor(
 
     private suspend fun startCleanUpSafely(): Unit = try {
         Timber.v("startCleanUpSafely()")
-        recycleBinCleanUpService.clearRecycledCertificates()
+        recycleBinCleanUpService.clearRecycledItems()
     } catch (e: Throwable) {
         Timber.e(e, "Clean up failed")
     }

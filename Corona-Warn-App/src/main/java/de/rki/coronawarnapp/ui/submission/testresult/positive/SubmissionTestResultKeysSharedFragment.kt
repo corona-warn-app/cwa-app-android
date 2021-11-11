@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.testresult.positive
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -10,9 +9,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeysSharedBinding
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.DialogHelper
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -35,7 +35,7 @@ class SubmissionTestResultKeysSharedFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultKeysSharedViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testType, navArgs.testIdentifier)
         }
     )
 
@@ -62,7 +62,13 @@ class SubmissionTestResultKeysSharedFragment :
             }
         }
 
-        viewModel.showDeleteTestDialog.observe2(this) { showDeleteTestDialog() }
+        viewModel.showDeleteTestDialog.observe2(this) {
+            showMoveToRecycleBinDialog()
+        }
+
+        viewModel.routeToScreen.observe2(this) { navDirections ->
+            navDirections?.let { doNavigate(it) } ?: popBackStack()
+        }
     }
 
     override fun onResume() {
@@ -70,25 +76,10 @@ class SubmissionTestResultKeysSharedFragment :
         binding.submissionTestResultContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun navigateBack() {
-        popBackStack()
-    }
-
-    private fun showDeleteTestDialog() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.onDeleteTestConfirmed()
-                navigateBack()
-            }
+    private fun showMoveToRecycleBinDialog() {
+        RecycleBinDialogType.RecycleTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
         )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
     }
 }

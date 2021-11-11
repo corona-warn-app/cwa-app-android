@@ -16,33 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"7-дневна заболеваемост с хоспитализация на местно ниво"</item>
-        <item>"Промяна на връзката към ЧЗВ"</item>
-        <item>"Присъединяване на сертификат"</item>
-        <item>"Възстановяване на сертификати"</item>
+        <item>"Функция \"Кошче\" за тестове"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Локалните плочки за 7-дневната заболеваемост с нови заразявания вече показват и 7-дневната заболеваемост с хоспитализации. Тъй като този показател е наличен само на ниво провинция, ако се избере отделна област, ще се покаже процентът на хоспитализиране за съответната провинция."</item>
-        <item>"Когато отваряте ЧЗВ в приложението, вече ще бъдете препращани към страниците в coronawarn.app. Там ще намерите още информация, свързана с въпросите ви."</item>
-        <item>"Присъединяването на сертификати към лица вече отчита по-малко грешки. Сега приложението игнорира различния брой интервали в имената, което позволява присъединяване на сертификата към въпросното лице, въпреки тези разлики."</item>
-        <item>"Изтритите сертификати се преместват в кошчето. Те могат да бъдат възстановени в рамките на 30 дни."</item>
+        <item>"Можете да възстановите бързи и PCR тестове, които по-рано сте изтрили в приложението. Това означава, че имате възможност да възстановявате файлове, които сте изтрили неволно."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

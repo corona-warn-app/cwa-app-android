@@ -29,7 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginTop="@dimen/spacing_normal"
+            android:maxLines="2"
             android:text="@string/statistics_card_submission_title"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toStartOf="@id/info_statistics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +73,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/spacing_normal"
             android:text="@string/statistics_card_infections_secondary_label"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/secondary_value"

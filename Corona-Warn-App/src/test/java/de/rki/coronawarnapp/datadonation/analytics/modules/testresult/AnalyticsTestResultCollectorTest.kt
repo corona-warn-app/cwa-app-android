@@ -3,14 +3,15 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -18,7 +19,10 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
+import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -44,6 +48,10 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
     @MockK lateinit var combinedResult: CombinedEwPtRiskLevelResult
     @MockK lateinit var ewRiskLevelResult: EwRiskLevelResult
     @MockK lateinit var ptRiskLevelResult: PtRiskLevelResult
+    @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
+
+    @MockK lateinit var analyticsExposureWindow1: AnalyticsExposureWindow
+    @MockK lateinit var analyticsExposureWindow2: AnalyticsExposureWindow
 
     private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
 
@@ -60,8 +68,26 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         every { combinedResult.ptRiskLevelResult } returns ptRiskLevelResult
         every { ewRiskLevelResult.riskState } returns RiskState.LOW_RISK
         every { ptRiskLevelResult.riskState } returns RiskState.LOW_RISK
+        every { ewRiskLevelResult.mostRecentDateAtRiskState } returns Instant.parse("2021-03-02T09:57:11+01:00")
+        every { ptRiskLevelResult.mostRecentDateAtRiskState } returns
+            Instant.parse("2021-03-02T09:57:11+01:00").toLocalDateUtc()
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
             flowOf(lastCombinedResults)
+        every { exposureWindowsSettings.currentExposureWindows } returns mockFlowPreference(null)
+        every { pcrTestResultSettings.testRegisteredAt } returns mockFlowPreference(timeStamper.nowUTC)
+        every { pcrTestResultSettings.exposureWindowsAtTestRegistration } returns mockFlowPreference(emptyList())
+        every { pcrTestResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+            mockFlowPreference(1)
+        every { pcrTestResultSettings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration } returns
+            mockFlowPreference(1)
+        every { pcrTestResultSettings.ewHoursSinceHighRiskWarningAtTestRegistration } returns
+            mockFlowPreference(1)
+        every { pcrTestResultSettings.ptHoursSinceHighRiskWarningAtTestRegistration } returns
+            mockFlowPreference(1)
+        every { pcrTestResultSettings.ewRiskLevelAtTestRegistration } returns
+            mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
+        every { pcrTestResultSettings.ptRiskLevelAtTestRegistration } returns
+            mockFlowPreference(PpaData.PPARiskLevel.RISK_LEVEL_LOW)
 
         analyticsTestResultCollector = AnalyticsTestResultCollector(
             analyticsSettings,
@@ -69,7 +95,23 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
             raTestResultSettings,
             riskLevelStorage,
             timeStamper,
+            exposureWindowsSettings
         )
+    }
+
+    @Test
+    fun `register test collects data`() = runBlockingTest {
+        every { analyticsSettings.analyticsEnabled } returns mockFlowPreference(true)
+        analyticsTestResultCollector.reportTestRegistered(PCR)
+
+        verify(exactly = 1) {
+            exposureWindowsSettings.currentExposureWindows
+            pcrTestResultSettings.exposureWindowsAtTestRegistration
+            pcrTestResultSettings.ewDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            pcrTestResultSettings.ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
+            pcrTestResultSettings.ewRiskLevelAtTestRegistration
+            pcrTestResultSettings.ptRiskLevelAtTestRegistration
+        }
     }
 
     @Test
@@ -250,5 +292,23 @@ class AnalyticsTestResultCollectorTest : BaseTest() {
         verify {
             raTestResultSettings.clear()
         }
+    }
+
+    @Test
+    fun `filtering known windows`() {
+        every { analyticsExposureWindow1.sha256Hash() } returns "hash1"
+        every { analyticsExposureWindow2.sha256Hash() } returns "hash2"
+
+        listOf(analyticsExposureWindow1, analyticsExposureWindow2).filterExposureWindows(
+            listOf(analyticsExposureWindow2)
+        ) shouldBe listOf(analyticsExposureWindow1)
+
+        listOf(analyticsExposureWindow1, analyticsExposureWindow2).filterExposureWindows(
+            listOf()
+        ) shouldBe listOf(analyticsExposureWindow1, analyticsExposureWindow2)
+
+        listOf<AnalyticsExposureWindow>().filterExposureWindows(
+            listOf(analyticsExposureWindow1, analyticsExposureWindow2)
+        ) shouldBe listOf()
     }
 }

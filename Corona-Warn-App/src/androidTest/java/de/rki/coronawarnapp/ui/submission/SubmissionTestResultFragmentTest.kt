@@ -10,6 +10,8 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
@@ -38,8 +40,10 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
 
-    private val pendingFragmentArgs = SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
+    private val pendingFragmentArgs =
+        SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR, testIdentifier = "").toBundle()
 
     @Before
     fun setup() {
@@ -51,8 +55,10 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
                 submissionRepository,
+                recycledTestProvider = recycledTestProvider,
                 testType = CoronaTest.Type.PCR,
-                initialUpdate = false
+                initialUpdate = false,
+                testIdentifier = ""
             )
         )
 
@@ -74,6 +80,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             object : SubmissionTestResultPendingViewModel.Factory {
                 override fun create(
                     testType: CoronaTest.Type,
+                    testIdentifier: TestIdentifier,
                     initialUpdate: Boolean
                 ): SubmissionTestResultPendingViewModel = viewModel
             }

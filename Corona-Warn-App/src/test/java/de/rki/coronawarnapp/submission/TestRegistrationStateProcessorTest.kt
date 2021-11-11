@@ -29,10 +29,12 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
     private val raRequest: TestRegistrationRequest = CoronaTestQRCode.RapidAntigen(
         hash = "ra-hash",
-        createdAt = Instant.EPOCH
+        createdAt = Instant.EPOCH,
+        rawQrCode = "rawQrCode"
     )
     private val pcrRequest: TestRegistrationRequest = CoronaTestQRCode.PCR(
-        qrCodeGUID = "pcr-guid"
+        qrCodeGUID = "pcr-guid",
+        rawQrCode = "rawQrCode"
     )
 
     @BeforeEach

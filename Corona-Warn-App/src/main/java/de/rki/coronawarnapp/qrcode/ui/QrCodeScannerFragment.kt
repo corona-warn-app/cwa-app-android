@@ -20,6 +20,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
@@ -175,16 +176,31 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.ConsentTest ->
+            is CoronaTestResult.ConsentTest -> doNavigate(
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionConsentFragment(
                     scannerResult.coronaTestQrCode
                 )
-            is CoronaTestResult.DuplicateTest ->
+            )
+            is CoronaTestResult.DuplicateTest -> doNavigate(
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
                     scannerResult.coronaTestQrCode
                 )
-        }.also {
-            doNavigate(it)
+            )
+            is CoronaTestResult.InRecycleBin -> showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
+            is CoronaTestResult.RestoreDuplicateTest -> {
+                doNavigate(
+                    QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
+                        scannerResult.restoreRecycledTestRequest
+                    )
+                )
+            }
+            is CoronaTestResult.TestResult -> doNavigate(
+                QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
+                    testType = scannerResult.coronaTest.type,
+                    testIdentifier = scannerResult.coronaTest.identifier,
+                    forceTestResultUpdate = true
+                )
+            )
         }
     }
 
@@ -248,6 +264,17 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .setCancelable(false)
             .setMessage(R.string.recycle_bin_restore_dgc_dialog_message)
             .setPositiveButton(android.R.string.ok) { _, _ -> viewModel.restoreCertificate(containerId) }
+            .show()
+    }
+
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
+            .setCancelable(false)
+            .setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                viewModel.restoreCoronaTest(recycledCoronaTest)
+            }
             .show()
     }
 

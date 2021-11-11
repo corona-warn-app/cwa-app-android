@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
+import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
 import de.rki.coronawarnapp.util.ui.LazyString
 
 sealed interface ScannerResult
@@ -24,7 +26,10 @@ sealed class CheckInResult : ScannerResult {
 
 sealed class CoronaTestResult : ScannerResult {
     data class DuplicateTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
+    data class RestoreDuplicateTest(val restoreRecycledTestRequest: RestoreRecycledTestRequest) : CoronaTestResult()
+    data class TestResult(val coronaTest: CoronaTest) : CoronaTestResult()
     data class ConsentTest(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
+    data class InRecycleBin(val recycledCoronaTest: CoronaTest) : CoronaTestResult()
 }
 
 data class Error(val error: Throwable) : ScannerResult

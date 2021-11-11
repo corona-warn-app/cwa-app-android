@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.diagnosiskeys.storage.sortDateTime
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -47,6 +48,7 @@ class RiskLevelTask @Inject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -181,6 +183,7 @@ class RiskLevelTask @Inject constructor(
             }.toMap()
 
         analyticsExposureWindowCollector.reportRiskResultsPerWindow(riskResultsPerWindow)
+        analyticsTestResultCollector.reportRiskResultsPerWindow(riskResultsPerWindow)
 
         return riskLevels.aggregateResults(appConfig, riskResultsPerWindow)
     }

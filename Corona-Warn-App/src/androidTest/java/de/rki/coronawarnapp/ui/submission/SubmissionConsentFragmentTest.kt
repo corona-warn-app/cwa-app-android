@@ -33,7 +33,7 @@ class SubmissionConsentFragmentTest : BaseUITest() {
 
     private val allowReplacement = true
 
-    private val request = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID")
+    private val request = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID", rawQrCode = "rawQrCode")
 
     private lateinit var viewModel: SubmissionConsentViewModel
 

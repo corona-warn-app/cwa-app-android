@@ -59,18 +59,18 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify(exactly = 1) { recycleBinCleanUpService.clearRecycledCertificates() }
+            coVerify(exactly = 1) { recycleBinCleanUpService.clearRecycledItems() }
 
             isForeground.value = true
             advanceUntilIdle()
 
-            coVerify(exactly = 2) { recycleBinCleanUpService.clearRecycledCertificates() }
+            coVerify(exactly = 2) { recycleBinCleanUpService.clearRecycledItems() }
         }
     }
 
     @Test
     fun `clean up errors won't break scheduling`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { recycleBinCleanUpService.clearRecycledCertificates() } throws Exception("Test error")
+        coEvery { recycleBinCleanUpService.clearRecycledItems() } throws Exception("Test error")
 
         createInstance(this).run {
             setup()
@@ -81,14 +81,14 @@ class RecycleBinCleanUpSchedulerTest : BaseTest() {
                 advanceUntilIdle()
             }
 
-            coEvery { recycleBinCleanUpService.clearRecycledCertificates() } just runs
+            coEvery { recycleBinCleanUpService.clearRecycledItems() } just runs
 
             isForeground.value = false
             advanceUntilIdle()
             isForeground.value = true
             advanceUntilIdle()
 
-            coVerify(exactly = 2) { recycleBinCleanUpService.clearRecycledCertificates() }
+            coVerify(exactly = 2) { recycleBinCleanUpService.clearRecycledItems() }
         }
     }
 }

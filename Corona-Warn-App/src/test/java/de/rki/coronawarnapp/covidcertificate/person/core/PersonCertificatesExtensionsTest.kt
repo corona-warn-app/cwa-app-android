@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
@@ -320,9 +319,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         certificates.findHighestPriorityCertificate(time) shouldBe fallback
         certificates.remove(fallback)
 
-        shouldThrow<NoSuchElementException> {
-            certificates.findHighestPriorityCertificate(time) shouldBe null
-        }
+        certificates.findHighestPriorityCertificate(time) shouldBe null
     }
 
     /**

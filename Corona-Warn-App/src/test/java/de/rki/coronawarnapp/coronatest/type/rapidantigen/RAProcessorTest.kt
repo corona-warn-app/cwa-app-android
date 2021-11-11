@@ -126,7 +126,8 @@ class RAProcessorTest : BaseTest() {
     fun `registering a new test`() = runBlockingTest {
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
-            createdAt = Instant.EPOCH
+            createdAt = Instant.EPOCH,
+            rawQrCode = "rawQrCode"
         )
 
         val instance = createInstance()
@@ -159,7 +160,8 @@ class RAProcessorTest : BaseTest() {
 
         val request = CoronaTestQRCode.RapidAntigen(
             hash = "hash",
-            createdAt = Instant.EPOCH
+            createdAt = Instant.EPOCH,
+            rawQrCode = "rawQrCode"
         )
 
         values().forEach {
@@ -306,7 +308,8 @@ class RAProcessorTest : BaseTest() {
                 createdAt = Instant.EPOCH,
                 isDccConsentGiven = false,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
-                isDccSupportedByPoc = false
+                isDccSupportedByPoc = false,
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe false
@@ -321,7 +324,8 @@ class RAProcessorTest : BaseTest() {
                 createdAt = Instant.EPOCH,
                 isDccConsentGiven = true,
                 dateOfBirth = LocalDate.parse("2021-06-02"),
-                isDccSupportedByPoc = true
+                isDccSupportedByPoc = true,
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe true
@@ -359,7 +363,8 @@ class RAProcessorTest : BaseTest() {
             CoronaTestQRCode.RapidAntigen(
                 hash = "hash",
                 createdAt = Instant.EPOCH,
-                dateOfBirth = LocalDate.parse("2021-06-02")
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             this as RACoronaTest
@@ -395,6 +400,24 @@ class RAProcessorTest : BaseTest() {
         (instance.pollServer(raTest) as RACoronaTest).apply {
             sampleCollectedAt shouldBe nowUTC
             labId shouldBe "labId"
+        }
+    }
+
+    @Test
+    fun `recycle sets recycledAt`() = runBlockingTest {
+        val raTest = defaultTest.copy(recycledAt = null)
+
+        createInstance().run {
+            recycle(raTest) shouldBe raTest.copy(recycledAt = nowUTC)
+        }
+    }
+
+    @Test
+    fun `restore clears recycledAt`() = runBlockingTest {
+        val raTest = defaultTest.copy(recycledAt = nowUTC)
+
+        createInstance().run {
+            restore(raTest) shouldBe raTest.copy(recycledAt = null)
         }
     }
 }
