@@ -84,20 +84,20 @@ data class VaccinatedPerson(
     fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
         val newestFullDose = getNewestFullDose() ?: return null
         val today = nowUTC.toLocalDateUserTz()
-        return if (isSeriesCompletingOverTwoWeeks()) 0
+        return if (isSeriesCompletingOverTwoWeeks(nowUTC)) 0
         else IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
     private fun getNewestDoseVaccinatedOn(): LocalDate =
         vaccinationCertificates.maxOf { it.vaccinatedOn }
 
-    private fun isSeriesCompletingOverTwoWeeks(): Boolean {
+    private fun isSeriesCompletingOverTwoWeeks(nowUTC: Instant = Instant.now()): Boolean {
         val certificate = vaccinationCertificates
-            .filter { it.isFinalShot }
+            .filter { it.isSeriesCompletingShot }
             .firstOrNull {
                 Days.daysBetween(
                     it.rawCertificate.vaccination.vaccinatedOn,
-                    Instant.now().toLocalDateUtc()
+                    nowUTC.toLocalDateUtc()
                 ).days > 14
             }
         return certificate != null

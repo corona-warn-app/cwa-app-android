@@ -83,7 +83,22 @@ class VaccinatedPersonTest : BaseTest() {
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
             every { lastBoosterNotifiedAt } returns null
-            every { vaccinations } returns setOf(testData.personAVac1Container, testData.personAVac2Container)
+            every { vaccinations } returns setOf(
+                mockk<VaccinationContainer>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns
+                        mockk<VaccinationCertificate>().apply {
+                            every { vaccinatedOn } returns LocalDate.parse("2021-04-28")
+                            every { doseNumber } returns 2
+                            every { totalSeriesOfDoses } returns 2
+                            every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
+                            every { isSeriesCompletingShot } returns true
+                        }
+                    every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
+                }
+            )
         }
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
@@ -98,9 +113,23 @@ class VaccinatedPersonTest : BaseTest() {
     @Test
     fun `vaccination status - IMMUNITY`() {
         // vaccinatedAt "2021-04-27"
-        val immunityContainer = testData.personAVac2Container
         val personData = mockk<VaccinatedPersonData>().apply {
-            every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
+            every { vaccinations } returns setOf(
+                mockk<VaccinationContainer>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns
+                        mockk<VaccinationCertificate>().apply {
+                            every { vaccinatedOn } returns LocalDate.parse("2021-04-28")
+                            every { doseNumber } returns 2
+                            every { totalSeriesOfDoses } returns 2
+                            every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
+                            every { isSeriesCompletingShot } returns true
+                        }
+                    every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
+                }
+            )
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
             every { lastBoosterNotifiedAt } returns null
@@ -136,9 +165,24 @@ class VaccinatedPersonTest : BaseTest() {
     @Test
     fun `time until status IMMUNITY`() {
         // vaccinatedAt "2021-04-27"
-        val immunityContainer = testData.personAVac2Container
         val personData = mockk<VaccinatedPersonData>().apply {
-            every { vaccinations } returns setOf(testData.personAVac1Container, immunityContainer)
+            every { vaccinations } returns setOf(
+                mockk<VaccinationContainer>().apply {
+                    every { toVaccinationCertificate(any(), any()) } returns
+                        mockk<VaccinationCertificate>().apply {
+                            every { vaccinatedOn } returns LocalDate.parse("2021-04-27")
+                            every { doseNumber } returns 2
+                            every { totalSeriesOfDoses } returns 2
+                            every { rawCertificate.vaccination.doseNumber } returns doseNumber
+                            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
+                            every { isSeriesCompletingShot } returns true
+
+                        }
+                    every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
+                    every { isNotRecycled } returns true
+                }
+            )
             every { boosterRule } returns null
             every { lastSeenBoosterRuleIdentifier } returns null
             every { lastBoosterNotifiedAt } returns null
@@ -187,6 +231,9 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 2
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-06-13")
+                            every { isSeriesCompletingShot } returns true
+
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                     every { isNotRecycled } returns true
@@ -231,6 +278,8 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 2
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                            every { isSeriesCompletingShot } returns true
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
@@ -287,6 +336,8 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 1
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528" // BIONTECH
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                            every { isSeriesCompletingShot } returns true
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
@@ -325,6 +376,8 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 1
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1507" // MODERNA
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                            every { isSeriesCompletingShot } returns true
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
@@ -363,6 +416,8 @@ class VaccinatedPersonTest : BaseTest() {
                             every { totalSeriesOfDoses } returns 1
                             every { rawCertificate.vaccination.doseNumber } returns doseNumber
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/21/1529" // ASTRA
+                            every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
+                            every { isSeriesCompletingShot } returns true
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")

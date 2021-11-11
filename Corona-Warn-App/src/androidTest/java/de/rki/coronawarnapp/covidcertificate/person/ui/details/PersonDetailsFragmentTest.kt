@@ -295,7 +295,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns if (booster) number else 2
             every { dateOfBirthFormatted } returns "1981-03-20"
-            every { isFinalShot } returns final
+            every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
