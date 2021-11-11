@@ -970,7 +970,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Body for consent main section second point  -->
     <string name="submission_consent_main_second_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for consent main section third point  -->
-    <string name="submission_consent_main_third_point">"Unter „Meine Check-ins“ können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch entfernen und so von der Warnung ausschließen."</string>
+    <string name="submission_consent_main_third_point">"Unter „Meine Check-ins“ können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch löschen und so von der Warnung ausschließen."</string>
     <!-- YTXT: Body for consent main section fourth point  -->
     <string name="submission_consent_main_fourth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
     <!-- YTXT: Body for consent main section final id consent  -->
@@ -985,7 +985,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Body for no consent section third point  -->
     <string name="submission_no_consent_third_point">"Ihre Identität bleibt geheim. Andere Nutzer erfahren nicht, wer sein Testergebnis geteilt hat."</string>
     <!-- YTXT: Body for no consent section fourth point  -->
-    <string name="submission_no_consent_fourth_point">"Unter „Meine Check-ins“ können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch entfernen und so von der Warnung ausschließen."</string>
+    <string name="submission_no_consent_fourth_point">"Unter „Meine Check-ins“ können Sie Ihre Events und Orte einsehen, deren eingecheckte Gäste gewarnt werden. Sie können einzelne Check-ins auch löschen und so von der Warnung ausschließen."</string>
     <!-- YTXT: Body for no consent section fifth point  -->
     <string name="submission_no_consent_fifth_point">"Sie können Ihr Einverständnis abgeben, wenn Sie mindestens 16 Jahre alt sind."</string>
 
@@ -1001,7 +1001,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, entfernen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, löschen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1025,13 +1025,13 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XBUT: test result pending : refresh button -->
     <string name="submission_test_result_pending_refresh_button">"Aktualisieren"</string>
     <!-- XBUT: test result pending : remove the test button -->
-    <string name="submission_test_result_pending_remove_test_button">"Test entfernen"</string>
+    <string name="submission_test_result_pending_remove_test_button">"Test löschen"</string>
     <!-- XHED: Page headline for negative test result next steps  -->
     <string name="submission_test_result_negative_steps_negative_heading">"Befund negativ"</string>
     <!-- YTXT: Body text for next steps section of test negative result -->
     <string name="submission_test_result_negative_steps_negative_body">"Der Labortest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben."</string>
     <!-- XBUT: negative test result : remove the test button -->
-    <string name="submission_test_result_negative_remove_test_button">"Test entfernen"</string>
+    <string name="submission_test_result_negative_remove_test_button">"Test löschen"</string>
     <!-- XHED: Page headline for other warnings screen  -->
     <string name="submission_test_result_positive_steps_warning_others_heading">"Andere warnen"</string>
     <!-- YTXT: Body text for for other warnings screen-->
@@ -1043,7 +1043,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_test_result_invalid_steps_invalid_heading">"Test kann nicht ausgewertet werden"</string>
 
     <!-- XHED: Page headline for invalid test result screen  -->
-    <string name="submission_test_result_delete_steps_invalid_heading">"Test entfernen"</string>
+    <string name="submission_test_result_delete_steps_invalid_heading">"Test löschen"</string>
 
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_invalid_steps_invalid_body">"Es gab ein Problem bei der Auswertung Ihres Tests. Bitte kontaktieren Sie das Testcenter oder das zuständige Labor, um Informationen zum weiteren Vorgehen zu erhalten."</string>
@@ -1051,7 +1051,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_test_result_delete_steps_invalid_body">"Bevor Sie einen neuen Test registrieren können, muss der letzte Test entfernt werden."</string>
 
     <!-- XBUT: invalid test result : remove the test button -->
-    <string name="submission_test_result_invalid_remove_test_button">"Test entfernen"</string>
+    <string name="submission_test_result_invalid_remove_test_button">"Test löschen"</string>
     <!-- XHED: Dialog title for tracing required dailog  -->
     <string name="submission_test_result_dialog_tracing_required_title">"Risiko-Ermittlung erforderlich"</string>
     <!-- YTXT: Dialog text for tracing required dialog-->
@@ -1061,19 +1061,19 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test kann nur einmal gescannt werden"</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Wollen Sie Ihr Testergebnis entfernen?"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Wollen Sie Ihr Testergebnis löschen?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Das Testergebnis wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts. Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Testergebnis automatisch gelöscht."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Testergebnis entfernen"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Testergebnis löschen"</string>
     <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sind Sie sicher, dass Sie Ihren Test entfernen wollen?"</string>
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sind Sie sicher, dass Sie Ihren Test löschen wollen?"</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test entfernen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"Wenn Sie den Test löschen, können Sie Ihr Testergebnis nicht mehr abrufen. Ihr Testergebnis bekommen Sie vom Testcenter oder Labor, unabhängig von der Gültigkeit des QR-Codes. Bei einem positiven Testergebnis wird auch das zuständige Gesundheitsamt auf dem gesetzlich vorgeschriebenen Weg informiert und sich an Sie wenden."</string>
     <!-- YTXT: Dialog text for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_message_no_submission">"Dadurch werden andere nicht gewarnt."</string>
     <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Entfernen"</string>
+    <string name="submission_test_result_dialog_remove_test_button_positive">"Löschen"</string>
     <!-- XBUT: Negative button for test removal -->
     <string name="submission_test_result_dialog_remove_test_button_negative">"Abbrechen"</string>
     <!-- XHED: Title for test result card positive -->
@@ -1167,7 +1167,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">Andere warnen</string>
     <!-- XBUT: Button for test removal -->
-    <string name="submission_test_result_positive_no_consent_button_remove_test">Test entfernen</string>
+    <string name="submission_test_result_positive_no_consent_button_remove_test">Test löschen</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1411,7 +1411,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
-    <string name="statistics_card_local_incidence_menu_delete">"Entfernen"</string>
+    <string name="statistics_card_local_incidence_menu_delete">"Löschen"</string>
     <!-- XTXT: Local hospitalization statistics text -->
     <string name="statistics_card_local_hospitalization_text">"Hospitalisierungen in %s"</string>
 
@@ -1940,7 +1940,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XACT: Button/Dialog label to cancel something-->
     <string name="generic_action_abort">Abbrechen</string>
     <!-- XACT: Button/Dialog label to remove something-->
-    <string name="generic_action_remove">Entfernen</string>
+    <string name="generic_action_remove">Löschen</string>
 
     <!-- ####################################
        Trace Location
