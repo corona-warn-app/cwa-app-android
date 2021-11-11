@@ -11,6 +11,6 @@ data class DccTicketingResultToken(
     val sub: String,            //The subject of the transaction
     val category: List<String>,    //The categories of confirmation
     val result: String,            //The result of the validation (OK for pass, CHK for open, NOK for fail)
-    val results: List<tbd>,        //An array of Result Item objects (see below)
+    val results: List<DccTicketingResultItem>,        //An array of Result Item objects (see below)
     val confirmation: String,    //A JWT token with reduced set of information about the result.
 ) : Parcelable
