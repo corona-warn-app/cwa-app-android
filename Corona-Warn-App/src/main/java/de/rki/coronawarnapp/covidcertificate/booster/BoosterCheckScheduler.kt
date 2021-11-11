@@ -8,11 +8,13 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import org.joda.time.Seconds
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -43,12 +45,13 @@ class BoosterCheckScheduler @Inject constructor(
             .launchIn(appScope)
     }
 
-    fun runNow() {
+    fun scheduleNow(delayTimeMillis: Long = 1_000L) {
         Timber.d("runNow()")
         foregroundState.isInForeground
             .distinctUntilChanged()
             .filter { it }
             .onEach {
+                delay(delayTimeMillis)
                 Timber.v("Run booster rules")
                 boosterNotificationService.checkBoosterNotification(forceCheck = true)
             }
