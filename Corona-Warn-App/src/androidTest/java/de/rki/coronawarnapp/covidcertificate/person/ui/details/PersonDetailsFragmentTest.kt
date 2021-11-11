@@ -265,6 +265,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
         every { hasNotificationBadge } returns false
+        every { isNotBlocked } returns true
     }
 
     private fun mockVaccinationCertificate(
@@ -281,6 +282,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     every { doseNumber } returns number
                     every { totalSeriesOfDoses } returns 2
                     every { vaccinatedOn } returns localDate
+                    every { medicalProductId } returns "medicalProductId"
                 }
             }
             every { containerId } returns vcContainerId
@@ -301,6 +303,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
+            every { isNotBlocked } returns true
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -316,6 +319,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
+            every { isNotBlocked } returns true
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
