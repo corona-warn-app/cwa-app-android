@@ -31,8 +31,8 @@ class DccTicketingQrCodeExtractor @Inject constructor(
 
     private fun DccTicketingQrCodeData.validate(): DccTicketingQrCodeData {
         if (protocol != PROTOCOL) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_PROTOCOL_INVALID)
-        if (subject.isBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SUBJECT_EMPTY)
-        if (serviceProvider.isBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SP_EMPTY)
+        if (subject.isNullOrBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SUBJECT_EMPTY)
+        if (serviceProvider.isNullOrBlank()) throw DccTicketingInvalidQrCodeException(ErrorCode.INIT_DATA_SP_EMPTY)
         return this
     }
 }
