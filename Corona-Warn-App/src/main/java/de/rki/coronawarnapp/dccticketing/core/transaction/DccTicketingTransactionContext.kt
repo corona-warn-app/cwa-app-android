@@ -25,11 +25,11 @@ data class DccTicketingTransactionContext(
     val nonceBase64: String? = null,
     val dccBarcodeData: String? = null,
     val encryptedDCCBase64: String? = null,
-    val encryptionKeyBase64: tbd = null,
+    val encryptionKeyBase64: String? = null,
     val signatureBase64: String? = null,
     val signatureAlgorithm: String? = null,
-    val resultToken: DccTicketingResultToken? = null,
-    val resultTokenPayload: tbd = null,
+    val resultToken: String? = null,
+    val resultTokenPayload: DccTicketingResultToken? = null,
 ) : Parcelable
 
 typealias tbd = String? // todo remove placeholder
