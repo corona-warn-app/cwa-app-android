@@ -1,7 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class DccTicketingQrCodeData(
     @SerializedName("protocol")
     val protocol: String,
@@ -16,7 +19,7 @@ data class DccTicketingQrCodeData(
     @SerializedName("consent")
     val consent: String,
     @SerializedName("subject")
-    val subject: String?,
+    val subject: String,
     @SerializedName("serviceProvider")
-    val serviceProvider: String?,
-)
+    val serviceProvider: String,
+) : Parcelable
