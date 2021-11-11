@@ -29,7 +29,7 @@ data class RecoveryCertificateContainer(
             (
                 qrCodeExtractor.extract(
                     it,
-                    mode = Mode.CERT_REC_LENIENT
+                    parserMode = Mode.CERT_REC_LENIENT
                 ) as RecoveryCertificateQRCode
                 ).data
         }

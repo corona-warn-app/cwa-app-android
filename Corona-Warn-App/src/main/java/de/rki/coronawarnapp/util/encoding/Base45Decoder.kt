@@ -69,29 +69,36 @@ object Base45Decoder {
     private fun pow(exp: Int) = int256.pow(exp).toLong()
 
     @Throws(IllegalArgumentException::class)
-    fun decode(input: String): ByteArray =
+    fun decode(input: String, mode: Mode = Mode.STRICT): ByteArray =
         input.toByteArray().asSequence().map {
             decoding_charset[it.toInt()].also { index ->
                 if (index < 0) throw IllegalArgumentException("Invalid characters in input.")
             }
         }.chunked(3) { chunk ->
-            if (chunk.size < 2) throw IllegalArgumentException("Invalid input length.")
-            chunk.reversed().toInt(45).toBase(base = 256, count = chunk.size - 1).reversed()
+            if (mode.isStrict() && chunk.size < 2) throw IllegalArgumentException("Invalid input length.")
+            chunk.reversed().toInt(45).toBase(base = 256, count = chunk.size - 1, mode).reversed()
         }.flatten().toList().toByteArray()
 
     /** Converts integer to a list of [count] integers in the given [base]. */
     @Throws(IllegalArgumentException::class)
-    private fun Int.toBase(base: Int, count: Int): List<Byte> =
+    private fun Int.toBase(base: Int, count: Int, mode: Mode): List<Byte> =
         mutableListOf<Byte>().apply {
             var tmp = this@toBase
             repeat(count) {
                 add((tmp % base).toByte())
                 tmp /= base
             }
-            if (tmp != 0) throw IllegalArgumentException("Invalid character sequence.")
+            if (mode.isStrict() && tmp != 0) throw IllegalArgumentException("Invalid character sequence.")
         }
 
     /** Converts list of bytes in given [base] to an integer. */
     private fun List<Byte>.toInt(base: Int): Int =
         fold(0) { acc, i -> acc * base + i.toUByte().toInt() }
+
+    enum class Mode {
+        STRICT,
+        LENIENT;
+
+        fun isStrict() = this == STRICT
+    }
 }
