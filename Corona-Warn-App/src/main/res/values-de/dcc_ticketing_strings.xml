@@ -1,4 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
+    <!-- XHED: DCC Ticketing: Consent One: Header -->
+    <string name="dcc_ticketing_consent_one_header">"Ihr Einverständnis"</string>
+    <!-- XACT: DCC Ticketing: Consent One: Accessibility -->
+    <string name="dcc_ticketing_consent_one_acessibility">"Mit einem Smartphone wird ein QR-Code von einem Ticketbuchungssystem gescannt. Es ist eine Verbindung zwischen dem Buchungssystem und dem Smartphone dargestellt."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Title -->
+    <string name="dcc_ticketing_consent_one_title">"Zertifikatsprüfung bei Ticketbuchungen"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider -->
+    <string name="dcc_ticketing_consent_one_provider">"Anbieter:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking -->
+    <string name="dcc_ticketing_consent_one_booking">"Buchung:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Body -->
+    <string name="dcc_ticketing_consent_one_body">"Der Anbieter möchte sicherstellen, dass ein gültiges Zertifikat zu Ihrer Buchung vorliegt. Für den Abruf Ihrer Buchungsdetails vom Anbieter und die Freigabe Ihrer gespeicherten Zertifikate ist Ihr Einverständnis erforderlich."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
+    <string name="dcc_ticketing_consent_one_legal_title">"Ihr Einverständnis"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
+    <string name="dcc_ticketing_consent_one_legal_body">"Durch Antippen von „Einverstanden“ willigen Sie in die folgenden Schritte ein:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_one_legal_point_1">"Die App ruft vom Anbieter „Anbietername“ den Namen und das Geburtsdatum der bei Buchung angegebenen Person, die für die Prüfung relevanten Buchungsdetails (z.B. Zielland und Reisedatum) und die vom Anbieter zu Ihrer Buchung festgelegten Anforderungen an das Zertifikat ab."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_one_legal_point_2">"Die abgerufenen Daten werden von der App genutzt, um festzustellen, welche Ihrer gespeicherten Zertifikate verwendet werden können."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
+    <string name="dcc_ticketing_consent_one_point_1">"Sie sind nicht verpflichtet, die Überprüfung Ihres Zertifikats mit der Corona-Warn-App zu erlauben. Der Nachweis Ihres Impf-, Test- oder Genesungsstatus kann auch auf andere Weise erbracht werden."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
+    <string name="dcc_ticketing_consent_one_point_2">"Die Anforderungen an das Zertifikat werden vom Anbieter festgelegt. Das RKI hat darauf keinen Einfluss. Weitere Informationen zu den Zertifikatsanforderungen erhalten Sie bei dem Anbieter."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 3 -->
+    <string name="dcc_ticketing_consent_one_point_3">"Die Ermittlung der geeigneten Zertifikate erfolgt lokal auf Ihrem Smartphone. Es werden dabei keine Daten an das RKI oder den Anbieter übermittelt."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 4 -->
+    <string name="dcc_ticketing_consent_one_point_4">"Das RKI erfährt die Daten zu Ihrer Buchung oder den von Ihnen gespeicherten Zertifikaten nicht."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Data protection -->
+    <string name="dcc_ticketing_consent_one_data_protection">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
+    <string name="dcc_ticketing_consent_one_consent_btn">"Einverstanden:"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
+    <string name="dcc_ticketing_consent_one_nope_btn">"Nein Danke:"</string>
+
+    <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Wollen Sie die Überprüfung wirklich abbrechen?"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Cancel Dialog: Body  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Wenn Sie die Überprüfung abbrechen, kann kein Zertifikat überprüft werden."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_continue_btn">"Überprüfung Fortsetzen"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Cancel Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_cancel_btn">"Überprüfung Abbrechen"</string>
+
 </resources>
