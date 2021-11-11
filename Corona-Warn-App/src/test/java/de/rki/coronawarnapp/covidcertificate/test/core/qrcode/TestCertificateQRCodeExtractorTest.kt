@@ -162,7 +162,10 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     @Test
     fun `vaccination certificate fails with NO_TEST_ENTRY`() {
         shouldThrow<InvalidTestCertificateException> {
-            extractor.extract(VaccinationQrCodeTestData.certificateMissing, mode = DccV1Parser.Mode.CERT_TEST_STRICT)
+            extractor.extract(
+                VaccinationQrCodeTestData.certificateMissing,
+                parserMode = DccV1Parser.Mode.CERT_TEST_STRICT
+            )
         }.errorCode shouldBe InvalidHealthCertificateException.ErrorCode.NO_TEST_ENTRY
     }
 
