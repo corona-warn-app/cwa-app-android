@@ -190,11 +190,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun getItemColorShade(isValid: Boolean, isCurrentCertificate: Boolean): PersonColorShade {
-        return when {
-            isValid && isCurrentCertificate -> colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+    private fun getItemColorShade(isValid: Boolean, isCurrentCertificate: Boolean): PersonColorShade = when {
+        isValid && isCurrentCertificate -> colorShade
+        else -> PersonColorShade.COLOR_INVALID
     }
 
     private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
