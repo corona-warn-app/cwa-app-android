@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.qrcode.handler
 
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -41,6 +42,7 @@ class DccQrCodeHandlerTest : BaseTest() {
     @MockK lateinit var testCertID: TestCertificateContainerId
     @MockK lateinit var recoveryCertID: RecoveryCertificateContainerId
     @MockK lateinit var vaccinationCertID: VaccinationCertificateContainerId
+    @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
 
     @BeforeEach
     fun setup() {
@@ -64,6 +66,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationRepository.registerCertificate(any())
+            boosterCheckScheduler.scheduleNow(any())
         }
     }
 
@@ -76,6 +79,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
+            boosterCheckScheduler.scheduleNow(any())
         }
     }
 
@@ -88,6 +92,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())
+            boosterCheckScheduler.scheduleNow(any())
         }
     }
 
@@ -96,5 +101,6 @@ class DccQrCodeHandlerTest : BaseTest() {
         vaccinationRepository = vaccinationRepository,
         recoveryCertificateRepository = recoverCertificateRepository,
         dscSignatureValidator = dscSignatureValidator,
+        boosterCheckScheduler = boosterCheckScheduler
     )
 }
