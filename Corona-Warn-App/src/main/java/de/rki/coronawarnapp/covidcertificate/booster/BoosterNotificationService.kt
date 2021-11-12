@@ -54,7 +54,7 @@ class BoosterNotificationService @Inject constructor(
                 val rule = dccBoosterRulesValidator.validateBoosterRules(person.certificates)
 
                 // Hold last saved rule before updating to new one
-                val lastSavedRuleId = vaccinatedPerson.data.boosterRule?.identifier
+                val lastSavedRuleId = vaccinatedPerson.data.boosterRuleIdentifier
 
                 Timber.tag(TAG).d("Saving rule=%s for person=%s", rule, codeSHA256)
                 vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
