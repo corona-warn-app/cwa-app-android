@@ -32,6 +32,8 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.util.compression.deflate
 import de.rki.coronawarnapp.util.compression.inflate
+import de.rki.coronawarnapp.util.encoding.DecodingFailure
+import de.rki.coronawarnapp.util.encoding.DecodingResult
 import de.rki.coronawarnapp.util.encoding.base45
 import de.rki.coronawarnapp.util.encoding.decodeBase45
 import timber.log.Timber
@@ -70,7 +72,7 @@ class DccQrCodeExtractor @Inject constructor(
         return try {
             val parsedData = rawString
                 .removePrefix(PREFIX)
-                .decodeBase45ToByteArray()
+                .tryToDecodeBase45()
                 .decompress()
                 .parse(mode)
 
@@ -164,11 +166,15 @@ class DccQrCodeExtractor @Inject constructor(
             else -> throw InvalidHealthCertificateException(HC_JSON_SCHEMA_INVALID)
         }
 
-    private fun String.decodeBase45ToByteArray(): ByteArray = try {
-        this.decodeBase45()
-    } catch (e: Throwable) {
-        Timber.e(e)
-        throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
+    @Throws(InvalidHealthCertificateException::class)
+    private fun String.tryToDecodeBase45(): ByteArray = this.decodeBase45().let {
+        when (it) {
+            is DecodingResult -> it.bytes
+            is DecodingFailure -> {
+                Timber.e(IllegalArgumentException(it.errorMessage))
+                throw InvalidHealthCertificateException(HC_BASE45_DECODING_FAILED)
+            }
+        }
     }
 
     private fun ByteArray.decompress(): RawCOSEObject = try {
