@@ -17,7 +17,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     @Assisted private val dccQrCode: DccQrCode?,
     private val dccQrCodeHandler: DccQrCodeHandler,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<Event>()
@@ -26,7 +26,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
         covidCertificateSettings.isOnboarded.update { true }
         val event = if (dccQrCode != null) {
             try {
-                val containerId = dccQrCodeHandler.handleQrCode(dccQrCode)
+                val containerId = dccQrCodeHandler.handleQrCode(dccQrCode = dccQrCode)
                 Event.NavigateToDccDetailsScreen(containerId)
             } catch (e: Exception) {
                 Timber.d(e, "handleQrCode failed")

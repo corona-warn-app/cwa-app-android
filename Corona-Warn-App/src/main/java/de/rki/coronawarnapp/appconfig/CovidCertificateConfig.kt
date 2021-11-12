@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig
 
 import de.rki.coronawarnapp.appconfig.mapping.ConfigMapper
+import okio.ByteString
 import org.joda.time.Duration
 
 interface CovidCertificateConfig {
@@ -9,9 +10,16 @@ interface CovidCertificateConfig {
 
     val expirationThreshold: Duration
 
+    val blockListParameters: List<BlockedChunk>
+
     interface TestCertificate {
         val waitAfterPublicKeyRegistration: Duration
         val waitForRetry: Duration
+    }
+
+    interface BlockedChunk {
+        val indices: List<Int>
+        val hash: ByteString
     }
 
     interface Mapper : ConfigMapper<CovidCertificateConfig>

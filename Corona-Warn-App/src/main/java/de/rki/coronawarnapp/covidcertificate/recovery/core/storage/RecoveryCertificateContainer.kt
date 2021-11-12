@@ -29,7 +29,7 @@ data class RecoveryCertificateContainer(
             (
                 qrCodeExtractor.extract(
                     it,
-                    mode = Mode.CERT_REC_LENIENT
+                    parserMode = Mode.CERT_REC_LENIENT
                 ) as RecoveryCertificateQRCode
                 ).data
         }
@@ -66,6 +66,9 @@ data class RecoveryCertificateContainer(
 
             override val notifiedInvalidAt: Instant?
                 get() = data.notifiedInvalidAt
+
+            override val notifiedBlockedAt: Instant?
+                get() = data.notifiedBlockedAt
 
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
