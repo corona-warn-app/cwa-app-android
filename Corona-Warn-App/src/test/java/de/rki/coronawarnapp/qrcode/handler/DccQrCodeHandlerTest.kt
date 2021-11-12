@@ -95,6 +95,6 @@ class DccQrCodeHandlerTest : BaseTest() {
         testCertificateRepository = testCertificateRepository,
         vaccinationRepository = vaccinationRepository,
         recoveryCertificateRepository = recoverCertificateRepository,
-        dscSignatureValidator = dscSignatureValidator
+        dscSignatureValidator = dscSignatureValidator,
     )
 }

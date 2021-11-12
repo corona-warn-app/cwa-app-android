@@ -66,7 +66,10 @@ class DccQrCodeExtractor @Inject constructor(
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    fun extract(rawString: String, mode: DccV1Parser.Mode): DccQrCode {
+    fun extract(
+        rawString: String,
+        parserMode: DccV1Parser.Mode
+    ): DccQrCode {
         DccQrCodeCensor.addQRCodeStringToCensor(rawString)
 
         return try {
@@ -74,10 +77,10 @@ class DccQrCodeExtractor @Inject constructor(
                 .removePrefix(PREFIX)
                 .tryToDecodeBase45()
                 .decompress()
-                .parse(mode)
+                .parse(parserMode)
 
             toDccQrCode(rawString, parsedData).also {
-                when (mode) {
+                when (parserMode) {
                     CERT_VAC_STRICT, CERT_VAC_LENIENT -> if (it !is VaccinationCertificateQRCode)
                         throw InvalidVaccinationCertificateException(NO_VACCINATION_ENTRY)
                     CERT_REC_STRICT -> if (it !is RecoveryCertificateQRCode)
@@ -89,7 +92,7 @@ class DccQrCodeExtractor @Inject constructor(
                 }
             }
         } catch (e: InvalidHealthCertificateException) {
-            when (mode) {
+            when (parserMode) {
                 CERT_VAC_STRICT, CERT_VAC_LENIENT ->
                     throw InvalidVaccinationCertificateException(e.errorCode)
                 CERT_REC_STRICT, CERT_REC_LENIENT ->
