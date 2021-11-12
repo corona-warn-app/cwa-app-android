@@ -481,7 +481,7 @@ class VaccinatedPersonTest : BaseTest() {
             valueSet = null,
             certificateStates = personData.vaccinations
                 .mapNotNull { it.containerId }
-                .associateWith {  CwaCovidCertificate.State.Invalid() }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).run {
             recycledVaccinationCertificates.also {
                 it.size shouldBe 1

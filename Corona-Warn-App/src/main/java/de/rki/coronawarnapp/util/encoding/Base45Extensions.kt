@@ -10,8 +10,8 @@ private val decodingCharset: Map<Char, Int> = ENCODING_CHARSET.associateWith { E
 sealed class IDecodingResult<T> {
     abstract val bytes: T?
 }
-data class DecodingResult<T>(override val bytes: T): IDecodingResult<T>()
-data class DecodingFailure<T>(val errorMessage: String): IDecodingResult<T>() {
+data class DecodingResult<T>(override val bytes: T) : IDecodingResult<T>()
+data class DecodingFailure<T>(val errorMessage: String) : IDecodingResult<T>() {
     override val bytes: T? = null
 }
 
@@ -23,7 +23,7 @@ data class DecodingFailure<T>(val errorMessage: String): IDecodingResult<T>() {
 fun String.decodeBase45(): IDecodingResult<ByteArray> = DecodingResult(
     this
         // string length must be a multiple of three or one less
-        .also { if(it.length % 3 == 1) { return DecodingFailure("Illegal length of Base45 string (${it.length})!") } }
+        .also { if (it.length % 3 == 1) { return DecodingFailure("Illegal length of Base45 string (${it.length})!") } }
         // convert characters to numbers in range 0..44
         .map { decodingCharset.getOrElse(it) { return DecodingFailure("Illegal Base45 character ($it)!") } }
         .let { numberInput ->
