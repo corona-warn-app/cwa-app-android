@@ -44,8 +44,13 @@ class BoosterCheckScheduler @Inject constructor(
             .launchIn(appScope)
     }
 
+    /**
+     * Schedule Booster rules check.
+     * @param delayTimeMillis [Long] Delay before running to give a chance to Data flows to update
+     * and propagate the latest certificates
+     */
     fun scheduleNow(delayTimeMillis: Long = 3_000L) {
-        Timber.d("runNow()")
+        Timber.d("scheduleNow()")
         foregroundState.isInForeground
             .distinctUntilChanged()
             .filter { it }
