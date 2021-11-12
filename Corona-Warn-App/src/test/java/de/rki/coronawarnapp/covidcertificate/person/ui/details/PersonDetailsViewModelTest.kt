@@ -208,7 +208,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { medicalProductName } returns "EU/1/20/1528"
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
-            every { isFinalShot } returns final
+            every { isSeriesCompletingShot } returns final
             every { isValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
