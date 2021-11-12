@@ -94,12 +94,7 @@ data class VaccinatedPerson(
     private fun isSeriesCompletingOverTwoWeeks(today: LocalDate): Boolean {
         val certificate = vaccinationCertificates
             .filter { it.isSeriesCompletingShot }
-            .firstOrNull {
-                Days.daysBetween(
-                    it.rawCertificate.vaccination.vaccinatedOn,
-                    today
-                ).days > 14
-            }
+            .firstOrNull { Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, today).days > 14 }
         return certificate != null
     }
 
