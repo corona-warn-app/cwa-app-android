@@ -10,7 +10,7 @@
     <!-- XHED: empty recycler bin description -->
     <string name="recycler_bin_empty_description">"When you remove certificates, they are moved to the recycle bin and displayed here."</string>
     <!-- XHED: recycler bin remove all menu item -->
-    <string name="recycler_bin_remove_all">"Remove All"</string>
+    <string name="recycler_bin_remove_all">"Alle endgültig entfernen"</string>
 
     <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
