@@ -39,11 +39,9 @@ class VaccinationStorage @Inject constructor(
             if (!key.startsWith(PKEY_PERSON_PREFIX)) {
                 return@mapNotNull null
             }
-            value as String
-            gson.fromJson<VaccinatedPersonData>(value).also { personData ->
+            gson.fromJson<VaccinatedPersonData>(value.toString()).also { personData ->
                 Timber.tag(TAG).v("Person loaded: %s", personData)
-                requireNotNull(personData.identifier)
-            }
+            }.takeIf { it.identifier != null }
         }
         return persons.toSet().groupDataByIdentifier()
     }
@@ -58,10 +56,12 @@ class VaccinationStorage @Inject constructor(
             }
             persons.forEach {
                 if (it.vaccinations.isNotEmpty()) {
-                    val raw = gson.toJson(it)
                     val identifier = it.identifier
-                    Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
-                    putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                    if (identifier != null) {
+                        val raw = gson.toJson(it)
+                        Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
+                        putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                    }
                 }
             }
         }

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant

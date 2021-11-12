@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.certificateId
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.personIdentifier
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeStamper
@@ -96,7 +98,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac1QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.personIdentifier
+            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.certificateData!!.personIdentifier
         }
 
         advanceUntilIdle()
@@ -122,7 +124,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac2Container.personIdentifier
+            this.personIdentifier shouldBe vaccinationTestData.personAVac2Container.certificateData!!.personIdentifier
         }
 
         testStorage.first() shouldBe dataAfter
@@ -202,7 +204,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(toRemove.certificateId)
+            VaccinationCertificateContainerId(toRemove.certificateData!!.certificateId)
         ) shouldBe vaccinationTestData.personAVac2Container
         advanceUntilIdle()
 
@@ -220,7 +222,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateId)
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateData!!.certificateId)
         ) shouldBe null
     }
 
@@ -234,7 +236,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personBData1Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateId)
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateData!!.certificateId)
         )
         advanceUntilIdle()
 

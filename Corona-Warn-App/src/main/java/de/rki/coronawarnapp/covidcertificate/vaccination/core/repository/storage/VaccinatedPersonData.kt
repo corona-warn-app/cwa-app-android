@@ -19,6 +19,6 @@ data class VaccinatedPersonData(
     @SerializedName("lastBoosterNotifiedAt")
     val lastBoosterNotifiedAt: Instant? = null,
 ) {
-    val identifier: CertificatePersonIdentifier
-        get() = vaccinations.first().personIdentifier
+    val identifier: CertificatePersonIdentifier?
+        get() = vaccinations.firstNotNullOfOrNull { it.certificateData?.personIdentifier }
 }

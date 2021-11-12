@@ -17,7 +17,7 @@ data class VaccinatedPerson(
     private val valueSet: VaccinationValueSets?,
     private val certificateStates: Map<VaccinationCertificateContainerId, CwaCovidCertificate.State>,
 ) {
-    val identifier: CertificatePersonIdentifier
+    val identifier: CertificatePersonIdentifier?
         get() = data.identifier
 
     val vaccinationContainers: Set<VaccinationContainer>
@@ -37,11 +37,13 @@ data class VaccinatedPerson(
 
     private fun Collection<VaccinationContainer>.mapToVaccinationCertificateSet(
         state: CwaCovidCertificate.State? = null
-    ): Set<VaccinationCertificate> = map {
-        it.toVaccinationCertificate(
-            valueSet,
-            certificateState = state ?: certificateStates.getValue(it.containerId)
-        )
+    ): Set<VaccinationCertificate> = mapNotNull {
+        it.containerId?.let { containerId ->
+            it.toVaccinationCertificate(
+                valueSet,
+                certificateState = state ?: certificateStates.getValue(containerId)
+            )
+        }
     }.toSet()
 
     val hasBoosterNotification: Boolean

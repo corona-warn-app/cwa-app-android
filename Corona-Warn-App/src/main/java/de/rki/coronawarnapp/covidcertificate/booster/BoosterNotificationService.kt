@@ -39,14 +39,17 @@ class BoosterNotificationService @Inject constructor(
         val allPersons = personCertificatesProvider.personCertificates.first()
         Timber.tag(TAG).d("All persons=%s", allPersons.map { it.personIdentifier.codeSHA256 })
 
-        val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first().associateBy { it.identifier }
+        val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first()
+            .mapNotNull { vacInfo -> vacInfo.identifier?.let { id -> id to vacInfo } }
+            .toMap()
         Timber.tag(TAG).d("Vaccinated persons=%s", vaccinatedPersonsMap.keys.map { it.codeSHA256 })
 
         allPersons.forEach { person ->
             val codeSHA256 = person.personIdentifier.codeSHA256
             try {
                 val vaccinatedPerson = vaccinatedPersonsMap[person.personIdentifier]
-                if (vaccinatedPerson == null) {
+                val identifier = vaccinatedPerson?.identifier
+                if (vaccinatedPerson == null || identifier == null) {
                     Timber.tag(TAG).d("Person %s isn't vaccinated yet", codeSHA256)
                     return@forEach
                 }
@@ -57,10 +60,10 @@ class BoosterNotificationService @Inject constructor(
                 val lastSavedRuleId = vaccinatedPerson.data.boosterRule?.identifier
 
                 Timber.tag(TAG).d("Saving rule=%s for person=%s", rule, codeSHA256)
-                vaccinationRepository.updateBoosterRule(vaccinatedPerson.identifier, rule)
+                vaccinationRepository.updateBoosterRule(identifier, rule)
 
                 Timber.tag(TAG).d("Booster rule= %s for person=%s", rule?.identifier, codeSHA256)
-                notifyIfBoosterChanged(vaccinatedPerson.identifier, rule, lastSavedRuleId)
+                notifyIfBoosterChanged(identifier, rule, lastSavedRuleId)
             } catch (e: Exception) {
                 Timber.tag(TAG).d(e, "Booster rules check for %s failed", codeSHA256)
             }

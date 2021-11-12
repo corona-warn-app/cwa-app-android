@@ -70,7 +70,8 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() },
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() },
             valueSet = null
         )
 
@@ -88,7 +89,8 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() },
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() },
             valueSet = null
         )
 
@@ -108,7 +110,8 @@ class VaccinatedPersonTest : BaseTest() {
         val vaccinatedPerson = VaccinatedPerson(
             data = personData,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() },
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() },
             valueSet = null
         )
 
@@ -146,7 +149,8 @@ class VaccinatedPersonTest : BaseTest() {
         VaccinatedPerson(
             data = personData, valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
 
             Instant.parse("2021-04-27T12:00:00.000Z").let { now ->
@@ -198,7 +202,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
             // User was in GMT+2 timezone (UTC+2) , we want their MIDNIGHT
             // Last day before immunity, UI shows 1 day until immunity
@@ -243,7 +248,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!! shouldBe 2
@@ -299,7 +305,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!! shouldBe 2
@@ -337,7 +344,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!! shouldBe 2
@@ -375,7 +383,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
                 getDaysUntilImmunity(now)!! shouldBe 2
@@ -413,7 +422,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith { CwaCovidCertificate.State.Invalid() }
         ).apply {
             Instant.parse("2021-01-14T0:00:00.000Z").let { now ->
                 getVaccinationStatus(now) shouldBe VaccinatedPerson.Status.INCOMPLETE
@@ -470,7 +480,8 @@ class VaccinatedPersonTest : BaseTest() {
             data = personData,
             valueSet = null,
             certificateStates = personData.vaccinations
-                .associate { it.containerId to CwaCovidCertificate.State.Invalid() }
+                .mapNotNull { it.containerId }
+                .associateWith {  CwaCovidCertificate.State.Invalid() }
         ).run {
             recycledVaccinationCertificates.also {
                 it.size shouldBe 1

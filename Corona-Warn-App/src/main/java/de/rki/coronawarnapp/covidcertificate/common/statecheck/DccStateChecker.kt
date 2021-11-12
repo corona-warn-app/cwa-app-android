@@ -23,11 +23,15 @@ class DccStateChecker @Inject constructor(
 ) {
 
     suspend fun checkState(
-        dccData: DccData<*>
+        dccData: DccData<*>?
     ): Flow<CwaCovidCertificate.State> = combine(
         appConfigProvider.currentConfig,
         dscRepository.dscData
     ) { appConfig, dscData ->
+        if (dccData == null) {
+            Timber.tag(TAG).w("Certificate was null.")
+            return@combine CwaCovidCertificate.State.Invalid()
+        }
         try {
             dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)
         } catch (e: Exception) {

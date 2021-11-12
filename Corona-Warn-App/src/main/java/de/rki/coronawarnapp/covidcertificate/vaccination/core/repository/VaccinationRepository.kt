@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.Vaccination
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.certificateId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -136,7 +137,10 @@ class VaccinationRepository @Inject constructor(
                 valueSet = null,
             ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
 
-            if (matchingPerson.data.vaccinations.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+            if (
+                matchingPerson.data.vaccinations
+                    .any { it.certificateData?.certificateId == qrCode.uniqueCertificateIdentifier }
+            ) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.uniqueCertificateIdentifier)
                 throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)
             }
@@ -218,10 +222,10 @@ class VaccinationRepository @Inject constructor(
         VaccinationCertificateContainerId,
         CwaCovidCertificate.State
         > {
-        return vaccinations.associate { container ->
+        return vaccinations.mapNotNull { container ->
             val state = dccStateChecker.checkState(container.certificateData).first()
-            container.containerId to state
-        }
+            container.containerId?.let { it to state }
+        }.toMap()
     }
 
     suspend fun setNotifiedState(
@@ -317,7 +321,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun acknowledgeBoosterRule(personIdentifierCode: String) {
         Timber.tag(TAG).d("acknowledgeBoosterRule(personIdentifierCode=%s)", personIdentifierCode)
         internalData.updateBlocking {
-            val vaccinatedPerson = singleOrNull { it.identifier.codeSHA256 == personIdentifierCode }
+            val vaccinatedPerson = singleOrNull { it.identifier?.codeSHA256 == personIdentifierCode }
 
             if (vaccinatedPerson == null) {
                 Timber.tag(TAG).w("acknowledgeBoosterRule couldn't find person %s", personIdentifierCode)

@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.certificateId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -37,7 +38,7 @@ class QrCodeValidatorTest : BaseTest() {
     fun `validator uses recognises DccQrCode`() = runBlockingTest {
         qrCodeValidator.validate(testData.personAVac1QRCodeString).apply {
             this as DccQrCode
-            uniqueCertificateIdentifier shouldBe testData.personAVac1Container.certificateId
+            uniqueCertificateIdentifier shouldBe testData.personAVac1Container.certificateData!!.certificateId
         }
     }
 

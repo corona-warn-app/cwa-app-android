@@ -32,16 +32,17 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `person identifier calculation`() {
-        testData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
-            dateOfBirthFormatted = "1966-11-11",
-            firstNameStandardized = "ANDREAS",
-            lastNameStandardized = "ASTRA<EINS"
-        )
+        testData.personAVac1Container.certificateData!!.certificate.personIdentifier shouldBe
+            CertificatePersonIdentifier(
+                dateOfBirthFormatted = "1966-11-11",
+                firstNameStandardized = "ANDREAS",
+                lastNameStandardized = "ASTRA<EINS"
+            )
     }
 
     @Test
     fun `header decoding`() {
-        testData.personAVac1Container.header.apply {
+        testData.personAVac1Container.certificateData!!.header.apply {
             issuer shouldBe "DE"
             issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
             expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
@@ -50,7 +51,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `full property decoding - 1 of 2`() {
-        testData.personAVac1Container.apply {
+        testData.personAVac1Container.certificateData!!.apply {
             certificate shouldBe testData.personAVac1Certificate
             certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
         }
@@ -58,7 +59,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `full property decoding - 2 of 2`() {
-        testData.personAVac2Container.apply {
+        testData.personAVac2Container.certificateData!!.apply {
             certificate shouldBe testData.personAVac2Certificate
             certificateId shouldBe "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S"
         }
@@ -70,7 +71,7 @@ class VaccinationContainerTest : BaseTest() {
             valueSet = null,
             certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN
-        ).apply {
+        )!!.apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
@@ -121,7 +122,7 @@ class VaccinationContainerTest : BaseTest() {
             valueSet = vaccinationValueSets,
             certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN,
-        ).apply {
+        )!!.apply {
             firstName shouldBe "Andreas"
             lastName shouldBe "Astrá Eins"
             fullName shouldBe "Andreas Astrá Eins"
@@ -151,7 +152,7 @@ class VaccinationContainerTest : BaseTest() {
         testData.personXVac1ContainerBadCountryData.toVaccinationCertificate(
             valueSet = null,
             certificateState = CwaCovidCertificate.State.Invalid()
-        ).apply {
+        )!!.apply {
             certificateCountry shouldBe "YY"
         }
     }
@@ -181,6 +182,6 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `gracefully handle semi invalid data - multiple entries`() {
-        testData.personYVacTwoEntriesContainer.certificate.vaccination
+        testData.personYVacTwoEntriesContainer.certificateData!!.vaccination
     }
 }
