@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.assertions.throwables.shouldNotThrowAny
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
