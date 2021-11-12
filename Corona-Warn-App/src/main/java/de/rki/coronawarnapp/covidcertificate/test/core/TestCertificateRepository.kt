@@ -453,6 +453,7 @@ class TestCertificateRepository @Inject constructor(
         time: Instant
     ) {
         Timber.tag(TAG).d("setNotifiedAboutState(containerId=$containerId, time=$time)")
+
         internalData.updateBlocking {
             val current = this[containerId]
             if (current == null) {
@@ -465,12 +466,13 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            if (state !is CwaCovidCertificate.State.Invalid) {
+            val isValid = !(state is CwaCovidCertificate.State.Invalid || state is CwaCovidCertificate.State.Blocked)
+            if (isValid) {
                 Timber.tag(TAG).w("%s is still valid", containerId)
                 return@updateBlocking this
             }
 
-            val updated = current.copy(data = updateInvalidDate(current.data, time))
+            val updated = current.copy(data = updateNotificationTimestamp(current.data, state, time))
             Timber.tag(TAG).d("Updated= %s", updated)
             mutate { this[containerId] = updated }
         }
@@ -548,14 +550,24 @@ class TestCertificateRepository @Inject constructor(
         }
     }
 
-    private fun updateInvalidDate(
+    private fun updateNotificationTimestamp(
         data: BaseTestCertificateData,
+        state: CwaCovidCertificate.State,
         now: Instant
     ): BaseTestCertificateData {
-        return when (data) {
-            is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
-            is RACertificateData -> data.copy(notifiedInvalidAt = now)
-            is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
+        return when (state) {
+            is CwaCovidCertificate.State.Blocked -> when (data) {
+                is PCRCertificateData -> data.copy(notifiedBlockedAt = now)
+                is RACertificateData -> data.copy(notifiedBlockedAt = now)
+                is GenericTestCertificateData -> data.copy(notifiedBlockedAt = now)
+            }
+            is CwaCovidCertificate.State.Invalid -> when (data) {
+                is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
+                is RACertificateData -> data.copy(notifiedInvalidAt = now)
+                is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)
+            }
+            // Test certificates notifies only about invalid and blocked states
+            else -> throw UnsupportedOperationException("$state is not supported.")
         }
     }
 

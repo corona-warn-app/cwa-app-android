@@ -4,6 +4,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
@@ -15,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyVaccinationValueSets
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -64,6 +66,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             coEvery { load() } answers { testStorage }
             coEvery { save(any()) } answers { testStorage = arg(0) }
         }
+
+        coEvery { dccStateChecker.checkState(any()) } returns flowOf(CwaCovidCertificate.State.Valid(Instant.EPOCH))
     }
 
     private fun createInstance(scope: CoroutineScope) = RecoveryCertificateRepository(
@@ -136,6 +140,125 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 cert.getState() shouldBe CwaCovidCertificate.State.Recycled
                 cert.isRecycled shouldBe true
             }
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Cert is not existing`() = runBlockingTest2(ignoreActive = true) {
+        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.validRecovery)
+        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            RecoveryCertificateContainerId("Not there"),
+            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.recoveryCertificate.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
+        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.validRecovery)
+        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.recoveryCertificate.apply {
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+            notifiedExpiresSoonAt shouldBe Instant.EPOCH
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Expired`() = runBlockingTest2(ignoreActive = true) {
+        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.validRecovery)
+        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            CwaCovidCertificate.State.Expired(Instant.EPOCH),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.recoveryCertificate.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe Instant.EPOCH
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Invalid`() = runBlockingTest2(ignoreActive = true) {
+        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.validRecovery)
+        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            CwaCovidCertificate.State.Invalid(),
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.recoveryCertificate.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedBlockedAt shouldBe null
+            notifiedExpiredAt shouldBe null
+            notifiedInvalidAt shouldBe Instant.EPOCH
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Blocked`() = runBlockingTest2(ignoreActive = true) {
+        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.validRecovery)
+        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
+        val instance = createInstance(this)
+
+        instance.setNotifiedState(
+            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            CwaCovidCertificate.State.Blocked,
+            Instant.EPOCH
+        )
+
+        val firstCert = instance.certificates.first().first()
+        firstCert.recoveryCertificate.apply {
+            notifiedExpiresSoonAt shouldBe null
+            notifiedExpiredAt shouldBe null
+            notifiedInvalidAt shouldBe null
+            notifiedBlockedAt shouldBe Instant.EPOCH
+        }
+    }
+
+    @Test
+    fun `setNotifiedState - Valid`() = runBlockingTest2(ignoreActive = true) {
+        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.validRecovery)
+        coEvery { storage.load() } returns setOf(storedRecoveryCertificate)
+        val instance = createInstance(this)
+        shouldThrow<UnsupportedOperationException> {
+            instance.setNotifiedState(
+                RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+                CwaCovidCertificate.State.Valid(Instant.EPOCH),
+                Instant.EPOCH
+            )
         }
     }
 }
