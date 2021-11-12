@@ -44,7 +44,7 @@ class BoosterCheckScheduler @Inject constructor(
             .launchIn(appScope)
     }
 
-    fun scheduleNow(delayTimeMillis: Long = 1_000L) {
+    fun scheduleNow(delayTimeMillis: Long = 3_000L) {
         Timber.d("runNow()")
         foregroundState.isInForeground
             .distinctUntilChanged()
