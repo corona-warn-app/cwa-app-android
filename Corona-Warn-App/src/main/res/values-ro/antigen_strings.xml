@@ -81,11 +81,11 @@
     <!-- YTXT: Headline for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_headline_antigen_test">"Ați înregistrat deja un test rapid."</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Ați înregistrat deja un test rapid. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp. Dacă înregistrați un alt test rapid, primul test rapid va fi șters din aplicație."</string>
+    <string name="submission_deletion_warning_body_antigen_test">"Ați înregistrat deja un test rapid. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp. Dacă înregistrați un alt test rapid, primul test rapid va fi mutat în coșul de reciclare, de unde îl puteți restaura sau șterge definitiv."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_headline_pcr_test">"Ați înregistrat deja un test PCR."</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Ați înregistrat deja un test PCR. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp. Dacă înregistrați un alt test PCR, primul test PCR va fi șters din aplicație."</string>
+    <string name="submission_deletion_warning_body_pcr_test">"Ați înregistrat deja un test PCR. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp. Dacă înregistrați un alt test PCR, primul test PCR va fi mutat în coșul de reciclare, de unde îl puteți restaura sau șterge definitiv."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
     <string name="submission_test_result_toolbar_text">"Rezultatul testului dvs."</string>
