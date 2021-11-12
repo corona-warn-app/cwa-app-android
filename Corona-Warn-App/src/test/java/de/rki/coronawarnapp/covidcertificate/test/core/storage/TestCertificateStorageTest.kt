@@ -11,6 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -63,11 +64,16 @@ class TestCertificateStorageTest : BaseTest() {
 
     @Test
     fun `store two containers, one for each type`() = runBlockingTest {
+        val testCertificateData = certificateTestData.personATest2CertScannedStoredData.copy(
+            notifiedBlockedAt = Instant.ofEpochSecond(1234),
+            notifiedInvalidAt = Instant.ofEpochSecond(1234),
+            recycledAt = Instant.ofEpochSecond(123)
+        )
         createInstance().save(
             setOf(
                 certificateTestData.personATest1StoredData,
                 certificateTestData.personATest2CertStoredData,
-                certificateTestData.personATest2CertScannedStoredData,
+                testCertificateData,
             )
         )
 
@@ -110,8 +116,11 @@ class TestCertificateStorageTest : BaseTest() {
               {
                 "identifier": "identifier2",
                 "registeredAt": 12345,
+                "notifiedInvalidAt": 1234000,
+                "notifiedBlockedAt": 1234000,
                 "testCertificateQrCode": "${certificateTestData.personATest2CertQRCodeString}",
-                "certificateSeenByUser": true
+                "certificateSeenByUser": true,
+                "recycledAt": 123000
               }
             ]
         """.toComparableJsonPretty()
@@ -119,7 +128,7 @@ class TestCertificateStorageTest : BaseTest() {
         createInstance().load() shouldBe setOf(
             certificateTestData.personATest1StoredData,
             certificateTestData.personATest2CertStoredData,
-            certificateTestData.personATest2CertScannedStoredData,
+            testCertificateData,
         )
     }
 }

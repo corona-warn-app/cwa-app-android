@@ -184,6 +184,9 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         override val notifiedInvalidAt: Instant?
             get() = null
 
+        override val notifiedBlockedAt: Instant?
+            get() = null
+
         override val lastSeenStateChange: CwaCovidCertificate.State?
             get() = null
         override val lastSeenStateChangeAt: Instant?

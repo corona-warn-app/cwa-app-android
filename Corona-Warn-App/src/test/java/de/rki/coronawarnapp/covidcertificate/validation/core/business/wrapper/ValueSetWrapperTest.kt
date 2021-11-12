@@ -39,7 +39,7 @@ class ValueSetWrapperTest : BaseTest() {
             countryCodeMap,
             "disease-agent-targeted" to listOf(ValueSetTestData.tgItemEn.first),
             "sct-vaccines-covid-19" to listOf(ValueSetTestData.vpItemEn.first),
-            "vaccines-covid-19-auth-holders " to listOf(ValueSetTestData.maItemEn.first),
+            "vaccines-covid-19-auth-holders" to listOf(ValueSetTestData.maItemEn.first),
             "vaccines-covid-19-names" to listOf(ValueSetTestData.mpItemEn.first),
             "covid-19-lab-result" to listOf(ValueSetTestData.trItemEn.first),
             "covid-19-lab-test-manufacturer-and-name" to listOf(ValueSetTestData.tcMaItemEn.first),

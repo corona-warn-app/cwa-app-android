@@ -115,7 +115,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
                             "SN" -> context.getString(R.string.analytics_userinput_federalstate_sn)
                             "ST" -> context.getString(R.string.analytics_userinput_federalstate_st)
                             "SH" -> context.getString(R.string.analytics_userinput_federalstate_sh)
-                            "TH" -> context.getString(R.string.analytics_userinput_federalstate_bw)
+                            "TH" -> context.getString(R.string.analytics_userinput_federalstate_th)
                             else -> context.getString(R.string.statistics_nationwide_text)
                         }
                     )

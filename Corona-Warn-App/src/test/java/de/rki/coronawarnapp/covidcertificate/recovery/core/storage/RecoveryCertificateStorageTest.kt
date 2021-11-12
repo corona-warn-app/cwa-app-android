@@ -28,6 +28,8 @@ class RecoveryCertificateStorageTest : BaseTest() {
             notifiedExpiredAt = null,
             lastSeenStateChange = CwaCovidCertificate.State.Invalid(),
             lastSeenStateChangeAt = Instant.ofEpochMilli(123),
+            notifiedBlockedAt = null,
+            notifiedInvalidAt = null,
         ),
         StoredRecoveryCertificateData(
             recoveryCertificateQrCode = RecoveryQrCodeTestData.qrCode1,
@@ -35,6 +37,8 @@ class RecoveryCertificateStorageTest : BaseTest() {
             notifiedExpiredAt = Instant.ofEpochMilli(924),
             lastSeenStateChange = CwaCovidCertificate.State.ExpiringSoon(Instant.ofEpochMilli(456)),
             lastSeenStateChangeAt = Instant.ofEpochMilli(123),
+            notifiedBlockedAt = Instant.ofEpochMilli(123),
+            notifiedInvalidAt = Instant.ofEpochMilli(123),
         ),
     )
 
@@ -88,6 +92,8 @@ class RecoveryCertificateStorageTest : BaseTest() {
                 "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.qrCode1}",
                 "notifiedExpiresSoonAt": 876,
                 "notifiedExpiredAt": 924,
+                "notifiedInvalidAt": 123,
+                "notifiedBlockedAt": 123,
                 "lastSeenStateChange": {
                   "expiresAt": 456,
                   "type": "ExpiringSoon"

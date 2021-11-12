@@ -150,6 +150,11 @@
     <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
 
     <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_in_blocklist_message">"Certyfikat został wycofany przez urząd wydający. Zdobądź nowy cyfrowy certyfikat."</string>
+    <!-- XTXT: DCC QR code scan error title-->
+    <string name="error_dcc_in_blocklist_title">"Certyfikat nieważny"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_scan_again">"Certyfikat nie mógł zostać zapisany na Twoim smartfonie. Spróbuj ponownie później lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_already_registered">"Certyfikat jest już zarejestrowany w Twojej aplikacji."</string>
