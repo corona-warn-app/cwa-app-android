@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -85,11 +86,19 @@ data class VaccinatedPerson(
     fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
         val newestFullDose = getNewestFullDose() ?: return null
         val today = nowUTC.toLocalDateUserTz()
-        return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
+        return if (isSeriesCompletingOverTwoWeeks(nowUTC.toLocalDateUtc())) 0
+        else IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
     private fun getNewestDoseVaccinatedOn(): LocalDate =
         vaccinationCertificates.maxOf { it.vaccinatedOn }
+
+    private fun isSeriesCompletingOverTwoWeeks(today: LocalDate): Boolean {
+        val certificate = vaccinationCertificates
+            .filter { it.isSeriesCompletingShot }
+            .firstOrNull { Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, today).days > 14 }
+        return certificate != null
+    }
 
     private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
         .filter { it.doseNumber >= it.totalSeriesOfDoses }

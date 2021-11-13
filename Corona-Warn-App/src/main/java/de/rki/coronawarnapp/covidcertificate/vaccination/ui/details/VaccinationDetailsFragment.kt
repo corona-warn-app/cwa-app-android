@@ -71,7 +71,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val stateInValid = it.certificate?.isValid == false
-                val isFinalShot = it.certificate?.isFinalShot == true
+                val isFinalShot = it.certificate?.isSeriesCompletingShot == true
                 val (background, europaStars) = when {
                     stateInValid -> R.drawable.vaccination_incomplete to R.drawable.ic_eu_stars_grey
                     (it.isImmune && isFinalShot) ->
