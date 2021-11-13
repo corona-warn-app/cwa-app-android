@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.util.encoding
 
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+
+const val EMOJI_SEVEN_BYTES = "\uD83E\uDDB8\uD83C\uDFFF\u200D♀️" // (superwoman dark skin tone)
 
 class Base45ExtensionsTest : BaseTest() {
 
@@ -20,7 +23,7 @@ class Base45ExtensionsTest : BaseTest() {
                 "BGLMG+XGE0HXBH7NHQYH01IJCI%NICZIV1J5DJOOJ/ZJH2K DKAPKT K33LMEL-PLF\$LY3M8FMRQM1%MK4N*FNDRNW%N65OPGO" +
                 ":ROI*O\$5PBHPUSP4+PN6Q.HQGTQZ+Q97RSIR2URL-R+7SEJSXUS7.SQ8T0KTJVT%.TC9UVKU5WUO/U/9VHLV WVA:VTAW"
             ).repeat(4),
-        "\uD83E\uDDB8\uD83C\uDFFF\u200D♀️".toByteArray() to "*IUK3L*IUY7IOSS7.HBIJXDU83"
+        EMOJI_SEVEN_BYTES.toByteArray() to "*IUK3L*IUY7IOSS7.HBIJXDU83"
     )
 
     @Test
@@ -39,7 +42,19 @@ class Base45ExtensionsTest : BaseTest() {
 
     @Test
     fun `decode - failures`() {
-        "Äß".decodeBase45() shouldBe DecodingFailure("Illegal Base45 character (Ä)!")
+        EMOJI_SEVEN_BYTES.decodeBase45() shouldBe DecodingFailure("Illegal length of Base45 string (7)!")
         "0000".decodeBase45() shouldBe DecodingFailure("Illegal length of Base45 string (4)!")
+
+        "A$EMOJI_SEVEN_BYTES".decodeBase45() shouldBe
+            DecodingFailure("Illegal Base45 character (${EMOJI_SEVEN_BYTES.first()})!")
+        "Äß".decodeBase45() shouldBe DecodingFailure("Illegal Base45 character (Ä)!")
+
+        "000GGW00".decodeBase45() shouldBe DecodingFailure("Illegal Base45 triple > 65535 (65536)!")
+        "000V5".decodeBase45() shouldBe DecodingFailure("Illegal Base45 pair > 255 (256)!")
+
+        VaccinationQrCodeTestData.invalidBase45.removePrefix("HC1:").decodeBase45() shouldBe
+            DecodingFailure("Illegal length of Base45 string (853)!")
+        VaccinationQrCodeTestData.invalidBase45.removePrefix("HC1:").plus("0").decodeBase45() shouldBe
+            DecodingFailure("Illegal Base45 triple > 65535 (65715)!")
     }
 }
