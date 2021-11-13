@@ -31,15 +31,25 @@ fun String.decodeBase45(): IDecodingResult<ByteArray> = DecodingResult(
             (0 until this.length - 2 step 3)
                 // Calculate the value of each group of three as a three-digit number in base 45 (LE)
                 .map { numberInput[it] + numberInput[it + 1] * BASE + numberInput[it + 2] * BASE_SQUARED }
+                // fail if the number can't be represented by two bytes (> 256^2 - 1)
+                .map { if (it > 65535) return DecodingFailure("Illegal Base45 triple > 65535 ($it)!") else it }
                 // Convert that number to two bytes (BE)
                 .flatMap { listOf(it / 256, it % 256) }
                 .let {
                     // If there is a group of two numbers left over at the end, treat them as one two-digit number in base 45 (LE)
                     if (this.length % 3 == 2) {
-                        it.plus(numberInput[numberInput.size - 2] + numberInput[numberInput.size - 1] * BASE)
+                        it.plus(
+                            (numberInput[numberInput.size - 2] + numberInput[numberInput.size - 1] * BASE)
+                                // fail if the number can't be represented by one byte (> 256^1 - 1)
+                                .also { value ->
+                                    if (value > 255) {
+                                        return DecodingFailure("Illegal Base45 pair > 255 ($value)!")
+                                    }
+                                }
+                        )
                     } else it
                 }
-                // Convert to byte array
+                // Convert unsigned ints in range 0..255 to (signed) byte array
                 .map { it.toUByte().toByte() }
                 .toByteArray()
         }
