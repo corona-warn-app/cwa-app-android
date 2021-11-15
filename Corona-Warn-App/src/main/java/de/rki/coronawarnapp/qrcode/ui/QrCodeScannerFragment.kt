@@ -20,6 +20,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
@@ -90,7 +91,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is DccResult -> onDccResult(scannerResult)
                 is CheckInResult -> onCheckInResult(scannerResult)
                 is DccTicketingResult -> onDccTicketingResult(scannerResult)
-                is Error -> showScannerResultErrorDialog(scannerResult.error)
+                is Error -> when {
+                    scannerResult.isNotInAllowListError -> showDccTicketingNotInAllowListDialog()
+                    scannerResult.isDccTicketingError ->
+                        scannerResult.error.toErrorDialogBuilder(requireContext()).show()
+                    else -> showScannerResultErrorDialog(scannerResult.error)
+                }
+
                 InProgress -> binding.qrCodeProcessingView.isVisible = true
             }
         }
@@ -101,9 +108,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
         when (scannerResult) {
             is DccTicketingResult.ConsentI -> {
-                // TODO
-            }
-            is DccTicketingResult.Error -> {
                 // TODO
             }
         }
@@ -171,6 +175,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 popBackStack()
             }
         }.show()
+
+    private fun showDccTicketingNotInAllowListDialog() = MaterialAlertDialogBuilder(requireContext())
+        .setTitle(R.string.dcc_ticketing_not_in_allow_list_dialog_title)
+        .setMessage(R.string.dcc_ticketing_not_in_allow_list_dialog_message)
+        .setPositiveButton(android.R.string.ok) { _, _ -> /*Dismiss*/ }
+        .setCancelable(false)
+        .show()
 
     private fun showScannerResultErrorDialog(error: Throwable) = error
         .toQrCodeErrorDialogBuilder(requireContext())
