@@ -137,7 +137,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
                                 rcContainerId,
-                                PersonColorShade.COLOR_INVALID
+                                colorShade
                             )
                         }
 
@@ -153,7 +153,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
-                                colorShade
+                                PersonColorShade.COLOR_INVALID
                             )
                         }
 
@@ -161,7 +161,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
-                                colorShade
+                                PersonColorShade.COLOR_INVALID
                             )
                         }
                     }
