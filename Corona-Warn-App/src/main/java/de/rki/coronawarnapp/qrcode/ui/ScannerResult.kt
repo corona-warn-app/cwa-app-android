@@ -45,5 +45,5 @@ sealed class DccTicketingResult : ScannerResult {
 
 data class Error(val error: Throwable) : ScannerResult {
     val isDccTicketingError = error is DccTicketingInvalidQrCodeException
-    val isNotInAllowListError = error is DccTicketingAllowListException
+    val isAllowListError = error is DccTicketingAllowListException
 }

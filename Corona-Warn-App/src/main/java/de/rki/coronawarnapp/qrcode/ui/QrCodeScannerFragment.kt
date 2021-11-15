@@ -92,7 +92,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is CheckInResult -> onCheckInResult(scannerResult)
                 is DccTicketingResult -> onDccTicketingResult(scannerResult)
                 is Error -> when {
-                    scannerResult.isNotInAllowListError ->
+                    scannerResult.isAllowListError ->
                         scannerResult.error
                             .toErrorDialogBuilder(requireContext())
                             .setCancelable(false)
