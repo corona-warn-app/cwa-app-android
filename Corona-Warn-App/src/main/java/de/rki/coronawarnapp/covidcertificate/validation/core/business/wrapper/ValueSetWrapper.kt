@@ -25,7 +25,7 @@ class ValueSetWrapper @Inject constructor(
             COUNTRY to countryCodes,
             DISEASE to vaccinationValues.tg.items.map { it.key },
             "sct-vaccines-covid-19" to vaccinationValues.vp.items.map { it.key },
-            "vaccines-covid-19-auth-holders " to vaccinationValues.ma.items.map { it.key },
+            "vaccines-covid-19-auth-holders" to vaccinationValues.ma.items.map { it.key },
             "vaccines-covid-19-names" to vaccinationValues.mp.items.map { it.key },
             "covid-19-lab-result" to testValues.tr.items.map { it.key },
             "covid-19-lab-test-manufacturer-and-name" to testValues.ma.items.map { it.key },

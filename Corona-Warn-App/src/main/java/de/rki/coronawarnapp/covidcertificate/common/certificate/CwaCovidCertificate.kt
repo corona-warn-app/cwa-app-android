@@ -43,6 +43,7 @@ interface CwaCovidCertificate : Recyclable {
     val notifiedExpiresSoonAt: Instant?
     val notifiedExpiredAt: Instant?
     val notifiedInvalidAt: Instant?
+    val notifiedBlockedAt: Instant?
 
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
@@ -70,6 +71,8 @@ interface CwaCovidCertificate : Recyclable {
             else -> getState() is State.Valid || getState() is State.ExpiringSoon
         }
 
+    val isNotBlocked get() = getState() != State.Blocked
+
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
      */
@@ -96,6 +99,8 @@ interface CwaCovidCertificate : Recyclable {
             }
         }
 
+        object Blocked : State("Blocked")
+
         object Recycled : State("Recycled")
 
         companion object {
@@ -105,6 +110,17 @@ interface CwaCovidCertificate : Recyclable {
                 .registerSubtype(ExpiringSoon::class.java, "ExpiringSoon")
                 .registerSubtype(Expired::class.java, "Expired")
                 .registerSubtype(Invalid::class.java, "Invalid")
+                .registerSubtype(Blocked::class.java, "Blocked")
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this is Blocked && other is Blocked) return true
+            if (this is Recycled && other is Recycled) return true
+            return super.equals(other)
+        }
+
+        override fun hashCode(): Int {
+            return type.hashCode()
         }
     }
 }

@@ -21,7 +21,7 @@
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Можете да възстановите бързи и PCR тестове, които по-рано сте изтрили в приложението. Това означава, че имате възможност да възстановявате файлове, които сте изтрили неволно."</item>
+        <item>"Изтритите бързи и PCR тестове са преместени в кошчето. Това означава, че имате възможност да възстановявате файлове, които сте изтрили неволно."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

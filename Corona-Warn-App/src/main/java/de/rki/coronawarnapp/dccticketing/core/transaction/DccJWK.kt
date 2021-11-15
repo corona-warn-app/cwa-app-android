@@ -31,7 +31,7 @@ data class DccJWK(
     @SerializedName("alg") val alg: String,
 
     /** a value of either [Purpose.SIGNATURE] or [Purpose.ENCRYPTION] that indicates the purpose of the JWK (signature or encryption) */
-    @SerializedName("use") val use: String,
+    @SerializedName("use") val use: Purpose,
 ) : Parcelable {
 
     enum class Purpose {

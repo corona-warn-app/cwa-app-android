@@ -904,7 +904,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Невалиден QR код"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на друг смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на Вашия смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас. Ако сте изтрили този тест в приложението може да го възстановите от кошчето."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Моля, опитайте отново."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1057,6 +1057,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Тестът може да се сканира само веднъж."</string>
+    <!-- XHED: Dialog title for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Изтриване на резултат от тест?"</string>
+    <!-- XTXT: Dialog body for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Резултатът от тест ще бъде преместен в кошчето. То се намира в страницата на таб \"Статус\", която може да отворите през трите точки горе вдясно. Там можете да го изтриете за постоянно или да го възстановите. Резултатът ще бъде изтрит автоматично след 30 дни."</string>
+    <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Изтриване на резултат от тест"</string>
     <!-- XHED: Dialog title for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_title_no_submission">"Наистина ли искате да изтриете теста?"</string>
     <!-- YTXT: Dialog text for test removal -->
