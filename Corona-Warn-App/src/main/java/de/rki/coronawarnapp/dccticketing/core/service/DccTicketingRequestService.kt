@@ -12,7 +12,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DccTicketingService @Inject constructor(
+class DccTicketingRequestService @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val validationDecoratorRequestProcessor: ValidationDecoratorRequestProcessor,
     private val validationServiceRequestProcessor: ValidationServiceRequestProcessor,
