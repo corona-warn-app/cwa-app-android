@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.util.ui.LazyString
 
 class DccTicketingException(
     val errorCode: ErrorCode,
-    override val cause: Throwable?
+    override val cause: Throwable? = null
 ) : Exception(errorCode.message, cause), HasHumanReadableError {
 
     enum class ErrorCode(val message: String) {
@@ -91,3 +91,5 @@ class DccTicketingException(
 
 @StringRes
 private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause
+
+typealias DccTicketingErrorCode = DccTicketingException.ErrorCode

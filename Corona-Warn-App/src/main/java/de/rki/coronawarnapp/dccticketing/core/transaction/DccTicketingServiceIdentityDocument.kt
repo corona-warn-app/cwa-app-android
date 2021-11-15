@@ -13,5 +13,8 @@ data class DccTicketingServiceIdentityDocument(
     @SerializedName("verificationMethod") val verificationMethod: List<DccTicketingVerificationMethod>,
 
     /** An array of [DccTicketingService] objects */
-    @SerializedName("service") val service: List<DccTicketingService>? = null
-) : Parcelable
+    @SerializedName("service") private val _service: List<DccTicketingService>? = null
+) : Parcelable {
+    val service: List<DccTicketingService>
+        get() = _service.orEmpty()
+}
