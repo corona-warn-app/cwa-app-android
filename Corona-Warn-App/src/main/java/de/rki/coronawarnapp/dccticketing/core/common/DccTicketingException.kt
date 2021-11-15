@@ -13,6 +13,7 @@ class DccTicketingException(
     override val cause: Throwable? = null
 ) : Exception(errorCode.message, cause), HasHumanReadableError {
 
+    @Suppress("MaxLineLength")
     enum class ErrorCode(val message: String) {
         AES_CBC_INVALID_IV("failure while encrypting DCC; user may retry"),
         AES_CBC_INVALID_KEY("failure while encrypting DCC; user may retry"),

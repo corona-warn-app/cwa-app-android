@@ -43,7 +43,7 @@ class DccTicketingRequestService @Inject constructor(
 
     @Throws(DccTicketingException::class)
     suspend fun requestAccessToken(): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
-        //TODO: Add input
+        // TODO: Add input
         Timber.d("requestAccessToken()")
         accessTokenRequestProcessor.requestAccessToken()
     }

@@ -6,4 +6,5 @@ import de.rki.coronawarnapp.dccticketing.ui.DccTicketingUIModule
 
 @Module(includes = [DccTicketingUIModule::class, DccTicketingCoreModule::class])
 class DccTicketingModule {
+    // =^..^=
 }

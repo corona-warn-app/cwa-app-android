@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+@Suppress("ConstructorParameterNaming")
 @Parcelize
 data class DccTicketingServiceIdentityDocument(
     /** Identifier of the service identity document */
