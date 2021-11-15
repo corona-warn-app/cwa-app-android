@@ -125,6 +125,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
-        recycledItemsProvider = recycledItemsProvider
+        recycledItemsProvider = recycledItemsProvider,
     )
 }

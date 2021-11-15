@@ -71,7 +71,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val stateInValid = it.certificate?.isValid == false
-                val isFinalShot = it.certificate?.isFinalShot == true
+                val isFinalShot = it.certificate?.isSeriesCompletingShot == true
                 val (background, europaStars) = when {
                     stateInValid -> R.drawable.vaccination_incomplete to R.drawable.ic_eu_stars_grey
                     (it.isImmune && isFinalShot) ->
@@ -83,7 +83,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 europaImage.setImageResource(europaStars)
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.getValidQrCode(Locale.getDefault().language)
+                    val request = it.certificate?.getValidQrCode(Locale.getDefault().language, true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)
@@ -175,6 +175,11 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
     private fun FragmentVaccinationDetailsBinding.bindCertificateViews(
         certificate: VaccinationCertificate
     ) {
+        startValidationCheck.apply {
+            isEnabled = certificate.isNotBlocked
+            defaultButton.isEnabled = certificate.isNotBlocked
+        }
+        toolbar.menu.findItem(R.id.menu_covid_certificate_export).isEnabled = certificate.isNotBlocked
         qrCodeCard.bindValidityViews(
             certificate,
             isCertificateDetails = true,
