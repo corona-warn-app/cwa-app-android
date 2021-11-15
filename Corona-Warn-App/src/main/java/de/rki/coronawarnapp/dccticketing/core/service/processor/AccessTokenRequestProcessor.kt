@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import javax.inject.Inject
 
 class AccessTokenRequestProcessor @Inject constructor() {
@@ -10,7 +11,7 @@ class AccessTokenRequestProcessor @Inject constructor() {
 
     data class Output(
         val accessToken: String,
-        val accessTokenPayload: Any, // Change to DccTicketingAccessToken, from PR EXPOSUREAPP-10484
+        val accessTokenPayload: DccTicketingAccessToken,
         val nonceBase64: String
     )
 }
