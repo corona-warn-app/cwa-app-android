@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.core.service
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.processor.AccessTokenRequestProcessor
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationServiceRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
