@@ -150,6 +150,11 @@
     <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
 
     <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_in_blocklist_message">"The certificate has been recalled by the issuing authority. Please get a new digital certificate."</string>
+    <!-- XTXT: DCC QR code scan error title-->
+    <string name="error_dcc_in_blocklist_title">"Certificate Invalid"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_scan_again">"The certificate could not be saved on your smartphone. Please try again later or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_already_registered">"The certificate is already registered in your app."</string>
@@ -384,7 +389,7 @@
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"You can check the validity of certificates in the Corona-Warn-App yourself and do not need the CovPassCheck app."</string>
+    <string name="cov_pass_info_section_one">"You can check the validity of your certificates in the Corona-Warn-App yourself and do not need the CovPassCheck app."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"A visual check of the certificates is not sufficient for third parties, however. They must use the CovPassCheck app in Germany."</string>
     <!-- XHED: Cov Pass Info Fragment title -->

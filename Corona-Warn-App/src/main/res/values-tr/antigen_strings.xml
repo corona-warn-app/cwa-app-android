@@ -81,11 +81,11 @@
     <!-- YTXT: Headline for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_headline_antigen_test">"Zaten bir hızlı test kaydı oluşturdunuz."</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Zaten bir hızlı test kaydı oluşturdunuz. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir. Başka bir hızlı test kaydı oluşturursanız ilk hızlı test uygulamadan silinir."</string>
+    <string name="submission_deletion_warning_body_antigen_test">"Zaten bir hızlı test kaydı oluşturdunuz. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir. Başka bir hızlı test kaydı oluşturursanız ilk hızlı test geri dönüşüm kutusuna taşınır. Geri dönüşüm kutusunda hızlı testi geri yükleyebilir ya da kalıcı olarak silebilirsiniz."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_headline_pcr_test">"Zaten bir PCR testi kaydı oluşturdunuz."</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Zaten bir PCR testi kaydı oluşturdunuz. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir. Başka bir PCR testi kaydı oluşturursanız ilk PCR testi uygulamadan silinir."</string>
+    <string name="submission_deletion_warning_body_pcr_test">"Zaten bir PCR testi kaydı oluşturdunuz. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir. Başka bir PCR testi kaydı oluşturursanız ilk PCR testi geri dönüşüm kutusuna taşınır. Geri dönüşüm kutusunda PCR testini geri yükleyebilir ya da kalıcı olarak silebilirsiniz."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
     <string name="submission_test_result_toolbar_text">"Test Sonucunuz"</string>

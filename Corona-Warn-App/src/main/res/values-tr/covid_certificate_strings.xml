@@ -150,6 +150,11 @@
     <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
 
     <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_in_blocklist_message">"Sertifika, düzenleyen makam tarafından geri çağırıldı. Lütfen yeni bir dijital sertifika alın."</string>
+    <!-- XTXT: DCC QR code scan error title-->
+    <string name="error_dcc_in_blocklist_title">"Sertifika Geçersiz"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_scan_again">"Sertifika akıllı telefonunuza kaydedilemedi. Lütfen daha sonra yeniden deneyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_already_registered">"Sertifika zaten uygulamanıza kaydedilmiş."</string>
@@ -384,7 +389,7 @@
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Corona-Warn-App\'te sertifikaların geçerliliğini kendiniz doğrulayabilirsiniz ve CovPassCheck uygulamasını kullanmanız gerekmez."</string>
+    <string name="cov_pass_info_section_one">"Corona-Warn-App\'te sertifikalarınızın geçerliliğini kendiniz doğrulayabilirsiniz ve CovPassCheck uygulamasını kullanmanız gerekmez."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Ancak üçüncü tarafların sertifikaları görsel olarak doğrulaması yeterli değildir. Üçüncü tarafların Almanya\'da CovPassCheck uygulamasını kullanması gerekir."</string>
     <!-- XHED: Cov Pass Info Fragment title -->

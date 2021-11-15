@@ -150,6 +150,11 @@
     <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
 
     <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_in_blocklist_message">"Сертификатът е изтеглен от издаващия орган. Моля, снабдете се с нов цифров сертификат."</string>
+    <!-- XTXT: DCC QR code scan error title-->
+    <string name="error_dcc_in_blocklist_title">"Невалиден сертификат"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_scan_again">"Сертификатът не може да бъде запазен на смартфона Ви. Моля, опитайте отново по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“."</string>
     <!-- XTXT: DCC QR code scan error message-->
     <string name="error_dcc_already_registered">"Сертификатът вече е регистриран в приложението Ви."</string>
@@ -384,7 +389,7 @@
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Можете сами да проверите валидността на сертификатите в приложението Corona-Warn-App. Не ви е нужно приложението CovPassCheck."</string>
+    <string name="cov_pass_info_section_one">"Можете сами да проверите валидността на сертификатите си в приложението Corona-Warn-App. Не ви е нужно приложението CovPassCheck."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Но имайте предвид, че визуалната проверка на сертификатите не е достатъчна за третите лица. В Германия те трябва да използват приложението CovPassCheck."</string>
     <!-- XHED: Cov Pass Info Fragment title -->

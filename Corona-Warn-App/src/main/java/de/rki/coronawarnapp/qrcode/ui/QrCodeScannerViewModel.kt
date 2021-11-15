@@ -121,13 +121,24 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             currentCoronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
                 recycledCoronaTest.toRestoreRecycledTestRequest()
             )
+
             else -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
-                CoronaTestResult.TestResult(recycledCoronaTest)
+                recycledCoronaTest.toCoronaTestResult()
             }
         }.also {
             result.postValue(it)
         }
+    }
+
+    private fun CoronaTest.toCoronaTestResult(): CoronaTestResult = when {
+        isPending -> CoronaTestResult.TestPending(test = this)
+        isNegative -> CoronaTestResult.TestNegative(test = this)
+        isPositive -> when (isAdvancedConsentGiven) {
+            true -> CoronaTestResult.TestPositive(test = this)
+            false -> CoronaTestResult.WarnOthers(test = this)
+        }
+        else -> CoronaTestResult.TestInvalid(test = this)
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
@@ -139,7 +150,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 DccResult.InRecycleBin(recycledContainerId)
             }
             dccSettings.isOnboarded.value -> {
-                val containerId = dccHandler.handleQrCode(dccQrCode)
+                val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
                 Timber.tag(TAG).d("containerId=$containerId")
                 containerId.toDccDetails()
             }

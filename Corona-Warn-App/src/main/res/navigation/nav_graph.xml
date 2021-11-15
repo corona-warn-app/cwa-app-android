@@ -909,6 +909,26 @@
         <action
             android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
             app:destination="@id/universalScannerInformationFragment" />
+        <action
+            android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
+            app:destination="@id/submissionTestResultInvalidFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_universalScanner_to_submissionTestResultNegativeFragment"
+            app:destination="@id/submissionTestResultNegativeFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_universalScanner_to_submissionResultPositiveOtherWarningNoConsentFragment"
+            app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_universalScanner_to_submissionTestResultKeysSharedFragment"
+            app:destination="@id/submissionTestResultKeysSharedFragment"
+            app:popUpTo="@id/universalScanner"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <action
