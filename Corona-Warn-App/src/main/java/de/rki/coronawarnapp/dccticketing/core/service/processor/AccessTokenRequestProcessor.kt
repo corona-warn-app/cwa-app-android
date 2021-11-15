@@ -10,7 +10,7 @@ class AccessTokenRequestProcessor @Inject constructor() {
 
     data class Output(
         val accessToken: String,
-        val accessTokenPayload: Any,
+        val accessTokenPayload: Any, // Change to DccTicketingAccessToken, from PR EXPOSUREAPP-10484
         val nonceBase64: String
     )
 }
