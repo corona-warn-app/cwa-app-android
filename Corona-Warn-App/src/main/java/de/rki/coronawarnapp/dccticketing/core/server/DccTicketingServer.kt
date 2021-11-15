@@ -9,17 +9,17 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DccTicketingValidationServer @Inject constructor(
-    private val dccTicketingValidationApiV1Lazy: Lazy<DccTicketingApiV1>,
+class DccTicketingServer @Inject constructor(
+    private val dccTicketingApiV1Lazy: Lazy<DccTicketingApiV1>,
     private val dispatcherProvider: DispatcherProvider,
 ) {
 
-    private val dccTicketingValidationApiV1: DccTicketingApiV1
-        get() = dccTicketingValidationApiV1Lazy.get()
+    private val dccTicketingApiV1: DccTicketingApiV1
+        get() = dccTicketingApiV1Lazy.get()
 
     suspend fun getServiceIdentityDocument(url: String): DccTicketingServiceIdentityDocument =
         withContext(dispatcherProvider.IO) {
             Timber.d("getServiceIdentityDocument(url=%s)", url)
-            dccTicketingValidationApiV1.getServiceIdentityDocument(url)
+            dccTicketingApiV1.getServiceIdentityDocument(url)
         }
 }
