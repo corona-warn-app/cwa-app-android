@@ -26,11 +26,11 @@ data class DccJWK(
      * a string describing the algorithm.
      *
      * The attribute typically has one of the values ES256 , RS256 , or PS256. However, the data structure should allow
-     * for other values. Unsupported algorithms shall only be rejected by operations that process JWKs.
+     * for other values.
      */
     @SerializedName("alg") val alg: String,
 
-    /** a string of either [Purpose.SIGNATURE] or [Purpose.ENCRYPTION] that indicates the purpose of the JWK (signature or encryption) */
+    /** a value of either [Purpose.SIGNATURE] or [Purpose.ENCRYPTION] that indicates the purpose of the JWK (signature or encryption) */
     @SerializedName("use") val use: String,
 ) : Parcelable {
 
