@@ -208,8 +208,8 @@ class CoronaTestRepository @Inject constructor(
     suspend fun refresh(type: CoronaTest.Type? = null): Set<CoronaTest> {
         Timber.tag(TAG).d("refresh(type=%s)", type)
 
-        val toRefresh = internalData.data
-            .first().values
+        val toRefresh = coronaTests
+            .first()
             .filter { type == null || it.type == type }
             .map { it.identifier }
 

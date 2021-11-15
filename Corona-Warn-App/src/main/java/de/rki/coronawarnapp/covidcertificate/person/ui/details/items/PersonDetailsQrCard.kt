@@ -29,7 +29,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
         curItem.apply {
-            image.loadAny(curItem.certificate.getValidQrCode(Locale.getDefault().language)) {
+            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
@@ -38,6 +38,11 @@ class PersonDetailsQrCard(parent: ViewGroup) :
                 validateCertificate(certificate.containerId)
             }
             startValidationCheckButton.isLoading = curItem.isLoading
+
+            startValidationCheckButton.apply {
+                isEnabled = certificate.isNotBlocked
+                defaultButton.isEnabled = certificate.isNotBlocked
+            }
 
             bindValidityViews(certificate, isPersonDetails = true, onCovPassInfoAction = onCovPassInfoAction)
         }
