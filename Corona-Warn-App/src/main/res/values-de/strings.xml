@@ -920,7 +920,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Welche QR-Codes können Sie scannen?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR-Test und Schnelltests, Testzertifikate, Impfzertifikate, Genesenenzertifikate und Check-ins."</string>
+    <string name="qr_code_scan_body_subtitle">"Ihre PCR-Tests, Schnelltests, Testzertifikate, Impfzertifikate, Genesenenzertifikate sowie Check-ins."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
     <!-- XBUT: open image file button  -->
