@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Not in Dcc ticketing allow list dialog-->
 
+    <!-- XTXT: not in AllowList dialog title -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_title">Sicherheitshinweis</string>
+    <!-- XTXT: not in AllowList dialog message -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Bitte überprüfen Sie, ob der QR-Code wirklich von dem Anbieter stammt und ob Sie ihm Ihr Zertifikat zur Verfügung stellen wollen.</string>
 </resources>
