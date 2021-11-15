@@ -12,9 +12,9 @@ data class DccTicketingServiceIdentityDocument(
     /** An array of [DccTicketingVerificationMethod] objects */
     @SerializedName("verificationMethod") val verificationMethod: List<DccTicketingVerificationMethod>,
 
-    /** An array of [DccTicketingService] objects */
     @SerializedName("service") private val _service: List<DccTicketingService>? = null
 ) : Parcelable {
+    /** An array of [DccTicketingService] objects */
     val service: List<DccTicketingService>
         get() = _service.orEmpty()
 }

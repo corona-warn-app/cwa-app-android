@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIde
 import timber.log.Timber
 import javax.inject.Inject
 
-class ValidationDecoratorRequest @Inject constructor(
+class ValidationDecoratorRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer
 ) {
 
