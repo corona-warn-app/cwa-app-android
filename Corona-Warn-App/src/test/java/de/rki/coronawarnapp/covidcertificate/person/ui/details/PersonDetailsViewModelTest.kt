@@ -211,14 +211,16 @@ class PersonDetailsViewModelTest : BaseTest() {
                     every { doseNumber } returns number
                     every { totalSeriesOfDoses } returns 2
                     every { vaccinatedOn } returns localDate
+                    every { medicalProductId } returns "EU/1/20/1528"
                 }
             }
             every { containerId } returns vcContainerId
             every { vaccinatedOn } returns localDate
             every { personIdentifier } returns certificatePersonIdentifier
+            every { medicalProductName } returns "EU/1/20/1528"
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
-            every { isFinalShot } returns final
+            every { isSeriesCompletingShot } returns final
             every { isValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
@@ -231,6 +233,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { containerId } returns rcContainerId
+            every { fullName } returns "Andrea Schneider"
             every { isValid } returns true
             every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
                 every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {

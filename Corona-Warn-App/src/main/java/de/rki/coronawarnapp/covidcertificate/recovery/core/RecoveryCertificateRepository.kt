@@ -173,6 +173,7 @@ class RecoveryCertificateRepository @Inject constructor(
                 is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
                 is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
                 is CwaCovidCertificate.State.Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
+                is CwaCovidCertificate.State.Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 

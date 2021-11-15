@@ -195,13 +195,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:padding="0dp"
-        android:textColor="@color/colorSecondary"
+        android:textColor="@color/text_button_color"
         app:buttonText="@string/start_validation_rule_check_button"
         app:isLoading="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expiration_status_body"
         app:loadingText="@string/start_validation_rule_check_loading_text"
-        app:strokeColor="@color/colorSecondary" />
+        app:strokeColor="@color/text_button_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

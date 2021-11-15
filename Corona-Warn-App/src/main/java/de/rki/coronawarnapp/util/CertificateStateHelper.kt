@@ -31,8 +31,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     covpassInfoButton.isVisible = valid
     covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
 
-    invalidOverlay.isGone = valid
-    image.isEnabled = isCertificateDetails && valid // Disable Qr-Code image from opening full-screen mode
+    invalidOverlay.isGone = valid || (isCertificateDetails && !certificate.isNotBlocked)
+    image.isEnabled = isCertificateDetails && (valid || !certificate.isNotBlocked) // Disable Qr-Code full-screen mode
 
     val isNewTestCertificate = certificate is TestCertificate && certificate.isNew
     notificationBadge.isVisible = if (isNewTestCertificate) {
@@ -110,6 +110,18 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             startValidationCheckButton.isVisible = isPersonDetails
         }
 
+        is CwaCovidCertificate.State.Blocked -> {
+            expirationStatusIcon.isVisible = badgeCount == 0
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            expirationStatusText.isVisible = badgeCount == 0
+            expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
+            expirationStatusBody.isVisible = isCertificateDetails
+            expirationStatusBody.text = context.getText(R.string.error_dcc_in_blocklist_message)
+            qrSubtitle.isVisible = false
+            startValidationCheckButton.isVisible = isPersonDetails
+        }
+
         is CwaCovidCertificate.State.Valid -> {
             expirationStatusIcon.isVisible = false
             expirationStatusText.isVisible = false
@@ -151,6 +163,10 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
                 isVisible = true
                 text = context.getText(R.string.test_certificate_qr_new)
             }
+        }
+        CwaCovidCertificate.State.Blocked -> {
+            isVisible = true
+            text = context.getText(R.string.error_dcc_in_blocklist_title)
         }
     }
 }

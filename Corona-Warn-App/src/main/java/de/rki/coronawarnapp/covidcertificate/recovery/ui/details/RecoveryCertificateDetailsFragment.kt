@@ -97,6 +97,11 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onCertificateReady(
         certificate: RecoveryCertificate
     ) {
+        startValidationCheck.apply {
+            isEnabled = certificate.isNotBlocked
+            defaultButton.isEnabled = certificate.isNotBlocked
+        }
+        toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotBlocked
         qrCodeCard.bindValidityViews(
             certificate,
             isCertificateDetails = true,
@@ -127,7 +132,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
+            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language, true)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }

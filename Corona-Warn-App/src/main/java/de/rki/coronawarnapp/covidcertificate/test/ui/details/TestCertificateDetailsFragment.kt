@@ -98,6 +98,12 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
             isCertificateDetails = true,
             onCovPassInfoAction = { onNavEvent(TestCertificateDetailsNavigation.OpenCovPassInfo) }
         )
+
+        startValidationCheck.apply {
+            isEnabled = certificate.isNotBlocked
+            defaultButton.isEnabled = certificate.isNotBlocked
+        }
+        toolbar.menu.findItem(R.id.menu_covid_certificate_export).isEnabled = certificate.isNotBlocked
         name.text = certificate.fullNameFormatted
         icaoname.text = certificate.fullNameStandardizedFormatted
         dateOfBirth.text = certificate.dateOfBirthFormatted
@@ -151,7 +157,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
+            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language, true)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
