@@ -16,12 +16,12 @@ class DccTicketingValidationServerModule {
     fun provideDccTicketingValidationApiV1(
         @HttpClientDefault client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ): DccTicketingValidationApiV1 = Retrofit.Builder()
+    ): DccTicketingApiV1 = Retrofit.Builder()
         .client(client)
         .addConverterFactory(gsonConverterFactory)
         .baseUrl(BASE_URL)
         .build()
-        .create(DccTicketingValidationApiV1::class.java)
+        .create(DccTicketingApiV1::class.java)
 }
 
 // Dummy base url to satisfy Retrofit ¯\_(ツ)_/¯
