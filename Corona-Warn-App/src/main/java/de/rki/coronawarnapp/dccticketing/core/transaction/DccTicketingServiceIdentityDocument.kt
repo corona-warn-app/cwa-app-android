@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DccServiceIdentityDocument(
+data class DccTicketingServiceIdentityDocument(
     /** Identifier of the service identity document */
     @SerializedName("id") val id: String,
 
