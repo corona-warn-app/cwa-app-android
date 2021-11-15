@@ -81,11 +81,11 @@
     <!-- YTXT: Headline for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_headline_antigen_test">"Zarejestrowano już szybki test."</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Zarejestrowano już szybki test. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny szybki test, pierwszy szybki test zostanie usunięty z aplikacji."</string>
+    <string name="submission_deletion_warning_body_antigen_test">"Zarejestrowano już szybki test. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny szybki test, pierwszy szybki test zostanie przeniesiony do kosza, skąd będziesz mógł go odzyskać lub trwale usunąć."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_headline_pcr_test">"Zarejestrowano już test PCR."</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Zarejestrowano już test PCR. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny test PCR, pierwszy test PCR zostanie usunięty z aplikacji."</string>
+    <string name="submission_deletion_warning_body_pcr_test">"Zarejestrowano już test PCR. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie. Jeśli zarejestrujesz kolejny test PCR, pierwszy test PCR zostanie przeniesiony do kosza, skąd będziesz mógł go odzyskać lub trwale usunąć."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
     <string name="submission_test_result_toolbar_text">"Twój wynik testu"</string>

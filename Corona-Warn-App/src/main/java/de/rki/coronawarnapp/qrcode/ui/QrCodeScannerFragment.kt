@@ -163,7 +163,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun showScannerResultErrorDialog(error: Throwable) = error
         .toQrCodeErrorDialogBuilder(requireContext())
-        .setNeutralButton(null, null) // Remove details
         .setOnDismissListener { startDecode() }
         .show()
 
@@ -176,32 +175,50 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.ConsentTest -> doNavigate(
+            is CoronaTestResult.ConsentTest ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionConsentFragment(
                     scannerResult.coronaTestQrCode
                 )
-            )
-            is CoronaTestResult.DuplicateTest -> doNavigate(
+            is CoronaTestResult.DuplicateTest ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
                     scannerResult.coronaTestQrCode
                 )
-            )
-            is CoronaTestResult.InRecycleBin -> showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
-            is CoronaTestResult.RestoreDuplicateTest -> {
-                doNavigate(
-                    QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
-                        scannerResult.restoreRecycledTestRequest
-                    )
-                )
+            is CoronaTestResult.InRecycleBin -> {
+                showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
+                null
             }
-            is CoronaTestResult.TestResult -> doNavigate(
+            is CoronaTestResult.RestoreDuplicateTest ->
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
+                    scannerResult.restoreRecycledTestRequest
+                )
+            is CoronaTestResult.TestPending ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
-                    testType = scannerResult.coronaTest.type,
-                    testIdentifier = scannerResult.coronaTest.identifier,
+                    testType = scannerResult.test.type,
+                    testIdentifier = scannerResult.test.identifier,
                     forceTestResultUpdate = true
                 )
-            )
+            is CoronaTestResult.TestInvalid ->
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultInvalidFragment(
+                    testType = scannerResult.test.type,
+                    testIdentifier = scannerResult.test.identifier
+                )
+            is CoronaTestResult.TestNegative ->
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultNegativeFragment(
+                    testType = scannerResult.test.type,
+                    testIdentifier = scannerResult.test.identifier
+                )
+            is CoronaTestResult.TestPositive ->
+                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
+                    testType = scannerResult.test.type,
+                    testIdentifier = scannerResult.test.identifier
+                )
+            is CoronaTestResult.WarnOthers ->
+                QrCodeScannerFragmentDirections
+                    .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
+                        testType = scannerResult.test.type
+                    )
         }
+            ?.let { doNavigate(it) }
     }
 
     private fun onDccResult(scannerResult: DccResult) {

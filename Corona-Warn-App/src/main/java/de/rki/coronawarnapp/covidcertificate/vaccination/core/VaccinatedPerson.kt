@@ -3,11 +3,15 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.ASTRA
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.BIONTECH
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate.Companion.MODERNA
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.LocalDate
@@ -79,14 +83,20 @@ data class VaccinatedPerson(
 
     fun getDaysUntilImmunity(nowUTC: Instant = Instant.now()): Int? {
         val newestFullDose = getNewestFullDose() ?: return null
-        val today = nowUTC
-            .toLocalDateUserTz()
-
-        return IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
+        val today = nowUTC.toLocalDateUserTz()
+        return if (isSeriesCompletingOverTwoWeeks(nowUTC.toLocalDateUtc())) 0
+        else IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
     private fun getNewestDoseVaccinatedOn(): LocalDate =
         vaccinationCertificates.maxOf { it.vaccinatedOn }
+
+    private fun isSeriesCompletingOverTwoWeeks(today: LocalDate): Boolean {
+        val certificate = vaccinationCertificates
+            .filter { it.isSeriesCompletingShot }
+            .firstOrNull { Days.daysBetween(it.rawCertificate.vaccination.vaccinatedOn, today).days > 14 }
+        return certificate != null
+    }
 
     private fun getNewestFullDose(): VaccinationCertificate? = vaccinationCertificates
         .filter { it.doseNumber >= it.totalSeriesOfDoses }
@@ -119,8 +129,5 @@ data class VaccinatedPerson(
 
     companion object {
         private const val IMMUNITY_WAITING_DAYS = 15
-        private const val BIONTECH = "EU/1/20/1528"
-        private const val ASTRA = "EU/1/21/1529"
-        private const val MODERNA = "EU/1/20/1507"
     }
 }
