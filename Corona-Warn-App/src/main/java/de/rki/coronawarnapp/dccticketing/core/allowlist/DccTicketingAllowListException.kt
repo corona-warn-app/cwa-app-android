@@ -26,6 +26,6 @@ class DccTicketingAllowListException(
 
     companion object {
         private const val TITLE_ID = R.string.dcc_ticketing_not_in_allow_list_dialog_title
-        private const val MESSAGE_ID = R.string.dcc_ticketing_not_in_allow_list_dialog_title
+        private const val MESSAGE_ID = R.string.dcc_ticketing_not_in_allow_list_dialog_message
     }
 }

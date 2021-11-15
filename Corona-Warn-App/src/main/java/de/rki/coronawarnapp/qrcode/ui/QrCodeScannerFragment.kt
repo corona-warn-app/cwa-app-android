@@ -96,7 +96,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                         scannerResult.error
                             .toErrorDialogBuilder(requireContext())
                             .setCancelable(false)
-                            .setNegativeButton(null, null) // No Details button
+                            .setNeutralButton(null, null) // No Details button
                             .show()
                     scannerResult.isDccTicketingError ->
                         scannerResult.error.toErrorDialogBuilder(requireContext()).show()
