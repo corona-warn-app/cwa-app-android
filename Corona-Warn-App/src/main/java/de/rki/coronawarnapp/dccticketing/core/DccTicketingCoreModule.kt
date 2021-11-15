@@ -1,15 +1,16 @@
-package de.rki.coronawarnapp.dccticketing.core.server
+package de.rki.coronawarnapp.dccticketing.core
 
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.http.HttpClientDefault
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class DccTicketingValidationServerModule {
+class DccTicketingCoreModule {
 
     @Reusable
     @Provides
