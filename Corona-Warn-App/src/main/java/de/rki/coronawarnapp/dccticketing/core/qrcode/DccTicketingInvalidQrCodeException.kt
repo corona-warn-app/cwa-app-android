@@ -16,7 +16,6 @@ class DccTicketingInvalidQrCodeException(
     enum class ErrorCode(
         val message: String
     ) {
-        ALLOWLIST_NO_MATCH("AllowList no match."),
         INIT_DATA_PARSE_ERR("Json parsing failed."),
         INIT_DATA_PROTOCOL_INVALID("Invalid protocol."),
         INIT_DATA_SUBJECT_EMPTY("Data subject is missing."),

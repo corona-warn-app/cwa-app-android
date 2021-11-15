@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
@@ -44,7 +45,5 @@ sealed class DccTicketingResult : ScannerResult {
 
 data class Error(val error: Throwable) : ScannerResult {
     val isDccTicketingError = error is DccTicketingInvalidQrCodeException
-    val isNotInAllowListError: Boolean
-        get() = error is DccTicketingInvalidQrCodeException &&
-            error.errorCode == DccTicketingInvalidQrCodeException.ErrorCode.ALLOWLIST_NO_MATCH
+    val isNotInAllowListError = error is DccTicketingAllowListException
 }

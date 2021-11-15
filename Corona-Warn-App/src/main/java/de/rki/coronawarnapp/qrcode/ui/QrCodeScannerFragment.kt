@@ -92,7 +92,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is CheckInResult -> onCheckInResult(scannerResult)
                 is DccTicketingResult -> onDccTicketingResult(scannerResult)
                 is Error -> when {
-                    scannerResult.isNotInAllowListError -> showDccTicketingNotInAllowListDialog()
+                    scannerResult.isNotInAllowListError ->
+                        scannerResult.error
+                            .toErrorDialogBuilder(requireContext())
+                            .setCancelable(false)
+                            .setNegativeButton(null, null) // No Details button
+                            .show()
                     scannerResult.isDccTicketingError ->
                         scannerResult.error.toErrorDialogBuilder(requireContext()).show()
                     else -> showScannerResultErrorDialog(scannerResult.error)
@@ -175,13 +180,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 popBackStack()
             }
         }.show()
-
-    private fun showDccTicketingNotInAllowListDialog() = MaterialAlertDialogBuilder(requireContext())
-        .setTitle(R.string.dcc_ticketing_not_in_allow_list_dialog_title)
-        .setMessage(R.string.dcc_ticketing_not_in_allow_list_dialog_message)
-        .setPositiveButton(android.R.string.ok) { _, _ -> /*Dismiss*/ }
-        .setCancelable(false)
-        .show()
 
     private fun showScannerResultErrorDialog(error: Throwable) = error
         .toQrCodeErrorDialogBuilder(requireContext())
