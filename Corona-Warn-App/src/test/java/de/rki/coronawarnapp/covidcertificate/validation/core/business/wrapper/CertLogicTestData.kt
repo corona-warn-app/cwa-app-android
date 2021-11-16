@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import dgca.verifier.app.engine.data.RuleCertificateType
 
+@Suppress("MaxLineLength")
 internal val frenchRule = ObjectMapper().readTree(
     """{"if":[{"var":"payload.v.0"},{"in":[{"var":"payload.v.0.ma"},{"var":"external.valueSets.vaccines-covid-19-auth-holders"}]},true]}"""
 )

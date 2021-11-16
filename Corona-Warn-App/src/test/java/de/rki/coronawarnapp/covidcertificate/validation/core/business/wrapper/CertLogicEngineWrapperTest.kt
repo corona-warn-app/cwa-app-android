@@ -251,4 +251,3 @@ class CertLogicEngineWrapperTest : BaseTest() {
         wrapper = CertLogicEngineWrapper(valueSetWrapper, engine)
     }
 }
-
