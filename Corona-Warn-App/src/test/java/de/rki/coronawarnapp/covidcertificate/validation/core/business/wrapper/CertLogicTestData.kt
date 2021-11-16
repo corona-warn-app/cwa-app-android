@@ -1,11 +1,17 @@
 @file:Suppress("LongParameterList")
+
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Description
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import dgca.verifier.app.engine.data.RuleCertificateType
+
+internal val frenchRule = ObjectMapper().readTree(
+    """{"if":[{"var":"payload.v.0"},{"in":[{"var":"payload.v.0.ma"},{"var":"external.valueSets.vaccines-covid-19-auth-holders"}]},true]}"""
+)
 
 internal val logicVaccinationDose = ObjectMapper().readTree(
     """{"and":[{">":[{"var":"payload.v.0.dn"},0]},{">=":[{"var":"payload.v.0.dn"},{"var":"payload.v.0.sd"}]}]}"""
@@ -70,6 +76,7 @@ fun createDccRule(
     validTo: String = "2022-08-01T07:46:40Z",
     version: String = "1.0.0",
     country: String = "DE",
+    logic: JsonNode? = null,
 ) = DccValidationRule(
     identifier = identifier,
     version = version,
@@ -93,7 +100,7 @@ fun createDccRule(
         RuleCertificateType.VACCINATION -> listOf("v.0.dn", "v.0.sd")
         RuleCertificateType.RECOVERY -> throw NotImplementedError()
     },
-    logic = when (certificateType) {
+    logic = logic ?: when (certificateType) {
         RuleCertificateType.GENERAL -> logicExactlyOne
         RuleCertificateType.TEST -> logicPcr72hoursValid
         RuleCertificateType.VACCINATION -> logicVaccinationDose
