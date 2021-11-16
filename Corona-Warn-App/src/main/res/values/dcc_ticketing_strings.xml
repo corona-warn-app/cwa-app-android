@@ -28,9 +28,9 @@
     <!-- XTXT: DCC Ticketing: Consent One: Data protection -->
     <string name="dcc_ticketing_consent_one_data_protection">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
     <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
-    <string name="dcc_ticketing_consent_one_consent_btn">"Einverstanden:"</string>
+    <string name="dcc_ticketing_consent_one_consent_btn">"Einverstanden"</string>
     <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
-    <string name="dcc_ticketing_consent_one_nope_btn">"Nein Danke:"</string>
+    <string name="dcc_ticketing_consent_one_nope_btn">"Nein Danke"</string>
 
     <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
     <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Wollen Sie die Überprüfung wirklich abbrechen?"</string>
