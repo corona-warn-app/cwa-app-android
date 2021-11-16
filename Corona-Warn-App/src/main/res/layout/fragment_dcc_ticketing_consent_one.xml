@@ -321,13 +321,13 @@
         android:layout_height="wrap_content"
         app:buttonText="@string/dcc_ticketing_consent_one_consent_btn"
         app:isLoading="false"
-        app:layout_constraintBottom_toTopOf="@id/disagree_button"
+        app:layout_constraintBottom_toTopOf="@id/cancel_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/coordinator_layout" />
 
     <Button
-        android:id="@+id/disagree_button"
+        android:id="@+id/cancel_button"
         style="@style/buttonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
