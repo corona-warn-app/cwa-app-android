@@ -8,9 +8,9 @@ class DccTicketingServerException(
     enum class ErrorCode(
         val message: String
     ) {
-        PARSE_ERR(""),
-        SERVER_ERR(""),
-        CLIENT_ERR(""),
-        NO_NETWORK("")
+        PARSE_ERR("Response could not be parsed to the target data structure"),
+        SERVER_ERR("Request failed with a server error"),
+        CLIENT_ERR("Request failed with a client error"),
+        NO_NETWORK("Request failed because of a missing or poor network connection")
     }
 }
