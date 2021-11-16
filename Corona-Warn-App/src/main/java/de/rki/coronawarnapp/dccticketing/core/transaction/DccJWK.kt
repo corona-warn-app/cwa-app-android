@@ -7,12 +7,14 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DccJWK(
     /**
-     * a base64-encoded string that represents an x509 certificate.
+     * an array of base64-encoded strings that each represent an x509 certificate.
      *
-     * The attribute typically needs to be parsed to a native x509 certificate object
-     * to obtain certificate information such as the included public key.
+     * Each element typically needs to be parsed to a native x509 certificate object to obtain certificate information
+     * such as the included public key.
+     *
+     * It is safe to assume that there is at least one entry
      */
-    @SerializedName("x5x") val x5x: String,
+    @SerializedName("x5c") val x5c: List<String>,
 
     /**
      * a base64-encoded string.
