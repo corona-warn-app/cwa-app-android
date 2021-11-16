@@ -82,11 +82,11 @@
     <!-- YTXT: Headline for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_headline_antigen_test">"Sie haben bereits einen Schnelltest registriert."</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest aus der App gelöscht."</string>
+    <string name="submission_deletion_warning_body_antigen_test">"Sie haben bereits einen Schnelltest registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren Schnelltest registrieren, wird der erste Schnelltest in den Papierkorb verschoben. Dort können Sie ihn endgültig löschen oder wiederherstellen."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_headline_pcr_test">"Sie haben bereits einen PCR-Test registriert."</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test aus der App gelöscht."</string>
+    <string name="submission_deletion_warning_body_pcr_test">"Sie haben bereits einen PCR-Test registriert. Die App kann maximal einen Schnelltest und einen PCR-Test gleichzeitig verwalten. Wenn Sie einen weiteren PCR-Test registrieren, wird der erste PCR-Test in den Papierkorb verschoben. Dort können Sie ihn endgültig löschen oder wiederherstellen."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
     <string name="submission_test_result_toolbar_text">"Ihr Testergebnis"</string>
@@ -125,9 +125,9 @@
     <!-- XTXT: coronatest negative antigen result second info body -->
     <string name="coronatest_negative_antigen_result_second_info_body">"Der Schnelltest hat keinen Nachweis für das Coronavirus SARS-CoV-2 bei Ihnen ergeben."</string>
     <!-- XTXT: coronatest negative antigen result third info title -->
-    <string name="coronatest_negative_antigen_result_third_info_title">"Test entfernen"</string>
+    <string name="coronatest_negative_antigen_result_third_info_title">"Test löschen"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
-    <string name="coronatest_negative_antigen_restul_third_info_body">"Bitte entfernen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
+    <string name="coronatest_negative_antigen_restul_third_info_body">"Bitte löschen Sie den Test wieder aus der Corona-Warn-App, damit Sie bei Bedarf einen neuen Test hinterlegen können."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
     <string name="coronatest_negative_result_certificate_info_title">"Testzertifikat"</string>
     <!-- XTXT: coronatest negative result certificate info body -->
@@ -188,13 +188,13 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">Weiter</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">Schnelltest-Profil entfernen</string>
+    <string name="rat_qr_code_profile_delete_item">Schnelltest-Profil löschen</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->
     <string name="rat_qr_code_profile_edit_item">Schnelltest-Profil bearbeiten</string>
     <!-- XTXT: Create RAT Qr code profile information item-->
     <string name="rat_qr_code_profile_information_item">Information</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil entfernen?</string>
+    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil löschen?</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
     <string name="rat_qr_code_profile_dialog_message">Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Registrieren verwendet werden kann.</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->

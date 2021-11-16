@@ -19,19 +19,19 @@
     <string name="trace_location_checkins_action_scan_qrcode">QR-Code scannen</string>
 
     <!-- XBUT: My check-ins: menu entry to remove all -->
-    <string name="trace_location_checkins_menu_remove_all">Alle entfernen</string>
+    <string name="trace_location_checkins_menu_remove_all">Alle löschen</string>
     <!-- XBUT: My check-ins: menu entry to show information -->
     <string name="trace_location_checkins_menu_information">Informationen</string>
 
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
-    <string name="trace_location_checkins_remove_all_title">Wollen Sie wirklich alle Einträge entfernen?</string>
+    <string name="trace_location_checkins_remove_all_title">Wollen Sie wirklich alle Einträge löschen?</string>
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
-    <string name="trace_location_checkins_remove_single_title">Wollen Sie diesen Eintrag wirklich entfernen?</string>
+    <string name="trace_location_checkins_remove_single_title">Wollen Sie diesen Eintrag wirklich löschen?</string>
     <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
     <string name="trace_location_checkins_remove_message">Sie können dann Personen, die zur selben Zeit für diesen Ort oder Event eingecheckt waren, bei Bedarf nicht mehr warnen oder von ihnen gewarnt werden.</string>
 
     <!-- XBUT: My check-ins card: Menu, remove item -->
-    <string name="trace_location_checkins_menu_remove_item">Entfernen</string>
+    <string name="trace_location_checkins_menu_remove_item">Löschen</string>
     <!-- XBUT: My check-ins card: Active event, checkout button -->
     <string name="trace_location_checkins_card_action_checkout">Jetzt auschecken</string>
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
@@ -177,23 +177,23 @@
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
     <string name="trace_location_organizer_list_menu_information_btn">"Informationen"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
-    <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle entfernen"</string>
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Alle löschen"</string>
     <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
     <string name="trace_location_organizer_list_menu_warn_guests_btn">"In Vertretung warnen"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
-    <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich entfernen?"</string>
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Wollen Sie den QR-Code wirklich löschen?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
     <string name="trace_location_organiser_list_delete_single_popup_message">"Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Einchecken verwendet werden kann."</string>
 
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
-    <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes entfernen?"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Wollen Sie wirklich alle QR-Codes löschen?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
     <string name="trace_location_organiser_list_delete_all_popup_message">"Bitte denken Sie daran, dass diese QR-Codes danach nicht mehr zum Einchecken verwendet werden können."</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
     <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Abbrechen"</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
-    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Entfernen"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Löschen"</string>
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s Uhr"</string>

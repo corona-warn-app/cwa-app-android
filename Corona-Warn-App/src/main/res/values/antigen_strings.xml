@@ -81,11 +81,11 @@
     <!-- YTXT: Headline for rapid test submission deletion warning -->
     <string name="submission_deletion_warning_headline_antigen_test">"You have already registered a rapid test."</string>
     <!-- YTXT: Body for rapid test submission deletion warning -->
-    <string name="submission_deletion_warning_body_antigen_test">"You have already registered a rapid test. The app can manage a maximum of one rapid test and one PCR test at the same time. If you register another rapid test, the first rapid test will be deleted from the app."</string>
+    <string name="submission_deletion_warning_body_antigen_test">"You have already registered a rapid test. The app can manage a maximum of one rapid test and one PCR test at the same time. If you register another rapid test, the first rapid test will be moved to the recycle bin, where you can restore it or delete it permanently."</string>
     <!-- YTXT: Headline for PCR test submission deletion warning -->
     <string name="submission_deletion_warning_headline_pcr_test">"You have already registered a PCR test."</string>
     <!-- YTXT: Body for PCR test submission deletion warning -->
-    <string name="submission_deletion_warning_body_pcr_test">"You have already registered a PCR test. The app can manage a maximum of one rapid test and one PCR test at the same time. If you register another PCR test, the first PCR test will be deleted from the app."</string>
+    <string name="submission_deletion_warning_body_pcr_test">"You have already registered a PCR test. The app can manage a maximum of one rapid test and one PCR test at the same time. If you register another PCR test, the first PCR test will be moved to the recycle bin, where you can restore it or delete it permanently."</string>
 
     <!-- XHED: submission result antigen fragment toolbar text -->
     <string name="submission_test_result_toolbar_text">"Your Test Result"</string>
