@@ -76,6 +76,12 @@ class DccTicketingException(
         VS_ID_NO_SIGN_KEY("failure when obtaining Service Identity Document of Validation Service; user may retry"),
         VS_ID_PARSE_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
         VS_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
+
+        JWT_VER_NO_JWKS("jwkSet is empty"),
+        JWT_VER_ALG_NOT_SUPPORTED("algorithm is not supported"),
+        JWT_VER_NO_KID("no kid"),
+        JWT_VER_NO_JWK_FOR_KID("jwk for kid is empty"),
+        JWT_VER_SIG_INVALID("the signature verification does not pass for at least one entry from jwkSet"),
     }
 
     val errorMessage: LazyString

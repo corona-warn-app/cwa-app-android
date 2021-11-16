@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
+import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenValidator
 import de.rki.coronawarnapp.dccticketing.core.server.AccessTokenRequest
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.getAccessToken
@@ -13,7 +15,8 @@ import javax.inject.Inject
 class AccessTokenRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer,
     private val jwtTokenParser: JwtTokenParser,
-    private val convertor: JwtTokenConverter
+    private val convertor: JwtTokenConverter,
+    private val validator: JwtTokenValidator,
 ) {
 
     suspend fun requestAccessToken(
@@ -38,14 +41,18 @@ class AccessTokenRequestProcessor @Inject constructor(
 
         // TODO: Verify signature
 
+        // Determine accessTokenPayload
 
-        // TODO: Determine accessTokenPayload
+        val accessTokenPayload = try {
+            jwtTokenParser.parse(response.accessToken).let { convertor.jsonToJwtToken(it.body) }
+        } catch (e: Exception) {
+            throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR, e)
+        } ?: throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR)
 
-        jwtTokenParser.parse(response.accessToken).let { convertor.jsonToJwtToken(it.body) }
+        // Validate accessTokenPayload
+        validator.validateAccessToken(accessTokenPayload)
 
-        // TODO: Validate accessTokenPayload
-
-        TODO()
+        return Output(response.accessToken, accessTokenPayload, response.iv)
     }
 
     data class Output(
