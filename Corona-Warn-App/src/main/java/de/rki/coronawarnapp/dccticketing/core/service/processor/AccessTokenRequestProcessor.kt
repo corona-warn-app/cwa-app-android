@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import javax.inject.Inject
 
+@Reusable
 class AccessTokenRequestProcessor @Inject constructor() {
 
     suspend fun requestAccessToken(): Output {

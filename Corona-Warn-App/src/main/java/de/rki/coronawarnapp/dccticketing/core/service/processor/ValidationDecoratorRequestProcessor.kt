@@ -1,15 +1,17 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
-import de.rki.coronawarnapp.dccticketing.core.server.getServiceIdentityDocument
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
 import timber.log.Timber
 import javax.inject.Inject
 
+@Reusable
 class ValidationDecoratorRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer
 ) {
@@ -19,13 +21,7 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
         Timber.d("requestServiceIdentityDocumentValidationDecorator(url=%s)", url)
 
         // 1. Call Service Identity Document
-        val serviceIdentityDocument = dccTicketingServer.getServiceIdentityDocument(
-            url = url,
-            parserErrorCode = DccTicketingErrorCode.VD_ID_PARSE_ERR,
-            clientErrorCode = DccTicketingErrorCode.VD_ID_CLIENT_ERR,
-            serverErrorCode = DccTicketingErrorCode.VD_ID_SERVER_ERR,
-            noNetworkErrorCode = DccTicketingErrorCode.VD_ID_NO_NETWORK
-        )
+        val serviceIdentityDocument = getServiceIdentityDocument(url = url)
 
         // 2. Find accessTokenService
         val accessTokenService = serviceIdentityDocument.findService(serviceType = ServiceType.AccessTokenService)
@@ -51,6 +47,19 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
             validationService = validationService,
             validationServiceJwkSet = validationServiceJwkSet
         ).also { Timber.d("Returning output=%s", it) }
+    }
+
+    private suspend fun getServiceIdentityDocument(url: String): DccTicketingServiceIdentityDocument = try {
+        Timber.d("getServiceIdentityDocument(url=%s)", url)
+        dccTicketingServer.getServiceIdentityDocument(url = url)
+    } catch (e: DccTicketingServerException) {
+        Timber.e(e, "Getting ServiceIdentityDocument failed")
+        throw when (e.errorCode) {
+            DccTicketingServerException.ErrorCode.PARSE_ERR -> DccTicketingErrorCode.VD_ID_PARSE_ERR
+            DccTicketingServerException.ErrorCode.SERVER_ERR -> DccTicketingErrorCode.VD_ID_SERVER_ERR
+            DccTicketingServerException.ErrorCode.CLIENT_ERR -> DccTicketingErrorCode.VD_ID_CLIENT_ERR
+            DccTicketingServerException.ErrorCode.NO_NETWORK -> DccTicketingErrorCode.VD_ID_NO_NETWORK
+        }.let { DccTicketingException(errorCode = it, cause = e) }
     }
 
     private fun DccTicketingServiceIdentityDocument.findService(serviceType: ServiceType): DccTicketingService {
