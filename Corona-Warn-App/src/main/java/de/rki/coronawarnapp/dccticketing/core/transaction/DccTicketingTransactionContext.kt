@@ -12,7 +12,7 @@ data class DccTicketingTransactionContext(
     val accessTokenService: DccTicketingService? = null,
     val accessTokenServiceJwkSet: Set<DccJWK>? = null,
     val accessTokenSignJwkSet: Set<DccJWK>? = null,
-    val validationService: String? = null,
+    val validationService: DccTicketingService? = null,
     val validationServiceJwkSet: Set<DccJWK>? = null,
     val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC: Set<DccJWK>? = null,
     val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM: Set<DccJWK>? = null,
