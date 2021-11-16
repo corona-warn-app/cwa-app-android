@@ -35,3 +35,28 @@ suspend fun DccTicketingServer.getServiceIdentityDocument(
         else -> serverErrorCode
     }.let { DccTicketingException(it, e) }
 }
+
+@Throws(DccTicketingException::class)
+suspend fun DccTicketingServer.getAccessToken(
+    url: String,
+    authorization: String,
+    body: AccessTokenRequest,
+    clientErrorCode: DccTicketingErrorCode,
+    serverErrorCode: DccTicketingErrorCode,
+    noNetworkErrorCode: DccTicketingErrorCode
+) = try {
+    val authorizationHeader = "Bearer $authorization"
+    getAccessToken(url, authorizationHeader, body)
+} catch (e: Exception) {
+    Timber.e(e, "Getting service identity document failed")
+    throw when (e) {
+        is CwaUnknownHostException,
+        is NetworkReadTimeoutException,
+        is NetworkConnectTimeoutException -> noNetworkErrorCode
+
+        is CwaClientError -> clientErrorCode
+
+        // Blame the server for everything else
+        else -> serverErrorCode
+    }.let { DccTicketingException(it, e) }
+}
