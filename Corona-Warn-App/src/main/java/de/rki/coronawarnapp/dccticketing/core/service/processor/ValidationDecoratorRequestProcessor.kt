@@ -68,21 +68,6 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
         return foundService.also { Timber.d("Found %s=%s", serviceType.type, foundService) }
     }
 
-    private fun DccTicketingServiceIdentityDocument.findJwkSet(jwkSetType: JwkSetType): Set<DccJWK> {
-        Timber.d("findJwkSet(jwkSetType=%s)", jwkSetType)
-
-        val jwkSet = verificationMethod
-            .filter { it.id.matches(jwkSetType.regex) }
-            .mapNotNull { it.publicKeyJwk }
-            .toSet()
-
-        if (jwkSet.isEmpty()) {
-            Timber.d("No matching entries for %s, aborting", jwkSetType)
-            throw DccTicketingException(errorCode = jwkSetType.noMatchingEntryErrorCode)
-        }
-        return jwkSet.also { Timber.d("Found %s=%s", jwkSetType.name, jwkSet) }
-    }
-
     data class Output(
         val accessTokenService: DccTicketingService,
         val accessTokenServiceJwkSet: Set<DccJWK>,
@@ -104,25 +89,5 @@ private enum class ServiceType(
     ValidationService(
         type = "ValidationService",
         notFoundErrorCode = DccTicketingErrorCode.VD_ID_NO_VS
-    )
-}
-
-private enum class JwkSetType(
-    val regex: Regex,
-    val noMatchingEntryErrorCode: DccTicketingErrorCode
-) {
-    AccessTokenSignJwkSet(
-        regex = """/AccessTokenSignKey-\d+${'$'}/""".toRegex(),
-        noMatchingEntryErrorCode = DccTicketingErrorCode.VD_ID_NO_ATS_SIGN_KEY
-    ),
-
-    AccessTokenServiceJwkSet(
-        regex = """/AccessTokenServiceKey-\d+${'$'}/""".toRegex(),
-        noMatchingEntryErrorCode = DccTicketingErrorCode.VD_ID_NO_ATS_SVC_KEY
-    ),
-
-    ValidationServiceJwkSet(
-        regex = """/ValidationServiceKey-\d+${'$'}/""".toRegex(),
-        noMatchingEntryErrorCode = DccTicketingException.ErrorCode.VD_ID_NO_VS_SVC_KEY
     )
 }
