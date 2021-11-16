@@ -42,7 +42,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
         )
 
         // Checking the Server Certificate Against a Set of JWKs
-        //TODO: Add cert check
+        // TODO: Add cert check
 
         // 2. Find verificationMethodsForRSAOAEPWithSHA256AESCBC
         val verificationMethodsForRSAOAEPWithSHA256AESCBC = serviceIdentityDocument
@@ -63,7 +63,9 @@ class ValidationServiceRequestProcessor @Inject constructor(
             .also { Timber.d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM=%s", it) }
 
         // 6. Check encryption key
-        if (validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC.isEmpty() && validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM.isEmpty()) {
+        if (validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC.isEmpty() &&
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM.isEmpty()
+        ) {
             Timber.d("Didn't find encryption keys, aborting")
             throw DccTicketingException(errorCode = DccTicketingErrorCode.VS_ID_NO_ENC_KEY)
         }
@@ -73,8 +75,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceSignKeyJwkSet)
 
         return Output(
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
             validationServiceSignKeyJwkSet = validationServiceSignKeyJwkSet
         ).also { Timber.d("Returning output=%s", it) }
     }
