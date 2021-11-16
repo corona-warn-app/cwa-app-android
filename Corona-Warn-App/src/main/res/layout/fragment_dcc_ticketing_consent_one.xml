@@ -1,13 +1,357 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".dccticketing.ui.consent.one.DccTicketingConsentOneFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/covid_certificate_validation_gradient"
+            android:nestedScrollingEnabled="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
+
+            <ImageView
+                android:id="@+id/header_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAccessibility="no"
+                android:contentDescription="@string/dcc_ticketing_consent_one_acessibility"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:srcCompat="@drawable/ic_dcc_ticketing_consent_illustration" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/CWAToolbar.Close.Transparent"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:expandedTitleGravity="top"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_close"
+                app:title="@string/dcc_ticketing_consent_one_header" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_normal">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/dcc_ticketing_consent_one_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/provider_label"
+                style="@style/body2Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/dcc_ticketing_consent_one_provider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"  />
+
+            <TextView
+                android:id="@+id/provider"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:text="@string/dcc_ticketing_consent_one_provider_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/provider_label"  />
+
+            <TextView
+                android:id="@+id/booking_label"
+                style="@style/body2Medium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/dcc_ticketing_consent_one_booking"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/provider"  />
+
+            <TextView
+                android:id="@+id/booking"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:text="@string/dcc_ticketing_consent_one_booking_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/booking_label"  />
+
+            <TextView
+                android:id="@+id/body"
+                style="@style/body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/dcc_ticketing_consent_one_body"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/booking"  />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/privacy_card"
+                style="@style/GreyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/body" >
+
+                <TextView
+                    android:id="@+id/legal_title"
+                    style="@style/headline5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/dcc_ticketing_consent_one_legal_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/legal_body"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/dcc_ticketing_consent_one_legal_body"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/legal_title" />
+
+                <include
+                    android:id="@+id/legal_bulletpoint_one"
+                    layout="@layout/include_bullet_point"
+                    android:layout_width="@dimen/bullet_point_size"
+                    android:layout_height="@dimen/bullet_point_size"
+                    app:layout_constraintBaseline_toBaselineOf="@id/legal_first_bulletpoint_text"
+                    app:layout_constraintStart_toStartOf="@id/legal_body" />
+
+                <TextView
+                    android:id="@+id/legal_first_bulletpoint_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/dcc_ticketing_consent_one_legal_point_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/legal_bulletpoint_one"
+                    app:layout_constraintTop_toBottomOf="@id/legal_body" />
+
+                <include
+                    android:id="@+id/legal_bulletpoint_two"
+                    layout="@layout/include_bullet_point"
+                    android:layout_width="@dimen/bullet_point_size"
+                    android:layout_height="@dimen/bullet_point_size"
+                    app:layout_constraintBaseline_toBaselineOf="@id/legal_second_bulletpoint_text"
+                    app:layout_constraintStart_toStartOf="@id/legal_bulletpoint_one" />
+
+                <TextView
+                    android:id="@+id/legal_second_bulletpoint_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/dcc_ticketing_consent_one_legal_point_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/legal_first_bulletpoint_text"
+                    app:layout_constraintTop_toBottomOf="@id/legal_first_bulletpoint_text" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                android:id="@+id/bulletpoint_one"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_text"
+                app:layout_constraintStart_toStartOf="@id/privacy_card" />
+
+            <TextView
+                android:id="@+id/first_bulletpoint_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="31dp"
+                android:text="@string/dcc_ticketing_consent_one_point_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/bulletpoint_one"
+                app:layout_constraintTop_toBottomOf="@id/privacy_card" />
+
+            <include
+                android:id="@+id/bulletpoint_two"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/second_bulletpoint_text"
+                app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
+
+            <TextView
+                android:id="@+id/second_bulletpoint_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="31dp"
+                android:text="@string/dcc_ticketing_consent_one_point_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
+                app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text" />
+
+            <include
+                android:id="@+id/bulletpoint_three"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_text"
+                app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
+
+            <TextView
+                android:id="@+id/third_bulletpoint_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="31dp"
+                android:text="@string/dcc_ticketing_consent_one_point_3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
+                app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
+
+            <include
+                android:id="@+id/bulletpoint_four"
+                layout="@layout/include_bullet_point"
+                android:layout_width="@dimen/bullet_point_size"
+                android:layout_height="@dimen/bullet_point_size"
+                app:layout_constraintBaseline_toBaselineOf="@id/forth_bulletpoint_text"
+                app:layout_constraintStart_toStartOf="@id/bulletpoint_one" />
+
+            <TextView
+                android:id="@+id/forth_bulletpoint_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="31dp"
+                android:text="@string/dcc_ticketing_consent_one_point_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
+                app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text" />
+
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
+                android:id="@+id/privacy_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_medium"
+                android:layout_marginBottom="@dimen/spacing_small"
+                android:focusable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/forth_bulletpoint_text"
+                app:titleText="@string/dcc_ticketing_consent_one_data_protection" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <Button
+        android:id="@+id/agree_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/dcc_ticketing_consent_one_consent_btn"
+        app:layout_constraintBottom_toTopOf="@id/disagree_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coordinator_layout" />
+
+    <Button
+        android:id="@+id/disagree_button"
+        style="@style/buttonLight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/dcc_ticketing_consent_one_nope_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="@+id/disagree_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinator_layout"
+        app:showAnimationBehavior="inward"
+        app:trackColor="@android:color/transparent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
