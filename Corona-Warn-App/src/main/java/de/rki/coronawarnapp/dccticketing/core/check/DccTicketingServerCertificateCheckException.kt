@@ -8,7 +8,7 @@ class DccTicketingServerCertificateCheckException(
     enum class ErrorCode(
         val message: String
     ) {
-        CERT_PIN_NO_JWK_FOR_KID(""),
-        CERT_PIN_MISMATCH("")
+        CERT_PIN_NO_JWK_FOR_KID("No matching jwk for required kid"),
+        CERT_PIN_MISMATCH("The SHA-256 fingerprint of leafCertificate is not included in requiredFingerprints")
     }
 }
