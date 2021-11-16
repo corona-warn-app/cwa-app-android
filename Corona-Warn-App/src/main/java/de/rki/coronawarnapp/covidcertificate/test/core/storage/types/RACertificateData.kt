@@ -20,6 +20,9 @@ data class RACertificateData(
     @SerializedName("notifiedInvalidAt")
     override val notifiedInvalidAt: Instant? = null,
 
+    @SerializedName("notifiedBlockedAt")
+    override val notifiedBlockedAt: Instant? = null,
+
     @SerializedName("lastSeenStateChange")
     override val lastSeenStateChange: CwaCovidCertificate.State? = null,
 

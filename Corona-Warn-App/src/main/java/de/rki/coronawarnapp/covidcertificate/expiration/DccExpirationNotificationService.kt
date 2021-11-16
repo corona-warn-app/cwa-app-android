@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
@@ -80,6 +81,18 @@ class DccExpirationNotificationService @Inject constructor(
                 }
             }
 
+        allCerts
+            .filter { it.getState() is CwaCovidCertificate.State.Blocked }
+            .firstOrNull {
+                Timber.tag(TAG).w("Certificate is blocked: %s", it)
+                it.notifiedBlockedAt == null
+            }
+            ?.let {
+                if (dscCheckNotification.showNotification(it.containerId)) {
+                    setStateNotificationShown(it)
+                }
+            }
+
         covidCertificateSettings.lastDccStateBackgroundCheck.update { timeStamper.nowUTC }
     }
 
@@ -104,6 +117,6 @@ class DccExpirationNotificationService @Inject constructor(
     }
 
     companion object {
-        private val TAG = DccExpirationNotificationService::class.java.simpleName
+        private val TAG = tag<DccExpirationNotificationService>()
     }
 }

@@ -24,6 +24,9 @@ data class GenericTestCertificateData(
     @SerializedName("lastSeenStateChange")
     override val lastSeenStateChange: CwaCovidCertificate.State? = null,
 
+    @SerializedName("notifiedBlockedAt")
+    override val notifiedBlockedAt: Instant? = null,
+
     @SerializedName("lastSeenStateChangeAt")
     override val lastSeenStateChangeAt: Instant? = null,
 

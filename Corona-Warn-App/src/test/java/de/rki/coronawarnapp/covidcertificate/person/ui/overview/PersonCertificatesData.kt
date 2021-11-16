@@ -102,4 +102,6 @@ fun testCertificate(
 
     override val recycledAt: Instant?
         get() = null
+    override val notifiedBlockedAt: Instant?
+        get() = null
 }

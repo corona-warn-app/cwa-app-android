@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
+import com.google.protobuf.ByteString
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.DgcParameters
 import io.kotest.matchers.shouldBe
+import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -22,12 +24,32 @@ class CovidCertificateConfigMapperTest : BaseTest() {
                             .setWaitAfterPublicKeyRegistrationInSeconds(60)
                     )
                     .setExpirationThresholdInDays(13)
+                    .setBlockListParameters(
+                        DgcParameters.DGCBlocklistParameters.newBuilder()
+                            .addBlockedUvciChunks(
+                                DgcParameters.DGCBlockedUVCIChunk.newBuilder()
+                                    .addIndices(0)
+                                    .setHash(
+                                        ByteString.copyFrom(
+                                            "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9",
+                                            Charsets.UTF_8
+                                        )
+                                    )
+                            )
+                            .build()
+                    )
             )
             .build()
         createInstance().map(config).apply {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(60)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(60)
             expirationThreshold shouldBe Duration.standardDays(13)
+            blockListParameters shouldBe listOf(
+                CovidCertificateConfigMapper.BlockedUvciChunk(
+                    listOf(0),
+                    "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9".toByteArray().toByteString()
+                )
+            )
         }
     }
 
@@ -37,6 +59,7 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
             expirationThreshold shouldBe Duration.standardDays(14)
+            blockListParameters shouldBe emptyList()
         }
     }
 
@@ -49,6 +72,7 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
             expirationThreshold shouldBe Duration.standardDays(14)
+            blockListParameters shouldBe emptyList()
         }
     }
 
@@ -68,6 +92,7 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
             expirationThreshold shouldBe Duration.standardDays(14)
+            blockListParameters shouldBe emptyList()
         }
     }
 }
