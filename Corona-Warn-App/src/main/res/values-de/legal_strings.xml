@@ -198,4 +198,14 @@
     <!-- XTXT: Request GC legal information section for privacy card -->
     <string name="request_green_certificate_privacy_legal_information" translatable="false">Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung</string>
 
+    <!-- DCC Ticketing Sonsent Screen -->
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
+    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Ihr Einverständnis"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
+    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in die folgenden Schritte ein:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_one_legal_point_1" translatable="false">"Die App ruft vom Anbieter „Anbietername“ den Namen und das Geburtsdatum der bei Buchung angegebenen Person, die für die Prüfung relevanten Buchungsdetails (z.B. Zielland und Reisedatum) und die vom Anbieter zu Ihrer Buchung festgelegten Anforderungen an das Zertifikat ab."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_one_legal_point_2" translatable="false">"Die abgerufenen Daten werden von der App genutzt, um festzustellen, welche Ihrer gespeicherten Zertifikate verwendet werden können."</string>
+
 </resources>

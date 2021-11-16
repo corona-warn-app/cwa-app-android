@@ -13,14 +13,6 @@
     <string name="dcc_ticketing_consent_one_booking">"Buchung:"</string>
     <!-- XTXT: DCC Ticketing: Consent One: Body -->
     <string name="dcc_ticketing_consent_one_body">"Der Anbieter möchte sicherstellen, dass ein gültiges Zertifikat zu Ihrer Buchung vorliegt. Für den Abruf Ihrer Buchungsdetails vom Anbieter und die Freigabe Ihrer gespeicherten Zertifikate ist Ihr Einverständnis erforderlich."</string>
-    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
-    <string name="dcc_ticketing_consent_one_legal_title">"Ihr Einverständnis"</string>
-    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
-    <string name="dcc_ticketing_consent_one_legal_body">"Durch Antippen von „Einverstanden“ willigen Sie in die folgenden Schritte ein:"</string>
-    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
-    <string name="dcc_ticketing_consent_one_legal_point_1">"Die App ruft vom Anbieter „Anbietername“ den Namen und das Geburtsdatum der bei Buchung angegebenen Person, die für die Prüfung relevanten Buchungsdetails (z.B. Zielland und Reisedatum) und die vom Anbieter zu Ihrer Buchung festgelegten Anforderungen an das Zertifikat ab."</string>
-    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
-    <string name="dcc_ticketing_consent_one_legal_point_2">"Die abgerufenen Daten werden von der App genutzt, um festzustellen, welche Ihrer gespeicherten Zertifikate verwendet werden können."</string>
     <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
     <string name="dcc_ticketing_consent_one_point_1">"Sie sind nicht verpflichtet, die Überprüfung Ihres Zertifikats mit der Corona-Warn-App zu erlauben. Der Nachweis Ihres Impf-, Test- oder Genesungsstatus kann auch auf andere Weise erbracht werden."</string>
     <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
