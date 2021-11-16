@@ -918,7 +918,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Tests, Zertifikate, Check-ins und Überprüfung  bei Ticketbuchungen"</string>
+    <string name="qr_code_scan_body_subtitle">"Tests, Zertifikate, Check-ins und Überprüfung bei Ticketbuchungen"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
