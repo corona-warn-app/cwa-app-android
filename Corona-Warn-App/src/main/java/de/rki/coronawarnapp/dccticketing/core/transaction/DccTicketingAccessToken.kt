@@ -21,7 +21,7 @@ data class DccTicketingAccessToken(
     @JsonProperty("v")
     val v: String, // A version information
     @JsonProperty("t")
-    val type: Long, // The type of the validation(0 = Structure, 1 = Cryptographic, 2 = Full)
+    val t: Long, // The type of the validation(0 = Structure, 1 = Cryptographic, 2 = Full)
     @JsonProperty("vc")
     val vc: DccTicketingValidationCondition // A data structure representing the validation conditions
 ) : Parcelable
