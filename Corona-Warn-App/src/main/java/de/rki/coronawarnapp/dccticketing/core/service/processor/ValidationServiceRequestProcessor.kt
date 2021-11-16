@@ -60,7 +60,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
             .also { Timber.d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM=%s", it) }
 
         // 6. Check encryption key
-        if (validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC.isEmpty() && validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM.isEmpty()) {
+        if (
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC.isEmpty() &&
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM.isEmpty()
+        ) {
             Timber.d("Didn't find encryption keys, aborting")
             throw DccTicketingException(errorCode = DccTicketingErrorCode.VS_ID_NO_ENC_KEY)
         }
@@ -70,8 +73,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceSignKeyJwkSet)
 
         return Output(
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
             validationServiceSignKeyJwkSet = validationServiceSignKeyJwkSet
         ).also { Timber.d("Returning output=%s", it) }
     }
@@ -93,8 +98,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
     } catch (e: DccTicketingServerCertificateCheckException) {
         Timber.e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID -> DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH -> DccTicketingErrorCode.VS_ID_CERT_PIN_MISMATCH
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
+                DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
+                DccTicketingErrorCode.VS_ID_CERT_PIN_MISMATCH
         }.let { DccTicketingException(errorCode = it, cause = e) }
     }
 

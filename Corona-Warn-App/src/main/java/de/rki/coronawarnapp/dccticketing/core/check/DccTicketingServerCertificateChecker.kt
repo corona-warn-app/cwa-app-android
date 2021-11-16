@@ -28,6 +28,6 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
 
         // 6. Compare fingerprints
 
-        //TODO: Implement all steps
+        // TODO: Implement all steps
     }
 }
