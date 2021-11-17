@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- DCC Ticketing: Consent One -->
     <!-- XHED: DCC Ticketing: Consent One: Header -->
     <string name="dcc_ticketing_consent_one_header">"Ihr Einverständnis"</string>
     <!-- XACT: DCC Ticketing: Consent One: Accessibility -->
