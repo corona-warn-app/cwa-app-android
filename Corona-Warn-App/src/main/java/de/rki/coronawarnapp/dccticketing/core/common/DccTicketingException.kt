@@ -81,6 +81,7 @@ class DccTicketingException(
     val errorMessage: LazyString
         get() = CachedString { context ->
             when (errorCode) {
+                ErrorCode.VS_ID_CERT_PIN_MISMATCH -> TODO()
                 else -> ERROR_MESSAGE_GENERIC
             }.let { context.getString(it) }
         }
