@@ -8,7 +8,15 @@ import javax.inject.Inject
 class AccessTokenRequestProcessor @Inject constructor() {
 
     suspend fun requestAccessToken(): Output {
-        TODO("Add input and implement")
+        val accessToken = ""
+        val accessTokenPayload = DccTicketingAccessToken("", 0, 0, "", "", "", "", 0, null)
+        val nonceBase64 = ""
+        // TODO: Add input and replace dummy impl
+        return Output(
+            accessToken = accessToken,
+            accessTokenPayload = accessTokenPayload,
+            nonceBase64 = nonceBase64
+        )
     }
 
     data class Output(
