@@ -73,10 +73,11 @@ class DccTicketingException(
         VS_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
     }
 
+    // to-do: Add all error codes
     val errorMessage: LazyString
         get() = CachedString { context ->
             when (errorCode) {
-                ErrorCode.VS_ID_CERT_PIN_MISMATCH -> TODO()
+                ErrorCode.VS_ID_SERVER_ERR -> R.string.dcc_ticketing_error_try_again
                 else -> ERROR_MESSAGE_GENERIC
             }.let { context.getString(it) }
         }
