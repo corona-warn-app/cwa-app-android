@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.qrcode.ui.info
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
@@ -26,9 +25,7 @@ class UqsInfoFragment : Fragment(R.layout.fragment_uqs_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
-            privacyInformation.setOnClickListener {
-                findNavController().navigate("coronawarnapp://contactdiary/dataPrivacy".toUri())
-            }
+            privacyInformation.setOnClickListener { findNavController().navigate(R.id.informationPrivacyFragment) }
             appBarLayout.onOffsetChange { _, subtitleAlpha ->
                 headerImage.alpha = subtitleAlpha
             }
