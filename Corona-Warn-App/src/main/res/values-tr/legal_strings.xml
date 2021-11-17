@@ -195,4 +195,15 @@
     <string name="request_green_certificate_privacy_section_5" translatable="false">Test sertifikasını istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar test sertifikaları akıllı telefonunuzda kayıtlı kalacaktır.</string>
     <!-- XTXT: Request GC legal information section for privacy card -->
     <string name="request_green_certificate_privacy_legal_information" translatable="false">Veri işleme ile ilgili ayrıntılı bilgileri Veri Gizliliği Beyanında bulabilirsiniz</string>
+
+    <!-- DCC Ticketing Sonsent Screen -->
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
+    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Rıza beyanız"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
+    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"“Anladım” üzerine tıklayarak aşağıdaki adımları onaylarsınız:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_one_legal_point_1" translatable="false">"Uygulama, sağlayıcının sunduğu rezervasyonda belirtilen kişinin isim ve doğum tarihini, kontrolle ilgili rezervasyon ayrıntılarını (örn. hedef ülke ve seyahat tarihi) ve sağlayıcı tarafından rezervasyonunuza ilişkin belirlenen sertifika taleplerini açar."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_one_legal_point_2" translatable="false">"Açılan bilgiler kayıtlı sertifikalarınızdan hangilerinin kullanılabileceğini belirlemek için uygulama tarafından kullanılır."</string>
+
 </resources>

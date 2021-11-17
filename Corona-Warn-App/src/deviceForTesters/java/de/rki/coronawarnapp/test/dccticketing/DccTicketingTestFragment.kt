@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestDccTicketingBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
@@ -26,8 +27,13 @@ class DccTicketingTestFragment : Fragment(R.layout.fragment_test_dcc_ticketing),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.generateEcKeyPair.setOnClickListener {
-            viewModel.generateECKeyPair()
+        with(binding) {
+            generateEcKeyPair.setOnClickListener {
+                viewModel.generateECKeyPair()
+            }
+            consentOneButton.setOnClickListener {
+                findNavController().navigate(R.id.dcc_ticketing_nav_graph)
+            }
         }
         val color = requireContext().getColorCompat(R.color.colorPrimary)
         viewModel.ecKeyPair.observe(viewLifecycleOwner) {
