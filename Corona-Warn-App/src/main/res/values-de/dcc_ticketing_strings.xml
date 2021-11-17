@@ -31,7 +31,7 @@
     <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
     <string name="dcc_ticketing_consent_one_consent_btn">"Einverstanden"</string>
     <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
-    <string name="dcc_ticketing_consent_one_nope_btn">"Nein Danke"</string>
+    <string name="dcc_ticketing_consent_one_cancel_btn">"Abbrechen"</string>
 
     <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
     <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Wollen Sie die Überprüfung wirklich abbrechen?"</string>
