@@ -27,7 +27,7 @@ class UqsInfoFragment : Fragment(R.layout.fragment_uqs_info) {
         binding.apply {
             toolbar.setNavigationOnClickListener { popBackStack() }
             privacyInformation.setOnClickListener {
-                findNavController().navigate("coronawarnapp://contactdiary/dataPrivacy".toUri())
+                findNavController().navigate(R.id.informationPrivacyFragment)
             }
             appBarLayout.onOffsetChange { _, subtitleAlpha ->
                 headerImage.alpha = subtitleAlpha
