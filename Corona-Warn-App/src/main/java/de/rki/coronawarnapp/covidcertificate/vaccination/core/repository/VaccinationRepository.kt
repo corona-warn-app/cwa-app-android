@@ -351,9 +351,17 @@ class VaccinationRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val updatedPerson = vaccinatedPerson.copy(
-                data = vaccinatedPerson.data.copy(boosterRuleIdentifier = rule?.identifier)
-            )
+            val data = when (rule) {
+                // Clear notification badge if user is not eligible for booster anymore
+                null -> vaccinatedPerson.data.copy(
+                    boosterRuleIdentifier = null,
+                    lastSeenBoosterRuleIdentifier = null
+                )
+                else -> vaccinatedPerson.data.copy(
+                    boosterRuleIdentifier = rule.identifier
+                )
+            }
+            val updatedPerson = vaccinatedPerson.copy(data = data)
 
             Timber.tag(TAG).d("updateBoosterRule updatedPerson=%s", updatedPerson)
 
