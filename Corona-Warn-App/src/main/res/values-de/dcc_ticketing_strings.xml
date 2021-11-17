@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
+    <!-- Error Handling -->
+    <!-- XTXT: Service Provider (without provider name) error message-->
+    <string name="dcc_ticketing_error_service_provider_error_no_name">Es trat ein Fehler bei der Verbindung mit dem Anbieter. Bitte kontaktieren Sie den Anbieter wenn das Problem weiterhin besteht.</string>
+    <!-- XTXT: Service Provider error message-->
+    <string name="dcc_ticketing_error_service_provider_error">Es trat ein Fehler bei der Verbindung mit dem Anbieter %1$s auf. Bitte kontaktieren Sie den Anbieter wenn das Problem weiterhin besteht.</string>
+    <!-- XTXT: Try again error message-->
+    <string name="dcc_ticketing_error_try_again">Es trat ein Fehler bei der Verarbeitung der Daten auf. Bitte versuchen Sie es später erneut.</string>
+
 </resources>
