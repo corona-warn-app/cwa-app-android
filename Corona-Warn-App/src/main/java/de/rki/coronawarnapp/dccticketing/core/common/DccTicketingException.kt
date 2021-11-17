@@ -15,6 +15,8 @@ class DccTicketingException(
 
     @Suppress("MaxLineLength")
     enum class ErrorCode(val message: String) {
+       /*
+        TODO provide right text
         AES_CBC_INVALID_IV("failure while encrypting DCC; user may retry"),
         AES_CBC_INVALID_KEY("failure while encrypting DCC; user may retry"),
         AES_CBC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
@@ -57,25 +59,25 @@ class DccTicketingException(
         RTR_JWT_VER_SIG_INVALID("failure when obtaining Result Token; user may retry"),
         RTR_NO_NETWORK("failure when obtaining Result Token; user may retry"),
         RTR_SERVER_ERR("failure when obtaining Result Token; user may retry"),
+*/
+        VD_ID_CLIENT_ERR("VD_ID_CLIENT_ERR"),
+        VD_ID_NO_ATS_SIGN_KEY("VD_ID_NO_ATS_SIGN_KEY"),
+        VD_ID_NO_ATS_SVC_KEY("VD_ID_NO_ATS_SVC_KEY"),
+        VD_ID_NO_ATS("VD_ID_NO_ATS"),
+        VD_ID_NO_NETWORK("VD_ID_NO_NETWORK"),
+        VD_ID_NO_VS_SVC_KEY("VD_ID_NO_VS_SVC_KEY"),
+        VD_ID_NO_VS("VD_ID_NO_VS"),
+        VD_ID_PARSE_ERR("VD_ID_PARSE_ERR"),
+        VD_ID_SERVER_ERR("VD_ID_SERVER_ERR"),
 
-        VD_ID_CLIENT_ERR("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_ATS_SIGN_KEY("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_ATS_SVC_KEY("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_ATS("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_NETWORK("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_VS_SVC_KEY("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_VS("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_PARSE_ERR("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-
-        VS_ID_CERT_PIN_MISMATCH("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_CLIENT_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_NO_ENC_KEY("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_NO_NETWORK("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_NO_SIGN_KEY("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_PARSE_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
+        VS_ID_CERT_PIN_MISMATCH("VS_ID_CERT_PIN_MISMATCH"),
+        VS_ID_CERT_PIN_NO_JWK_FOR_KID("VS_ID_CERT_PIN_NO_JWK_FOR_KID"),
+        VS_ID_CLIENT_ERR("VS_ID_CLIENT_ERR"),
+        VS_ID_NO_ENC_KEY("VS_ID_NO_ENC_KEY"),
+        VS_ID_NO_NETWORK("VS_ID_NO_NETWORK"),
+        VS_ID_NO_SIGN_KEY("VS_ID_NO_SIGN_KEY"),
+        VS_ID_PARSE_ERR("VS_ID_PARSE_ERR"),
+        VS_ID_SERVER_ERR("VS_ID_SERVER_ERR"),
     }
 
     // to-do: Add all error codes

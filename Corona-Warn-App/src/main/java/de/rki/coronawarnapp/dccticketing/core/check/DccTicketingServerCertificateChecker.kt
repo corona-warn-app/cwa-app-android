@@ -21,7 +21,7 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
         val leafCertificate = certificateChain.first()
 
         // 2. Determine requiredKid
-        val requiredKid = leafCertificate.createKid().also { Timber.d("requiredKid=%s", it) }
+        // val requiredKid = leafCertificate.createKid().also { Timber.d("requiredKid=%s", it) }
 
         // 3. Find requiredJwkSet
 
@@ -31,7 +31,7 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
 
         // 6. Compare fingerprints
 
-        // TODO: Implement all steps
+        // 7. Implement all steps
     }
 
     // Takes the first 8 bytes of the SHA-256 fingerprint of the certificate and encodes them with base64
