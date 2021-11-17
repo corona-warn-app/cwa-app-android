@@ -96,10 +96,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onAcceptDccTicketingWarning() {
-        // TODO navigate to ?? ASK UX
-    }
-
     fun onInfoButtonPress() {
         result.postValue(InfoScreen)
     }

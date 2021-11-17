@@ -6,6 +6,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -170,17 +171,21 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
     }
 }
 
-val CwaCovidCertificate.europaStarsResource
-    get() = when {
-        isValid -> R.drawable.ic_eu_stars_blue
-        else -> R.drawable.ic_eu_stars_grey
+fun CwaCovidCertificate.getEuropaStarsTint(colorShade: PersonColorShade): Int {
+    return when {
+        colorShade != PersonColorShade.COLOR_UNDEFINED -> colorShade.starsTint
+        isValid -> R.color.starsColor1
+        else -> R.color.starsColorInvalid
     }
+}
 
-val CwaCovidCertificate.expendedImageResource
-    get() = when {
+fun CwaCovidCertificate.expendedImageResource(colorShade: PersonColorShade): Int {
+    return when {
+        colorShade != PersonColorShade.COLOR_UNDEFINED -> colorShade.background
         isValid -> R.drawable.certificate_complete_gradient
         else -> R.drawable.vaccination_incomplete
     }
+}
 
 /**
  * Display state is just for UI purpose only and does change the state for Test Certificate only

@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.CertificateExportErrorDialog
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
@@ -27,6 +28,7 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -72,15 +74,22 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
                 val stateInValid = it.certificate?.isValid == false
                 val isFinalShot = it.certificate?.isSeriesCompletingShot == true
-                val (background, europaStars) = when {
-                    stateInValid -> R.drawable.vaccination_incomplete to R.drawable.ic_eu_stars_grey
-                    (it.isImmune && isFinalShot) ->
-                        R.drawable.certificate_complete_gradient to R.drawable.ic_eu_stars_blue
-                    else -> R.drawable.vaccination_incomplete to R.drawable.ic_eu_stars_grey
+                val isColorDefined = args.colorShade != PersonColorShade.COLOR_UNDEFINED
+
+                val (background, starsTint) = when {
+                    isColorDefined -> args.colorShade.background to args.colorShade.starsTint
+                    stateInValid -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
+                    (it.isImmune && isFinalShot) -> R.drawable.certificate_complete_gradient to R.color.starsColor1
+                    else -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
                 }
 
                 expandedImage.setImageResource(background)
-                europaImage.setImageResource(europaStars)
+                europaImage.setImageDrawable(
+                    resources.mutateDrawable(
+                        R.drawable.ic_eu_stars_blue,
+                        requireContext().getColorCompat(starsTint)
+                    )
+                )
 
                 qrCodeCard.apply {
                     val request = it.certificate?.getValidQrCode(Locale.getDefault().language, true)
