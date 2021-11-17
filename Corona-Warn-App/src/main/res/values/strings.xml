@@ -387,7 +387,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"If you want, you can use the app to prove your personal infection status (a negative rapid test, for example). Please note, however, that you are under no obligation to use the app to prove your infection status. You can also prove your infection status in another manner compliant with the legal regulations at your residence."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"You can also verify your personal vaccination status."</string>
+    <string name="onboarding_body_5">"You can also prove your personal vaccination status."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_6">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
