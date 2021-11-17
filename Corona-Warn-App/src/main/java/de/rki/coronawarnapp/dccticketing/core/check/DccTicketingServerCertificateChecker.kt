@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.dccticketing.core.check
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import okio.ByteString.Companion.toByteString
-import timber.log.Timber
 import java.security.cert.Certificate
 import javax.inject.Inject
 
