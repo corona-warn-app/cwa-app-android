@@ -16,6 +16,8 @@ sealed interface ScannerResult
 
 object InProgress : ScannerResult
 
+object InfoScreen : ScannerResult
+
 sealed class DccResult : ScannerResult {
     data class Details(val uri: Uri) : DccResult()
     data class Onboarding(val dccQrCode: DccQrCode) : DccResult()
