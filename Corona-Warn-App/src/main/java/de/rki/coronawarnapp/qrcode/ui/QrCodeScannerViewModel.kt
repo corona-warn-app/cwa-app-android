@@ -96,10 +96,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onAcceptDccTicketingWarning() {
-        // TODO navigate to ?? ASK UX
-    }
-
     fun setCameraDeniedPermanently(denied: Boolean) {
         Timber.tag(TAG).d("setCameraDeniedPermanently(denied=$denied)")
         cameraSettings.isCameraDeniedPermanently.update { denied }
