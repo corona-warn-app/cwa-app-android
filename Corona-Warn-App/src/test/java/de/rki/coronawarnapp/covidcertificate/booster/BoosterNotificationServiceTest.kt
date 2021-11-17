@@ -133,9 +133,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-416"
-                }
+                boosterRuleIdentifier = "BNR-DE-416"
             )
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
@@ -169,9 +167,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-416"
-                },
+                boosterRuleIdentifier = "BNR-DE-416",
                 lastSeenBoosterRuleIdentifier = null
             )
         }
@@ -180,9 +176,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-418"
-                },
+                boosterRuleIdentifier = "BNR-DE-418",
                 lastSeenBoosterRuleIdentifier = null
             )
         }
@@ -235,9 +229,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-416"
-                },
+                boosterRuleIdentifier = "BNR-DE-416",
                 lastSeenBoosterRuleIdentifier = null
             )
         }
@@ -246,9 +238,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-418"
-                },
+                boosterRuleIdentifier = "BNR-DE-418",
                 lastSeenBoosterRuleIdentifier = null
             )
         }
@@ -383,9 +373,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-416"
-                }
+                boosterRuleIdentifier = "BNR-DE-416"
             )
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
@@ -416,9 +404,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-416"
-                }
+                boosterRuleIdentifier = "BNR-DE-416"
             )
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
@@ -449,9 +435,7 @@ class BoosterNotificationServiceTest : BaseTest() {
             every { identifier } returns pIdentifier1
             every { data } returns VaccinatedPersonData(
                 vaccinations = emptySet(),
-                boosterRule = mockk<DccValidationRule>().apply {
-                    every { identifier } returns "BNR-DE-416"
-                }
+                boosterRuleIdentifier = "BNR-DE-416"
             )
         }
 

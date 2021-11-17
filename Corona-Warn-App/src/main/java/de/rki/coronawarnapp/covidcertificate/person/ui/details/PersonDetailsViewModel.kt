@@ -150,12 +150,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         when (certificate) {
             is TestCertificate -> add(
                 TestCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
-                    events.postValue(
-                        OpenTestCertificateDetails(
-                            containerId = certificate.containerId,
-                            colorShade = getItemColorShade(certificate.isValid, isCurrentCertificate)
-                        )
-                    )
+                    events.postValue(OpenTestCertificateDetails(certificate.containerId))
                 }
             )
             is VaccinationCertificate -> {
@@ -167,32 +162,17 @@ class PersonDetailsViewModel @AssistedInject constructor(
                         colorShade = colorShade,
                         status = status
                     ) {
-                        events.postValue(
-                            OpenVaccinationCertificateDetails(
-                                containerId = certificate.containerId,
-                                colorShade = getItemColorShade(certificate.isValid, isCurrentCertificate)
-                            )
-                        )
+                        events.postValue(OpenVaccinationCertificateDetails(certificate.containerId))
                     }
                 )
             }
 
             is RecoveryCertificate -> add(
                 RecoveryCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
-                    events.postValue(
-                        OpenRecoveryCertificateDetails(
-                            containerId = certificate.containerId,
-                            colorShade = getItemColorShade(certificate.isValid, isCurrentCertificate)
-                        )
-                    )
+                    events.postValue(OpenRecoveryCertificateDetails(certificate.containerId))
                 }
             )
         }
-    }
-
-    private fun getItemColorShade(isValid: Boolean, isCurrentCertificate: Boolean): PersonColorShade = when {
-        isValid && isCurrentCertificate -> colorShade
-        else -> PersonColorShade.COLOR_INVALID
     }
 
     private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
