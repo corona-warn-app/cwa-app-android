@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
+import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -17,43 +18,51 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
 ) {
 
     @Throws(DccTicketingException::class)
-    suspend fun requestValidationDecorator(url: String): Output {
-        Timber.d("requestServiceIdentityDocumentValidationDecorator(url=%s)", url)
+    suspend fun requestValidationDecorator(url: String): ValidationDecoratorResult {
+        Timber.tag(TAG).d("requestServiceIdentityDocumentValidationDecorator(url=%s)", url)
 
-        // 1. Call Service Identity Document
+        // Call Service Identity Document
         val serviceIdentityDocument = getServiceIdentityDocument(url = url)
 
-        // 2. Find accessTokenService
+        // Verify JWKs
+        if (serviceIdentityDocument.verificationMethod
+            .any { it.publicKeyJwk != null && it.publicKeyJwk.x5c.isEmpty() }
+        ) {
+            Timber.tag(TAG).d("x5c does not contain at least one element")
+            throw DccTicketingException(errorCode = DccTicketingException.ErrorCode.VD_ID_EMPTY_X5C)
+        }
+
+        // Find accessTokenService
         val accessTokenService = serviceIdentityDocument.findService(serviceType = ServiceType.AccessTokenService)
 
-        // 3. Find accessTokenSignJwkSet
+        // Find accessTokenSignJwkSet
         val accessTokenSignJwkSet = serviceIdentityDocument.findJwkSet(jwkSetType = JwkSetType.AccessTokenSignJwkSet)
 
-        // 4. Find accessTokenServiceJwkSet
+        // Find accessTokenServiceJwkSet
         val accessTokenServiceJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.AccessTokenServiceJwkSet)
 
-        // 5. Find validationService
+        // Find validationService
         val validationService = serviceIdentityDocument.findService(serviceType = ServiceType.ValidationService)
 
-        // 6. Find validationServiceJwkSet
+        // Find validationServiceJwkSet
         val validationServiceJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceJwkSet)
 
-        return Output(
+        return ValidationDecoratorResult(
             accessTokenService = accessTokenService,
             accessTokenServiceJwkSet = accessTokenServiceJwkSet,
             accessTokenSignJwkSet = accessTokenSignJwkSet,
             validationService = validationService,
             validationServiceJwkSet = validationServiceJwkSet
-        ).also { Timber.d("Returning output=%s", it) }
+        ).also { Timber.tag(TAG).d("Returning ValidationDecoratorResult=%s", it) }
     }
 
     private suspend fun getServiceIdentityDocument(url: String): DccTicketingServiceIdentityDocument = try {
         Timber.d("getServiceIdentityDocument(url=%s)", url)
         dccTicketingServer.getServiceIdentityDocument(url = url)
     } catch (e: DccTicketingServerException) {
-        Timber.e(e, "Getting ServiceIdentityDocument failed")
+        Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
             DccTicketingServerException.ErrorCode.PARSE_ERR -> DccTicketingErrorCode.VD_ID_PARSE_ERR
             DccTicketingServerException.ErrorCode.SERVER_ERR -> DccTicketingErrorCode.VD_ID_SERVER_ERR
@@ -63,7 +72,7 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
     }
 
     private fun DccTicketingServiceIdentityDocument.findService(serviceType: ServiceType): DccTicketingService {
-        Timber.d(
+        Timber.tag(TAG).d(
             message = "findService(serviceType=%s, notFoundErrorCode=%s)",
             serviceType.type,
             serviceType.notFoundErrorCode
@@ -71,19 +80,23 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
 
         val foundService = service.firstOrNull { it.type == serviceType.type }
         if (foundService == null) {
-            Timber.d("No matching entries for %s, aborting", serviceType)
+            Timber.tag(TAG).d("No matching entries for %s, aborting", serviceType)
             throw DccTicketingException(errorCode = serviceType.notFoundErrorCode)
         }
         return foundService.also { Timber.d("Found %s=%s", serviceType.type, foundService) }
     }
 
-    data class Output(
+    data class ValidationDecoratorResult(
         val accessTokenService: DccTicketingService,
         val accessTokenServiceJwkSet: Set<DccJWK>,
         val accessTokenSignJwkSet: Set<DccJWK>,
         val validationService: DccTicketingService,
         val validationServiceJwkSet: Set<DccJWK>
     )
+
+    companion object {
+        private val TAG = tag<ValidationDecoratorRequestProcessor>()
+    }
 }
 
 private enum class ServiceType(
