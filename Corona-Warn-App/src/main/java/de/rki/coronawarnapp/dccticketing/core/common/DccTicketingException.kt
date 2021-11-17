@@ -39,11 +39,6 @@ class DccTicketingException(
         EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
         EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
-        INIT_DATA_PARSE_ERR("invalid QR code"),
-        INIT_DATA_PROTOCOL_INVALID("invalid QR code"),
-        INIT_DATA_SUBJECT_EMPTY("invalid QR code"),
-        INIT_DATA_SP_EMPTY("invalid QR code"),
-
         RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
         RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
@@ -78,11 +73,13 @@ class DccTicketingException(
         VS_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
     }
 
+    // TODO: handle all relevant error codes
     val errorMessage: LazyString
         get() = CachedString { context ->
             when (errorCode) {
-                else -> ERROR_MESSAGE_GENERIC
-            }.let { context.getString(it) }
+                ErrorCode.VS_ID_NO_NETWORK -> "tbd"
+                else -> context.getString(ERROR_MESSAGE_GENERIC)
+            }
         }
 
     override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
