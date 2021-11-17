@@ -6,12 +6,15 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DccTicketingService(
-    @SerializedName("id")
-    val id: String,
-    @SerializedName("type")
-    val type: String,
-    @SerializedName("serviceEndpoint")
-    val serviceEndpoint: String,
-    @SerializedName("name")
-    val name: String
+    /** Identifier of the service identity document */
+    @SerializedName("id") val id: String,
+
+    /** Type of the verification method */
+    @SerializedName("type") val type: String,
+
+    /** URL to the service endpoint */
+    @SerializedName("serviceEndpoint") val serviceEndpoint: String,
+
+    /** Name of the service */
+    @SerializedName("name") val name: String,
 ) : Parcelable

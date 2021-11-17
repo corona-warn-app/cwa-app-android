@@ -1,12 +1,21 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Suppress("ConstructorParameterNaming")
+@Parcelize
 data class DccTicketingServiceIdentityDocument(
-    @SerializedName("id")
-    val id: String, // Identifier of the service identity document
-    @SerializedName("verificationMethod")
-    val verificationMethod: List<DccTicketingVerificationMethod>,    // An array of Verification Method objects (see below.)
-    @SerializedName("service")
-    val service: List<DccTicketingService>?, // (optional)	An array of Service objects (see below.) As this parameter is optional, it may be defaulted to an empty array.
-)
+    /** Identifier of the service identity document */
+    @SerializedName("id") val id: String,
+
+    /** An array of [DccTicketingVerificationMethod] objects */
+    @SerializedName("verificationMethod") val verificationMethod: List<DccTicketingVerificationMethod>,
+
+    @SerializedName("service") private val _service: List<DccTicketingService>? = null
+) : Parcelable {
+    /** An array of [DccTicketingService] objects */
+    val service: List<DccTicketingService>
+        get() = _service.orEmpty()
+}
