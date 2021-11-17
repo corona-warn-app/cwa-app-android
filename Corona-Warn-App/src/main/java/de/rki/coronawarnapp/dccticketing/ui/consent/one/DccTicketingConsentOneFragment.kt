@@ -60,8 +60,8 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.dcc_ticketing_consent_one_cancel_dialog_title)
             .setMessage(R.string.dcc_ticketing_consent_one_cancel_dialog_body)
-            .setNegativeButton(R.string.dcc_ticketing_consent_one_cancel_dialog_continue_btn) { _, _ -> }
-            .setPositiveButton(R.string.dcc_ticketing_consent_one_cancel_dialog_cancel_btn) { _, _ -> popBackStack() }
+            .setPositiveButton(R.string.dcc_ticketing_consent_one_cancel_dialog_continue_btn) { _, _ -> }
+            .setNegativeButton(R.string.dcc_ticketing_consent_one_cancel_dialog_cancel_btn) { _, _ -> popBackStack() }
             .show()
     }
 }
