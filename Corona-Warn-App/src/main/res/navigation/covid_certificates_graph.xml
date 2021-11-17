@@ -71,11 +71,6 @@
             android:defaultValue="false"
             app:argType="boolean" />
 
-        <argument
-            android:name="colorShade"
-            android:defaultValue="COLOR_UNDEFINED"
-            app:argType="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade" />
-
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
@@ -141,11 +136,6 @@
             android:defaultValue="false"
             app:argType="boolean" />
 
-        <argument
-            android:name="colorShade"
-            android:defaultValue="COLOR_UNDEFINED"
-            app:argType="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade" />
-
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_validationStartFragment"
             app:destination="@id/validationStartFragment" />
@@ -172,11 +162,6 @@
             android:name="fromScanner"
             android:defaultValue="false"
             app:argType="boolean" />
-
-        <argument
-            android:name="colorShade"
-            android:defaultValue="COLOR_UNDEFINED"
-            app:argType="de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade" />
 
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_validationStartFragment"
