@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- Not in Dcc ticketing allow list dialog-->
 
     <!-- Error Handling -->
     <!-- XTXT: Service Provider (without provider name) error message-->
@@ -8,5 +9,10 @@
     <string name="dcc_ticketing_error_service_provider_error">Es trat ein Fehler bei der Verbindung mit dem Anbieter %1$s auf. Bitte kontaktieren Sie den Anbieter wenn das Problem weiterhin besteht.</string>
     <!-- XTXT: Try again error message-->
     <string name="dcc_ticketing_error_try_again">Es trat ein Fehler bei der Verarbeitung der Daten auf. Bitte versuchen Sie es später erneut.</string>
+
+    <!-- XTXT: not in AllowList dialog title -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_title">Sicherheitshinweis</string>
+    <!-- XTXT: not in AllowList dialog message -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Bitte überprüfen Sie, ob der QR-Code wirklich von dem Anbieter stammt und ob Sie ihm Ihr Zertifikat zur Verfügung stellen wollen.</string>
 
 </resources>
