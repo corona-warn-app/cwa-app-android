@@ -76,7 +76,8 @@
                     android:padding="9dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_star_checkmark" />
+                    app:srcCompat="@drawable/ic_star_checkmark"
+                    app:tint="@color/colorSecondary" />
 
                 <TextView
                     android:id="@+id/first_bulletpoint_text"
@@ -101,7 +102,8 @@
                     android:padding="9dp"
                     app:layout_constraintStart_toStartOf="@id/first_bulletpoint_icon"
                     app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text"
-                    app:srcCompat="@drawable/ic_location_simple" />
+                    app:srcCompat="@drawable/ic_location_simple"
+                    app:tint="@color/colorSecondary" />
 
                 <TextView
                     android:id="@+id/second_bulletpoint_text"
@@ -152,7 +154,8 @@
                     android:padding="9dp"
                     app:layout_constraintStart_toStartOf="@id/first_bulletpoint_icon"
                     app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text"
-                    app:srcCompat="@drawable/ic_star" />
+                    app:srcCompat="@drawable/ic_star"
+                    app:tint="@color/colorSecondary" />
 
                 <TextView
                     android:id="@+id/fourth_bulletpoint_text"
