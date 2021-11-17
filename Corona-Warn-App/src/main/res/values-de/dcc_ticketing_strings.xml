@@ -51,7 +51,6 @@
     <string name="dcc_ticketing_consent_one_cancel_dialog_cancel_btn">"Überprüfung Abbrechen"</string>
 
     <!-- Not in Dcc ticketing allow list dialog-->
-
     <!-- XTXT: not in AllowList dialog title -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_title">Sicherheitshinweis</string>
     <!-- XTXT: not in AllowList dialog message -->
