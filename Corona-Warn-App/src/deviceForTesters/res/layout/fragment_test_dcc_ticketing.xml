@@ -41,6 +41,24 @@
                     android:layout_height="wrap_content"
                     android:textIsSelectable="true" />
             </LinearLayout>
+
+            <LinearLayout
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Consent 1 screen" />
+                <Button
+                    android:id="@+id/consent_one_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Consent I screen" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

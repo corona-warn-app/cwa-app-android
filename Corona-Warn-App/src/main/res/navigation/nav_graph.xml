@@ -907,6 +907,9 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
+            android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
+            app:destination="@id/universalScannerInformationFragment" />
+        <action
             android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
             app:destination="@id/submissionTestResultInvalidFragment"
             app:popUpTo="@id/universalScanner"
@@ -944,4 +947,9 @@
             app:popUpToInclusive="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/universalScannerInformationFragment"
+        android:name="de.rki.coronawarnapp.qrcode.ui.info.UqsInfoFragment"
+        android:label="UqsInfoFragment"
+        tools:layout="@layout/fragment_uqs_info" />
 </navigation>
