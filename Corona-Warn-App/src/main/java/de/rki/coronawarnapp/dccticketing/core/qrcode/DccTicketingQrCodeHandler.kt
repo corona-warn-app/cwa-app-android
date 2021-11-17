@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
+import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import javax.inject.Inject
 
 class DccTicketingQrCodeHandler @Inject constructor(
-    val decoratorRequestProcessor: ValidationDecoratorRequestProcessor
+    private val requestService: DccTicketingRequestService
 ) {
 
     suspend fun handleQrCode(qrCode: DccTicketingQrCode) {
@@ -17,13 +17,13 @@ class DccTicketingQrCodeHandler @Inject constructor(
     }
 
     suspend fun DccTicketingTransactionContext.decorate(): DccTicketingTransactionContext {
-        val decoration = decoratorRequestProcessor.requestValidationDecorator(initializationData.serviceIdentity)
+        val decorator = requestService.requestValidationDecorator(initializationData.serviceIdentity)
         return copy(
-            accessTokenService = decoration.accessTokenService,
-            accessTokenServiceJwkSet = decoration.accessTokenServiceJwkSet,
-            accessTokenSignJwkSet = decoration.accessTokenSignJwkSet,
-            validationService = decoration.validationService,
-            validationServiceJwkSet = decoration.validationServiceJwkSet,
+            accessTokenService = decorator.accessTokenService,
+            accessTokenServiceJwkSet = decorator.accessTokenServiceJwkSet,
+            accessTokenSignJwkSet = decorator.accessTokenSignJwkSet,
+            validationService = decorator.validationService,
+            validationServiceJwkSet = decorator.validationServiceJwkSet,
         )
     }
 }
