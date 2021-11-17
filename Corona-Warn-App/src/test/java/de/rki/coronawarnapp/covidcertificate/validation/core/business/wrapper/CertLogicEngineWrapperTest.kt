@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
 import com.google.gson.Gson
+import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.test.TestData
@@ -10,6 +11,8 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.internal.toValueSetsContainer
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -38,7 +41,6 @@ import java.io.FileReader
 import java.nio.file.Paths
 import java.util.Locale
 import javax.inject.Inject
-import dagger.Lazy
 
 class CertLogicEngineWrapperTest : BaseTest() {
 
@@ -57,6 +59,14 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     private val timeZoneOffsetBerlin = 2 // Berlin
 
+    private val valueSet = VaccinationValueSets(
+        languageCode = Locale.ENGLISH,
+        tg = DefaultValueSet(),
+        vp = DefaultValueSet(),
+        mp = DefaultValueSet(),
+        ma = DefaultValueSet(listOf(DefaultValueSet.DefaultItem(key = "ORG-100031184", "ORG-100031184")))
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -64,7 +74,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
         coEvery { dccValidationRepository.dccCountries } returns flowOf(countryCodes.map { DccCountry(it) })
         coEvery { valueSetsRepository.latestVaccinationValueSets } returns
-            flowOf(emptyValueSetsContainer.vaccinationValueSets)
+            flowOf(valueSet)
         coEvery { valueSetsRepository.latestTestCertificateValueSets } returns
             flowOf(emptyValueSetsContainer.testCertificateValueSets)
     }
@@ -92,6 +102,30 @@ class CertLogicEngineWrapperTest : BaseTest() {
             countryCode = "DE",
         )
         evaluatedRules.size shouldBe 2
+        evaluatedRules.forEach {
+            it.result shouldBe DccValidationRule.Result.PASSED
+        }
+    }
+
+    @Test
+    fun `valid certificate passes french rule`() = runBlockingTest {
+        createWrapperInstance()
+        val rule = createDccRule(
+            certificateType = RuleCertificateType.VACCINATION,
+            validFrom = "2021-05-27T07:46:40Z",
+            validTo = "2022-08-01T07:46:40Z",
+            logic = frenchRule
+        )
+        // certificate valid until 2022-06-11T14:23:17.000Z
+        val certificate = extractor.extract(VaccinationQrCodeTestData.passGermanReferenceCase)
+        val validationDateTime = DateTime.parse("2021-11-11T14:23:00+02:00")
+        val evaluatedRules = wrapper.process(
+            rules = listOf(rule),
+            validationDateTime = validationDateTime,
+            certificate = certificate.data,
+            countryCode = "DE",
+        )
+        evaluatedRules.size shouldBe 1
         evaluatedRules.forEach {
             it.result shouldBe DccValidationRule.Result.PASSED
         }
