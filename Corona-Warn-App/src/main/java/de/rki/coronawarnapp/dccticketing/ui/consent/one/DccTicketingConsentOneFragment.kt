@@ -10,10 +10,18 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentOneBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_one) {
+class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_one), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: DccTicketingConsentOneViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
 
@@ -29,8 +37,8 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
 
         binding.apply {
 
-            toolbar.setNavigationOnClickListener { showCloseAlertDialog() }
-            cancelButton.setOnClickListener { showCloseAlertDialog() }
+            toolbar.setNavigationOnClickListener { viewModel.goBack() }
+            cancelButton.setOnClickListener { viewModel.goBack() }
 
             appBarLayout.onOffsetChange { _, subtitleAlpha ->
                 headerImage.alpha = subtitleAlpha
@@ -41,7 +49,11 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
             }
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { showCloseAlertDialog() }
+        viewModel.showCloseDialog.observe2(this) {
+            showCloseAlertDialog()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.goBack() }
     }
 
     private fun showCloseAlertDialog() {
