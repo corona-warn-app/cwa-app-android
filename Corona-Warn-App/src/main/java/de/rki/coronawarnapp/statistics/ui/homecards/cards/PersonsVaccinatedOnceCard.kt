@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import android.view.ViewGroup
+import androidx.core.os.ConfigurationCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsVaccinatedOnceLayoutBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
@@ -37,12 +38,14 @@ class PersonsVaccinatedOnceCard(parent: ViewGroup) :
             item.onClickListener(item.stats)
         }
 
+        val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
+
         with(item.stats as PersonsVaccinatedOnceStats) {
             personsVaccinatedOnceContainer.contentDescription =
                 buildAccessibilityStringForPersonsVaccinatedOnceCard(item.stats, firstDose, total)
 
             primaryLabel.text = getPrimaryLabel(context)
-            primaryValue.text = formatPercentageValue(firstDose.value)
+            primaryValue.text = formatPercentageValue(firstDose.value, currentSelectedLocale)
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(getPrimaryLabel(context))
                 .appendWithTrailingSpace(formatStatisticalValue(context, firstDose.value, firstDose.decimals))
