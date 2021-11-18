@@ -17,11 +17,11 @@ class ValidationServiceRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer
 ) {
 
-    private val regexRSAOAEPWithSHA256AESCBC = """/ValidationServiceEncScheme-RSAOAEPWithSHA256AESCBC${'$'}/"""
+    private val regexRSAOAEPWithSHA256AESCBC = """ValidationServiceEncScheme-RSAOAEPWithSHA256AESCBC${'$'}"""
         .toRegex()
 
     private val regexRSAOAEPWithSHA256AESGCM =
-        """/ValidationServiceEncScheme-RSAOAEPWithSHA256AESGCM${'$'}/"""
+        """ValidationServiceEncScheme-RSAOAEPWithSHA256AESGCM${'$'}"""
             .toRegex()
 
     @Throws(DccTicketingException::class)
@@ -111,7 +111,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
     private fun DccTicketingServiceIdentityDocument.findVerificationMethods(forRegex: Regex): Set<String> {
         Timber.d("findVerificationMethods(forRegex=%s)", forRegex)
         return verificationMethod
-            .firstOrNull { it.id.matches(forRegex) }
+            .firstOrNull { forRegex.containsMatchIn(it.id) }
             ?.verificationMethods
             ?.toSet() ?: emptySet()
     }
