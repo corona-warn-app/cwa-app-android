@@ -1,14 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.common
 
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.ATR_AUD_INVALID
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.ATR_PARSE_ERR
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWKS
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_KID
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import de.rki.coronawarnapp.dccticketing.core.transaction.toX509certificate
 import javax.inject.Inject
 
@@ -33,8 +30,5 @@ class JwtTokenValidator @Inject constructor() {
         throw DccTicketingException(JWT_VER_SIG_INVALID)
     }
 
-    fun validateAccessToken(accessToken: DccTicketingAccessToken) {
-        if (accessToken.t != 1 && accessToken.t != 2) throw DccTicketingException(ATR_PARSE_ERR)
-        if (accessToken.aud.isBlank()) throw DccTicketingException(ATR_AUD_INVALID)
-    }
+
 }

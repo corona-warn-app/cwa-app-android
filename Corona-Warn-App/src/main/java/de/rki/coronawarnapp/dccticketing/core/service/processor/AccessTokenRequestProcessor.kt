@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenValidator
+import de.rki.coronawarnapp.dccticketing.core.common.validate
 import de.rki.coronawarnapp.dccticketing.core.server.AccessTokenRequest
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.getAccessToken
@@ -50,7 +51,7 @@ class AccessTokenRequestProcessor @Inject constructor(
         } ?: throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR)
 
         // Validate accessTokenPayload
-        validator.validateAccessToken(accessTokenPayload)
+        accessTokenPayload.validate()
 
         return Output(response.accessToken, accessTokenPayload, response.iv)
     }
