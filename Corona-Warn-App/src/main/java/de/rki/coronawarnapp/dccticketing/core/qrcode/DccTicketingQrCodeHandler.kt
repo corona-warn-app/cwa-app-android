@@ -12,16 +12,19 @@ class DccTicketingQrCodeHandler @Inject constructor(
     private val dccTicketingJwkFilter: DccTicketingJwkFilter,
 ) {
 
-    suspend fun handleQrCode(qrCode: DccTicketingQrCode) {
-        var transactionContext = DccTicketingTransactionContext(
+    suspend fun handleQrCode(qrCode: DccTicketingQrCode): DccTicketingTransactionContext {
+        val transactionContext = DccTicketingTransactionContext(
             initializationData = qrCode.data
         ).decorate()
 
-        val filteringResult = dccTicketingJwkFilter.filter(emptySet())
+        // TODO filter based on allow list
+        val filteringResult = dccTicketingJwkFilter.filter(transactionContext.accessTokenServiceJwkSet.orEmpty())
         if (filteringResult.filteredJwkSet.isEmpty()) {
             throw DccTicketingAllowListException(ErrorCode.ALLOWLIST_NO_MATCH)
         }
         // todo return proper data when allow list pass
+
+        return transactionContext
     }
 
     suspend fun DccTicketingTransactionContext.decorate(): DccTicketingTransactionContext {
