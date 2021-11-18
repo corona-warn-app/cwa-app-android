@@ -1,27 +1,27 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class DccTicketingAccessToken(
-    @JsonProperty("iss")
+    @SerializedName("iss")
     val iss: String, // The URL of the service provider
-    @JsonProperty("iat")
-    val iat: Long, // The issued at timestamp in seconds
-    @JsonProperty("exp")
-    val exp: Long, // The expiration timestamp in seconds
-    @JsonProperty("sub")
+    @SerializedName("iat")
+    val iat: Int, // The issued at timestamp in seconds
+    @SerializedName("exp")
+    val exp: Int, // The expiration timestamp in seconds
+    @SerializedName("sub")
     val sub: String, // The subject of the transaction
-    @JsonProperty("aud")
+    @SerializedName("aud")
     val aud: String, // The URL of the validation service
-    @JsonProperty("jti")
-    val jti: String?, // The token identifier
-    @JsonProperty("v")
+    @SerializedName("jti")
+    val jti: String, // The token identifier
+    @SerializedName("v")
     val v: String, // A version information
-    @JsonProperty("t")
-    val t: Long, // The type of the validation(0 = Structure, 1 = Cryptographic, 2 = Full)
-    @JsonProperty("vc")
-    val vc: DccTicketingValidationCondition // A data structure representing the validation conditions
+    @SerializedName("t")
+    val t: Int, // The type of the validation(0 = Structure, 1 = Cryptographic, 2 = Full)
+    @SerializedName("vc")
+    val vc: DccTicketingValidationCondition?, // A data structure representing the validation conditions
 ) : Parcelable

@@ -4,6 +4,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -24,6 +25,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     @Assisted private val fromScanner: Boolean,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
+    private val boosterCheckScheduler: BoosterCheckScheduler,
     @AppScope private val appScope: CoroutineScope
 ) : CWAViewModel(dispatcherProvider) {
     private var qrCode: CoilQrCode? = null
@@ -45,6 +47,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     fun recycleRecoveryCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Recovery Certificate=$containerId")
         recoveryCertificateRepository.recycleCertificate(containerId)
+        boosterCheckScheduler.scheduleNow()
         events.postValue(RecoveryCertificateDetailsNavigation.Back)
     }
 

@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
@@ -13,6 +15,8 @@ import de.rki.coronawarnapp.util.ui.LazyString
 sealed interface ScannerResult
 
 object InProgress : ScannerResult
+
+object InfoScreen : ScannerResult
 
 sealed class DccResult : ScannerResult {
     data class Details(val uri: Uri) : DccResult()
@@ -39,8 +43,9 @@ sealed class CoronaTestResult : ScannerResult {
 
 sealed class DccTicketingResult : ScannerResult {
     data class ConsentI(val qrcode: DccTicketingQrCode) : DccTicketingResult()
-    data class Error(val error: Throwable) : DccTicketingResult()
-    // TODO add rest
 }
 
-data class Error(val error: Throwable) : ScannerResult
+data class Error(val error: Throwable) : ScannerResult {
+    val isDccTicketingError = error is DccTicketingInvalidQrCodeException
+    val isAllowListError = error is DccTicketingAllowListException
+}

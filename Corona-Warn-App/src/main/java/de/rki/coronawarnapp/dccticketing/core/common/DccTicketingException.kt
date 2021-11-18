@@ -15,6 +15,8 @@ class DccTicketingException(
 
     @Suppress("MaxLineLength")
     enum class ErrorCode(val message: String) {
+       /*
+        TODO provide right text
         AES_CBC_INVALID_IV("failure while encrypting DCC; user may retry"),
         AES_CBC_INVALID_KEY("failure while encrypting DCC; user may retry"),
         AES_CBC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
@@ -39,11 +41,6 @@ class DccTicketingException(
         EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
         EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
-        INIT_DATA_PARSE_ERR("invalid QR code"),
-        INIT_DATA_PROTOCOL_INVALID("invalid QR code"),
-        INIT_DATA_SUBJECT_EMPTY("invalid QR code"),
-        INIT_DATA_SP_EMPTY("invalid QR code"),
-
         RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
         RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
@@ -57,25 +54,25 @@ class DccTicketingException(
         RTR_JWT_VER_SIG_INVALID("failure when obtaining Result Token; user may retry"),
         RTR_NO_NETWORK("failure when obtaining Result Token; user may retry"),
         RTR_SERVER_ERR("failure when obtaining Result Token; user may retry"),
+*/
+        VD_ID_CLIENT_ERR("VD_ID_CLIENT_ERR"),
+        VD_ID_NO_ATS_SIGN_KEY("VD_ID_NO_ATS_SIGN_KEY"),
+        VD_ID_NO_ATS_SVC_KEY("VD_ID_NO_ATS_SVC_KEY"),
+        VD_ID_NO_ATS("VD_ID_NO_ATS"),
+        VD_ID_NO_NETWORK("VD_ID_NO_NETWORK"),
+        VD_ID_NO_VS_SVC_KEY("VD_ID_NO_VS_SVC_KEY"),
+        VD_ID_NO_VS("VD_ID_NO_VS"),
+        VD_ID_PARSE_ERR("VD_ID_PARSE_ERR"),
+        VD_ID_SERVER_ERR("VD_ID_SERVER_ERR"),
 
-        VD_ID_CLIENT_ERR("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_ATS_SIGN_KEY("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_ATS_SVC_KEY("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_ATS("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_NETWORK("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_VS_SVC_KEY("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_NO_VS("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_PARSE_ERR("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-        VD_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Decorator; user may retry"),
-
-        VS_ID_CERT_PIN_MISMATCH("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_CLIENT_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_NO_ENC_KEY("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_NO_NETWORK("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_NO_SIGN_KEY("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_PARSE_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
-        VS_ID_SERVER_ERR("failure when obtaining Service Identity Document of Validation Service; user may retry"),
+        VS_ID_CERT_PIN_MISMATCH("VS_ID_CERT_PIN_MISMATCH"),
+        VS_ID_CERT_PIN_NO_JWK_FOR_KID("VS_ID_CERT_PIN_NO_JWK_FOR_KID"),
+        VS_ID_CLIENT_ERR("VS_ID_CLIENT_ERR"),
+        VS_ID_NO_ENC_KEY("VS_ID_NO_ENC_KEY"),
+        VS_ID_NO_NETWORK("VS_ID_NO_NETWORK"),
+        VS_ID_NO_SIGN_KEY("VS_ID_NO_SIGN_KEY"),
+        VS_ID_PARSE_ERR("VS_ID_PARSE_ERR"),
+        VS_ID_SERVER_ERR("VS_ID_SERVER_ERR"),
 
         JWT_VER_NO_JWKS("jwkSet is empty"),
         JWT_VER_ALG_NOT_SUPPORTED("algorithm is not supported"),
@@ -84,9 +81,11 @@ class DccTicketingException(
         JWT_VER_SIG_INVALID("the signature verification does not pass for at least one entry from jwkSet"),
     }
 
+    // to-do: Add all error codes
     val errorMessage: LazyString
         get() = CachedString { context ->
             when (errorCode) {
+                ErrorCode.VS_ID_SERVER_ERR -> R.string.dcc_ticketing_error_try_again
                 else -> ERROR_MESSAGE_GENERIC
             }.let { context.getString(it) }
         }

@@ -388,7 +388,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"If you want, you can use the app to prove your personal infection status (a negative rapid test, for example). Please note, however, that you are under no obligation to use the app to prove your infection status. You can also prove your infection status in another manner compliant with the legal regulations at your residence."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"You can also verify your personal vaccination status."</string>
+    <string name="onboarding_body_5">"You can also prove your personal vaccination status."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_6">"The app logs encounters between individuals by exchanging encrypted, random IDs between their smartphones, whereby no personal data whatsoever is accessed."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
@@ -918,7 +918,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR tests and rapid tests, test certificates, vaccination certificates, certificates of recovery, and check-ins."</string>
+    <string name="qr_code_scan_body_subtitle">"Tests, Zertifikate, Check-ins und Überprüfung bei Ticketbuchungen"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
@@ -941,6 +941,24 @@
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"The QR code is not supported by the Corona-Warn-App. Please select a suitable QR code."</string>
+
+    <!-- QR Code Info Screen -->
+    <!-- XHED: Title for info screen -->
+    <string name="qr_code_info_screen_title">"Informationen zu QR-Codes"</string>
+    <!-- XTXT: First bulletpiont for info screen -->
+    <string name="qr_code_info_screen_first_bulletpoint_text">"Ihre Testzertifikate, Impfzertifikate, Gensenenzertifikate, sowie Zertifikate Ihrer Familienmitglieder"</string>
+    <!-- XTXT: Second bulletpoint for info screen -->
+    <string name="qr_code_info_screen_second_bulletpoint_text">"Check-ins für Veranstaltungen und Orte"</string>
+    <!-- XTXT: Third bulletpoint for info screen -->
+    <string name="qr_code_info_screen_third_bulletpoint_text">"PCR-Tests und Schnelltests"</string>
+    <!-- XTXT: Fourth bulletpoint for info screen -->
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Zur Überprüfung Ihrer Zertifikate bei Ticketbuchungen"</string>
+    <!-- XTXT: QR Code info screen data details -->
+    <string name="qr_code_info_screen_data_details_text">"Die Daten aus dem jeweiligen QR-Code werden ausgelesen."</string>
+    <!-- XTXT: QR Code booking provider info text -->
+    <string name="qr_code_info_screen_booking_provider_text">"Beim Scan von QR-Codes zur Zertifikat-Prüfung bei Ticketbuchungen werden weitere Angaben zum Anbieter der Buchung abgefragt."</string>
+    <!-- XTXT: Privacy policy button text -->
+    <string name="qr_code_info_screen_privacy_policy">"Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
