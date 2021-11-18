@@ -10,8 +10,9 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import de.rki.coronawarnapp.dccticketing.core.transaction.toX509certificate
+import javax.inject.Inject
 
-class JwtTokenValidator {
+class JwtTokenValidator @Inject constructor() {
 
     fun signatureCheck(jwt: String, accessTokenSignJwkSet: Set<DccJWK>) {
 
@@ -33,7 +34,7 @@ class JwtTokenValidator {
     }
 
     fun validateAccessToken(accessToken: DccTicketingAccessToken) {
-        if (accessToken.t != 1L && accessToken.t != 2L) throw DccTicketingException(ATR_PARSE_ERR)
+        if (accessToken.t != 1 && accessToken.t != 2) throw DccTicketingException(ATR_PARSE_ERR)
         if (accessToken.aud.isBlank()) throw DccTicketingException(ATR_AUD_INVALID)
     }
 }
