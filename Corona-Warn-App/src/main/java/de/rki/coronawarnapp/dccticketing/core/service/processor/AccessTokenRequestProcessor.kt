@@ -23,6 +23,7 @@ class AccessTokenRequestProcessor @Inject constructor(
     private val convertor: JwtTokenConverter,
 ) {
 
+    @Suppress("LongParameterList")
     suspend fun requestAccessToken(
         accessTokenService: DccTicketingService,
         accessTokenServiceJwkSet: Set<DccJWK>,
