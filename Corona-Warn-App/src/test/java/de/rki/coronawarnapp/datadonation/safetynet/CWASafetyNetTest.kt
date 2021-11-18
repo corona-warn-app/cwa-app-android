@@ -281,6 +281,21 @@ class CWASafetyNetTest : BaseTest() {
         coVerify { appConfigProvider wasNot Called }
     }
 
+    @Test
+    fun `internal error triggers retry`() = runBlockingTest {
+        clientReport.apply {
+            every { jwsResult } returns "JWSRESULT"
+            every { nonce } returns defaultNonce
+            every { apkPackageName } returns "de.rki.coronawarnapp.test"
+            every { error } returns "internal_error"
+        }
+        coEvery { safetyNetClientWrapper.attest(any()) } returns clientReport
+        val exception = shouldThrow<SafetyNetException> {
+            createInstance().attest(TestAttestationRequest("Computer says no.".toByteArray()))
+        }
+        exception.type shouldBe SafetyNetException.Type.INTERNAL_ERROR
+    }
+
     data class TestAttestationRequest(
         override val scenarioPayload: ByteArray,
         override val configData: ConfigData? = null,
