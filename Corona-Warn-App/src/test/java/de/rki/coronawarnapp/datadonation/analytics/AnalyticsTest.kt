@@ -451,4 +451,35 @@ class AnalyticsTest : BaseTest() {
             dataDonationAnalyticsServer.uploadAnalyticsData(any())
         }
     }
+
+    @Test
+    fun `we catch safetynet internal error and enable retry`() {
+        val exposureRiskDonation = mockk<ExposureRiskMetadataDonor.ExposureRiskMetadataContribution>().apply {
+            coEvery { injectData(any()) } just Runs
+            coEvery { finishDonation(any()) } just Runs
+        }
+        coEvery { exposureRiskMetadataDonor.beginDonation(any()) } returns exposureRiskDonation
+
+        coEvery { deviceAttestation.attest(any()) } throws SafetyNetException(
+            type = SafetyNetException.Type.INTERNAL_ERROR,
+            "Timeout???",
+            cause = Exception()
+        )
+
+        val analytics = createInstance()
+
+        runBlockingTest {
+            val result = analytics.submitIfWanted()
+            result.successful shouldBe false
+            result.shouldRetry shouldBe true
+        }
+
+        coVerify(exactly = 1) {
+            exposureRiskMetadataDonor.beginDonation(any())
+            exposureRiskDonation.injectData(any())
+            exposureRiskDonation.finishDonation(false)
+        }
+
+        coVerify(exactly = 0) { dataDonationAnalyticsServer.uploadAnalyticsData(any()) }
+    }
 }
