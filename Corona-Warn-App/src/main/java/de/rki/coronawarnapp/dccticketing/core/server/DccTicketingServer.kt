@@ -99,5 +99,5 @@ class DccTicketingServer @Inject constructor(
             AccessTokenResponse(jwtToken, iv)
         }
 
-    data class AccessTokenResponse(val accessToken: String, val iv: String)
+    data class AccessTokenResponse(val jwt: String, val iv: String)
 }
