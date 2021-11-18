@@ -74,6 +74,7 @@ class DccTicketingException(
         VS_ID_NO_SIGN_KEY("VS_ID_NO_SIGN_KEY"),
         VS_ID_PARSE_ERR("VS_ID_PARSE_ERR"),
         VS_ID_SERVER_ERR("VS_ID_SERVER_ERR"),
+        VS_ID_EMPTY_X5C("VS_ID_EMPTY_X5C")
     }
 
     // to-do: Add all error codes

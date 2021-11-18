@@ -21,31 +21,26 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
     suspend fun requestValidationDecorator(url: String): ValidationDecoratorResult {
         Timber.tag(TAG).d("requestServiceIdentityDocumentValidationDecorator(url=%s)", url)
 
-        // Call Service Identity Document
+        // 1. Call Service Identity Document
         val serviceIdentityDocument = getServiceIdentityDocument(url = url)
 
-        // Verify JWKs
-        if (serviceIdentityDocument.verificationMethod
-            .any { it.publicKeyJwk != null && it.publicKeyJwk.x5c.isEmpty() }
-        ) {
-            Timber.tag(TAG).d("x5c does not contain at least one element")
-            throw DccTicketingException(errorCode = DccTicketingException.ErrorCode.VD_ID_EMPTY_X5C)
-        }
+        // 2. Verify JWKs
+        serviceIdentityDocument.verifyJwks(emptyX5cErrorCode = DccTicketingErrorCode.VD_ID_EMPTY_X5C)
 
-        // Find accessTokenService
+        // 3. Find accessTokenService
         val accessTokenService = serviceIdentityDocument.findService(serviceType = ServiceType.AccessTokenService)
 
-        // Find accessTokenSignJwkSet
+        // 4. Find accessTokenSignJwkSet
         val accessTokenSignJwkSet = serviceIdentityDocument.findJwkSet(jwkSetType = JwkSetType.AccessTokenSignJwkSet)
 
-        // Find accessTokenServiceJwkSet
+        // 5. Find accessTokenServiceJwkSet
         val accessTokenServiceJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.AccessTokenServiceJwkSet)
 
-        // Find validationService
+        // 6. Find validationService
         val validationService = serviceIdentityDocument.findService(serviceType = ServiceType.ValidationService)
 
-        // Find validationServiceJwkSet
+        // 7. Find validationServiceJwkSet
         val validationServiceJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceJwkSet)
 
