@@ -50,7 +50,7 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
             accessTokenSignJwkSet = accessTokenSignJwkSet,
             validationService = validationService,
             validationServiceJwkSet = validationServiceJwkSet
-        ).also { Timber.tag(TAG).d("Returning ValidationDecoratorResult=%s", it) }
+        ).also { Timber.tag(TAG).d("Returning %s", it) }
     }
 
     private suspend fun getServiceIdentityDocument(url: String): DccTicketingServiceIdentityDocument = try {

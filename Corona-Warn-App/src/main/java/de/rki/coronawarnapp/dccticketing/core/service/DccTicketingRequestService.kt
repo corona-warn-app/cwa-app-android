@@ -32,7 +32,7 @@ class DccTicketingRequestService @Inject constructor(
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
-    ): ValidationServiceRequestProcessor.Output = withContext(dispatcherProvider.Default) {
+    ): ValidationServiceRequestProcessor.ValidationServiceResult = withContext(dispatcherProvider.Default) {
         Timber.d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
             validationService,
