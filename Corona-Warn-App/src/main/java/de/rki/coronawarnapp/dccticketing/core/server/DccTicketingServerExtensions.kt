@@ -36,6 +36,7 @@ suspend fun DccTicketingServer.getServiceIdentityDocument(
     }.let { DccTicketingException(it, e) }
 }
 
+@Suppress("LongParameterList")
 @Throws(DccTicketingException::class)
 suspend fun DccTicketingServer.getAccessToken(
     url: String,

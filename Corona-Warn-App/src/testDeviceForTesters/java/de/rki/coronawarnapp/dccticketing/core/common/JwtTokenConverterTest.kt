@@ -45,7 +45,7 @@ class JwtTokenConverterTest : BaseTest() {
                },
                "jti": "adddda56-a7d2-4657-a395-c8b2dd3f5264"
             }
-        """.trimIndent()
+    """.trimIndent()
 
     private val jwtTokenObject = DccTicketingAccessToken(
         iss = "https://dgca-booking-demo-eu-test.cfapps.eu10.hana.ondemand.com/api/identity",
