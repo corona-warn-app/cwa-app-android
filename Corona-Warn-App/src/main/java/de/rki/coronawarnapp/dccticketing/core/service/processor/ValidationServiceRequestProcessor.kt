@@ -41,25 +41,28 @@ class ValidationServiceRequestProcessor @Inject constructor(
             jwkSet = validationServiceJwkSet
         )
 
-        // 2. Find verificationMethodsForRSAOAEPWithSHA256AESCBC
+        // 2. Verify JWKs
+        serviceIdentityDocument.verifyJwks(emptyX5cErrorCode = DccTicketingErrorCode.VS_ID_EMPTY_X5C)
+
+        // 3. Find verificationMethodsForRSAOAEPWithSHA256AESCBC
         val verificationMethodsForRSAOAEPWithSHA256AESCBC = serviceIdentityDocument
             .findVerificationMethods(forRegex = regexRSAOAEPWithSHA256AESCBC)
 
-        // 3. Find validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC
+        // 4. Find validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = serviceIdentityDocument
             .findValidationServiceEncKeyJwkSet(verificationMethodIds = verificationMethodsForRSAOAEPWithSHA256AESCBC)
             .also { Timber.d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC=%s", it) }
 
-        // 4. Find verificationMethodsForRSAOAEPWithSHA256AESGCM
+        // 5. Find verificationMethodsForRSAOAEPWithSHA256AESGCM
         val verificationMethodsForRSAOAEPWithSHA256AESGCM = serviceIdentityDocument
             .findVerificationMethods(forRegex = regexRSAOAEPWithSHA256AESGCM)
 
-        // 5. Find validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM
+        // 6. Find validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = serviceIdentityDocument
             .findValidationServiceEncKeyJwkSet(verificationMethodIds = verificationMethodsForRSAOAEPWithSHA256AESGCM)
             .also { Timber.d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM=%s", it) }
 
-        // 6. Check encryption key
+        // 7. Check encryption key
         if (
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC.isEmpty() &&
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM.isEmpty()
@@ -68,7 +71,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
             throw DccTicketingException(errorCode = DccTicketingErrorCode.VS_ID_NO_ENC_KEY)
         }
 
-        // 7. Find validationServiceSignKeyJwkSet
+        // 8. Find validationServiceSignKeyJwkSet
         val validationServiceSignKeyJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceSignKeyJwkSet)
 

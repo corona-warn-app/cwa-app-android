@@ -64,6 +64,7 @@ class DccTicketingException(
         VD_ID_NO_VS("VD_ID_NO_VS"),
         VD_ID_PARSE_ERR("VD_ID_PARSE_ERR"),
         VD_ID_SERVER_ERR("VD_ID_SERVER_ERR"),
+        VD_ID_EMPTY_X5C("VD_ID_EMPTY_X5C"),
 
         VS_ID_CERT_PIN_MISMATCH("VS_ID_CERT_PIN_MISMATCH"),
         VS_ID_CERT_PIN_NO_JWK_FOR_KID("VS_ID_CERT_PIN_NO_JWK_FOR_KID"),
@@ -73,6 +74,7 @@ class DccTicketingException(
         VS_ID_NO_SIGN_KEY("VS_ID_NO_SIGN_KEY"),
         VS_ID_PARSE_ERR("VS_ID_PARSE_ERR"),
         VS_ID_SERVER_ERR("VS_ID_SERVER_ERR"),
+        VS_ID_EMPTY_X5C("VS_ID_EMPTY_X5C")
     }
 
     // to-do: Add all error codes
