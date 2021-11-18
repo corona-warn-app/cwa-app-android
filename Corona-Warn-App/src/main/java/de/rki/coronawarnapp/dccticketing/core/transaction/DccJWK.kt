@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import okio.ByteString.Companion.decodeBase64
+import java.security.PublicKey
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
@@ -46,9 +48,18 @@ data class DccJWK(
         @SerializedName("enc")
         ENCRYPTION
     }
-}
 
-fun DccJWK.toX509certificate(): X509Certificate =
-    x5c.first().decodeBase64()?.toByteArray()?.inputStream().use {
-        CertificateFactory.getInstance("X.509").generateCertificate(it) as X509Certificate
+    @IgnoredOnParcel
+    private val certificateFactory by lazy {
+        CertificateFactory.getInstance("X.509")
     }
+
+    val publicKey: PublicKey?
+        get() = x5c.first()
+            .decodeBase64()
+            ?.toByteArray()
+            ?.inputStream()
+            .use {
+                certificateFactory.generateCertificate(it) as X509Certificate
+            }.publicKey
+}
