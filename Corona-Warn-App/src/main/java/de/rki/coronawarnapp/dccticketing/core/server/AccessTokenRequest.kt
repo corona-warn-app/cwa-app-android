@@ -1,10 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core.server
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.google.gson.annotations.SerializedName
 
 data class AccessTokenRequest(
-    @JsonProperty("service")
+    @SerializedName("service")
     val service: String,
-    @JsonProperty("pubKey")
+    @SerializedName("pubKey")
     val pubKey: String
 )
