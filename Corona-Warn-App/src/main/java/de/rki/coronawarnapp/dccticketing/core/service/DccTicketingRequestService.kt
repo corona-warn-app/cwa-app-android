@@ -23,7 +23,7 @@ class DccTicketingRequestService @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
         url: String
-    ): ValidationDecoratorRequestProcessor.Output = withContext(dispatcherProvider.Default) {
+    ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult = withContext(dispatcherProvider.Default) {
         Timber.d("requestValidationDecorator(url=%s)", url)
         validationDecoratorRequestProcessor.requestValidationDecorator(url)
     }

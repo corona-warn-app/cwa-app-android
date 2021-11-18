@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.view.isVisible
@@ -117,7 +118,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
         when (scannerResult) {
             is DccTicketingResult.ConsentI -> {
-                // TODO
+                // TODO navigate to Consent I
+                Toast.makeText(requireContext(), "Consent I :)", Toast.LENGTH_LONG).show()
             }
         }
     }

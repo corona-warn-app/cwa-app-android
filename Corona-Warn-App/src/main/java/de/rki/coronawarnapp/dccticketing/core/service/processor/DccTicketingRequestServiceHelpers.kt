@@ -29,7 +29,7 @@ fun DccTicketingServiceIdentityDocument.findJwkSet(jwkSetType: JwkSetType): Set<
     Timber.d("findJwkSet(jwkSetType=%s)", jwkSetType)
 
     val jwkSet = verificationMethod
-        .filter { it.id.matches(jwkSetType.regex) }
+        .filter { jwkSetType.regex.containsMatchIn(it.id) }
         .mapNotNull { it.publicKeyJwk }
         .toSet()
 
@@ -45,22 +45,22 @@ enum class JwkSetType(
     val noMatchingEntryErrorCode: DccTicketingErrorCode
 ) {
     AccessTokenSignJwkSet(
-        regex = """/AccessTokenSignKey-\d+${'$'}/""".toRegex(),
+        regex = """AccessTokenSignKey-\d+${'$'}""".toRegex(),
         noMatchingEntryErrorCode = DccTicketingErrorCode.VD_ID_NO_ATS_SIGN_KEY
     ),
 
     AccessTokenServiceJwkSet(
-        regex = """/AccessTokenServiceKey-\d+${'$'}/""".toRegex(),
+        regex = """AccessTokenServiceKey-\d+${'$'}""".toRegex(),
         noMatchingEntryErrorCode = DccTicketingErrorCode.VD_ID_NO_ATS_SVC_KEY
     ),
 
     ValidationServiceJwkSet(
-        regex = """/ValidationServiceKey-\d+${'$'}/""".toRegex(),
+        regex = """ValidationServiceKey-\d+${'$'}""".toRegex(),
         noMatchingEntryErrorCode = DccTicketingErrorCode.VD_ID_NO_VS_SVC_KEY
     ),
 
     ValidationServiceSignKeyJwkSet(
-        regex = """/ValidationServiceSignKey-\d+${'$'}/""".toRegex(),
+        regex = """ValidationServiceSignKey-\d+${'$'}""".toRegex(),
         noMatchingEntryErrorCode = DccTicketingErrorCode.VS_ID_NO_SIGN_KEY
     )
 }
