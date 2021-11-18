@@ -4,7 +4,26 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingVerificationMethod
 import timber.log.Timber
+
+/**
+ * @throws [DccTicketingException] if there is any element in [DccTicketingServiceIdentityDocument.verificationMethod]
+ * where [DccTicketingVerificationMethod.publicKeyJwk] is set and [DccJWK.x5c] does not contain at least one element,
+ * the operation shall abort with the specified error code, otherwise the document is valid
+ */
+fun DccTicketingServiceIdentityDocument.verifyJwks(emptyX5cErrorCode: DccTicketingErrorCode) {
+    Timber.d("verifyJwks(emptyX5cErrorCode=%s)", emptyX5cErrorCode)
+
+    val hasAnyEmptyX5c = verificationMethod
+        .mapNotNull { it.publicKeyJwk }
+        .any { it.x5c.isEmpty() }
+
+    when (hasAnyEmptyX5c) {
+        true -> Timber.d("%s passed verification", this)
+        false -> throw DccTicketingException(errorCode = emptyX5cErrorCode)
+    }
+}
 
 fun DccTicketingServiceIdentityDocument.findJwkSet(jwkSetType: JwkSetType): Set<DccJWK> {
     Timber.d("findJwkSet(jwkSetType=%s)", jwkSetType)

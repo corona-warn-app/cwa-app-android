@@ -23,20 +23,23 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
         // 1. Call Service Identity Document
         val serviceIdentityDocument = getServiceIdentityDocument(url = url)
 
-        // 2. Find accessTokenService
+        // 2. Verify JWKs
+        serviceIdentityDocument.verifyJwks(emptyX5cErrorCode = DccTicketingErrorCode.VD_ID_EMPTY_X5C)
+
+        // 3. Find accessTokenService
         val accessTokenService = serviceIdentityDocument.findService(serviceType = ServiceType.AccessTokenService)
 
-        // 3. Find accessTokenSignJwkSet
+        // 4. Find accessTokenSignJwkSet
         val accessTokenSignJwkSet = serviceIdentityDocument.findJwkSet(jwkSetType = JwkSetType.AccessTokenSignJwkSet)
 
-        // 4. Find accessTokenServiceJwkSet
+        // 5. Find accessTokenServiceJwkSet
         val accessTokenServiceJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.AccessTokenServiceJwkSet)
 
-        // 5. Find validationService
+        // 6. Find validationService
         val validationService = serviceIdentityDocument.findService(serviceType = ServiceType.ValidationService)
 
-        // 6. Find validationServiceJwkSet
+        // 7. Find validationServiceJwkSet
         val validationServiceJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceJwkSet)
 
