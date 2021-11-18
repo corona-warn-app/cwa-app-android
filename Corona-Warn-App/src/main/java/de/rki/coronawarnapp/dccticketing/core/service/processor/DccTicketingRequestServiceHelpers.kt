@@ -20,8 +20,8 @@ fun DccTicketingServiceIdentityDocument.verifyJwks(emptyX5cErrorCode: DccTicketi
         .any { it.x5c.isEmpty() }
 
     when (hasAnyEmptyX5c) {
-        true -> Timber.d("%s passed verification", this)
-        false -> throw DccTicketingException(errorCode = emptyX5cErrorCode)
+        false -> Timber.d("%s passed verification", this)
+        true -> throw DccTicketingException(errorCode = emptyX5cErrorCode)
     }
 }
 
