@@ -8,8 +8,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-internal class JwtTokenValidatorKtTest {
+internal class JwtTokenValidatorKtTest : BaseTest() {
 
     @MockK lateinit var dccTicketingAccessToken: DccTicketingAccessToken
 
