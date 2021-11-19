@@ -30,4 +30,9 @@
         <item name="android:textColor">@color/colorTextPrimary2</item>
         <item name="android:lineHeight">@dimen/line_height_small</item>
     </style>
+
+    <style name="StatisticsCardValueLabel" parent="subtitle">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+        <item name="android:lineHeight">@dimen/line_height_tiny</item>
+    </style>
 </resources>

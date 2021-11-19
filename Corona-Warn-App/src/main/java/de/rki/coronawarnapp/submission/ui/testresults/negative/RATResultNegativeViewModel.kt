@@ -1,23 +1,23 @@
 package de.rki.coronawarnapp.submission.ui.testresults.negative
 
 import androidx.lifecycle.asLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
-import de.rki.coronawarnapp.exception.ExceptionCategory
-import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.Duration
 import org.joda.time.format.PeriodFormatter
 import org.joda.time.format.PeriodFormatterBuilder
@@ -26,9 +26,10 @@ import timber.log.Timber
 class RATResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
-    private val submissionRepository: SubmissionRepository,
+    private val recycledTestProvider: RecycledCoronaTestsProvider,
     coronaTestRepository: CoronaTestRepository,
-    certificateRepository: TestCertificateRepository
+    certificateRepository: TestCertificateRepository,
+    @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<RATResultNegativeNavigation>()
@@ -87,15 +88,9 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         )
     }
 
-    fun onDeleteTestConfirmed() {
-        try {
-            Timber.d("deleteTest")
-            submissionRepository.removeTestFromDevice(CoronaTest.Type.RAPID_ANTIGEN)
-            events.postValue(RATResultNegativeNavigation.Back)
-        } catch (e: Exception) {
-            Timber.d(e, "Failed to delete rapid antigen test")
-            e.report(ExceptionCategory.INTERNAL)
-        }
+    fun moveTestToRecycleBinStorage() = launch {
+        recycledTestProvider.recycleCoronaTest(testIdentifier)
+        events.postValue(RATResultNegativeNavigation.Back)
     }
 
     fun onDeleteTestClicked() {
@@ -113,7 +108,9 @@ class RATResultNegativeViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<RATResultNegativeViewModel>
+    interface Factory : CWAViewModelFactory<RATResultNegativeViewModel> {
+        fun create(testIdentifier: TestIdentifier): RATResultNegativeViewModel
+    }
 
     enum class CertificateState {
         NOT_REQUESTED,

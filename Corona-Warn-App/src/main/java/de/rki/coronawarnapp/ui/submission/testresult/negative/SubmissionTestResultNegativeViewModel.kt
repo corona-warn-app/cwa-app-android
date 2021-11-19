@@ -5,8 +5,10 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -19,9 +21,11 @@ import timber.log.Timber
 class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
+    private val recycledTestProvider: RecycledCoronaTestsProvider,
     certificateRepository: TestCertificateRepository,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
@@ -60,10 +64,8 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
         cert
     }.asLiveData(context = dispatcherProvider.Default)
 
-    fun deregisterTestFromDevice() = launch {
-        Timber.tag(TAG).d("deregisterTestFromDevice()")
-        submissionRepository.removeTestFromDevice(type = testType)
-
+    fun moveTestToRecycleBinStorage() = launch {
+        recycledTestProvider.recycleCoronaTest(testIdentifier)
         events.postValue(SubmissionTestResultNegativeNavigation.Back)
     }
 
@@ -92,7 +94,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultNegativeViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionTestResultNegativeViewModel
+        fun create(testType: CoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
     }
 
     companion object {

@@ -387,7 +387,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Dacă doriți, puteți utiliza aplicația pentru a dovedi starea de infectare personală (de exemplu, un test rapid negativ). Rețineți, totuși, că nu aveți nicio obligație de a utiliza aplicația pentru a dovedi starea dvs. de infectare. De asemenea, puteți dovedi starea dvs. de infectare într-un alt mod care respectă reglementările legale din localitatea dvs. de domiciliu."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"De asemenea, puteți verifica starea vaccinării personale."</string>
+    <string name="onboarding_body_5">"De asemenea, puteți consulta starea vaccinării personale."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_6">"Aplicația înregistrează în jurnal întâlnirile dintre persoane prin smartphone-urile acestora, care schimbă ID-uri aleatorii criptate, fără a accesa niciun fel de date personale."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
@@ -904,7 +904,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Codul QR este nevalabil"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe un alt smartphone. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"Codul QR este nevalabil sau a fost deja înregistrat pe smartphone-ul dvs.\nVeți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta.\nDacă ați șters testul din aplicație, îl puteți restaura din coșul de reciclare."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Reîncercați."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1057,6 +1057,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
+    <!-- XHED: Dialog title for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Eliminați rezultatul testului?"</string>
+    <!-- XTXT: Dialog body for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Rezultatul testului va fi mutat în coșul de reciclare. Veți găsi coșul de reciclare pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, îl puteți șterge definitiv sau restaura. Rezultatul testului va fi șters automat după 30 de zile."</string>
+    <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Eliminare rezultat test"</string>
     <!-- XHED: Dialog title for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sigur doriți să eliminați testul dvs.?"</string>
     <!-- YTXT: Dialog text for test removal -->

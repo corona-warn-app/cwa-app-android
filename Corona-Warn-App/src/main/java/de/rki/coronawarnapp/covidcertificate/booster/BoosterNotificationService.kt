@@ -37,7 +37,7 @@ class BoosterNotificationService @Inject constructor(
         }
 
         val allPersons = personCertificatesProvider.personCertificates.first()
-        Timber.tag(TAG).d("All persons=%s", allPersons.map { it.personIdentifier.codeSHA256 })
+        Timber.tag(TAG).d("All persons=%s", allPersons.map { it.personIdentifier?.codeSHA256 })
 
         val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first()
             .mapNotNull { vacInfo -> vacInfo.identifier?.let { id -> id to vacInfo } }
@@ -45,7 +45,7 @@ class BoosterNotificationService @Inject constructor(
         Timber.tag(TAG).d("Vaccinated persons=%s", vaccinatedPersonsMap.keys.map { it.codeSHA256 })
 
         allPersons.forEach { person ->
-            val codeSHA256 = person.personIdentifier.codeSHA256
+            val codeSHA256 = person.personIdentifier?.codeSHA256
             try {
                 val vaccinatedPerson = vaccinatedPersonsMap[person.personIdentifier]
                 val identifier = vaccinatedPerson?.identifier

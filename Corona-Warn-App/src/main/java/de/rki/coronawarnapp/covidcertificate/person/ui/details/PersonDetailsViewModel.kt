@@ -56,7 +56,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private val loadingButtonState = MutableStateFlow(false)
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
-        certificateSet.first { it.personIdentifier.codeSHA256 == personIdentifierCode }
+        certificateSet.first { it.personIdentifier?.codeSHA256 == personIdentifierCode }
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
         events.postValue(Back)
@@ -71,6 +71,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
         val priorityCertificate = personCertificates.highestPriorityCertificate
+        if (priorityCertificate == null) {
+            events.postValue(Back)
+            return UiState(name = "", emptyList())
+        }
+
         val certificateItems = mutableListOf<CertificateItem>().apply {
             when {
                 priorityCertificate.isValid -> colorShade
@@ -108,7 +113,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
             add(cwaUserCard(personCertificates))
 
-            personCertificates.certificates.forEach { addCardItem(it, personCertificates.highestPriorityCertificate) }
+            personCertificates.certificates.forEach { addCardItem(it, priorityCertificate) }
         }
 
         return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)

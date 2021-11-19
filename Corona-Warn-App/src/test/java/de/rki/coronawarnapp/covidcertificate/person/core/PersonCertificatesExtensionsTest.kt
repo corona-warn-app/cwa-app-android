@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.every
@@ -260,9 +259,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
 
         val certificatesList = mutableListOf<CwaCovidCertificate>()
 
-        shouldThrow<NoSuchElementException> {
-            certificatesList.findHighestPriorityCertificate(time)
-        }
+        certificatesList.findHighestPriorityCertificate(time) shouldBe null
 
         // Start scanning the certificates one by one, starting with RAT > 24 hours old
         certificatesList.add(first)

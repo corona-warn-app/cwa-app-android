@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.Vaccina
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
+import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
@@ -81,6 +82,7 @@ class DataReset @Inject constructor(
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dscRepository: DscRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
+    private val exposureWindowsSettings: AnalyticsExposureWindowsSettings,
 ) {
 
     private val mutex = Mutex()
@@ -94,6 +96,7 @@ class DataReset @Inject constructor(
         Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Triggers deletion of all analytics contributed data
         analytics.setAnalyticsEnabled(false)
+        exposureWindowsSettings.clear()
 
         // Reset the current states stored in LiveData
         submissionRepository.reset()
@@ -139,7 +142,6 @@ class DataReset @Inject constructor(
         validationRepository.clear()
 
         boosterRulesRepository.clear()
-
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }

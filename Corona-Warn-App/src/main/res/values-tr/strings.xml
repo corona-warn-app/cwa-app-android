@@ -387,7 +387,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_4">"Dilerseniz uygulamayı kişisel enfeksiyon durumunuzu (örneğin, negatif sonuç veren bir hızlı test) kanıtlamak için kullanabilirsiniz. Ancak lütfen unutmayın; enfeksiyon durumunuzu kanıtlamak için uygulamayı kullanmak zorunda değilsiniz. Enfeksiyon durumunuzu, ikamet ettiğiniz bölgede geçerli olan yasal düzenlemeler uyarınca başka bir şekilde de kanıtlayabilirsiniz."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_5">"Kişisel aşı durumunuzu da doğrulayabilirsiniz."</string>
+    <string name="onboarding_body_5">"Kişisel aşı durumunuzu da kanıtlayabilirsiniz."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_6">"Uygulama kişilerin akıllı telefonları arasında şifrelenmiş rastgele kimlikleri paylaşarak karşılaşma günlüğü oluşturur ve bu sırada hiçbir kişisel veriye erişim sağlanmaz."</string>
     <!-- XACT: onboarding(together) - illustraction description, header image -->
@@ -904,7 +904,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR kod geçersiz"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR kod yanlış veya başka bir akıllı telefona zaten kaydedilmiş. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR kod yanlış veya akıllı telefonunuza zaten kaydedilmiş.\nQR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir.\nTesti uygulamada sildiyseniz geri dönüşüm kutusundan geri yükleyebilirsiniz."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Lütfen tekrar deneyin."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -1057,6 +1057,12 @@
     <string name="submission_test_result_dialog_tracing_required_button">"Tamam"</string>
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
+    <!-- XHED: Dialog title for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Test sonucu kaldırılsın mı?"</string>
+    <!-- XTXT: Dialog body for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Test sonucu geri dönüşüm kutusuna taşınacak. Geri dönüşüm kutusunu, sağ üst kısımdaki üç noktanın altında yer alan \"Durum\" sekme sayfasında bulabilirsiniz. Burada test sonucunu kalıcı olarak silebilir veya geri yükleyebilirsiniz. Test sonucu 30 gün sonra otomatik olarak silinir."</string>
+    <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Test Sonucunu Kaldır"</string>
     <!-- XHED: Dialog title for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_title_no_submission">"Testi kaldırmak istediğinizden emin misiniz?"</string>
     <!-- YTXT: Dialog text for test removal -->
@@ -1307,7 +1313,7 @@
     <!-- XBUT: submission status card unregistered button -->
     <string name="submission_status_card_button_unregistered">"Testlerinizi Yönetin"</string>
     <!-- XBUT: submission status card show results button -->
-    <string name="submission_status_card_button_show_results">"Testi Göster"</string>
+    <string name="submission_status_card_button_show_results">"Testi Görüntüle"</string>
     <!-- XBUT: submission status card fetch failed button -->
     <string name="submission_status_card_button_failed">"Testi Sil"</string>
     <!-- XHED: submission status card positive result subtitle -->

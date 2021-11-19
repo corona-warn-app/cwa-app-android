@@ -70,6 +70,8 @@ message PPATestResultMetadata {
   PPARiskLevel ptRiskLevelAtTestRegistration = 6;
   int32 ptDaysSinceMostRecentDateAtRiskLevelAtTestRegistration = 7;
   int32 ptHoursSinceHighRiskWarningAtTestRegistration = 8;
+  repeated PPANewExposureWindow exposureWindowsAtTestRegistration = 9;
+  repeated PPANewExposureWindow exposureWindowsUntilTestResult = 10;
 }
 
 message PPAKeySubmissionMetadata {
