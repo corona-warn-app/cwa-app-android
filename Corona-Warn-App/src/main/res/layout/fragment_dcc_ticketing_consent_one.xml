@@ -111,7 +111,7 @@
                     app:layout_constraintTop_toBottomOf="@id/provider" />
 
                 <TextView
-                    android:id="@+id/booking"
+                    android:id="@+id/subject"
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                     android:text="@string/dcc_ticketing_consent_one_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/booking" />
+                    app:layout_constraintTop_toBottomOf="@id/subject" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/privacy_card"
