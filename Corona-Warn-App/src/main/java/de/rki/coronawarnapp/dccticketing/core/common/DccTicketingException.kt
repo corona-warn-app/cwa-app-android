@@ -24,8 +24,8 @@ class DccTicketingException(
          AES_GCM_INVALID_KEY("failure while encrypting DCC; user may retry"),
          AES_GCM_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 */
-         ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
-         ATR_PARSE_ERR("failure when obtaining Access Token; user may retry"),
+        ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
+        ATR_PARSE_ERR("failure when obtaining Access Token; user may retry"),
 /*
         ATR_CERT_PIN_MISMATCH("failure when obtaining Access Token; user may retry"),
         ATR_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Access Token; user may retry"),

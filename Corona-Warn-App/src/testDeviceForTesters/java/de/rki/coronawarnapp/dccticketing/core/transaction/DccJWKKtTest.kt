@@ -1,11 +1,15 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
+import de.rki.coronawarnapp.dccticketing.core.common.getPublicKey
 import de.rki.coronawarnapp.util.encoding.base64
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 import testhelpers.BaseTest
+import java.security.cert.CertificateFactory
 
 class DccJWKKtTest : BaseTest() {
+
+    private val certificateFactory = CertificateFactory.getInstance("X.509")
 
     private val dataSet = listOf(
         DataSet(
@@ -40,7 +44,7 @@ class DccJWKKtTest : BaseTest() {
     @Test
     fun `test converting DccJWK to x509 certificate object and extracting public keys`() {
         dataSet.forEach {
-            it.dccJwk.publicKey?.encoded?.base64() shouldBe it.expectedPublicKey
+            it.dccJwk.getPublicKey(certificateFactory)?.encoded?.base64() shouldBe it.expectedPublicKey
         }
     }
 
