@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core
 
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.http.HttpClientDefault
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,10 +16,6 @@ class DccTicketingCoreModule {
     @DccTicketing
     @Provides
     fun provideHttpClient(@HttpClientDefault client: OkHttpClient) = client
-
-    @DccTicketing
-    @Provides
-    fun provideGson(@BaseGson gson: Gson) = gson
 
     @Reusable
     @Provides

@@ -5,10 +5,16 @@ import com.google.gson.TypeAdapter
 import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 import java.io.File
+import java.io.Reader
 import kotlin.reflect.KClass
 
 inline fun <reified T> Gson.fromJson(json: String): T = fromJson(
     json,
+    object : TypeToken<T>() {}.type
+)
+
+inline fun <reified T> Gson.fromJson(reader: Reader): T = fromJson(
+    reader,
     object : TypeToken<T>() {}.type
 )
 

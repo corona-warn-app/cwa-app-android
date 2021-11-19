@@ -76,7 +76,7 @@ class DccTicketingServer @Inject constructor(
 
     private inline fun <reified T> Response.parse(): T = try {
         Timber.tag(TAG).d("Parsing response=%s", this)
-        gson.fromJson(body!!.string())
+        body!!.charStream().use { gson.fromJson(it) }
     } catch (e: Exception) {
         Timber.e(e, "Parsing failed")
         throw DccTicketingServerException(errorCode = ErrorCode.PARSE_ERR, cause = e)

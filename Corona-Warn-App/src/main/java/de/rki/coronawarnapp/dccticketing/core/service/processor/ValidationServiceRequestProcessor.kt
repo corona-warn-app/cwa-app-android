@@ -17,18 +17,18 @@ class ValidationServiceRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer
 ) {
 
-    private val regexRSAOAEPWithSHA256AESCBC = """/ValidationServiceEncScheme-RSAOAEPWithSHA256AESCBC${'$'}/"""
+    private val regexRSAOAEPWithSHA256AESCBC = """ValidationServiceEncScheme-RSAOAEPWithSHA256AESCBC${'$'}"""
         .toRegex()
 
     private val regexRSAOAEPWithSHA256AESGCM =
-        """/ValidationServiceEncScheme-RSAOAEPWithSHA256AESGCM${'$'}/"""
+        """ValidationServiceEncScheme-RSAOAEPWithSHA256AESGCM${'$'}"""
             .toRegex()
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
-    ): Output {
+    ): ValidationServiceResult {
         Timber.d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
             validationService,
@@ -75,13 +75,13 @@ class ValidationServiceRequestProcessor @Inject constructor(
         val validationServiceSignKeyJwkSet = serviceIdentityDocument
             .findJwkSet(jwkSetType = JwkSetType.ValidationServiceSignKeyJwkSet)
 
-        return Output(
+        return ValidationServiceResult(
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
             validationServiceSignKeyJwkSet = validationServiceSignKeyJwkSet
-        ).also { Timber.d("Returning output=%s", it) }
+        ).also { Timber.d("Returning %s", it) }
     }
 
     private suspend fun getServiceIdentityDocument(
@@ -111,7 +111,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
     private fun DccTicketingServiceIdentityDocument.findVerificationMethods(forRegex: Regex): Set<String> {
         Timber.d("findVerificationMethods(forRegex=%s)", forRegex)
         return verificationMethod
-            .firstOrNull { it.id.matches(forRegex) }
+            .firstOrNull { forRegex.containsMatchIn(it.id) }
             ?.verificationMethods
             ?.toSet() ?: emptySet()
     }
@@ -126,7 +126,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
             .toSet()
     }
 
-    data class Output(
+    data class ValidationServiceResult(
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC: Set<DccJWK>,
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM: Set<DccJWK>,
         val validationServiceSignKeyJwkSet: Set<DccJWK>
