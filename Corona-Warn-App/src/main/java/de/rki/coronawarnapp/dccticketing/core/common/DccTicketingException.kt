@@ -38,24 +38,30 @@ class DccTicketingException(
         ATR_NO_NETWORK("failure when obtaining Access Token; user may retry"),
         ATR_SERVER_ERR("failure when obtaining Access Token; user may retry"),
         ATR_TYPE_INVALID("failure when obtaining Access Token; user may retry"),
-
          EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
          EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-
          RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
          RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-
-         RTR_CERT_PIN_MISMATCH("failure when obtaining Result Token; user may retry"),
-         RTR_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Result Token; user may retry"),
-         RTR_CLIENT_ERR("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_ALG_NOT_SUPPORTED("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_EMPTY_JWKS("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_NO_JWK_FOR_KID("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_NO_KID("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_SIG_INVALID("failure when obtaining Result Token; user may retry"),
-         RTR_NO_NETWORK("failure when obtaining Result Token; user may retry"),
-         RTR_SERVER_ERR("failure when obtaining Result Token; user may retry"),
  */
+        /**
+         *  equest Result Token error codes.
+         *  Failure when obtaining Result Token; user may retry
+         */
+        RTR_CERT_PIN_MISMATCH("RTR_CERT_PIN_MISMATCH"),
+        RTR_CERT_PIN_NO_JWK_FOR_KID("RTR_CERT_PIN_NO_JWK_FOR_KID"),
+        RTR_CLIENT_ERR("RTR_CLIENT_ERR"),
+        RTR_JWT_VER_ALG_NOT_SUPPORTED("RTR_JWT_VER_ALG_NOT_SUPPORTED"),
+        RTR_JWT_VER_EMPTY_JWKS("RTR_JWT_VER_EMPTY_JWKS"),
+        RTR_JWT_VER_NO_JWK_FOR_KID("RTR_JWT_VER_NO_JWK_FOR_KID"),
+        RTR_JWT_VER_NO_KID("RTR_JWT_VER_NO_KID"),
+        RTR_JWT_VER_SIG_INVALID("RTR_JWT_VER_SIG_INVALID"),
+        RTR_NO_NETWORK("RTR_NO_NETWORK"),
+        RTR_SERVER_ERR("RTR_SERVER_ERR"),
+
+        /**
+         * Validation Decorator error codes.
+         * Failure when obtaining Service Identity Document of Validation Decorator; user may retry
+         */
         VD_ID_CLIENT_ERR("VD_ID_CLIENT_ERR"),
         VD_ID_NO_ATS_SIGN_KEY("VD_ID_NO_ATS_SIGN_KEY"),
         VD_ID_NO_ATS_SVC_KEY("VD_ID_NO_ATS_SVC_KEY"),
@@ -67,6 +73,10 @@ class DccTicketingException(
         VD_ID_SERVER_ERR("VD_ID_SERVER_ERR"),
         VD_ID_EMPTY_X5C("VD_ID_EMPTY_X5C"),
 
+        /**
+         * Validation Service error codes
+         * Failure when obtaining Service Identity Document of Validation Service; user may retry
+         */
         VS_ID_CERT_PIN_MISMATCH("VS_ID_CERT_PIN_MISMATCH"),
         VS_ID_CERT_PIN_NO_JWK_FOR_KID("VS_ID_CERT_PIN_NO_JWK_FOR_KID"),
         VS_ID_CLIENT_ERR("VS_ID_CLIENT_ERR"),
