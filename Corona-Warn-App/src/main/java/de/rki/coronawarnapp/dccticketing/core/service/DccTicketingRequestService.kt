@@ -23,7 +23,7 @@ class DccTicketingRequestService @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
         url: String
-    ): ValidationDecoratorRequestProcessor.Output = withContext(dispatcherProvider.Default) {
+    ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult = withContext(dispatcherProvider.Default) {
         Timber.d("requestValidationDecorator(url=%s)", url)
         validationDecoratorRequestProcessor.requestValidationDecorator(url)
     }
@@ -32,7 +32,7 @@ class DccTicketingRequestService @Inject constructor(
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
-    ): ValidationServiceRequestProcessor.Output = withContext(dispatcherProvider.Default) {
+    ): ValidationServiceRequestProcessor.ValidationServiceResult = withContext(dispatcherProvider.Default) {
         Timber.d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
             validationService,

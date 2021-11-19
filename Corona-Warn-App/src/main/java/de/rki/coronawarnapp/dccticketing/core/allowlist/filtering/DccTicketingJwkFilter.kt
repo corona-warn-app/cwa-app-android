@@ -14,7 +14,7 @@ class DccTicketingJwkFilter @Inject constructor(
         // TODO
         return DccJwkFilteringResult(
             filteredAllowlist = emptySet(),
-            filteredJwkSet = emptySet()
+            filteredJwkSet = jwkSet
         )
     }
 }

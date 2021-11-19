@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.server
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.DccTicketing
@@ -14,7 +13,10 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -27,7 +29,7 @@ class DccTicketingServer @Inject constructor(
     private val dccTicketingApiV1Lazy: Lazy<DccTicketingApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     @DccTicketing private val client: OkHttpClient,
-    @DccTicketing private val gson: Gson,
+    @BaseGson private val gson: Gson,
     private val serverCertificateChecker: DccTicketingServerCertificateChecker
 ) {
 
@@ -38,7 +40,7 @@ class DccTicketingServer @Inject constructor(
     suspend fun getServiceIdentityDocument(
         url: String
     ): DccTicketingServiceIdentityDocument = withContext(dispatcherProvider.IO) {
-        Timber.d("getServiceIdentityDocument(url=%s)", url)
+        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s)", url)
         get(url).parse()
     }
 
@@ -47,7 +49,7 @@ class DccTicketingServer @Inject constructor(
         url: String,
         jwkSet: Set<DccJWK>
     ): DccTicketingServiceIdentityDocument = withContext(dispatcherProvider.IO) {
-        Timber.d("getServiceIdentityDocument(url=%s)", url)
+        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s)", url)
         get(url).run {
             validate(jwkSet = jwkSet)
             parse()
@@ -55,14 +57,14 @@ class DccTicketingServer @Inject constructor(
     }
 
     private fun get(url: String): Response = try {
-        Timber.d("Get %s", url)
+        Timber.tag(TAG).d("Get %s", url)
         val request = Request.Builder()
             .url(url)
             .build()
 
         client.newCall(request).execute()
     } catch (e: Exception) {
-        Timber.e(e, "Get request failed.")
+        Timber.tag(TAG).e(e, "Get request failed.")
         throw when (e) {
             is CwaUnknownHostException,
             is NetworkReadTimeoutException,
@@ -72,16 +74,16 @@ class DccTicketingServer @Inject constructor(
         }.let { DccTicketingServerException(errorCode = it, cause = e) }
     }
 
-    private fun <T> Response.parse(): T = try {
-        Timber.d("Parsing response=%s", this)
-        body!!.charStream().use { gson.fromJson(it, object : TypeToken<T>() {}.type) }
+    private inline fun <reified T> Response.parse(): T = try {
+        Timber.tag(TAG).d("Parsing response=%s", this)
+        body!!.charStream().use { gson.fromJson(it) }
     } catch (e: Exception) {
         Timber.e(e, "Parsing failed")
         throw DccTicketingServerException(errorCode = ErrorCode.PARSE_ERR, cause = e)
     }
 
     private fun Response.validate(jwkSet: Set<DccJWK>) {
-        Timber.d("Validating response=%s")
+        Timber.tag(TAG).d("Validating response=%s", jwkSet)
         val certificateChain = handshake?.peerCertificates ?: emptyList()
         serverCertificateChecker.checkCertificate(certificateChain, jwkSet)
     }
@@ -100,4 +102,8 @@ class DccTicketingServer @Inject constructor(
         }
 
     data class AccessTokenResponse(val jwt: String, val iv: String)
+
+    companion object {
+        private val TAG = tag<DccTicketingServer>()
+    }
 }
