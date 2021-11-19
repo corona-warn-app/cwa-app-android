@@ -53,7 +53,8 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
     } catch (e: Exception) {
         throw when (e) {
             is DccTicketingServerCertificateCheckException -> e
-            else -> DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_UNSPECIFIED_ERR, cause = e)
+            else ->
+                DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_UNSPECIFIED_ERR, cause = e)
         }
     }
 
