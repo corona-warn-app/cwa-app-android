@@ -46,7 +46,13 @@ class CertificatePosterViewModel @AssistedInject constructor(
             if (firstName.isNullOrBlank()) {
                 lastName
             } else {
-                "${firstName}_$lastName"
+                val firstNameUnderscored = firstName
+                    ?.replace(" ", "_")
+                    ?.replace("-", "_")
+                val lastNameUnderscored = lastName
+                    .replace(" ", "_")
+                    .replace("-", "_")
+                "${firstNameUnderscored}_$lastNameUnderscored"
             }
         }
 
