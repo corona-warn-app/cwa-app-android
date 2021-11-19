@@ -48,7 +48,7 @@ class PersonsVaccinatedOnceCard(parent: ViewGroup) :
             primaryValue.text = formatPercentageValue(firstDose.value, currentSelectedLocale)
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(getPrimaryLabel(context))
-                .appendWithTrailingSpace(formatStatisticalValue(context, firstDose.value, firstDose.decimals))
+                .appendWithTrailingSpace(formatPercentageValue(firstDose.value))
                 .append(context.getString(R.string.statistics_vaccinated_once_card_title))
 
             secondaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
@@ -64,12 +64,12 @@ class PersonsVaccinatedOnceCard(parent: ViewGroup) :
         firstDose: KeyFigureCardOuterClass.KeyFigure,
         total: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
-
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_vaccinated_once_card_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithLineBreak(formatStatisticalValue(context, firstDose.value, firstDose.decimals))
+            .appendWithLineBreak(formatPercentageValue(firstDose.value))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
             .appendWithTrailingSpace(formatStatisticalValue(context, total.value, total.decimals))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
