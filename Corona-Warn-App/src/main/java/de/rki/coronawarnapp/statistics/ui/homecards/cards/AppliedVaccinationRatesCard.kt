@@ -69,7 +69,9 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
                         sevenDayAverage.decimals
                     )
                 )
-                .appendWithTrailingSpace(context.getString(R.string.statistics_applied_vaccination_dose_rates_card_title))
+                .appendWithTrailingSpace(
+                    context.getString(R.string.statistics_applied_vaccination_dose_rates_card_title)
+                )
                 .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
