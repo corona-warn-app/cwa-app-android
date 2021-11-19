@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import androidx.lifecycle.ViewModel
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
 
 /**
@@ -15,6 +16,8 @@ class QrcodeSharedViewModel : ViewModel() {
     private val verifiedTraceLocationCache = mutableMapOf<String, VerifiedTraceLocation>()
 
     private val dccQrCodeCache = mutableMapOf<String, DccQrCode>()
+
+    private val dccTicketingTransactionContextCache = mutableMapOf<String, DccTicketingTransactionContext>()
 
     fun verifiedTraceLocation(locationId: String): VerifiedTraceLocation {
         return verifiedTraceLocationCache.remove(locationId) ?: throw IllegalArgumentException(
@@ -35,6 +38,16 @@ class QrcodeSharedViewModel : ViewModel() {
     fun dccQrCode(certificateIdentifier: String): DccQrCode {
         return dccQrCodeCache.remove(certificateIdentifier) ?: throw IllegalArgumentException(
             "DccQrCode must be provided by putDccQrCode first from start destination"
+        )
+    }
+
+    fun putDccTicketingTransactionContext(transactionContext: DccTicketingTransactionContext) {
+        dccTicketingTransactionContextCache[transactionContext.initializationData.subject] = transactionContext;
+    }
+
+    fun dccTicketingTransactionContext(transactionContextIdentifier: String): DccTicketingTransactionContext {
+        return dccTicketingTransactionContextCache.remove(transactionContextIdentifier) ?: throw IllegalArgumentException(
+            "DccTicketingTransactionContext must be privided by putDccTicketingTransactionContext first from start destination"
         )
     }
 }

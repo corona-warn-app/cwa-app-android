@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
+import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
@@ -118,8 +119,14 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
         when (scannerResult) {
             is DccTicketingResult.ConsentI -> {
-                // TODO navigate to Consent I
-                Toast.makeText(requireContext(), "Consent I :)", Toast.LENGTH_LONG).show()
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.universalScanner, true)
+                    .build()
+                qrcodeSharedViewModel.putDccTicketingTransactionContext(scannerResult.transactionContext)
+                findNavController().navigate(
+                    DccTicketingConsentOneFragment.uri(scannerResult.transactionContext.initializationData.subject),
+                    navOptions
+                )
             }
         }
     }
