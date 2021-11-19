@@ -102,6 +102,8 @@ class ValidationServiceRequestProcessor @Inject constructor(
                 DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
             DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
                 DccTicketingErrorCode.VS_ID_CERT_PIN_MISMATCH
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_UNSPECIFIED_ERR ->
+                DccTicketingErrorCode.VS_ID_SERVER_ERR
         }.let { DccTicketingException(errorCode = it, cause = e) }
     }
 
