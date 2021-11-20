@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
+import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
+import de.rki.coronawarnapp.dccticketing.core.server.ResultTokenRequest
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import javax.inject.Inject
@@ -12,8 +15,25 @@ class ResultTokenRequestProcessor @Inject constructor(
 ) {
 
     suspend fun requestResultToken(resultTokenInput: ResultTokenInput): ResultTokenOutput {
-        TODO()
+       val rawToken =  dccTicketingServer.getResultToken(
+            url = resultTokenInput.serviceEndpoint,
+            authorizationHeader = "Bearer ${resultTokenInput.jwt}",
+            requestBody = resultTokenInput.run {
+                ResultTokenRequest(
+                    kid = encryptionKeyKid,
+                    dcc = encryptedDCCBase64,
+                    sig = signatureBase64,
+                    encKey = encryptionKeyBase64,
+                    encScheme = encryptionScheme,
+                    sigAlg = signatureAlgorithm
+                )
+            }
+        )
+
+        convertor.jsonToJwtToken(rawToken)
+
     }
+}
 }
 
 data class ResultTokenInput(

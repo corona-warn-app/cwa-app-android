@@ -20,4 +20,16 @@ interface DccTicketingApiV1 {
         @Header("Authorization") authorizationHeader: String,
         @Body body: AccessTokenRequest
     ): Response<String>
+
+    @Headers(
+        "X-VERSION: 1.0.0",
+        "Accept: application/jwt",
+        "Content-Type: application/json",
+    )
+    @POST
+    suspend fun getResultToken(
+        @Url url: String,
+        @Header("Authorization") authorizationHeader: String,
+        @Body body: ResultTokenRequest
+    ): Response<String>
 }

@@ -101,6 +101,19 @@ class DccTicketingServer @Inject constructor(
             AccessTokenResponse(jwtToken, iv)
         }
 
+    suspend fun getResultToken(
+        url: String,
+        authorizationHeader: String,
+        requestBody: ResultTokenRequest
+    ): AccessTokenResponse =
+        withContext(dispatcherProvider.IO) {
+            Timber.d("getResultToken(url=%s)", url)
+            val response = dccTicketingApiV1.getResultToken(url, authorizationHeader, requestBody)
+            val jwtToken: String = response.body()!!
+            val iv = response.headers()["x-nonce"]!!
+            AccessTokenResponse(jwtToken, iv)
+        }
+
     data class AccessTokenResponse(val jwt: String, val iv: String)
 
     companion object {
