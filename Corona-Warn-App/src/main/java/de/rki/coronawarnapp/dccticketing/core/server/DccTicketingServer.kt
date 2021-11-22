@@ -88,6 +88,21 @@ class DccTicketingServer @Inject constructor(
         serverCertificateChecker.checkCertificate(certificateChain, jwkSet)
     }
 
+    suspend fun getAccessToken(
+        url: String,
+        authorizationHeader: String,
+        requestBody: AccessTokenRequest
+    ): AccessTokenResponse =
+        withContext(dispatcherProvider.IO) {
+            Timber.d("getAccessToken(url=%s)", url)
+            val response = dccTicketingApiV1.getAccessToken(url, authorizationHeader, requestBody)
+            val jwtToken: String = response.body()!!
+            val iv = response.headers()["x-nonce"]!!
+            AccessTokenResponse(jwtToken, iv)
+        }
+
+    data class AccessTokenResponse(val jwt: String, val iv: String)
+
     companion object {
         private val TAG = tag<DccTicketingServer>()
     }

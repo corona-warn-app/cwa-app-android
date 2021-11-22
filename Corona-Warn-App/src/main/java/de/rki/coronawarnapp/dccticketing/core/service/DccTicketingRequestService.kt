@@ -41,10 +41,24 @@ class DccTicketingRequestService @Inject constructor(
         validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet)
     }
 
+    @Suppress("LongParameterList")
     @Throws(DccTicketingException::class)
-    suspend fun requestAccessToken(): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
-        // TODO: Add input
+    suspend fun requestAccessToken(
+        accessTokenService: DccTicketingService,
+        accessTokenServiceJwkSet: Set<DccJWK>,
+        accessTokenSignJwkSet: Set<DccJWK>,
+        validationService: DccTicketingService,
+        publicKeyBase64: String,
+        authorization: String
+    ): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
         Timber.d("requestAccessToken()")
-        accessTokenRequestProcessor.requestAccessToken()
+        accessTokenRequestProcessor.requestAccessToken(
+            accessTokenService,
+            accessTokenServiceJwkSet,
+            accessTokenSignJwkSet,
+            validationService,
+            publicKeyBase64,
+            authorization
+        )
     }
 }
