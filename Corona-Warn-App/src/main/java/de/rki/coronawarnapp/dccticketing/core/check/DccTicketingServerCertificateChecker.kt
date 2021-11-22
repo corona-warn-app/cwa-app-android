@@ -3,20 +3,17 @@ package de.rki.coronawarnapp.dccticketing.core.check
 import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
+import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
 import okio.ByteString
-import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.security.cert.Certificate
-import java.security.cert.CertificateFactory
 import javax.inject.Inject
 
 @Reusable
-class DccTicketingServerCertificateChecker @Inject constructor() {
-
-    private val x509CertificateFactory: CertificateFactory by lazy {
-        CertificateFactory.getInstance("X.509")
-    }
+class DccTicketingServerCertificateChecker @Inject constructor(
+    private val dccJWKConverter: DccJWKConverter
+) {
 
     /**
      * Checks the server certificate against a set of [DccJWK]
@@ -40,7 +37,7 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
         val requiredJwkSet = jwkSet.findRequiredJwkSet(requiredKid = requiredKid)
 
         // 4. Find requiredCertificates
-        val requiredCertificates = requiredJwkSet.map { it.toCertificate() }
+        val requiredCertificates = requiredJwkSet.map { dccJWKConverter.createX509Certificate(jwk = it) }
 
         // 5. Find requiredFingerprints
         val requiredFingerprints = requiredCertificates.map { it.createSha256Fingerprint() }
@@ -77,12 +74,6 @@ class DccTicketingServerCertificateChecker @Inject constructor() {
 
         return requiredJwkSet
     }
-
-    private fun DccJWK.toCertificate(): Certificate = x5c.first()
-        .decodeBase64()
-        ?.toByteArray()
-        ?.inputStream()
-        .use { x509CertificateFactory.generateCertificate(it) }
 }
 
 private const val BYTE_COUNT: Int = 8

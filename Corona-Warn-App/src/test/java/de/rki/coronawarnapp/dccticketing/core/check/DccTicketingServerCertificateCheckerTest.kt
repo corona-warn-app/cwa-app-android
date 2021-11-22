@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.check
 
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
+import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
@@ -14,7 +15,7 @@ import java.security.cert.CertificateFactory
 @Suppress("MaxLineLength")
 class DccTicketingServerCertificateCheckerTest : BaseTest() {
 
-    private val instance = DccTicketingServerCertificateChecker()
+    private val instance = DccTicketingServerCertificateChecker(dccJWKConverter = DccJWKConverter())
     private val certificateFactory = CertificateFactory.getInstance("X.509")
 
     private val happyExpectedKidStr = "6H4m650iKAE="
