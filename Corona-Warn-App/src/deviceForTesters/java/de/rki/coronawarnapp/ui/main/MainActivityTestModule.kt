@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragmentModule
+import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment
+import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
@@ -90,4 +92,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [BoosterTestModule::class])
     abstract fun boosterTestFragment(): BoosterTestFragment
+
+    @ContributesAndroidInjector(modules = [DccTicketingTestModule::class])
+    abstract fun dccTicketingTestFragment(): DccTicketingTestFragment
 }

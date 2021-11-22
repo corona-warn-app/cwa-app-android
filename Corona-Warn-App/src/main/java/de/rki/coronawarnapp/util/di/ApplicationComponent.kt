@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
+import de.rki.coronawarnapp.dccticketing.DccTicketingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -89,6 +90,7 @@ import javax.inject.Singleton
         QrCodeScannerModule::class,
         RootDetectionModule::class,
         InAppUpdateModule::class,
+        DccTicketingModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

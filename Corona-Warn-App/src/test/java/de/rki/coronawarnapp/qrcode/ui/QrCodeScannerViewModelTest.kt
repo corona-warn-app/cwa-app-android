@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
@@ -56,6 +57,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeFileParser: QrCodeFileParser
     @MockK lateinit var dccHandler: DccQrCodeHandler
+    @MockK lateinit var dccTicketingQrCodeHandler: DccTicketingQrCodeHandler
     @MockK lateinit var checkInHandler: CheckInQrCodeHandler
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var dccSettings: CovidCertificateSettings
@@ -354,6 +356,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
         recycledCertificatesProvider = recycledCertificatesProvider,
-        recycledCoronaTestsProvider = recycledCoronaTestsProvider
+        recycledCoronaTestsProvider = recycledCoronaTestsProvider,
+        dccTicketingQrCodeHandler = dccTicketingQrCodeHandler
     )
 }
