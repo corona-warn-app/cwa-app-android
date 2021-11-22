@@ -317,7 +317,6 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     implementation "org.bouncycastle:bcpkix-jdk15on:1.69"
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.69'
     // KOTLIN
     def coroutineVersion = "1.5.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
@@ -454,12 +453,6 @@ dependencies {
     implementation 'net.swiftzer.semver:semver:1.1.1'
 
     //JWT
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
-    implementation('io.jsonwebtoken:jjwt-orgjson:0.11.2') {
-        exclude group: 'org.json', module: 'json' //provided by Android natively
-    }
-
     implementation 'com.nimbusds:nimbus-jose-jwt:9.15.2'
 
     // SECURITY
