@@ -11,6 +11,7 @@ import testhelpers.BaseTest
 import java.security.cert.Certificate
 import java.security.cert.CertificateFactory
 
+@Suppress("MaxLineLength")
 class DccTicketingServerCertificateCheckerTest : BaseTest() {
 
     private val instance = DccTicketingServerCertificateChecker()
