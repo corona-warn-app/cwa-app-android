@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
 
 class DccTicketingConsentOneViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingTransactionContext: DccTicketingTransactionContext,

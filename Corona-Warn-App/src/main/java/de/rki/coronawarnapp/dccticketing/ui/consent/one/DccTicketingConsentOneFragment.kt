@@ -9,10 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentOneBinding
+import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
+import de.rki.coronawarnapp.dccticketing.ui.dialog.show
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -33,7 +34,9 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         constructorCall = { factory, _ ->
             factory as DccTicketingConsentOneViewModel.Factory
             factory.create(
-                dccTicketingTransactionContext = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
+                dccTicketingTransactionContext = qrcodeSharedViewModel.dccTicketingTransactionContext(
+                    args.transactionContextIdentifier
+                )
             )
         }
     )
@@ -79,12 +82,10 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
     }
 
     private fun showCloseAlertDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.dcc_ticketing_consent_one_cancel_dialog_title)
-            .setMessage(R.string.dcc_ticketing_consent_one_cancel_dialog_body)
-            .setPositiveButton(R.string.dcc_ticketing_consent_one_cancel_dialog_continue_btn) { _, _ -> }
-            .setNegativeButton(R.string.dcc_ticketing_consent_one_cancel_dialog_cancel_btn) { _, _ -> popBackStack() }
-            .show()
+        DccTicketingDialogType.ConfirmCancelation.show(
+            fragment = this,
+            negativeButtonAction = { popBackStack() }
+        )
     }
 
     companion object {
