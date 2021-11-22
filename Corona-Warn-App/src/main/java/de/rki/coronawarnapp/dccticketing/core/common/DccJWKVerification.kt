@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
+import timber.log.Timber
 import java.security.PublicKey
 import java.security.cert.CertificateFactory
 import java.security.interfaces.RSAPublicKey
@@ -27,17 +28,21 @@ class DccJWKVerification() {
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {
         if (jwkSet.isEmpty()) throw DccTicketingException(JWT_VER_NO_JWKS)
 
-        val signedJWT = SignedJWT.parse(jwt)
-        val kid = signedJWT.header.customParams["kid"] as String?
+        val signedJWT = try {
+            SignedJWT.parse(jwt)
+        } catch (e: Exception) {
+            Timber.e("Can't parse JWT token $jwt", e)
+            throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
+        }
 
         if (signedJWT.header.algorithm !in listOf(ES256, PS256, RS256)) throw DccTicketingException(
             JWT_VER_ALG_NOT_SUPPORTED
         )
-        if (kid.isNullOrEmpty()) throw DccTicketingException(JWT_VER_NO_KID)
+        if (signedJWT.header.keyID.isNullOrEmpty()) throw DccTicketingException(JWT_VER_NO_KID)
 
-        if (jwkSet.none { it.kid == kid }) throw DccTicketingException(JWT_VER_NO_JWK_FOR_KID)
+        if (jwkSet.none { it.kid == signedJWT.header.keyID }) throw DccTicketingException(JWT_VER_NO_JWK_FOR_KID)
 
-        jwkSet.filter { it.kid == kid }.forEach {
+        jwkSet.filter { it.kid == signedJWT.header.keyID }.forEach {
             verify(signedJWT, it.getPublicKey(certificateFactory))
         }
 
@@ -59,5 +64,4 @@ class DccJWKVerification() {
 
         if (!signedJWT.verify(verifier)) throw DccTicketingException(JWT_VER_SIG_INVALID)
     }
-
 }

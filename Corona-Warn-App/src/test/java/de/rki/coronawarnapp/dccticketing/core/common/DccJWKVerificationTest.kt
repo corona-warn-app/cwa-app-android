@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.dccticketing.core.common
 
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
 import com.nimbusds.jwt.SignedJWT
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
 import org.junit.Test
 import testhelpers.BaseTest
@@ -80,11 +82,18 @@ class DccJWKVerificationTest : BaseTest() {
         ),
     )
 
+    private val dummyJWT = DccJWK(
+        x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWrMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDUyMloXDTMxMTAyNjEwMDUyMlowYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQIMN3/9b32RulED0quAjfqbJ161DMlEX0vKmRJeKkF9qSvGDh54wY3wvEGzR8KRoIkltp2/OwqUWNCzE3GDDbjAJBgcqhkjOPQQBA0gAMEUCIBGdBhvrxWHgXAidJbNEpbLyOrtgynzS9m9LGiCWvcpsAiEAjeJvDQ03n6NR8ZauecRtxTyXzFx8lv6XA273K05COpI="),
+        kid = "pGWqzB9BzWY=",
+        alg = "ES256",
+        use = DccJWK.Purpose.SIGNATURE
+    )
+
     @Test
-    fun testJwtVerification() {
+    fun `Test Verifying the Signature of a JWT with a Public Key`() {
 
         fun doVerify(testData: TestData) = getInstance().verify(
-            signedJWT =  SignedJWT.parse(testData.token),
+            signedJWT = SignedJWT.parse(testData.token),
             publicKey = readBase64PublicKey(
                 alg = getAlgName(testData.alg),
                 publicKeyBase64 = testData.publicKeyBase64
@@ -99,28 +108,59 @@ class DccJWKVerificationTest : BaseTest() {
             } else {
                 shouldThrow<DccTicketingException> {
                     doVerify(it)
-                }
+                }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
             }
         }
     }
 
     @Test
-    fun testJwtHeaderParsing() {
+    fun `Test Verifying the Signature of a JWT with a Set of JWKs with empty set`() {
+        shouldThrow<DccTicketingException> {
+            getInstance().verify("ABC", emptySet())
+        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_NO_JWKS
+    }
 
-//        with(getInstance().getJwtHeader("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")) {
-//            alg shouldBe DccJWKVerification.ALG.UNKNOWN
-//            kid shouldBe null
-//        }
-//
-//        with(getInstance().getJwtHeader("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.NHVaYe26MbtOYhSKkoKYdFVomg4i8ZJd8_-RU8VNbftc4TSMb4bXP3l3YlNWACwyXPGffz5aXHc6lty1Y2t4SWRqGteragsVdZufDn5BlnJl9pdR_kdVFUsra2rWKEofkZeIC4yWytE58sMIihvo9H1ScmmVwBcQP6XETqYd0aSHp1gOa9RdUPDvoXQ5oqygTqVtxaDr6wUFKrKItgBMzWIdNZ6y7O9E0DhEPTbE9rfBo6KTFsHAZnMg4k68CDp2woYIaXbmYTWcvbzIuHO7_37GT79XdIwkm95QJ7hYC9RiwrV7mesbY4PAahERJawntho0my942XheVLmGwLMBkQ")) {
-//            alg shouldBe DccJWKVerification.ALG.RS256
-//            kid shouldBe null
-//        }
-//
-//        with(getInstance().getJwtHeader("eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFCQ0RFRkdIIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.G3JnxLlycdzA6q4rgutaDZlEIRs8kKZh8J4fpNaE92zxZYp69YF1ISWs9-DNH11gmtEaD4ERMcxlnOcXHAnrt7xwGDkkiNtOHn9ymAyVAFfcJ6nReEhPt70pHDLe81oKfbCKilRQ9igy7an78WgF6jQshN9ivI6DKy5zqHUgalVQN1NKkjQrXKJg_QLFM_-YrTTf1UYgPq58HUwEO5g4KzPeZ0SasrvUYVMPhBj2wrgRcaFfVyU88683KKVg8o3Wx9R5XHAwchlIuh-Kqy06AOGRZzkckZvb7dRJLT8yyipabtwPNsgQbnHsLuRHMnmdIlqtRBiTdI-7asGRcysTBQ")) {
-//            alg shouldBe DccJWKVerification.ALG.PS256
-//            kid shouldBe "ABCDEFGH"
-//        }
+    @Test
+    fun `Test Verifying the Signature of a JWT with a Set of JWKs with unsupported alg`() {
+        val jwtWithHS256 =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        val dummyJWT = DccJWK(
+            x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWrMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDUyMloXDTMxMTAyNjEwMDUyMlowYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQIMN3/9b32RulED0quAjfqbJ161DMlEX0vKmRJeKkF9qSvGDh54wY3wvEGzR8KRoIkltp2/OwqUWNCzE3GDDbjAJBgcqhkjOPQQBA0gAMEUCIBGdBhvrxWHgXAidJbNEpbLyOrtgynzS9m9LGiCWvcpsAiEAjeJvDQ03n6NR8ZauecRtxTyXzFx8lv6XA273K05COpI="),
+            kid = "pGWqzB9BzWY=",
+            alg = "ES256",
+            use = DccJWK.Purpose.SIGNATURE
+        )
+        shouldThrow<DccTicketingException> {
+            getInstance().verify(jwtWithHS256, setOf(dummyJWT))
+        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
+    }
+
+    @Test
+    fun `Test Verifying the Signature of a JWT with a Set of JWKs without alg`() {
+        val jwtWithoutAlg =
+            "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        shouldThrow<DccTicketingException> {
+            getInstance().verify(jwtWithoutAlg, setOf(dummyJWT))
+        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
+    }
+
+    @Test
+    fun `Test Verifying the Signature of a JWT with a Set of JWKs without kid`() {
+        val jwtWithoutKid =
+            "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.tyh-VfuzIxCyGYDlkBA7DfyjrqmSHu6pQ2hoZuFqUSLPNY2N0mpHb3nk5K17HWP_3cYHBw7AhHale5wky6-sVA"
+        shouldThrow<DccTicketingException> {
+            getInstance().verify(jwtWithoutKid, setOf(dummyJWT))
+        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_NO_KID
+    }
+
+    @Test
+    fun `Test Verifying the Signature of a JWT with a Set of JWKs with empty filtered set`() {
+        val jwtWithKid123 =
+            "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyMyJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.fuouVtiOd8oErTa0gd8XgMJ097HGDW7nDqEjuWB7F2i2jtuzmb5Bpwtv4iIx8i0Ea5pZVU6MctrNBiSWhkhUJA"
+
+        shouldThrow<DccTicketingException> {
+            getInstance().verify(jwtWithKid123, setOf(dummyJWT))
+        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
     }
 
     private fun readBase64PublicKey(alg: String, publicKeyBase64: String): PublicKey {
