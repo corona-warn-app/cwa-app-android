@@ -9,5 +9,71 @@
         android:id="@+id/dccTicketingConsentOneFragment"
         android:name="de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment"
         android:label="fragment_dcc_ticketing_consent_one"
-        tools:layout="@layout/fragment_dcc_ticketing_consent_one" />
+        tools:layout="@layout/fragment_dcc_ticketing_consent_one">
+        <action
+            android:id="@+id/action_dccTicketingConsentOneFragment_to_dccTicketingCertificateSelectionFragment"
+            app:destination="@id/dccTicketingCertificateSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dccTicketingCertificateSelectionFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragment"
+        android:label="fragment_dcc_ticketing_certificate_selection"
+        tools:layout="@layout/fragment_dcc_ticketing_certificate_selection">
+        <action
+            android:id="@+id/action_dccTicketingCertificateSelectionFragment_to_dccTicketingConsentTwoFragment"
+            app:destination="@id/dccTicketingConsentTwoFragment" />
+        <argument
+            android:name="transactionContext"
+            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/dccTicketingConsentTwoFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragment"
+        android:label="fragment_dcc_ticketing_consent_two"
+        tools:layout="@layout/fragment_dcc_ticketing_consent_two">
+        <action
+            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationOpenFragment"
+            app:destination="@id/dccTicketingValidationOpenFragment" />
+        <action
+            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment2"
+            app:destination="@id/dccTicketingValidationSuccessFragment2" />
+        <action
+            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment"
+            app:destination="@id/dccTicketingValidationSuccessFragment" />
+        <argument
+            android:name="transactionContext"
+            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
+        <argument
+            android:name="selectedCertificateContainerId"
+            app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
+    </fragment>
+    <fragment
+        android:id="@+id/dccTicketingValidationSuccessFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationSuccessFragment"
+        android:label="fragment_dcc_ticketing_validation_success"
+        tools:layout="@layout/fragment_dcc_ticketing_validation_success">
+        <argument
+            android:name="transactionContext"
+            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
+    </fragment>
+    <fragment
+        android:id="@+id/dccTicketingValidationSuccessFragment2"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.failed.DccTicketingValidationSuccessFragment"
+        android:label="fragment_dcc_ticketing_validation_failed"
+        tools:layout="@layout/fragment_dcc_ticketing_validation_failed">
+        <argument
+            android:name="transactionContext"
+            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
+    </fragment>
+    <fragment
+        android:id="@+id/dccTicketingValidationOpenFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.open.DccTicketingValidationOpenFragment"
+        android:label="fragment_dcc_ticketing_validation_open"
+        tools:layout="@layout/fragment_dcc_ticketing_validation_open">
+        <argument
+            android:name="transactionContext"
+            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
+    </fragment>
 </navigation>
