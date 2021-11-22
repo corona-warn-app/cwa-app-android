@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.dccticketing.core.common
 
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultItem
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToken
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -83,5 +85,50 @@ class JwtTokenConverterTest : BaseTest() {
     @Test
     fun `test json to JwtToken conversion`() {
         converter.jsonToJwtToken(validJson) shouldBe jwtTokenObject
+    }
+
+    private val jsonResultToken = """
+        {
+           "sub": "1044236f-48df-43cb-8bdf-bed142e507ab",
+           "iss": "https://dgca-validation-service-eu-acc.cfapps.eu10.hana.ondemand.com",
+           "iat": 1635864502,
+           "exp": 1635950902,
+           "category": [
+              "Standard"
+           ],
+           "confirmation": "eyJraWQiOiJSQU0yU3R3N0VrRT0iLCJhbGciOiJFUzI1NiJ9.eyJqdGkiOiJlMWU2YjU4MS1lN2NmLTQyZTAtYjM1ZS1jZmFhMTRkZTcxN2UiLCJzdWIiOiIxMDQ0MjM2Zi00OGRmLTQzY2ItOGJkZi1iZWQxNDJlNTA3YWIiLCJpc3MiOiJodHRwczovL2RnY2EtdmFsaWRhdGlvbi1zZXJ2aWNlLWV1LWFjYy5jZmFwcHMuZXUxMC5oYW5hLm9uZGVtYW5kLmNvbSIsImlhdCI6MTYzNTg2NDUwMiwiZXhwIjoxNjM1OTUwOTAyLCJyZXN1bHQiOiJOT0siLCJjYXRlZ29yeSI6WyJTdGFuZGFyZCJdfQ.OLnS59EWkpkZoEMfbyOs18dUauch9eaXxGK8Zrn-jo-S1kcgAxP8z8rdzLzNjCNTfi4CbVUnF6FV0lHuMnYBOw",
+           "results": [
+              {
+                 "identifier": "KID",
+                 "result": "NOK",
+                 "type": "TechnicalVerification",
+                 "details": "\"unknown dcc signing kid\""
+              }
+           ],
+           "result": "NOK"
+        }
+    """.trimIndent()
+
+    private val resultToken = DccTicketingResultToken(
+        iss = "https://dgca-validation-service-eu-acc.cfapps.eu10.hana.ondemand.com",
+        sub = "1044236f-48df-43cb-8bdf-bed142e507ab",
+        iat = 1635864502,
+        exp = 1635950902,
+        category = listOf("Standard"),
+        confirmation = "eyJraWQiOiJSQU0yU3R3N0VrRT0iLCJhbGciOiJFUzI1NiJ9.eyJqdGkiOiJlMWU2YjU4MS1lN2NmLTQyZTAtYjM1ZS1jZmFhMTRkZTcxN2UiLCJzdWIiOiIxMDQ0MjM2Zi00OGRmLTQzY2ItOGJkZi1iZWQxNDJlNTA3YWIiLCJpc3MiOiJodHRwczovL2RnY2EtdmFsaWRhdGlvbi1zZXJ2aWNlLWV1LWFjYy5jZmFwcHMuZXUxMC5oYW5hLm9uZGVtYW5kLmNvbSIsImlhdCI6MTYzNTg2NDUwMiwiZXhwIjoxNjM1OTUwOTAyLCJyZXN1bHQiOiJOT0siLCJjYXRlZ29yeSI6WyJTdGFuZGFyZCJdfQ.OLnS59EWkpkZoEMfbyOs18dUauch9eaXxGK8Zrn-jo-S1kcgAxP8z8rdzLzNjCNTfi4CbVUnF6FV0lHuMnYBOw",
+        result = "NOK",
+        results = listOf(
+            DccTicketingResultItem(
+                identifier = "KID",
+                result = "NOK",
+                type = "TechnicalVerification",
+                details = "\"unknown dcc signing kid\""
+            )
+        )
+    )
+
+    @Test
+    fun `test json to Result Token conversion`() {
+        converter.jsonToResultToken(jsonResultToken) shouldBe resultToken
     }
 }
