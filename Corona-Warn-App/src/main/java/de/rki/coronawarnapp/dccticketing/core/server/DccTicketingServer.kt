@@ -101,23 +101,19 @@ class DccTicketingServer @Inject constructor(
             AccessTokenResponse(jwtToken, iv)
         }
 
-    data class AccessTokenResponse(val jwt: String, val iv: String)
-
     suspend fun getResultToken(
         url: String,
         authorizationHeader: String,
         requestBody: ResultTokenRequest
-    ): AccessTokenResponse =
+    ): retrofit2.Response<String> =
         withContext(dispatcherProvider.IO) {
             Timber.d("getResultToken(url=%s)", url)
-            val response = dccTicketingApiV1.getResultToken(url, authorizationHeader, requestBody)
-            val jwtToken: String = response.body()!!
-            val iv = response.headers()["x-nonce"]!!
-            AccessTokenResponse(jwtToken, iv)
+            dccTicketingApiV1.getResultToken(url, authorizationHeader, requestBody)
         }
-
 
     companion object {
         private val TAG = tag<DccTicketingServer>()
     }
 }
+
+data class AccessTokenResponse(val jwt: String, val iv: String)
