@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK.Purpose
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import okio.ByteString.Companion.decodeBase64

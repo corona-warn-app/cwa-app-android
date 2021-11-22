@@ -101,6 +101,8 @@ class DccTicketingServer @Inject constructor(
             AccessTokenResponse(jwtToken, iv)
         }
 
+    data class AccessTokenResponse(val jwt: String, val iv: String)
+
     suspend fun getResultToken(
         url: String,
         authorizationHeader: String,
@@ -114,7 +116,6 @@ class DccTicketingServer @Inject constructor(
             AccessTokenResponse(jwtToken, iv)
         }
 
-    data class AccessTokenResponse(val jwt: String, val iv: String)
 
     companion object {
         private val TAG = tag<DccTicketingServer>()
