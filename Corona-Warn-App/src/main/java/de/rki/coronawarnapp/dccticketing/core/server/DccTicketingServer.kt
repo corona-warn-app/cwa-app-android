@@ -96,6 +96,9 @@ class DccTicketingServer @Inject constructor(
         withContext(dispatcherProvider.IO) {
             Timber.d("getAccessToken(url=%s)", url)
             val response = dccTicketingApiV1.getAccessToken(url, authorizationHeader, requestBody)
+            // TODO: use response.raw().handshake for ssl verification
+            // response.raw().handshake?.peerCertificates
+
             val jwtToken: String = response.body()!!
             val iv = response.headers()["x-nonce"]!!
             AccessTokenResponse(jwtToken, iv)

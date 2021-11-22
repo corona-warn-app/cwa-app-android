@@ -54,7 +54,9 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import timber.log.Timber
+import java.security.Security
 import javax.inject.Inject
 
 class CoronaWarnApplication : Application(), HasAndroidInjector {
@@ -107,6 +109,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         instance = this
         super.onCreate()
         CWADebug.init(this)
+        setupSecurityProvider()
 
         AppInjector.init(this).let { compPreview ->
             if (BuildVersionWrap.hasAPILevel(23)) {
@@ -171,6 +174,11 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         dccStateCheckScheduler.setup()
         boosterCheckScheduler.setup()
         recycleBinCleanUpScheduler.setup()
+    }
+
+    private fun setupSecurityProvider() {
+        Security.removeProvider("BC")
+        Security.addProvider(BouncyCastleProvider())
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
