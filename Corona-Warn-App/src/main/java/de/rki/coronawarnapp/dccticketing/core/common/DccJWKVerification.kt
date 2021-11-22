@@ -6,6 +6,7 @@ import com.nimbusds.jose.JWSAlgorithm.RS256
 import com.nimbusds.jose.crypto.ECDSAVerifier
 import com.nimbusds.jose.crypto.RSASSAVerifier
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
+import com.nimbusds.jose.util.X509CertUtils
 import com.nimbusds.jwt.SignedJWT
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWKS
@@ -13,16 +14,17 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_KID
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
+import okio.ByteString.Companion.decodeBase64
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
 import timber.log.Timber
 import java.security.PublicKey
-import java.security.cert.CertificateFactory
 import java.security.interfaces.RSAPublicKey
+import javax.inject.Inject
 
-class DccJWKVerification() {
+class DccJWKVerification @Inject constructor() {
 
-    private val certificateFactory by lazy {
-        CertificateFactory.getInstance("X.509")
+    init {
+        X509CertUtils.setProvider(BouncyCastleProviderSingleton.getInstance())
     }
 
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {
@@ -35,15 +37,21 @@ class DccJWKVerification() {
             throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
         }
 
-        if (signedJWT.header.algorithm !in listOf(ES256, PS256, RS256)) throw DccTicketingException(
-            JWT_VER_ALG_NOT_SUPPORTED
-        )
+        if (signedJWT.header.algorithm !in listOf(ES256, PS256, RS256))
+            throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
+
         if (signedJWT.header.keyID.isNullOrEmpty()) throw DccTicketingException(JWT_VER_NO_KID)
 
         if (jwkSet.none { it.kid == signedJWT.header.keyID }) throw DccTicketingException(JWT_VER_NO_JWK_FOR_KID)
 
         jwkSet.filter { it.kid == signedJWT.header.keyID }.forEach {
-            verify(signedJWT, it.getPublicKey(certificateFactory))
+            try {
+                val publicKey = X509CertUtils.parse(it.x5c.first().decodeBase64()?.toByteArray()).publicKey
+                verify(signedJWT, publicKey)
+                return
+            } catch (e:Exception) {
+                Timber.w("JWT with matching kid ${it.kid} was not verified", e)
+            }
         }
 
         throw DccTicketingException(JWT_VER_SIG_INVALID)
