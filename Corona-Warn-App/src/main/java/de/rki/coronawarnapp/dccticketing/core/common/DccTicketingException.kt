@@ -45,7 +45,7 @@ class DccTicketingException(
          RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
  */
         /**
-         *  equest Result Token error codes.
+         *  Request Result Token error codes.
          *  Failure when obtaining Result Token; user may retry
          */
         RTR_CERT_PIN_MISMATCH("RTR_CERT_PIN_MISMATCH"),
