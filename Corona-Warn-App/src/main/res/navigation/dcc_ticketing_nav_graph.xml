@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dcc_ticketing_nav_graph"
+    app:startDestination="@id/dccTicketingConsentOneFragment">
+
+    <fragment
+        android:id="@+id/dccTicketingConsentOneFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment"
+        android:label="fragment_dcc_ticketing_consent_one"
+        tools:layout="@layout/fragment_dcc_ticketing_consent_one" />
+</navigation>

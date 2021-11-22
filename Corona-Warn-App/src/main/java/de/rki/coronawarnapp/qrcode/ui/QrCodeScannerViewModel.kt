@@ -5,19 +5,21 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
-import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
+import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
-import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
@@ -38,6 +40,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccHandler: DccQrCodeHandler,
     private val checkInHandler: CheckInQrCodeHandler,
+    private val dccTicketingQrCodeHandler: DccTicketingQrCodeHandler,
     private val submissionRepository: SubmissionRepository,
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
@@ -75,11 +78,27 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 is CoronaTestQRCode -> onCoronaTestQrCode(qrCode)
                 is CheckInQrCode -> onCheckInQrCode(qrCode)
                 is DccQrCode -> onDccQrCode(qrCode)
+                is DccTicketingQrCode -> onTicketValidationQrCode(qrCode)
             }
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onScanResult failed")
             result.postValue(Error(error = e))
         }
+    }
+
+    private suspend fun onTicketValidationQrCode(qrCode: DccTicketingQrCode) {
+        try {
+            // TODO finalise it
+            val transactionContext = dccTicketingQrCodeHandler.handleQrCode(qrCode)
+            result.postValue(DccTicketingResult.ConsentI(transactionContext))
+        } catch (e: Exception) {
+            Timber.tag(TAG).d(e, "onTicketValidationQrCode failed")
+            result.postValue(Error(error = e))
+        }
+    }
+
+    fun onInfoButtonPress() {
+        result.postValue(InfoScreen)
     }
 
     fun setCameraDeniedPermanently(denied: Boolean) {
