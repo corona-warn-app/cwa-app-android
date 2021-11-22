@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics.ui.homecards.cards
 
 import android.view.ViewGroup
+import androidx.core.os.ConfigurationCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsOccupiedIntensiveCareBedsBinding
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
@@ -36,6 +37,8 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
             item.onClickListener(item.stats)
         }
 
+        val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
+
         with(item.stats as OccupiedIntensiveCareStats) {
             occupiedIntensiveCareContainer.contentDescription =
                 buildAccessibilityStringForOccupiedIntensiveCareCard(
@@ -44,7 +47,7 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
                 )
 
             primaryLabel.text = getPrimaryLabel(context)
-            primaryValue.text = formatPercentageValue(occupationRatio.value)
+            primaryValue.text = formatPercentageValue(occupationRatio.value, currentSelectedLocale)
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(
                     context.getString(R.string.statistics_occupied_intensive_care_card_title)

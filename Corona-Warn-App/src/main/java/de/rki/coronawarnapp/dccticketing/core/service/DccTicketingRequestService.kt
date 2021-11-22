@@ -23,7 +23,7 @@ class DccTicketingRequestService @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
         url: String
-    ): ValidationDecoratorRequestProcessor.Output = withContext(dispatcherProvider.Default) {
+    ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult = withContext(dispatcherProvider.Default) {
         Timber.d("requestValidationDecorator(url=%s)", url)
         validationDecoratorRequestProcessor.requestValidationDecorator(url)
     }
@@ -32,7 +32,7 @@ class DccTicketingRequestService @Inject constructor(
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
-    ): ValidationServiceRequestProcessor.Output = withContext(dispatcherProvider.Default) {
+    ): ValidationServiceRequestProcessor.ValidationServiceResult = withContext(dispatcherProvider.Default) {
         Timber.d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
             validationService,
@@ -41,10 +41,24 @@ class DccTicketingRequestService @Inject constructor(
         validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet)
     }
 
+    @Suppress("LongParameterList")
     @Throws(DccTicketingException::class)
-    suspend fun requestAccessToken(): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
-        // TODO: Add input
+    suspend fun requestAccessToken(
+        accessTokenService: DccTicketingService,
+        accessTokenServiceJwkSet: Set<DccJWK>,
+        accessTokenSignJwkSet: Set<DccJWK>,
+        validationService: DccTicketingService,
+        publicKeyBase64: String,
+        authorization: String
+    ): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
         Timber.d("requestAccessToken()")
-        accessTokenRequestProcessor.requestAccessToken()
+        accessTokenRequestProcessor.requestAccessToken(
+            accessTokenService,
+            accessTokenServiceJwkSet,
+            accessTokenSignJwkSet,
+            validationService,
+            publicKeyBase64,
+            authorization
+        )
     }
 }

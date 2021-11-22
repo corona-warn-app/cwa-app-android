@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -39,6 +40,24 @@ class BoosterCheckScheduler @Inject constructor(
             .filter { it } // Only when going into foreground
             .onEach {
                 boosterNotificationService.checkBoosterNotification()
+            }
+            .launchIn(appScope)
+    }
+
+    /**
+     * Schedule Booster rules check.
+     * @param delayTimeMillis [Long] Delay before running to give a chance to Data flows to update
+     * and propagate the latest certificates
+     */
+    fun scheduleNow(delayTimeMillis: Long = 3_000L) {
+        Timber.d("scheduleNow()")
+        foregroundState.isInForeground
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                delay(delayTimeMillis)
+                Timber.v("Run booster rules")
+                boosterNotificationService.checkBoosterNotification(forceCheck = true)
             }
             .launchIn(appScope)
     }

@@ -9,7 +9,6 @@ class DccTicketingServerCertificateCheckException(
         val message: String
     ) {
         CERT_PIN_NO_JWK_FOR_KID("No matching jwk for required kid"),
-        CERT_PIN_MISMATCH("The SHA-256 fingerprint of leafCertificate is not included in requiredFingerprints"),
-        CERT_PIN_UNSPECIFIED_ERR("Unspecified error occurred. Needs further investigation")
+        CERT_PIN_MISMATCH("The SHA-256 fingerprint of leafCertificate is not included in requiredFingerprints")
     }
 }

@@ -71,7 +71,14 @@ class CWASafetyNet @Inject constructor(
         val report = client.attest(nonce.toByteArray())
 
         report.error?.let {
-            Timber.tag(TAG).w("SafetyNet Response has an error message: %s", it)
+            Timber.tag(TAG).w("SafetyNet Response has an error message: $it")
+
+            if (it == "internal_error") {
+                throw SafetyNetException(
+                    Type.INTERNAL_ERROR,
+                    "Internal error occurred. Retry."
+                )
+            }
         }
 
         if (nonce != report.nonce) {

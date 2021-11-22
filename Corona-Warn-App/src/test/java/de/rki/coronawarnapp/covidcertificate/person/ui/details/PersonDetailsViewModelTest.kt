@@ -135,34 +135,22 @@ class PersonDetailsViewModelTest : BaseTest() {
                         }
                         (get(3) as RecoveryCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
-                                rcContainerId,
-                                colorShade
-                            )
+                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(rcContainerId)
                         }
 
                         (get(4) as TestCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(
-                                tcsContainerId,
-                                PersonColorShade.COLOR_INVALID
-                            )
+                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(tcsContainerId)
                         }
 
                         (get(5) as VaccinationCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
-                                vcContainerId,
-                                PersonColorShade.COLOR_INVALID
-                            )
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
                         }
 
                         (get(6) as VaccinationCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
-                                vcContainerId,
-                                PersonColorShade.COLOR_INVALID
-                            )
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
                         }
                     }
                 }
