@@ -8,6 +8,7 @@ import com.nimbusds.jose.crypto.RSASSAVerifier
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
 import com.nimbusds.jose.util.X509CertUtils
 import com.nimbusds.jwt.SignedJWT
+import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWKS
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
@@ -21,10 +22,13 @@ import java.security.PublicKey
 import java.security.interfaces.RSAPublicKey
 import javax.inject.Inject
 
-class DccJWKVerification @Inject constructor() {
+/**
+ * Security provider is added by [SecurityProvider] at app start
+ */
+class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider) {
 
     init {
-        X509CertUtils.setProvider(BouncyCastleProviderSingleton.getInstance())
+        securityProvider.setup()
     }
 
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {

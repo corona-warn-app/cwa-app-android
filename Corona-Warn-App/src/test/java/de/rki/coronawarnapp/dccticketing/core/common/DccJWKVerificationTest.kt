@@ -1,12 +1,19 @@
 package de.rki.coronawarnapp.dccticketing.core.common
 
 import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
+import com.nimbusds.jose.util.X509CertUtils
 import com.nimbusds.jwt.SignedJWT
+import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
 import okio.ByteString.Companion.decodeBase64
+import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTest
 import java.security.KeyFactory
@@ -15,6 +22,8 @@ import java.security.spec.X509EncodedKeySpec
 
 @Suppress("MaxLineLength")
 class DccJWKVerificationTest : BaseTest() {
+
+//    @MockK lateinit var securityProvider: SecurityProvider
 
     private val testDataSet1 = listOf(
         TestDataObject1(
@@ -182,6 +191,11 @@ class DccJWKVerificationTest : BaseTest() {
         use = DccJWK.Purpose.SIGNATURE
     )
 
+    @Before
+    fun setup() {
+        X509CertUtils.setProvider(BouncyCastleProviderSingleton.getInstance())
+    }
+
     @Test
     fun `Test Verifying the Signature of a JWT with a Public Key`() {
 
@@ -281,7 +295,9 @@ class DccJWKVerificationTest : BaseTest() {
         return KeyFactory.getInstance(alg, BouncyCastleProviderSingleton.getInstance()).generatePublic(keySpec)
     }
 
-    private fun getInstance() = DccJWKVerification()
+    private fun getInstance() = DccJWKVerification(mockk<SecurityProvider>().apply {
+        every { setup() } just Runs
+    })
 
     private fun getAlgName(alg: String) = when {
         alg.startsWith("ES") -> "EC"
