@@ -49,18 +49,21 @@ class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider)
         // 3. Extract kid from JWT
         if (signedJWT.header.keyID.isNullOrEmpty()) throw DccTicketingJwtException(JWT_VER_NO_KID)
 
-        // 4. Check for empty jwkSet
-        if (jwkSet.none { it.kid == signedJWT.header.keyID }) throw DccTicketingJwtException(JWT_VER_NO_JWK_FOR_KID)
+        // 4. Filter jwkSet by kid
+        with(jwkSet.filter { it.kid == signedJWT.header.keyID }) {
 
-        // 5. Filter jwkSet by kid
-        jwkSet.filter { it.kid == signedJWT.header.keyID }.forEach {
-            try {
-                // 6. Verify signature
-                val publicKey = X509CertUtils.parse(it.x5c.first().decodeBase64()?.toByteArray()).publicKey
-                verify(signedJWT, publicKey)
-                return
-            } catch (e: Exception) {
-                Timber.w("JWT with matching kid ${it.kid} was not verified", e)
+            // 5. Check for empty jwkSet
+            if (isEmpty()) throw DccTicketingJwtException(JWT_VER_NO_JWK_FOR_KID)
+
+            // 6. Verify signature
+            forEach {
+                try {
+                    val publicKey = X509CertUtils.parse(it.x5c.first().decodeBase64()?.toByteArray()).publicKey
+                    verify(signedJWT, publicKey)
+                    return
+                } catch (e: Exception) {
+                    Timber.w("JWT with matching kid ${it.kid} was not verified", e)
+                }
             }
         }
 
