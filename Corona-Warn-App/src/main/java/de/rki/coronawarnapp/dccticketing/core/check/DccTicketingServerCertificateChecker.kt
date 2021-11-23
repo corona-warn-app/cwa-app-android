@@ -53,7 +53,7 @@ class DccTicketingServerCertificateChecker @Inject constructor(
         throw when (e) {
             is DccTicketingServerCertificateCheckException -> e
             else -> {
-                Timber.w("Certificate check failed with an unspecified error. Needs further investigation!")
+                Timber.w(e, "Certificate check failed with an unspecified error. Needs further investigation!")
                 DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_MISMATCH, cause = e)
             }
         }
