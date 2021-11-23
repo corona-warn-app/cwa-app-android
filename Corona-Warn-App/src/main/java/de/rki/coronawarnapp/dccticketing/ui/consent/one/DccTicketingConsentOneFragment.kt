@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.ui.consent.one
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -25,6 +26,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.net.URLEncoder
 import javax.inject.Inject
 
+@SuppressLint("SetTextI18n")
 class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_one), AutoInject {
     private val args by navArgs<DccTicketingConsentOneFragmentArgs>()
 
@@ -73,8 +75,8 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
 
         viewModel.uiState.observe2(this) {
             with(binding) {
-                provider.text = it.provider
-                subject.text = it.subject
+                provider.text = "\"${it.provider}\""
+                subject.text = "\"${it.subject}\""
             }
         }
 
@@ -92,8 +94,8 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         fun uri(
             transactionContextIdentifier: String
         ): Uri {
-            val encodedCertId = URLEncoder.encode(transactionContextIdentifier, "UTF-8")
-            return "cwa://dcc.ticketing.consent.one/?transactionContextIdentifier=$encodedCertId".toUri()
+            val encodedTransactionContextId = URLEncoder.encode(transactionContextIdentifier, "UTF-8")
+            return "cwa://dcc.ticketing.consent.one/?transactionContextIdentifier=$encodedTransactionContextId".toUri()
         }
     }
 }
