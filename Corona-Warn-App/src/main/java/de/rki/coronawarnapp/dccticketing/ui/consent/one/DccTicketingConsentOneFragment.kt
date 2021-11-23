@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentOneBinding
 import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
 import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -33,15 +34,15 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as DccTicketingConsentOneViewModel.Factory
-            factory.create(
-                dccTicketingTransactionContext = qrcodeSharedViewModel.dccTicketingTransactionContext(
-                    args.transactionContextIdentifier
-                )
-            )
+            factory.create(dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
+                val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
+                it.updateTransactionContext(ctx)
+            })
         }
     )
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
     private val qrcodeSharedViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
+    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
