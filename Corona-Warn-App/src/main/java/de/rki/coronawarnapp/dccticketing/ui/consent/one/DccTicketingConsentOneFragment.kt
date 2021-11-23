@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -93,6 +94,7 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
             NavigateToCertificateSelection -> doNavigate(DccTicketingConsentOneFragmentDirections.actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment())
             NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
             ShowCancelConfirmationDialog -> showCloseDialog()
+            is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
         }
     }
 
@@ -100,6 +102,14 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         DccTicketingDialogType.ConfirmCancelation.show(
             fragment = this,
             negativeButtonAction = { viewModel.goBack() }
+        )
+    }
+
+    private fun showErrorDialog(lazyErrorMessage: LazyString) {
+        val msg = lazyErrorMessage.get(requireContext())
+        DccTicketingDialogType.ErrorDialog(msg = msg).show(
+            fragment = this,
+            positiveButtonAction = { viewModel.goBack() }
         )
     }
 

@@ -32,25 +32,24 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
     private val currentEvent = SingleLiveEvent<DccTicketingConsentOneEvent>()
     val events = currentEvent
 
-    val uiState: LiveData<UiState> = dccTicketingSharedViewModel.transactionContext
+    private val currentUiState = dccTicketingSharedViewModel.transactionContext
         .map { UiState(it) }
-        .asLiveData2()
+    val uiState: LiveData<UiState> = currentUiState.asLiveData2()
 
     fun onUserCancel() {
         Timber.d("onUserCancel()")
-        currentEvent.postValue(ShowCancelConfirmationDialog)
+        postEvent(ShowCancelConfirmationDialog)
     }
 
-    fun goBack() = doNavigate(NavigateBack)
+    fun goBack() = postEvent(NavigateBack)
 
-    fun showPrivacyInformation() = doNavigate(NavigateToPrivacyInformation)
+    fun showPrivacyInformation() = postEvent(NavigateToPrivacyInformation)
 
     fun onUserConsent(): Unit = launch {
         Timber.d("onUserConsent()")
         currentIsLoading.compareAndSet(expect = false, update = true)
         processUserConsent()
         currentIsLoading.compareAndSet(expect = true, update = false)
-        doNavigate(NavigateToCertificateSelection)
     }
 
     private suspend fun processUserConsent() = try {
@@ -62,8 +61,12 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
                 .requestAccessToken()
                 .also { updateTransactionContext(ctx = it) }
         }
+        postEvent(NavigateToCertificateSelection)
     } catch (e: DccTicketingException) {
-
+        Timber.d(e, "Error while processing user consent")
+        val serviceProvider = currentUiState.first().provider
+        val lazyErrorMessage = e.errorMessage(serviceProvider = serviceProvider)
+        postEvent(ShowErrorDialog(lazyErrorMessage = lazyErrorMessage))
     }
 
     private suspend fun DccTicketingTransactionContext.requestServiceIdentityDocumentOfValidationService(): DccTicketingTransactionContext {
@@ -118,8 +121,8 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
         )
     }
 
-    private fun doNavigate(event: DccTicketingConsentOneEvent) {
-        Timber.d("doNavigate(event=%s)", event)
+    private fun postEvent(event: DccTicketingConsentOneEvent) {
+        Timber.d("postEvent(event=%s)", event)
         currentEvent.postValue(event)
     }
 
