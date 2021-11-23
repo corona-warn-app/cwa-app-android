@@ -23,8 +23,6 @@ import java.security.spec.X509EncodedKeySpec
 @Suppress("MaxLineLength")
 class DccJWKVerificationTest : BaseTest() {
 
-//    @MockK lateinit var securityProvider: SecurityProvider
-
     private val testDataSet1 = listOf(
         TestDataObject1(
             alg = "ES256",
@@ -295,9 +293,11 @@ class DccJWKVerificationTest : BaseTest() {
         return KeyFactory.getInstance(alg, BouncyCastleProviderSingleton.getInstance()).generatePublic(keySpec)
     }
 
-    private fun getInstance() = DccJWKVerification(mockk<SecurityProvider>().apply {
-        every { setup() } just Runs
-    })
+    private fun getInstance() = DccJWKVerification(
+        mockk<SecurityProvider>().apply {
+            every { setup() } just Runs
+        }
+    )
 
     private fun getAlgName(alg: String) = when {
         alg.startsWith("ES") -> "EC"
