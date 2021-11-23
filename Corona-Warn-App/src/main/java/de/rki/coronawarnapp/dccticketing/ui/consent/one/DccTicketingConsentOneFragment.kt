@@ -18,11 +18,13 @@ import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
@@ -54,8 +56,10 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbar.setNavigationOnClickListener { viewModel.goBack() }
-        cancelButton.setOnClickListener { viewModel.goBack() }
+        val onUserCancelAction = { viewModel.onUserCancel() }
+
+        toolbar.setNavigationOnClickListener { onUserCancelAction() }
+        cancelButton.setOnClickListener { onUserCancelAction() }
         agreeButton.setOnClickListener { viewModel.onUserConsent() }
 
         appBarLayout.onOffsetChange { _, subtitleAlpha ->
@@ -63,11 +67,11 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         }
 
         privacyInformation.setOnClickListener {
-            findNavController().navigate(R.id.informationPrivacyFragment)
+            viewModel.showPrivacyInformation()
         }
 
-        viewModel.showCloseDialog.observe2(this@DccTicketingConsentOneFragment) {
-            showCloseAlertDialog()
+        viewModel.events.observe2(this@DccTicketingConsentOneFragment) {
+            handleEvents(it)
         }
 
         viewModel.uiState.observe2(this@DccTicketingConsentOneFragment) {
@@ -79,13 +83,23 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
             agreeButton.isLoading = it
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.goBack() }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onUserCancelAction() }
     }
 
-    private fun showCloseAlertDialog() {
+    private fun handleEvents(event: DccTicketingConsentOneEvent) {
+        Timber.d("handleEvents(event=%s)", event)
+        when (event) {
+            NavigateBack -> popBackStack()
+            NavigateToCertificateSelection -> doNavigate(DccTicketingConsentOneFragmentDirections.actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment())
+            NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
+            ShowCancelConfirmationDialog -> showCloseDialog()
+        }
+    }
+
+    private fun showCloseDialog() {
         DccTicketingDialogType.ConfirmCancelation.show(
             fragment = this,
-            negativeButtonAction = { popBackStack() }
+            negativeButtonAction = { viewModel.goBack() }
         )
     }
 

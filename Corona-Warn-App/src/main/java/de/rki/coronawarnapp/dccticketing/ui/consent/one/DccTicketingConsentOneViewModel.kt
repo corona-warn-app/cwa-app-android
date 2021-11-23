@@ -29,21 +29,28 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
     private val currentIsLoading = MutableStateFlow(false)
     val isLoading: LiveData<Boolean> = currentIsLoading.asLiveData()
 
-    val showCloseDialog = SingleLiveEvent<Unit>()
+    private val currentEvent = SingleLiveEvent<DccTicketingConsentOneEvent>()
+    val events = currentEvent
 
     val uiState: LiveData<UiState> = dccTicketingSharedViewModel.transactionContext
         .map { UiState(it) }
         .asLiveData2()
 
-    fun goBack() {
-        showCloseDialog.postValue(Unit)
+    fun onUserCancel() {
+        Timber.d("onUserCancel()")
+        currentEvent.postValue(ShowCancelConfirmationDialog)
     }
+
+    fun goBack() = doNavigate(NavigateBack)
+
+    fun showPrivacyInformation() = doNavigate(NavigateToPrivacyInformation)
 
     fun onUserConsent(): Unit = launch {
         Timber.d("onUserConsent()")
         currentIsLoading.compareAndSet(expect = false, update = true)
         processUserConsent()
         currentIsLoading.compareAndSet(expect = true, update = false)
+        doNavigate(NavigateToCertificateSelection)
     }
 
     private suspend fun processUserConsent() = try {
@@ -111,8 +118,13 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
         )
     }
 
+    private fun doNavigate(event: DccTicketingConsentOneEvent) {
+        Timber.d("doNavigate(event=%s)", event)
+        currentEvent.postValue(event)
+    }
+
     data class UiState(
-        val dccTicketingTransactionContext: DccTicketingTransactionContext
+        private val dccTicketingTransactionContext: DccTicketingTransactionContext
     ) {
         val provider get() = dccTicketingTransactionContext.initializationData.serviceProvider
         val subject get() = dccTicketingTransactionContext.initializationData.subject
