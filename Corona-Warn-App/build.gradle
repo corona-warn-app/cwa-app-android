@@ -452,6 +452,9 @@ dependencies {
     implementation 'com.networknt:json-schema-validator:1.0.58'
     implementation 'net.swiftzer.semver:semver:1.1.1'
 
+    //JWT
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.15.2'
+
     // SECURITY
     implementation "androidx.security:security-crypto:1.0.0-rc03"
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
