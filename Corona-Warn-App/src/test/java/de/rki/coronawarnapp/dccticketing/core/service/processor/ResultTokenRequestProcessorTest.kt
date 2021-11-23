@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.dccticketing.core.service.processor
 import com.google.gson.Gson
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
+import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.ResultTokenRequest
@@ -34,6 +36,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @MockK lateinit var dccTicketingServer: DccTicketingServer
     @MockK lateinit var dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker
+    @MockK lateinit var jwtVerification: DccJWKVerification
     private val converter = JwtTokenConverter(Gson())
 
     private val jsonResultToken = """
@@ -77,6 +80,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
         every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } just Runs
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } returns Response.success(jsonResultToken)
+        every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } just Runs
     }
 
     @Test
@@ -89,6 +93,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
         coVerifySequence {
             dccTicketingServer.getResultToken(any(), any(), any())
             dccTicketingServerCertificateChecker.checkCertificate(any(), any())
+            jwtVerification.verify(any(), any<Set<DccJWK>>())
         }
     }
 
@@ -126,12 +131,59 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun verifyJWT() = runBlockingTest {
-        // TODO
+    fun `verifyJWT throws RTR_JWT_VER_EMPTY_JWKS`() = runBlockingTest {
+        every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS)
+        shouldThrow<DccTicketingException> {
+            instance().verifyJWT("jwt", emptySet())
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_EMPTY_JWKS
     }
 
     @Test
-    fun `resultTokenResponse verify request and reponse`() = runBlockingTest {
+    fun `verifyJWT throws RTR_JWT_VER_ALG_NOT_SUPPORTED`() = runBlockingTest {
+        every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED)
+        shouldThrow<DccTicketingException> {
+            instance().verifyJWT("jwt", emptySet())
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_ALG_NOT_SUPPORTED
+    }
+
+    @Test
+    fun `verifyJWT throws JWT_VER_NO_JWK_FOR_KID`() = runBlockingTest {
+        every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID)
+        shouldThrow<DccTicketingException> {
+            instance().verifyJWT("jwt", emptySet())
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_NO_JWK_FOR_KID
+    }
+
+    @Test
+    fun `verifyJWT throws JWT_VER_NO_KID`() = runBlockingTest {
+        every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID)
+        shouldThrow<DccTicketingException> {
+            instance().verifyJWT("jwt", emptySet())
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_NO_KID
+    }
+
+    @Test
+    fun `verifyJWT throws JWT_VER_SIG_INVALID`() = runBlockingTest {
+        every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID)
+        shouldThrow<DccTicketingException> {
+            instance().verifyJWT("jwt", emptySet())
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_SIG_INVALID
+    }
+
+    @Test
+    fun `verifyJWT Pass`() = runBlockingTest {
+        shouldNotThrowAny {
+            instance().verifyJWT("jwt", emptySet())
+        }
+    }
+
+    @Test
+    fun `resultTokenResponse verify request and response`() = runBlockingTest {
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
             arg<String>(0) shouldBe input.serviceEndpoint
             arg<String>(1) shouldBe "Bearer ${input.jwt}"
@@ -210,6 +262,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     private fun instance() = ResultTokenRequestProcessor(
         dccTicketingServer = dccTicketingServer,
         dccTicketingServerCertificateChecker = dccTicketingServerCertificateChecker,
-        convertor = converter
+        convertor = converter,
+        jwtVerification = jwtVerification
     )
 }

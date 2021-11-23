@@ -222,7 +222,7 @@ class DccJWKVerificationTest : BaseTest() {
     fun `Test Verifying the Signature of a JWT with a Set of JWKs with empty set`() {
         shouldThrow<DccTicketingJwtException> {
             getInstance().verify("ABC", emptySet())
-        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS
+        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS
     }
 
     @Test

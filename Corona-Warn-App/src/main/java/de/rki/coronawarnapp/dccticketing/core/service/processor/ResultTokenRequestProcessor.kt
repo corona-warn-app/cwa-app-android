@@ -4,8 +4,10 @@ import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
+import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.ResultTokenRequest
@@ -25,6 +27,7 @@ class ResultTokenRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer,
     private val dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker,
     private val convertor: JwtTokenConverter,
+    private val jwtVerification: DccJWKVerification
 ) {
 
     suspend fun requestResultToken(resultTokenInput: ResultTokenInput): ResultTokenOutput {
@@ -36,7 +39,6 @@ class ResultTokenRequestProcessor @Inject constructor(
         val resultToken = response.body() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
         // 3. Verify signature the signature of the resultToken
         verifyJWT(resultToken, resultTokenInput.validationServiceSignKeyJwkSet)
-
         // 4.Determine resultTokenPayload: the resultTokenPayload
         return ResultTokenOutput(
             resultToken = resultToken,
@@ -65,9 +67,21 @@ class ResultTokenRequestProcessor @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun verifyJWT(jwt: String, jwkSet: Set<DccJWK>) = try {
-        // TODO
-    } catch (e: Exception) {
+        jwtVerification.verify(jwt, jwkSet)
+    } catch (e: DccTicketingJwtException) {
         Timber.tag(TAG).e(e, "verifyJWT for result token failed")
+        throw when (e.errorCode) {
+            DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS ->
+                DccTicketingException.ErrorCode.RTR_JWT_VER_EMPTY_JWKS
+            DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED ->
+                DccTicketingException.ErrorCode.RTR_JWT_VER_ALG_NOT_SUPPORTED
+            DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID ->
+                DccTicketingException.ErrorCode.RTR_JWT_VER_NO_KID
+            DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID ->
+                DccTicketingException.ErrorCode.RTR_JWT_VER_NO_JWK_FOR_KID
+            DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID ->
+                DccTicketingException.ErrorCode.RTR_JWT_VER_SIG_INVALID
+        }.let { DccTicketingException(it) }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
