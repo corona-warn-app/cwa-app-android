@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
@@ -21,6 +22,7 @@ class AccessTokenRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer,
     private val jwtTokenParser: JwtTokenParser,
     private val convertor: JwtTokenConverter,
+    private val jwtVerification: DccJWKVerification
 ) {
 
     @Suppress("LongParameterList")
@@ -74,7 +76,7 @@ class AccessTokenRequestProcessor @Inject constructor(
     }
 
     private fun verifyJWT(jwt: String, jwkSet: Set<DccJWK>) {
-        // TODO: implementation in another PR
+        jwtVerification.verify(jwt, jwkSet)
     }
 
     private fun getAccessTokenPayload(jwt: String): DccTicketingAccessToken = try {
