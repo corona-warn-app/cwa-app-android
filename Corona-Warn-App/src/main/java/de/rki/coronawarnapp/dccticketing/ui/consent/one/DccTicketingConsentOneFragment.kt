@@ -51,32 +51,32 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
+        toolbar.setNavigationOnClickListener { viewModel.goBack() }
+        cancelButton.setOnClickListener { viewModel.goBack() }
+        agreeButton.setOnClickListener { viewModel.onUserConsent() }
 
-            toolbar.setNavigationOnClickListener { viewModel.goBack() }
-            cancelButton.setOnClickListener { viewModel.goBack() }
-
-            appBarLayout.onOffsetChange { _, subtitleAlpha ->
-                headerImage.alpha = subtitleAlpha
-            }
-
-            privacyInformation.setOnClickListener {
-                findNavController().navigate(R.id.informationPrivacyFragment)
-            }
+        appBarLayout.onOffsetChange { _, subtitleAlpha ->
+            headerImage.alpha = subtitleAlpha
         }
 
-        viewModel.showCloseDialog.observe2(this) {
+        privacyInformation.setOnClickListener {
+            findNavController().navigate(R.id.informationPrivacyFragment)
+        }
+
+        viewModel.showCloseDialog.observe2(this@DccTicketingConsentOneFragment) {
             showCloseAlertDialog()
         }
 
-        viewModel.uiState.observe2(this) {
-            with(binding) {
-                provider.text = it.provider
-                subject.text = it.subject
-            }
+        viewModel.uiState.observe2(this@DccTicketingConsentOneFragment) {
+            provider.text = it.provider
+            subject.text = it.subject
+        }
+
+        viewModel.isLoading.observe2(this@DccTicketingConsentOneFragment) {
+            agreeButton.isLoading = it
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.goBack() }
