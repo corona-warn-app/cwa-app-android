@@ -75,13 +75,7 @@ class DccTicketingException(
         VS_ID_NO_SIGN_KEY("VS_ID_NO_SIGN_KEY"),
         VS_ID_PARSE_ERR("VS_ID_PARSE_ERR"),
         VS_ID_SERVER_ERR("VS_ID_SERVER_ERR"),
-        VS_ID_EMPTY_X5C("VS_ID_EMPTY_X5C"),
-
-        JWT_VER_NO_JWKS("JWT_VER_NO_JWKS"),
-        JWT_VER_ALG_NOT_SUPPORTED("JWT_VER_ALG_NOT_SUPPORTED"),
-        JWT_VER_NO_KID("JWT_VER_NO_KID"),
-        JWT_VER_NO_JWK_FOR_KID("JWT_VER_NO_JWK_FOR_KID"),
-        JWT_VER_SIG_INVALID("JWT_VER_SIG_INVALID"),
+        VS_ID_EMPTY_X5C("VS_ID_EMPTY_X5C")
     }
 
     // to-do: Add all error codes

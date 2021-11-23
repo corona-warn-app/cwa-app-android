@@ -154,7 +154,7 @@ class DccJWKVerificationTest : BaseTest() {
                 ),
             ),
             token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.VpFyNk-24S_-TZ8idQBCjzo8-_50xiYSp6XVpFS0e3L0f7YW04Ie8U4hSDPRXqMDnvt-osZayn-wNSy5x7jfyA",
-            expectedErrorCode = DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
+            expectedErrorCode = DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID
         ),
         TestDataObject2(
             description = "rejects the JWT signature if JWT has no kid",
@@ -167,7 +167,7 @@ class DccJWKVerificationTest : BaseTest() {
                 )
             ),
             token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.SCixwZS8nvd1H_xufhoXuxfhh-zgu1eJZFHab_y7q452FG6qk_OPACmq8hrXa5UeqEh73ZNgIZJJ--e89Drg3A",
-            expectedErrorCode = DccTicketingException.ErrorCode.JWT_VER_NO_KID
+            expectedErrorCode = DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID
         ),
         TestDataObject2(
             description = "rejects the JWT signature if JWT was signed with an unsupported algorithm",
@@ -180,7 +180,7 @@ class DccJWKVerificationTest : BaseTest() {
                 )
             ),
             token = "eyJhbGciOiJFUzM4NCIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.AAAAAAAAAAAAAAAAAAAAADk6QRRZqQzqKsU7LJrwD5SMjnQTO7fJlrTEsESGM0IXAAAAAAAAAAAAAAAAAAAAAGot13odJki5XVHEA8uBAwSq-3HSAVQnM72xoku2RHqf",
-            expectedErrorCode = DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
+            expectedErrorCode = DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
         )
     )
 
@@ -209,22 +209,22 @@ class DccJWKVerificationTest : BaseTest() {
 
         testDataSet1.forEach {
             if (it.expectedVerified) {
-                shouldNotThrow<DccTicketingException> {
+                shouldNotThrow<DccTicketingJwtException> {
                     doVerify(it)
                 }
             } else {
-                shouldThrow<DccTicketingException> {
+                shouldThrow<DccTicketingJwtException> {
                     doVerify(it)
-                }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
+                }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID
             }
         }
     }
 
     @Test
     fun `Test Verifying the Signature of a JWT with a Set of JWKs with empty set`() {
-        shouldThrow<DccTicketingException> {
+        shouldThrow<DccTicketingJwtException> {
             getInstance().verify("ABC", emptySet())
-        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_NO_JWKS
+        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS
     }
 
     @Test
@@ -237,27 +237,27 @@ class DccJWKVerificationTest : BaseTest() {
             alg = "ES256",
             use = DccJWK.Purpose.SIGNATURE
         )
-        shouldThrow<DccTicketingException> {
+        shouldThrow<DccTicketingJwtException> {
             getInstance().verify(jwtWithHS256, setOf(dummyJWT))
-        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
+        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
     }
 
     @Test
     fun `Test Verifying the Signature of a JWT with a Set of JWKs without alg`() {
         val jwtWithoutAlg =
             "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-        shouldThrow<DccTicketingException> {
+        shouldThrow<DccTicketingJwtException> {
             getInstance().verify(jwtWithoutAlg, setOf(dummyJWT))
-        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
+        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
     }
 
     @Test
     fun `Test Verifying the Signature of a JWT with a Set of JWKs without kid`() {
         val jwtWithoutKid =
             "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.tyh-VfuzIxCyGYDlkBA7DfyjrqmSHu6pQ2hoZuFqUSLPNY2N0mpHb3nk5K17HWP_3cYHBw7AhHale5wky6-sVA"
-        shouldThrow<DccTicketingException> {
+        shouldThrow<DccTicketingJwtException> {
             getInstance().verify(jwtWithoutKid, setOf(dummyJWT))
-        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_NO_KID
+        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID
     }
 
     @Test
@@ -265,9 +265,9 @@ class DccJWKVerificationTest : BaseTest() {
         val jwtWithKid123 =
             "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyMyJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.fuouVtiOd8oErTa0gd8XgMJ097HGDW7nDqEjuWB7F2i2jtuzmb5Bpwtv4iIx8i0Ea5pZVU6MctrNBiSWhkhUJA"
 
-        shouldThrow<DccTicketingException> {
+        shouldThrow<DccTicketingJwtException> {
             getInstance().verify(jwtWithKid123, setOf(dummyJWT))
-        }.errorCode shouldBe DccTicketingException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
+        }.errorCode shouldBe DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
     }
 
     @Test
@@ -279,11 +279,11 @@ class DccJWKVerificationTest : BaseTest() {
 
         testDataSet2.forEach {
             if (it.expectedErrorCode == null) {
-                shouldNotThrow<DccTicketingException> {
+                shouldNotThrow<DccTicketingJwtException> {
                     doVerify(it)
                 }
             } else {
-                shouldThrow<DccTicketingException> {
+                shouldThrow<DccTicketingJwtException> {
                     doVerify(it)
                 }.errorCode shouldBe it.expectedErrorCode
             }
@@ -315,6 +315,6 @@ class DccJWKVerificationTest : BaseTest() {
         val description: String,
         val jwkSet: Set<DccJWK>,
         val token: String,
-        val expectedErrorCode: DccTicketingException.ErrorCode?
+        val expectedErrorCode: DccTicketingJwtException.ErrorCode?
     )
 }

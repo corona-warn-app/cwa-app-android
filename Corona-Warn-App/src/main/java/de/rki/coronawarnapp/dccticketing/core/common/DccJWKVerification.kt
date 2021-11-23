@@ -9,11 +9,11 @@ import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
 import com.nimbusds.jose.util.X509CertUtils
 import com.nimbusds.jwt.SignedJWT
 import de.rki.coronawarnapp.SecurityProvider
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWKS
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_NO_KID
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import okio.ByteString.Companion.decodeBase64
 import org.bouncycastle.jcajce.provider.asymmetric.ec.BCECPublicKey
@@ -33,24 +33,24 @@ class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider)
 
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {
         // 1. Check for empty jwkSet
-        if (jwkSet.isEmpty()) throw DccTicketingException(JWT_VER_NO_JWKS)
+        if (jwkSet.isEmpty()) throw DccTicketingJwtException(JWT_VER_NO_JWKS)
 
         // 2. Check alg of JWT
         val signedJWT = try {
             SignedJWT.parse(jwt)
         } catch (e: Exception) {
             Timber.e("Can't parse JWT token $jwt", e)
-            throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
+            throw DccTicketingJwtException(JWT_VER_ALG_NOT_SUPPORTED)
         }
 
         if (signedJWT.header.algorithm !in listOf(ES256, PS256, RS256))
-            throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
+            throw DccTicketingJwtException(JWT_VER_ALG_NOT_SUPPORTED)
 
         // 3. Extract kid from JWT
-        if (signedJWT.header.keyID.isNullOrEmpty()) throw DccTicketingException(JWT_VER_NO_KID)
+        if (signedJWT.header.keyID.isNullOrEmpty()) throw DccTicketingJwtException(JWT_VER_NO_KID)
 
         // 4. Check for empty jwkSet
-        if (jwkSet.none { it.kid == signedJWT.header.keyID }) throw DccTicketingException(JWT_VER_NO_JWK_FOR_KID)
+        if (jwkSet.none { it.kid == signedJWT.header.keyID }) throw DccTicketingJwtException(JWT_VER_NO_JWK_FOR_KID)
 
         // 5. Filter jwkSet by kid
         jwkSet.filter { it.kid == signedJWT.header.keyID }.forEach {
@@ -64,7 +64,7 @@ class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider)
             }
         }
 
-        throw DccTicketingException(JWT_VER_SIG_INVALID)
+        throw DccTicketingJwtException(JWT_VER_SIG_INVALID)
     }
 
     fun verify(signedJWT: SignedJWT, publicKey: PublicKey) {
@@ -76,9 +76,9 @@ class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider)
             PS256, RS256 -> RSASSAVerifier(publicKey as RSAPublicKey).apply {
                 jcaContext.provider = BouncyCastleProviderSingleton.getInstance()
             }
-            else -> throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
+            else -> throw DccTicketingJwtException(JWT_VER_ALG_NOT_SUPPORTED)
         }
 
-        if (!signedJWT.verify(verifier)) throw DccTicketingException(JWT_VER_SIG_INVALID)
+        if (!signedJWT.verify(verifier)) throw DccTicketingJwtException(JWT_VER_SIG_INVALID)
     }
 }
