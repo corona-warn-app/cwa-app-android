@@ -5,9 +5,11 @@ import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
 import okio.ByteString
+import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import java.security.cert.Certificate
+import java.security.cert.CertificateFactory
 import javax.inject.Inject
 
 @Reusable
@@ -50,8 +52,10 @@ class DccTicketingServerCertificateChecker @Inject constructor(
     } catch (e: Exception) {
         throw when (e) {
             is DccTicketingServerCertificateCheckException -> e
-            else ->
-                DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_UNSPECIFIED_ERR, cause = e)
+            else -> {
+                Timber.w("Certificate check failed with an unspecified error. Needs further investigation!")
+                DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_MISMATCH, cause = e)
+            }
         }
     }
 

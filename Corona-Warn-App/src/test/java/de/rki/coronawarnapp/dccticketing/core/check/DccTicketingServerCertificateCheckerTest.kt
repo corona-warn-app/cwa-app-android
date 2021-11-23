@@ -60,10 +60,10 @@ class DccTicketingServerCertificateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `Empty certificate chain leads to CERT_PIN_UNSPECIFIED_ERR`() {
+    fun `Maps unspecified error to CERT_PIN_MISMATCH`() {
         shouldThrow<DccTicketingServerCertificateCheckException> {
             instance.checkCertificate(certificateChain = emptyList(), jwkSet = emptySet())
-        }.errorCode shouldBe ErrorCode.CERT_PIN_UNSPECIFIED_ERR
+        }.errorCode shouldBe ErrorCode.CERT_PIN_MISMATCH
     }
 
     @Test
