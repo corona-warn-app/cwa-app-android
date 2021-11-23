@@ -77,11 +77,11 @@ class DccTicketingException(
         VS_ID_SERVER_ERR("VS_ID_SERVER_ERR"),
         VS_ID_EMPTY_X5C("VS_ID_EMPTY_X5C"),
 
-        JWT_VER_NO_JWKS("jwkSet is empty"),
-        JWT_VER_ALG_NOT_SUPPORTED("algorithm is not supported"),
-        JWT_VER_NO_KID("no kid"),
-        JWT_VER_NO_JWK_FOR_KID("jwk for kid is empty"),
-        JWT_VER_SIG_INVALID("the signature verification does not pass for at least one entry from jwkSet"),
+        JWT_VER_NO_JWKS("JWT_VER_NO_JWKS"),
+        JWT_VER_ALG_NOT_SUPPORTED("JWT_VER_ALG_NOT_SUPPORTED"),
+        JWT_VER_NO_KID("JWT_VER_NO_KID"),
+        JWT_VER_NO_JWK_FOR_KID("JWT_VER_NO_JWK_FOR_KID"),
+        JWT_VER_SIG_INVALID("JWT_VER_SIG_INVALID"),
     }
 
     // to-do: Add all error codes

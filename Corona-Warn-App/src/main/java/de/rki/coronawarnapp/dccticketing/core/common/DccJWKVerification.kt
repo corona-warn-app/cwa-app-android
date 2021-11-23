@@ -28,8 +28,10 @@ class DccJWKVerification @Inject constructor() {
     }
 
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {
+        // 1. Check for empty jwkSet
         if (jwkSet.isEmpty()) throw DccTicketingException(JWT_VER_NO_JWKS)
 
+        // 2. Check alg of JWT
         val signedJWT = try {
             SignedJWT.parse(jwt)
         } catch (e: Exception) {
@@ -40,12 +42,16 @@ class DccJWKVerification @Inject constructor() {
         if (signedJWT.header.algorithm !in listOf(ES256, PS256, RS256))
             throw DccTicketingException(JWT_VER_ALG_NOT_SUPPORTED)
 
+        // 3. Extract kid from JWT
         if (signedJWT.header.keyID.isNullOrEmpty()) throw DccTicketingException(JWT_VER_NO_KID)
 
+        // 4. Check for empty jwkSet
         if (jwkSet.none { it.kid == signedJWT.header.keyID }) throw DccTicketingException(JWT_VER_NO_JWK_FOR_KID)
 
+        // 5. Filter jwkSet by kid
         jwkSet.filter { it.kid == signedJWT.header.keyID }.forEach {
             try {
+                // 6. Verify signature
                 val publicKey = X509CertUtils.parse(it.x5c.first().decodeBase64()?.toByteArray()).publicKey
                 verify(signedJWT, publicKey)
                 return
@@ -59,7 +65,6 @@ class DccJWKVerification @Inject constructor() {
 
     fun verify(signedJWT: SignedJWT, publicKey: PublicKey) {
 
-        // TODO: use factory? [DefaultJWSVerifierFactory]
         val verifier = when (signedJWT.header.algorithm) {
             ES256 -> ECDSAVerifier(publicKey as BCECPublicKey).apply {
                 jcaContext.provider = BouncyCastleProviderSingleton.getInstance()
