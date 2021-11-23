@@ -9,6 +9,7 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 class JwtTokenConverterTest : BaseTest() {
 
     private val serializationModule = SerializationModule()
