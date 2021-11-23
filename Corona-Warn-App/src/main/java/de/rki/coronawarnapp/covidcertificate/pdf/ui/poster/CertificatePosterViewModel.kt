@@ -43,10 +43,17 @@ class CertificatePosterViewModel @AssistedInject constructor(
 
     private fun getPDFFileName(certificateData: CwaCovidCertificate): String {
         val pdfNameSuffix = with(certificateData) {
+            val lastNameUnderscored = lastName
+                .replace(" ", "_")
+                .replace("-", "_")
+
             if (firstName.isNullOrBlank()) {
-                lastName
+                lastNameUnderscored
             } else {
-                "${firstName}_$lastName"
+                val firstNameUnderscored = firstName
+                    ?.replace(" ", "_")
+                    ?.replace("-", "_")
+                "${firstNameUnderscored}_$lastNameUnderscored"
             }
         }
 
