@@ -106,6 +106,68 @@ class DccJWKVerificationTest : BaseTest() {
             ),
             token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkY4RWxYVjBzQzJVPSJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.0wRhcAh--PNgPw5LnRPuierbxFyl7RoCKFADT-N7kSuXOxCUMtzCoVyJaTR9cz-egHC1tk40_-jHo1boUzq0AA",
             expectedErrorCode = null
+        ),
+        TestDataObject2(
+            description = "verifies the JWT signature even if there are multiple JWKs with the same kid",
+            jwkSet = setOf(
+                DccJWK(
+                    x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWrMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDUyMloXDTMxMTAyNjEwMDUyMlowYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQIMN3/9b32RulED0quAjfqbJ161DMlEX0vKmRJeKkF9qSvGDh54wY3wvEGzR8KRoIkltp2/OwqUWNCzE3GDDbjAJBgcqhkjOPQQBA0gAMEUCIBGdBhvrxWHgXAidJbNEpbLyOrtgynzS9m9LGiCWvcpsAiEAjeJvDQ03n6NR8ZauecRtxTyXzFx8lv6XA273K05COpI="),
+                    kid = "pGWqzB9BzWY=",
+                    alg = "ES256",
+                    use = DccJWK.Purpose.SIGNATURE
+                ), DccJWK(
+                    x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWsMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDYwM1oXDTMxMTAyNjEwMDYwM1owYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoobPcUO7ndJq0NPPidIKLgZ2pMhC8kaDuwuklXtzOPf31KydNtiMm6cZJUUg0IcjMA0DizEjSb8CywoKpaJJIjAJBgcqhkjOPQQBA0gAMEUCIH6hNfuh1hg2gS867XQc6Lc72PZTa2JzMqwZvQiU70uZAiEAk/72JJM0zsFwixCVf3pXZwdH3R3FhNE3y13H0y2Qvpk="),
+                    kid = "pGWqzB9BzWY=",
+                    alg = "ES256",
+                    use = DccJWK.Purpose.SIGNATURE
+                ),
+            ),
+            token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.VpFyNk-24S_-TZ8idQBCjzo8-_50xiYSp6XVpFS0e3L0f7YW04Ie8U4hSDPRXqMDnvt-osZayn-wNSy5x7jfyA",
+            expectedErrorCode = null
+        ),
+        TestDataObject2(
+            description = "rejects the JWT signature if the signature simple does not match",
+            jwkSet = setOf(
+                DccJWK(
+                    x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWrMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDUyMloXDTMxMTAyNjEwMDUyMlowYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQIMN3/9b32RulED0quAjfqbJ161DMlEX0vKmRJeKkF9qSvGDh54wY3wvEGzR8KRoIkltp2/OwqUWNCzE3GDDbjAJBgcqhkjOPQQBA0gAMEUCIBGdBhvrxWHgXAidJbNEpbLyOrtgynzS9m9LGiCWvcpsAiEAjeJvDQ03n6NR8ZauecRtxTyXzFx8lv6XA273K05COpI="),
+                    kid = "pGWqzB9BzWY=",
+                    alg = "ES256",
+                    use = DccJWK.Purpose.SIGNATURE
+                ), DccJWK(
+                    x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWsMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDYwM1oXDTMxMTAyNjEwMDYwM1owYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoobPcUO7ndJq0NPPidIKLgZ2pMhC8kaDuwuklXtzOPf31KydNtiMm6cZJUUg0IcjMA0DizEjSb8CywoKpaJJIjAJBgcqhkjOPQQBA0gAMEUCIH6hNfuh1hg2gS867XQc6Lc72PZTa2JzMqwZvQiU70uZAiEAk/72JJM0zsFwixCVf3pXZwdH3R3FhNE3y13H0y2Qvpk="),
+                    kid = "bGUu3iZsaag=",
+                    alg = "ES256",
+                    use = DccJWK.Purpose.SIGNATURE
+                ),
+            ),
+            token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.VpFyNk-24S_-TZ8idQBCjzo8-_50xiYSp6XVpFS0e3L0f7YW04Ie8U4hSDPRXqMDnvt-osZayn-wNSy5x7jfyA",
+            expectedErrorCode = DccTicketingException.ErrorCode.JWT_VER_SIG_INVALID
+        ),
+        TestDataObject2(
+            description = "rejects the JWT signature if JWT has no kid",
+            jwkSet = setOf(
+                DccJWK(
+                    x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWrMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDUyMloXDTMxMTAyNjEwMDUyMlowYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQIMN3/9b32RulED0quAjfqbJ161DMlEX0vKmRJeKkF9qSvGDh54wY3wvEGzR8KRoIkltp2/OwqUWNCzE3GDDbjAJBgcqhkjOPQQBA0gAMEUCIBGdBhvrxWHgXAidJbNEpbLyOrtgynzS9m9LGiCWvcpsAiEAjeJvDQ03n6NR8ZauecRtxTyXzFx8lv6XA273K05COpI="),
+                    kid = "pGWqzB9BzWY=",
+                    alg = "ES256",
+                    use = DccJWK.Purpose.SIGNATURE
+                )
+            ),
+            token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.SCixwZS8nvd1H_xufhoXuxfhh-zgu1eJZFHab_y7q452FG6qk_OPACmq8hrXa5UeqEh73ZNgIZJJ--e89Drg3A",
+            expectedErrorCode = DccTicketingException.ErrorCode.JWT_VER_NO_KID
+        ),
+        TestDataObject2(
+            description = "rejects the JWT signature if JWT was signed with an unsupported algorithm",
+            jwkSet = setOf(
+                DccJWK(
+                    x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWrMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDUyMloXDTMxMTAyNjEwMDUyMlowYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEQIMN3/9b32RulED0quAjfqbJ161DMlEX0vKmRJeKkF9qSvGDh54wY3wvEGzR8KRoIkltp2/OwqUWNCzE3GDDbjAJBgcqhkjOPQQBA0gAMEUCIBGdBhvrxWHgXAidJbNEpbLyOrtgynzS9m9LGiCWvcpsAiEAjeJvDQ03n6NR8ZauecRtxTyXzFx8lv6XA273K05COpI="),
+                    kid = "pGWqzB9BzWY=",
+                    alg = "ES256",
+                    use = DccJWK.Purpose.SIGNATURE
+                )
+            ),
+            token = "eyJhbGciOiJFUzM4NCIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJoZWxsbyI6IldvcmxkIiwiaWF0IjoxNjM1NDg5MDcyfQ.AAAAAAAAAAAAAAAAAAAAADk6QRRZqQzqKsU7LJrwD5SMjnQTO7fJlrTEsESGM0IXAAAAAAAAAAAAAAAAAAAAAGot13odJki5XVHEA8uBAwSq-3HSAVQnM72xoku2RHqf",
+            expectedErrorCode = DccTicketingException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
         )
     )
 
