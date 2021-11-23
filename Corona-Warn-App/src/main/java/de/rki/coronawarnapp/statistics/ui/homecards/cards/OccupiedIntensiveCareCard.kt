@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
+import java.util.Locale
 
 class OccupiedIntensiveCareCard(parent: ViewGroup) :
     StatisticsCardAdapter.ItemVH<GlobalStatisticsCardItem, HomeStatisticsCardsOccupiedIntensiveCareBedsBinding>(
@@ -27,6 +28,8 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
         )
     }
 
+    private val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
+
     override val onBindData: HomeStatisticsCardsOccupiedIntensiveCareBedsBinding.(
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
@@ -35,8 +38,6 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)
         }
-
-        val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
 
         with(item.stats as OccupiedIntensiveCareStats) {
             occupiedIntensiveCareContainer.contentDescription =
@@ -50,7 +51,7 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_occupied_intensive_care_card_title))
                 .appendWithTrailingSpace(getPrimaryLabel(context))
-                .appendWithTrailingSpace(formatPercentageValue(occupationRatio.value))
+                .appendWithTrailingSpace(formatPercentageValue(occupationRatio.value, currentSelectedLocale))
                 .append(getContentDescriptionForTrends(context, occupationRatio.trend))
             trendArrow.setTrend(occupationRatio.trend, occupationRatio.trendSemantic)
         }
@@ -65,7 +66,7 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
             .appendWithLineBreak(context.getString(R.string.statistics_occupied_intensive_care_card_title))
             .appendWithTrailingSpace(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithTrailingSpace(formatPercentageValue(occupationRatio.value))
+            .appendWithTrailingSpace(formatPercentageValue(occupationRatio.value, currentSelectedLocale))
             .appendWithTrailingSpace(context.getString(R.string.statistics_occupied_intensive_care_beds_text))
             .appendWithLineBreak(getContentDescriptionForTrends(context, occupationRatio.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
