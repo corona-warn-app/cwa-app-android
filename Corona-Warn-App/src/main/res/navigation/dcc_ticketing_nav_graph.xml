@@ -46,7 +46,7 @@
             android:name="transactionContext"
             app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
         <argument
-            android:name="selectedCertificateContainerId"
+            android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
     </fragment>
     <fragment
