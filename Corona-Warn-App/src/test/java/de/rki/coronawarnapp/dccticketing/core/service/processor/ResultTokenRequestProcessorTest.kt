@@ -203,21 +203,8 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse throws RTR_NO_NETWORK when CwaUnknownHostException`() = runBlockingTest {
-
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
             CwaUnknownHostException(cause = null)
-        shouldThrow<DccTicketingException> {
-            instance().resultTokenResponse(input)
-        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
-
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
-            NetworkReadTimeoutException(message = null)
-
-        shouldThrow<DccTicketingException> {
-            instance().resultTokenResponse(input)
-        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
-
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws NetworkConnectTimeoutException()
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
