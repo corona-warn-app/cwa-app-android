@@ -158,14 +158,12 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
             instance().resultTokenResponse(input)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
 
-
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
             NetworkReadTimeoutException(message = null)
 
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
-
 
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws NetworkConnectTimeoutException()
         shouldThrow<DccTicketingException> {
@@ -181,7 +179,6 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
-
     }
 
     @Test
