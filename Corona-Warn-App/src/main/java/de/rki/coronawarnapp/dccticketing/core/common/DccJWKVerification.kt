@@ -49,7 +49,7 @@ class DccJWKVerification @Inject constructor() {
                 val publicKey = X509CertUtils.parse(it.x5c.first().decodeBase64()?.toByteArray()).publicKey
                 verify(signedJWT, publicKey)
                 return
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 Timber.w("JWT with matching kid ${it.kid} was not verified", e)
             }
         }

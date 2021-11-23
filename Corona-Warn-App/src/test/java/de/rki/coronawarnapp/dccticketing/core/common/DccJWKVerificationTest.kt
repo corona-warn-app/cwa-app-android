@@ -13,6 +13,7 @@ import java.security.KeyFactory
 import java.security.PublicKey
 import java.security.spec.X509EncodedKeySpec
 
+@Suppress("MaxLineLength")
 class DccJWKVerificationTest : BaseTest() {
 
     private val testDataSet1 = listOf(
@@ -91,7 +92,8 @@ class DccJWKVerificationTest : BaseTest() {
                     kid = "pGWqzB9BzWY=",
                     alg = "ES256",
                     use = DccJWK.Purpose.SIGNATURE
-                ), DccJWK(
+                ),
+                DccJWK(
                     x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWsMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDYwM1oXDTMxMTAyNjEwMDYwM1owYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoobPcUO7ndJq0NPPidIKLgZ2pMhC8kaDuwuklXtzOPf31KydNtiMm6cZJUUg0IcjMA0DizEjSb8CywoKpaJJIjAJBgcqhkjOPQQBA0gAMEUCIH6hNfuh1hg2gS867XQc6Lc72PZTa2JzMqwZvQiU70uZAiEAk/72JJM0zsFwixCVf3pXZwdH3R3FhNE3y13H0y2Qvpk="),
                     kid = "F8ElXV0sC2U=",
                     alg = "ES256",
@@ -115,7 +117,8 @@ class DccJWKVerificationTest : BaseTest() {
                     kid = "pGWqzB9BzWY=",
                     alg = "ES256",
                     use = DccJWK.Purpose.SIGNATURE
-                ), DccJWK(
+                ),
+                DccJWK(
                     x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWsMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDYwM1oXDTMxMTAyNjEwMDYwM1owYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoobPcUO7ndJq0NPPidIKLgZ2pMhC8kaDuwuklXtzOPf31KydNtiMm6cZJUUg0IcjMA0DizEjSb8CywoKpaJJIjAJBgcqhkjOPQQBA0gAMEUCIH6hNfuh1hg2gS867XQc6Lc72PZTa2JzMqwZvQiU70uZAiEAk/72JJM0zsFwixCVf3pXZwdH3R3FhNE3y13H0y2Qvpk="),
                     kid = "pGWqzB9BzWY=",
                     alg = "ES256",
@@ -133,7 +136,8 @@ class DccJWKVerificationTest : BaseTest() {
                     kid = "pGWqzB9BzWY=",
                     alg = "ES256",
                     use = DccJWK.Purpose.SIGNATURE
-                ), DccJWK(
+                ),
+                DccJWK(
                     x5c = listOf("MIIBtzCCAV6gAwIBAgIJANocmV/U2sWsMAkGByqGSM49BAEwYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMB4XDTIxMTAyODEwMDYwM1oXDTMxMTAyNjEwMDYwM1owYjELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkJXMREwDwYDVQQHDAhXYWxsZG9yZjEPMA0GA1UECgwGU0FQIFNFMRAwDgYDVQQLDAdDV0EgQ0xJMRAwDgYDVQQDDAdjd2EtY2xpMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoobPcUO7ndJq0NPPidIKLgZ2pMhC8kaDuwuklXtzOPf31KydNtiMm6cZJUUg0IcjMA0DizEjSb8CywoKpaJJIjAJBgcqhkjOPQQBA0gAMEUCIH6hNfuh1hg2gS867XQc6Lc72PZTa2JzMqwZvQiU70uZAiEAk/72JJM0zsFwixCVf3pXZwdH3R3FhNE3y13H0y2Qvpk="),
                     kid = "bGUu3iZsaag=",
                     alg = "ES256",
