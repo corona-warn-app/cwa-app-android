@@ -39,7 +39,7 @@ class RSACryptographyTest : BaseTest() {
         val decrypted = instance.decrypt(
             toDecrypt = encrypted.toByteString(),
             privateKey = keyPair.privateKey
-        )
+        ).utf8()
 
         decrypted shouldBe actualPlaintext
     }

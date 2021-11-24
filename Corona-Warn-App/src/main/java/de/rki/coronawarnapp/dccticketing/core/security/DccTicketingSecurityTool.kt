@@ -66,7 +66,6 @@ class DccTicketingSecurityTool @Inject constructor(
     data class Input(
         val dccBarcodeData: String,
         val nonceBase64: String,
-        // todo
         val encryptionScheme: Scheme,
         val publicKeyForEncryption: PublicKey,
         val privateKeyForSigning: PrivateKey,
