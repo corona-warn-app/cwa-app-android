@@ -6,7 +6,7 @@ class DccTicketingJwtException(
 ) : Exception(errorCode.message, cause) {
 
     enum class ErrorCode(val message: String) {
-        JWT_VER_EMPTY_JWKS("JWT_VER_EMPTY_JWKS"),
+        JWT_VER_NO_JWKS("JWT_VER_EMPTY_JWKS"),
         JWT_VER_ALG_NOT_SUPPORTED("JWT_VER_ALG_NOT_SUPPORTED"),
         JWT_VER_NO_KID("JWT_VER_NO_KID"),
         JWT_VER_NO_JWK_FOR_KID("JWT_VER_NO_JWK_FOR_KID"),

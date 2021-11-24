@@ -75,8 +75,8 @@ class ResultTokenRequestProcessor @Inject constructor(
     } catch (e: DccTicketingJwtException) {
         Timber.tag(TAG).e(e, "verifyJWT for result token failed")
         throw when (e.errorCode) {
-            DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS ->
-                DccTicketingException.ErrorCode.RTR_JWT_VER_EMPTY_JWKS
+            DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS ->
+                DccTicketingException.ErrorCode.RTR_JWT_VER_NO_JWKS
             DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED ->
                 DccTicketingException.ErrorCode.RTR_JWT_VER_ALG_NOT_SUPPORTED
             DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID ->

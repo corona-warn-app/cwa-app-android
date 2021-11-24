@@ -137,12 +137,12 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `verifyJWT throws RTR_JWT_VER_EMPTY_JWKS`() = runBlockingTest {
+    fun `verifyJWT throws RTR_JWT_VER_NO_JWKS`() = runBlockingTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
-            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS)
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS)
         shouldThrow<DccTicketingException> {
             instance().verifyJWT("jwt", emptySet())
-        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_EMPTY_JWKS
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_JWT_VER_NO_JWKS
     }
 
     @Test
