@@ -1,14 +1,13 @@
 package de.rki.coronawarnapp.dccticketing.core.certificateselection
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -19,40 +18,39 @@ class DccTicketingCertificateFilter @Inject constructor(
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
-    suspend fun filter(dccTicketingAccessToken: DccTicketingAccessToken): Set<CwaCovidCertificate> {
-        val validationCondition = dccTicketingAccessToken.vc
+    suspend fun filter(validationCondition: DccTicketingValidationCondition): Set<CwaCovidCertificate> {
+        val vaccinationCerts = vaccinationRepository.cwaCertificates.first()
+        val recoveryCerts = recoveryCertificateRepository.cwaCertificates.first()
+        val testCerts = testCertificateRepository.cwaCertificates.first()
 
-        val vaccinationCerts = vaccinationRepository.recycledCertificates.first()
-        val recoveryCerts = recoveryCertificateRepository.recycledCertificates.first()
-        val testCerts = testCertificateRepository.recycledCertificates.first()
-
-        val types = validationCondition?.type.orEmpty().let { ts ->
-            if (ts.isEmpty()) FilterType.values().map { it.type } else ts
-        }
-
-        return types
+        return validationCondition.type.orEmpty()
             .filterByType(vaccinationCerts, recoveryCerts, testCerts)
-            .filterIfExists(validationCondition?.fnt) { cond, cert -> cond == cert.rawCertificate.nameData.familyName }
-            .filterIfExists(validationCondition?.gnt) { cond, cert -> cond == cert.rawCertificate.nameData.givenName }
-            .filterIfExists(validationCondition?.dob) { cond, cert -> cond == cert.rawCertificate.dob }
-            .toCertificateSortOrder()
-            .toSet()
+            .filterIfExists(validationCondition.fnt) { cond, cert ->
+                cond == cert.rawCertificate.nameData.familyNameStandardized
+            }
+            .filterIfExists(validationCondition.gnt) { cond, cert ->
+                cond == cert.rawCertificate.nameData.givenNameStandardized
+            }
+            .filterIfExists(validationCondition.dob) { cond, cert -> cond == cert.rawCertificate.dob }
     }
 
     private fun List<String>.filterByType(
         vaccinationCerts: Set<VaccinationCertificate>,
         recoveryCerts: Set<RecoveryCertificate>,
         testCerts: Set<TestCertificate>
-    ) = flatMap { type ->
-        when (FilterType.typeOf(type)) {
-            FilterType.VACCINATION -> vaccinationCerts
-            FilterType.RECOVERY -> recoveryCerts
-            FilterType.TEST -> testCerts
-            FilterType.PCR_TEST -> testCerts.filter { it.rawCertificate.test.testType == "LP6464-4" }
-            FilterType.RA_TEST -> testCerts.filter { it.rawCertificate.test.testType == "LP217198-3" }
-            else -> {
-                Timber.tag(TAG).w("Unsupported type=$type")
-                emptySet()
+    ) = when {
+        isEmpty() -> vaccinationCerts + recoveryCerts + testCerts // All certificates should pass
+        else -> flatMap { type -> // otherwise filter by types
+            when (FilterType.typeOf(type)) {
+                FilterType.VACCINATION -> vaccinationCerts
+                FilterType.RECOVERY -> recoveryCerts
+                FilterType.TEST -> testCerts
+                FilterType.PCR_TEST -> testCerts.filter { it.rawCertificate.test.testType == "LP6464-4" }
+                FilterType.RA_TEST -> testCerts.filter { it.rawCertificate.test.testType == "LP217198-3" }
+                else -> {
+                    Timber.tag(TAG).w("Unsupported type=$type")
+                    emptySet()
+                }
             }
         }
     }.toSet().also {

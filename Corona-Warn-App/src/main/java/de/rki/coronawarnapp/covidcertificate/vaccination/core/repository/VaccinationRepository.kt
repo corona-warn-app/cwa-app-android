@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -106,6 +107,8 @@ class VaccinationRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
+
+    val cwaCertificates = vaccinationInfos.map { persons -> persons.flatMap { it.vaccinationCertificates }.toSet() }
 
     /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
