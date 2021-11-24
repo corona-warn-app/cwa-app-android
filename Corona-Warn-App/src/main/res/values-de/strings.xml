@@ -954,7 +954,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Third bulletpoint for info screen -->
     <string name="qr_code_info_screen_third_bulletpoint_text">"PCR-Tests und Schnelltests"</string>
     <!-- XTXT: Fourth bulletpoint for info screen -->
-    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Zur Überprüfung Ihrer Zertifikate bei Ticketbuchungen"</string>
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Nachweis Ihrer Zertifikate bei Ticketbuchungen"</string>
     <!-- XTXT: QR Code info screen data details -->
     <string name="qr_code_info_screen_data_details_text">"Die Daten aus dem jeweiligen QR-Code werden ausgelesen."</string>
     <!-- XTXT: QR Code booking provider info text -->
