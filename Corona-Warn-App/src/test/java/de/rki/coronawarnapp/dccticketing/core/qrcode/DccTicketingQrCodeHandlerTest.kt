@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccJwkFilteringResult
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -56,7 +58,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
-    fun handleQrCode() = runBlockingTest {
+    fun `handleQrCode decorate TransactionContext`() = runBlockingTest {
         coEvery { dccTicketingJwkFilter.filter(any()) } returns filteringResult
         coEvery { requestService.requestValidationDecorator(any()) } returns decorator
 
@@ -74,6 +76,24 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
             requestService.requestValidationDecorator(any())
             dccTicketingJwkFilter.filter(any())
         }
+    }
+
+    @Test
+    fun `handleQrCode throws ALLOWLIST_NO_MATCH error`() = runBlockingTest {
+        coEvery { dccTicketingJwkFilter.filter(any()) } returns DccJwkFilteringResult(emptySet(), emptySet())
+        coEvery { requestService.requestValidationDecorator(any()) } returns decorator
+
+        shouldThrow<DccTicketingAllowListException> {
+            instance().handleQrCode(qrcode) shouldBe
+                DccTicketingTransactionContext(
+                    initializationData = qrcode.data,
+                    accessTokenService = decorator.accessTokenService,
+                    accessTokenServiceJwkSet = decorator.accessTokenServiceJwkSet,
+                    accessTokenSignJwkSet = decorator.accessTokenSignJwkSet,
+                    validationService = decorator.validationService,
+                    validationServiceJwkSet = decorator.validationServiceJwkSet,
+                )
+        }.errorCode shouldBe DccTicketingAllowListException.ErrorCode.ALLOWLIST_NO_MATCH
     }
 
     private fun instance() = DccTicketingQrCodeHandler(
