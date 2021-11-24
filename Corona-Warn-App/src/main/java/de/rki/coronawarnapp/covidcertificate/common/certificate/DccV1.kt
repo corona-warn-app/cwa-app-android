@@ -57,6 +57,7 @@ data class DccV1(
         val version: String
         val nameData: NameData
         val dateOfBirthFormatted: String
+        val dob: String
         val payload: Payload
         val personIdentifier: CertificatePersonIdentifier
     }
@@ -165,6 +166,7 @@ data class VaccinationDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
     override val dateOfBirthFormatted: String,
+    override val dob: String,
     override val personIdentifier: CertificatePersonIdentifier,
     val vaccination: DccV1.VaccinationData
 ) : DccV1.MetaData {
@@ -176,6 +178,7 @@ data class TestDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
     override val dateOfBirthFormatted: String,
+    override val dob: String,
     override val personIdentifier: CertificatePersonIdentifier,
     val test: DccV1.TestCertificateData
 ) : DccV1.MetaData {
@@ -187,6 +190,7 @@ data class RecoveryDccV1(
     override val version: String,
     override val nameData: DccV1.NameData,
     override val dateOfBirthFormatted: String,
+    override val dob: String,
     override val personIdentifier: CertificatePersonIdentifier,
     val recovery: DccV1.RecoveryCertificateData
 ) : DccV1.MetaData {
