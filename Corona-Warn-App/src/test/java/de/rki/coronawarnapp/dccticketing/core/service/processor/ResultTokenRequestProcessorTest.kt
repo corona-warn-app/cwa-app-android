@@ -26,11 +26,10 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
-import okhttp3.Handshake
-import okhttp3.Response
 import okhttp3.ResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Response
 import testhelpers.BaseTest
 import java.lang.Exception
 
@@ -40,7 +39,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     @MockK lateinit var dccTicketingServer: DccTicketingServer
     @MockK lateinit var dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker
     @MockK lateinit var jwtVerification: DccJWKVerification
-    @MockK lateinit var response: Response
+    private lateinit var response: Response<ResponseBody>
     private val converter = JwtTokenConverter(Gson())
 
     private val jsonResultToken = """
@@ -82,10 +81,8 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        with(response) {
-            every { body } returns mockk<ResponseBody>().apply { every { string() } returns jsonResultToken }
-            every { handshake } returns mockk<Handshake>().apply { every { peerCertificates } returns emptyList() }
-        }
+        val responseBody = mockk<ResponseBody>().apply { every { string() } returns jsonResultToken }
+        response = Response.success(responseBody)
 
         every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } just Runs
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } returns response
@@ -209,9 +206,9 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse verify null response`() = runBlockingTest {
-        every { response.body } returns null
+
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
-            response
+            Response.success(null)
         }
         shouldThrow<DccTicketingException> {
             instance().requestResultToken(input)
