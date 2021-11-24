@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp
 
 import android.os.Build
+import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton
+import com.nimbusds.jose.util.X509CertUtils
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.util.BuildVersionWrap
@@ -67,6 +69,13 @@ class SecurityProvider @Inject constructor() {
                 throw e
             }
         }
+
+        /**
+         * Required for X509CertUtils to be able to parse all kind of certificates
+         *
+         * @see [DccJWKVerification]
+         */
+        X509CertUtils.setProvider(BouncyCastleProviderSingleton.getInstance())
     }
 
     companion object {

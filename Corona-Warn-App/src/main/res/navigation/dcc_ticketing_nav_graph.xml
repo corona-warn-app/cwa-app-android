@@ -9,7 +9,13 @@
         android:id="@+id/dccTicketingConsentOneFragment"
         android:name="de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment"
         android:label="fragment_dcc_ticketing_consent_one"
-        tools:layout="@layout/fragment_dcc_ticketing_consent_one">
+        tools:layout="@layout/fragment_dcc_ticketing_consent_one" >
+
+        <deepLink app:uri="cwa://dcc.ticketing.consent.one/?transactionContextIdentifier={transactionContextIdentifier}" />
+
+        <argument
+            android:name="transactionContextIdentifier"
+            app:argType="string" />
         <action
             android:id="@+id/action_dccTicketingConsentOneFragment_to_dccTicketingCertificateSelectionFragment"
             app:destination="@id/dccTicketingCertificateSelectionFragment" />
