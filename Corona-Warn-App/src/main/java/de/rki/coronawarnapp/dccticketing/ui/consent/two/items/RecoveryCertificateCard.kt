@@ -6,13 +6,13 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccConsentTwoAdapter
+import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RecoveryCertificateCard(parent: ViewGroup) :
-    DccConsentTwoAdapter.DccConsentTwoItemVH<RecoveryCertificateCard.Item, RecoveryCertificateCardBinding>(
+    DccTicketingConsentTwoAdapter.DccConsentTwoItemVH<RecoveryCertificateCard.Item, RecoveryCertificateCardBinding>(
         layoutRes = R.layout.recovery_certificate_card,
         parent = parent
     ) {

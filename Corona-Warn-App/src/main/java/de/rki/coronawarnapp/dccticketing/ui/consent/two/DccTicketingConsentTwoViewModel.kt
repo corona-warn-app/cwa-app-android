@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.ui.consent.two
 
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -22,9 +23,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 
 class DccTicketingConsentTwoViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingTransactionContext: DccTicketingTransactionContext,
@@ -35,28 +34,37 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val selectedCertificate = flow {
-        emit(mutableListOf<CertificateItem>().addCardItem())
-    }.asLiveData2()
-
     val showCloseDialog = SingleLiveEvent<Unit>()
+    private val mutableUiState = MutableLiveData<UiState>()
+    val uiState: LiveData<UiState>
+        get() = mutableUiState
 
-    val uiState = MutableStateFlow(UiState(dccTicketingTransactionContext)).asLiveData()
-
-    private suspend fun MutableList<CertificateItem>.addCardItem() {
-        when (val certificate = certificateProvider.findCertificate(containerId)) {
-            is TestCertificate -> add(TestCertificateCard.Item(certificate))
-            is VaccinationCertificate -> {
-                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC)
-                    ?: VaccinatedPerson.Status.INCOMPLETE
-                add(
-                    VaccinationCertificateCard.Item(
-                        certificate = certificate,
-                        status = status
+    init {
+        launch {
+            findCertificate().also {
+                mutableUiState.postValue(
+                    UiState(
+                        dccTicketingTransactionContext = dccTicketingTransactionContext,
+                        certificateItem = it
                     )
                 )
             }
-            is RecoveryCertificate -> add(RecoveryCertificateCard.Item(certificate))
+        }
+    }
+
+    private suspend fun findCertificate(): CertificateItem {
+        return when (val certificate = certificateProvider.findCertificate(containerId)) {
+            is TestCertificate -> TestCertificateCard.Item(certificate)
+            is VaccinationCertificate -> {
+                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC)
+                    ?: VaccinatedPerson.Status.INCOMPLETE
+                VaccinationCertificateCard.Item(
+                    certificate = certificate,
+                    status = status
+                )
+            }
+            is RecoveryCertificate -> RecoveryCertificateCard.Item(certificate)
+            else -> throw IllegalArgumentException("Certificate $certificate is not supported")
         }
     }
 
@@ -68,7 +76,8 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
     }
 
     data class UiState(
-        val dccTicketingTransactionContext: DccTicketingTransactionContext
+        val dccTicketingTransactionContext: DccTicketingTransactionContext,
+        val certificateItem: CertificateItem
     ) {
         val testPartner get() = "TBD (see allowlist PR)"
         val provider get() = dccTicketingTransactionContext.initializationData.serviceProvider

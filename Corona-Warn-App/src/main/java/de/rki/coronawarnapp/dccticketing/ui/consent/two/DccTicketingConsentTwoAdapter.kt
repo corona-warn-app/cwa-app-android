@@ -15,8 +15,8 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class DccConsentTwoAdapter :
-    ModularAdapter<DccConsentTwoAdapter.DccConsentTwoItemVH<CertificateItem, ViewBinding>>(),
+class DccTicketingConsentTwoAdapter :
+    ModularAdapter<DccTicketingConsentTwoAdapter.DccConsentTwoItemVH<CertificateItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<CertificateItem> {
 
     override val asyncDiffer: AsyncDiffer<CertificateItem> = AsyncDiffer(adapter = this)

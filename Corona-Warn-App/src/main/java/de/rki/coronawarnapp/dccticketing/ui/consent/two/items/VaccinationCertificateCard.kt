@@ -8,13 +8,15 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccConsentTwoAdapter
+import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class VaccinationCertificateCard(parent: ViewGroup) :
-    DccConsentTwoAdapter.DccConsentTwoItemVH<VaccinationCertificateCard.Item, VaccinationCertificateCardBinding>(
+    DccTicketingConsentTwoAdapter.DccConsentTwoItemVH<
+        VaccinationCertificateCard.Item,
+        VaccinationCertificateCardBinding>(
         layoutRes = R.layout.vaccination_certificate_card,
         parent = parent
     ) {
