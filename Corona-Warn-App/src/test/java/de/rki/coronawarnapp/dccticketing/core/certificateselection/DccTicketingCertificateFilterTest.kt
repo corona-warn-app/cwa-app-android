@@ -153,6 +153,19 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
         }
 
     @Test
+    fun `filter - conditions type=null, gnt=no, fnt=no, dob=no`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = null,
+                    gnt = null,
+                    fnt = null,
+                    dob = null,
+                )
+            ) shouldBe vcSet + rcSet + tcSet
+        }
+
+    @Test
     fun `filter - no conditions`() =
         runBlockingTest {
             instance().filter(
