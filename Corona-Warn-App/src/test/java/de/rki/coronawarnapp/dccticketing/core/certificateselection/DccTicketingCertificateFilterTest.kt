@@ -153,6 +153,14 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
         }
 
     @Test
+    fun `filter - no conditions`() =
+        runBlockingTest {
+            instance().filter(
+                null
+            ) shouldBe vcSet + rcSet + tcSet
+        }
+
+    @Test
     fun `filter - conditions type=v, gnt=no, fnt=no, dob=no`() =
         runBlockingTest {
             instance().filter(
@@ -202,6 +210,19 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
                     dob = "1990-10-10",
                 )
             ) shouldBe setOf(tc1, rc1, vc3, vc4)
+        }
+
+    @Test
+    fun `filter - Unsupported types`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = listOf("T", "V", "R"),
+                    gnt = "Max",
+                    fnt = "Mustermann",
+                    dob = "1990-10-10",
+                )
+            ) shouldBe emptySet()
         }
 
     private fun instance() = DccTicketingCertificateFilter(

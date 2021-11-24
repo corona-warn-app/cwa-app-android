@@ -18,20 +18,20 @@ class DccTicketingCertificateFilter @Inject constructor(
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
 ) {
-    suspend fun filter(validationCondition: DccTicketingValidationCondition): Set<CwaCovidCertificate> {
+    suspend fun filter(validationCondition: DccTicketingValidationCondition?): Set<CwaCovidCertificate> {
         val vaccinationCerts = vaccinationRepository.cwaCertificates.first()
         val recoveryCerts = recoveryCertificateRepository.cwaCertificates.first()
         val testCerts = testCertificateRepository.cwaCertificates.first()
 
-        return validationCondition.type.orEmpty()
+        return validationCondition?.type.orEmpty()
             .filterByType(vaccinationCerts, recoveryCerts, testCerts)
-            .filterIfExists(validationCondition.fnt) { cond, cert ->
+            .filterIfExists(validationCondition?.fnt) { cond, cert ->
                 cond == cert.rawCertificate.nameData.familyNameStandardized
             }
-            .filterIfExists(validationCondition.gnt) { cond, cert ->
+            .filterIfExists(validationCondition?.gnt) { cond, cert ->
                 cond == cert.rawCertificate.nameData.givenNameStandardized
             }
-            .filterIfExists(validationCondition.dob) { cond, cert -> cond == cert.rawCertificate.dob }
+            .filterIfExists(validationCondition?.dob) { cond, cert -> cond == cert.rawCertificate.dob }
     }
 
     private fun List<String>.filterByType(
