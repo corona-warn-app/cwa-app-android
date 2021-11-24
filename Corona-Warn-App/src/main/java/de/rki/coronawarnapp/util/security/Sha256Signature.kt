@@ -27,4 +27,3 @@ class Sha256Signature @Inject constructor() {
         const val ALGORITHM = "SHA256withECDSA"
     }
 }
-

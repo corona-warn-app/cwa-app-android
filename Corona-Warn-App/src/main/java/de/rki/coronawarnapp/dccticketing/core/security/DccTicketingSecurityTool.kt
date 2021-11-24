@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccticketing.core.submission
+package de.rki.coronawarnapp.dccticketing.core.security
 
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.util.encoding.base64
@@ -8,13 +8,13 @@ import java.security.PrivateKey
 import java.security.PublicKey
 import javax.inject.Inject
 
-class DccTicketingSubmissionHandler @Inject constructor(
+class DccTicketingSecurityTool @Inject constructor(
     private val dccTicketingCryptography: DccTicketingCryptography,
     private val rsaCryptography: RSACryptography,
     private val sha256Signature: Sha256Signature
 ) {
 
-    fun encrypt(input: Input): Output {
+    fun encryptAndSign(input: Input): Output {
         val key = dccTicketingCryptography.generateSecureRandomKey()
         val encryptedDCC = input.encryptDcc(key)
         return Output(

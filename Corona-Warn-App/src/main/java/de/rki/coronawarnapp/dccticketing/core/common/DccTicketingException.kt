@@ -25,7 +25,7 @@ class DccTicketingException(
         RSA_ENC_INVALID_KEY("RSA encryption key is invalid."),
         RSA_ENC_NOT_SUPPORTED("RSA encryption algorithm is not supported."),
 
-        //TODO provide right text
+        // TODO provide right text
         ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
         ATR_PARSE_ERR("failure when obtaining Access Token; user may retry"),
 

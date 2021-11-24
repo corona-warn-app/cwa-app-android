@@ -1,6 +1,5 @@
-package de.rki.coronawarnapp.dccticketing.core.qrcode
+package de.rki.coronawarnapp.dccticketing.core.security
 
-import de.rki.coronawarnapp.dccticketing.core.submission.DccTicketingCryptography
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
@@ -41,6 +40,3 @@ class DccTicketingCryptographyTest : BaseTest() {
         ) shouldBe "RUMOQIp8WAY9IknGrlC91ikcboYGrBD9HJd3bfUQ6zDUTA==".decodeBase64()!!.toByteArray()
     }
 }
-
-
-

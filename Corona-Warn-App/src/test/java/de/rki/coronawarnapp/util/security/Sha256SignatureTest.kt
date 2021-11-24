@@ -12,6 +12,7 @@ import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.spec.X509EncodedKeySpec
 
+@Suppress("MaxLineLength")
 class Sha256SignatureTest : BaseTest() {
 
     @Test
@@ -85,8 +86,8 @@ class Sha256SignatureTest : BaseTest() {
     private fun String.convertToPrivateKey(): PrivateKey {
         val reader = StringReader(this.toPemString())
         val pemParser = PEMParser(reader)
-        return pemParser.use { pemParser ->
-            val o = pemParser.readObject()
+        return pemParser.use { parser ->
+            val o = parser.readObject()
             val pair = JcaPEMKeyConverter().getKeyPair(o as PEMKeyPair)
             pair.private
         }

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccticketing.core.submission
+package de.rki.coronawarnapp.dccticketing.core.security
 
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.AES_CBC_INVALID_IV
