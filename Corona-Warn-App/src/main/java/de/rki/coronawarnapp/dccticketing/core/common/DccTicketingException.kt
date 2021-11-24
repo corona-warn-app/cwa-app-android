@@ -54,16 +54,16 @@ class DccTicketingException(
          *  Request Result Token error codes.
          *  Failure when obtaining Result Token; user may retry
          */
-        RTR_CERT_PIN_MISMATCH("RTR_CERT_PIN_MISMATCH"),
-        RTR_CERT_PIN_NO_JWK_FOR_KID("RTR_CERT_PIN_NO_JWK_FOR_KID"),
-        RTR_JWT_VER_ALG_NOT_SUPPORTED("RTR_JWT_VER_ALG_NOT_SUPPORTED"),
-        RTR_JWT_VER_NO_JWKS("RTR_JWT_VER_NO_JWKS"),
-        RTR_JWT_VER_NO_JWK_FOR_KID("RTR_JWT_VER_NO_JWK_FOR_KID"),
-        RTR_JWT_VER_NO_KID("RTR_JWT_VER_NO_KID"),
-        RTR_JWT_VER_SIG_INVALID("RTR_JWT_VER_SIG_INVALID"),
-        RTR_CLIENT_ERR("RTR_CLIENT_ERR"),
-        RTR_NO_NETWORK("RTR_NO_NETWORK"),
-        RTR_SERVER_ERR("RTR_SERVER_ERR"),
+        RTR_CERT_PIN_MISMATCH(message = RTR_ERROR_MSG),
+        RTR_CERT_PIN_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_ALG_NOT_SUPPORTED(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_NO_JWKS(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_NO_KID(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_SIG_INVALID(message = RTR_ERROR_MSG),
+        RTR_CLIENT_ERR(message = RTR_ERROR_MSG),
+        RTR_NO_NETWORK(message = RTR_ERROR_MSG),
+        RTR_SERVER_ERR(message = RTR_ERROR_MSG),
 
         /**
          * Validation Decorator error codes.
@@ -114,5 +114,6 @@ class DccTicketingException(
 private const val ATR_ERROR_MSG = "Failure when obtaining Access Token"
 private const val VS_ID_ERROR_MSG = "Failure when obtaining Service Identity Document of Validation Service"
 private const val VD_ID_ERROR_MSG = "Failure when obtaining Service Identity Document of Validation Decorator"
+private const val RTR_ERROR_MSG = "Failure when obtaining Result Token; user may retry"
 
 typealias DccTicketingErrorCode = DccTicketingException.ErrorCode
