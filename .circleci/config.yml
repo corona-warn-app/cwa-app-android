@@ -375,6 +375,7 @@ jobs:
               --os-version-ids 28 \
               --locales de_DE \
               --orientations portrait \
+              --num-flaky-test-attempts 3 \
               --no-record-video
           no_output_timeout: 20m
       - run:

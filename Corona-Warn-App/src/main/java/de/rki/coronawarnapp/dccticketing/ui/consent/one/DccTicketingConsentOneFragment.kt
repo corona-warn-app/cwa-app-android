@@ -37,18 +37,15 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as DccTicketingConsentOneViewModel.Factory
-            factory.create(
-                dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
-                    val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
-                    it.updateTransactionContext(ctx)
-                }
-            )
+            factory.create(dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
+                val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
+                it.updateTransactionContext(ctx)
+            })
         }
     )
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
     private val qrcodeSharedViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
-    private val dccTicketingSharedViewModel:
-        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +76,11 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         }
 
         viewModel.uiState.observe2(this@DccTicketingConsentOneFragment) {
-            provider.text = it.provider
-            subject.text = it.subject
+            val providerText = "\"${it.provider}\""
+            val subjectText = "\"${it.subject}\""
+
+            provider.text = providerText
+            subject.text = subjectText
         }
 
         viewModel.isLoading.observe2(this@DccTicketingConsentOneFragment) {
@@ -94,15 +94,9 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         Timber.d("handleEvents(event=%s)", event)
         when (event) {
             NavigateBack -> popBackStack()
-            NavigateToCertificateSelection ->
-                doNavigate(
-                    DccTicketingConsentOneFragmentDirections
-                        .actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment()
-                )
-            NavigateToPrivacyInformation ->
-                findNavController().navigate(R.id.informationPrivacyFragment)
-            ShowCancelConfirmationDialog ->
-                showCloseDialog()
+            NavigateToCertificateSelection -> doNavigate(DccTicketingConsentOneFragmentDirections.actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment())
+            NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
+            ShowCancelConfirmationDialog -> showCloseDialog()
             is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
         }
     }
@@ -126,8 +120,8 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         fun uri(
             transactionContextIdentifier: String
         ): Uri {
-            val encodedCertId = URLEncoder.encode(transactionContextIdentifier, "UTF-8")
-            return "cwa://dcc.ticketing.consent.one/?transactionContextIdentifier=$encodedCertId".toUri()
+            val encodedTransactionContextId = URLEncoder.encode(transactionContextIdentifier, "UTF-8")
+            return "cwa://dcc.ticketing.consent.one/?transactionContextIdentifier=$encodedTransactionContextId".toUri()
         }
     }
 }
