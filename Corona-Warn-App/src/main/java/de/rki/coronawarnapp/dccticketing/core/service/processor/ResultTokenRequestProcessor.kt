@@ -19,7 +19,8 @@ import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.tag
 import kotlinx.parcelize.Parcelize
-import okhttp3.Response
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class ResultTokenRequestProcessor @Inject constructor(
         // Checking the Server Certificate Against a Set of JWKs.
         checkServerCertificate(response, resultTokenInput.validationServiceJwkSet)
         // 2. Find `resultToken`
-        val resultToken = response.body?.string() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
+        val resultToken = response.body()?.string() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
         // 3. Verify signature the signature of the resultToken
         verifyJWT(resultToken, resultTokenInput.validationServiceSignKeyJwkSet)
         // 4.Determine resultTokenPayload: the resultTokenPayload
@@ -49,11 +50,11 @@ class ResultTokenRequestProcessor @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun checkServerCertificate(
-        response: Response,
+        response: Response<ResponseBody>,
         jwkSet: Set<DccJWK>
     ) = try {
         dccTicketingServerCertificateChecker.checkCertificate(
-            response.handshake?.peerCertificates.orEmpty(),
+            response.raw().handshake?.peerCertificates.orEmpty(),
             jwkSet
         )
     } catch (e: DccTicketingServerCertificateCheckException) {
