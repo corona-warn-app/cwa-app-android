@@ -25,7 +25,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
             protocol = "Test protocol",
             protocolVersion = "Test protocolVersion",
             serviceIdentity = "Test serviceIdentity",
-            privacyUrl = "",
+            privacyUrl = "https://www.test.de/",
             token = "Test token",
             consent = "Test consent",
             subject = "Test subject",
