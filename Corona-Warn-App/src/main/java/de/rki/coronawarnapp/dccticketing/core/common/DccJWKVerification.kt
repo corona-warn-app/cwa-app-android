@@ -31,6 +31,7 @@ class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider)
         securityProvider.setup()
     }
 
+    @Throws(DccTicketingJwtException::class)
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {
         // 1. Check for empty jwkSet
         if (jwkSet.isEmpty()) throw DccTicketingJwtException(JWT_VER_NO_JWKS)
