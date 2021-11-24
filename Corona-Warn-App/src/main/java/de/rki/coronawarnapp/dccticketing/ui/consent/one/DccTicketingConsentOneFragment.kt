@@ -37,10 +37,12 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as DccTicketingConsentOneViewModel.Factory
-            factory.create(dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
-                val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
-                it.updateTransactionContext(ctx)
-            })
+            factory.create(
+                dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
+                    val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
+                    it.updateTransactionContext(ctx)
+                }
+            )
         }
     )
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
@@ -96,8 +98,11 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         when (event) {
             NavigateBack -> popBackStack()
             NavigateToCertificateSelection ->
-                doNavigate(DccTicketingConsentOneFragmentDirections
-                    .actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment())
+                doNavigate(
+                    DccTicketingConsentOneFragmentDirections
+                        .actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment()
+                )
+
             NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
             ShowCancelConfirmationDialog -> showCloseDialog()
             is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
