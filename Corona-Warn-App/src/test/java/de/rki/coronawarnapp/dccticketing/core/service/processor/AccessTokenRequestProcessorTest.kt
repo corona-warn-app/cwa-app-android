@@ -121,10 +121,10 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     @Test
     fun `verifyJWT throws ATR_JWT_VER_NO_JWKS`() = runBlockingTest {
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } throws
-            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS)
+            DccTicketingJwtException(DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS)
         shouldThrow<DccTicketingException> {
             callRequestAccessToken()
-        }.errorCode shouldBe DccTicketingException.ErrorCode.ATR_JWT_VER_NO_JWKS
+        }.errorCode shouldBe DccTicketingException.ErrorCode.ATR_JWT_VER_EMPTY_JWKS
     }
 
     @Test

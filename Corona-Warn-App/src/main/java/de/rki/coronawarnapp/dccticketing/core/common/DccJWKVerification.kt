@@ -10,7 +10,7 @@ import com.nimbusds.jose.util.X509CertUtils
 import com.nimbusds.jwt.SignedJWT
 import de.rki.coronawarnapp.SecurityProvider
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWKS
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID
@@ -34,7 +34,7 @@ class DccJWKVerification @Inject constructor(securityProvider: SecurityProvider)
     @Throws(DccTicketingJwtException::class)
     fun verify(jwt: String, jwkSet: Set<DccJWK>) {
         // 1. Check for empty jwkSet
-        if (jwkSet.isEmpty()) throw DccTicketingJwtException(JWT_VER_NO_JWKS)
+        if (jwkSet.isEmpty()) throw DccTicketingJwtException(JWT_VER_EMPTY_JWKS)
 
         // 2. Check alg of JWT
         val signedJWT = try {
