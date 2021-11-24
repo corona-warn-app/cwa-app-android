@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.server
 
-import retrofit2.Response
+import okhttp3.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -19,7 +19,7 @@ interface DccTicketingApiV1 {
         @Url url: String,
         @Header("Authorization") authorizationHeader: String,
         @Body body: AccessTokenRequest
-    ): Response<String>
+    ): Response
 
     @Headers(
         "X-VERSION: 1.0.0",
@@ -31,5 +31,5 @@ interface DccTicketingApiV1 {
         @Url url: String,
         @Header("Authorization") authorizationHeader: String,
         @Body body: ResultTokenRequest
-    ): Response<String>
+    ): Response
 }

@@ -24,10 +24,13 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import okhttp3.Handshake
+import okhttp3.Response
+import okhttp3.ResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import retrofit2.Response
 import testhelpers.BaseTest
 import java.lang.Exception
 
@@ -37,6 +40,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     @MockK lateinit var dccTicketingServer: DccTicketingServer
     @MockK lateinit var dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker
     @MockK lateinit var jwtVerification: DccJWKVerification
+    @MockK lateinit var response: Response
     private val converter = JwtTokenConverter(Gson())
 
     private val jsonResultToken = """
@@ -78,8 +82,13 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
+        with(response) {
+            every { body } returns mockk<ResponseBody>().apply { every { string() } returns jsonResultToken }
+            every { handshake } returns mockk<Handshake>().apply { every { peerCertificates } returns emptyList() }
+        }
+
         every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } just Runs
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } returns Response.success(jsonResultToken)
+        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } returns response
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } just Runs
     }
 
@@ -103,7 +112,6 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH)
 
         val jwtSet = setOf<DccJWK>()
-        val response = Response.success(jsonResultToken)
         shouldThrow<DccTicketingException> {
             instance().checkServerCertificate(response, jwtSet)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_MISMATCH
@@ -115,7 +123,6 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
 
         val jwtSet = setOf<DccJWK>()
-        val response = Response.success(jsonResultToken)
         shouldThrow<DccTicketingException> {
             instance().checkServerCertificate(response, jwtSet)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_NO_JWK_FOR_KID
@@ -124,7 +131,6 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     @Test
     fun `checkServerCertificate Pass`() = runBlockingTest {
         val jwtSet = setOf<DccJWK>()
-        val response = Response.success(jsonResultToken)
         shouldNotThrowAny {
             instance().checkServerCertificate(response, jwtSet)
         }
@@ -196,15 +202,16 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
                 sigAlg = input.signatureAlgorithm
             )
 
-            Response.success(jsonResultToken)
+            response
         }
-        instance().resultTokenResponse(input).body() shouldBe jsonResultToken
+        instance().resultTokenResponse(input) shouldBe response
     }
 
     @Test
     fun `resultTokenResponse verify null response`() = runBlockingTest {
+        every { response.body } returns null
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
-            Response.success(null)
+            response
         }
         shouldThrow<DccTicketingException> {
             instance().requestResultToken(input)

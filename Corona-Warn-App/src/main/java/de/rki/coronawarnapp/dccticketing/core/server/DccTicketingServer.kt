@@ -88,6 +88,7 @@ class DccTicketingServer @Inject constructor(
         serverCertificateChecker.checkCertificate(certificateChain, jwkSet)
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getAccessToken(
         url: String,
         authorizationHeader: String,
@@ -99,8 +100,8 @@ class DccTicketingServer @Inject constructor(
             // TODO: use response.raw().handshake for cert verification after when
             // Certificate Pinning (EXPOSUREAPP-10635) #4422 PR is merged
 
-            val jwtToken: String = response.body()!!
-            val iv = response.headers()["x-nonce"]!!
+            val jwtToken: String = response.body?.string()!!
+            val iv = response.headers["x-nonce"]!!
             AccessTokenResponse(jwtToken, iv)
         }
 
@@ -108,7 +109,7 @@ class DccTicketingServer @Inject constructor(
         url: String,
         authorizationHeader: String,
         requestBody: ResultTokenRequest
-    ): retrofit2.Response<String> =
+    ): Response =
         withContext(dispatcherProvider.IO) {
             Timber.d("getResultToken(url=%s)", url)
             dccTicketingApiV1.getResultToken(url, authorizationHeader, requestBody)

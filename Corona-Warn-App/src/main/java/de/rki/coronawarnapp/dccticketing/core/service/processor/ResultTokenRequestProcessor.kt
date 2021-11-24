@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.exception.http.NetworkConnectTimeoutException
 import de.rki.coronawarnapp.exception.http.NetworkReadTimeoutException
 import de.rki.coronawarnapp.tag
 import kotlinx.parcelize.Parcelize
-import retrofit2.Response
+import okhttp3.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,13 +30,14 @@ class ResultTokenRequestProcessor @Inject constructor(
     private val jwtVerification: DccJWKVerification
 ) {
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun requestResultToken(resultTokenInput: ResultTokenInput): ResultTokenOutput {
         // 1. Call Validation Service
         val response = resultTokenResponse(resultTokenInput)
         // Checking the Server Certificate Against a Set of JWKs.
         checkServerCertificate(response, resultTokenInput.validationServiceJwkSet)
         // 2. Find `resultToken`
-        val resultToken = response.body() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
+        val resultToken = response.body?.string() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
         // 3. Verify signature the signature of the resultToken
         verifyJWT(resultToken, resultTokenInput.validationServiceSignKeyJwkSet)
         // 4.Determine resultTokenPayload: the resultTokenPayload
@@ -48,11 +49,11 @@ class ResultTokenRequestProcessor @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun checkServerCertificate(
-        response: Response<String>,
+        response: Response,
         jwkSet: Set<DccJWK>
     ) = try {
         dccTicketingServerCertificateChecker.checkCertificate(
-            response.raw().handshake?.peerCertificates.orEmpty(),
+            response.handshake?.peerCertificates.orEmpty(),
             jwkSet
         )
     } catch (e: DccTicketingServerCertificateCheckException) {
@@ -66,7 +67,10 @@ class ResultTokenRequestProcessor @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun verifyJWT(jwt: String, jwkSet: Set<DccJWK>) = try {
+    internal fun verifyJWT(
+        jwt: String,
+        jwkSet: Set<DccJWK>
+    ) = try {
         jwtVerification.verify(jwt, jwkSet)
     } catch (e: DccTicketingJwtException) {
         Timber.tag(TAG).e(e, "verifyJWT for result token failed")
@@ -85,33 +89,34 @@ class ResultTokenRequestProcessor @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun resultTokenResponse(resultTokenInput: ResultTokenInput) =
-        try {
-            dccTicketingServer.getResultToken(
-                url = resultTokenInput.serviceEndpoint,
-                authorizationHeader = "Bearer ${resultTokenInput.jwt}",
-                requestBody = resultTokenInput.run {
-                    ResultTokenRequest(
-                        kid = encryptionKeyKid,
-                        dcc = encryptedDCCBase64,
-                        sig = signatureBase64,
-                        encKey = encryptionKeyBase64,
-                        encScheme = encryptionScheme,
-                        sigAlg = signatureAlgorithm
-                    )
-                }
-            )
-        } catch (e: Exception) {
-            Timber.tag(TAG).e(e, "Requesting result token failed")
-            throw when (e) {
-                is CwaUnknownHostException,
-                is NetworkReadTimeoutException,
-                is NetworkConnectTimeoutException -> DccTicketingErrorCode.RTR_NO_NETWORK
-                is CwaClientError -> DccTicketingErrorCode.RTR_CLIENT_ERR
-                // Blame the server for everything else
-                else -> DccTicketingErrorCode.RTR_SERVER_ERR
-            }.let { DccTicketingException(it, e) }
-        }
+    internal suspend fun resultTokenResponse(
+        resultTokenInput: ResultTokenInput
+    ) = try {
+        dccTicketingServer.getResultToken(
+            url = resultTokenInput.serviceEndpoint,
+            authorizationHeader = "Bearer ${resultTokenInput.jwt}",
+            requestBody = resultTokenInput.run {
+                ResultTokenRequest(
+                    kid = encryptionKeyKid,
+                    dcc = encryptedDCCBase64,
+                    sig = signatureBase64,
+                    encKey = encryptionKeyBase64,
+                    encScheme = encryptionScheme,
+                    sigAlg = signatureAlgorithm
+                )
+            }
+        )
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Requesting result token failed")
+        throw when (e) {
+            is CwaUnknownHostException,
+            is NetworkReadTimeoutException,
+            is NetworkConnectTimeoutException -> DccTicketingErrorCode.RTR_NO_NETWORK
+            is CwaClientError -> DccTicketingErrorCode.RTR_CLIENT_ERR
+            // Blame the server for everything else
+            else -> DccTicketingErrorCode.RTR_SERVER_ERR
+        }.let { DccTicketingException(it, e) }
+    }
 
     companion object {
         private val TAG = tag<ResultTokenRequestProcessor>()
