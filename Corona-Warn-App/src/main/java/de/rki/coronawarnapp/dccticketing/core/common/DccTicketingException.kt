@@ -43,9 +43,6 @@ class DccTicketingException(
 
          EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
          EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-
-         RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
-         RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
  */
         /**
          *  Request Result Token error codes.
