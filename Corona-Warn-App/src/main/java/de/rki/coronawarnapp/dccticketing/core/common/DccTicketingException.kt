@@ -46,18 +46,22 @@ class DccTicketingException(
 
          RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
          RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-
-         RTR_CERT_PIN_MISMATCH("failure when obtaining Result Token; user may retry"),
-         RTR_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Result Token; user may retry"),
-         RTR_CLIENT_ERR("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_ALG_NOT_SUPPORTED("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_EMPTY_JWKS("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_NO_JWK_FOR_KID("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_NO_KID("failure when obtaining Result Token; user may retry"),
-         RTR_JWT_VER_SIG_INVALID("failure when obtaining Result Token; user may retry"),
-         RTR_NO_NETWORK("failure when obtaining Result Token; user may retry"),
-         RTR_SERVER_ERR("failure when obtaining Result Token; user may retry"),
  */
+        /**
+         *  Request Result Token error codes.
+         *  Failure when obtaining Result Token; user may retry
+         */
+        RTR_CERT_PIN_MISMATCH("RTR_CERT_PIN_MISMATCH"),
+        RTR_CERT_PIN_NO_JWK_FOR_KID("RTR_CERT_PIN_NO_JWK_FOR_KID"),
+        RTR_JWT_VER_ALG_NOT_SUPPORTED("RTR_JWT_VER_ALG_NOT_SUPPORTED"),
+        RTR_JWT_VER_NO_JWKS("RTR_JWT_VER_NO_JWKS"),
+        RTR_JWT_VER_NO_JWK_FOR_KID("RTR_JWT_VER_NO_JWK_FOR_KID"),
+        RTR_JWT_VER_NO_KID("RTR_JWT_VER_NO_KID"),
+        RTR_JWT_VER_SIG_INVALID("RTR_JWT_VER_SIG_INVALID"),
+        RTR_CLIENT_ERR("RTR_CLIENT_ERR"),
+        RTR_NO_NETWORK("RTR_NO_NETWORK"),
+        RTR_SERVER_ERR("RTR_SERVER_ERR"),
+
         VD_ID_CLIENT_ERR("VD_ID_CLIENT_ERR"),
         VD_ID_NO_ATS_SIGN_KEY("VD_ID_NO_ATS_SIGN_KEY"),
         VD_ID_NO_ATS_SVC_KEY("VD_ID_NO_ATS_SVC_KEY"),
