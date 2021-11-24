@@ -89,8 +89,8 @@ class DccTicketingException(
             R.string.dcc_ticketing_error_service_provider_error_no_name.toResolvingString()
         TextKey.SERVICE_PROVIDER_ERROR ->
             R.string.dcc_ticketing_error_service_provider_error.toResolvingString(
-            serviceProvider
-        )
+                serviceProvider
+            )
         TextKey.TRY_AGAIN ->
             R.string.dcc_ticketing_error_try_again.toResolvingString()
     }
