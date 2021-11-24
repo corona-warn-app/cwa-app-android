@@ -69,20 +69,25 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
         postEvent(ShowErrorDialog(lazyErrorMessage = lazyErrorMessage))
     }
 
-    private suspend fun DccTicketingTransactionContext.requestServiceIdentityDocumentOfValidationService(): DccTicketingTransactionContext {
-        Timber.d("requestServiceIdentityDocumentOfValidationService")
+    private suspend fun DccTicketingTransactionContext.requestServiceIdentityDocumentOfValidationService():
+        DccTicketingTransactionContext {
+            Timber.d("requestServiceIdentityDocumentOfValidationService")
 
-        requireNotNull(validationService) { "ctx.validationService must not be null" }
-        requireNotNull(validationServiceJwkSet) { "ctx.validationServiceJwkSet must not be null" }
+            requireNotNull(validationService) { "ctx.validationService must not be null" }
+            requireNotNull(validationServiceJwkSet) { "ctx.validationServiceJwkSet must not be null" }
 
-        val document = dccTicketingRequestService.requestValidationService(validationService, validationServiceJwkSet)
+            val document = dccTicketingRequestService
+                .requestValidationService(validationService, validationServiceJwkSet)
 
-        return copy(
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
-            validationServiceSignKeyJwkSet = document.validationServiceSignKeyJwkSet
-        )
-    }
+            return copy(
+                validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
+                document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
+                validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
+                document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
+                validationServiceSignKeyJwkSet =
+                document.validationServiceSignKeyJwkSet
+            )
+        }
 
     private fun DccTicketingTransactionContext.generateECKeyPair(): DccTicketingTransactionContext {
         Timber.d("generateECKeyPair()")

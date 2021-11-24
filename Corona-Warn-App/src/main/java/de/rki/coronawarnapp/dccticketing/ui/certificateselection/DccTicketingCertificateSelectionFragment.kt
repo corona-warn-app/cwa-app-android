@@ -12,7 +12,8 @@ import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 
 class DccTicketingCertificateSelectionFragment : Fragment() {
 
-    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val dccTicketingSharedViewModel:
+        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater,

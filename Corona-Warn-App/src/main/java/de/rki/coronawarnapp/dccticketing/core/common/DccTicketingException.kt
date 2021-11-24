@@ -85,11 +85,14 @@ class DccTicketingException(
     }
 
     private fun ErrorCode.errorMessageRes(serviceProvider: String): LazyString = when (textKey) {
-        TextKey.SERVICE_PROVIDER_ERROR_NO_NAME -> R.string.dcc_ticketing_error_service_provider_error_no_name.toResolvingString()
-        TextKey.SERVICE_PROVIDER_ERROR -> R.string.dcc_ticketing_error_service_provider_error.toResolvingString(
+        TextKey.SERVICE_PROVIDER_ERROR_NO_NAME ->
+            R.string.dcc_ticketing_error_service_provider_error_no_name.toResolvingString()
+        TextKey.SERVICE_PROVIDER_ERROR ->
+            R.string.dcc_ticketing_error_service_provider_error.toResolvingString(
             serviceProvider
         )
-        TextKey.TRY_AGAIN -> R.string.dcc_ticketing_error_try_again.toResolvingString()
+        TextKey.TRY_AGAIN ->
+            R.string.dcc_ticketing_error_try_again.toResolvingString()
     }
 
     fun errorMessage(serviceProvider: String): LazyString = CachedString { context ->

@@ -45,7 +45,8 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
     )
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
     private val qrcodeSharedViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
-    private val dccTicketingSharedViewModel: DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val dccTicketingSharedViewModel:
+        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,9 +92,13 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         Timber.d("handleEvents(event=%s)", event)
         when (event) {
             NavigateBack -> popBackStack()
-            NavigateToCertificateSelection -> doNavigate(DccTicketingConsentOneFragmentDirections.actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment())
-            NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
-            ShowCancelConfirmationDialog -> showCloseDialog()
+            NavigateToCertificateSelection ->
+                doNavigate(DccTicketingConsentOneFragmentDirections.
+                actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment())
+            NavigateToPrivacyInformation ->
+                findNavController().navigate(R.id.informationPrivacyFragment)
+            ShowCancelConfirmationDialog ->
+                showCloseDialog()
             is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
         }
     }
