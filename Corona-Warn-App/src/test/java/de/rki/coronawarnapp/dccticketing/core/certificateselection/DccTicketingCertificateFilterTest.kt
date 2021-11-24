@@ -30,7 +30,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
 
-    /////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////
     // Vaccinations
     // Person1
     private val vc1 = mockCertificate<VaccinationCertificate, VaccinationDccV1>(
@@ -57,7 +57,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     )
     private val vcSet = setOf(vc1, vc2, vc3, vc4, vc5, vc6)
 
-    /////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////
     // Recovery
     // Person1
     private val rc1 = mockCertificate<RecoveryCertificate, RecoveryDccV1>(
@@ -80,7 +80,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     )
     private val rcSet = setOf(rc1, rc2, rc3, rc4)
 
-    /////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////
     // Test
     private val tc1 = mockCertificate<TestCertificate, TestDccV1>(
         gName = "Max", fName = "Mustermann", date = "1990-10-10"
@@ -201,7 +201,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
                     fnt = "Mustermann",
                     dob = "1990-10-10",
                 )
-            ) shouldBe setOf(tc1,rc1,vc3,vc4)
+            ) shouldBe setOf(tc1, rc1, vc3, vc4)
         }
 
     private fun instance() = DccTicketingCertificateFilter(
