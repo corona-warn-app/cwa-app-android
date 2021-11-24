@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
-import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccCoseDecoder
 import de.rki.coronawarnapp.covidcertificate.common.decoder.DccHeaderParser
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -14,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertifi
 import de.rki.coronawarnapp.covidcertificate.test.TestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.assertions.throwables.shouldThrow

@@ -15,16 +15,17 @@ class DccTicketingException(
 
     @Suppress("MaxLineLength")
     enum class ErrorCode(val message: String) {
-        //TODO provide right text
-        AES_CBC_INVALID_IV("failure while encrypting DCC; user may retry"),
-        AES_CBC_INVALID_KEY("failure while encrypting DCC; user may retry"),
-        AES_CBC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-        AES_GCM_INVALID_IV("failure while encrypting DCC; user may retry"),
-        AES_GCM_INVALID_KEY("failure while encrypting DCC; user may retry"),
-        AES_GCM_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-        RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
-        RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
+        AES_CBC_INVALID_IV("AES CBC encryption iv parameter invalid."),
+        AES_CBC_INVALID_KEY("AES CBC encryption key is invalid."),
+        AES_CBC_NOT_SUPPORTED("AES CBC encryption algorithm is not supported."),
+        AES_GCM_INVALID_IV("AES GCM encryption iv parameter invalid."),
+        AES_GCM_INVALID_KEY("AES GCM encryption key is invalid."),
+        AES_GCM_NOT_SUPPORTED("AES GCM encryption algorithm is not supported."),
+        RSA_ENC_INVALID_KEY("RSA encryption key is invalid."),
+        RSA_ENC_NOT_SUPPORTED("RSA encryption algorithm is not supported."),
+
+        //TODO provide right text
         ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
         ATR_PARSE_ERR("failure when obtaining Access Token; user may retry"),
 
