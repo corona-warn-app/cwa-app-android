@@ -137,7 +137,7 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
     fun `Forwards errors`() = runBlockingTest {
         val genericError = Exception("Test Error")
         val dccTicketingException = DccTicketingException(errorCode = DccTicketingException.ErrorCode.VS_ID_EMPTY_X5C)
-        
+
         every { ecKeyGenerator.generateECKeyPair() } throws genericError
 
         instance.runCatching {
