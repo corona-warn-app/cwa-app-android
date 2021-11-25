@@ -31,7 +31,7 @@ class DccTicketingCoreModule {
 }
 
 // Dummy base url to satisfy Retrofit ¯\_(ツ)_/¯
-private const val BASE_URL = "http://localhost.de"
+private const val BASE_URL = "https://localhost.de"
 
 @Qualifier
 @MustBeDocumented
