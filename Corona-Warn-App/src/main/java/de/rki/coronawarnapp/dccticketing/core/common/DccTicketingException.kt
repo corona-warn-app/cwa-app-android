@@ -15,6 +15,31 @@ class DccTicketingException(
 
     @Suppress("MaxLineLength")
     enum class ErrorCode(val message: String) {
+        /*
+         TODO provide right text
+         AES_CBC_INVALID_IV("failure while encrypting DCC; user may retry"),
+         AES_CBC_INVALID_KEY("failure while encrypting DCC; user may retry"),
+         AES_CBC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
+         AES_GCM_INVALID_IV("failure while encrypting DCC; user may retry"),
+         AES_GCM_INVALID_KEY("failure while encrypting DCC; user may retry"),
+         AES_GCM_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
+*/
+        /**
+         *  Request Access Token error codes.
+         *  Failure when obtaining Access Token; user may retry
+         */
+        ATR_AUD_INVALID("ATR_AUD_INVALID"),
+        ATR_PARSE_ERR("ATR_PARSE_ERR"),
+        ATR_CERT_PIN_MISMATCH("ATR_CERT_PIN_MISMATCH"),
+        ATR_CERT_PIN_NO_JWK_FOR_KID("ATR_CERT_PIN_NO_JWK_FOR_KID"),
+        ATR_CLIENT_ERR("ATR_CLIENT_ERR"),
+        ATR_JWT_VER_ALG_NOT_SUPPORTED("ATR_JWT_VER_ALG_NOT_SUPPORTED"),
+        ATR_JWT_VER_EMPTY_JWKS("ATR_JWT_VER_EMPTY_JWKS"),
+        ATR_JWT_VER_NO_JWK_FOR_KID("ATR_JWT_VER_NO_JWK_FOR_KID"),
+        ATR_JWT_VER_NO_KID("ATR_JWT_VER_NO_KID"),
+        ATR_JWT_VER_SIG_INVALID("ATR_JWT_VER_SIG_INVALID"),
+        ATR_NO_NETWORK("ATR_NO_NETWORK"),
+        ATR_SERVER_ERR("ATR_SERVER_ERR"),
 
         AES_CBC_INVALID_IV("AES CBC encryption iv parameter invalid."),
         AES_CBC_INVALID_KEY("AES CBC encryption key is invalid."),
@@ -42,6 +67,9 @@ class DccTicketingException(
         ATR_NO_NETWORK("failure when obtaining Access Token; user may retry"),
         ATR_SERVER_ERR("failure when obtaining Access Token; user may retry"),
         ATR_TYPE_INVALID("failure when obtaining Access Token; user may retry"),
+/*
+         EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
+         EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
 
 
@@ -55,7 +83,7 @@ class DccTicketingException(
         RTR_CERT_PIN_MISMATCH("RTR_CERT_PIN_MISMATCH"),
         RTR_CERT_PIN_NO_JWK_FOR_KID("RTR_CERT_PIN_NO_JWK_FOR_KID"),
         RTR_JWT_VER_ALG_NOT_SUPPORTED("RTR_JWT_VER_ALG_NOT_SUPPORTED"),
-        RTR_JWT_VER_NO_JWKS("RTR_JWT_VER_NO_JWKS"),
+        RTR_JWT_VER_EMPTY_JWKS("RTR_JWT_VER_EMPTY_JWKS"),
         RTR_JWT_VER_NO_JWK_FOR_KID("RTR_JWT_VER_NO_JWK_FOR_KID"),
         RTR_JWT_VER_NO_KID("RTR_JWT_VER_NO_KID"),
         RTR_JWT_VER_SIG_INVALID("RTR_JWT_VER_SIG_INVALID"),
@@ -63,6 +91,10 @@ class DccTicketingException(
         RTR_NO_NETWORK("RTR_NO_NETWORK"),
         RTR_SERVER_ERR("RTR_SERVER_ERR"),
 
+        /**
+         * Validation Decorator error codes.
+         * Failure when obtaining Service Identity Document of Validation Decorator; user may retry
+         */
         VD_ID_CLIENT_ERR("VD_ID_CLIENT_ERR"),
         VD_ID_NO_ATS_SIGN_KEY("VD_ID_NO_ATS_SIGN_KEY"),
         VD_ID_NO_ATS_SVC_KEY("VD_ID_NO_ATS_SVC_KEY"),
