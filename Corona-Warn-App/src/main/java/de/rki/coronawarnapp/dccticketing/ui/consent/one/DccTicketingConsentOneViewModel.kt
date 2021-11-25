@@ -48,10 +48,9 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
         Timber.d("onUserConsent()")
         currentIsLoading.compareAndSet(expect = false, update = true)
         val event = try {
-            Timber.d("processUserConsent()")
             dccTicketingSharedViewModel.apply {
                 val ctx = transactionContext.first()
-                dccTicketingConsentOneProcessor.processUserConsent(ctx = ctx)
+                dccTicketingConsentOneProcessor.updateTransactionContext(ctx = ctx)
                     .also { updateTransactionContext(ctx = it) }
             }
             NavigateToCertificateSelection

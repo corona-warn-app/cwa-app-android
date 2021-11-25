@@ -12,8 +12,8 @@ class DccTicketingConsentOneProcessor @Inject constructor(
     private val ecKeyGenerator: EcKeyGenerator
 ) {
 
-    suspend fun processUserConsent(ctx: DccTicketingTransactionContext): DccTicketingTransactionContext {
-        Timber.tag(TAG).d("processUserConsent(ctx=%s)", ctx)
+    suspend fun updateTransactionContext(ctx: DccTicketingTransactionContext): DccTicketingTransactionContext {
+        Timber.tag(TAG).d("updateTransactionContext(ctx=%s)", ctx)
         return ctx
             .requestServiceIdentityDocumentOfValidationService()
             .generateECKeyPair()

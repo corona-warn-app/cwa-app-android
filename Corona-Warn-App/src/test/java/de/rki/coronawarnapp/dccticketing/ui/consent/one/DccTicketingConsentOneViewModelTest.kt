@@ -77,7 +77,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
             )
         )
 
-        coEvery { dccTicketingConsentOneProcessor.processUserConsent(any()) } returns updatedTransactionContext
+        coEvery { dccTicketingConsentOneProcessor.updateTransactionContext(any()) } returns updatedTransactionContext
 
         instance.run {
             onUserConsent()
@@ -90,7 +90,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
 
     @Test
     fun `onConsent() - error path`() {
-        coEvery { dccTicketingConsentOneProcessor.processUserConsent(any()) } throws DccTicketingException(
+        coEvery { dccTicketingConsentOneProcessor.updateTransactionContext(any()) } throws DccTicketingException(
             errorCode = DccTicketingException.ErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
         )
 
