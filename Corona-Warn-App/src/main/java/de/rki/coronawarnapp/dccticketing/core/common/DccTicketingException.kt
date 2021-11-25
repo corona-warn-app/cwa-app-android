@@ -15,15 +15,7 @@ class DccTicketingException(
 
     @Suppress("MaxLineLength")
     enum class ErrorCode(val message: String) {
-        /*
-         TODO provide right text
-         AES_CBC_INVALID_IV("failure while encrypting DCC; user may retry"),
-         AES_CBC_INVALID_KEY("failure while encrypting DCC; user may retry"),
-         AES_CBC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-         AES_GCM_INVALID_IV("failure while encrypting DCC; user may retry"),
-         AES_GCM_INVALID_KEY("failure while encrypting DCC; user may retry"),
-         AES_GCM_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-*/
+
         /**
          *  Request Access Token error codes.
          *  Failure when obtaining Access Token; user may retry
@@ -41,6 +33,9 @@ class DccTicketingException(
         ATR_NO_NETWORK("ATR_NO_NETWORK"),
         ATR_SERVER_ERR("ATR_SERVER_ERR"),
 
+        /**
+         *  Encryption and signature error codes.
+         */
         AES_CBC_INVALID_IV("AES CBC encryption iv parameter invalid."),
         AES_CBC_INVALID_KEY("AES CBC encryption key is invalid."),
         AES_CBC_NOT_SUPPORTED("AES CBC encryption algorithm is not supported."),
@@ -52,30 +47,6 @@ class DccTicketingException(
         EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
         EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
-        // TODO provide right text
-        ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
-        ATR_PARSE_ERR("failure when obtaining Access Token; user may retry"),
-/*
-        ATR_CERT_PIN_MISMATCH("failure when obtaining Access Token; user may retry"),
-        ATR_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Access Token; user may retry"),
-        ATR_CLIENT_ERR("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_ALG_NOT_SUPPORTED("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_EMPTY_JWKS("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_NO_JWK_FOR_KID("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_NO_KID("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_SIG_INVALID("failure when obtaining Access Token; user may retry"),
-        ATR_NO_NETWORK("failure when obtaining Access Token; user may retry"),
-        ATR_SERVER_ERR("failure when obtaining Access Token; user may retry"),
-        ATR_TYPE_INVALID("failure when obtaining Access Token; user may retry"),
-/*
-         EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
-         EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
-
-
-
-         RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
-         RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
- */
         /**
          *  Request Result Token error codes.
          *  Failure when obtaining Result Token; user may retry
