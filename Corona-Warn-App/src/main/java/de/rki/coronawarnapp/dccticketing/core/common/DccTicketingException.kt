@@ -24,6 +24,8 @@ class DccTicketingException(
         AES_GCM_NOT_SUPPORTED("AES GCM encryption algorithm is not supported."),
         RSA_ENC_INVALID_KEY("RSA encryption key is invalid."),
         RSA_ENC_NOT_SUPPORTED("RSA encryption algorithm is not supported."),
+        EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
+        EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
         // TODO provide right text
         ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
@@ -41,8 +43,7 @@ class DccTicketingException(
         ATR_SERVER_ERR("failure when obtaining Access Token; user may retry"),
         ATR_TYPE_INVALID("failure when obtaining Access Token; user may retry"),
 
-         EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
-         EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
+
 
          RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
          RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),

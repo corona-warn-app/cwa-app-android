@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core.security
 
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.EC_SIGN_INVALID_KEY
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.EC_SIGN_NOT_SUPPORTED
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.RSA_ENC_INVALID_KEY
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.RSA_ENC_NOT_SUPPORTED
 import de.rki.coronawarnapp.util.encoding.base64
 import de.rki.coronawarnapp.util.encryption.rsa.RSACryptography
 import de.rki.coronawarnapp.util.security.Sha256Signature
@@ -48,19 +52,28 @@ class DccTicketingSecurityTool @Inject constructor(
             ).base64()
         } catch (e: java.security.InvalidKeyException) {
             Timber.e(e)
-            throw DccTicketingException(DccTicketingException.ErrorCode.RSA_ENC_INVALID_KEY)
+            throw DccTicketingException(RSA_ENC_INVALID_KEY)
         } catch (e: Exception) {
             // anything else
             Timber.e(e)
-            throw DccTicketingException(DccTicketingException.ErrorCode.RSA_ENC_NOT_SUPPORTED)
+            throw DccTicketingException(RSA_ENC_NOT_SUPPORTED)
         }
     }
 
     private fun ByteArray.signWith(privateKeyForSigning: PrivateKey): String {
-        return sha256Signature.sign(
-            data = this,
-            privateKey = privateKeyForSigning
-        )
+        try {
+            return sha256Signature.sign(
+                data = this,
+                privateKey = privateKeyForSigning
+            )
+        } catch (e: java.security.InvalidKeyException) {
+            Timber.e(e)
+            throw DccTicketingException(EC_SIGN_INVALID_KEY)
+        } catch (e: Exception) {
+            // anything else
+            Timber.e(e)
+            throw DccTicketingException(EC_SIGN_NOT_SUPPORTED)
+        }
     }
 
     data class Input(
