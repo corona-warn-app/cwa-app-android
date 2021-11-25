@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificateFilter
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -21,13 +22,16 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<DccTicketingCertificateSelectionEvents>()
+    private val validationCondition = transactionContext.accessTokenPayload?.vc
 
-    suspend fun getCertificates() =
-        transactionContext.accessTokenPayload?.vc.let { dccTicketingCertificateFilter.filter(it) }.map {
-            mapToDccTicketingCertificateItem(it)
-        }
+    suspend fun getCertificates() = dccTicketingCertificateFilter.filter(validationCondition).map { certificate ->
+        mapToDccTicketingCertificateItem(certificate, validationCondition)
+    }
 
-    private fun mapToDccTicketingCertificateItem(certificate: CwaCovidCertificate): DccTicketingCertificateItem =
+    private fun mapToDccTicketingCertificateItem(
+        certificate: CwaCovidCertificate,
+        validationCondition: DccTicketingValidationCondition?
+    ): DccTicketingCertificateItem =
         when (certificate) {
             is TestCertificate -> DccTicketingTestCard.Item(certificate = certificate) {
                 events.postValue(NavigateToConsentTwoFragment(transactionContext, certificate.containerId))
@@ -38,7 +42,7 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
             is VaccinationCertificate -> DccTicketingVaccinationCard.Item(certificate = certificate) {
                 events.postValue(NavigateToConsentTwoFragment(transactionContext, certificate.containerId))
             }
-            else -> DccTicketingNoValidCertificateCard.Item
+            else -> DccTicketingNoValidCertificateCard.Item(validationCondition = validationCondition)
         }
 
     @AssistedFactory

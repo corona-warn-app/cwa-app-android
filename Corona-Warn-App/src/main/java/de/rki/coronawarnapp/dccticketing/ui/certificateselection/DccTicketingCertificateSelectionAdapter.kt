@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.ui.certificateselection
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter.CertificatesItemVH
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -12,8 +13,7 @@ import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
 class DccTicketingCertificateSelectionAdapter :
-    ModularAdapter<DccTicketingCertificateSelectionAdapter
-    .CertificatesItemVH<DccTicketingCertificateItem, ViewBinding>>(),
+    ModularAdapter<CertificatesItemVH<DccTicketingCertificateItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DccTicketingCertificateItem> {
 
     override val asyncDiffer: AsyncDiffer<DccTicketingCertificateItem> = AsyncDiffer(adapter = this)

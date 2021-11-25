@@ -16,9 +16,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
         app:srcCompat="@drawable/bg_certificate_blue_3" />
 
     <ImageView

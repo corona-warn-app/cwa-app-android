@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.ui.certificateselection
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DccTicketingNoValidCertificateCardBinding
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
@@ -20,9 +21,20 @@ class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
     override val onBindData: DccTicketingNoValidCertificateCardBinding.(item: Item, payloads: List<Any>) -> Unit =
         { item, payloads ->
             val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+            val validationCondition = curItem.validationCondition
+            if (validationCondition != null) {
+                certificateTypes.text =
+                    validationCondition.type?.let { getRequestedCertificateTypes(it, context, ",\n") } ?: ""
+                birthDate.text = validationCondition.dob?.let {
+                    context.getString(R.string.dcc_ticketing_certificate_birthday).format(it)
+                } ?: ""
+                name.text = getFullName(validationCondition.fnt, validationCondition.gnt)
+            }
         }
 
-    object Item : DccTicketingCertificateItem, HasPayloadDiffer {
+    data class Item(
+        val validationCondition: DccTicketingValidationCondition?
+    ) : DccTicketingCertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = 30L
     }

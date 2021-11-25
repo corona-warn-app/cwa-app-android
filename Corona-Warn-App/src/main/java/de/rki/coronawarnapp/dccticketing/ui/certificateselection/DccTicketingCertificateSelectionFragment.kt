@@ -16,6 +16,8 @@ import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import setTextWithUrl
+import java.util.Locale
 import javax.inject.Inject
 
 class DccTicketingCertificateSelectionFragment : Fragment(R.layout.fragment_dcc_ticketing_certificate_selection),
@@ -36,10 +38,7 @@ class DccTicketingCertificateSelectionFragment : Fragment(R.layout.fragment_dcc_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launchWhenStarted {
-            val certificatesList = viewModel.getCertificates()
-            certificatesAdapter.update(certificatesList)
-        }
+
         binding.apply {
             toolbar.setNavigationOnClickListener { returnToScreenWhereScannerWasOpened() }
             recyclerView.apply {
@@ -57,27 +56,51 @@ class DccTicketingCertificateSelectionFragment : Fragment(R.layout.fragment_dcc_
                     )
                 }
             }
+        }
 
-            if (certificatesAdapter.itemCount == 0) {
-                selectionTitle.text =
-                    getString(R.string.dcc_ticketing_certificate_selection_no_certificates_found_title)
-                noCertificatesFound.visibility = View.VISIBLE
-                allowedCertificates.visibility = View.INVISIBLE
-                birthDate.visibility = View.INVISIBLE
-                standardizedName.visibility = View.INVISIBLE
-                requiredCertificatesTitle.text =
-                    getString(R.string.dcc_ticketing_certificate_selection_requested_certificates_text)
-                faqLink.visibility = View.VISIBLE
-            } else {
-                selectionTitle.text =
-                    getString(R.string.dcc_ticketing_certificate_selection_provider_requirements_title)
-                noCertificatesFound.visibility = View.GONE
-                allowedCertificates.text = args.transactionContext.accessTokenPayload?.vc?.type.toString()
-                birthDate.text = args.transactionContext.accessTokenPayload?.vc?.dob
-                standardizedName.text =
-                    args.transactionContext.accessTokenPayload?.vc?.gnt + "<<" + args.transactionContext.accessTokenPayload?.vc?.fnt
-                requiredCertificatesTitle.text =
-                    getString(R.string.dcc_ticketing_certificates_meeting_requirements_title)
+        lifecycleScope.launchWhenStarted {
+            val certificatesList = viewModel.getCertificates()
+            certificatesAdapter.update(certificatesList)
+
+            binding.apply {
+                if (certificatesAdapter.itemCount == 0) {
+                    selectionTitle.text =
+                        getString(R.string.dcc_ticketing_certificate_selection_no_certificates_found_title)
+                    noCertificatesFound.visibility = View.VISIBLE
+                    allowedCertificates.visibility = View.INVISIBLE
+                    birthDate.visibility = View.INVISIBLE
+                    standardizedName.visibility = View.INVISIBLE
+                    requiredCertificatesTitle.text =
+                        getString(R.string.dcc_ticketing_certificate_selection_requested_certificates_text)
+                    faqLink.visibility = View.VISIBLE
+                    val link = when (Locale.getDefault().language) {
+                        Locale.GERMAN.language -> R.string.dcc_ticketing_faq_link_german
+                        else -> R.string.dcc_ticketing_faq_link_english
+                    }
+                    faqLink.setTextWithUrl(
+                        R.string.dcc_ticketing_certificate_selection_more_information_text,
+                        R.string.dcc_ticketing_faq_ling_container,
+                        link
+                    )
+                } else {
+                    selectionTitle.text =
+                        getString(R.string.dcc_ticketing_certificate_selection_provider_requirements_title)
+                    noCertificatesFound.visibility = View.GONE
+                    allowedCertificates.text = args.transactionContext.accessTokenPayload?.vc?.type?.let {
+                        getRequestedCertificateTypes(
+                            requestedCertificatesList = it,
+                            context = requireContext(),
+                            separator = ","
+                        )
+                    } ?: ""
+                    birthDate.text = args.transactionContext.accessTokenPayload?.vc?.dob
+                    standardizedName.text = getFullName(
+                        args.transactionContext.accessTokenPayload?.vc?.fnt,
+                        args.transactionContext.accessTokenPayload?.vc?.gnt
+                    )
+                    requiredCertificatesTitle.text =
+                        getString(R.string.dcc_ticketing_certificates_meeting_requirements_title)
+                }
             }
         }
     }

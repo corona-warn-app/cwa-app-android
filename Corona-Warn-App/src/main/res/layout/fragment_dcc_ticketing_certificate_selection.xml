@@ -97,16 +97,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/required_certificates_title"
-        tools:listitem="@layout/vaccination_certificate_card" />
+        tools:listitem="@layout/dcc_ticketing_vaccination_card" />
 
     <TextView
         android:id="@+id/faq_link"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/dcc_ticketing_certificate_selection_more_information_text"
-        tools:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/required_certificates_title"
         app:layout_constraintStart_toStartOf="@id/required_certificates_title"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+        app:layout_constraintTop_toBottomOf="@id/recycler_view"
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

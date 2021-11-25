@@ -36,21 +36,21 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toBottomOf="@id/certificate_types"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:text="Geburtsdatum: 1989-12-12" />
 
     <TextView
-        android:id="@+id/standardized_name"
+        android:id="@+id/name"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
+        android:paddingBottom="@dimen/spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toBottomOf="@id/birth_date"
-        android:paddingBottom="@dimen/spacing_small"
         tools:text="SCHNEIDER&amp;ltt&amp;ltANDREA" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
