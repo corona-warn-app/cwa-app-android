@@ -29,7 +29,7 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
     val isLoading: LiveData<Boolean> = currentIsLoading.asLiveData()
 
     private val currentEvent = SingleLiveEvent<DccTicketingConsentOneEvent>()
-    val events = currentEvent
+    val events: LiveData<DccTicketingConsentOneEvent> = currentEvent
 
     private val currentUiState = dccTicketingSharedViewModel.transactionContext
         .map { UiState(it) }
