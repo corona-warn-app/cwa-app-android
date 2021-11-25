@@ -23,7 +23,7 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<DccTicketingCertificateSelectionEvents>()
 
     suspend fun getCertificates() =
-        transactionContext.accessTokenPayload?.let { dccTicketingCertificateFilter.filter(it) }?.map {
+        transactionContext.accessTokenPayload?.vc.let { dccTicketingCertificateFilter.filter(it) }.map {
             mapToDccTicketingCertificateItem(it)
         }
 
