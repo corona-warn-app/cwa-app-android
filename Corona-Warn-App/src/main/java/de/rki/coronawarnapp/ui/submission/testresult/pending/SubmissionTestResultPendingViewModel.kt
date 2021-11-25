@@ -9,6 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -30,7 +32,9 @@ import timber.log.Timber
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
+    private val recycledTestProvider: RecycledCoronaTestsProvider,
     @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testIdentifier: TestIdentifier,
     @Assisted private val initialUpdate: Boolean
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -69,19 +73,29 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
             when (val deviceState = testResultUIState.coronaTest.testResult) {
                 CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->
                     SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(testType)
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
+                            testType = testType
+                        )
                 CoronaTestResult.PCR_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(testType)
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
+                            testType = testType,
+                            testIdentifier = testIdentifier
+                        )
                 CoronaTestResult.RAT_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment()
+                        .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment(
+                            testIdentifier = testIdentifier
+                        )
                 CoronaTestResult.PCR_OR_RAT_REDEEMED,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.RAT_REDEEMED,
                 CoronaTestResult.RAT_INVALID ->
                     SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(testType)
+                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(
+                            testType = testType,
+                            testIdentifier = testIdentifier
+                        )
                 else -> {
                     Timber.w("Unknown success state: $deviceState")
                     null
@@ -120,9 +134,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .map { it.lastError!! }
         .asLiveData()
 
-    fun deregisterTestFromDevice() = launch {
-        Timber.d("deregisterTestFromDevice()")
-        submissionRepository.removeTestFromDevice(type = testType)
+    fun moveTestToRecycleBinStorage() = launch {
+        recycledTestProvider.recycleCoronaTest(testIdentifier)
         routeToScreen.postValue(null)
     }
 
@@ -144,6 +157,10 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultPendingViewModel> {
-        fun create(testType: CoronaTest.Type, initialUpdate: Boolean): SubmissionTestResultPendingViewModel
+        fun create(
+            testType: CoronaTest.Type,
+            testIdentifier: TestIdentifier,
+            initialUpdate: Boolean
+        ): SubmissionTestResultPendingViewModel
     }
 }

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ui.submission.testresult.pending
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -10,12 +9,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -40,7 +40,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultPendingViewModel.Factory
-            factory.create(navArgs.testType, navArgs.forceTestResultUpdate)
+            factory.create(navArgs.testType, navArgs.testIdentifier, navArgs.forceTestResultUpdate)
         }
     )
 
@@ -80,7 +80,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                 binding.submissionTestResultSection.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
 
-            submissionTestResultButtonPendingRemoveTest.setOnClickListener { removeTestAfterConfirmation() }
+            submissionTestResultButtonPendingRemoveTest.setOnClickListener {
+                showMoveToRecycleBinDialog()
+            }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToMainScreen() }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
@@ -118,21 +120,11 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         super.onPause()
     }
 
-    private fun removeTestAfterConfirmation() {
-        val removeTestDialog = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_test_result_dialog_remove_test_title,
-            R.string.submission_test_result_dialog_remove_test_message,
-            R.string.submission_test_result_dialog_remove_test_button_positive,
-            R.string.submission_test_result_dialog_remove_test_button_negative,
-            positiveButtonFunction = {
-                viewModel.deregisterTestFromDevice()
-            }
+    private fun showMoveToRecycleBinDialog() {
+        RecycleBinDialogType.RecycleTestConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.moveTestToRecycleBinStorage() }
         )
-        DialogHelper.showDialog(removeTestDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(context.getColorCompat(R.color.colorTextSemanticRed))
-        }
     }
 
     private fun handleError(exception: Throwable) {

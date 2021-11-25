@@ -230,7 +230,7 @@ private fun Collection<CwaCovidCertificate>.rule9FindOldRaTest(
 @Suppress("ReturnCount", "ComplexMethod")
 fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
     nowUtc: Instant = Instant.now()
-): CwaCovidCertificate = this
+): CwaCovidCertificate? = this
     .also { Timber.v("findHighestPriorityCertificate(nowUtc=%s): %s", nowUtc, this) }
     .run {
         val valid = mutableListOf<CwaCovidCertificate>()
@@ -311,7 +311,7 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         null
     }
     .firstOrNull()
-    ?: first().also {
+    ?: firstOrNull().also {
         /**
          * Fallback: return the first DGC from the set.
          * Note that this fallback should never apply in a real scenario.

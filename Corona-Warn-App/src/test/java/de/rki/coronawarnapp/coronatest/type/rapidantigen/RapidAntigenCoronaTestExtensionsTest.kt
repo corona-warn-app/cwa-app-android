@@ -95,4 +95,24 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             coronaTestConfig
         ) shouldBe instanceOf(SubmissionStateRAT.TestInvalid::class)
     }
+
+    @Test
+    fun `recycled test returns no test`() {
+        val test = RACoronaTest(
+            identifier = "identifier",
+            registeredAt = Instant.ofEpochMilli(123),
+            registrationToken = "regtoken",
+            testResult = CoronaTestResult.RAT_POSITIVE,
+            testedAt = Instant.EPOCH,
+            dateOfBirth = null,
+            firstName = null,
+            lastName = null,
+            lastUpdatedAt = Instant.EPOCH,
+            recycledAt = timeStamper.nowUTC
+        )
+        test.toSubmissionState(
+            timeStamper.nowUTC,
+            coronaTestConfig
+        ) shouldBe SubmissionStateRAT.NoTest
+    }
 }

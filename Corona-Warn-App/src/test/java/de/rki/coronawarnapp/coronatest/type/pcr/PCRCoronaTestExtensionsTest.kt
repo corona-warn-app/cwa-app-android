@@ -44,4 +44,17 @@ class PCRCoronaTestExtensionsTest : BaseTest() {
         )
         test.toSubmissionState() shouldBe instanceOf(SubmissionStatePCR.TestInvalid::class)
     }
+
+    @Test
+    fun `recycled test returns no test`() {
+        val test = PCRCoronaTest(
+            identifier = "identifier",
+            registeredAt = Instant.ofEpochMilli(123),
+            registrationToken = "regtoken",
+            testResult = CoronaTestResult.PCR_POSITIVE,
+            lastUpdatedAt = Instant.EPOCH,
+            recycledAt = Instant.EPOCH
+        )
+        test.toSubmissionState() shouldBe SubmissionStatePCR.NoTest
+    }
 }

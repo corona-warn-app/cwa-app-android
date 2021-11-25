@@ -2,13 +2,15 @@ package de.rki.coronawarnapp.ui.submission.testresult.positive
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -20,7 +22,9 @@ import timber.log.Timber
 
 class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
+    private val recycledTestProvider: RecycledCoronaTestsProvider,
     @Assisted val testType: Type,
+    @Assisted private val testIdentifier: TestIdentifier,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -34,9 +38,9 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
             TestResultUIState(coronaTest = test)
         }.asLiveData(context = Dispatchers.Default)
 
-    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-
     val showDeleteTestDialog = SingleLiveEvent<Unit>()
+
+    val routeToScreen = SingleLiveEvent<NavDirections?>()
 
     fun onTestOpened() = launch {
         submissionRepository.setViewedTestResult(type = testType)
@@ -46,12 +50,13 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
         showDeleteTestDialog.postValue(Unit)
     }
 
-    fun onDeleteTestConfirmed() {
-        submissionRepository.removeTestFromDevice(type = testType)
+    fun moveTestToRecycleBinStorage() = launch {
+        recycledTestProvider.recycleCoronaTest(testIdentifier)
+        routeToScreen.postValue(null)
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultKeysSharedViewModel> {
-        fun create(testType: Type): SubmissionTestResultKeysSharedViewModel
+        fun create(testType: Type, testIdentifier: TestIdentifier): SubmissionTestResultKeysSharedViewModel
     }
 }

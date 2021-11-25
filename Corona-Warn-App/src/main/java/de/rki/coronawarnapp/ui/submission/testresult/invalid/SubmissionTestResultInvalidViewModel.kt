@@ -7,7 +7,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
+import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -21,8 +23,10 @@ import timber.log.Timber
 class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
+    private val recycledTestProvider: RecycledCoronaTestsProvider,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
@@ -37,10 +41,8 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
             TestResultUIState(coronaTest = test)
         }.asLiveData(context = dispatcherProvider.Default)
 
-    fun deregisterTestFromDevice() = launch {
-        Timber.d("deregisterTestFromDevice()")
-
-        submissionRepository.removeTestFromDevice(type = testType)
+    fun moveTestToRecycleBinStorage() = launch {
+        recycledTestProvider.recycleCoronaTest(testIdentifier)
         routeToScreen.postValue(null)
     }
 
@@ -52,6 +54,6 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultInvalidViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionTestResultInvalidViewModel
+        fun create(testType: CoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultInvalidViewModel
     }
 }

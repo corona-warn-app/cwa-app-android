@@ -8,9 +8,9 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Кошчето е празно"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Когато изтривате сертификати, те се преместват в кошчето и се показват там."</string>
-    <!-- XHED: recycler bin remove all menu item -->
-    <string name="recycler_bin_remove_all">"Изтриване на всички"</string>
+    <string name="recycler_bin_empty_description">"Когато изтривате сертификати и тестове, те се преместват в кошчето и се показват там."</string>
+    <!-- XHED: recycler bin remove all menu items -->
+    <string name="recycler_bin_remove_all">"Изтриване на всички за постоянно"</string>
 
     <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
     <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
@@ -32,7 +32,7 @@
     <string name="recycle_bin_overview_subheader">"Докоснете трите точки до даден елемент, за да го възстановите. Елементите се изтриват автоматично след 30 дни."</string>
     <!-- XTXT: Recycle Bin - restore -->
     <string name="recycle_bin_restore">"Възстановяване"</string>
-    <!-- XTXT: Recycle Bin - remove permanently -->
+    <!-- XTXT: Recycle Bin - remove selected item permanently -->
     <string name="recycle_bin_remove_permanently">"Изтриване за постоянно"</string>
 
     <!-- Recycle bin remove all dialog-->
@@ -64,4 +64,12 @@
     <string name="recycle_bin_restore_test_dialog_positive_button">"Възстановяване"</string>
     <!-- XBUT: Recycle Bin - restore test dialog negative button -->
     <string name="recycle_bin_restore_test_dialog_negative_button">"Отказ"</string>
+
+    <!-- XHED: Recycle Bin  - Restore Corona Test dialog title -->
+    <string name="recycle_bin_restore_corona_test_dialog_title">"Възстановяване на тест"</string>
+    <!-- XTXT: Recycle Bin  - Restore Corona Test dialog message -->
+    <string name="recycle_bin_restore_corona_test_dialog_message">"QR кодът вече е регистриран на устройството Ви. Тестът ще бъде възстановен от кошчето."</string>
+
+  <!-- XBUT: Recycle Bin - test item name -->
+    <string name="recycle_bin_test_item_name">"Тест"</string>
 </resources>

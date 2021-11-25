@@ -33,6 +33,8 @@ class TestCertificateCard(parent: ViewGroup) :
         latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = latestItem!!.certificate
 
+        certificateIcon.setImageResource(R.drawable.ic_certificates_filled_white)
+        certificatePersonName.isGone = false
         certificateInfoLine1.isGone = false
         certificateInfoLine2.text = context.getString(
             R.string.test_certificate_sampled_on,

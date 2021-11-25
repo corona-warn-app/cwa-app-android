@@ -139,7 +139,10 @@ class PCRProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val request = CoronaTestQRCode.PCR(qrCodeGUID = "guid")
+        val request = CoronaTestQRCode.PCR(
+            qrCodeGUID = "guid",
+            rawQrCode = "rawQrCode"
+        )
 
         values().forEach {
             registrationData = registrationData.copy(
@@ -214,7 +217,12 @@ class PCRProcessorTest : BaseTest() {
             isResultAvailableNotificationSent shouldBe true
         }
 
-        instance.create(CoronaTestQRCode.PCR(qrCodeGUID = "thisIsAQRCodeGUID")).apply {
+        instance.create(
+            CoronaTestQRCode.PCR(
+                qrCodeGUID = "thisIsAQRCodeGUID",
+                rawQrCode = "rawQrCode"
+            )
+        ).apply {
             isResultAvailableNotificationSent shouldBe false
         }
     }
@@ -297,7 +305,8 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
                 isDccConsentGiven = true,
-                dateOfBirth = LocalDate.parse("2021-06-02")
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe true
@@ -309,7 +318,8 @@ class PCRProcessorTest : BaseTest() {
         createInstance().create(
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
-                dateOfBirth = LocalDate.parse("2021-06-02")
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             isDccConsentGiven shouldBe false
@@ -346,7 +356,8 @@ class PCRProcessorTest : BaseTest() {
             CoronaTestQRCode.PCR(
                 qrCodeGUID = "guid",
                 isDccConsentGiven = true,
-                dateOfBirth = LocalDate.parse("2021-06-02")
+                dateOfBirth = LocalDate.parse("2021-06-02"),
+                rawQrCode = "rawQrCode"
             )
         ).apply {
             testResult shouldBe PCR_NEGATIVE
@@ -379,6 +390,24 @@ class PCRProcessorTest : BaseTest() {
 
         (instance.pollServer(pcrTest) as PCRCoronaTest).apply {
             labId shouldBe "labId"
+        }
+    }
+
+    @Test
+    fun `recycle sets recycledAt`() = runBlockingTest {
+        val pcrTest = defaultTest.copy(recycledAt = null)
+
+        createInstance().run {
+            recycle(pcrTest) shouldBe pcrTest.copy(recycledAt = nowUTC)
+        }
+    }
+
+    @Test
+    fun `restore clears recycledAt`() = runBlockingTest {
+        val pcrTest = defaultTest.copy(recycledAt = nowUTC)
+
+        createInstance().run {
+            restore(pcrTest) shouldBe pcrTest.copy(recycledAt = null)
         }
     }
 }

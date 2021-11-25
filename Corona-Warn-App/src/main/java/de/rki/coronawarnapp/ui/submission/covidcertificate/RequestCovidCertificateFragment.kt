@@ -92,7 +92,10 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
                         .run { findNavController().navigate(this, navOptions) }
 
                 else ->
-                    NavGraphDirections.actionSubmissionTestResultPendingFragment(testType = state.test.type)
+                    NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                        testType = state.test.type,
+                        testIdentifier = state.test.identifier
+                    )
                         .run { findNavController().navigate(this, navOptions) }
             }
         }

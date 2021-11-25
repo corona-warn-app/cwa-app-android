@@ -21,6 +21,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -39,7 +40,8 @@ class CoronaTestRepositoryTest : BaseTest() {
     private var coronaTestsInStorage = mutableSetOf<CoronaTest>()
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
-        qrCodeGUID = "pcr-guid"
+        qrCodeGUID = "pcr-guid",
+        rawQrCode = "rawQrCode"
     )
     private val pcrTest = PCRCoronaTest(
         identifier = pcrRegistrationRequest.identifier,
@@ -51,7 +53,8 @@ class CoronaTestRepositoryTest : BaseTest() {
 
     private val raRegistrationRequest = CoronaTestQRCode.RapidAntigen(
         hash = "ra-hash",
-        createdAt = Instant.EPOCH
+        createdAt = Instant.EPOCH,
+        rawQrCode = "rawQrCode"
     )
     private val raTest = RACoronaTest(
         identifier = raRegistrationRequest.identifier,
@@ -132,6 +135,23 @@ class CoronaTestRepositoryTest : BaseTest() {
 
         shouldThrow<DuplicateCoronaTestException> {
             instance.registerTest(pcrRegistrationRequest) shouldBe pcrTest
+        }
+    }
+
+    @Test
+    fun `Filter corona tests by recycle state`() = runBlockingTest2(ignoreActive = true) {
+        val recycledTest = pcrTest.copy(recycledAt = Instant.EPOCH)
+        val notRecycledTest = raTest.copy(recycledAt = null)
+        val tests = setOf(recycledTest, notRecycledTest)
+        coronaTestsInStorage.apply {
+            clear()
+            addAll(tests)
+        }
+
+        createInstance(this).run {
+            allCoronaTests.first() shouldBe tests
+            coronaTests.first() shouldBe setOf(notRecycledTest)
+            recycledCoronaTests.first() shouldBe setOf(recycledTest)
         }
     }
 }
