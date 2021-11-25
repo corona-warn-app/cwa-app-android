@@ -20,6 +20,7 @@ class DccTicketingException(
          *  Request Access Token error codes.
          *  Failure when obtaining Access Token; user may retry
          */
+        ATR_TYPE_INVALID("ATR_TYPE_INVALID"),
         ATR_AUD_INVALID("ATR_AUD_INVALID"),
         ATR_PARSE_ERR("ATR_PARSE_ERR"),
         ATR_CERT_PIN_MISMATCH("ATR_CERT_PIN_MISMATCH"),
