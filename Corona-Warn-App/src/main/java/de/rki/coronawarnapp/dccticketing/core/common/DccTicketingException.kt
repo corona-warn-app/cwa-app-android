@@ -34,7 +34,7 @@ class DccTicketingException(
         ATR_SERVER_ERR("ATR_SERVER_ERR"),
 
         /**
-         *  Encryption and signature error codes.
+         *  Encryption and signature error codesQ
          */
         AES_CBC_INVALID_IV("AES CBC encryption iv parameter invalid."),
         AES_CBC_INVALID_KEY("AES CBC encryption key is invalid."),
