@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
-import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
 import de.rki.coronawarnapp.dccticketing.core.common.validate
 import de.rki.coronawarnapp.dccticketing.core.server.AccessTokenRequest
@@ -21,7 +24,6 @@ import javax.inject.Inject
 class AccessTokenRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer,
     private val jwtTokenParser: JwtTokenParser,
-    private val convertor: JwtTokenConverter,
     private val jwtVerification: DccJWKVerification
 ) {
 
@@ -42,10 +44,9 @@ class AccessTokenRequestProcessor @Inject constructor(
             body = AccessTokenRequest(
                 validationService.id,
                 publicKeyBase64
-            )
+            ),
+            jwkSet = accessTokenServiceJwkSet
         )
-
-        // TODO: cert pinning using [accessTokenServiceJwkSet] in another PR
 
         // Verifying the Signature of a JWT with a Set of JWKs
         verifyJWT(response.jwt, accessTokenSignJwkSet)
@@ -60,29 +61,47 @@ class AccessTokenRequestProcessor @Inject constructor(
         url: String,
         authorization: String,
         body: AccessTokenRequest,
+        jwkSet: Set<DccJWK>
     ) = try {
         val authorizationHeader = "Bearer $authorization"
-        dccTicketingServer.getAccessToken(url, authorizationHeader, body)
+        dccTicketingServer.getAccessToken(url, authorizationHeader, body, jwkSet)
+    } catch (e: DccTicketingServerCertificateCheckException) {
+        throw when (e.errorCode) {
+            CERT_PIN_NO_JWK_FOR_KID -> DccTicketingException.ErrorCode.ATR_CERT_PIN_NO_JWK_FOR_KID
+            CERT_PIN_MISMATCH -> DccTicketingException.ErrorCode.ATR_CERT_PIN_MISMATCH
+        }.let { DccTicketingException(it) }
     } catch (e: Exception) {
         Timber.e(e, "Getting access token failed")
         throw when (e) {
             is CwaUnknownHostException,
             is NetworkReadTimeoutException,
-            is NetworkConnectTimeoutException -> DccTicketingErrorCode.VS_ID_NO_NETWORK
-            is CwaClientError -> DccTicketingErrorCode.VS_ID_CLIENT_ERR
+            is NetworkConnectTimeoutException -> DccTicketingErrorCode.ATR_NO_NETWORK
+            is CwaClientError -> DccTicketingErrorCode.ATR_CLIENT_ERR
             // Blame the server for everything else
-            else -> DccTicketingErrorCode.VS_ID_SERVER_ERR
+            else -> DccTicketingErrorCode.ATR_SERVER_ERR
         }.let { DccTicketingException(it, e) }
     }
 
-    private fun verifyJWT(jwt: String, jwkSet: Set<DccJWK>) {
+    private fun verifyJWT(jwt: String, jwkSet: Set<DccJWK>) = try {
         jwtVerification.verify(jwt, jwkSet)
+    } catch (e: DccTicketingJwtException) {
+        Timber.e(e, "verifyJWT for access token failed")
+        throw when (e.errorCode) {
+            DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS ->
+                DccTicketingException.ErrorCode.ATR_JWT_VER_EMPTY_JWKS
+            DccTicketingJwtException.ErrorCode.JWT_VER_ALG_NOT_SUPPORTED ->
+                DccTicketingException.ErrorCode.ATR_JWT_VER_ALG_NOT_SUPPORTED
+            DccTicketingJwtException.ErrorCode.JWT_VER_NO_KID ->
+                DccTicketingException.ErrorCode.ATR_JWT_VER_NO_KID
+            DccTicketingJwtException.ErrorCode.JWT_VER_NO_JWK_FOR_KID ->
+                DccTicketingException.ErrorCode.ATR_JWT_VER_NO_JWK_FOR_KID
+            DccTicketingJwtException.ErrorCode.JWT_VER_SIG_INVALID ->
+                DccTicketingException.ErrorCode.ATR_JWT_VER_SIG_INVALID
+        }.let { DccTicketingException(it) }
     }
 
     private fun getAccessTokenPayload(jwt: String): DccTicketingAccessToken = try {
-        jwtTokenParser.parse(jwt).let {
-            convertor.jsonToJwtToken(it?.body)
-        }
+        jwtTokenParser.getAccessToken(jwt)
     } catch (e: Exception) {
         throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR, e)
     }?.apply {

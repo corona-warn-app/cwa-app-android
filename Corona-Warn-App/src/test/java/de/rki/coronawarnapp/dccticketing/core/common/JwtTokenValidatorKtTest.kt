@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.core.common
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -34,12 +35,12 @@ internal class JwtTokenValidatorKtTest : BaseTest() {
         every { dccTicketingAccessToken.aud } returns "http://localhost/"
         shouldThrow<DccTicketingException> {
             dccTicketingAccessToken.validate()
-        }
+        }.errorCode shouldBe DccTicketingException.ErrorCode.ATR_TYPE_INVALID
 
         every { dccTicketingAccessToken.t } returns 1
         every { dccTicketingAccessToken.aud } returns ""
         shouldThrow<DccTicketingException> {
             dccTicketingAccessToken.validate()
-        }
+        }.errorCode shouldBe DccTicketingException.ErrorCode.ATR_AUD_INVALID
     }
 }
