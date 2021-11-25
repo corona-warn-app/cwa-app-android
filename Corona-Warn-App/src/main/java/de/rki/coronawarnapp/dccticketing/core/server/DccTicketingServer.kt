@@ -84,13 +84,13 @@ class DccTicketingServer @Inject constructor(
     suspend fun getAccessToken(
         url: String,
         authorizationHeader: String,
-        requestBody: AccessTokenRequest
+        requestBody: AccessTokenRequest,
+        jwkSet: Set<DccJWK>
     ): AccessTokenResponse =
         withContext(dispatcherProvider.IO) {
             Timber.d("getAccessToken(url=%s)", url)
             val response = dccTicketingApiV1.getAccessToken(url, authorizationHeader, requestBody)
-            // TODO: use response.raw().handshake for cert verification after when
-            // Certificate Pinning (EXPOSUREAPP-10635) #4422 PR is merged
+            response.validate(jwkSet)
 
             val jwtToken: String = response.body()?.string()!!
             val iv = response.headers()["x-nonce"]!!
