@@ -49,18 +49,25 @@ class DccTicketingException(
                  EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 
                  RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
-                 RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
+                 RSA_ENC_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),*/
+        /**
+         *  Request Result Token error codes.
+         *  Failure when obtaining Result Token; user may retry
+         */
+        RTR_CERT_PIN_MISMATCH(message = RTR_ERROR_MSG),
+        RTR_CERT_PIN_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_ALG_NOT_SUPPORTED(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_NO_JWKS(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_NO_KID(message = RTR_ERROR_MSG),
+        RTR_JWT_VER_SIG_INVALID(message = RTR_ERROR_MSG),
+        RTR_CLIENT_ERR(message = RTR_ERROR_MSG),
+        RTR_NO_NETWORK(message = RTR_ERROR_MSG),
+        RTR_SERVER_ERR(message = RTR_ERROR_MSG),
 
-                 RTR_CERT_PIN_MISMATCH("failure when obtaining Result Token; user may retry"),
-                 RTR_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Result Token; user may retry"),
-                 RTR_CLIENT_ERR("failure when obtaining Result Token; user may retry"),
-                 RTR_JWT_VER_ALG_NOT_SUPPORTED("failure when obtaining Result Token; user may retry"),
-                 RTR_JWT_VER_EMPTY_JWKS("failure when obtaining Result Token; user may retry"),
-                 RTR_JWT_VER_NO_JWK_FOR_KID("failure when obtaining Result Token; user may retry"),
-                 RTR_JWT_VER_NO_KID("failure when obtaining Result Token; user may retry"),
-                 RTR_JWT_VER_SIG_INVALID("failure when obtaining Result Token; user may retry"),
-                 RTR_NO_NETWORK("failure when obtaining Result Token; user may retry"),
-                 RTR_SERVER_ERR("failure when obtaining Result Token; user may retry"),
+        /**
+         * Validation Decorator error codes.
+         * Failure when obtaining Service Identity Document of Validation Decorator; user may retry
          */
         VD_ID_CLIENT_ERR(message = VD_ID_ERROR_MSG),
         VD_ID_NO_ATS_SIGN_KEY(message = VD_ID_ERROR_MSG),
@@ -73,6 +80,10 @@ class DccTicketingException(
         VD_ID_SERVER_ERR(message = VD_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
         VD_ID_EMPTY_X5C(message = VD_ID_ERROR_MSG),
 
+        /**
+         * Validation Service error codes
+         * Failure when obtaining Service Identity Document of Validation Service; user may retry
+         */
         VS_ID_CERT_PIN_MISMATCH(message = VS_ID_ERROR_MSG),
         VS_ID_CERT_PIN_NO_JWK_FOR_KID(message = VS_ID_ERROR_MSG),
         VS_ID_CLIENT_ERR(message = VS_ID_ERROR_MSG),
@@ -103,5 +114,6 @@ class DccTicketingException(
 private const val ATR_ERROR_MSG = "Failure when obtaining Access Token"
 private const val VS_ID_ERROR_MSG = "Failure when obtaining Service Identity Document of Validation Service"
 private const val VD_ID_ERROR_MSG = "Failure when obtaining Service Identity Document of Validation Decorator"
+private const val RTR_ERROR_MSG = "Failure when obtaining Result Token; user may retry"
 
 typealias DccTicketingErrorCode = DccTicketingException.ErrorCode
