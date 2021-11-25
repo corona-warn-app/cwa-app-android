@@ -22,14 +22,12 @@ class FAQCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<Item, HomeFaqCardLayou
     ) -> Unit = { item, payloads ->
 
         itemView.setOnClickListener {
-            val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+            val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
             curItem.onClickAction(item)
         }
     }
 
     data class Item(val onClickAction: (Item) -> Unit) : HomeItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
-
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

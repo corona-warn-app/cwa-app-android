@@ -26,7 +26,7 @@ class VaccinationInfoCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val daysUntilImmunity = curItem.daysUntilImmunity
         val vaccinationStatus = curItem.vaccinationStatus
         val boosterRule = curItem.boosterRule
@@ -95,7 +95,6 @@ class VaccinationInfoCard(parent: ViewGroup) :
         val daysSinceLastVaccination: Int?,
         val hasBoosterNotification: Boolean
     ) : CertificateItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = Item::class.hashCode().toLong()
     }
 }

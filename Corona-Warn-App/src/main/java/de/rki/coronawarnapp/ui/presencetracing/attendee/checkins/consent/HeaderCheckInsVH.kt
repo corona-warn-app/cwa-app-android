@@ -26,6 +26,5 @@ class HeaderCheckInsVH(parent: ViewGroup) :
         val selectAll: () -> Unit
     ) : CheckInsConsentItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.simpleName.hashCode().toLong()
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

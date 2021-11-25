@@ -36,7 +36,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
         item: LocalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<LocalStatisticsCardItem>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<LocalStatisticsCardItem>().lastOrNull() ?: item
 
         with(curItem.stats as LocalIncidenceAndHospitalizationStats) {
 
