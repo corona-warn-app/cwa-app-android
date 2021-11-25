@@ -82,17 +82,17 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
 
     // ///////////////////////////////////////////////////////////
     // Test
-    private val tc1 = mockCertificate<TestCertificate, TestDccV1>(
-        gName = "Max", fName = "Mustermann", date = "1990-10-10"
+    private val tc1 = mockTestCertificate(
+        gName = "Max", fName = "Mustermann", date = "1990-10-10", tType = "LP6464-4"
     )
-    private val tc2 = mockCertificate<TestCertificate, TestDccV1>(
-        gName = "Erik", fName = "Müller", date = "1980-12-10"
+    private val tc2 = mockTestCertificate(
+        gName = "Erik", fName = "Müller", date = "1980-12-10", tType = "LP6464-4"
     )
-    private val tc3 = mockCertificate<TestCertificate, TestDccV1>(
-        gName = "Thomas", fName = "Müller", date = "1990-10-10"
+    private val tc3 = mockTestCertificate(
+        gName = "Thomas", fName = "Müller", date = "1990-10-10", tType = "LP217198-3"
     )
-    private val tc4 = mockCertificate<TestCertificate, TestDccV1>(
-        gName = "Eli", fName = "Mustermann", date = "1940-07-02"
+    private val tc4 = mockTestCertificate(
+        gName = "Eli", fName = "Mustermann", date = "1940-07-02", tType = "LP217198-3"
     )
     private val tcSet = setOf(tc1, tc2, tc3, tc4)
 
@@ -187,6 +187,71 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
         }
 
     @Test
+    fun `filter - conditions type=tp, gnt=no, fnt=no, dob=no`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = listOf("tp"),
+                    gnt = null,
+                    fnt = null,
+                    dob = null,
+                )
+            ) shouldBe setOf(tc1, tc2)
+        }
+
+    @Test
+    fun `filter - conditions type=tr, gnt=no, fnt=no, dob=no`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = listOf("tr"),
+                    gnt = null,
+                    fnt = null,
+                    dob = null,
+                )
+            ) shouldBe setOf(tc3, tc4)
+        }
+
+    @Test
+    fun `filter - conditions type=tr, gnt=yes, fnt=yes, dob=yes`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = listOf("tr"),
+                    gnt = "Thomas",
+                    fnt = "Müller",
+                    dob = "1990-10-10",
+                )
+            ) shouldBe setOf(tc3)
+        }
+
+    @Test
+    fun `filter - conditions Mustermann family - no dob`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = listOf("tr", "v", "r"),
+                    gnt = null,
+                    fnt = "Mustermann",
+                    dob = null,
+                )
+            ) shouldBe setOf(vc3, vc4, vc5, vc6, rc1, rc4, tc4)
+        }
+
+    @Test
+    fun `filter - conditions dob only`() =
+        runBlockingTest {
+            instance().filter(
+                validationCondition.copy(
+                    type = null,
+                    gnt = null,
+                    fnt = null,
+                    dob = "1940-07-02",
+                )
+            ) shouldBe setOf(vc5, vc6, rc4, tc4)
+        }
+
+    @Test
     fun `filter - conditions type=r, gnt=no, fnt=no, dob=no`() =
         runBlockingTest {
             instance().filter(
@@ -251,6 +316,23 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     ) = mockk<T>().apply {
         every { rawCertificate } returns mockk<D>().apply {
             every { dob } returns date
+            every { nameData } returns mockk<DccV1.NameData>()
+                .apply {
+                    every { familyNameStandardized } returns fName
+                    every { givenNameStandardized } returns gName
+                }
+        }
+    }
+
+    private fun mockTestCertificate(
+        fName: String,
+        gName: String,
+        date: String,
+        tType: String
+    ) = mockk<TestCertificate>().apply {
+        every { rawCertificate } returns mockk<TestDccV1>().apply {
+            every { dob } returns date
+            every { test } returns mockk<DccV1.TestCertificateData>().apply { every { testType } returns tType }
             every { nameData } returns mockk<DccV1.NameData>()
                 .apply {
                     every { familyNameStandardized } returns fName
