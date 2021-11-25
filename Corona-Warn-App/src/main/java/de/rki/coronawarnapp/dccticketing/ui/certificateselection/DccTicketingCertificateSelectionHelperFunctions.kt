@@ -4,7 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.R
 
 fun getRequestedCertificateTypes(requestedCertificatesList: List<String>, context: Context, separator: String): String =
-    requestedCertificatesList.joinToString(",") { certificate ->
+    requestedCertificatesList.joinToString(separator) { certificate ->
         when (certificate) {
             FilterType.VACCINATION.type -> context.getString(R.string.vaccination_certificate_name)
             FilterType.RECOVERY.type -> context.getString(R.string.recovery_certificate_name)

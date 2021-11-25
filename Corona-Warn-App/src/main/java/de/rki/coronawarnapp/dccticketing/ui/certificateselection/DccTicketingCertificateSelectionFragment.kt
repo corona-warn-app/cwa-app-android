@@ -93,7 +93,8 @@ class DccTicketingCertificateSelectionFragment :
                             separator = ","
                         )
                     } ?: ""
-                    birthDate.text = args.transactionContext.accessTokenPayload?.vc?.dob
+                    birthDate.text = getString(R.string.dcc_ticketing_certificate_birthday)
+                        .format(args.transactionContext.accessTokenPayload?.vc?.dob)
                     standardizedName.text = getFullName(
                         args.transactionContext.accessTokenPayload?.vc?.fnt,
                         args.transactionContext.accessTokenPayload?.vc?.gnt
