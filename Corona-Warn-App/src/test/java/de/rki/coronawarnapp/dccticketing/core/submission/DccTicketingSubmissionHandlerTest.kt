@@ -29,6 +29,7 @@ import testhelpers.BaseTest
 import java.security.PrivateKey
 import java.security.PublicKey
 
+@Suppress("MaxLineLength")
 class DccTicketingSubmissionHandlerTest : BaseTest() {
 
     lateinit var handler: DccTicketingSubmissionHandler
