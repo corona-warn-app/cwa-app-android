@@ -107,6 +107,8 @@ class VaccinationRepository @Inject constructor(
             scope = appScope
         )
 
+    val cwaCertificates = vaccinationInfos.map { persons -> persons.flatMap { it.vaccinationCertificates }.toSet() }
+
     /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
      */
