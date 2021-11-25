@@ -101,12 +101,13 @@
 
     <TextView
         android:id="@+id/faq_link"
+        style="@style/materialSubtitleSixteen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/dcc_ticketing_certificate_selection_more_information_text"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/required_certificates_title"
         app:layout_constraintStart_toStartOf="@id/required_certificates_title"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@id/recycler_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
