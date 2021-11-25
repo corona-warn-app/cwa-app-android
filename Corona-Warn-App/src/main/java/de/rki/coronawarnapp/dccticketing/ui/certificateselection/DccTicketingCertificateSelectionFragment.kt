@@ -20,8 +20,8 @@ import setTextWithUrl
 import java.util.Locale
 import javax.inject.Inject
 
-class DccTicketingCertificateSelectionFragment : Fragment(R.layout.fragment_dcc_ticketing_certificate_selection),
-    AutoInject {
+class DccTicketingCertificateSelectionFragment :
+    Fragment(R.layout.fragment_dcc_ticketing_certificate_selection), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
@@ -79,7 +79,7 @@ class DccTicketingCertificateSelectionFragment : Fragment(R.layout.fragment_dcc_
                     }
                     faqLink.setTextWithUrl(
                         R.string.dcc_ticketing_certificate_selection_more_information_text,
-                        R.string.dcc_ticketing_faq_ling_container,
+                        R.string.dcc_ticketing_faq_link_container,
                         link
                     )
                 } else {
