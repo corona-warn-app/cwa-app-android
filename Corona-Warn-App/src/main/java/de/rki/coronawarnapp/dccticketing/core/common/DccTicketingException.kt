@@ -24,21 +24,24 @@ class DccTicketingException(
          AES_GCM_INVALID_KEY("failure while encrypting DCC; user may retry"),
          AES_GCM_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
 */
-        ATR_AUD_INVALID("failure when obtaining Access Token; user may retry"),
-        ATR_PARSE_ERR("failure when obtaining Access Token; user may retry"),
-/*
-        ATR_CERT_PIN_MISMATCH("failure when obtaining Access Token; user may retry"),
-        ATR_CERT_PIN_NO_JWK_FOR_KID("failure when obtaining Access Token; user may retry"),
-        ATR_CLIENT_ERR("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_ALG_NOT_SUPPORTED("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_EMPTY_JWKS("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_NO_JWK_FOR_KID("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_NO_KID("failure when obtaining Access Token; user may retry"),
-        ATR_JWT_VER_SIG_INVALID("failure when obtaining Access Token; user may retry"),
-        ATR_NO_NETWORK("failure when obtaining Access Token; user may retry"),
-        ATR_SERVER_ERR("failure when obtaining Access Token; user may retry"),
+        /**
+         *  Request Access Token error codes.
+         *  Failure when obtaining Access Token; user may retry
+         */
+        ATR_AUD_INVALID("ATR_AUD_INVALID"),
+        ATR_PARSE_ERR("ATR_PARSE_ERR"),
+        ATR_CERT_PIN_MISMATCH("ATR_CERT_PIN_MISMATCH"),
+        ATR_CERT_PIN_NO_JWK_FOR_KID("ATR_CERT_PIN_NO_JWK_FOR_KID"),
+        ATR_CLIENT_ERR("ATR_CLIENT_ERR"),
+        ATR_JWT_VER_ALG_NOT_SUPPORTED("ATR_JWT_VER_ALG_NOT_SUPPORTED"),
+        ATR_JWT_VER_EMPTY_JWKS("ATR_JWT_VER_EMPTY_JWKS"),
+        ATR_JWT_VER_NO_JWK_FOR_KID("ATR_JWT_VER_NO_JWK_FOR_KID"),
+        ATR_JWT_VER_NO_KID("ATR_JWT_VER_NO_KID"),
+        ATR_JWT_VER_SIG_INVALID("ATR_JWT_VER_SIG_INVALID"),
+        ATR_NO_NETWORK("ATR_NO_NETWORK"),
+        ATR_SERVER_ERR("ATR_SERVER_ERR"),
         ATR_TYPE_INVALID("failure when obtaining Access Token; user may retry"),
-
+/*
          EC_SIGN_INVALID_KEY("failure while encrypting DCC; user may retry"),
          EC_SIGN_NOT_SUPPORTED("failure while encrypting DCC; user may retry"),
          RSA_ENC_INVALID_KEY("failure while encrypting DCC; user may retry"),
@@ -51,7 +54,7 @@ class DccTicketingException(
         RTR_CERT_PIN_MISMATCH("RTR_CERT_PIN_MISMATCH"),
         RTR_CERT_PIN_NO_JWK_FOR_KID("RTR_CERT_PIN_NO_JWK_FOR_KID"),
         RTR_JWT_VER_ALG_NOT_SUPPORTED("RTR_JWT_VER_ALG_NOT_SUPPORTED"),
-        RTR_JWT_VER_NO_JWKS("RTR_JWT_VER_NO_JWKS"),
+        RTR_JWT_VER_EMPTY_JWKS("RTR_JWT_VER_EMPTY_JWKS"),
         RTR_JWT_VER_NO_JWK_FOR_KID("RTR_JWT_VER_NO_JWK_FOR_KID"),
         RTR_JWT_VER_NO_KID("RTR_JWT_VER_NO_KID"),
         RTR_JWT_VER_SIG_INVALID("RTR_JWT_VER_SIG_INVALID"),
