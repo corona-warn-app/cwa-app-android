@@ -6,6 +6,7 @@ val DccV1.asRecoveryCertificate: RecoveryDccV1?
             version = version,
             nameData = nameData,
             dateOfBirthFormatted = dateOfBirthFormatted,
+            dob = dob,
             personIdentifier = personIdentifier,
             recovery = it
         )
@@ -17,6 +18,7 @@ val DccV1.asVaccinationCertificate: VaccinationDccV1?
             version = version,
             nameData = nameData,
             dateOfBirthFormatted = dateOfBirthFormatted,
+            dob = dob,
             personIdentifier = personIdentifier,
             vaccination = it
         )
@@ -28,6 +30,7 @@ val DccV1.asTestCertificate: TestDccV1?
             version = version,
             nameData = nameData,
             dateOfBirthFormatted = dateOfBirthFormatted,
+            dob = dob,
             personIdentifier = personIdentifier,
             test = it
         )
