@@ -56,4 +56,21 @@
     <!-- XTXT: not in AllowList dialog message -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Bitte überprüfen Sie, ob der QR-Code wirklich von dem Anbieter stammt und ob Sie ihm Ihr Zertifikat zur Verfügung stellen wollen.</string>
 
+    <!-- DCC Ticketing: Certificate Selection Screen -->
+    <!-- XHED: Certificate Selection Screen Toolbar Title -->
+    <string name="dcc_ticketing_certificate_selection_title">"Zertifikat auswählen"</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Kein geeignetes Zertifikat vorhanden."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Sie haben kein Zertifikat, das den Anforderungen des Buchungssystems entspricht. Prüfen Sie, ob die Schreibweise ihres Namens im Buchungssystem mit der in Ihren Zertifikaten übereinstimmt. Falls Sie weitere Zertifikate benötigen, die noch nicht in der App verfügbar sind, fügen Sie diese bitte hinzu und starten Sie die Überprüfung erneut."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
+    <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Folgendes Zertifikat wird angefordert:"</string>
+    <!-- XTXT: Certificate Selection Screen: More Information -->
+    <string name="dcc_ticketing_certificate_selection_more_information_text">"Mehr Informationen finden Sie in den FAQ."</string>
+    <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
+    <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Anforderungen des Anbieters:"</string>
+    <!-- XTXT: Certificate Selection Screen: Person Birthday -->
+    <string name="dcc_ticketing_certificate_birthday">"Geburtsdatum: %s"</string>
+    <!-- XTXT: Certificate Selection Screen: Certificates That Meet Requirements Title -->
+    <string name="dcc_ticketing_certificates_meeting_requirements_title">"Folgende Zertifikate entsprechen den Anforderungen des Anbieters und können zum Nachweis verwendet werden:"</string>
 </resources>
