@@ -1,15 +1,16 @@
-package de.rki.coronawarnapp.dccticketing.core.transaction
+package de.rki.coronawarnapp.dccticketing.core.common
 
-import de.rki.coronawarnapp.dccticketing.core.common.getPublicKey
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.util.encoding.base64
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import java.security.cert.CertificateFactory
+import java.security.cert.CertificateException
 
-class DccJWKKtTest : BaseTest() {
+class DccJWKConverterTest : BaseTest() {
 
-    private val certificateFactory = CertificateFactory.getInstance("X.509")
+    private val instance = DccJWKConverter()
 
     private val dataSet = listOf(
         DataSet(
@@ -42,9 +43,34 @@ class DccJWKKtTest : BaseTest() {
     )
 
     @Test
-    fun `test converting DccJWK to x509 certificate object and extracting public keys`() {
+    fun `Create X509 Vert from JWk`() {
         dataSet.forEach {
-            it.dccJwk.getPublicKey(certificateFactory)?.encoded?.base64() shouldBe it.expectedPublicKey
+            instance.createX509Certificate(it.dccJwk).encoded.base64() shouldBe it.dccJwk.x5c.first()
+        }
+    }
+
+    @Test
+    fun `Create public key from JWK`() {
+        dataSet.forEach {
+            instance.createPublicKey(it.dccJwk).encoded.base64() shouldBe it.expectedPublicKey
+        }
+    }
+
+    @Test
+    fun `Forward errors`() {
+        val faultyJwk = DccJWK(
+            x5c = listOf("Not a base64 encoded x509 cert string"),
+            kid = "",
+            alg = "",
+            use = DccJWK.Purpose.SIGNATURE
+        )
+
+        shouldThrow<CertificateException> {
+            instance.createX509Certificate(faultyJwk)
+        }
+
+        shouldThrow<CertificateException> {
+            instance.createPublicKey(faultyJwk)
         }
     }
 
