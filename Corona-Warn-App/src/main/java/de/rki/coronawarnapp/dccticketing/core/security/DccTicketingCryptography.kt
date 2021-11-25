@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.AES_GCM_NOT_SUPPORTED
 import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import okio.ByteString.Companion.decodeBase64
+import timber.log.Timber
 import java.security.InvalidKeyException
 import java.security.SecureRandom
 import javax.crypto.spec.IvParameterSpec
@@ -31,8 +32,10 @@ class DccTicketingCryptography @Inject constructor(
                 iv = IvParameterSpec(ivValidated)
             )
         } catch (e: InvalidKeyException) {
+            Timber.e(e)
             throw DccTicketingException(AES_CBC_INVALID_KEY)
         } catch (e: Exception) {
+            Timber.e(e)
             throw DccTicketingException(AES_CBC_NOT_SUPPORTED)
         }
     }
@@ -50,8 +53,10 @@ class DccTicketingCryptography @Inject constructor(
                 iv = ivValidated
             )
         } catch (e: InvalidKeyException) {
+            Timber.e(e)
             throw DccTicketingException(AES_GCM_INVALID_KEY)
         } catch (e: Exception) {
+            Timber.e(e)
             throw DccTicketingException(AES_GCM_NOT_SUPPORTED)
         }
     }
