@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.dccticketing.core
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.http.HttpErrorParser
 import de.rki.coronawarnapp.http.config.HTTPVariables
