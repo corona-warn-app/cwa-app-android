@@ -85,7 +85,7 @@ class AccessTokenRequestProcessor @Inject constructor(
     private fun verifyJWT(jwt: String, jwkSet: Set<DccJWK>) = try {
         jwtVerification.verify(jwt, jwkSet)
     } catch (e: DccTicketingJwtException) {
-        Timber.e(e, "verifyJWT for result token failed")
+        Timber.e(e, "verifyJWT for access token failed")
         throw when (e.errorCode) {
             DccTicketingJwtException.ErrorCode.JWT_VER_EMPTY_JWKS ->
                 DccTicketingException.ErrorCode.ATR_JWT_VER_EMPTY_JWKS
