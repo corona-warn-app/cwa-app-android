@@ -119,8 +119,10 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
             accessTokenSignJwkSet = validationDecoratorResult.accessTokenSignJwkSet,
             validationService = validationDecoratorResult.validationService,
             validationServiceJwkSet = validationDecoratorResult.validationServiceJwkSet,
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = validationServiceResult.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = validationServiceResult.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
+            validationServiceResult.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
+            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
+            validationServiceResult.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
             validationServiceSignKeyJwkSet = validationServiceResult.validationServiceSignKeyJwkSet,
             ecPublicKey = ecKeyPair.publicKey,
             ecPrivateKey = ecKeyPair.privateKey,
