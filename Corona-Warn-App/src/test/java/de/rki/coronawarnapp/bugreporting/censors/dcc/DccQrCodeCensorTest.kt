@@ -36,6 +36,7 @@ class DccQrCodeCensorTest : BaseTest() {
                 givenNameStandardized = "BOB"
             ),
             dateOfBirthFormatted = "1969-11-16",
+            dob = "1969-11-16",
             vaccination = DccV1.VaccinationData(
                 targetId = "12345",
                 vaccineId = "1214765",
