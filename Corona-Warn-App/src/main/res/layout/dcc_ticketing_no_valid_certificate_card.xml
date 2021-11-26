@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/spacing_normal"
     android:layout_marginVertical="@dimen/spacing_mega_tiny"
+    android:elevation="1dp"
     android:focusable="true">
 
     <ImageView
@@ -14,8 +15,10 @@
         android:layout_height="@dimen/circle_icon"
         android:layout_margin="@dimen/spacing_small"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_warning_triangle" />
 
     <TextView
@@ -47,7 +50,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
+        android:layout_marginBottom="8dp"
         android:paddingBottom="@dimen/spacing_small"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toBottomOf="@id/birth_date"
