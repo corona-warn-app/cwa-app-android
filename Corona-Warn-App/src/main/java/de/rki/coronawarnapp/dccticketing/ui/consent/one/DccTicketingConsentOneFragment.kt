@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.dccticketing.ui.consent.one
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,18 +14,21 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingConsentOneBinding
 import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
 import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import timber.log.Timber
 import java.net.URLEncoder
 import javax.inject.Inject
 
-@SuppressLint("SetTextI18n")
 class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_consent_one), AutoInject {
     private val args by navArgs<DccTicketingConsentOneFragmentArgs>()
 
@@ -36,14 +38,17 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         constructorCall = { factory, _ ->
             factory as DccTicketingConsentOneViewModel.Factory
             factory.create(
-                dccTicketingTransactionContext = qrcodeSharedViewModel.dccTicketingTransactionContext(
-                    args.transactionContextIdentifier
-                )
+                dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
+                    val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
+                    it.updateTransactionContext(ctx)
+                }
             )
         }
     )
     private val binding: FragmentDccTicketingConsentOneBinding by viewBinding()
     private val qrcodeSharedViewModel by navGraphViewModels<QrcodeSharedViewModel>(R.id.nav_graph)
+    private val dccTicketingSharedViewModel:
+        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,41 +57,70 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
+        val onUserCancelAction = { viewModel.onUserCancel() }
 
-            toolbar.setNavigationOnClickListener { viewModel.goBack() }
-            cancelButton.setOnClickListener { viewModel.goBack() }
+        toolbar.setNavigationOnClickListener { onUserCancelAction() }
+        cancelButton.setOnClickListener { onUserCancelAction() }
+        agreeButton.setOnClickListener { viewModel.onUserConsent() }
 
-            appBarLayout.onOffsetChange { _, subtitleAlpha ->
-                headerImage.alpha = subtitleAlpha
-            }
-
-            privacyInformation.setOnClickListener {
-                findNavController().navigate(R.id.informationPrivacyFragment)
-            }
+        appBarLayout.onOffsetChange { _, subtitleAlpha ->
+            headerImage.alpha = subtitleAlpha
         }
 
-        viewModel.showCloseDialog.observe2(this) {
-            showCloseAlertDialog()
+        privacyInformation.setOnClickListener {
+            viewModel.showPrivacyInformation()
         }
 
-        viewModel.uiState.observe2(this) {
-            with(binding) {
-                provider.text = "\"${it.provider}\""
-                subject.text = "\"${it.subject}\""
-            }
+        viewModel.events.observe2(this@DccTicketingConsentOneFragment) {
+            handleEvents(it)
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.goBack() }
+        viewModel.uiState.observe2(this@DccTicketingConsentOneFragment) {
+            val providerText = "\"${it.provider}\""
+            val subjectText = "\"${it.subject}\""
+
+            provider.text = providerText
+            subject.text = subjectText
+        }
+
+        viewModel.isLoading.observe2(this@DccTicketingConsentOneFragment) {
+            agreeButton.isLoading = it
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onUserCancelAction() }
     }
 
-    private fun showCloseAlertDialog() {
+    private fun handleEvents(event: DccTicketingConsentOneEvent) {
+        Timber.d("handleEvents(event=%s)", event)
+        when (event) {
+            NavigateBack -> popBackStack()
+            NavigateToCertificateSelection ->
+                doNavigate(
+                    DccTicketingConsentOneFragmentDirections
+                        .actionDccTicketingConsentOneFragmentToDccTicketingCertificateSelectionFragment()
+                )
+
+            NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
+            ShowCancelConfirmationDialog -> showCloseDialog()
+            is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
+        }
+    }
+
+    private fun showCloseDialog() {
         DccTicketingDialogType.ConfirmCancelation.show(
             fragment = this,
-            negativeButtonAction = { popBackStack() }
+            negativeButtonAction = { viewModel.goBack() }
+        )
+    }
+
+    private fun showErrorDialog(lazyErrorMessage: LazyString) {
+        val msg = lazyErrorMessage.get(requireContext())
+        DccTicketingDialogType.ErrorDialog(msg = msg).show(
+            fragment = this,
+            positiveButtonAction = { viewModel.goBack() }
         )
     }
 
