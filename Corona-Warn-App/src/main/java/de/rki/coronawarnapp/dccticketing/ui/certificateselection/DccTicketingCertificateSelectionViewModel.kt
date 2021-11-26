@@ -4,6 +4,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.person.core.toCertificateSortOrder
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -52,7 +53,7 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
                     // Header of Valid certificates
                     add(DccTicketingValidCertificateHeaderCard.Item(validationCondition))
                     // Valid Certificates
-                    addAll(certificates.map { it.toCertificateItem() })
+                    addAll(certificates.toCertificateSortOrder().map { it.toCertificateItem() })
                 }
             }
         }
