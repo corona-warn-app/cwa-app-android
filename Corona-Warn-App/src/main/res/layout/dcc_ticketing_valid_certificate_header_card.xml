@@ -37,7 +37,7 @@
         tools:text="@string/dcc_ticketing_certificate_birthday" />
 
     <TextView
-        android:id="@+id/standardized_name"
+        android:id="@+id/name"
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -55,8 +55,8 @@
         android:layout_marginBottom="16dp"
         android:text="@string/dcc_ticketing_certificates_meeting_requirements_title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/standardized_name"
-        app:layout_constraintStart_toStartOf="@id/standardized_name"
-        app:layout_constraintTop_toBottomOf="@id/standardized_name" />
+        app:layout_constraintEnd_toEndOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

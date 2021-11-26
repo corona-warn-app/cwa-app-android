@@ -31,21 +31,19 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<DccTicketingCertificateSelectionEvents>()
-    val uiState = dccTicketingSharedViewModel.transactionContext.map { cxt ->
-        uiState(cxt)
-    }.asLiveData2()
+    val items = dccTicketingSharedViewModel.transactionContext.map { cxt -> certificateItems(cxt) }.asLiveData2()
 
-    private suspend fun uiState(cxt: DccTicketingTransactionContext): UiState {
+    private suspend fun certificateItems(cxt: DccTicketingTransactionContext): List<DccTicketingCertificateItem> {
         val validationCondition = cxt.accessTokenPayload?.vc
         val certificates = dccTicketingCertificateFilter.filter(validationCondition)
-        val certificateItems = when {
+        return when {
             certificates.isEmpty() -> listOf(
                 // Header no Valid certificates
-                DccTicketingNoValidCertificateHeaderCard.Item(validationCondition = validationCondition),
+                DccTicketingNoValidCertificateHeaderCard.Item(validationCondition),
                 // No valid certificates
-                DccTicketingNoValidCertificateCard.Item(validationCondition = validationCondition),
+                DccTicketingNoValidCertificateCard.Item(validationCondition),
                 // FAQ footer
-                DccTicketingNoValidCertificateFaqCard.Item(validationCondition = validationCondition)
+                DccTicketingNoValidCertificateFaqCard.Item(validationCondition)
             )
 
             else -> {
@@ -57,10 +55,6 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
                 }
             }
         }
-        return UiState(
-            dccTicketingTransactionContext = cxt,
-            certificateItems = certificateItems
-        )
     }
 
     private fun CwaCovidCertificate.toCertificateItem(): DccTicketingCertificateItem =
@@ -76,13 +70,6 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
             }
             else -> error("Unsupported certificate$this")
         }
-
-    data class UiState(
-        private val dccTicketingTransactionContext: DccTicketingTransactionContext,
-        val certificateItems: List<DccTicketingCertificateItem>
-    ) {
-        val validationCondition get() = dccTicketingTransactionContext.accessTokenPayload?.vc
-    }
 
     fun closeScreen() {
         events.postValue(CloseSelectionScreen)

@@ -18,13 +18,14 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 class DccTicketingCertificateSelectionFragment :
-    Fragment(R.layout.fragment_dcc_ticketing_certificate_selection), AutoInject {
+    Fragment(R.layout.fragment_dcc_ticketing_certificate_selection),
+    AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-
     private val binding: FragmentDccTicketingCertificateSelectionBinding by viewBinding()
-    private val dccTicketingSharedViewModel:
-        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
+    private val dccTicketingSharedViewModel by navGraphViewModels<DccTicketingSharedViewModel>(
+        R.id.dcc_ticketing_nav_graph
+    )
     private val viewModel: DccTicketingCertificateSelectionViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -43,21 +44,20 @@ class DccTicketingCertificateSelectionFragment :
                 adapter = certificatesAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
-            viewModel.events.observe(viewLifecycleOwner) { event ->
-                when (event) {
-                    is CloseSelectionScreen -> popBackStack()
-                    is NavigateToConsentTwoFragment -> doNavigate(
-                        DccTicketingCertificateSelectionFragmentDirections
-                            .actionDccTicketingCertificateSelectionFragmentToDccTicketingConsentTwoFragment(
-                                event.selectedCertificateContainerId
-                            )
-                    )
-                }
-            }
         }
+        viewModel.events.observe(viewLifecycleOwner) { event -> navigate(event) }
+        viewModel.items.observe(viewLifecycleOwner) { certificatesAdapter.update(it) }
+    }
 
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            certificatesAdapter.update(state.certificateItems)
+    private fun navigate(event: DccTicketingCertificateSelectionEvents?) {
+        when (event) {
+            is CloseSelectionScreen -> popBackStack()
+            is NavigateToConsentTwoFragment -> doNavigate(
+                DccTicketingCertificateSelectionFragmentDirections
+                    .actionDccTicketingCertificateSelectionFragmentToDccTicketingConsentTwoFragment(
+                        event.selectedCertificateContainerId
+                    )
+            )
         }
     }
 }
