@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:alpha="0.6"
-        android:src="@drawable/ic_contact_diary_right_arrow"
+        app:srcCompat="@drawable/ic_contact_diary_right_arrow"
         app:layout_constraintBottom_toBottomOf="@id/recovery_certificate_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recovery_certificate_name"

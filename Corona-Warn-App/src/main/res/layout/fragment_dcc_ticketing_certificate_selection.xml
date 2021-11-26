@@ -109,5 +109,18 @@
         app:layout_constraintEnd_toEndOf="@id/required_certificates_title"
         app:layout_constraintStart_toStartOf="@id/required_certificates_title"
         app:layout_constraintTop_toBottomOf="@id/recycler_view" />
+    
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/no_matching_certificates_group"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="no_certificates_found, faq_link" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/matching_certificates_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="allowed_certificates, birth_date, standardized_name"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

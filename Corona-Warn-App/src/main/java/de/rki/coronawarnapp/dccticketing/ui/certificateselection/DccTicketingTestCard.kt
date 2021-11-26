@@ -30,10 +30,14 @@ class DccTicketingTestCard(parent: ViewGroup) :
 
         when (certificate.rawCertificate.test.testType) {
             // PCR Test
-            "LP6464-4" -> R.string.test_certificate_pcr_test_type
+            PCR_TEST -> R.string.test_certificate_pcr_test_type
             // RAT Test
             else -> R.string.test_certificate_rapid_test_type
         }.also { testCertificateType.setText(it) }
+    }
+
+    companion object {
+        private const val PCR_TEST = "LP6464-4"
     }
 
     data class Item(
