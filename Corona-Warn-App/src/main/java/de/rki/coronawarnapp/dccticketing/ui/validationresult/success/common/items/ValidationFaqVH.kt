@@ -1,17 +1,15 @@
 package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items
 
-import TextViewUrlSet
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFaqItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.ui.toResolvingString
-import setTextWithUrls
+import setTextWithUrl
 
 class ValidationFaqVH(
     parent: ViewGroup
 ) : BaseValidationResultVH<ValidationFaqVH.Item, CovidCertificateValidationResultFaqItemBinding>(
-    R.layout.covid_certificate_validation_result_faq_item,
+    R.layout.dcc_ticketing_validation_result_faq_item,
     parent
 ) {
 
@@ -24,16 +22,10 @@ class ValidationFaqVH(
         payloads: List<Any>,
     ) -> Unit = { _, _ ->
 
-        faq.setTextWithUrls(
-            R.string.validation_start_faq.toResolvingString(),
-            TextViewUrlSet(
-                labelResource = R.string.validation_start_faq_label,
-                urlResource = R.string.validation_start_faq_link
-            ),
-            TextViewUrlSet(
-                labelResource = R.string.validation_start_reopen_europe_label,
-                urlResource = R.string.validation_start_reopen_europe_link
-            )
+        faq.setTextWithUrl(
+            R.string.dcc_ticketing_result_faq_text,
+            R.string.dcc_ticketing_result_faq_label,
+            R.string.dcc_ticketing_result_faq_link
         )
     }
 

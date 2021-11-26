@@ -59,5 +59,11 @@
     <!-- Validation Result -->
     <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
     <string name="dcc_ticketing_done">"Fertig"</string>
+    <!-- XTXT: validation result FAQ text -->
+    <string name="dcc_ticketing_result_faq_text">Mehr Informationen finden Sie in den FAQ.</string>
+    <!-- XTXT: validation result FAQ label -->
+    <string name="dcc_ticketing_result_faq_label">FAQ</string>
+    <!-- XTXT: validation result FAQ link -->
+    <string name="dcc_ticketing_result_faq_link">https://www.coronawarn.app/en/faq/#val_service_result</string>
 
 </resources>
