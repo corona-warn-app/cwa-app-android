@@ -1,9 +1,13 @@
-package de.rki.coronawarnapp.dccticketing.ui.certificateselection
+package de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DccTicketingNoValidCertificateCardBinding
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateItem
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.getFullName
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.requestedCertificateTypes
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
@@ -36,6 +40,6 @@ class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
         val validationCondition: DccTicketingValidationCondition?
     ) : DccTicketingCertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId = 30L
+        override val stableId = Item::class.hashCode().toLong()
     }
 }

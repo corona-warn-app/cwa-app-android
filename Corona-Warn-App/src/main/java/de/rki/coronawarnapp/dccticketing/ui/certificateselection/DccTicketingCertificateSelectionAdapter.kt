@@ -4,6 +4,13 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter.CertificatesItemVH
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingNoValidCertificateCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingNoValidCertificateFaqCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingNoValidCertificateHeaderCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingRecoveryCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingTestCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingVaccinationCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingValidCertificateHeaderCard
 import de.rki.coronawarnapp.util.lists.BindableVH
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -27,6 +34,21 @@ class DccTicketingCertificateSelectionAdapter :
                 TypedVHCreatorMod({ data[it] is DccTicketingVaccinationCard.Item }) { DccTicketingVaccinationCard(it) },
                 TypedVHCreatorMod({ data[it] is DccTicketingTestCard.Item }) { DccTicketingTestCard(it) },
                 TypedVHCreatorMod({ data[it] is DccTicketingRecoveryCard.Item }) { DccTicketingRecoveryCard(it) },
+                TypedVHCreatorMod({ data[it] is DccTicketingValidCertificateHeaderCard.Item }) {
+                    DccTicketingValidCertificateHeaderCard(
+                        it
+                    )
+                },
+                TypedVHCreatorMod({ data[it] is DccTicketingNoValidCertificateHeaderCard.Item }) {
+                    DccTicketingNoValidCertificateHeaderCard(
+                        it
+                    )
+                },
+                TypedVHCreatorMod({ data[it] is DccTicketingNoValidCertificateFaqCard.Item }) {
+                    DccTicketingNoValidCertificateFaqCard(
+                        it
+                    )
+                },
                 TypedVHCreatorMod({ data[it] is DccTicketingNoValidCertificateCard.Item }) {
                     DccTicketingNoValidCertificateCard(
                         it

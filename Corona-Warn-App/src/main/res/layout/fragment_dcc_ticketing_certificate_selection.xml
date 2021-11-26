@@ -19,108 +19,19 @@
         app:navigationIcon="@drawable/ic_close"
         app:title="@string/qr_code_info_screen_title" />
 
-    <TextView
-        android:id="@+id/selection_title"
-        style="@style/materialSubtitleSixteen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:text="@string/dcc_ticketing_certificate_selection_provider_requirements_title" />
-
-    <TextView
-        android:id="@+id/no_certificates_found"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/dcc_ticketing_certificate_selection_no_certificates_found_subtitle"
-        app:layout_constraintEnd_toEndOf="@id/selection_title"
-        app:layout_constraintStart_toStartOf="@id/selection_title"
-        app:layout_constraintTop_toBottomOf="@id/selection_title"
-        tools:visibility="gone" />
-
-    <TextView
-        android:id="@+id/allowed_certificates"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@id/selection_title"
-        app:layout_constraintStart_toStartOf="@id/selection_title"
-        app:layout_constraintTop_toBottomOf="@id/selection_title"
-        tools:text="Impfzertifikat, Genesenenzertifikat, Shcnelltest-Testzertifikat, PCR-Testzertifikat" />
-
-    <TextView
-        android:id="@+id/birth_date"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/allowed_certificates"
-        app:layout_constraintStart_toStartOf="@id/allowed_certificates"
-        app:layout_constraintTop_toBottomOf="@id/allowed_certificates"
-        tools:text="@string/dcc_ticketing_certificate_birthday" />
-
-    <TextView
-        android:id="@+id/standardized_name"
-        style="@style/body2Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/birth_date"
-        app:layout_constraintStart_toStartOf="@id/birth_date"
-        app:layout_constraintTop_toBottomOf="@id/birth_date"
-        tools:text="SCHNEIDER&amp;ltt&amp;ltANDREA" />
-
-    <TextView
-        android:id="@+id/required_certificates_title"
-        style="@style/materialSubtitleSixteen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="@id/standardized_name"
-        app:layout_constraintStart_toStartOf="@id/standardized_name"
-        app:layout_constraintTop_toBottomOf="@id/standardized_name"
-        tools:text="@string/dcc_ticketing_certificates_meeting_requirements_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
         android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/required_certificates_title"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/dcc_ticketing_vaccination_card" />
 
-    <TextView
-        android:id="@+id/faq_link"
-        style="@style/materialSubtitleSixteen"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dcc_ticketing_certificate_selection_more_information_text"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/required_certificates_title"
-        app:layout_constraintStart_toStartOf="@id/required_certificates_title"
-        app:layout_constraintTop_toBottomOf="@id/recycler_view" />
-    
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/no_matching_certificates_group"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="no_certificates_found, faq_link" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/matching_certificates_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="allowed_certificates, birth_date, standardized_name"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

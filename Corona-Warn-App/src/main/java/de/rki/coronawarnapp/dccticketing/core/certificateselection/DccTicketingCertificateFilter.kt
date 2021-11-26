@@ -8,12 +8,11 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.PCR_TEST
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.RA_TEST
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.RECOVERY
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.TEST
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.VACCINATION
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.PCR_TEST
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.RA_TEST
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.RECOVERY
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.TEST
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.VACCINATION
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.first
 import timber.log.Timber

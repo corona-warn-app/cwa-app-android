@@ -1,9 +1,11 @@
-package de.rki.coronawarnapp.dccticketing.ui.certificateselection
+package de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.DccTicketingRecoveryCardBinding
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateItem
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 

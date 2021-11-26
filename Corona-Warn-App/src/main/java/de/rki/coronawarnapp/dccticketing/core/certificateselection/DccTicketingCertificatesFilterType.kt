@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccticketing.ui.certificateselection
+package de.rki.coronawarnapp.dccticketing.core.certificateselection
 
 enum class DccTicketingCertificatesFilterType(val type: String) {
     VACCINATION("v"),
