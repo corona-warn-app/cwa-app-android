@@ -24,7 +24,7 @@ class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
             val validationCondition = curItem.validationCondition
             if (validationCondition != null) {
                 certificateTypes.text =
-                    validationCondition.type?.let { getRequestedCertificateTypes(it, context, ",\n") } ?: ""
+                    validationCondition.type?.let { requestedCertificateTypes(it, context, ",\n") } ?: ""
                 birthDate.text = validationCondition.dob?.let {
                     context.getString(R.string.dcc_ticketing_certificate_birthday).format(it)
                 } ?: ""

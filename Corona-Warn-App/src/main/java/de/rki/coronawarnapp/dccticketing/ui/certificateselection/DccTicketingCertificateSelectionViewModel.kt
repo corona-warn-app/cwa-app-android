@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.dccticketing.ui.certificateselection
 
-import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -10,13 +9,11 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificateFilter
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
@@ -25,35 +22,43 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingSharedViewModel: DccTicketingSharedViewModel,
 ) : CWAViewModel(dispatcherProvider) {
 
-    private val currentTransactionContext = dccTicketingSharedViewModel.transactionContext
-        .map { UiState(it) }
-    val uiState: LiveData<UiState> = currentTransactionContext.asLiveData2()
     val events = SingleLiveEvent<DccTicketingCertificateSelectionEvents>()
+    val uiState = dccTicketingSharedViewModel.transactionContext.map { cxt ->
+        uiState(cxt)
+    }.asLiveData2()
 
-    suspend fun getCertificates() =
-        dccTicketingCertificateFilter.filter(currentTransactionContext.first().validationCondition).map { certificate ->
-            mapToDccTicketingCertificateItem(certificate, currentTransactionContext.first().validationCondition)
+    private suspend fun uiState(cxt: DccTicketingTransactionContext): UiState {
+        val certificates = dccTicketingCertificateFilter.filter(cxt.accessTokenPayload?.vc)
+        val certificateItems = when {
+            certificates.isEmpty() -> listOf(
+                DccTicketingNoValidCertificateCard.Item(validationCondition = cxt.accessTokenPayload?.vc)
+            )
+
+            else -> certificates.map { it.toCertificateItem() }
         }
+        return UiState(
+            dccTicketingTransactionContext = cxt,
+            certificateItems = certificateItems
+        )
+    }
 
-    private fun mapToDccTicketingCertificateItem(
-        certificate: CwaCovidCertificate,
-        validationCondition: DccTicketingValidationCondition?
-    ): DccTicketingCertificateItem =
-        when (certificate) {
-            is TestCertificate -> DccTicketingTestCard.Item(certificate = certificate) {
-                events.postValue(NavigateToConsentTwoFragment(certificate.containerId))
+    private fun CwaCovidCertificate.toCertificateItem(): DccTicketingCertificateItem =
+        when (this) {
+            is TestCertificate -> DccTicketingTestCard.Item(certificate = this) {
+                events.postValue(NavigateToConsentTwoFragment(containerId))
             }
-            is RecoveryCertificate -> DccTicketingRecoveryCard.Item(certificate = certificate) {
-                events.postValue(NavigateToConsentTwoFragment(certificate.containerId))
+            is RecoveryCertificate -> DccTicketingRecoveryCard.Item(certificate = this) {
+                events.postValue(NavigateToConsentTwoFragment(containerId))
             }
-            is VaccinationCertificate -> DccTicketingVaccinationCard.Item(certificate = certificate) {
-                events.postValue(NavigateToConsentTwoFragment(certificate.containerId))
+            is VaccinationCertificate -> DccTicketingVaccinationCard.Item(certificate = this) {
+                events.postValue(NavigateToConsentTwoFragment(containerId))
             }
-            else -> DccTicketingNoValidCertificateCard.Item(validationCondition = validationCondition)
+            else -> error("Unsupported certificate$this")
         }
 
     data class UiState(
-        private val dccTicketingTransactionContext: DccTicketingTransactionContext
+        private val dccTicketingTransactionContext: DccTicketingTransactionContext,
+        val certificateItems: List<DccTicketingCertificateItem>
     ) {
         val validationCondition get() = dccTicketingTransactionContext.accessTokenPayload?.vc
     }

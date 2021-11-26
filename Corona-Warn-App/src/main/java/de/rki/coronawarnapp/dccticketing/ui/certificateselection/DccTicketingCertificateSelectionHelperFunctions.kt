@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCer
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.TEST
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificatesFilterType.VACCINATION
 
-fun getRequestedCertificateTypes(requestedCertificatesList: List<String>, context: Context, separator: String): String =
-    requestedCertificatesList.joinToString(separator) { certificate ->
+fun requestedCertificateTypes(certificateTypes: List<String>, context: Context, separator: String): String =
+    certificateTypes.joinToString(separator) { certificate ->
         when (certificate) {
             VACCINATION.type -> context.getString(R.string.vaccination_certificate_name)
             RECOVERY.type -> context.getString(R.string.recovery_certificate_name)
