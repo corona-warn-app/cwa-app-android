@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationSuccessBinding
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.ValidationResultAdapter
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
@@ -17,9 +18,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class DccTicketingValidationSuccessFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_success) {
+class DccTicketingValidationSuccessFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_success), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+
     private val binding: FragmentDccTicketingValidationSuccessBinding by viewBinding()
     private val args: DccTicketingValidationSuccessFragmentArgs by navArgs()
     private val viewModel: DccTicketingValidationViewModel by cwaViewModelsAssisted(
