@@ -39,11 +39,11 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
         return when {
             certificates.isEmpty() -> listOf(
                 // Header no Valid certificates
-                DccTicketingNoValidCertificateHeaderCard.Item(validationCondition),
+                DccTicketingNoValidCertificateHeaderCard.Item(),
                 // No valid certificates
                 DccTicketingNoValidCertificateCard.Item(validationCondition),
                 // FAQ footer
-                DccTicketingNoValidCertificateFaqCard.Item(validationCondition)
+                DccTicketingNoValidCertificateFaqCard.Item()
             )
 
             else -> {

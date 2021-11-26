@@ -35,9 +35,7 @@ class DccTicketingNoValidCertificateFaqCard(parent: ViewGroup) :
             )
         }
 
-    data class Item(
-        val validationCondition: DccTicketingValidationCondition?
-    ) : DccTicketingCertificateItem, HasPayloadDiffer {
+    class Item : DccTicketingCertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = Item::class.hashCode().toLong()
     }
