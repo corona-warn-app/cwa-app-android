@@ -28,6 +28,7 @@ class DccTicketingValidationViewModel @AssistedInject constructor(
 
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         listOf(
+            ruleHeaderVHItem(transactionContext.resultTokenPayload?.result),
             validationFaqVHItem()
         )
     }

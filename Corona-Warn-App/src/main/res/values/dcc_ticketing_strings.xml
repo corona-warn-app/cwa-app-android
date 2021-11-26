@@ -65,5 +65,13 @@
     <string name="dcc_ticketing_result_faq_label">FAQ</string>
     <!-- XTXT: validation result FAQ link -->
     <string name="dcc_ticketing_result_faq_link">https://www.coronawarn.app/en/faq/#val_service_result</string>
+    <!-- XTXT: validation result valid header  -->
+    <string name="dcc_ticketing_result_valid_header">Ihr Zertifikat wurde erfolgreich überprüft</string>
+    <!-- XTXT: validation result invalid header  -->
+    <string name="dcc_ticketing_result_invalid_header">Ihr Zertifikat entspricht nicht den Anforderungen des Anbieters</string>
+    <!-- XTXT: validation result valid body  -->
+    <string name="dcc_ticketing_result_valid_body">Der Anbieter “Anbietername” wurde über die erfolgreiche Prüfung informiert.</string>
+    <!-- XTXT: validation result invalid body  -->
+    <string name="dcc_ticketing_result_invalid_body">Bei Rückfragen wenden Sie sich bitte an den Anbieter “Anbietername”.</string>
 
 </resources>

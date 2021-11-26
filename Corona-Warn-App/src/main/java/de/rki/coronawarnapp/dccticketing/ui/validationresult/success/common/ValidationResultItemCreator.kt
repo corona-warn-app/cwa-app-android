@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common
 
+import androidx.annotation.StringRes
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -7,13 +8,13 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
 import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.RuleHeaderVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.RuleHeaderVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationFaqVH
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
@@ -60,38 +61,24 @@ class ValidationResultItemCreator @Inject constructor() {
     }
 
     fun ruleHeaderVHItem(
-        state: DccValidation.State,
-        hideTitle: Boolean = false,
-        ruleCount: Int = 0
+        state: String?
     ): RuleHeaderVH.Item {
-        val title: LazyString
-        val subtitle: LazyString
+        @StringRes val title: Int
+        @StringRes val subtitle: Int
 
         when (state) {
-            DccValidation.State.PASSED -> {
-                subtitle = if (ruleCount > 0) {
-                    R.string.validation_rules_result_valid_rule_text.toResolvingString(ruleCount)
-                } else {
-                    R.string.validation_no_rules_available_valid_text.toResolvingString()
-                }
-                title = "".toLazyString()
+            "CH" -> {
+                subtitle = R.string.dcc_ticketing_result_valid_body
+                title = R.string.dcc_ticketing_result_valid_header
             }
-            DccValidation.State.OPEN -> {
-                title = R.string.validation_rules_open_header_title.toResolvingString()
-                subtitle = R.string.validation_rules_open_header_subtitle.toResolvingString()
+            else -> {
+                subtitle = R.string.dcc_ticketing_result_invalid_body
+                title = R.string.dcc_ticketing_result_invalid_header
             }
-            DccValidation.State.TECHNICAL_FAILURE -> {
-                title = R.string.validation_rules_technical_failure_header_title.toResolvingString()
-                subtitle = R.string.validation_rules_technical_failure_header_subtitle.toResolvingString()
-            }
-            DccValidation.State.FAILURE -> {
-                title = R.string.validation_rules_failure_header_title.toResolvingString()
-                subtitle = R.string.validation_rules_failure_header_subtitle.toResolvingString()
-            }
+
         }
 
         return RuleHeaderVH.Item(
-            hideTitle = hideTitle,
             title = title,
             subtitle = subtitle
         )
