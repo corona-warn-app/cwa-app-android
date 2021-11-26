@@ -34,7 +34,7 @@ class DccTicketingValidCertificateHeaderCard(parent: ViewGroup) :
                 requestedCertificateTypes(
                     certificateTypes = types,
                     context = context,
-                    separator = ","
+                    separator = ", "
                 )
             }
 

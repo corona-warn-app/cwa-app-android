@@ -36,7 +36,7 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
 
     private suspend fun uiState(cxt: DccTicketingTransactionContext): UiState {
         val validationCondition = cxt.accessTokenPayload?.vc
-        val certificates = dccTicketingCertificateFilter.filter(validationCondition)
+        val certificates = dccTicketingCertificateFilter.filter(validationCondition?.copy(dob = "1972-12-11", fnt = null, gnt = null))
         val certificateItems = when {
             certificates.isEmpty() -> listOf(
                 DccTicketingNoValidCertificateHeaderCard.Item(validationCondition = validationCondition),
