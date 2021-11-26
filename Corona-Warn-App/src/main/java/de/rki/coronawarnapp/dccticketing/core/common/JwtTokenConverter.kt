@@ -12,6 +12,6 @@ import javax.inject.Inject
 class JwtTokenConverter @Inject constructor(
     @BaseGson private val gson: Gson
 ) {
-    fun jsonToJwtToken(rawJson: String?): DccTicketingAccessToken? = rawJson?.let { gson.fromJson(it) }
+    fun jsonToJwtToken(rawJson: String): DccTicketingAccessToken = gson.fromJson(rawJson)
     fun jsonToResultToken(rawJson: String): DccTicketingResultToken = gson.fromJson(rawJson)
 }

@@ -6,7 +6,7 @@ import timber.log.Timber
 fun DccTicketingAccessToken.validate() {
     if (t !in 1..2) {
         Timber.w("DccTicketingAccessToken.t = $t is not a valid type")
-        throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR)
+        throw DccTicketingException(DccTicketingException.ErrorCode.ATR_TYPE_INVALID)
     }
     if (aud.isBlank()) {
         Timber.w("DccTicketingAccessToken.aud shouldn't be empty")
