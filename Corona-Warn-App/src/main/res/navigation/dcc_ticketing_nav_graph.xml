@@ -28,9 +28,6 @@
         <action
             android:id="@+id/action_dccTicketingCertificateSelectionFragment_to_dccTicketingConsentTwoFragment"
             app:destination="@id/dccTicketingConsentTwoFragment" />
-        <argument
-            android:name="transactionContext"
-            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
 
 
     </fragment>
