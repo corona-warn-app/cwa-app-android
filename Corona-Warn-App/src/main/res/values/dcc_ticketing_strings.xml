@@ -79,4 +79,8 @@
     <string name="dcc_ticketing_certificate_birthday">"Geburtsdatum: %s"</string>
     <!-- XTXT: Certificate Selection Screen: Certificates That Meet Requirements Title -->
     <string name="dcc_ticketing_certificates_meeting_requirements_title">"Folgende Zertifikate entsprechen den Anforderungen des Anbieters und können zum Nachweis verwendet werden:"</string>
+    <!-- XTXT: Certificate Selection Screen: Rapid anitgen Test certificate-->
+    <string name="rat_test_certificate">Shcnelltest-Testzertifikat</string>
+    <!-- XTXT: Certificate Selection Screen: PCR Test certificate-->
+    <string name="pcr_test_certificate"> PCR-Testzertifikat</string>
 </resources>

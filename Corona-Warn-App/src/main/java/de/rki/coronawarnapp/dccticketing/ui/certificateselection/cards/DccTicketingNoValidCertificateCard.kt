@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards
 
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DccTicketingNoValidCertificateCardBinding
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateItem
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.certificateTypesText
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.getFullName
-import de.rki.coronawarnapp.dccticketing.ui.certificateselection.requestedCertificateTypes
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
@@ -26,13 +27,21 @@ class DccTicketingNoValidCertificateCard(parent: ViewGroup) :
         { item, payloads ->
             val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
             val validationCondition = curItem.validationCondition
-            if (validationCondition != null) {
-                certificateTypes.text =
-                    validationCondition.type?.let { requestedCertificateTypes(it, context, ",\n") } ?: ""
-                birthDate.text = validationCondition.dob?.let {
+            with(certificateTypes) {
+                isGone = validationCondition?.type.isNullOrEmpty()
+                text = validationCondition?.type?.let { context.certificateTypesText(it) }
+            }
+            with(birthDate) {
+                isGone = validationCondition?.dob.isNullOrEmpty()
+                text = validationCondition?.dob?.let {
                     context.getString(R.string.dcc_ticketing_certificate_birthday).format(it)
-                } ?: ""
-                name.text = getFullName(validationCondition.fnt, validationCondition.gnt)
+                }
+            }
+
+            with(name) {
+                val fullName = getFullName(validationCondition?.fnt, validationCondition?.gnt)
+                isGone = fullName.isEmpty()
+                text = fullName
             }
         }
 

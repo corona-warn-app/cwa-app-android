@@ -39,8 +39,11 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
         val certificates = dccTicketingCertificateFilter.filter(validationCondition)
         val certificateItems = when {
             certificates.isEmpty() -> listOf(
+                // Header no Valid certificates
                 DccTicketingNoValidCertificateHeaderCard.Item(validationCondition = validationCondition),
+                // No valid certificates
                 DccTicketingNoValidCertificateCard.Item(validationCondition = validationCondition),
+                // FAQ footer
                 DccTicketingNoValidCertificateFaqCard.Item(validationCondition = validationCondition)
             )
 
