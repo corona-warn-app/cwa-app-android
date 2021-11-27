@@ -28,11 +28,15 @@ class DccTicketingValidationViewModel @AssistedInject constructor(
     }.asLiveData2()
 
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
-        listOf(
+        mutableListOf(
             validationInputVHItem(transactionContext.initializationData.serviceProvider, Instant.now()),
             ruleHeaderVHItem(transactionContext.resultTokenPayload?.result),
             validationFaqVHItem()
-        )
+        ).apply {
+            transactionContext.resultTokenPayload?.results?.forEach {
+                add(businessRuleVHItem(it))
+            }
+        }
     }
 
     fun onDoneClicked() {

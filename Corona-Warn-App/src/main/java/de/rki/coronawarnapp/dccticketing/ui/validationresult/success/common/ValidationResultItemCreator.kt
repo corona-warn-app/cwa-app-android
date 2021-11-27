@@ -11,8 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
+import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultItem
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.BusinessRuleVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.RuleHeaderVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationFaqVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationInputVH
@@ -32,30 +33,19 @@ import javax.inject.Inject
 class ValidationResultItemCreator @Inject constructor() {
 
     fun businessRuleVHItem(
-        rule: DccValidationRule,
-        result: DccValidationRule.Result,
-        certificate: CwaCovidCertificate
+        resultItem: DccTicketingResultItem
     ): BusinessRuleVH.Item {
-        val iconRes = when (result) {
-            DccValidationRule.Result.OPEN -> R.drawable.ic_grey_question_mark
-            DccValidationRule.Result.FAILED -> R.drawable.ic_high_risk_alert
-            else -> throw IllegalArgumentException(
-                "Expected result of rule to be OPEN or FAILED but was ${result.name}"
-            )
+        val iconRes = when (resultItem.result) {
+            "CHK" -> R.drawable.ic_grey_question_mark
+            else -> R.drawable.ic_high_risk_alert
         }
 
-        val ruleDescription = rule.getRuleDescription().toLazyString()
-        val countryInformation = rule.getCountryDescription()
-
-        val affectedFields = mapAffectedFields(rule.affectedFields, certificate)
-
-        val identifier = "${rule.identifier} (${rule.version})"
+        val ruleDescription = resultItem.details
+        val identifier = resultItem.type
 
         return BusinessRuleVH.Item(
             ruleIconRes = iconRes,
             ruleDescriptionText = ruleDescription,
-            countryInformationText = countryInformation,
-            affectedFields = affectedFields,
             identifier = identifier
         )
     }
