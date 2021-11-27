@@ -73,5 +73,7 @@
     <string name="dcc_ticketing_result_valid_body">Der Anbieter “Anbietername” wurde über die erfolgreiche Prüfung informiert.</string>
     <!-- XTXT: validation result invalid body  -->
     <string name="dcc_ticketing_result_invalid_body">Bei Rückfragen wenden Sie sich bitte an den Anbieter “Anbietername”.</string>
+    <!-- XTXT: validation result testing details  -->
+    <string name="dcc_ticketing_result_testing_details">Geprüft am %s vom %s</string>
 
 </resources>

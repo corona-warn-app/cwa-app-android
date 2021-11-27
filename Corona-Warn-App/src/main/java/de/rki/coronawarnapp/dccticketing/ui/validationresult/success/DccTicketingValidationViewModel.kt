@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.flow
+import org.joda.time.Instant
 import timber.log.Timber
 
 class DccTicketingValidationViewModel @AssistedInject constructor(
@@ -28,6 +29,7 @@ class DccTicketingValidationViewModel @AssistedInject constructor(
 
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         listOf(
+            validationInputVHItem(transactionContext.initializationData.serviceProvider, Instant.now()),
             ruleHeaderVHItem(transactionContext.resultTokenPayload?.result),
             validationFaqVHItem()
         )

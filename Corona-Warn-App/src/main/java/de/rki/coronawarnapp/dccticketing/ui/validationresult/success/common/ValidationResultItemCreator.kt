@@ -9,13 +9,13 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationInputVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.businessrule.BusinessRuleVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.RuleHeaderVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationFaqVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationInputVH
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -95,13 +95,10 @@ class ValidationResultItemCreator @Inject constructor() {
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
-    fun validationInputVHItem(userInput: ValidationUserInput, validatedAt: Instant): ValidationInputVH.Item =
+    fun validationInputVHItem(partner: String, validatedAt: Instant): ValidationInputVH.Item =
         ValidationInputVH.Item(
-            dateDetails = R.string.validation_rules_result_valid_result_country_and_time.toResolvingString(
-                userInput.arrivalCountry,
-                "${userInput.arrivalDateTime.toLocalDate().toShortDayFormat()} " +
-                    userInput.arrivalDateTime.toLocalTime().toShortTimeFormat(),
-                validatedAt.toUserTimeZone().toShortDateTimeFormat()
+            dateDetails = R.string.dcc_ticketing_result_testing_details.toResolvingString(
+                validatedAt.toUserTimeZone().toShortDateTimeFormat(), partner
             )
         )
 

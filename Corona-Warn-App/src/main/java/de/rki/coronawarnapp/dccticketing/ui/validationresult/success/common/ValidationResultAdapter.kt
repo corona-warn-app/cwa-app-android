@@ -4,6 +4,7 @@ import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.BaseValidationResultVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.RuleHeaderVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationFaqVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationInputVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationResultItem
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -25,6 +26,7 @@ class ValidationResultAdapter @Inject constructor() :
             DataBinderMod<ValidationResultItem, BaseValidationResultVH<ValidationResultItem, ViewBinding>>(data),
             TypedVHCreatorMod({ data[it] is ValidationFaqVH.Item }) { ValidationFaqVH(it) },
             TypedVHCreatorMod({ data[it] is RuleHeaderVH.Item }) { RuleHeaderVH(it) },
+            TypedVHCreatorMod({ data[it] is ValidationInputVH.Item }) { ValidationInputVH(it) },
             // TODO: more items here
         ).run { modules.addAll(this) }
     }
