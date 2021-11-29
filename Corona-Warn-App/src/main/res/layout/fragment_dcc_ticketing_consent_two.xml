@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     tools:context=".dccticketing.ui.consent.two.DccTicketingConsentTwoFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -44,8 +45,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/dcc_ticketing_vaccination_card"
-                tools:itemCount="1"/>
+                tools:itemCount="1"
+                tools:listitem="@layout/dcc_ticketing_vaccination_card" />
 
             <TextView
                 android:id="@+id/title"
