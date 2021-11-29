@@ -83,16 +83,16 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     // ///////////////////////////////////////////////////////////
     // Test
     private val tc1 = mockTestCertificate(
-        gName = "Max", fName = "Mustermann", date = "1990-10-10", tType = "LP6464-4"
+        gName = "Max", fName = "Mustermann", date = "1990-10-10", isPCRCertificate = true
     )
     private val tc2 = mockTestCertificate(
-        gName = "Erik", fName = "Müller", date = "1980-12-10", tType = "LP6464-4"
+        gName = "Erik", fName = "Müller", date = "1980-12-10", isPCRCertificate = true
     )
     private val tc3 = mockTestCertificate(
-        gName = "Thomas", fName = "Müller", date = "1990-10-10", tType = "LP217198-3"
+        gName = "Thomas", fName = "Müller", date = "1990-10-10", isPCRCertificate = false
     )
     private val tc4 = mockTestCertificate(
-        gName = "Eli", fName = "Mustermann", date = "1940-07-02", tType = "LP217198-3"
+        gName = "Eli", fName = "Mustermann", date = "1940-07-02", isPCRCertificate = false
     )
     private val tcSet = setOf(tc1, tc2, tc3, tc4)
 
@@ -328,11 +328,12 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
         fName: String,
         gName: String,
         date: String,
-        tType: String
+        isPCRCertificate: Boolean = false
     ) = mockk<TestCertificate>().apply {
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { dob } returns date
-            every { test } returns mockk<DccV1.TestCertificateData>().apply { every { testType } returns tType }
+            every { isPCRTestCertificate } returns isPCRCertificate
+            every { isRapidAntigenTestCertificate } returns !isPCRCertificate
             every { nameData } returns mockk<DccV1.NameData>()
                 .apply {
                     every { familyNameStandardized } returns fName
