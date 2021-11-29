@@ -69,7 +69,7 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
 }
 
 @Module
-abstract class DccTicketingValidationSuccessFragmentTestModule {
+abstract class DccTicketingValidationResultFragmentTestModule {
     @ContributesAndroidInjector
-    abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationResultFragment
+    abstract fun dccTicketingValidationResultFragment(): DccTicketingValidationResultFragment
 }
