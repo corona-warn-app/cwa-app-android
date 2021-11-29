@@ -27,7 +27,7 @@ class DccTicketingRecoveryCard(parent: ViewGroup) :
 
             val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
             val certificate = curItem.certificate
-            root.setOnClickListener { curItem.onClick }
+            root.setOnClickListener { curItem.onClick() }
 
             certificateDate.text = context.getString(
                 R.string.recovery_certificate_valid_until,
