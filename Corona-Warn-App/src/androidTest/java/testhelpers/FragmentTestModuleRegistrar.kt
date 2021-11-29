@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFr
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
@@ -129,6 +130,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
 
         // --------- Recycler Bin ---------
         RecyclerBinOverviewFragmentTestModule::class,
+        DccTicketingCertificateSelectionFragmentModule::class,
     ]
 )
 class FragmentTestModuleRegistrar

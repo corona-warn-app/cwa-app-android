@@ -31,6 +31,9 @@ interface TestCertificate : CwaCovidCertificate {
     val isUpdatingData: Boolean
     val isCertificateRetrievalPending: Boolean
 
+    val isPCRTestCertificate: Boolean get() = rawCertificate.test.testType == PCR_TEST
+    val isRapidAntigenTestCertificate: Boolean get() = rawCertificate.test.testType == RAT_TEST
+
     /**
      * Not supported by this type of certificate (at the moment)
      */
@@ -40,4 +43,9 @@ interface TestCertificate : CwaCovidCertificate {
         get() = null
 
     override val rawCertificate: TestDccV1
+
+    companion object {
+        const val PCR_TEST = "LP6464-4"
+        const val RAT_TEST = "LP217198-3"
+    }
 }

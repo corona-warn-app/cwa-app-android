@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.dccticketing.core.server
 import com.google.gson.Gson
 import dagger.Lazy
 import dagger.Reusable
-import de.rki.coronawarnapp.dccticketing.core.DccTicketing
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -18,9 +17,8 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,7 +26,6 @@ import javax.inject.Inject
 class DccTicketingServer @Inject constructor(
     private val dccTicketingApiV1Lazy: Lazy<DccTicketingApiV1>,
     private val dispatcherProvider: DispatcherProvider,
-    @DccTicketing private val client: OkHttpClient,
     @BaseGson private val gson: Gson,
     private val serverCertificateChecker: DccTicketingServerCertificateChecker
 ) {
@@ -56,13 +53,8 @@ class DccTicketingServer @Inject constructor(
         }
     }
 
-    private fun get(url: String): Response = try {
-        Timber.tag(TAG).d("Get %s", url)
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        client.newCall(request).execute()
+    private suspend fun get(url: String): Response<ResponseBody> = try {
+        dccTicketingApiV1.getUrl(url)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Get request failed.")
         throw when (e) {
@@ -74,39 +66,50 @@ class DccTicketingServer @Inject constructor(
         }.let { DccTicketingServerException(errorCode = it, cause = e) }
     }
 
-    private inline fun <reified T> Response.parse(): T = try {
+    private inline fun <reified T> Response<ResponseBody>.parse(): T = try {
         Timber.tag(TAG).d("Parsing response=%s", this)
-        body!!.charStream().use { gson.fromJson(it) }
+        body()!!.charStream().use { gson.fromJson(it) }
     } catch (e: Exception) {
         Timber.e(e, "Parsing failed")
         throw DccTicketingServerException(errorCode = ErrorCode.PARSE_ERR, cause = e)
     }
 
-    private fun Response.validate(jwkSet: Set<DccJWK>) {
+    private fun Response<ResponseBody>.validate(jwkSet: Set<DccJWK>) {
         Timber.tag(TAG).d("Validating response=%s", jwkSet)
-        val certificateChain = handshake?.peerCertificates ?: emptyList()
+        val certificateChain = raw().handshake?.peerCertificates ?: emptyList()
         serverCertificateChecker.checkCertificate(certificateChain, jwkSet)
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getAccessToken(
         url: String,
         authorizationHeader: String,
-        requestBody: AccessTokenRequest
+        requestBody: AccessTokenRequest,
+        jwkSet: Set<DccJWK>
     ): AccessTokenResponse =
         withContext(dispatcherProvider.IO) {
             Timber.d("getAccessToken(url=%s)", url)
             val response = dccTicketingApiV1.getAccessToken(url, authorizationHeader, requestBody)
-            // TODO: use response.raw().handshake for cert verification after when
-            // Certificate Pinning (EXPOSUREAPP-10635) #4422 PR is merged
+            response.validate(jwkSet)
 
-            val jwtToken: String = response.body()!!
+            val jwtToken: String = response.body()?.string()!!
             val iv = response.headers()["x-nonce"]!!
             AccessTokenResponse(jwtToken, iv)
         }
 
-    data class AccessTokenResponse(val jwt: String, val iv: String)
+    suspend fun getResultToken(
+        url: String,
+        authorizationHeader: String,
+        requestBody: ResultTokenRequest
+    ): Response<ResponseBody> =
+        withContext(dispatcherProvider.IO) {
+            Timber.d("getResultToken(url=%s)", url)
+            dccTicketingApiV1.getResultToken(url, authorizationHeader, requestBody)
+        }
 
     companion object {
         private val TAG = tag<DccTicketingServer>()
     }
 }
+
+data class AccessTokenResponse(val jwt: String, val iv: String)
