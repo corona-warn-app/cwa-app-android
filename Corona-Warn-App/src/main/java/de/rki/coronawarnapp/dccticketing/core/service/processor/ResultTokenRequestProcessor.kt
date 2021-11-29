@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException
-import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.ResultTokenRequest
