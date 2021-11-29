@@ -37,12 +37,6 @@
         android:label="fragment_dcc_ticketing_consent_two"
         tools:layout="@layout/fragment_dcc_ticketing_consent_two">
         <action
-            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationOpenFragment"
-            app:destination="@id/dccTicketingValidationOpenFragment" />
-        <action
-            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment2"
-            app:destination="@id/dccTicketingValidationSuccessFragment2" />
-        <action
             android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment"
             app:destination="@id/dccTicketingValidationSuccessFragment" />
         <argument
@@ -54,27 +48,9 @@
     </fragment>
     <fragment
         android:id="@+id/dccTicketingValidationSuccessFragment"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationSuccessFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment"
         android:label="fragment_dcc_ticketing_validation_success"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_success">
-        <argument
-            android:name="transactionContext"
-            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
-    </fragment>
-    <fragment
-        android:id="@+id/dccTicketingValidationSuccessFragment2"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.failed.DccTicketingValidationSuccessFragment"
-        android:label="fragment_dcc_ticketing_validation_failed"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_failed">
-        <argument
-            android:name="transactionContext"
-            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
-    </fragment>
-    <fragment
-        android:id="@+id/dccTicketingValidationOpenFragment"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.open.DccTicketingValidationOpenFragment"
-        android:label="fragment_dcc_ticketing_validation_open"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_open">
+        tools:layout="@layout/fragment_dcc_ticketing_validation">
         <argument
             android:name="transactionContext"
             app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />

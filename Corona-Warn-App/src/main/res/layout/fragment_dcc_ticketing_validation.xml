@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dccticketing.ui.validationresult.success.DccTicketingValidationSuccessFragment">
+    tools:context=".dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment">
 
     <include
         android:id="@+id/covid_certificate_validation_result_fragments"

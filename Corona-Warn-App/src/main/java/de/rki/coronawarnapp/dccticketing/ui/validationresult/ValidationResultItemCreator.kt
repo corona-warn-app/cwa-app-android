@@ -1,29 +1,24 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common
+package de.rki.coronawarnapp.dccticketing.ui.validationresult
 
 import androidx.annotation.StringRes
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation
-import de.rki.coronawarnapp.covidcertificate.validation.core.ValidationUserInput
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.TechnicalValidationFailedVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationOverallResultVH
 import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.ValidationPassedHintVH
-import de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.common.listitem.mapAffectedFields
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultItem
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.BusinessRuleVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.RuleHeaderVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationFaqVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationInputVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.RuleHeaderVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationInputVH
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import org.joda.time.Instant
 import java.util.Locale
@@ -41,7 +36,7 @@ class ValidationResultItemCreator @Inject constructor() {
         }
 
         val ruleDescription = resultItem.details
-        val identifier = resultItem.type
+        val identifier = resultItem.identifier
 
         return BusinessRuleVH.Item(
             ruleIconRes = iconRes,
@@ -85,10 +80,10 @@ class ValidationResultItemCreator @Inject constructor() {
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
-    fun validationInputVHItem(partner: String, validatedAt: Instant): ValidationInputVH.Item =
+    fun validationInputVHItem(validatedAt: Instant): ValidationInputVH.Item =
         ValidationInputVH.Item(
             dateDetails = R.string.dcc_ticketing_result_testing_details.toResolvingString(
-                validatedAt.toUserTimeZone().toShortDateTimeFormat(), partner
+                validatedAt.toUserTimeZone().toShortDateTimeFormat()
             )
         )
 

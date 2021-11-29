@@ -7,9 +7,11 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.ValidationResultItemCreator
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragmentArgs
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationViewModel
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.ValidationResultItemCreator
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Test

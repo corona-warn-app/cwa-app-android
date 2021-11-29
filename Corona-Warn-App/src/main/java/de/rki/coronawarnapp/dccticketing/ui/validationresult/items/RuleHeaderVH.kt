@@ -1,12 +1,10 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items
+package de.rki.coronawarnapp.dccticketing.ui.validationresult.items
 
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.core.view.isGone
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleHeaderItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.ui.LazyString
 
 class RuleHeaderVH(
     parent: ViewGroup

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items
+package de.rki.coronawarnapp.dccticketing.ui.validationresult.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R

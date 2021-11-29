@@ -1,9 +1,8 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items
+package de.rki.coronawarnapp.dccticketing.ui.validationresult.items
 
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleItemBinding
 import de.rki.coronawarnapp.databinding.DccTicketingValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 

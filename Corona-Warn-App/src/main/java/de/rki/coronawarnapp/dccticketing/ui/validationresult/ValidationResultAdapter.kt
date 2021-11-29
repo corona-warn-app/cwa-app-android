@@ -1,12 +1,12 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common
+package de.rki.coronawarnapp.dccticketing.ui.validationresult
 
 import androidx.viewbinding.ViewBinding
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.BaseValidationResultVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.BusinessRuleVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.RuleHeaderVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationFaqVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationInputVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationResultItem
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BaseValidationResultVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.RuleHeaderVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationInputVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
 import de.rki.coronawarnapp.util.lists.modular.ModularAdapter

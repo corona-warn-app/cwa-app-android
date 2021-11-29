@@ -1,12 +1,11 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
+package de.rki.coronawarnapp.dccticketing.ui.validationresult
 
 import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.ValidationResultItemCreator
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.items.ValidationResultItem
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -29,7 +28,7 @@ class DccTicketingValidationViewModel @AssistedInject constructor(
 
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         mutableListOf(
-            validationInputVHItem(transactionContext.initializationData.serviceProvider, Instant.now()),
+            validationInputVHItem(Instant.now()),
             ruleHeaderVHItem(transactionContext.resultTokenPayload?.result),
             validationFaqVHItem()
         ).apply {

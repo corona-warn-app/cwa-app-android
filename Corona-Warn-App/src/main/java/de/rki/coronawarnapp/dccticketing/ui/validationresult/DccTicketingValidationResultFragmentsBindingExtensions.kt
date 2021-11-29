@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
+package de.rki.coronawarnapp.dccticketing.ui.validationresult
 
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFragmentsBinding

@@ -1,12 +1,11 @@
-package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
+package de.rki.coronawarnapp.dccticketing.ui.validationresult
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationSuccessBinding
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.common.ValidationResultAdapter
+import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
@@ -18,11 +17,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class DccTicketingValidationSuccessFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_success), AutoInject {
+class DccTicketingValidationSuccessFragment : Fragment(R.layout.fragment_dcc_ticketing_validation), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val binding: FragmentDccTicketingValidationSuccessBinding by viewBinding()
+    private val binding: FragmentDccTicketingValidationBinding by viewBinding()
     private val args: DccTicketingValidationSuccessFragmentArgs by navArgs()
     private val viewModel: DccTicketingValidationViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },

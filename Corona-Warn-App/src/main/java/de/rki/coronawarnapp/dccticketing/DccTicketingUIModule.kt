@@ -5,7 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingFragmentModule
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationSuccessFragment
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment
 
 @Module
 abstract class DccTicketingUIModule {
