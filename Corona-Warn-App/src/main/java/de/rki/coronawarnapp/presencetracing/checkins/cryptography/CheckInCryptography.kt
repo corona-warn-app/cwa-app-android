@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.presencetracing.checkins.cryptography
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
-import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass.CheckInRecord
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass.CheckInProtectedReport
+import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass.CheckInRecord
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.encoding.base64
+import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import de.rki.coronawarnapp.util.security.RandomStrong
 import de.rki.coronawarnapp.util.toProtoByteString
 import okio.ByteString
@@ -35,7 +35,11 @@ class CheckInCryptography @Inject constructor(
         val encryptionKey = getEncryptionKey(checkIn.traceLocationId)
         val iv = getCryptographicSeed()
         val encryptedCheckInRecord =
-            aesCryptography.encrypt(encryptionKey.toByteArray(), checkInRecord.toByteArray(), IvParameterSpec(iv))
+            aesCryptography.encryptWithCBC(
+                encryptionKey.toByteArray(),
+                checkInRecord.toByteArray(),
+                IvParameterSpec(iv)
+            )
         val macKey = getMacKey(checkIn.traceLocationId).toByteArray()
         val mac = getMac(macKey, iv, encryptedCheckInRecord)
 
@@ -67,7 +71,7 @@ class CheckInCryptography @Inject constructor(
 
         val encryptionKey = getEncryptionKey(traceLocationId)
         val ivParameterSpec = IvParameterSpec(checkInProtectedReport.iv.toByteArray())
-        val decryptedData = aesCryptography.decrypt(
+        val decryptedData = aesCryptography.decryptWithCBC(
             encryptionKey.toByteArray(),
             checkInProtectedReport.encryptedCheckInRecord.toByteArray(),
             ivParameterSpec
