@@ -2,91 +2,143 @@ package de.rki.coronawarnapp.dccticketing.ui.consent.two
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
+import de.rki.coronawarnapp.dccticketing.core.submission.DccTicketingSubmissionHandler
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.items.CertificateItem
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.items.RecoveryCertificateCard
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.items.TestCertificateCard
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.items.VaccinationCertificateCard
-import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateItem
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingRecoveryCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingTestCard
+import de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards.DccTicketingVaccinationCard
+import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 
 class DccTicketingConsentTwoViewModel @AssistedInject constructor(
-    @Assisted private val dccTicketingTransactionContext: DccTicketingTransactionContext,
+    @Assisted private val dccTicketingSharedViewModel: DccTicketingSharedViewModel,
     @Assisted private val containerId: CertificateContainerId,
     private val certificateProvider: CertificateProvider,
-    private val vaccinationRepository: VaccinationRepository,
-    private val timeStamper: TimeStamper,
+    private val dccTicketingSubmissionHandler: DccTicketingSubmissionHandler,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val showCloseDialog = SingleLiveEvent<Unit>()
+    private val currentIsLoading = MutableStateFlow(false)
+    val isLoading: LiveData<Boolean> = currentIsLoading.asLiveData()
+
+    private val currentEvent = SingleLiveEvent<DccTicketingConsentTwoEvent>()
+    val events: LiveData<DccTicketingConsentTwoEvent> = currentEvent
+
     private val mutableUiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState>
         get() = mutableUiState
 
     init {
         launch {
-            findCertificate().also {
+            certificateProvider.findCertificate(containerId).also {
                 mutableUiState.postValue(
                     UiState(
-                        dccTicketingTransactionContext = dccTicketingTransactionContext,
-                        certificateItem = it
+                        dccTicketingTransactionContext = dccTicketingSharedViewModel.transactionContext.first(),
+                        certificate = it
                     )
                 )
             }
         }
     }
 
-    private suspend fun findCertificate(): CertificateItem {
-        return when (val certificate = certificateProvider.findCertificate(containerId)) {
-            is TestCertificate -> TestCertificateCard.Item(certificate)
-            is VaccinationCertificate -> {
-                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC)
-                    ?: VaccinatedPerson.Status.INCOMPLETE
-                VaccinationCertificateCard.Item(
-                    certificate = certificate,
-                    status = status
-                )
-            }
-            is RecoveryCertificate -> RecoveryCertificateCard.Item(certificate)
-            else -> throw IllegalArgumentException("Certificate $certificate is not supported")
-        }
+    fun onUserCancel() {
+        Timber.d("onUserCancel()")
+        postEvent(ShowCancelConfirmationDialog)
     }
 
-    private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
-        vaccinationRepository.vaccinationInfos.first().find { it.identifier == certificate.personIdentifier }
+    fun goBack() = postEvent(NavigateBack)
 
-    fun goBack() {
-        showCloseDialog.postValue(Unit)
+    fun showPrivacyInformation() = postEvent(NavigateToPrivacyInformation)
+
+    fun onUserConsent(): Unit = launch {
+        Timber.d("onUserConsent()")
+        currentIsLoading.compareAndSet(expect = false, update = true)
+
+        val event = try {
+            val currentState = uiState.value!!
+            val ctx = currentState.dccTicketingTransactionContext.copy(
+                // TODO: double check if correct param is used
+                dccBarcodeData = currentState.certificate.qrCodeToDisplay.content
+            )
+
+            val submittedTransactionContext = dccTicketingSubmissionHandler.submitDcc(ctx)
+            when (submittedTransactionContext.resultTokenPayload?.result) {
+                VALIDATION_SUCCESS -> NavigateToValidationSuccess
+                VALIDATION_OPEN -> NavigateToValidationOpen
+                else -> NavigateToValidationFailed
+            }
+            /* TODO: delete transaction context,update it or do nothing?
+            //Update
+            dccTicketingSharedViewModel.updateTransactionContext(submittedTransactionContext)
+            // Delete
+            dccTicketingSharedViewModel.updateTransactionContext(null) - or create new function in view model?
+             */
+        } catch (e: Exception) {
+            Timber.e(e, "Error while submitting user consent")
+            val lazyErrorMessage = when (e) {
+                is DccTicketingException -> {
+                    val serviceProvider = uiState.value!!.provider
+                    e.errorMessage(serviceProvider = serviceProvider)
+                }
+                else -> R.string.errors_generic_text_unknown_error_cause.toResolvingString()
+            }
+            ShowErrorDialog(lazyErrorMessage = lazyErrorMessage)
+        }
+
+        postEvent(event)
+        currentIsLoading.compareAndSet(expect = true, update = false)
+    }
+
+    private fun postEvent(event: DccTicketingConsentTwoEvent) {
+        Timber.d("postEvent(event=%s)", event)
+        currentEvent.postValue(event)
     }
 
     data class UiState(
         val dccTicketingTransactionContext: DccTicketingTransactionContext,
-        val certificateItem: CertificateItem
+        val certificate: CwaCovidCertificate
     ) {
-        val testPartner get() = "TBD (see allowlist PR)"
+        val testPartner get() = "TBD (see allowlist PR)" // TODO: update after allowlist implementation
         val provider get() = dccTicketingTransactionContext.initializationData.serviceProvider
+        val certificateItem get() = getCardItem(certificate)
+
+        private fun getCardItem(certificate: CwaCovidCertificate): DccTicketingCertificateItem = when (certificate) {
+            is TestCertificate -> DccTicketingTestCard.Item(certificate, false) {}
+            is VaccinationCertificate -> DccTicketingVaccinationCard.Item(certificate, false) {}
+            is RecoveryCertificate -> DccTicketingRecoveryCard.Item(certificate, false) {}
+            else -> throw IllegalArgumentException("Certificate $certificate is not supported")
+        }
+    }
+
+    companion object {
+        private const val VALIDATION_SUCCESS: String = "OK"
+        private const val VALIDATION_OPEN: String = "CHK"
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccTicketingConsentTwoViewModel> {
         fun create(
-            dccTicketingTransactionContext: DccTicketingTransactionContext,
+            dccTicketingSharedViewModel: DccTicketingSharedViewModel,
             containerId: CertificateContainerId
         ): DccTicketingConsentTwoViewModel
     }
