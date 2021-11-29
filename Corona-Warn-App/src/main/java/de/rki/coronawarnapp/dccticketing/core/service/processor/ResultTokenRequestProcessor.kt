@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
+import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.ResultTokenRequest
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class ResultTokenRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer,
     private val dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker,
-    private val convertor: JwtTokenConverter,
+    private val jwtTokenParser: JwtTokenParser,
     private val jwtVerification: DccJWKVerification
 ) {
 
@@ -44,7 +45,7 @@ class ResultTokenRequestProcessor @Inject constructor(
         // 4.Determine resultTokenPayload: the resultTokenPayload
         return ResultTokenOutput(
             resultToken = resultToken,
-            resultTokenPayload = convertor.jsonToResultToken(resultToken)
+            resultTokenPayload = jwtTokenParser.getResultToken(resultToken)
         )
     }
 
