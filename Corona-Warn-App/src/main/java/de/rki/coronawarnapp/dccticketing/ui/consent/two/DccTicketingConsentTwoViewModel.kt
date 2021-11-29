@@ -77,22 +77,12 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
         val event = try {
             val currentState = uiState.value!!
             val ctx = currentState.dccTicketingTransactionContext.copy(
-                // TODO: double check if correct param is used
                 dccBarcodeData = currentState.certificate.qrCodeToDisplay.content
             )
-
             val submittedTransactionContext = dccTicketingSubmissionHandler.submitDcc(ctx)
-            when (submittedTransactionContext.resultTokenPayload?.result) {
-                VALIDATION_SUCCESS -> NavigateToValidationSuccess
-                VALIDATION_OPEN -> NavigateToValidationOpen
-                else -> NavigateToValidationFailed
-            }
-            /* TODO: delete transaction context,update it or do nothing?
-            //Update
             dccTicketingSharedViewModel.updateTransactionContext(submittedTransactionContext)
-            // Delete
-            dccTicketingSharedViewModel.updateTransactionContext(null) - or create new function in view model?
-             */
+
+            NavigateToValidationResult
         } catch (e: Exception) {
             Timber.e(e, "Error while submitting user consent")
             val lazyErrorMessage = when (e) {
@@ -128,11 +118,6 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
             is RecoveryCertificate -> DccTicketingRecoveryCard.Item(certificate, false) {}
             else -> throw IllegalArgumentException("Certificate $certificate is not supported")
         }
-    }
-
-    companion object {
-        private const val VALIDATION_SUCCESS: String = "OK"
-        private const val VALIDATION_OPEN: String = "CHK"
     }
 
     @AssistedFactory

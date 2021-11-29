@@ -96,19 +96,12 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
         Timber.d("handleEvents(event=%s)", event)
         when (event) {
             NavigateBack -> popBackStack()
-            // TODO: update navigation naming for failed state
-            NavigateToValidationFailed -> doNavigate(
+            NavigateToValidationResult -> doNavigate(
+                // TODO
                 DccTicketingConsentTwoFragmentDirections
                     .actionDccTicketingConsentTwoFragmentToDccTicketingValidationSuccessFragment2()
             )
-            NavigateToValidationSuccess -> doNavigate(
-                DccTicketingConsentTwoFragmentDirections
-                    .actionDccTicketingConsentTwoFragmentToDccTicketingValidationSuccessFragment()
-            )
-            NavigateToValidationOpen -> doNavigate(
-                DccTicketingConsentTwoFragmentDirections
-                    .actionDccTicketingConsentTwoFragmentToDccTicketingValidationOpenFragment()
-            )
+
             NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)
             ShowCancelConfirmationDialog -> showCloseDialog()
             is ShowErrorDialog -> showErrorDialog(lazyErrorMessage = event.lazyErrorMessage)
