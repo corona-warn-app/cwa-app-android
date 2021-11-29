@@ -29,7 +29,6 @@ class ValidationResultAdapter @Inject constructor() :
             TypedVHCreatorMod({ data[it] is DescriptionVH.Item }) { DescriptionVH(it) },
             TypedVHCreatorMod({ data[it] is TestingInfoVH.Item }) { TestingInfoVH(it) },
             TypedVHCreatorMod({ data[it] is ResultRuleVH.Item }) { ResultRuleVH(it) },
-            // TODO: more items here
         ).run { modules.addAll(this) }
     }
 
