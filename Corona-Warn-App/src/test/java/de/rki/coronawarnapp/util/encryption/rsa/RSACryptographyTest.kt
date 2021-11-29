@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util.encryption.rsa
 
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.toByteString
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -24,5 +25,22 @@ class RSACryptographyTest : BaseTest() {
         )
 
         decrypted.toByteArray() shouldBe expectedData.toByteArray()
+    }
+
+    @Test
+    fun `encrypt and decrypt RSA_PKCS1_OAEP`() {
+        val keyPair = RSAKeyPairGenerator().generate()
+        val actualPlaintext = "Hello, I'm a secret!"
+        val instance = createInstance()
+        val encrypted = instance.encrypt(
+            toEncrypt = actualPlaintext.toByteArray(),
+            publicKey = keyPair.publicKey.speccedKey
+        )
+        val decrypted = instance.decrypt(
+            toDecrypt = encrypted.toByteString(),
+            privateKey = keyPair.privateKey
+        ).utf8()
+
+        decrypted shouldBe actualPlaintext
     }
 }

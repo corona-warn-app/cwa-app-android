@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.common.decoder
 
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
-import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.AES_DECRYPTION_FAILED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_MESSAGE_INVALID
@@ -12,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_TAG_INVALID
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.HC_COSE_UNKNOWN_ALG
 import de.rki.coronawarnapp.util.encoding.base64
+import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import javax.inject.Inject
@@ -112,7 +112,7 @@ class DccCoseDecoder @Inject constructor(
     }
 
     private fun ByteArray.decrypt(decryptionKey: ByteArray) = try {
-        aesEncryptor.decrypt(
+        aesEncryptor.decryptWithCBC(
             key = decryptionKey,
             encryptedData = this
         )
