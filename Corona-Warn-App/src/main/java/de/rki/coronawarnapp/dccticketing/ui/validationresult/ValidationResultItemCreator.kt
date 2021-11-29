@@ -53,7 +53,6 @@ class ValidationResultItemCreator @Inject constructor() {
                 subtitle = R.string.dcc_ticketing_result_invalid_body.toResolvingString(serviceProvider)
                 title = R.string.dcc_ticketing_result_invalid_header
             }
-
         }
 
         return DescriptionVH.Item(

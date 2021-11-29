@@ -19,4 +19,3 @@ fun CovidCertificateValidationResultFragmentsBinding.setHeaderForState(result: D
             headerImage.setImageResource(R.drawable.covid_certificate_validation_failed_header)
         }
     }
-

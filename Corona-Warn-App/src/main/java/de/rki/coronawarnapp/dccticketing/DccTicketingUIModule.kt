@@ -15,5 +15,4 @@ abstract class DccTicketingUIModule {
 
     @ContributesAndroidInjector(modules = [DccTicketingFragmentModule::class])
     abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationResultFragment
-
 }

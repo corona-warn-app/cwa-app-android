@@ -73,4 +73,3 @@ abstract class DccTicketingValidationSuccessFragmentTestModule {
     @ContributesAndroidInjector
     abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationResultFragment
 }
-

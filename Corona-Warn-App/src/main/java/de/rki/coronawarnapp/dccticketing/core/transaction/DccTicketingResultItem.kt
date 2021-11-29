@@ -9,7 +9,7 @@ data class DccTicketingResultItem(
     @SerializedName("identifier")
     val identifier: String, // Identifier of the check
     @SerializedName("result")
-    val result: DccTicketingResultToken.DccResult, // The result of the validation (OK for pass, CHK for open, NOK for fail)
+    val result: DccTicketingResultToken.DccResult, // The result of the validation (OK = pass, CHK = open, NOK = fail)
     @SerializedName("type")
     val type: String, // the type of check
     @SerializedName("details")

@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultInputItemBinding
 import de.rki.coronawarnapp.databinding.DccTicketingValidationResultTestingInfoItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.ui.LazyString

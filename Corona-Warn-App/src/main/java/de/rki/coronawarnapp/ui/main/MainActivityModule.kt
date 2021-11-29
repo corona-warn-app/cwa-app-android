@@ -7,7 +7,6 @@ import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingUIModule
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingFragmentModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
