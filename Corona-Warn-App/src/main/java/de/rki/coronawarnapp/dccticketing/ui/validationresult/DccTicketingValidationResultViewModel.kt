@@ -30,11 +30,11 @@ class DccTicketingValidationResultViewModel @AssistedInject constructor(
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         mutableListOf(
             testingInfoVHItem(transactionContext.resultTokenPayload?.iat?.secondsToInstant()),
-            ruleHeaderVHItem(
+            descriptionVHItem(
                 transactionContext.resultTokenPayload?.result,
                 transactionContext.initializationData.serviceProvider
             ),
-            validationFaqVHItem()
+            faqVHItem()
         ).apply {
             transactionContext.resultTokenPayload?.results?.forEach {
                 add(businessRuleVHItem(it))

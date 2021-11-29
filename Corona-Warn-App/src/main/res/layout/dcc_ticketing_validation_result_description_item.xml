@@ -6,27 +6,27 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/title_text"
-        style="@style/subtitleBoldSixteen"
+        android:id="@+id/header_text"
+        style="@style/headline6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_tiny"
-        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/validation_rules_open_header_title" />
+        tools:text="@string/dcc_ticketing_result_valid_header" />
 
     <TextView
-        android:id="@+id/subtitle_text"
+        android:id="@+id/body_text"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginHorizontal="@dimen/spacing_tiny"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_text"
-        tools:text="@string/validation_rules_open_header_subtitle" />
+        app:layout_constraintTop_toBottomOf="@id/header_text"
+        tools:text="@string/dcc_ticketing_result_valid_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

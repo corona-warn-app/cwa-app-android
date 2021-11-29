@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultItem
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToken
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.RuleHeaderVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.DescriptionVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
@@ -37,10 +37,10 @@ class ValidationResultItemCreator @Inject constructor() {
         )
     }
 
-    fun ruleHeaderVHItem(
+    fun descriptionVHItem(
         result: DccTicketingResultToken.DccResult?,
         serviceProvider: String
-    ): RuleHeaderVH.Item {
+    ): DescriptionVH.Item {
         @StringRes val title: Int
         val subtitle: LazyString
 
@@ -56,13 +56,13 @@ class ValidationResultItemCreator @Inject constructor() {
 
         }
 
-        return RuleHeaderVH.Item(
-            title = title,
-            subtitle = subtitle
+        return DescriptionVH.Item(
+            header = title,
+            body = subtitle
         )
     }
 
-    fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
+    fun faqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
     fun testingInfoVHItem(validatedAt: Instant?): TestingInfoVH.Item =
         TestingInfoVH.Item(
