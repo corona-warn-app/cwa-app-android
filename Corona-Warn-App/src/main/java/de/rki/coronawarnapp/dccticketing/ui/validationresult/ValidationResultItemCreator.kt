@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToke
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.RuleHeaderVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationInputVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -64,9 +64,9 @@ class ValidationResultItemCreator @Inject constructor() {
 
     fun validationFaqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
-    fun validationInputVHItem(validatedAt: Instant?): ValidationInputVH.Item =
-        ValidationInputVH.Item(
-            dateDetails = R.string.dcc_ticketing_result_testing_details.toResolvingString(
+    fun testingInfoVHItem(validatedAt: Instant?): TestingInfoVH.Item =
+        TestingInfoVH.Item(
+            info = R.string.dcc_ticketing_result_testing_details.toResolvingString(
                 validatedAt?.toUserTimeZone()?.toShortDateTimeFormat() ?: ""
             )
         )

@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BaseValidatio
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.RuleHeaderVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationInputVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffUtilAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.AsyncDiffer
@@ -27,7 +27,7 @@ class ValidationResultAdapter @Inject constructor() :
             DataBinderMod<ValidationResultItem, BaseValidationResultVH<ValidationResultItem, ViewBinding>>(data),
             TypedVHCreatorMod({ data[it] is ValidationFaqVH.Item }) { ValidationFaqVH(it) },
             TypedVHCreatorMod({ data[it] is RuleHeaderVH.Item }) { RuleHeaderVH(it) },
-            TypedVHCreatorMod({ data[it] is ValidationInputVH.Item }) { ValidationInputVH(it) },
+            TypedVHCreatorMod({ data[it] is TestingInfoVH.Item }) { TestingInfoVH(it) },
             TypedVHCreatorMod({ data[it] is BusinessRuleVH.Item }) { BusinessRuleVH(it) },
             // TODO: more items here
         ).run { modules.addAll(this) }

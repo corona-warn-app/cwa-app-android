@@ -17,7 +17,7 @@ import timber.log.Timber
 
 class DccTicketingValidationResultViewModel @AssistedInject constructor(
     @Assisted private val transactionContext: DccTicketingTransactionContext,
-    val itemCreator: ValidationResultItemCreator,
+    private val itemCreator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -29,7 +29,7 @@ class DccTicketingValidationResultViewModel @AssistedInject constructor(
 
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         mutableListOf(
-            validationInputVHItem(transactionContext.resultTokenPayload?.iat?.secondsToInstant()),
+            testingInfoVHItem(transactionContext.resultTokenPayload?.iat?.secondsToInstant()),
             ruleHeaderVHItem(
                 transactionContext.resultTokenPayload?.result,
                 transactionContext.initializationData.serviceProvider

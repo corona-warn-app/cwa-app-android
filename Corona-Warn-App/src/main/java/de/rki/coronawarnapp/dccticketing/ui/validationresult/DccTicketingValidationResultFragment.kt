@@ -35,7 +35,7 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             validationResultFragments.apply {
-                setHeaderForState(args.transactionContext.resultTokenPayload?.result)
+                args.transactionContext.resultTokenPayload?.result?.let { setHeaderForState(it) }
                 list.apply {
                     adapter = validationResultAdapter
                 }

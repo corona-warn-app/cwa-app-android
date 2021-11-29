@@ -3,31 +3,32 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult.items
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultInputItemBinding
+import de.rki.coronawarnapp.databinding.DccTicketingValidationResultTestingInfoItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.ui.LazyString
 
-class ValidationInputVH(
+class TestingInfoVH(
     parent: ViewGroup
-) : BaseValidationResultVH<ValidationInputVH.Item, CovidCertificateValidationResultInputItemBinding>(
-    R.layout.dcc_ticketing_validation_result_input_item,
+) : BaseValidationResultVH<TestingInfoVH.Item, DccTicketingValidationResultTestingInfoItemBinding>(
+    R.layout.dcc_ticketing_validation_result_testing_info_item,
     parent
 ) {
 
     // TODO: binding is wrong in all items
     override val viewBinding = lazy {
-        CovidCertificateValidationResultInputItemBinding.bind(itemView)
+        DccTicketingValidationResultTestingInfoItemBinding.bind(itemView)
     }
 
-    override val onBindData: CovidCertificateValidationResultInputItemBinding.(
+    override val onBindData: DccTicketingValidationResultTestingInfoItemBinding.(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
-        dateDetailsTv.text = curItem.dateDetails.get(context)
+        textViewInfo.text = curItem.info.get(context)
     }
 
     data class Item(
-        val dateDetails: LazyString
+        val info: LazyString
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

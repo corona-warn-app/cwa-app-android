@@ -1,11 +1,8 @@
 package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragmentArgs
@@ -20,7 +17,6 @@ import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
-import testhelpers.recyclerScrollTo
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -49,14 +45,6 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
     fun doScreenshot() {
         launchFragmentInContainer2<DccTicketingValidationResultFragment>(fragmentArgs)
         takeScreenshot<DccTicketingValidationResultFragment>("success")
-    }
-
-    @Test
-    @Screenshot
-    fun doScreenshotScroll() {
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>(fragmentArgs)
-        Espresso.onView(ViewMatchers.withId(R.id.list)).perform(recyclerScrollTo(4))
-        takeScreenshot<DccTicketingValidationResultFragment>("success_scroll")
     }
 }
 

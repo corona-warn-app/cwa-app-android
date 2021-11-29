@@ -75,5 +75,13 @@
     <string name="dcc_ticketing_result_invalid_body">Bei Rückfragen wenden Sie sich bitte an den Anbieter “%s”.</string>
     <!-- XTXT: validation result testing details  -->
     <string name="dcc_ticketing_result_testing_details">Geprüft am %s vom Prüfpartner</string>
+    <!-- XTXT: validation result passed title  -->
+    <string name="dcc_ticketing_result_passed_title">"Erfolgreiche Prüfung"</string>
+    <!-- XTXT: validation result open title  -->
+    <string name="dcc_ticketing_result_open_title">"Zertifikat nicht prüfbar"</string>
+    <!-- XTXT: validation result failed title  -->
+    <string name="dcc_ticketing_result_failed_title">"Zertifikat nicht anerkannt"</string>
+
+
 
 </resources>
