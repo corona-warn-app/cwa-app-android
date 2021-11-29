@@ -59,8 +59,7 @@ class DccTicketingRequestServiceHelpersTest : BaseTest() {
                 )
             )
         )
-
-
+        
         shouldNotThrowAny {
             emptyServiceIdentityDocument.verifyJwks(emptyX5cErrorCode = errorCode)
             serviceIdentityDocumentWithEmptyVerificationMethod.verifyJwks(emptyX5cErrorCode = errorCode)
