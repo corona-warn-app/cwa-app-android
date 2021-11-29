@@ -1,14 +1,19 @@
 package testhelpers
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
+import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
+import androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.core.app.launchActivity
@@ -36,8 +41,8 @@ const val SCREENSHOT_DELAY_TIME = 2000L
 inline fun <reified F : Fragment> launchFragmentInContainer2(
     fragmentArgs: Bundle? = null,
     @StyleRes themeResId: Int = R.style.AppTheme,
-    factory: FragmentFactory? = null
-) = launchInEmptyActivity<F>(fragmentArgs)
+    testNavHostController: TestNavHostController? = null
+) = launchInEmptyActivity<F>(fragmentArgs, testNavHostController)
 // TODO FragmentScenario.launchInContainer(F::class.java, fragmentArgs, themeResId, factory)
 // when https://issuetracker.google.com/issues/121347222 is fixed
 
@@ -99,15 +104,33 @@ inline fun <reified F : Fragment> launchInMainActivity(): ActivityScenario<FakeM
  */
 inline fun <reified F : Fragment> launchInEmptyActivity(
     fragmentArgs: Bundle? = null,
-) {
-    val intent = Intent(
-        ApplicationProvider.getApplicationContext(),
-        FakeEmptyActivity::class.java
-    ).apply {
-        putExtra(FakeEmptyActivity.FRAGMENT_CLASS, F::class.qualifiedName)
-        putExtra(FakeEmptyActivity.FRAGMENT_ARGUMENTS, fragmentArgs)
+    testNavHostController: TestNavHostController? = null
+): ActivityScenario<FakeEmptyActivity>? {
+    val startActivityIntent = Intent.makeMainActivity(
+        ComponentName(
+            ApplicationProvider.getApplicationContext(),
+            FakeEmptyActivity::class.java
+        )
+    ).putExtra(EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY, R.style.AppTheme_Main)
+
+    return ActivityScenario.launch<FakeEmptyActivity>(startActivityIntent).onActivity { activity ->
+        val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
+            Preconditions.checkNotNull(F::class.java.classLoader),
+            F::class.java.name
+        )
+        fragment.arguments = fragmentArgs
+        fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+            if (viewLifecycleOwner != null) {
+                testNavHostController?.let {
+                    Navigation.setViewNavController(fragment.requireView(), it)
+                }
+            }
+        }
+        activity.supportFragmentManager
+            .beginTransaction()
+            .add(android.R.id.content, fragment, "")
+            .commitNow()
     }
-    launchActivity<FakeEmptyActivity>(intent)
 }
 
 /**
