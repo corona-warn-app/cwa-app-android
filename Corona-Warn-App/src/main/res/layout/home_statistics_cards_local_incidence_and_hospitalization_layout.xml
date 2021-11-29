@@ -41,7 +41,9 @@
             android:textSize="@dimen/font_small"
             app:layout_constraintStart_toStartOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title"
-            tools:text="Potsdam" />
+            tools:text="Potsdam"
+            android:contentDescription="Test"
+            android:importantForAccessibility="yes"/>
 
         <ImageView
             android:id="@+id/background_image"
