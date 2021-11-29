@@ -26,7 +26,7 @@
         android:layout_marginVertical="16dp"
         android:text="@string/dcc_ticketing_done"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/covid_certificate_validation_result_fragments"
+        app:layout_constraintTop_toBottomOf="@id/validation_result_fragments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

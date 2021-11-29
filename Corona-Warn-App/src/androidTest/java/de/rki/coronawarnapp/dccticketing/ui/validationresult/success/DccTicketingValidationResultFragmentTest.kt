@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidat
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragmentArgs
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.ValidationResultItemCreator
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,29 +20,51 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class DccTicketingValidationResultFragmentTest : BaseUITest() {
 
-    @MockK lateinit var resultViewModel: DccTicketingValidationResultViewModel
-    private val fragmentArgs = DccTicketingValidationResultFragmentArgs(transactionContextSampleData).toBundle()
-
     @Before
     fun setUp() {
-        MockKAnnotations.init(this, relaxed = true)
-
         setupMockViewModel(
             object : DccTicketingValidationResultViewModel.Factory {
-                override fun create(transactionContext: DccTicketingTransactionContext) = DccTicketingValidationResultViewModel(
-                    transactionContext,
-                    ValidationResultItemCreator(),
-                    TestDispatcherProvider()
-                )
+                override fun create(transactionContext: DccTicketingTransactionContext) =
+                    DccTicketingValidationResultViewModel(
+                        transactionContext,
+                        ValidationResultItemCreator(),
+                        TestDispatcherProvider()
+                    )
             }
         )
     }
 
     @Test
     @Screenshot
-    fun doScreenshot() {
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>(fragmentArgs)
-        takeScreenshot<DccTicketingValidationResultFragment>("success")
+    fun doPassScreenshot() {
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(
+            DccTicketingValidationResultFragmentArgs(
+                dccTicketingTransactionContextPassed
+            ).toBundle()
+        )
+        takeScreenshot<DccTicketingValidationResultFragment>("pass")
+    }
+
+    @Test
+    @Screenshot
+    fun doOpenScreenshot() {
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(
+            DccTicketingValidationResultFragmentArgs(
+                dccTicketingTransactionContextOpen
+            ).toBundle()
+        )
+        takeScreenshot<DccTicketingValidationResultFragment>("open")
+    }
+
+    @Test
+    @Screenshot
+    fun doFailScreenshot() {
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(
+            DccTicketingValidationResultFragmentArgs(
+                dccTicketingTransactionContextFailed
+            ).toBundle()
+        )
+        takeScreenshot<DccTicketingValidationResultFragment>("fail")
     }
 }
 
