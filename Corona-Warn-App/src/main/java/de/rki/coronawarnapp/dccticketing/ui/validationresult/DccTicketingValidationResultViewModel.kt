@@ -12,8 +12,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.flow
-import org.joda.time.Instant
-import timber.log.Timber
 
 class DccTicketingValidationResultViewModel @AssistedInject constructor(
     @Assisted private val transactionContext: DccTicketingTransactionContext,
@@ -37,19 +35,17 @@ class DccTicketingValidationResultViewModel @AssistedInject constructor(
             faqVHItem()
         ).apply {
             transactionContext.resultTokenPayload?.results?.forEach {
-                add(businessRuleVHItem(it))
+                add(resultRuleVHItem(it))
             }
         }
     }
 
     fun onDoneClicked() {
-        Timber.d("onDoneClicked()")
-        navigation.postValue(DccTicketingValidationNavigation.Back)
+        navigation.postValue(DccTicketingValidationNavigation.Done)
     }
 
     fun onCloseClicked() {
-        Timber.d("onCloseClicked()")
-        navigation.postValue(DccTicketingValidationNavigation.Back)
+        navigation.postValue(DccTicketingValidationNavigation.Close)
     }
 
     @AssistedFactory

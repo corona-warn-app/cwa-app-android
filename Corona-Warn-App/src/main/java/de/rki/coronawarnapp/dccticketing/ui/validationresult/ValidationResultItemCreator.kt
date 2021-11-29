@@ -5,7 +5,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultItem
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToken
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ResultRuleVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.DescriptionVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
@@ -19,9 +19,9 @@ import javax.inject.Inject
 @Reusable
 class ValidationResultItemCreator @Inject constructor() {
 
-    fun businessRuleVHItem(
+    fun resultRuleVHItem(
         resultItem: DccTicketingResultItem
-    ): BusinessRuleVH.Item {
+    ): ResultRuleVH.Item {
         val iconRes = when (resultItem.result) {
             DccTicketingResultToken.DccResult.OPEN -> R.drawable.ic_grey_question_mark
             else -> R.drawable.ic_high_risk_alert
@@ -30,7 +30,7 @@ class ValidationResultItemCreator @Inject constructor() {
         val ruleDescription = resultItem.details
         val identifier = resultItem.identifier
 
-        return BusinessRuleVH.Item(
+        return ResultRuleVH.Item(
             ruleIconRes = iconRes,
             ruleDescriptionText = ruleDescription,
             identifier = identifier

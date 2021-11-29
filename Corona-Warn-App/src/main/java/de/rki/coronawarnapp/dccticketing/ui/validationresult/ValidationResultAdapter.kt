@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult
 
 import androidx.viewbinding.ViewBinding
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BaseValidationResultVH
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.BusinessRuleVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ResultRuleVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.DescriptionVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
@@ -28,7 +28,7 @@ class ValidationResultAdapter @Inject constructor() :
             TypedVHCreatorMod({ data[it] is ValidationFaqVH.Item }) { ValidationFaqVH(it) },
             TypedVHCreatorMod({ data[it] is DescriptionVH.Item }) { DescriptionVH(it) },
             TypedVHCreatorMod({ data[it] is TestingInfoVH.Item }) { TestingInfoVH(it) },
-            TypedVHCreatorMod({ data[it] is BusinessRuleVH.Item }) { BusinessRuleVH(it) },
+            TypedVHCreatorMod({ data[it] is ResultRuleVH.Item }) { ResultRuleVH(it) },
             // TODO: more items here
         ).run { modules.addAll(this) }
     }

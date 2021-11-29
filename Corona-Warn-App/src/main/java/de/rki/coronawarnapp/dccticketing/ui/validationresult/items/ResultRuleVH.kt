@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.DccTicketingValidationResultRuleItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class BusinessRuleVH(
+class ResultRuleVH(
     parent: ViewGroup
-) : BaseValidationResultVH<BusinessRuleVH.Item, DccTicketingValidationResultRuleItemBinding>(
+) : BaseValidationResultVH<ResultRuleVH.Item, DccTicketingValidationResultRuleItemBinding>(
     R.layout.dcc_ticketing_validation_result_rule_item,
     parent
 ) {
@@ -25,7 +25,7 @@ class BusinessRuleVH(
         with(curItem) {
             ruleIcon.setImageResource(ruleIconRes)
             ruleDescription.text = ruleDescriptionText
-            ruleId.text = identifier
+            ruleIdText.text = identifier
         }
     }
 

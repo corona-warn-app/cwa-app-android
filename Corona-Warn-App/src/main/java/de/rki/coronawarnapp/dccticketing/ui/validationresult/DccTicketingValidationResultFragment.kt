@@ -60,8 +60,10 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
     }
 
     private fun handleNavigation(navigation: DccTicketingValidationNavigation) {
+        // TODO: check navigation when the whole flow is implemented
         when (navigation) {
-            DccTicketingValidationNavigation.Back -> popBackStack()
+            DccTicketingValidationNavigation.Close -> popBackStack()
+            DccTicketingValidationNavigation.Done -> popBackStack()
         }
     }
 }
