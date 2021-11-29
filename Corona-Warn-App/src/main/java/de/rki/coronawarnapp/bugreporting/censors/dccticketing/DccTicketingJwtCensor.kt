@@ -93,7 +93,6 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
                     "category$index"
                 )
             }
-
         }
 
         vc.validationClock?.let {
@@ -144,5 +143,3 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
     private val jwtSet: MutableSet<String> = mutableSetOf()
     private val vcSet: MutableSet<DccTicketingValidationCondition> = mutableSetOf()
 }
-
-
