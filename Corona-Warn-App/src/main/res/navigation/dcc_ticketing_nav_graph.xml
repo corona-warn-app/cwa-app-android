@@ -39,31 +39,17 @@
         android:label="fragment_dcc_ticketing_consent_two"
         tools:layout="@layout/fragment_dcc_ticketing_consent_two">
         <action
-            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationOpenFragment"
-            app:destination="@id/dccTicketingValidationOpenFragment" />
-        <action
             android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment2"
-            app:destination="@id/dccTicketingValidationSuccessFragment2" />
-        <action
-            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment"
-            app:destination="@id/dccTicketingValidationSuccessFragment" />
+            app:destination="@id/dccTicketingValidationSuccessFragment"
+            app:popUpTo="@id/dccTicketingConsentTwoFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="containerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
     </fragment>
     <fragment
         android:id="@+id/dccTicketingValidationSuccessFragment"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationSuccessFragment"
-        android:label="fragment_dcc_ticketing_validation_success"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_success" />
-    <fragment
-        android:id="@+id/dccTicketingValidationSuccessFragment2"
         android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.failed.DccTicketingValidationFailedFragment"
         android:label="fragment_dcc_ticketing_validation_failed"
         tools:layout="@layout/fragment_dcc_ticketing_validation_failed" />
-    <fragment
-        android:id="@+id/dccTicketingValidationOpenFragment"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.open.DccTicketingValidationOpenFragment"
-        android:label="fragment_dcc_ticketing_validation_open"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_open" />
 </navigation>
