@@ -2,22 +2,22 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultFaqItemBinding
+import de.rki.coronawarnapp.databinding.DccTicketingValidationResultFaqItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import setTextWithUrl
 
 class ValidationFaqVH(
     parent: ViewGroup
-) : BaseValidationResultVH<ValidationFaqVH.Item, CovidCertificateValidationResultFaqItemBinding>(
+) : BaseValidationResultVH<ValidationFaqVH.Item, DccTicketingValidationResultFaqItemBinding>(
     R.layout.dcc_ticketing_validation_result_faq_item,
     parent
 ) {
 
     override val viewBinding = lazy {
-        CovidCertificateValidationResultFaqItemBinding.bind(itemView)
+        DccTicketingValidationResultFaqItemBinding.bind(itemView)
     }
 
-    override val onBindData: CovidCertificateValidationResultFaqItemBinding.(
+    override val onBindData: DccTicketingValidationResultFaqItemBinding.(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { _, _ ->

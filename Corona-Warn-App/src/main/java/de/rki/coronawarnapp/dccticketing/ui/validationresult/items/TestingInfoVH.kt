@@ -14,7 +14,6 @@ class TestingInfoVH(
     parent
 ) {
 
-    // TODO: binding is wrong in all items
     override val viewBinding = lazy {
         DccTicketingValidationResultTestingInfoItemBinding.bind(itemView)
     }
