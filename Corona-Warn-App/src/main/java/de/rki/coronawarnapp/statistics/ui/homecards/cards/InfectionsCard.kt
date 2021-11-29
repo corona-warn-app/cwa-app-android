@@ -82,6 +82,7 @@ class InfectionsCard(parent: ViewGroup) :
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_card_infections_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithLineBreak(formatStatisticalValue(context, newInfections.value, newInfections.decimals))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))

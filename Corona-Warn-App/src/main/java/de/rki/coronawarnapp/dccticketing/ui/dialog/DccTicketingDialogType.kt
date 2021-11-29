@@ -14,4 +14,13 @@ sealed class DccTicketingDialogType {
                 negativeButtonRes = R.string.dcc_ticketing_consent_one_cancel_dialog_cancel_btn
             )
     }
+
+    data class ErrorDialog(private val msg: String) : DccTicketingDialogType() {
+        override val config: DccTicketingDialogFragment.Config
+            get() = DccTicketingDialogFragment.Config(
+                titleRes = R.string.errors_generic_headline_short,
+                msg = msg,
+                positiveButtonRes = R.string.errors_generic_button_positive
+            )
+    }
 }
