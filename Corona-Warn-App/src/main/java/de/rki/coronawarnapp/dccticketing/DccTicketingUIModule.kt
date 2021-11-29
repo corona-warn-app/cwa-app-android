@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFr
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingFragmentModule
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
 
 @Module
 abstract class DccTicketingUIModule {
