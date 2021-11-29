@@ -126,7 +126,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         checkResult(document = document, result = validationServiceResult)
 
         document = serviceIdentityDocument.copy(
-            verificationMethod = serviceIdentityDocument.verificationMethod - verificationMethodsForRSAOAEPWithSHA256AESGCM
+            verificationMethod =
+            serviceIdentityDocument.verificationMethod - verificationMethodsForRSAOAEPWithSHA256AESGCM
         )
 
         checkResult(document = document, result = validationServiceResult)
@@ -147,7 +148,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         checkResult(document = document, result = validationServiceResult)
 
         document = serviceIdentityDocument.copy(
-            verificationMethod = serviceIdentityDocument.verificationMethod - verificationMethodsForRSAOAEPWithSHA256AESCBC
+            verificationMethod =
+            serviceIdentityDocument.verificationMethod - verificationMethodsForRSAOAEPWithSHA256AESCBC
         )
 
         checkResult(document = document, result = validationServiceResult)
@@ -233,8 +235,10 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
             )
 
             checkServerErrorMapping(
-                serverCertCheckErrorCode = DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID,
-                processorErrorCode = DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
+                serverCertCheckErrorCode =
+                DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID,
+                processorErrorCode =
+                DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
             )
             checkServerErrorMapping(
                 serverCertCheckErrorCode = DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH,
@@ -250,7 +254,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     ) {
         val serverException = when {
             serverErrorCode != null -> DccTicketingServerException(errorCode = serverErrorCode)
-            serverCertCheckErrorCode != null -> DccTicketingServerCertificateCheckException(errorCode = serverCertCheckErrorCode)
+            serverCertCheckErrorCode != null ->
+                DccTicketingServerCertificateCheckException(errorCode = serverCertCheckErrorCode)
             else -> null
         }
 
