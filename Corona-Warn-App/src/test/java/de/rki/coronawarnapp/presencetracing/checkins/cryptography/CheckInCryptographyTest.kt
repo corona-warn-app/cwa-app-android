@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.presencetracing.checkins.cryptography
 
 import com.google.protobuf.ByteString
-import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocationId
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.derive10MinutesInterval
 import de.rki.coronawarnapp.util.encoding.base64
+import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import de.rki.coronawarnapp.util.toProtoByteString
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe

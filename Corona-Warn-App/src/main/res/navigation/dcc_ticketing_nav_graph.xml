@@ -9,7 +9,7 @@
         android:id="@+id/dccTicketingConsentOneFragment"
         android:name="de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment"
         android:label="fragment_dcc_ticketing_consent_one"
-        tools:layout="@layout/fragment_dcc_ticketing_consent_one" >
+        tools:layout="@layout/fragment_dcc_ticketing_consent_one">
 
         <deepLink app:uri="cwa://dcc.ticketing.consent.one/?transactionContextIdentifier={transactionContextIdentifier}" />
 
@@ -18,7 +18,9 @@
             app:argType="string" />
         <action
             android:id="@+id/action_dccTicketingConsentOneFragment_to_dccTicketingCertificateSelectionFragment"
-            app:destination="@id/dccTicketingCertificateSelectionFragment" />
+            app:destination="@id/dccTicketingCertificateSelectionFragment"
+            app:popUpTo="@id/dccTicketingConsentOneFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/dccTicketingCertificateSelectionFragment"
@@ -28,8 +30,6 @@
         <action
             android:id="@+id/action_dccTicketingCertificateSelectionFragment_to_dccTicketingConsentTwoFragment"
             app:destination="@id/dccTicketingConsentTwoFragment" />
-
-
     </fragment>
     <fragment
         android:id="@+id/dccTicketingConsentTwoFragment"
@@ -39,9 +39,6 @@
         <action
             android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment"
             app:destination="@id/dccTicketingValidationSuccessFragment" />
-        <argument
-            android:name="transactionContext"
-            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
         <argument
             android:name="selectedCertificateContainerId"
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />

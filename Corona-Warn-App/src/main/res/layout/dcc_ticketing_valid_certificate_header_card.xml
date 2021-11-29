@@ -1,0 +1,62 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/selection_title"
+        style="@style/materialSubtitleSixteen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/dcc_ticketing_certificate_selection_provider_requirements_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/allowed_certificates"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/selection_title"
+        app:layout_constraintStart_toStartOf="@id/selection_title"
+        app:layout_constraintTop_toBottomOf="@id/selection_title"
+        tools:text="Impfzertifikat, Genesenenzertifikat, Shcnelltest-Testzertifikat, PCR-Testzertifikat" />
+
+    <TextView
+        android:id="@+id/birth_date"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/allowed_certificates"
+        app:layout_constraintStart_toStartOf="@id/allowed_certificates"
+        app:layout_constraintTop_toBottomOf="@id/allowed_certificates"
+        tools:text="@string/dcc_ticketing_certificate_birthday" />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/body2Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/birth_date"
+        app:layout_constraintStart_toStartOf="@id/birth_date"
+        app:layout_constraintTop_toBottomOf="@id/birth_date"
+        tools:text="SCHNEIDER&amp;ltt&amp;ltANDREA" />
+
+    <TextView
+        android:id="@+id/required_certificates_title"
+        style="@style/materialSubtitleSixteen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/dcc_ticketing_certificates_meeting_requirements_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
