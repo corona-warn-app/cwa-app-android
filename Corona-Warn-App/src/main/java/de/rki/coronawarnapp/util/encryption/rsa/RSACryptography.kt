@@ -4,6 +4,7 @@ import dagger.Reusable
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
+import java.security.PublicKey
 import java.security.spec.MGF1ParameterSpec
 import javax.crypto.Cipher
 import javax.crypto.spec.OAEPParameterSpec
@@ -25,6 +26,20 @@ class RSACryptography @Inject constructor() {
 
         return cipher.doFinal(toDecrypt.toByteArray()).toByteString().also {
             Timber.v("Decrypted %s bytes to %s bytes", toDecrypt.size, it.size)
+        }
+    }
+
+    fun encrypt(
+        toEncrypt: ByteArray,
+        publicKey: PublicKey,
+        cipherType: CipherType = CipherType.RSA_PKCS1_OAEP_PADDING,
+    ): ByteArray {
+
+        val cipher: Cipher = Cipher.getInstance(cipherType.transformation).apply {
+            init(Cipher.ENCRYPT_MODE, publicKey, cipherType.oaepParameterSpec)
+        }
+        return cipher.doFinal(toEncrypt).also {
+            Timber.v("Encrypted %s bytes to %s bytes", toEncrypt.size, it.size)
         }
     }
 
