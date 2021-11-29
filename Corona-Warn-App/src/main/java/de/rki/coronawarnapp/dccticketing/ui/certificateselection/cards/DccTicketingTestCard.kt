@@ -24,7 +24,7 @@ class DccTicketingTestCard(parent: ViewGroup) :
 
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = curItem.certificate
-        root.setOnClickListener { curItem.onClick }
+        root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
             R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
