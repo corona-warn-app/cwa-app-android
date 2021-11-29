@@ -50,8 +50,8 @@ class DccTicketingCertificateFilter @Inject constructor(
                 VACCINATION -> vaccinationCerts
                 RECOVERY -> recoveryCerts
                 TEST -> testCerts
-                PCR_TEST -> testCerts.filter { it.rawCertificate.test.testType == "LP6464-4" }
-                RA_TEST -> testCerts.filter { it.rawCertificate.test.testType == "LP217198-3" }
+                PCR_TEST -> testCerts.filter { it.isPCRTestCertificate }
+                RA_TEST -> testCerts.filter { it.isRapidAntigenTestCertificate }
                 else -> {
                     Timber.tag(TAG).w("Unsupported type=$type")
                     emptySet()
