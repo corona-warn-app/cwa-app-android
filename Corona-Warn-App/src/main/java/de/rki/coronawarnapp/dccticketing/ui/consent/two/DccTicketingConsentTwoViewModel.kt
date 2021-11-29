@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.ui.consent.two
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -28,6 +27,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class DccTicketingConsentTwoViewModel @AssistedInject constructor(
@@ -44,22 +44,13 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
     private val currentEvent = SingleLiveEvent<DccTicketingConsentTwoEvent>()
     val events: LiveData<DccTicketingConsentTwoEvent> = currentEvent
 
-    private val mutableUiState = MutableLiveData<UiState>()
-    val uiState: LiveData<UiState>
-        get() = mutableUiState
-
-    init {
-        launch {
-            certificateProvider.findCertificate(containerId).also {
-                mutableUiState.postValue(
-                    UiState(
-                        dccTicketingTransactionContext = dccTicketingSharedViewModel.transactionContext.first(),
-                        certificate = it
-                    )
-                )
-            }
-        }
+    private val uiStateFlow = dccTicketingSharedViewModel.transactionContext.map { cxt ->
+        UiState(
+            dccTicketingTransactionContext = cxt,
+            certificate = certificateProvider.findCertificate(containerId)
+        )
     }
+    val uiState = uiStateFlow.asLiveData2()
 
     fun onUserCancel() {
         Timber.d("onUserCancel()")
@@ -73,26 +64,21 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
     fun onUserConsent(): Unit = launch {
         Timber.d("onUserConsent()")
         currentIsLoading.compareAndSet(expect = false, update = true)
-
+        val currentState = uiStateFlow.first()
         val event = try {
-            val currentState = uiState.value!!
             val ctx = currentState.dccTicketingTransactionContext.copy(
                 dccBarcodeData = currentState.certificate.qrCodeToDisplay.content
             )
-            val submittedTransactionContext = dccTicketingSubmissionHandler.submitDcc(ctx)
-            dccTicketingSharedViewModel.updateTransactionContext(submittedTransactionContext)
-
+            dccTicketingSharedViewModel.updateTransactionContext(
+                dccTicketingSubmissionHandler.submitDcc(ctx)
+            )
             NavigateToValidationResult
         } catch (e: Exception) {
             Timber.e(e, "Error while submitting user consent")
-            val lazyErrorMessage = when (e) {
-                is DccTicketingException -> {
-                    val serviceProvider = uiState.value!!.provider
-                    e.errorMessage(serviceProvider = serviceProvider)
-                }
+            when (e) {
+                is DccTicketingException -> e.errorMessage(serviceProvider = currentState.provider)
                 else -> R.string.errors_generic_text_unknown_error_cause.toResolvingString()
-            }
-            ShowErrorDialog(lazyErrorMessage = lazyErrorMessage)
+            }.let { ShowErrorDialog(lazyErrorMessage = it) }
         }
 
         postEvent(event)
