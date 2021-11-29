@@ -5,10 +5,10 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment">
+    tools:context=".dccticketing.ui.validationresult.DccTicketingValidationResultFragment">
 
     <include
-        android:id="@+id/covid_certificate_validation_result_fragments"
+        android:id="@+id/validation_result_fragments"
         layout="@layout/covid_certificate_validation_result_fragments"
         android:layout_width="0dp"
         android:layout_height="0dp"

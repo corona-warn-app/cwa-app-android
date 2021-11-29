@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationBinding
+import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
@@ -17,12 +17,13 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
-class DccTicketingValidationSuccessFragment : Fragment(R.layout.fragment_dcc_ticketing_validation), AutoInject {
+class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_ticketing_validation_result), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    @Inject lateinit var validationResultAdapter: ValidationResultAdapter
 
-    private val binding: FragmentDccTicketingValidationBinding by viewBinding()
-    private val args: DccTicketingValidationSuccessFragmentArgs by navArgs()
+    private val binding: FragmentDccTicketingValidationResultBinding by viewBinding()
+    private val args: DccTicketingValidationResultFragmentArgs by navArgs()
     private val viewModel: DccTicketingValidationViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
@@ -31,23 +32,13 @@ class DccTicketingValidationSuccessFragment : Fragment(R.layout.fragment_dcc_tic
         }
     )
 
-    @Inject lateinit var validationResultAdapter: ValidationResultAdapter
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            covidCertificateValidationResultFragments.apply {
+            validationResultFragments.apply {
                 setHeaderForState(args.transactionContext.resultTokenPayload?.result)
                 list.apply {
                     adapter = validationResultAdapter
-                    val padding = R.dimen.spacing_small
-                    addItemDecoration(
-                        RecylerViewPaddingDecorator(
-                            topPadding = padding,
-                            leftPadding = padding,
-                            rightPadding = padding
-                        )
-                    )
                 }
 
                 toolbar.setNavigationOnClickListener { viewModel.onCloseClicked() }

@@ -7,8 +7,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragmentArgs
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragmentArgs
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.ValidationResultItemCreator
 import io.mockk.MockKAnnotations
@@ -24,10 +24,10 @@ import testhelpers.recyclerScrollTo
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
-class DccTicketingValidationSuccessFragmentTest : BaseUITest() {
+class DccTicketingValidationResultFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: DccTicketingValidationViewModel
-    private val fragmentArgs = DccTicketingValidationSuccessFragmentArgs(transactionContextSampleData).toBundle()
+    private val fragmentArgs = DccTicketingValidationResultFragmentArgs(transactionContextSampleData).toBundle()
 
     @Before
     fun setUp() {
@@ -47,22 +47,22 @@ class DccTicketingValidationSuccessFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun doScreenshot() {
-        launchFragmentInContainer2<DccTicketingValidationSuccessFragment>(fragmentArgs)
-        takeScreenshot<DccTicketingValidationSuccessFragment>("success")
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(fragmentArgs)
+        takeScreenshot<DccTicketingValidationResultFragment>("success")
     }
 
     @Test
     @Screenshot
     fun doScreenshotScroll() {
-        launchFragmentInContainer2<DccTicketingValidationSuccessFragment>(fragmentArgs)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(fragmentArgs)
         Espresso.onView(ViewMatchers.withId(R.id.list)).perform(recyclerScrollTo(4))
-        takeScreenshot<DccTicketingValidationSuccessFragment>("success_scroll")
+        takeScreenshot<DccTicketingValidationResultFragment>("success_scroll")
     }
 }
 
 @Module
 abstract class DccTicketingValidationSuccessFragmentTestModule {
     @ContributesAndroidInjector
-    abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationSuccessFragment
+    abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationResultFragment
 }
 

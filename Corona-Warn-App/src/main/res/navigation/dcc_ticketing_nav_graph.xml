@@ -48,9 +48,9 @@
     </fragment>
     <fragment
         android:id="@+id/dccTicketingValidationSuccessFragment"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationSuccessFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment"
         android:label="fragment_dcc_ticketing_validation_success"
-        tools:layout="@layout/fragment_dcc_ticketing_validation">
+        tools:layout="@layout/fragment_dcc_ticketing_validation_result">
         <argument
             android:name="transactionContext"
             app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
