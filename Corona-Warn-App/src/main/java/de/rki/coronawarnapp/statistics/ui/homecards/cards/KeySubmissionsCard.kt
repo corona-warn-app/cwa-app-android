@@ -78,10 +78,10 @@ class KeySubmissionsCard(parent: ViewGroup) :
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
         total: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
-
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_card_submission_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_card_submission_bottom_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithLineBreak(formatStatisticalValue(context, keySubmissions.value, keySubmissions.decimals))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
@@ -89,7 +89,6 @@ class KeySubmissionsCard(parent: ViewGroup) :
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayAverage.trend))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
             .appendWithTrailingSpace(formatStatisticalValue(context, total.value, total.decimals))
-            .appendWithLineBreak(context.getString(R.string.statistics_card_submission_bottom_text))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }

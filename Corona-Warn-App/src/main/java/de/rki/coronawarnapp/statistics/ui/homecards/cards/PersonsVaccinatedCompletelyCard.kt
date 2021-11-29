@@ -27,6 +27,8 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
         )
     }
 
+    private val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
+
     override val onBindData: HomeStatisticsCardsVaccinatedCompletelyLayoutBinding.(
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
@@ -37,8 +39,6 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
             item.onClickListener(item.stats)
         }
 
-        val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
-
         with(item.stats as PersonsVaccinatedCompletelyStats) {
             personsVaccinatedCompletelyContainer.contentDescription =
                 buildAccessibilityStringForPersonsVaccinatedCompletelyCard(item.stats, allDoses, total)
@@ -47,7 +47,7 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
             primaryValue.text = formatPercentageValue(allDoses.value, currentSelectedLocale)
             primaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(getPrimaryLabel(context))
-                .appendWithTrailingSpace(formatStatisticalValue(context, allDoses.value, allDoses.decimals))
+                .appendWithTrailingSpace(formatPercentageValue(allDoses.value, currentSelectedLocale))
                 .append(context.getString(R.string.statistics_vaccinated_completely_card_title))
 
             secondaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
@@ -67,8 +67,9 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_vaccinated_completely_card_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithLineBreak(formatStatisticalValue(context, firstDose.value, firstDose.decimals))
+            .appendWithLineBreak(formatPercentageValue(firstDose.value, currentSelectedLocale))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
             .appendWithTrailingSpace(formatStatisticalValue(context, total.value, total.decimals))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))

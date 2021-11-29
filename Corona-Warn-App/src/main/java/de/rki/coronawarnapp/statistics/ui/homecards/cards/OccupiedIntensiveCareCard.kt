@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.statistics.GlobalStatsItem
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatPercentageValue
-import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
@@ -28,6 +27,8 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
         )
     }
 
+    private val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
+
     override val onBindData: HomeStatisticsCardsOccupiedIntensiveCareBedsBinding.(
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
@@ -36,8 +37,6 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)
         }
-
-        val currentSelectedLocale = ConfigurationCompat.getLocales(resources.configuration).get(0)
 
         with(item.stats as OccupiedIntensiveCareStats) {
             occupiedIntensiveCareContainer.contentDescription =
@@ -49,17 +48,9 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = formatPercentageValue(occupationRatio.value, currentSelectedLocale)
             primaryValue.contentDescription = StringBuilder()
-                .appendWithTrailingSpace(
-                    context.getString(R.string.statistics_occupied_intensive_care_card_title)
-                )
+                .appendWithTrailingSpace(context.getString(R.string.statistics_occupied_intensive_care_card_title))
                 .appendWithTrailingSpace(getPrimaryLabel(context))
-                .appendWithTrailingSpace(
-                    formatStatisticalValue(
-                        context,
-                        occupationRatio.value,
-                        occupationRatio.decimals
-                    )
-                )
+                .appendWithTrailingSpace(formatPercentageValue(occupationRatio.value, currentSelectedLocale))
                 .append(getContentDescriptionForTrends(context, occupationRatio.trend))
             trendArrow.setTrend(occupationRatio.trend, occupationRatio.trendSemantic)
         }
@@ -72,14 +63,9 @@ class OccupiedIntensiveCareCard(parent: ViewGroup) :
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_occupied_intensive_care_card_title))
+            .appendWithTrailingSpace(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
-            .appendWithTrailingSpace(
-                formatStatisticalValue(
-                    context,
-                    occupationRatio.value,
-                    occupationRatio.decimals
-                )
-            )
+            .appendWithTrailingSpace(formatPercentageValue(occupationRatio.value, currentSelectedLocale))
             .appendWithTrailingSpace(context.getString(R.string.statistics_occupied_intensive_care_beds_text))
             .appendWithLineBreak(getContentDescriptionForTrends(context, occupationRatio.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))

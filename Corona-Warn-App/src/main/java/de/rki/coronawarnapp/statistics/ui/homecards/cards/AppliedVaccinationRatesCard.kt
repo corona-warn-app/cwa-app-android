@@ -57,7 +57,7 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
                         administeredDoses.decimals
                     )
                 )
-                .append(context.getString(R.string.statistics_vaccinated_once_card_title))
+                .append(context.getString(R.string.statistics_applied_vaccination_dose_rates_card_title))
 
             secondaryValue.text = formatStatisticalValue(context, sevenDayAverage.value, sevenDayAverage.decimals)
             secondaryValue.contentDescription = StringBuilder()
@@ -69,14 +69,16 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
                         sevenDayAverage.decimals
                     )
                 )
-                .appendWithTrailingSpace(context.getString(R.string.statistics_card_submission_title))
+                .appendWithTrailingSpace(
+                    context.getString(R.string.statistics_applied_vaccination_dose_rates_card_title)
+                )
                 .append(getContentDescriptionForTrends(context, sevenDayAverage.trend))
 
             tertiaryValue.text = formatStatisticalValue(context, total.value, total.decimals)
             tertiaryValue.contentDescription = StringBuilder()
                 .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_tertiary_label))
                 .appendWithTrailingSpace(formatStatisticalValue(context, total.value, total.decimals))
-                .append(context.getString(R.string.statistics_vaccinated_once_card_title))
+                .append(context.getString(R.string.statistics_applied_vaccination_dose_rates_card_title))
 
             trendArrow.setTrend(sevenDayAverage.trend, sevenDayAverage.trendSemantic)
         }
@@ -88,10 +90,10 @@ class AppliedVaccinationRatesCard(parent: ViewGroup) :
         sevenDayAverage: KeyFigureCardOuterClass.KeyFigure,
         total: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
-
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
-            .appendWithLineBreak(context.getString(R.string.statistics_vaccinated_once_card_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_applied_vaccination_dose_rates_card_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithLineBreak(formatStatisticalValue(context, administeredDoses.value, administeredDoses.decimals))
             .appendWithTrailingSpace(context.getString(R.string.statistics_card_infections_secondary_label))
