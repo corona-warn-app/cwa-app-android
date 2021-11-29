@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 import org.joda.time.Instant
 import timber.log.Timber
 
-class DccTicketingValidationViewModel @AssistedInject constructor(
+class DccTicketingValidationResultViewModel @AssistedInject constructor(
     @Assisted private val transactionContext: DccTicketingTransactionContext,
     val itemCreator: ValidationResultItemCreator,
     dispatcherProvider: DispatcherProvider
@@ -28,8 +29,11 @@ class DccTicketingValidationViewModel @AssistedInject constructor(
 
     private fun generateItems(): List<ValidationResultItem> = with(itemCreator) {
         mutableListOf(
-            validationInputVHItem(Instant.now()),
-            ruleHeaderVHItem(transactionContext.resultTokenPayload?.result),
+            validationInputVHItem(transactionContext.resultTokenPayload?.iat?.secondsToInstant()),
+            ruleHeaderVHItem(
+                transactionContext.resultTokenPayload?.result,
+                transactionContext.initializationData.serviceProvider
+            ),
             validationFaqVHItem()
         ).apply {
             transactionContext.resultTokenPayload?.results?.forEach {
@@ -49,7 +53,7 @@ class DccTicketingValidationViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<DccTicketingValidationViewModel> {
-        fun create(transactionContext: DccTicketingTransactionContext): DccTicketingValidationViewModel
+    interface Factory : CWAViewModelFactory<DccTicketingValidationResultViewModel> {
+        fun create(transactionContext: DccTicketingTransactionContext): DccTicketingValidationResultViewModel
     }
 }

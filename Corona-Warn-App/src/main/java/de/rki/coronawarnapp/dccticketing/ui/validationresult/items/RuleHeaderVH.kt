@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.CovidCertificateValidationResultRuleHeaderItemBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
+import de.rki.coronawarnapp.util.ui.LazyString
 
 class RuleHeaderVH(
     parent: ViewGroup
@@ -24,13 +25,13 @@ class RuleHeaderVH(
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         with(curItem) {
             titleText.setText(title)
-            subtitleText.setText(subtitle)
+            subtitleText.text = subtitle.get(context)
         }
     }
 
     data class Item(
         @StringRes val title: Int,
-        @StringRes val subtitle: Int
+        val subtitle: LazyString
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

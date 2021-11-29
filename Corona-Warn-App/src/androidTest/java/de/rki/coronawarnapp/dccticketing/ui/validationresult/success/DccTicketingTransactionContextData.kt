@@ -22,10 +22,10 @@ val transactionContextSampleData = DccTicketingTransactionContext(
         exp = 0,
         sub = "",
         category = listOf(),
-        result = "CHK",
+        result = DccTicketingResultToken.DccResult.OPEN,
         confirmation = "",
         results = listOf(
-            DccTicketingResultItem(identifier = "ID", result = "NOK", type = "TYPE", details = "Description")
+            DccTicketingResultItem(identifier = "ID", result = DccTicketingResultToken.DccResult.FAIL, type = "TYPE", details = "Description")
         )
     )
 )

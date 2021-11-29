@@ -70,9 +70,9 @@
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">Ihr Zertifikat entspricht nicht den Anforderungen des Anbieters</string>
     <!-- XTXT: validation result valid body  -->
-    <string name="dcc_ticketing_result_valid_body">Der Anbieter “Anbietername” wurde über die erfolgreiche Prüfung informiert.</string>
+    <string name="dcc_ticketing_result_valid_body">Der Anbieter “%s” wurde über die erfolgreiche Prüfung informiert.</string>
     <!-- XTXT: validation result invalid body  -->
-    <string name="dcc_ticketing_result_invalid_body">Bei Rückfragen wenden Sie sich bitte an den Anbieter “Anbietername”.</string>
+    <string name="dcc_ticketing_result_invalid_body">Bei Rückfragen wenden Sie sich bitte an den Anbieter “%s”.</string>
     <!-- XTXT: validation result testing details  -->
     <string name="dcc_ticketing_result_testing_details">Geprüft am %s vom Prüfpartner</string>
 

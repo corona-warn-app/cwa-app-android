@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragmentArgs
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationViewModel
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.ValidationResultItemCreator
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
@@ -26,7 +26,7 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class DccTicketingValidationResultFragmentTest : BaseUITest() {
 
-    @MockK lateinit var viewModel: DccTicketingValidationViewModel
+    @MockK lateinit var resultViewModel: DccTicketingValidationResultViewModel
     private val fragmentArgs = DccTicketingValidationResultFragmentArgs(transactionContextSampleData).toBundle()
 
     @Before
@@ -34,8 +34,8 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         setupMockViewModel(
-            object : DccTicketingValidationViewModel.Factory {
-                override fun create(transactionContext: DccTicketingTransactionContext) = DccTicketingValidationViewModel(
+            object : DccTicketingValidationResultViewModel.Factory {
+                override fun create(transactionContext: DccTicketingTransactionContext) = DccTicketingValidationResultViewModel(
                     transactionContext,
                     ValidationResultItemCreator(),
                     TestDispatcherProvider()

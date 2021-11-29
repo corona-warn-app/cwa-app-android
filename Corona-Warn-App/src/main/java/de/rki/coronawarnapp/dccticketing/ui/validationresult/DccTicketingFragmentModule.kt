@@ -12,8 +12,8 @@ internal abstract class DccTicketingFragmentModule {
 
     @Binds
     @IntoMap
-    @CWAViewModelKey(DccTicketingValidationViewModel::class)
+    @CWAViewModelKey(DccTicketingValidationResultViewModel::class)
     abstract fun dccTicketingValidationFragment(
-        factory: DccTicketingValidationViewModel.Factory
+        factory: DccTicketingValidationResultViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }

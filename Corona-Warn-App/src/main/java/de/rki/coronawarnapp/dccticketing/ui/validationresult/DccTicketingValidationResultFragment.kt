@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.lists.decorations.RecylerViewPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -24,10 +23,10 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
 
     private val binding: FragmentDccTicketingValidationResultBinding by viewBinding()
     private val args: DccTicketingValidationResultFragmentArgs by navArgs()
-    private val viewModel: DccTicketingValidationViewModel by cwaViewModelsAssisted(
+    private val resultViewModel: DccTicketingValidationResultViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
-            factory as DccTicketingValidationViewModel.Factory
+            factory as DccTicketingValidationResultViewModel.Factory
             factory.create(transactionContext = args.transactionContext)
         }
     )
@@ -41,21 +40,21 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
                     adapter = validationResultAdapter
                 }
 
-                toolbar.setNavigationOnClickListener { viewModel.onCloseClicked() }
+                toolbar.setNavigationOnClickListener { resultViewModel.onCloseClicked() }
 
                 appBarLayout.onOffsetChange { _, subtitleAlpha ->
                     headerImage.alpha = subtitleAlpha
                 }
             }
 
-            buttonDone.setOnClickListener { viewModel.onDoneClicked() }
+            buttonDone.setOnClickListener { resultViewModel.onDoneClicked() }
         }
 
-        viewModel.items.observe2(this) {
+        resultViewModel.items.observe2(this) {
             validationResultAdapter.update(it)
         }
 
-        viewModel.navigation.observe2(this) {
+        resultViewModel.navigation.observe2(this) {
             handleNavigation(it)
         }
     }
