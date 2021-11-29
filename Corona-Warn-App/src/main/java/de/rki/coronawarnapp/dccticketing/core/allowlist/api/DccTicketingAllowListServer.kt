@@ -4,7 +4,6 @@ import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.signature.core.common.exception.DscValidationException
-import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlist
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip

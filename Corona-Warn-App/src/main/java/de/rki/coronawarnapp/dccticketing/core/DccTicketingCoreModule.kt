@@ -4,15 +4,11 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscApiV1
-import de.rki.coronawarnapp.covidcertificate.validation.core.CertificateValidation
-import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
 import de.rki.coronawarnapp.dccticketing.core.allowlist.api.DccTicketingAllowListApi1
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.http.HttpClientDefault
-import de.rki.coronawarnapp.statistics.Statistics
 import de.rki.coronawarnapp.util.di.AppContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
