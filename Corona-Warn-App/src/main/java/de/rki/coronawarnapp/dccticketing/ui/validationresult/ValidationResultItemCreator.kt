@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ResultRuleVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.DescriptionVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationFaqVH
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.TestingInfoVH
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDateTimeFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -19,7 +21,23 @@ import javax.inject.Inject
 @Reusable
 class ValidationResultItemCreator @Inject constructor() {
 
-    fun resultRuleVHItem(
+    fun generateItems(
+        resultToken: DccTicketingResultToken,
+        serviceProvider: String
+    ): List<ValidationResultItem> = mutableListOf(
+        testingInfoVHItem(resultToken.iat.secondsToInstant()),
+        descriptionVHItem(
+            resultToken.result,
+            serviceProvider
+        ),
+        faqVHItem()
+    ).apply {
+        resultToken.results.forEach {
+            add(resultRuleVHItem(it))
+        }
+    }.toList()
+
+    private fun resultRuleVHItem(
         resultItem: DccTicketingResultItem
     ): ResultRuleVH.Item {
         val iconRes = when (resultItem.result) {
@@ -37,7 +55,7 @@ class ValidationResultItemCreator @Inject constructor() {
         )
     }
 
-    fun descriptionVHItem(
+    private fun descriptionVHItem(
         result: DccTicketingResultToken.DccResult?,
         serviceProvider: String
     ): DescriptionVH.Item {
@@ -61,9 +79,9 @@ class ValidationResultItemCreator @Inject constructor() {
         )
     }
 
-    fun faqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
+    private fun faqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
-    fun testingInfoVHItem(validatedAt: Instant?): TestingInfoVH.Item =
+    private fun testingInfoVHItem(validatedAt: Instant?): TestingInfoVH.Item =
         TestingInfoVH.Item(
             info = R.string.dcc_ticketing_result_testing_details.toResolvingString(
                 validatedAt?.toUserTimeZone()?.toShortDateTimeFormat() ?: ""

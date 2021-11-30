@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultToken
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.items.ValidationResultItem
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.secondsToInstant
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -24,28 +23,13 @@ class DccTicketingValidationResultViewModel @AssistedInject constructor(
 
     val uiStateFlow: LiveData<UiState> = dccTicketingSharedViewModel.transactionContext.map { context ->
         UiState(
-            result = context.resultTokenPayload?.result ?: throw NullPointerException("resultTokenPayload is null"),
-            listItems = generateItems(context.resultTokenPayload, context.initializationData.serviceProvider)
+            result = context.resultTokenPayload?.result ?: error("resultTokenPayload is null"),
+            listItems = itemCreator.generateItems(
+                context.resultTokenPayload,
+                context.initializationData.serviceProvider
+            )
         )
     }.asLiveData2()
-
-    private fun generateItems(
-        resultToken: DccTicketingResultToken,
-        serviceProvider: String
-    ): List<ValidationResultItem> = with(itemCreator) {
-        mutableListOf(
-            testingInfoVHItem(resultToken.iat.secondsToInstant()),
-            descriptionVHItem(
-                resultToken.result,
-                serviceProvider
-            ),
-            faqVHItem()
-        ).apply {
-            resultToken.results.forEach {
-                add(resultRuleVHItem(it))
-            }
-        }
-    }
 
     fun onDoneClicked() {
         navigation.postValue(DccTicketingValidationNavigation.Done)

@@ -65,7 +65,7 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
 
     private fun handleNavigation(navigation: DccTicketingValidationNavigation) {
         when (navigation) {
-            DccTicketingValidationNavigation.Close -> popBackStack()
+            DccTicketingValidationNavigation.Close,
             DccTicketingValidationNavigation.Done -> popBackStack()
         }
     }

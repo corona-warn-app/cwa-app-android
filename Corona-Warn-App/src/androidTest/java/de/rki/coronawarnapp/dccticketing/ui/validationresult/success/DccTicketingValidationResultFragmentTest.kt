@@ -53,7 +53,7 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
         UiThreadStatement.runOnUiThread {
             setViewModelStore(ViewModelStore())
             setGraph(R.navigation.nav_graph)
-            setCurrentDestination(R.id.dccTicketingValidationSuccessFragment)
+            setCurrentDestination(R.id.dccTicketingValidationResultFragment)
         }
     }
 
