@@ -94,7 +94,7 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
         val dccTicketingTransactionContext: DccTicketingTransactionContext,
         val certificate: CwaCovidCertificate
     ) {
-        val testPartner get() = "TBD (see allowlist PR)" // TODO: update after allowlist implementation
+        val testPartner get() = dccTicketingTransactionContext.allowlist?.first()?.serviceProvider
         val provider get() = dccTicketingTransactionContext.initializationData.serviceProvider
         val certificateItem get() = getCardItem(certificate)
 
