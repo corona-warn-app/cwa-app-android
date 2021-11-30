@@ -115,5 +115,6 @@
     <color name="tipBackgroundColor">#333333</color>
     <color name="tipTitleColor">#FFFFFF</color>
     <color name="tipSubtitleColor">#9E9E9E</color>
+    <color name="dim_color">#80000000</color>
 
 </resources>

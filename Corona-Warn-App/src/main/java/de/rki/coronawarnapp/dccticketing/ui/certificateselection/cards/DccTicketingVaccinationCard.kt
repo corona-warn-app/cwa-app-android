@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.DccTicketingVaccinationCardBinding
@@ -34,10 +35,13 @@ class DccTicketingVaccinationCard(parent: ViewGroup) :
             R.string.vaccination_certificate_vaccinated_on,
             certificate.vaccinatedOn.toShortDayFormat()
         )
+
+        arrow.isVisible = item.showArrow
     }
 
     data class Item(
         val certificate: VaccinationCertificate,
+        val showArrow: Boolean = true,
         val onClick: () -> Unit
     ) : DccTicketingCertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
