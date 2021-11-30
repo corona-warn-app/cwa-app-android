@@ -84,6 +84,37 @@
     <!-- XTXT: Certificate Selection Screen: PCR Test certificate-->
     <string name="pcr_test_certificate"> PCR-Testzertifikat</string>
 
+    <!-- DCC Ticketing: Consent Two -->
+    <!-- XHED: DCC Ticketing: Consent Two: Header -->
+    <string name="dcc_ticketing_consent_two_header">"Ihr Einverständnis"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Title -->
+    <string name="dcc_ticketing_consent_two_title">"Übermittlung Ihres Zertifikats zur Prüfung"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner -->
+    <string name="dcc_ticketing_consent_two_test_partner">"Prüfpartner:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner Default Value -->
+    <string name="dcc_ticketing_consent_two_test_partner_default">"“Betreiber_Validationservice”"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider -->
+    <string name="dcc_ticketing_consent_two_provider">"Anbieter:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider Default Value -->
+    <string name="dcc_ticketing_consent_two_provider_default">"“Lufthansa”"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Body -->
+    <string name="dcc_ticketing_consent_two_body">"Das ausgewählte Zertifikat und Ihre Buchungsdaten werden nun an den Prüfpartner des Anbieters übermittelt. Für die Übermittlung Ihrer Daten an den Prüfpartner ist Ihr Einverständnis erforderlich."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 1 -->
+    <string name="dcc_ticketing_consent_two_point_1">"Der Prüfpartner überprüft, ob die elektronische Signatur echt und das technische Ablaufdatum des Zertifikats noch nicht erreicht ist. Das technische Ablaufdatum und die übermittelten Zertifikatsinhalte können Sie in der App in der Detailansicht des Zertifikats einsehen."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 2 -->
+    <string name="dcc_ticketing_consent_two_point_2">"Die Zertifikate enthalten sensible Gesundheitsdaten. Erlauben Sie daher nur solchen Anbietern die Überprüfung, die Ihnen bekannt sind und denen Sie vertrauen."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 3 -->
+    <string name="dcc_ticketing_consent_two_point_3">"Für die Datenverarbeitung durch den Anbieter und den Prüfpartner ist das RKI nicht verantwortlich. Lesen Sie bitte deren Datenschutzhinweise, damit Sie wissen, wozu und wie Ihre Daten verwendet werden."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 4 -->
+    <string name="dcc_ticketing_consent_two_point_4">"Der Prüfpartner teilt dem Anbieter sofort das Prüfungsergebnis mit. Es wird nur mitgeteilt, ob die Prüfung erfolgreich war oder nicht."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Data protection -->
+    <string name="dcc_ticketing_consent_two_data_protection">"Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Consent Button -->
+    <string name="dcc_ticketing_consent_two_consent_btn">"Einverstanden"</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Cancel Button -->
+    <string name="dcc_ticketing_consent_two_cancel_btn">"Abbrechen"</string>
+
+
     <!-- Validation Result -->
     <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
     <string name="dcc_ticketing_done">"Fertig"</string>

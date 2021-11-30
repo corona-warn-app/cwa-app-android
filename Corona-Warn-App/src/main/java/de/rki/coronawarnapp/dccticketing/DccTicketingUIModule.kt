@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFr
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
+import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragment
+import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
 
 @Module
 abstract class DccTicketingUIModule {
@@ -17,6 +19,9 @@ abstract class DccTicketingUIModule {
 
     @ContributesAndroidInjector(modules = [DccTicketingCertificateSelectionFragmentModule::class])
     abstract fun dccTicketingCertificateSelectionFragment(): DccTicketingCertificateSelectionFragment
+
+    @ContributesAndroidInjector(modules = [DccTicketingConsentTwoFragmentModule::class])
+    abstract fun dccTicketingConsentTwoFragment(): DccTicketingConsentTwoFragment
 
     @ContributesAndroidInjector(modules = [DccTicketingFragmentModule::class])
     abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationResultFragment

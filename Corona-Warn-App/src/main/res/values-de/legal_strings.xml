@@ -208,4 +208,22 @@
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
     <string name="dcc_ticketing_consent_one_legal_point_2" translatable="false">"Die abgerufenen Daten werden von der App genutzt, um festzustellen, welche Ihrer gespeicherten Zertifikate verwendet werden können."</string>
 
+    <!-- DCC Ticketing Consent Two Screen -->
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Title -->
+    <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Ihr Einverständnis "</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Body -->
+    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in die Übermittlung der folgenden Daten an den Prüfpartner ein:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Zertifikatsinhalt und elektronische Signatur des ausgewählten Zertifikats (u.a. Name und Geburtsdatum des Zertifikatsinhabers, Gültigkeitsdauer, Aussteller und Ausstellungsdatum, Angaben zu Impfstoff/Test/Genesung)."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2" translatable="false">"Die bei dem Anbieter abgerufenen Buchungsdaten:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_1" translatable="false">"Zeitraum, in dem das Zertifikat gültig sein muss (Reisedauer oder Veranstaltungsdatum)"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_2" translatable="false">"bei Reisebuchungen: Ausgangsland und Zielland der Reise"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-3 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_3" translatable="false">"bei grenzüberschreitenden Reisen: Anforderungen des Ziellandes an das Zertifikat"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"weitere Anforderungen des Anbieters an das Zertifikat (z.B. welche Impfstoffe oder Testverfahren akzeptiert werden)"</string>
+
 </resources>
