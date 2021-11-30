@@ -13,20 +13,20 @@ import timber.log.Timber
  * the operation shall abort with the specified error code, otherwise the document is valid
  */
 fun DccTicketingServiceIdentityDocument.verifyJwks(emptyX5cErrorCode: DccTicketingErrorCode) {
-    Timber.d("verifyJwks(emptyX5cErrorCode=%s)", emptyX5cErrorCode)
+    Timber.tag(TAG).d("verifyJwks(emptyX5cErrorCode=%s)", emptyX5cErrorCode)
 
     val hasAnyEmptyX5c = verificationMethod
         .mapNotNull { it.publicKeyJwk }
         .any { it.x5c.isEmpty() }
 
     when (hasAnyEmptyX5c) {
-        false -> Timber.d("Verified document=%s", this)
+        false -> Timber.tag(TAG).d("Verified document=%s", this)
         true -> throw DccTicketingException(errorCode = emptyX5cErrorCode)
     }
 }
 
 fun DccTicketingServiceIdentityDocument.findJwkSet(jwkSetType: JwkSetType): Set<DccJWK> {
-    Timber.d("findJwkSet(jwkSetType=%s)", jwkSetType)
+    Timber.tag(TAG).d("findJwkSet(jwkSetType=%s)", jwkSetType)
 
     val jwkSet = verificationMethod
         .filter { jwkSetType.regex.containsMatchIn(it.id) }
@@ -34,10 +34,10 @@ fun DccTicketingServiceIdentityDocument.findJwkSet(jwkSetType: JwkSetType): Set<
         .toSet()
 
     if (jwkSet.isEmpty()) {
-        Timber.d("No matching entries for %s, aborting", jwkSetType)
+        Timber.tag(TAG).d("No matching entries for %s, aborting", jwkSetType)
         throw DccTicketingException(errorCode = jwkSetType.noMatchingEntryErrorCode)
     }
-    return jwkSet.also { Timber.d("Found %s=%s", jwkSetType.name, jwkSet) }
+    return jwkSet.also { Timber.tag(TAG).d("Found %s=%s", jwkSetType.name, jwkSet) }
 }
 
 enum class JwkSetType(
@@ -64,3 +64,5 @@ enum class JwkSetType(
         noMatchingEntryErrorCode = DccTicketingErrorCode.VS_ID_NO_SIGN_KEY
     )
 }
+
+private const val TAG = "DccTicketingRequestServiceHelpers"
