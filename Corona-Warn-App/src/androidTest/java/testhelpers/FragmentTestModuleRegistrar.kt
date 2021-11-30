@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFr
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationResultFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
@@ -132,7 +133,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         // --------- Recycler Bin ---------
         RecyclerBinOverviewFragmentTestModule::class,
 
-        // --------- Recycler Bin ---------
+        // --------- Dcc Ticketing Validation ---------
+        DccTicketingValidationResultFragmentTestModule::class,
         DccTicketingCertificateSelectionFragmentModule::class,
         DccTicketingConsentTwoFragmentModule::class,
     ]

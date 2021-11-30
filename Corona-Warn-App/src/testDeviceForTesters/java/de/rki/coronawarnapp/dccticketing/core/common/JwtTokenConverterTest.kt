@@ -117,11 +117,11 @@ class JwtTokenConverterTest : BaseTest() {
         exp = 1635950902,
         category = listOf("Standard"),
         confirmation = "eyJraWQiOiJSQU0yU3R3N0VrRT0iLCJhbGciOiJFUzI1NiJ9.eyJqdGkiOiJlMWU2YjU4MS1lN2NmLTQyZTAtYjM1ZS1jZmFhMTRkZTcxN2UiLCJzdWIiOiIxMDQ0MjM2Zi00OGRmLTQzY2ItOGJkZi1iZWQxNDJlNTA3YWIiLCJpc3MiOiJodHRwczovL2RnY2EtdmFsaWRhdGlvbi1zZXJ2aWNlLWV1LWFjYy5jZmFwcHMuZXUxMC5oYW5hLm9uZGVtYW5kLmNvbSIsImlhdCI6MTYzNTg2NDUwMiwiZXhwIjoxNjM1OTUwOTAyLCJyZXN1bHQiOiJOT0siLCJjYXRlZ29yeSI6WyJTdGFuZGFyZCJdfQ.OLnS59EWkpkZoEMfbyOs18dUauch9eaXxGK8Zrn-jo-S1kcgAxP8z8rdzLzNjCNTfi4CbVUnF6FV0lHuMnYBOw",
-        result = "NOK",
+        result = DccTicketingResultToken.DccResult.FAIL,
         results = listOf(
             DccTicketingResultItem(
                 identifier = "KID",
-                result = "NOK",
+                result = DccTicketingResultToken.DccResult.FAIL,
                 type = "TechnicalVerification",
                 details = "\"unknown dcc signing kid\""
             )

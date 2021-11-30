@@ -6,11 +6,13 @@ import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCer
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentModule
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingFragmentModule
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragment
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
 
 @Module
-internal abstract class DccTicketingFragmentModule {
+abstract class DccTicketingUIModule {
 
     @ContributesAndroidInjector(modules = [DccTicketingConsentOneFragmentModule::class])
     abstract fun dccTicketingConsentOneFragment(): DccTicketingConsentOneFragment
@@ -20,4 +22,7 @@ internal abstract class DccTicketingFragmentModule {
 
     @ContributesAndroidInjector(modules = [DccTicketingConsentTwoFragmentModule::class])
     abstract fun dccTicketingConsentTwoFragment(): DccTicketingConsentTwoFragment
+
+    @ContributesAndroidInjector(modules = [DccTicketingFragmentModule::class])
+    abstract fun dccTicketingValidationSuccessFragment(): DccTicketingValidationResultFragment
 }
