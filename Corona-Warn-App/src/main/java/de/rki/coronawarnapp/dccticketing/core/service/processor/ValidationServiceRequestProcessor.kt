@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
+import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,7 +30,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
     ): ValidationServiceResult {
-        Timber.d(
+        Timber.tag(TAG).d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
             validationService,
             validationServiceJwkSet
@@ -51,7 +52,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
         // 4. Find validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = serviceIdentityDocument
             .findValidationServiceEncKeyJwkSet(verificationMethodIds = verificationMethodsForRSAOAEPWithSHA256AESCBC)
-            .also { Timber.d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC=%s", it) }
+            .also { Timber.tag(TAG).d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC=%s", it) }
 
         // 5. Find verificationMethodsForRSAOAEPWithSHA256AESGCM
         val verificationMethodsForRSAOAEPWithSHA256AESGCM = serviceIdentityDocument
@@ -60,14 +61,14 @@ class ValidationServiceRequestProcessor @Inject constructor(
         // 6. Find validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = serviceIdentityDocument
             .findValidationServiceEncKeyJwkSet(verificationMethodIds = verificationMethodsForRSAOAEPWithSHA256AESGCM)
-            .also { Timber.d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM=%s", it) }
+            .also { Timber.tag(TAG).d("validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM=%s", it) }
 
         // 7. Check encryption key
         if (
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC.isEmpty() &&
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM.isEmpty()
         ) {
-            Timber.d("Didn't find encryption keys, aborting")
+            Timber.tag(TAG).d("Didn't find encryption keys, aborting")
             throw DccTicketingException(errorCode = DccTicketingErrorCode.VS_ID_NO_ENC_KEY)
         }
 
@@ -81,17 +82,17 @@ class ValidationServiceRequestProcessor @Inject constructor(
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
             validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
             validationServiceSignKeyJwkSet = validationServiceSignKeyJwkSet
-        ).also { Timber.d("Returning %s", it) }
+        ).also { Timber.tag(TAG).d("Returning %s", it) }
     }
 
     private suspend fun getServiceIdentityDocument(
         url: String,
         jwkSet: Set<DccJWK>
     ): DccTicketingServiceIdentityDocument = try {
-        Timber.d("getServiceIdentityDocument(url=%s, jwkSet=%s)", url, jwkSet)
+        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, jwkSet=%s)", url, jwkSet)
         dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(url = url, jwkSet = jwkSet)
     } catch (e: DccTicketingServerException) {
-        Timber.e(e, "Getting ServiceIdentityDocument failed")
+        Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
             DccTicketingServerException.ErrorCode.PARSE_ERR -> DccTicketingErrorCode.VS_ID_PARSE_ERR
             DccTicketingServerException.ErrorCode.SERVER_ERR -> DccTicketingErrorCode.VS_ID_SERVER_ERR
@@ -99,7 +100,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
             DccTicketingServerException.ErrorCode.NO_NETWORK -> DccTicketingErrorCode.VS_ID_NO_NETWORK
         }.let { DccTicketingException(errorCode = it, cause = e) }
     } catch (e: DccTicketingServerCertificateCheckException) {
-        Timber.e(e, "Getting ServiceIdentityDocument failed")
+        Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
             DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
                 DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
@@ -109,7 +110,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
     }
 
     private fun DccTicketingServiceIdentityDocument.findVerificationMethods(forRegex: Regex): Set<String> {
-        Timber.d("findVerificationMethods(forRegex=%s)", forRegex)
+        Timber.tag(TAG).d("findVerificationMethods(forRegex=%s)", forRegex)
         return verificationMethod
             .firstOrNull { forRegex.containsMatchIn(it.id) }
             ?.verificationMethods
@@ -119,7 +120,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
     private fun DccTicketingServiceIdentityDocument.findValidationServiceEncKeyJwkSet(
         verificationMethodIds: Set<String>
     ): Set<DccJWK> {
-        Timber.d("findValidationServiceEncKeyJwkSet=%s", verificationMethodIds)
+        Timber.tag(TAG).d("findValidationServiceEncKeyJwkSet=%s", verificationMethodIds)
         return verificationMethod
             .filter { verificationMethodIds.contains(it.id) }
             .mapNotNull { it.publicKeyJwk }
@@ -131,4 +132,8 @@ class ValidationServiceRequestProcessor @Inject constructor(
         val validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM: Set<DccJWK>,
         val validationServiceSignKeyJwkSet: Set<DccJWK>
     )
+
+    companion object {
+        private val TAG = tag<ValidationServiceRequestProcessor>()
+    }
 }
