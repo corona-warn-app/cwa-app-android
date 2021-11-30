@@ -53,6 +53,8 @@ class AccessTokenRequestProcessorTest : BaseTest() {
         every { jwtTokenParser.getAccessToken(any()) } returns accessToken
         every { accessToken.t } returns 1
         every { accessToken.aud } returns "."
+        every { jwtCensor.addVc(any()) } just Runs
+        every { jwtCensor.addJwt(any()) } just Runs
     }
 
     @Test

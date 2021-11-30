@@ -41,78 +41,78 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         var newMessage = message
         vc.gnt?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/givenName"
+                toReplace = it.trim(),
+                replacement = "ticketing/givenName"
             )
         }
         vc.fnt?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/familyName"
+                toReplace = it.trim(),
+                replacement = "ticketing/familyName"
             )
         }
         vc.dob?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/dateOfBirth"
+                toReplace = it.trim(),
+                replacement = "ticketing/dateOfBirth"
             )
         }
 
         vc.coa?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/countryOfArrival"
+                toReplace = it.trim(),
+                replacement = "ticketing/countryOfArrival"
             )
         }
 
         vc.roa?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/regionOfArrival"
+                toReplace = it.trim(),
+                replacement = "ticketing/regionOfArrival"
             )
         }
 
         vc.cod?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/countryOfDeparture"
+                toReplace = it.trim(),
+                replacement = "ticketing/countryOfDeparture"
             )
         }
 
         vc.rod?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/regionOfDeparture"
+                toReplace = it.trim(),
+                replacement = "ticketing/regionOfDeparture"
             )
         }
 
         vc.category?.let {
             it.forEachIndexed { index, category ->
                 newMessage = newMessage.censor(
-                    category.trim(),
-                    "ticketing/category$index"
+                    toReplace = category.trim(),
+                    replacement = "ticketing/category$index"
                 )
             }
         }
 
         vc.validationClock?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/validationClock"
+                toReplace = it.trim(),
+                replacement = "ticketing/validationClock"
             )
         }
 
         vc.validFrom?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/validFrom"
+                toReplace = it.trim(),
+                replacement = "ticketing/validFrom"
             )
         }
 
         vc.validTo?.let {
             newMessage = newMessage.censor(
-                it.trim(),
-                "ticketing/validTo"
+                toReplace = it.trim(),
+                replacement = "ticketing/validTo"
             )
         }
 
@@ -125,7 +125,7 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
     ): BugCensor.CensorContainer {
         var newMessage = message
         newMessage = newMessage.censor(
-            rawJwt,
+            toReplace = rawJwt,
             "ticketing/rawJwt"
         )
         return newMessage

@@ -17,7 +17,7 @@ class DccTicketingJwtCensorTest : BaseTest() {
         fnt = "family name",
         gnt = "given name",
         dob = "1981-03-20",
-        type = listOf("vaccination", "recovery"), // not censored
+        type = listOf("v", "r"), // not censored
         coa = "ES",
         roa = "balearic islands",
         cod = "DE",

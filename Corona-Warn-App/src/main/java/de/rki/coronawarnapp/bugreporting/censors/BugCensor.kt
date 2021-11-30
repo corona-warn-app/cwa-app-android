@@ -11,6 +11,8 @@ interface BugCensor {
     ) {
 
         fun censor(toReplace: String, replacement: String): CensorContainer {
+            if (toReplace.isBlank()) return this
+
             if (!original.contains(toReplace)) return this
 
             val start = original.indexOf(toReplace)
