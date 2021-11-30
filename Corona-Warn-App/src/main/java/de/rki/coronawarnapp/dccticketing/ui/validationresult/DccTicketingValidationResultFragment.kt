@@ -3,9 +3,10 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
+import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -21,13 +22,16 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     @Inject lateinit var validationResultAdapter: ValidationResultAdapter
 
+    private val dccTicketingSharedViewModel:
+        DccTicketingSharedViewModel by navGraphViewModels(R.id.dcc_ticketing_nav_graph)
     private val binding: FragmentDccTicketingValidationResultBinding by viewBinding()
-    private val args: DccTicketingValidationResultFragmentArgs by navArgs()
     private val resultViewModel: DccTicketingValidationResultViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as DccTicketingValidationResultViewModel.Factory
-            factory.create(transactionContext = args.transactionContext)
+            factory.create(
+                dccTicketingSharedViewModel = dccTicketingSharedViewModel
+            )
         }
     )
 
@@ -35,7 +39,6 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             validationResultFragments.apply {
-                args.transactionContext.resultTokenPayload?.result?.let { setHeaderForState(it) }
                 list.apply {
                     adapter = validationResultAdapter
                 }
@@ -50,8 +53,9 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
             buttonDone.setOnClickListener { resultViewModel.onDoneClicked() }
         }
 
-        resultViewModel.items.observe2(this) {
-            validationResultAdapter.update(it)
+        resultViewModel.uiStateFlow.observe2(this) {
+            binding.validationResultFragments.setHeaderForState(it.result)
+            validationResultAdapter.update(it.listItems)
         }
 
         resultViewModel.navigation.observe2(this) {
@@ -60,7 +64,6 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
     }
 
     private fun handleNavigation(navigation: DccTicketingValidationNavigation) {
-        // TODO: check navigation when the whole flow is implemented
         when (navigation) {
             DccTicketingValidationNavigation.Close -> popBackStack()
             DccTicketingValidationNavigation.Done -> popBackStack()

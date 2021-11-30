@@ -39,7 +39,7 @@
         android:label="fragment_dcc_ticketing_consent_two"
         tools:layout="@layout/fragment_dcc_ticketing_consent_two">
         <action
-            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment"
+            android:id="@+id/action_consentTwoFragment_to_validationResultFragment"
             app:destination="@id/dccTicketingValidationSuccessFragment"
             app:popUpTo="@id/dccTicketingConsentTwoFragment"
             app:popUpToInclusive="true" />
@@ -51,9 +51,5 @@
         android:id="@+id/dccTicketingValidationSuccessFragment"
         android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment"
         android:label="fragment_dcc_ticketing_validation_success"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_result">
-        <argument
-            android:name="transactionContext"
-            app:argType="de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext" />
-    </fragment>
+        tools:layout="@layout/fragment_dcc_ticketing_validation_result" />
 </navigation>

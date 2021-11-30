@@ -3,11 +3,14 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragmentArgs
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.ValidationResultItemCreator
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,13 +23,17 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class DccTicketingValidationResultFragmentTest : BaseUITest() {
 
+    @MockK lateinit var mockSharedViewModel: DccTicketingSharedViewModel
+
     @Before
     fun setUp() {
+        MockKAnnotations.init(this)
+
         setupMockViewModel(
             object : DccTicketingValidationResultViewModel.Factory {
-                override fun create(transactionContext: DccTicketingTransactionContext) =
+                override fun create(dccTicketingSharedViewModel: DccTicketingSharedViewModel) =
                     DccTicketingValidationResultViewModel(
-                        transactionContext,
+                        mockSharedViewModel,
                         ValidationResultItemCreator(),
                         TestDispatcherProvider()
                     )
@@ -37,33 +44,24 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun doPassScreenshot() {
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>(
-            DccTicketingValidationResultFragmentArgs(
-                dccTicketingTransactionContextPassed
-            ).toBundle()
-        )
+        every {  mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextPassed)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>()
         takeScreenshot<DccTicketingValidationResultFragment>("pass")
     }
 
     @Test
     @Screenshot
     fun doOpenScreenshot() {
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>(
-            DccTicketingValidationResultFragmentArgs(
-                dccTicketingTransactionContextOpen
-            ).toBundle()
-        )
+        every {  mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextOpen)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>()
         takeScreenshot<DccTicketingValidationResultFragment>("open")
     }
 
     @Test
     @Screenshot
     fun doFailScreenshot() {
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>(
-            DccTicketingValidationResultFragmentArgs(
-                dccTicketingTransactionContextFailed
-            ).toBundle()
-        )
+        every {  mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextFailed)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>()
         takeScreenshot<DccTicketingValidationResultFragment>("fail")
     }
 }
