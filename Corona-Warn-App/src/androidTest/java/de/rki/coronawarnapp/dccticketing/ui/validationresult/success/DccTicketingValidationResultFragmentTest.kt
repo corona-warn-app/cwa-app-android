@@ -1,8 +1,13 @@
 package de.rki.coronawarnapp.dccticketing.ui.validationresult.success
 
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultViewModel
@@ -41,27 +46,37 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
         )
     }
 
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        UiThreadStatement.runOnUiThread {
+            setViewModelStore(ViewModelStore())
+            setGraph(R.navigation.nav_graph)
+            setCurrentDestination(R.id.dccTicketingCertificateSelectionFragment)
+        }
+    }
+
     @Test
     @Screenshot
     fun doPassScreenshot() {
-        every {  mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextPassed)
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>()
+        every { mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextPassed)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(testNavHostController = navController)
         takeScreenshot<DccTicketingValidationResultFragment>("pass")
     }
 
     @Test
     @Screenshot
     fun doOpenScreenshot() {
-        every {  mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextOpen)
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>()
+        every { mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextOpen)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(testNavHostController = navController)
         takeScreenshot<DccTicketingValidationResultFragment>("open")
     }
 
     @Test
     @Screenshot
     fun doFailScreenshot() {
-        every {  mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextFailed)
-        launchFragmentInContainer2<DccTicketingValidationResultFragment>()
+        every { mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextFailed)
+        launchFragmentInContainer2<DccTicketingValidationResultFragment>(testNavHostController = navController)
         takeScreenshot<DccTicketingValidationResultFragment>("fail")
     }
 }
