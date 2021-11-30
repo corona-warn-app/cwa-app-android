@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecora
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationServiceRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -24,7 +25,7 @@ class DccTicketingRequestService @Inject constructor(
     suspend fun requestValidationDecorator(
         url: String
     ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult = withContext(dispatcherProvider.Default) {
-        Timber.d("requestValidationDecorator(url=%s)", url)
+        Timber.tag(TAG).d("requestValidationDecorator(url=%s)", url)
         validationDecoratorRequestProcessor.requestValidationDecorator(url)
     }
 
@@ -33,7 +34,7 @@ class DccTicketingRequestService @Inject constructor(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
     ): ValidationServiceRequestProcessor.ValidationServiceResult = withContext(dispatcherProvider.Default) {
-        Timber.d(
+        Timber.tag(TAG).d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
             validationService,
             validationServiceJwkSet
@@ -51,7 +52,7 @@ class DccTicketingRequestService @Inject constructor(
         publicKeyBase64: String,
         authorization: String
     ): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
-        Timber.d("requestAccessToken()")
+        Timber.tag(TAG).d("requestAccessToken()")
         accessTokenRequestProcessor.requestAccessToken(
             accessTokenService,
             accessTokenServiceJwkSet,
@@ -60,5 +61,9 @@ class DccTicketingRequestService @Inject constructor(
             publicKeyBase64,
             authorization
         )
+    }
+
+    companion object {
+        private val TAG = tag<DccTicketingRequestService>()
     }
 }
