@@ -91,10 +91,4 @@
         app:constraint_referenced_ids="certificate_bg,certificate_date"
         tools:layout_editor_absoluteY="117dp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_small"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
