@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
@@ -63,7 +64,8 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
         hash = null
     )
     private val dccTicketingTransactionContext: DccTicketingTransactionContext = DccTicketingTransactionContext(
-        initializationData = generateDccTicketingQrCodeData()
+        initializationData = generateDccTicketingQrCodeData(),
+        allowlist = setOf(generateDccTicketingAllowListEntry())
     )
 
     private val fragmentArgs = DccTicketingConsentTwoFragmentArgs(
@@ -106,7 +108,7 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             testNavHostController = navController,
             fragmentArgs = fragmentArgs
         )
-        takeScreenshot<DccTicketingConsentTwoFragment>("dcc_consent_2")
+        takeScreenshot<DccTicketingConsentTwoFragment>()
     }
 
     private fun mockTestCertificate(
@@ -147,7 +149,15 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             token = UUID.randomUUID().toString(),
             consent = "Yes, please",
             subject = UUID.randomUUID().toString(),
-            serviceProvider = "Space-X"
+            serviceProvider = "Service Provider"
+        )
+    }
+
+    private fun generateDccTicketingAllowListEntry(): DccTicketingAllowListEntry {
+        return DccTicketingAllowListEntry(
+            serviceProvider = "Allow List Provider",
+            hostname = "http://very-host-allow-provider",
+            fingerprint256 = mockk()
         )
     }
 }
