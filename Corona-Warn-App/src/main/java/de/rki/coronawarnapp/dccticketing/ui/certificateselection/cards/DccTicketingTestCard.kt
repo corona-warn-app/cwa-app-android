@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.ui.certificateselection.cards
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.DccTicketingTestCardBinding
@@ -24,11 +25,13 @@ class DccTicketingTestCard(parent: ViewGroup) :
 
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
         val certificate = curItem.certificate
-        root.setOnClickListener { curItem.onClick }
+        root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
             R.string.test_certificate_sampled_on,
             certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
         )
+
+        arrow.isVisible = item.showArrow
 
         when {
             // PCR Test
@@ -40,6 +43,7 @@ class DccTicketingTestCard(parent: ViewGroup) :
 
     data class Item(
         val certificate: TestCertificate,
+        val showArrow: Boolean = true,
         val onClick: () -> Unit
     ) : DccTicketingCertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null

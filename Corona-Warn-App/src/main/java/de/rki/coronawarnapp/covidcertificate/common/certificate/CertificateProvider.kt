@@ -20,9 +20,9 @@ class CertificateProvider @Inject constructor(
      * @throws [Exception] if certificate not found
      */
     suspend fun findCertificate(containerId: CertificateContainerId): CwaCovidCertificate {
-        val certificates = rcRepo.certificates.first().mapNotNull { it.recoveryCertificate } +
-            tcRepo.certificates.first().mapNotNull { it.testCertificate } +
-            vcRepo.vaccinationInfos.first().flatMap { person -> person.vaccinationCertificates }
+        val certificates = rcRepo.cwaCertificates.first() +
+            tcRepo.cwaCertificates.first() +
+            vcRepo.cwaCertificates.first()
 
         return certificates.find { it.containerId == containerId }!! // Must be a certificate
     }
