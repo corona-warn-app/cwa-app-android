@@ -43,7 +43,7 @@ class DccTicketingJwtCensorTest : BaseTest() {
         instance.addVc(vc)
         val filterMe = "Logging $vc for debugging"
         val result = instance.checkLog(filterMe)!!.compile()!!.censored
-        result shouldBe "Logging DccTicketingValidationCondition(hash=hash, lang=lang, fnt=ticketing/familyName, gnt=ticketing/givenName, dob=ticketing/dateOfBirth, type=[vaccination, recovery], coa=ticketing/countryOfArrival, roa=ticketing/regionOfArrival, cod=ticketing/countryOfDeparture, rod=ticketing/regionOfDeparture, category=[ticketing/category0, ticketing/category1], validationClock=ticketing/validationClock, validFrom=ticketing/validFrom, validTo=ticketing/validTo) for debugging"
+        result shouldBe "Logging DccTicketingValidationCondition(hash=hash, lang=lang, fnt=ticketing/familyName, gnt=ticketing/givenName, dob=ticketing/dateOfBirth, type=[v, r], coa=ticketing/countryOfArrival, roa=ticketing/regionOfArrival, cod=ticketing/countryOfDeparture, rod=ticketing/regionOfDeparture, category=[ticketing/category0, ticketing/category1], validationClock=ticketing/validationClock, validFrom=ticketing/validFrom, validTo=ticketing/validTo) for debugging"
     }
 
     @Test
