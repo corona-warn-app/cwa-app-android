@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingJwtException
 import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenConverter
+import de.rki.coronawarnapp.dccticketing.core.common.JwtTokenParser
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.ResultTokenRequest
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -40,28 +41,10 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     @MockK lateinit var dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker
     @MockK lateinit var jwtVerification: DccJWKVerification
     private lateinit var response: Response<ResponseBody>
-    private val converter = JwtTokenConverter(Gson())
+    private val parser = JwtTokenParser(JwtTokenConverter(Gson()))
 
     private val jsonResultToken = """
-        {
-           "sub": "1044236f-48df-43cb-8bdf-bed142e507ab",
-           "iss": "https://dgca-validation-service-eu-acc.cfapps.eu10.hana.ondemand.com",
-           "iat": 1635864502,
-           "exp": 1635950902,
-           "category": [
-              "Standard"
-           ],
-           "confirmation": "eyJraWQiOiJSQU0yU3R3N0VrRT0iLCJhbGciOiJFUzI1NiJ9.eyJqdGkiOiJlMWU2YjU4MS1lN2NmLTQyZTAtYjM1ZS1jZmFhMTRkZTcxN2UiLCJzdWIiOiIxMDQ0MjM2Zi00OGRmLTQzY2ItOGJkZi1iZWQxNDJlNTA3YWIiLCJpc3MiOiJodHRwczovL2RnY2EtdmFsaWRhdGlvbi1zZXJ2aWNlLWV1LWFjYy5jZmFwcHMuZXUxMC5oYW5hLm9uZGVtYW5kLmNvbSIsImlhdCI6MTYzNTg2NDUwMiwiZXhwIjoxNjM1OTUwOTAyLCJyZXN1bHQiOiJOT0siLCJjYXRlZ29yeSI6WyJTdGFuZGFyZCJdfQ.OLnS59EWkpkZoEMfbyOs18dUauch9eaXxGK8Zrn-jo-S1kcgAxP8z8rdzLzNjCNTfi4CbVUnF6FV0lHuMnYBOw",
-           "results": [
-              {
-                 "identifier": "KID",
-                 "result": "NOK",
-                 "type": "TechnicalVerification",
-                 "details": "\"unknown dcc signing kid\""
-              }
-           ],
-           "result": "NOK"
-        }
+        eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InBHV3F6QjlCeldZPSJ9.eyJzdWIiOiIwNGM4OGE3My04YzZmLTQ5YzktYmE0Mi00NWY0ZmFmODA5YjUiLCJpc3MiOiIiLCJleHAiOjE2MzgzMDk1MjQsImNhdGVnb3J5IjpbIlN0YW5kYXJkIl0sImNvbmZpcm1hdGlvbiI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJa3BYVkNJc0ltdHBaQ0k2SW5CSFYzRjZRamxDZWxkWlBTSjkuZXlKcFlYUWlPakUyTXpneU1qTTNNRFY5LmVCM0gzZ3hsaXA0RFUwTGVzQVRZVEdNM2hpX3JIX2ZVb3k3UWNLT2daYWRfT01SX2NpWU9NblRfVW5TeHFzSThaaTBEdERnRmZWU0Z2LXFpYVVTS1pBIiwicmVzdWx0cyI6W10sInJlc3VsdCI6Ik9LIiwiaWF0IjoxNjM4MjIzNzA1fQ.UcxMoxWkQMTt6Dzz5WbttqOumu3C_d_hdSuu6_ic-dDF6Rys62Y-pC9BFe2D_Oo6s3FSjWwCWFqYBbQQ-w5vKA
     """.trimIndent()
 
     private val input = ResultTokenInput(
@@ -93,7 +76,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     fun requestResultToken() = runBlockingTest {
         instance().requestResultToken(input) shouldBe ResultTokenOutput(
             resultToken = jsonResultToken,
-            resultTokenPayload = converter.jsonToResultToken(jsonResultToken)
+            resultTokenPayload = parser.getResultToken(jsonResultToken)
         )
 
         coVerifySequence {
@@ -263,7 +246,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     private fun instance() = ResultTokenRequestProcessor(
         dccTicketingServer = dccTicketingServer,
         dccTicketingServerCertificateChecker = dccTicketingServerCertificateChecker,
-        convertor = converter,
+        jwtTokenParser = parser,
         jwtVerification = jwtVerification
     )
 }
