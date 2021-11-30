@@ -97,9 +97,7 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
         when (event) {
             NavigateBack -> popBackStack()
             NavigateToValidationResult -> doNavigate(
-                // TODO
-                DccTicketingConsentTwoFragmentDirections
-                    .actionDccTicketingConsentTwoFragmentToDccTicketingValidationSuccessFragment2()
+                DccTicketingConsentTwoFragmentDirections.actionConsentTwoFragmentToValidationResultFragment()
             )
 
             NavigateToPrivacyInformation -> findNavController().navigate(R.id.informationPrivacyFragment)

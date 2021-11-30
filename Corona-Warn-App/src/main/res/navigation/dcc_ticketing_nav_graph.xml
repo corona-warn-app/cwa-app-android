@@ -39,8 +39,8 @@
         android:label="fragment_dcc_ticketing_consent_two"
         tools:layout="@layout/fragment_dcc_ticketing_consent_two">
         <action
-            android:id="@+id/action_dccTicketingConsentTwoFragment_to_dccTicketingValidationSuccessFragment2"
-            app:destination="@id/dccTicketingValidationSuccessFragment"
+            android:id="@+id/action_consentTwoFragment_to_validationResultFragment"
+            app:destination="@id/dccTicketingValidationResultFragment"
             app:popUpTo="@id/dccTicketingConsentTwoFragment"
             app:popUpToInclusive="true" />
         <argument
@@ -48,8 +48,8 @@
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
     </fragment>
     <fragment
-        android:id="@+id/dccTicketingValidationSuccessFragment"
-        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.failed.DccTicketingValidationFailedFragment"
-        android:label="fragment_dcc_ticketing_validation_failed"
-        tools:layout="@layout/fragment_dcc_ticketing_validation_failed" />
+        android:id="@+id/dccTicketingValidationResultFragment"
+        android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment"
+        android:label="fragment_dcc_ticketing_validation_result"
+        tools:layout="@layout/fragment_dcc_ticketing_validation_result" />
 </navigation>

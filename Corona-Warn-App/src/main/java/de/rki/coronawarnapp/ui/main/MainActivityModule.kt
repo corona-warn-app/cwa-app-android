@@ -6,7 +6,7 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
-import de.rki.coronawarnapp.dccticketing.DccTicketingFragmentModule
+import de.rki.coronawarnapp.dccticketing.DccTicketingUIModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
@@ -50,7 +50,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         RATProfileUIModule::class,
         DigitalCovidCertificateUIModule::class,
         RecyclerBinUIModule::class,
-        DccTicketingFragmentModule::class,
+        DccTicketingUIModule::class,
     ]
 )
 abstract class MainActivityModule {
