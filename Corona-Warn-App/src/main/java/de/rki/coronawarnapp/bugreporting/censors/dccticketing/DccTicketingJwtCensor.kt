@@ -131,15 +131,6 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         return newMessage
     }
 
-    fun clear() {
-        synchronized(jwtSet) {
-            jwtSet.clear()
-        }
-        synchronized(vcSet) {
-            vcSet.clear()
-        }
-    }
-
     private val jwtSet: MutableSet<String> = mutableSetOf()
     private val vcSet: MutableSet<DccTicketingValidationCondition> = mutableSetOf()
 }

@@ -147,5 +147,5 @@ class BugReportingSharedModule {
 
     @Provides
     @IntoSet
-    fun ticketingCensor(censor: DccTicketingJwtCensor): BugCensor = censor
+    fun ticketingJwtCensor(censor: DccTicketingJwtCensor): BugCensor = censor
 }
