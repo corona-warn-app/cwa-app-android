@@ -16,6 +16,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.flowOf
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,7 +53,7 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
         UiThreadStatement.runOnUiThread {
             setViewModelStore(ViewModelStore())
             setGraph(R.navigation.nav_graph)
-            setCurrentDestination(R.id.dccTicketingCertificateSelectionFragment)
+            setCurrentDestination(R.id.dccTicketingValidationSuccessFragment)
         }
     }
 
@@ -78,6 +79,11 @@ class DccTicketingValidationResultFragmentTest : BaseUITest() {
         every { mockSharedViewModel.transactionContext } returns flowOf(dccTicketingTransactionContextFailed)
         launchFragmentInContainer2<DccTicketingValidationResultFragment>(testNavHostController = navController)
         takeScreenshot<DccTicketingValidationResultFragment>("fail")
+    }
+
+    @After
+    fun teardown() {
+        clearAllViewModels()
     }
 }
 
