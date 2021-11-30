@@ -114,4 +114,31 @@
     <!-- XBUT: DCC Ticketing: Consent Two: Cancel Button -->
     <string name="dcc_ticketing_consent_two_cancel_btn">"Abbrechen"</string>
 
+
+    <!-- Validation Result -->
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_done">"Fertig"</string>
+    <!-- XTXT: validation result FAQ text -->
+    <string name="dcc_ticketing_result_faq_text">Mehr Informationen finden Sie in den FAQ.</string>
+    <!-- XTXT: validation result FAQ label -->
+    <string name="dcc_ticketing_result_faq_label">FAQ</string>
+    <!-- XTXT: validation result FAQ link -->
+    <string name="dcc_ticketing_result_faq_link">https://www.coronawarn.app/de/faq/#val_service_result</string>
+    <!-- XTXT: validation result valid header  -->
+    <string name="dcc_ticketing_result_valid_header">Ihr Zertifikat wurde erfolgreich überprüft</string>
+    <!-- XTXT: validation result invalid header  -->
+    <string name="dcc_ticketing_result_invalid_header">Ihr Zertifikat entspricht nicht den Anforderungen des Anbieters</string>
+    <!-- XTXT: validation result valid body  -->
+    <string name="dcc_ticketing_result_valid_body">Der Anbieter “%s” wurde über die erfolgreiche Prüfung informiert.</string>
+    <!-- XTXT: validation result invalid body  -->
+    <string name="dcc_ticketing_result_invalid_body">Bei Rückfragen wenden Sie sich bitte an den Anbieter “%s”.</string>
+    <!-- XTXT: validation result testing details  -->
+    <string name="dcc_ticketing_result_testing_details">Geprüft am %s vom Prüfpartner</string>
+    <!-- XTXT: validation result passed title  -->
+    <string name="dcc_ticketing_result_passed_title">"Erfolgreiche Prüfung"</string>
+    <!-- XTXT: validation result open title  -->
+    <string name="dcc_ticketing_result_open_title">"Zertifikat nicht prüfbar"</string>
+    <!-- XTXT: validation result failed title  -->
+    <string name="dcc_ticketing_result_failed_title">"Zertifikat nicht anerkannt"</string>
+
 </resources>
