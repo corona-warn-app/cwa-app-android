@@ -6,17 +6,15 @@ package de.rki.coronawarnapp.server.protocols.internal.dgc;
 message ValidationServiceAllowlist {
 
   repeated ValidationServiceAllowlistItem certificates = 1;
+  repeated ServiceProviderAllowlistItem serviceProviders = 2;
 }
 
 message ValidationServiceAllowlistItem {
   string serviceProvider = 1;
   string hostname = 2;
   bytes fingerprint256 = 3;
-  ValidationServicePublicKeyJWK signKey = 4;
 }
 
-message ValidationServicePublicKeyJWK {
-  repeated bytes x5c = 1;
-  string kid = 2;
-  string alg = 3;
+message ServiceProviderAllowlistItem {
+  bytes serviceIdentityHash = 1;
 }
