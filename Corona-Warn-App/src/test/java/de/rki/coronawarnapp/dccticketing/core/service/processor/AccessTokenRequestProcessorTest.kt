@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
@@ -33,6 +34,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     @MockK lateinit var jwtTokenParser: JwtTokenParser
     @MockK lateinit var jwtVerification: DccJWKVerification
     @MockK lateinit var accessToken: DccTicketingAccessToken
+    @MockK lateinit var jwtCensor: DccTicketingJwtCensor
 
     private val dccTicketingService = DccTicketingService("", "", "", "")
     private val validationService = DccTicketingService("", "", "", "")
@@ -182,6 +184,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
     private fun getInstance() = AccessTokenRequestProcessor(
         dccTicketingServer = dccTicketingServer,
         jwtTokenParser = jwtTokenParser,
-        jwtVerification = jwtVerification
+        jwtVerification = jwtVerification,
+        jwtCensor = jwtCensor,
     )
 }

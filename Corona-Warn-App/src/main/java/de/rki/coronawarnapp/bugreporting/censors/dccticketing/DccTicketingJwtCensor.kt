@@ -42,47 +42,47 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         vc.gnt?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "givenName"
+                "ticketing/givenName"
             )
         }
         vc.fnt?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "familyName"
+                "ticketing/familyName"
             )
         }
         vc.dob?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "dateOfBirth"
+                "ticketing/dateOfBirth"
             )
         }
 
         vc.coa?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "countryOfArrival"
+                "ticketing/countryOfArrival"
             )
         }
 
         vc.roa?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "regionOfArrival"
+                "ticketing/regionOfArrival"
             )
         }
 
         vc.cod?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "countryOfDeparture"
+                "ticketing/countryOfDeparture"
             )
         }
 
         vc.rod?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "regionOfDeparture"
+                "ticketing/regionOfDeparture"
             )
         }
 
@@ -90,7 +90,7 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
             it.forEachIndexed { index, category ->
                 newMessage = newMessage.censor(
                     category.trim(),
-                    "category$index"
+                    "ticketing/category$index"
                 )
             }
         }
@@ -98,21 +98,21 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         vc.validationClock?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "validationClock"
+                "ticketing/validationClock"
             )
         }
 
         vc.validFrom?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "validFrom"
+                "ticketing/validFrom"
             )
         }
 
         vc.validTo?.let {
             newMessage = newMessage.censor(
                 it.trim(),
-                "validTo"
+                "ticketing/validTo"
             )
         }
 
@@ -126,7 +126,7 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         var newMessage = message
         newMessage = newMessage.censor(
             rawJwt,
-            "rawJwt"
+            "ticketing/rawJwt"
         )
         return newMessage
     }

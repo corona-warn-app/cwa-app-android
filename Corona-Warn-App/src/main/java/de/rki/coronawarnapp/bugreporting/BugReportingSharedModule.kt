@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.bugreporting.censors.contactdiary.DiaryVisitCensor
 import de.rki.coronawarnapp.bugreporting.censors.contactdiary.OrganizerRegistrationTokenCensor
 import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensor
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
@@ -143,4 +144,8 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun cwaUserCensor(censor: CwaUserCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun ticketingCensor(censor: DccTicketingJwtCensor): BugCensor = censor
 }
