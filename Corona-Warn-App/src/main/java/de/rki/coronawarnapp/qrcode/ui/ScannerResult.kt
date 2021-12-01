@@ -49,3 +49,5 @@ data class Error(val error: Throwable) : ScannerResult {
     val isDccTicketingError = error is DccTicketingInvalidQrCodeException
     val isAllowListError = error is DccTicketingAllowListException
 }
+
+data class DccTicketingError(val errorMsg: LazyString): ScannerResult

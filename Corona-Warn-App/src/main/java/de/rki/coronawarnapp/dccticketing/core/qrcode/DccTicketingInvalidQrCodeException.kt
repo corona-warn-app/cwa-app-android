@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
+import de.rki.coronawarnapp.util.ui.toResolvingString
 
 class DccTicketingInvalidQrCodeException(
     val errorCode: ErrorCode,
@@ -23,12 +24,7 @@ class DccTicketingInvalidQrCodeException(
     }
 
     val errorMessage: LazyString
-        get() {
-            // TODO error messages
-            return CachedString { context ->
-                context.getString(ERROR_MESSAGE_GENERIC)
-            }
-        }
+        get() = R.string.dcc_ticketing_error_service_provider_error_no_name.toResolvingString()
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
@@ -36,5 +32,3 @@ class DccTicketingInvalidQrCodeException(
         )
     }
 }
-
-private const val ERROR_MESSAGE_GENERIC = R.string.errors_generic_text_unknown_error_cause

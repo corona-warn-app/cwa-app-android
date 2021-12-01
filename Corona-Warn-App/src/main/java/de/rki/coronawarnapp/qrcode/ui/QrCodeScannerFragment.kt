@@ -26,12 +26,19 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
+import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogFragment
+import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
+import de.rki.coronawarnapp.dccticketing.ui.dialog.show
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
+import de.rki.coronawarnapp.util.HasHumanReadableError
+import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.tryHumanReadableError
+import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -93,15 +100,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is DccResult -> onDccResult(scannerResult)
                 is CheckInResult -> onCheckInResult(scannerResult)
                 is DccTicketingResult -> onDccTicketingResult(scannerResult)
+                is DccTicketingError -> showDccTicketingErrorDialog(errorMsg = scannerResult.errorMsg)
                 is Error -> when {
-                    scannerResult.isAllowListError ->
-                        scannerResult.error
-                            .toErrorDialogBuilder(requireContext())
-                            .setCancelable(false)
-                            .setNeutralButton(null, null) // No Details button
-                            .show()
-                    scannerResult.isDccTicketingError ->
-                        scannerResult.error.toErrorDialogBuilder(requireContext()).show()
+                    scannerResult.isDccTicketingError || scannerResult.isAllowListError -> showDccTicketingErrorDialog(
+                        humanReadableError = scannerResult.error.tryHumanReadableError(requireContext())
+                    )
                     else -> showScannerResultErrorDialog(scannerResult.error)
                 }
 
@@ -326,6 +329,23 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
             .show()
     }
+
+    private fun showDccTicketingErrorDialog(humanReadableError: HumanReadableError) {
+        val dialogType = DccTicketingDialogType.ErrorDialog(
+            title = humanReadableError.title,
+            msg = humanReadableError.description
+        )
+        showDccTicketingErrorDialog(dialogType = dialogType)
+    }
+
+    private fun showDccTicketingErrorDialog(errorMsg: LazyString) {
+        val msg = errorMsg.get(requireContext())
+        val dialogType = DccTicketingDialogType.ErrorDialog(msg = msg)
+        showDccTicketingErrorDialog(dialogType = dialogType)
+    }
+
+    private fun showDccTicketingErrorDialog(dialogType: DccTicketingDialogType.ErrorDialog) = dialogType
+        .show(this, dismissAction = { startDecode() })
 
     companion object {
         private val TAG = tag<QrCodeScannerFragment>()
