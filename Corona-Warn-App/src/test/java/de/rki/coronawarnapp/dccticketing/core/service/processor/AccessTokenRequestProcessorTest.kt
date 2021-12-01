@@ -156,7 +156,7 @@ class AccessTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `verifyJWT throws ATR_PARSE_ERR`() = runBlockingTest {
-        every { jwtTokenParser.getAccessToken(any()) } returns null
+        every { jwtTokenParser.getAccessToken(any()) } throws Exception()
 
         shouldThrow<DccTicketingException> {
             callRequestAccessToken()

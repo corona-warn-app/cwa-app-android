@@ -17,12 +17,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Papierkorbfunktion für Tests</item>
+        <item>Zertifikatprüfung bei Buchungen</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Entfernte Schnelltests und PCR-Tests werden jetzt auch in den Papierkorb verschoben. Sie haben somit die Möglichkeit, versehentlich gelöschte Tests wiederherzustellen.</item>
+        <item>Bereits bei einer Ticketbuchung können Sie den Nachweis erbringen, dass Sie geimpft, genesen oder negativ getestet sind. Dazu scannen Sie einen vom Buchungssystem angezeigten QR-Code und wählen dann in der App das passende Zertifikat aus. Das Ergebnis der Zertifikatsprüfung wird vom Prüfpartner an das Buchungssystem übertragen.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
