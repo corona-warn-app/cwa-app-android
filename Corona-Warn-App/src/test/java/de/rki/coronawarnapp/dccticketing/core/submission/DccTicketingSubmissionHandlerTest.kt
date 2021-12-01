@@ -6,8 +6,8 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.VS_ID_NO_ENC_KEY
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.security.DccTicketingSecurityTool
+import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenOutput
-import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingAccessToken
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingResultItem
@@ -36,7 +36,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
 
     @MockK lateinit var securityTool: DccTicketingSecurityTool
     @MockK lateinit var converter: DccJWKConverter
-    @MockK lateinit var processor: ResultTokenRequestProcessor
+    @MockK lateinit var requestService: DccTicketingRequestService
     @MockK lateinit var publicKey: PublicKey
     @MockK lateinit var privateKey: PrivateKey
 
@@ -124,7 +124,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
         handler = DccTicketingSubmissionHandler(
             securityTool,
             converter,
-            processor
+            requestService
         )
     }
 
@@ -146,7 +146,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
         )
         every { converter.createPublicKey(any()) } returns publicKey
         every { securityTool.encryptAndSign(any()) } returns output
-        coEvery { processor.requestResultToken(any()) } returns ResultTokenOutput(
+        coEvery { requestService.requestResultToken(any()) } returns ResultTokenOutput(
             resultToken = "resultToken",
             resultTokenPayload = resultToken
         )
