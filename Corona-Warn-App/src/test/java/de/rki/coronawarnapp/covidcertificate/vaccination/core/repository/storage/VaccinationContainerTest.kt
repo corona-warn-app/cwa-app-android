@@ -11,9 +11,10 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -163,7 +164,7 @@ class VaccinationContainerTest : BaseTest() {
             scannedAt = Instant.EPOCH
         )
         val extractor = mockk<DccQrCodeExtractor>().apply {
-            every {
+            coEvery {
                 extract(
                     any(),
                     DccV1Parser.Mode.CERT_VAC_LENIENT
@@ -176,7 +177,7 @@ class VaccinationContainerTest : BaseTest() {
 
         container.certificateData shouldNotBe null
 
-        verify { extractor.extract(testData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT) }
+        coVerify { extractor.extract(testData.personYVacTwoEntriesQrCode, DccV1Parser.Mode.CERT_VAC_LENIENT) }
     }
 
     @Test

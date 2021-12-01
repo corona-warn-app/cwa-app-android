@@ -39,7 +39,7 @@
     <!-- XTXT: Contact diary onboarding screen third functionality -->
     <string name="contact_diary_onboarding_functionality_third_section">"You are the only one who can access your journal entries. Your entries will be saved only on your smartphone."</string>
     <!-- XTXT: Contact diary onboarding screen fourth functionality -->
-    <string name="contact_diary_onboarding_functionality_fourth_section">"You can remove entries for people and places from your journal at any time. Journal entries will be deleted automatically after 16 days."</string>
+    <string name="contact_diary_onboarding_functionality_fourth_section">"You can delete entries for people and places from your journal at any time. Journal entries will be deleted automatically after 16 days."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"You can export your contact journal in plain text format and then print out the entries, edit them, or provide them to your public health authority as needed."</string>
     <!-- XTXT: Contact diary onboarding screen sixth functionality -->
@@ -94,31 +94,31 @@
     <!-- XHED: Title for the contact diary edit persons -->
     <string name="contact_diary_edit_persons_title">"Edit People"</string>
     <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
-    <string name="contact_diary_remove_all_button">"Remove All"</string>
+    <string name="contact_diary_remove_all_button">"Delete All"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
-    <string name="contact_diary_delete_button_positive">"Remove"</string>
+    <string name="contact_diary_delete_button_positive">"Delete"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
     <string name="contact_diary_delete_button_negative">"Cancel"</string>
     <!-- XHED: Title for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_title">"Do you really want to remove all places?"</string>
+    <string name="contact_diary_delete_locations_title">"Do you really want to delete all places?"</string>
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_title">"Do you really want to remove all people?"</string>
+    <string name="contact_diary_delete_persons_title">"Do you really want to delete all people?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"If you remove all places, all the entries for all places will be removed from your journal."</string>
+    <string name="contact_diary_delete_locations_message">"If you delete all places, all the entries for all places will be deleted from your journal."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"If you remove all people, all the entries for all people will be removed from your journal."</string>
+    <string name="contact_diary_delete_persons_message">"If you delete all people, all the entries for all people will be deleted from your journal."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Edit Entry"</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_delete_icon_content_description">"Delete Entry"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
-    <string name="contact_diary_delete_location_title">"Do you really want to remove this place?"</string>
+    <string name="contact_diary_delete_location_title">"Do you really want to delete this place?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
-    <string name="contact_diary_delete_person_title">"Do you really want to remove this person?"</string>
+    <string name="contact_diary_delete_person_title">"Do you really want to delete this person?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete a single location -->
-    <string name="contact_diary_delete_location_message">"If you remove a place, all the entries for that place will be removed from your journal."</string>
+    <string name="contact_diary_delete_location_message">"If you delete a place, all the entries for that place will be deleted from your journal."</string>
     <!-- XTXT: Message for the contact diary dialog to delete a single person -->
-    <string name="contact_diary_delete_person_message">"If you remove a person, all the entries for that person will be removed from your journal."</string>
+    <string name="contact_diary_delete_person_message">"If you delete a person, all the entries for that person will be deleted from your journal."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Note"</string>

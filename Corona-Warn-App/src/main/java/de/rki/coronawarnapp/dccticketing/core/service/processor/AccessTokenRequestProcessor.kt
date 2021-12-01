@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
-import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class AccessTokenRequestProcessor @Inject constructor(
     private val dccTicketingServer: DccTicketingServer,
     private val jwtTokenParser: JwtTokenParser,
-    private val jwtVerification: DccJWKVerification
+    private val jwtVerification: DccJWKVerification,
+    private val jwtCensor: DccTicketingJwtCensor,
 ) {
 
     @Suppress("LongParameterList")
@@ -47,6 +49,8 @@ class AccessTokenRequestProcessor @Inject constructor(
             ),
             jwkSet = accessTokenServiceJwkSet
         )
+
+        jwtCensor.addJwt(response.jwt)
 
         // Verifying the Signature of a JWT with a Set of JWKs
         verifyJWT(response.jwt, accessTokenSignJwkSet)
@@ -100,13 +104,17 @@ class AccessTokenRequestProcessor @Inject constructor(
         }.let { DccTicketingException(it) }
     }
 
-    private fun getAccessTokenPayload(jwt: String): DccTicketingAccessToken = try {
-        jwtTokenParser.getAccessToken(jwt)
+    private suspend fun getAccessTokenPayload(jwt: String): DccTicketingAccessToken = try {
+        jwtTokenParser.getAccessToken(jwt).also {
+            it.vc?.let { vc ->
+                jwtCensor.addVc(vc)
+            }
+        }
     } catch (e: Exception) {
         throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR, e)
-    }?.apply {
+    }.apply {
         validate()
-    } ?: throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR)
+    }
 
     data class Output(
         val accessToken: String,

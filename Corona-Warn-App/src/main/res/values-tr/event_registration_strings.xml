@@ -18,19 +18,19 @@
     <string name="trace_location_checkins_action_scan_qrcode">"QR Kodu Tara"</string>
 
     <!-- XBUT: My check-ins: menu entry to remove all -->
-    <string name="trace_location_checkins_menu_remove_all">"Tümünü Kaldır"</string>
+    <string name="trace_location_checkins_menu_remove_all">"Tümünü Sil"</string>
     <!-- XBUT: My check-ins: menu entry to show information -->
     <string name="trace_location_checkins_menu_information">"Bilgi"</string>
 
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
-    <string name="trace_location_checkins_remove_all_title">"Tüm girişleri gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="trace_location_checkins_remove_all_title">"Tüm girişleri gerçekten silmek istiyor musunuz?"</string>
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
-    <string name="trace_location_checkins_remove_single_title">"Bu girişi gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="trace_location_checkins_remove_single_title">"Bu giriş silinsin mi?"</string>
     <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
     <string name="trace_location_checkins_remove_message">"Bundan sonra bu yere veya etkinliğe aynı anda check in yapan kişilere uyarı gönderemeyecek ya da bu kişilerden uyarı alamayacaksınız."</string>
 
     <!-- XBUT: My check-ins card: Menu, remove item -->
-    <string name="trace_location_checkins_menu_remove_item">"Kaldır"</string>
+    <string name="trace_location_checkins_menu_remove_item">"Sil"</string>
     <!-- XBUT: My check-ins card: Active event, checkout button -->
     <string name="trace_location_checkins_card_action_checkout">"Şimdi Check Out Yap"</string>
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
@@ -176,23 +176,23 @@
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
     <string name="trace_location_organizer_list_menu_information_btn">"Bilgi"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
-    <string name="trace_location_organizer_list_menu_remove_all_btn">"Tümünü Kaldır"</string>
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Tümünü Sil"</string>
     <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
     <string name="trace_location_organizer_list_menu_warn_guests_btn">"Diğer Kullanıcılara Uyarı"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
-    <string name="trace_location_organiser_list_delete_single_popup_title">"QR kodu kaldırmak istiyor musunuz?"</string>
+    <string name="trace_location_organiser_list_delete_single_popup_title">"QR kodu silmek istiyor musunuz?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
     <string name="trace_location_organiser_list_delete_single_popup_message">"Lütfen unutmayın; QR kodu kaldırırsanız artık check in yaparken bunu kullanamazsınız."</string>
 
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
-    <string name="trace_location_organiser_list_delete_all_popup_title">"Tüm QR kodları gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Tüm QR kodları gerçekten silmek istiyor musunuz?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
     <string name="trace_location_organiser_list_delete_all_popup_message">"Lütfen unutmayın; bu QR kodları kaldırırsanız artık check in yaparken bunları kullanamazsınız."</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
     <string name="trace_location_organiser_list_delete_all_popup_negative_button">"İptal Et"</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
-    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Kaldır"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Sil"</string>
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>

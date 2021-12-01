@@ -819,7 +819,7 @@
     <string name="debugging_debuglog_status_additional_infos">"Bieżący rozmiar: %1$s (nieskompresowane)"</string>
 
     <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
-    <string name="debugging_debuglog_legal_privacy_card_title">"Weryfikacja autentyczności i przekazywanie danych do krajów trzecich"</string>
+    <string name="debugging_debuglog_legal_privacy_card_title">"Walidacja autentyczności i przekazywanie danych do krajów trzecich"</string>
     <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
     <string name="debugging_debuglog_legal_privacy_card_first_section">"Aby potwierdzić autentyczność aplikacji, smartfon generuje unikalny identyfikator zawierający informacje o wersji smartfona i aplikacji. Jest to konieczne w celu zapewnienia, by tylko osoby, które faktycznie używają aplikacji Corona-Warn-App mogły wysyłać dane do pomocy technicznej, i wykluczenia zmanipulowanych raportów o błędach. W tym celu identyfikator jest wysyłany do Google. W tym procesie dane mogą być przekazywane do Stanów Zjednoczonych lub innych krajów trzecich, gdzie poziom prywatności danych może nie odpowiadać prawu europejskiemu i możesz nie być w stanie wyegzekwować swoich europejskich praw do prywatności danych. W szczególności organy ds. bezpieczeństwa w kraju trzecim mogłyby uzyskać dostęp do danych i analizować je przy pomocy Google, nawet jeśli nie ma podstaw do podejrzeń, i na przykład łączyć te dane z innymi informacjami. Dotyczy to tylko identyfikatora wysyłanego do Google. Google nie otrzymuje informacji z Twojego raportu o błędzie, może jednak określić Twoją tożsamość na podstawie identyfikatora i poprzez prześledzenie danych ustalić, że sprawdzanie autentyczności zostało przeprowadzone na Twoim smartfonie."</string>
     <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Jakie kody QR można zeskanować?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Testy PCR i szybkie testy, certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca i zameldowania."</string>
+    <string name="qr_code_scan_body_subtitle">"Testy PCR, szybkie testy, certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca i zameldowania."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +940,24 @@
     <string name="qr_code_no_suitable_qr_code_title">"Brak odpowiedniego kodu QR"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz odpowiedni kod QR."</string>
+
+    <!-- QR Code Info Screen -->
+    <!-- XHED: Title for info screen -->
+    <string name="qr_code_info_screen_title">"Informacje o kodach QR"</string>
+    <!-- XTXT: First bulletpiont for info screen -->
+    <string name="qr_code_info_screen_first_bulletpoint_text">"Twoje certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca oraz certyfikaty dla członków Twojej rodziny"</string>
+    <!-- XTXT: Second bulletpoint for info screen -->
+    <string name="qr_code_info_screen_second_bulletpoint_text">"Zameldowania obecności w wydarzeniu lub miejscu"</string>
+    <!-- XTXT: Third bulletpoint for info screen -->
+    <string name="qr_code_info_screen_third_bulletpoint_text">"Testy PCR i szybkie testy"</string>
+    <!-- XTXT: Fourth bulletpoint for info screen -->
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Walidacja certyfikatów podczas rezerwacji biletów"</string>
+    <!-- XTXT: QR Code info screen data details -->
+    <string name="qr_code_info_screen_data_details_text">"Odczytywane są dane z odpowiedniego kodu."</string>
+    <!-- XTXT: QR Code booking provider info text -->
+    <string name="qr_code_info_screen_booking_provider_text">"Podczas skanowania kodów QR w celu walidacji certyfikatu przy rezerwacji biletu pobierane są dodatkowe informacje o dostawcy rezerwacji."</string>
+    <!-- XTXT: Privacy policy button text -->
+    <string name="qr_code_info_screen_privacy_policy">"Informacje na temat przetwarzania danych znajdują się w oświadczeniu o ochronie prywatności."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -998,7 +1016,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji „Poproś o TAN”, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji Poproś o TAN, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Twój szybki test został dodany"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1043,7 +1061,7 @@
     <string name="submission_test_result_delete_steps_invalid_heading">"Usuń test"</string>
 
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Wystąpił problem z ustaleniem wyniku Twojego testu. Skontaktuj się z odpowiednim ośrodkiem wykonującym testy laboratorium, aby dowiedzieć się, jak dalej postępować."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Wystąpił problem z ustaleniem wyniku Twojego testu. Skontaktuj się z odpowiednim ośrodkiem wykonującym testy lub laboratorium, aby dowiedzieć się, jak dalej postępować."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_delete_steps_invalid_body">"Przed zarejestrowaniem nowego testu musisz usunąć ostatni test."</string>
 
@@ -1064,7 +1082,7 @@
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Usuń wynik testu"</string>
     <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Czy na pewno chcesz usunąć swój test?"</string>
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Czy na pewno chcesz usunąć test?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Jeśli usuniesz test, nie będziesz mieć możliwości pobrania wyniku swojego testu. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie koronawirusa organ ds. zdrowia publicznego zostanie powiadomiony przez ustanowiony prawnie kanał komunikacyjny i skontaktuje się z Tobą."</string>
     <!-- YTXT: Dialog text for test removal no submission -->
@@ -1120,7 +1138,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Znajdź ośrodek testujący"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Znajdź ośrodki testujące w pobliżu. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową RKI."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Znajdź ośrodki testujące w pobliżu. Jeśli wystąpią jakiekolwiek problemy, możesz je zgłosić.\nZostaniesz przekierowany(-a) na zewnętrzną stronę internetową RKI."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->

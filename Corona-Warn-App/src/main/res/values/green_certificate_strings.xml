@@ -34,7 +34,7 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
-    <string name="green_certificate_details_menu_item_delete">"Remove Certificate"</string>
+    <string name="green_certificate_details_menu_item_delete">"Delete Certificate"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
     <string name="green_certificate_details_menu_item_export">"Display Print Version"</string>
 
@@ -62,7 +62,7 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_try_again">"Could not establish a connection. Please try again."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_not_supported_by_lab">"You cannot request a test certificate because this testing point does not support the issuing of test certificates. Please remove the certificate or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
+    <string name="error_tc_dcc_not_supported_by_lab">"You cannot request a test certificate because this testing point does not support the issuing of test certificates. Please delete the certificate or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Error text -->
     <string name="error_tc_no_network">"Your Internet connection was lost. Please check the connection and try again."</string>
     <!-- XTXT: Error text -->
@@ -72,17 +72,17 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_client_error_call_hotline">"An error occurred. Please try again later or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_expired">"This certificate is no longer current. You can remove it from the Corona-Warn-App."</string>
+    <string name="error_tc_dcc_expired">"This certificate is no longer current. You can delete it from the Corona-Warn-App."</string>
     <!-- XBUT: Test error delete button -->
-    <string name="test_certificate_error_delete_button">"Remove Test Certificate"</string>
+    <string name="test_certificate_error_delete_button">"Delete Test Certificate"</string>
     <!-- XTXT: Test error refresh dialog title -->
     <string name="test_certificate_refresh_dialog_title">"There are still problems with the request."</string>
     <!-- XTXT: Test error delete dialog title -->
-    <string name="test_certificate_delete_dialog_title">"Do you want to remove the certificate?"</string>
+    <string name="test_certificate_delete_dialog_title">"Do you want to delete the certificate?"</string>
     <!-- XTXT: Test error delete dialog body -->
     <string name="test_certificate_delete_dialog_body">"If you remove the certificate, you cannot request it again."</string>
     <!-- XBUT: Test error delete dialog confirm button -->
-    <string name="test_certificate_delete_dialog_confirm_button">"Remove"</string>
+    <string name="test_certificate_delete_dialog_confirm_button">"Delete"</string>
     <!-- XBUT: Test error delete dialog cancel button -->
     <string name="test_certificate_delete_dialog_cancel_button">"Cancel"</string>
     <!-- XTXT: Test error card body refreshing -->

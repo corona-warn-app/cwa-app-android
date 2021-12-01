@@ -44,7 +44,7 @@
     <!-- XTXT: Vaccination Consent qr code text -->
     <string name="vaccination_consent_qr_info_qr_code_text">"Takie certyfikaty są uznawane za ważny dowód w UE (np. w przypadku podróży)."</string>
     <!-- XTXT: Vaccination Consent time text  -->
-    <string name="vaccination_consent_qr_info_time_text">"Po dodaniu certyfikatu pozostanie on na Twoim smartfonie. Zostanie on udostępniony innym tylko podczas jego okazywania w celu weryfikacji."</string>
+    <string name="vaccination_consent_qr_info_time_text">"Po dodaniu certyfikatu pozostanie on na Twoim smartfonie. Zostanie on udostępniony innym tylko podczas jego okazywania w celu walidacji."</string>
     <!-- XTXT: Vaccination Consent family certificates text  -->
     <string name="vaccination_consent_family_certificates_text">"Dodaj istniejące certyfikaty dla siebie i członków swojej rodziny."</string>
     <!-- XTXT: Text for vaccination consent legal information button -->
@@ -84,7 +84,7 @@
     <!-- XHED: Person certificate details title -->
     <string name="person_details_certificate_title">"Unijny cyfrowy certyfikat COVID"</string>
     <!-- XHED: Person certificate CovPas Header Info-->
-    <string name="person_details_certificate_covpass_info_title">"Ten kod QR można wiarygodnie zweryfikować za pomocą aplikacji CovPassCheck."</string>
+    <string name="person_details_certificate_covpass_info_title">"Ten kod QR można wiarygodnie walidować za pomocą aplikacji CovPassCheck."</string>
     <!-- XTXT: Test Certificate CWA User card description -->
     <string name="person_details_cwa_user_description">"Włącz ten przełącznik, jeśli jesteś %1$s oraz głównym użytkownikiem aplikacji. Twoje certyfikaty pojawią się na górze listy."</string>
     <!-- XTXT: Test Certificate CWA User card birthdate -->
@@ -211,7 +211,7 @@
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"W poszczególnych regionach mogą obowiązywać dodatkowe zasady i ograniczenia."</string>
     <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Wszystkie certyfikaty są opatrzone podpisem cyfrowym zapewniającym ich autentyczność. Aplikacja walidacyjna jedynie weryfikuje ten podpis."</string>
+    <string name="validation_start_note_point_3">"Wszystkie certyfikaty są opatrzone podpisem cyfrowym zapewniającym ich autentyczność. Aplikacja walidacyjna jedynie waliduje ten podpis."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Aplikacja Corona-Warn-App nie sprawdza, czy dane zapisane w certyfikacie są ważne."</string>
     <!-- XTXT: Validation start FAQ -->
@@ -239,14 +239,14 @@
     <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
-    <string name="validation_rules_result_valid_result_country_and_time">"Wprowadzono %1$s dnia %2$s, zweryfikowano dnia %3$s"</string>
+    <string name="validation_rules_result_valid_result_country_and_time">"Wprowadzono %1$s dnia %2$s, walidowano dnia %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
     <string name="validation_rules_result_valid_result_title">"Twój certyfikat jest ważny w wybranym kraju"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
-    <string name="validation_rules_result_no_rules_title">"Twój certyfikat nie mógł zostać zweryfikowany"</string>
+    <string name="validation_rules_result_no_rules_title">"Twój certyfikat nie mógł zostać walidowany"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
-    <string name="validation_rules_result_cannot_be_checked_result_title">"Twój certyfikat nie mógł zostać całkowicie zweryfikowany"</string>
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Twój certyfikat nie mógł zostać całkowicie walidowany"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
     <string name="validation_rules_result_not_valid_result_title">"Twój certyfikat nie jest ważny w wybranym kraju"</string>
 
@@ -332,7 +332,7 @@
     <!-- XTXT: Signature validation dialog message-->
     <string name="dcc_signature_validation_dialog_message">"Podpis certyfikatu jest nieprawidłowy. Certyfikatu nie można używać jako dowodu i w związku z tym nie można go importować."</string>
     <!-- XBUT: Signature validation dialog FAQ button-->
-    <string name="dcc_signature_validation_dialog_faq_button">"Często zadawane pytania na temat weryfikacji podpisu"</string>
+    <string name="dcc_signature_validation_dialog_faq_button">"Często zadawane pytania na temat walidacji podpisu"</string>
     <!-- XTXT: Signature validation dialog FAQ lint-->
     <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
 
@@ -381,11 +381,11 @@
     <string name="pdf_export_error_message">"Nie można wyświetlić wersji certyfikatu do druku, ponieważ nie można teraz pobrać certyfikatu. Spróbuj ponownie później."</string>
 
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_title">"Weryfikacja certyfikatów przez osoby trzecie"</string>
+    <string name="cov_pass_info_title">"Walidacja certyfikatów przez osoby trzecie"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Osoby trzecie mogą korzystać z aplikacji CovPassCheck, aby wiarygodnie sprawdzić, czy certyfikat szczepienia, certyfikat statusu ozdrowieńca lub certyfikat testu jest ważny."</string>
+    <string name="cov_pass_info_subtitle">"Osoby trzecie mogą korzystać z aplikacji CovPassCheck, aby w wiarygodny sposób ustalić, czy certyfikat szczepienia, certyfikat statusu ozdrowieńca lub certyfikat testu jest ważny."</string>
     <!-- XTXT: Cov Pass Info Fragment link label -->
-    <string name="cov_pass_info_faq_link_label">"Często zadawane pytania dotyczące weryfikacji certyfikatu przez osoby trzecie"</string>
+    <string name="cov_pass_info_faq_link_label">"Często zadawane pytania dotyczące walidacji certyfikatu przez osoby trzecie"</string>
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
@@ -393,6 +393,6 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Dla osób trzecich nie wystarczy jednak wizualna kontrola certyfikatów. Muszą one korzystać z aplikacji CovPassCheck w Niemczech."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_three">"Należy pamiętać, że osoby trzecie w innych krajach mogą używać innych aplikacji do weryfikacji certyfikatów."</string>
+    <string name="cov_pass_info_section_three">"Należy pamiętać, że osoby trzecie w innych krajach mogą używać innych aplikacji do walidacji certyfikatów."</string>
 
 </resources>
