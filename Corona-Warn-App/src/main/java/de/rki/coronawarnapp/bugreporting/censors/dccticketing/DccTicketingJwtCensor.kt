@@ -2,19 +2,25 @@ package de.rki.coronawarnapp.bugreporting.censors.dccticketing
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DccTicketingJwtCensor @Inject constructor() : BugCensor {
+
+    private val vcMutex = Mutex()
+    private val jwtMutex = Mutex()
+
     override suspend fun checkLog(message: String): BugCensor.CensorContainer? {
         var newMessage = BugCensor.CensorContainer(message)
-        synchronized(jwtSet) {
+        jwtMutex.withLock {
             jwtSet.forEach {
                 newMessage = censorJwt(it, newMessage)
             }
         }
-        synchronized(vcSet) {
+        vcMutex.withLock {
             vcSet.forEach {
                 newMessage = censorVc(it, newMessage)
             }
@@ -22,14 +28,14 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         return newMessage.nullIfEmpty()
     }
 
-    fun addJwt(rawJwt: String) {
-        synchronized(jwtSet) {
+    suspend fun addJwt(rawJwt: String) {
+        jwtMutex.withLock {
             jwtSet.add(rawJwt)
         }
     }
 
-    fun addVc(vc: DccTicketingValidationCondition) {
-        synchronized(vcSet) {
+    suspend fun addVc(vc: DccTicketingValidationCondition) {
+        vcMutex.withLock {
             vcSet.add(vc)
         }
     }

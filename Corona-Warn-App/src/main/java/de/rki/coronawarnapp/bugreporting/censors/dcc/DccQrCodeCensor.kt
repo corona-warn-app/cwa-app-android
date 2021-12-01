@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 @Reusable
@@ -17,11 +19,11 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     override suspend fun checkLog(message: String): CensorContainer? {
         var newMessage = CensorContainer(message)
 
-        synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.toList() }.forEach {
+        qrCodeMutex.withLock { qrCodeStringsToCensor.toList() }.forEach {
             newMessage = newMessage.censor(it, PLACEHOLDER + it.takeLast(4))
         }
 
-        synchronized(certsToCensor) { certsToCensor.toList() }.forEach {
+        certificatesMutex.withLock { certsToCensor.toList() }.forEach {
             it.certificate.apply {
                 newMessage = newMessage.censor(
                     dateOfBirthFormatted,
@@ -259,16 +261,20 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     }
 
     companion object {
+
+        private val qrCodeMutex = Mutex()
+        private val certificatesMutex = Mutex()
+
         private val qrCodeStringsToCensor = ArrayList<String>()
 
-        fun addQRCodeStringToCensor(rawString: String) = synchronized(qrCodeStringsToCensor) {
+        suspend fun addQRCodeStringToCensor(rawString: String) = qrCodeMutex.withLock {
             qrCodeStringsToCensor.apply {
                 if (contains(rawString)) return@apply
                 add(rawString)
             }
         }
 
-        fun clearQRCodeStringToCensor() = synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.clear() }
+        suspend fun clearQRCodeStringToCensor() = qrCodeMutex.withLock { qrCodeStringsToCensor.clear() }
 
         private val certsToCensor = ArrayList<DccData<out DccV1.MetaData>>()
         fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = synchronized(certsToCensor) {
@@ -278,7 +284,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             }
         }
 
-        fun clearCertificateToCensor() = synchronized(certsToCensor) { certsToCensor.clear() }
+        suspend fun clearCertificateToCensor() = certificatesMutex.withLock { certsToCensor.clear() }
 
         private const val PLACEHOLDER = "###"
     }
