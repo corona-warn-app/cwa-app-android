@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.dccticketing.core.service
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.processor.AccessTokenRequestProcessor
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenInput
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenOutput
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationServiceRequestProcessor
@@ -37,6 +39,13 @@ class DccTicketingRequestServiceTest : BaseTest() {
             resultTokenRequestProcessor = resultTokenRequestProcessor
         )
 
+    private val dccTicketingService = DccTicketingService(
+        id = "id",
+        type = "type",
+        serviceEndpoint = "serviceEndpoint",
+        name = "name"
+    )
+
     private val validationServiceResult = ValidationServiceRequestProcessor.ValidationServiceResult(
         validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC = emptySet(),
         validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM = emptySet(),
@@ -44,10 +53,10 @@ class DccTicketingRequestServiceTest : BaseTest() {
     )
 
     private val validationDecoratorResult = ValidationDecoratorRequestProcessor.ValidationDecoratorResult(
-        accessTokenService = mockk(),
+        accessTokenService = dccTicketingService,
         accessTokenServiceJwkSet = emptySet(),
         accessTokenSignJwkSet = emptySet(),
-        validationService = mockk(),
+        validationService = dccTicketingService,
         validationServiceJwkSet = emptySet()
     )
 
@@ -55,6 +64,11 @@ class DccTicketingRequestServiceTest : BaseTest() {
         accessToken = "accessToken",
         accessTokenPayload = mockk(),
         nonceBase64 = "nonceBase64"
+    )
+
+    private val resultTokenOutput = ResultTokenOutput(
+        resultToken = "resultToken",
+        resultTokenPayload = mockk()
     )
 
     @BeforeEach
@@ -82,11 +96,13 @@ class DccTicketingRequestServiceTest : BaseTest() {
                 any()
             )
         } returns accessTokenResult
+
+        coEvery { resultTokenRequestProcessor.requestResultToken(any()) } returns resultTokenOutput
     }
 
     @Test
     fun `requestValidationDecorator() - forwards call to processor`() = runBlockingTest {
-        val url = "https://test.com"
+        val url = "serviceEndpoint"
 
         with(instance) {
             requestValidationDecorator(url) shouldBe validationDecoratorResult
@@ -102,7 +118,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
 
     @Test
     fun `requestValidationService() - forwards call to processor`() = runBlockingTest {
-        val validationService = mockk<DccTicketingService>()
+        val validationService = dccTicketingService
         val validationServiceJwkSet = emptySet<DccJWK>()
 
         with(instance) {
@@ -137,10 +153,10 @@ class DccTicketingRequestServiceTest : BaseTest() {
 
     @Test
     fun `requestAccessToken() - forwards call to processor`() = runBlockingTest {
-        val accessTokenService = mockk<DccTicketingService>()
+        val accessTokenService = dccTicketingService
         val accessTokenServiceJwkSet = emptySet<DccJWK>()
         val accessTokenSignJwkSet = emptySet<DccJWK>()
-        val validationService = mockk<DccTicketingService>()
+        val validationService = dccTicketingService
         val publicKeyBase64 = "publicKeyBase64"
         val authorization = "authorization"
 
@@ -187,6 +203,33 @@ class DccTicketingRequestServiceTest : BaseTest() {
                     authorization = authorization
                 )
             } shouldBe error
+        }
+    }
+
+    @Test
+    fun `requestResultToken() - forwards call to processor`() = runBlockingTest {
+        val input = ResultTokenInput(
+            serviceEndpoint = "serviceEndpoint",
+            validationServiceJwkSet = emptySet(),
+            validationServiceSignKeyJwkSet = emptySet(),
+            jwt = "jwt",
+            encryptionKeyKid = "encryptionKeyKid",
+            encryptedDCCBase64 = "encryptedDCCBase64",
+            encryptionKeyBase64 = "encryptionKeyBase64",
+            signatureBase64 = "signatureBase64",
+            signatureAlgorithm = "signatureAlgorithm",
+            encryptionScheme = "encryptionScheme",
+        )
+
+        with(instance) {
+            requestResultToken(resultTokenInput = input) shouldBe resultTokenOutput
+
+            coVerify { resultTokenRequestProcessor.requestResultToken(resultTokenInput = input) }
+
+            val error = DccTicketingException(errorCode = DccTicketingErrorCode.RTR_SERVER_ERR)
+            coEvery { resultTokenRequestProcessor.requestResultToken(resultTokenInput = any()) } throws error
+
+            shouldThrow<DccTicketingException> { requestResultToken(resultTokenInput = input) } shouldBe error
         }
     }
 }
