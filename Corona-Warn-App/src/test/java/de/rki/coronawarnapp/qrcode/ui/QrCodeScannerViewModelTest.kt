@@ -357,7 +357,9 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `onScanResult reports DccTicketingInvalidQrCodeException`() {
-        val error = DccTicketingInvalidQrCodeException(errorCode = DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID)
+        val error = DccTicketingInvalidQrCodeException(
+            errorCode = DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID
+        )
         coEvery { qrCodeValidator.validate(any()) } throws error
 
         with(viewModel()) {

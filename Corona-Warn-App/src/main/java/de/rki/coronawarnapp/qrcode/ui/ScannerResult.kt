@@ -50,4 +50,4 @@ data class Error(val error: Throwable) : ScannerResult {
     val isAllowListError = error is DccTicketingAllowListException
 }
 
-data class DccTicketingError(val errorMsg: LazyString): ScannerResult
+data class DccTicketingError(val errorMsg: LazyString) : ScannerResult
