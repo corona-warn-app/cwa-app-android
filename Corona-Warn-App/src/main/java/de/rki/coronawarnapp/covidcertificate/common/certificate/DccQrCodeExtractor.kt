@@ -64,7 +64,7 @@ class DccQrCodeExtractor @Inject constructor(
     /**
      * May throw an **[InvalidHealthCertificateException]**
      */
-    fun extract(
+    suspend fun extract(
         rawString: String,
         parserMode: DccV1Parser.Mode,
         decoderMode: Base45Decoder.Mode = Base45Decoder.Mode.LENIENT
