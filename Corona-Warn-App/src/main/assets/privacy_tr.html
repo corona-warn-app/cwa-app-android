@@ -65,11 +65,12 @@
     3. Verileriniz işlenmesinde hangi yasal dayanaklar söz konusudur?
 </h2>
 <p>
-    Esas itibariyle yalnızca siz daha önce açıkça rıza beyanında bulunmuşsanız, verileriniz ancak o
-    zaman RKI tarafından risk değerlendirmesi ile bağlantılı olarak işlenir. Buradaki yasal dayanak,
-    GVKT (Genel Veri Koruma Tüzüğü) madde 6, fıkra 1, cümle 1, bent a ve sağlık verileri durumundaki
-    yasal dayanak ise GVKT madde 9, fıkra 2, bent a’dır. Daha önce vermiş olduğunuz rızanızı,
-    istediği zaman geri alabilirsiniz (geri alma hakkı).
+    Esas itibariyle yalnızca siz daha önce açıkça rıza beyanında bulunmuşsanız, verileriniz ancak
+    uygulamanın fonksiyonlarını sadece rıza beyanınızı esas alarak işlenir. Bu ver risk
+    değerlendirmesi ile bağlantılı veri işlemeyi ve COVID sertifikalarının bilet alırken kontrol
+    edilmesi ve diğer kişilerin uyarılması amacıyla kullanılır. asal dayanak, GVKT (Genel Veri
+    Koruma Tüzüğü) madde 6, fıkra 1, cümle 1, bent a ve sağlık verileri durumundaki yasal dayanak
+    ise GVKT madde 9, fıkra 2, bent a’dır.
 </p>
 <p>
     Resmi dijital Covid- sertifikalarına (Covid test sertifikası, Covid aşı sertifikası ve Covid
@@ -79,9 +80,9 @@
     dayanmaktadır. Test sertifikalarının oluşturulması ve belgelendirilmesi, GVKT madde 9, fıkra 2,
     bent g ile bağlantılı olarak IfSG madde 22, fıkra 7’ye dayanmaktadır. İyileşme sertifikaları
     DSGVO Md. 9 Par. 2 Bent 2 ve IfSG Md. 22 Par. 6 uyarınca oluşturulur ve belgelenir. Erişim
-    verilerinin, sertifikaların geçerliliğinin ve gerçekliğinin test edilmesi ve güçlendirici aşı
-    tavsiyelerine ilişkin kurallar bağlamında işlenmesi DSGVO Md. 6 Par. 1 Bent e ve BDSG Md. 3
-    uyarınca gerçekleştirilir.
+    verilerinin, sertifikaların geçerliliğinin “Geçerliliğinin kontrol edilmesi” ve güçlendirici aşı
+    tavsiyelerine ilişkin kuralların kontrol edilmesi bağlamında işlenmesi DSGVO Md. 6 Par. 1 Bent e
+    ve BDSG Md. 3 uyarınca gerçekleştirilir.
 </p>
 <p>
     Onayınız geri alma hakkı ile ilgili ayrıntılı bilgileri Madde 12’de bulabilirsiniz. Günlük
@@ -100,7 +101,7 @@
     5. Hangi veriler işlenir?
 </h2>
 <p>
-    Uygulamanın tüm sistemi, mümkün olduğunca az kişisel verileri işleyecek şekilde
+    Uygulamanın tüm sistemi, mümkün olduğunca az, temel kişisel verileri işleyecek şekilde
     programlanmıştır. Bu demektir ki sistem, risk değerlendirmesi, diğer kişilerin uyarılması ve
     test sonucunun alınması için, RKI’nin veya diğer kullanıcıların sizin kimliğinizi, adınızı,
     konumunuzu veya diğer kişisel bilgilerinizi öğrenmesine olanak tanıyan verileri toplamamaktadır.
@@ -110,7 +111,8 @@
     onayı görüntüleyebileceğiniz “Hızlı test sonucunu kanıtla” işlevinde (bkz. Madde 6 c), bir test
     merkezinde hızlı testin uygulanması için gereken verilerin hazırlandığı “Hızlı test profili”
     oluşturma işlevinde (bunun için bkz. Madde 6 d) ve bunların yanı sıra Uygulamaya dijital Covid
-    sertifikaları eklediğinizde söz konusudur.
+    sertifikaları eklediğinizde söz konusudur (bkz. Madde 6h.) ya da bilet rezervasyonu kapsamında
+    kontrol edilmesi söz konusudur (bkz . Madde 6j.).
 </p>
 <p>
     Dolayısıyla Uygulama, standart olarak analiz araçları üzerinden kullanıcı davranışınızın
@@ -427,7 +429,46 @@
     Bu veriler, test sonucunuz hazır olur olmaz Uygulamaya kaydedilir.
 </p>
 <h3>
-    k. Kullanım verileri (veri bağışı)
+    k. Rezervasyon bilgileri
+</h3>
+<p>
+    İnternet üzerinden bir gezi veya etkinlik şirketinde veya başka bir sağlayıcı üzerinden bir
+    randevu aldığınızda uygulama geçerli dijital COVID sertifikasının kanıtını ilgili sağlayıcının
+    kullanımına sunabilir (bilet alırken sertifika kontrolü). Bunun için uygulamaya dijital DOVID
+    sertifikası eklemiş olmanız gereklidir. Ayrıca ilgili sağlayıcılar kontrol etme servisine bağlı
+    olabilir.
+</p>
+<p>
+    Sertifikaların kontrol edilmesi için randevu işlemi kapsamında ilgili sağlayıcıdan edinilen özel
+    QR kodu gerekir. Bu QR kodu benzersiz işlem ID’si, randevu işleminin kısa tanımını (örn.
+    “Randevu numarası 1234”) ve internet adresini (URL) içerir.
+</p>
+<p>
+    Die App nutzt diese Informationen, um beim Anbieter technische Spezifikationen sowie die
+    folgenden Details zur Buchung abzurufen, die für die Überprüfung des COVID-Zertifikats
+    berücksichtigt werden sollen:
+</p>
+<ul>
+    <li>Adınız</li>
+    <li>Doğum tarihiniz</li>
+    <li>COVID sertifikasının gerekli geçerliliğinin tarihine ilişkin bilgiler (seyahat tarihi veya
+        etkinlik tarihi)
+    </li>
+    <li>Seyahatlerde: Çıkış ve varış ülkesi</li>
+    <li>Kanıt talepleri özellikle uygun aşı sertifikası (sınırları aşan seyahatlerde varış ülkesinin
+        talepleri de) gibi sertifika tipleri kanıtları
+    </li>
+    <li>Bazı randevularda ek olarak etkinlik türüne ilişkin bilgiler de paylaşılır (örn. konser veya
+        büyük etkinlikler).
+    </li>
+</ul>
+<p>
+    COVID sertifikasının kontrol edilmesi için hangi somut bilgilerin kullanılmasının gerektiği ve
+    hangi COVID sertifikalarına kanıt olarak izin verildiği ilgili sağlayıcı tarafından özel olarak
+    belirlenir.
+</p>
+<h3>
+    l. Kullanım verileri (veri bağışı)
 </h3>
 <p>
     Veri bağışını etkinleştirdiğinizde Uygulama, Uygulama kullanımınıza ilişkin belirli verileri
@@ -488,7 +529,7 @@
     bkz. Madde 5 n. ve Madde 11).
 </p>
 <h3>
-    l. Ankete katılım
+    m. Ankete katılım
 </h3>
 
 <p>
@@ -506,7 +547,7 @@
     doğrulanmasını gerektirir (bu konuyla ilgili daha fazla bilgi için bkz. Madde 5 n. ve Madde 11).
 </p>
 <h3>
-    m. Hata raporlarının içerikleri
+    n. Hata raporlarının içerikleri
 </h3>
 <p>
     Hata analizi ile ilgili olarak Uygulama teknik desteğine yardımcı olmak için Uygulamanızda hata
@@ -562,7 +603,7 @@
     doğrulanmasını gerektirir (bu konuyla ilgili daha fazla bilgi için bkz. Madde 5 n ve Madde 11).
 </p>
 <h3>
-    n. Uygulamanızın orijinalliğinin doğrulanması
+    o. Uygulamanızın orijinalliğinin doğrulanması
 </h3>
 
 <p>
@@ -679,13 +720,10 @@
     siler ve sadece belirteci tutar. Böylece QR kod artık kullanılmış (geçersiz) olur, yani artık
     kimse tarafından kullanılamaz. Bu sayede QR kodunuzun test sonucunu sorgulamak için başka bir
     kullanıcı tarafından kullanılmasının önüne geçilmiş olur.
-
 </p>
-
 <p>
     <u>Test sonucunun saklanması</u>
 </p>
-
 <p>
     Test sonucunuz test kuruluşları tarafından hazır olduğunda, bu sonucu hemen ilgili karma kod
     numarası ile birlikte RKI tarafından işletilen test sonuçları veri tabanına kaydedilmek üzere
@@ -750,8 +788,7 @@
     sonucu görüntülenmediği anda (kodlar, test zamanı) silinir.
 </p>
 <p>
-    Hızlı test sonuçları ayrıca temas günlüğünüzde de saklanır. Bunları istediğiniz zaman oradan
-    kaldırabilirsiniz.
+    Hızlı test sonuçları ayrıca temas günlüğünüzde de saklanır.
 </p>
 <h3>
     d. Hızlı test profili
@@ -888,8 +925,8 @@
 
 </h3>
 <p>
-    Uygulama dijital Covid sertifikalarını kaydetmenize ve elektronik formda yanınızda taşımanıza
-    olanak sağlar.
+    Uygulama dijital Covid sertifikalarını kaydetmenize,elektronik formda yanınızda taşımanıza ve
+    bunların sertifika kontrolü için bilet alırken kullanımına olanak sağlar.
 </p>
 <p>
     Dijital Covid sertifikası şunların kanıtıdır:
@@ -900,7 +937,7 @@
     <li>Covid-19 hastalığını atlattığına dair kanıttır (Covid iyileşme sertifikası).</li>
 </ul>
 <p>
-    Dijital Covid sertifikaları 07.07.2021’den itibaren Avrupa Birliğinin (AB) sınırlarında Covid-19
+    Dijital Covid sertifikaları 07.07.2021’den beri Avrupa Birliğinin (AB) sınırlarında Covid-19
     aşıları ve testlerinin ve Covid-19 enfeksiyonunun atlatıldığının belgesi olarak geçerli
     olacaktır (Covid sertifikası). Güçlendirici aşılarla ilgili şu sıralar henüz Avrupa çapında bir
     mutabakat bulunmamaktadır. Bu yüzden güçlendirici aşı sertifikaları diğer Avrupa ülkelerinde
@@ -909,8 +946,8 @@
 <p>
     Covid sertifikası talep etmeniz halinde aşı yaptırdıktan, test yapıldıktan veya Covid-19
     hastalığını geçirdikten sonra yetkili bir kurumdan (aşı merkezleri, test merkezleri, doktorlar
-    veya eczaneler) alınabilir. Covid test sertifikasını bir test esnasında edinilimişse doğrudan
-    uygulamadan da edinebilirsiniz. Uygulama, testinize ilişkin bigileri kare kodundan okur ve test
+    veya eczaneler) alınabilir. Covid test sertifikasını bir test esnasında edinilmişse doğrudan
+    uygulamadan da edinebilirsiniz. Uygulama, testinize ilişkin bilgileri kare kodundan okur ve test
     sonucunu sunucudan edinir. PCR testi yaptırmanız halinde sonuçları açılabilir ve Covid test
     sertifikasına ek olarak doğum tarihiniz de kaydedilir. Doğum tarihinizle bir güvenlik kodu
     oluşturulur (dağılım değeri şeklinde) ve RKI sunucusu ile karşılaştırılır. Bu şekilde başka
@@ -927,10 +964,7 @@
     telefonunuza kaydeder. Akıllı telefonunuzda depolanan sertifikalara bilginiz dışında
     erişilmesini önlemek için cihazda bir kod kilidi ayarlamalısınız.
 </p>
-Lütfen Covid sertifikalarının kare kodunda sağlık bilgilerinin (korona aşıları hakkında bilgiler,
-korona test sonuçları ya da korona enfeksiyonunu geçirme) bulunduğunu unutmayınız. Sertifikaları ve
-kare kodunu sadece ilgili kanıtı göstermek istediğiniz zaman gösterin. Verilerinizin okunmasını
-istemiyorsanız kare kodunu kimseyle paylaşmayın.
+Lütfen Covid sertifikalarının kare kodunda sağlık bilgilerinin (korona aşıları hakkında bilgiler, korona test sonuçları ya da korona enfeksiyonunu geçirme) bulunduğunu unutmayınız. Sertifikaları ve kare kodunu sadece ilgili kanıtı göstermek istediğiniz zaman gösterin. Verilerinizin okunmasını istemiyorsanız kare kodunu kimseyle paylaşmayın.
 <p>
     Uygulama ile kendinizin Covid sertifikaları ve aile üyelerinin Covid sertifikaları (aile
     sertifikaları) taranabilir ve kodlanarak akıllı telefonunuza kaydedilebilir. Aile
@@ -1093,7 +1127,38 @@ istemiyorsanız kare kodunu kimseyle paylaşmayın.
     öğrenmez.
 </p>
 <h3>
-    k. Hata raporları
+    k. Bilet rezervasyonu sırasında sertifika kontrolü
+</h3>
+<p>
+    Seyahat veya etkinlik şirketlerinde veya başka sağlayıcılardan bilet rezervasyonu yaptırmanız
+    halinde uygulama üzerinden dijital COVID sertifikasını sağlayıcının kontrol ortağına
+    aktarabilirsiniz, böylece bu randevunuz için sertifikanızın geçerliliğini seyahat veya gezi
+    şirketlerinin adına kontrol eder.
+</p>
+<p>
+    Bunun için uygulamaya bir COVID sertifikasının eklenmiş olmasıdır. Uygulama ilgili sağlayıcıya
+    kontrol için kullanılan rezervasyon bilgilerini sorgular ve bu bilgileri baz alarak uygun
+    sertifikayı önerir. Bu seçilebilir ve sağlayıcı tarafından hazırlanan rezervasyon bilgileriyle
+    (bkz. Madde 5k.) kontrol ortağına aktarılabilir.
+</p>
+<p>
+    Kontrol ortağı sertifikanın elektronik imzasının gerçek olup olmadığını kontrol eder ve
+    sertifikanın teknik bitiş tarihine ulaşılıp ulaşılmadığını kontrol eder. Kontrol ortağı, kontrol
+    sonuçlarını hemen sağlayıcı ile paylaşır. Sadece kontrolün başarılı olup olmadığı paylaşılır.
+    Kontrol sonucu uygulamanızda da gösterilir.
+</p>
+<p>
+    Sağlayıcı tarafından hazırlanan rezervasyon bilgileri sadece yerel olarak uygulamada işlenir. Bu
+    nedenle RKI, hangi sertifikaları seçtiğinizi ve kontrol ettirdiğinizi veya hangi seyahat veya
+    etkinlikler için rezervasyon yaptığınızı takip edemez.
+</p>
+<p>
+    Sağlayıcı ve kontrol ortağı tarafından verilerin işlenmesi için RKI sorumlu değildir. Lütfen
+    bilgilerinizin ne için ve nasıl kullanılacağını anlamak için ilgili veri gizliliği uyarılarını
+    okuyunuz.
+</p>
+<h3>
+    l. Hata raporları
 </h3>
 
 <p>
@@ -1111,7 +1176,7 @@ istemiyorsanız kare kodunu kimseyle paylaşmayın.
     çıkarabileceğini göz önünde bulundurun.
 </p>
 <h3>
-    l. Anketler
+    m. Anketler
 </h3>
 
 <p>
@@ -1120,7 +1185,7 @@ istemiyorsanız kare kodunu kimseyle paylaşmayın.
     amaçları, anket web sitesinde anketteki bilgilerde yer almaktadır.
 </p>
 <h3>
-    m. Uygulamanızın orijinalliğinin doğrulanması
+    n. Uygulamanızın orijinalliğinin doğrulanması
 </h3>
 
 <p>
@@ -1317,7 +1382,8 @@ istemiyorsanız kare kodunu kimseyle paylaşmayın.
     profili oluşturduysanız bu, siz tekrar silene kadar uygulamada kalır. Covid aşısı
     sertifikalarını, test sertifikalarını veya aile sertifikalarınız dahil iyileşme sertifikalarını
     taradıysanız, bu veriler siz onları silene kadar Uygulamada kayıtlı kalacaktır. Lütfen
-    öngörülemeyen amaçlar için gerekli değilse aile sertifikalarını siliniz.
+    öngörülemeyen amaçlar için gerekli değilse aile sertifikalarını siliniz. Rezervasyon bilgileri
+    sertifika kontrolü tamamlandıktan sonra silinir.
 </p>
 <h3>
     b. Sunucu sistemlerindeki veriler
@@ -1400,6 +1466,12 @@ istemiyorsanız kare kodunu kimseyle paylaşmayın.
     da görüntülenir. Test sertifikalarında kontrol eden kişinin söz konusu olan test sonucunun hala
     geçerli olup olmadığını değerlendirebilmesi için numunenin ne zaman alındığı da gösterilir.
 </p>
+<p>
+    Bilet rezervasyonu için sertifika kontrolü sırasında COVID sertifikalarınız ve rezervasyon
+    bilgileriniz sağlayıcının kontrol ortağına aktarılır. Somut kontrol ortağı bilgiler aktarılmadan
+    önce uygulamada size gösterilir. İlgili rezervasyon bilgilerinin açılması için uygulama
+    sağlayıcıya, sağlayıcının rezervasyon QR kodunda bulunan rezervasyon sayısını aktarır.
+</p>
 <h2>
     11. Verileriniz AB dışındaki ülkelere aktarılacak mı?
 </h2>
@@ -1465,15 +1537,7 @@ istemiyorsanız kare kodunu kimseyle paylaşmayın.
 <h3>
     c. “Diğerlerini uyarın” işlevine dair rıza beyanı
 </h3>
-Diğer insanları uyarmak için test sonucunuzun ( (daha doğrusu, son 14 güne dair rastgele kimlik
-numaralarınız, olay kimlikleriniz ve kaydedilen giriş ve çıkış denetim zamanlarınızın) aktarılmasına
-ilişkin vermiş olduğunuz rıza beyanını, testi görüntüleyerek ve ardından “Diğerlerini uyar”
-seçeneğini devre dışı bırakarak iptal edebilirsiniz. Ayrıca “Giriş denetimlerim” altındaki olayların
-veya konumlara ait veri girişlerini silebilir ve böylece bu olaylara ilişkin verilerin uyarı
-gönderimi kapsamında kullanılmasını önleyebilirsiniz. Bu olanak, diğer kullanıcıları uyarmak için
-henüz rastgele kimlik numaralarınızı göndermediğiniz sürece söz konusudur. Bundan bağımsız olarak,
-sağlık kurumu bunun için bir TAN kodu bildirdikten sonra, olayın organizatörü, olayda giriş denetimi
-yaptırmış konukları Corona-Warn-App üzerinden uyarabilir.
+Diğer insanları uyarmak için test sonucunuzun ( (daha doğrusu, son 14 güne dair rastgele kimlik numaralarınız, olay kimlikleriniz ve kaydedilen giriş ve çıkış denetim zamanlarınızın) aktarılmasına ilişkin vermiş olduğunuz rıza beyanını, testi görüntüleyerek ve ardından “Diğerlerini uyar” seçeneğini devre dışı bırakarak iptal edebilirsiniz. Ayrıca “Giriş denetimlerim” altındaki olayların veya konumlara ait veri girişlerini silebilir ve böylece bu olaylara ilişkin verilerin uyarı gönderimi kapsamında kullanılmasını önleyebilirsiniz. Bu olanak, diğer kullanıcıları uyarmak için henüz rastgele kimlik numaralarınızı göndermediğiniz sürece söz konusudur. Bundan bağımsız olarak, sağlık kurumu bunun için bir TAN kodu bildirdikten sonra, olayın organizatörü, olayda giriş denetimi yaptırmış konukları Corona-Warn-App üzerinden uyarabilir.
 <p>
     Rastgele kimlik numaralarınızı gönderdikten sonra, verdiğiniz rıza beyanını geri almanın tek
     yolu artık Uygulamayı silmektir. Sunucu sistemine halen iletilmiş olan rastgele kimlik
@@ -1597,5 +1661,5 @@ yaptırmış konukları Corona-Warn-App üzerinden uyarabilir.
     görevlisi), Nordufer 20,13353 Berlin veya e-posta yoluyla: <a href="mailto:datenschutz@rki.de">datenschutz@rki.de</a>.
 </p>
 <p>
-    Baskı 22.11.2021
+    Baskı 15.12.2021
 </p>
