@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.core.service
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.processor.AccessTokenRequestProcessor
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationServiceRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -25,13 +26,15 @@ class DccTicketingRequestServiceTest : BaseTest() {
     @MockK lateinit var validationServiceRequestProcessor: ValidationServiceRequestProcessor
     @MockK lateinit var validationDecoratorRequestProcessor: ValidationDecoratorRequestProcessor
     @MockK lateinit var accessTokenRequestProcessor: AccessTokenRequestProcessor
+    @MockK lateinit var resultTokenRequestProcessor: ResultTokenRequestProcessor
 
     private val instance: DccTicketingRequestService
         get() = DccTicketingRequestService(
             dispatcherProvider = TestDispatcherProvider(),
             validationDecoratorRequestProcessor = validationDecoratorRequestProcessor,
             validationServiceRequestProcessor = validationServiceRequestProcessor,
-            accessTokenRequestProcessor = accessTokenRequestProcessor
+            accessTokenRequestProcessor = accessTokenRequestProcessor,
+            resultTokenRequestProcessor = resultTokenRequestProcessor
         )
 
     private val validationServiceResult = ValidationServiceRequestProcessor.ValidationServiceResult(
