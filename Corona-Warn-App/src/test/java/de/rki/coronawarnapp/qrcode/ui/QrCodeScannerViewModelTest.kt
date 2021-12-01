@@ -5,9 +5,13 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
@@ -34,6 +38,8 @@ import io.mockk.coVerify
 import io.mockk.every
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
+import io.kotest.matchers.should
+import io.kotest.matchers.types.beInstanceOf
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
@@ -49,11 +55,10 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
-import javax.inject.Inject
 
 @ExtendWith(InstantExecutorExtension::class)
 class QrCodeScannerViewModelTest : BaseTest() {
-    @Inject lateinit var qrCodeValidator: QrCodeValidator
+    @MockK lateinit var qrCodeValidator: QrCodeValidator
     @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeFileParser: QrCodeFileParser
     @MockK lateinit var dccHandler: DccQrCodeHandler
@@ -105,11 +110,12 @@ class QrCodeScannerViewModelTest : BaseTest() {
         isDccConsentGiven = true
     )
 
+    private val rawResult = "rawResult"
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         mockkStatic(Uri::class)
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         every { Uri.parse(any()) } returns mockk()
@@ -149,11 +155,15 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `onScanResult reports UnsupportedQrCodeException`() {
+        val error = UnsupportedQrCodeException()
+        coEvery { qrCodeValidator.validate(rawString = any()) } throws error
+
         viewModel().apply {
-            onScanResult("rawResult")
-            result.value.shouldBeInstanceOf<Error>().error
-                .shouldBeInstanceOf<UnsupportedQrCodeException>().errorCode shouldBe
-                UnsupportedQrCodeException.ErrorCode.UNSUPPORTED_QR_CODE
+            onScanResult(rawResult = rawResult)
+            result.getOrAwaitValue().also {
+                it as Error
+                it.error shouldBe error
+            }
         }
     }
 
@@ -343,6 +353,55 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledRAT)
         }
         coVerify { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
+    }
+
+    @Test
+    fun `onScanResult reports DccTicketingInvalidQrCodeException`() {
+        val error = DccTicketingInvalidQrCodeException(errorCode = DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID)
+        coEvery { qrCodeValidator.validate(any()) } throws error
+
+        with(viewModel()) {
+            onScanResult(rawResult = rawResult)
+            result.getOrAwaitValue().also {
+                it as Error
+                it.error shouldBe error
+            }
+        }
+    }
+
+    @Test
+    fun `onScanResult reports DccTicketingAllowListException`() {
+        coEvery { qrCodeValidator.validate(any()) } returns mockk<DccTicketingQrCode>()
+
+        val error = DccTicketingAllowListException(DccTicketingAllowListException.ErrorCode.ALLOWLIST_NO_MATCH)
+        coEvery { dccTicketingQrCodeHandler.handleQrCode(any()) } throws error
+
+        with(viewModel()) {
+            onScanResult(rawResult = rawResult)
+            result.getOrAwaitValue().also {
+                it as Error
+                it.error shouldBe error
+            }
+        }
+    }
+
+    @Test
+    fun `onScanResult reports DccTicketingException`() {
+        coEvery { qrCodeValidator.validate(any()) } returns mockk<DccTicketingQrCode> {
+            every { data } returns mockk {
+                every { serviceProvider } returns "serviceProvider"
+            }
+        }
+
+        val error = DccTicketingException(errorCode = DccTicketingErrorCode.VD_ID_PARSE_ERR)
+        coEvery { dccTicketingQrCodeHandler.handleQrCode(any()) } throws error
+
+        with(viewModel()) {
+            onScanResult(rawResult = rawResult)
+            result.getOrAwaitValue().also {
+                it should beInstanceOf<DccTicketingError>()
+            }
+        }
     }
 
     fun viewModel() = QrCodeScannerViewModel(
