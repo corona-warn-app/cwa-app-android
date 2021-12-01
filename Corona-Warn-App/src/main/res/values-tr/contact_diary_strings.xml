@@ -39,7 +39,7 @@
     <!-- XTXT: Contact diary onboarding screen third functionality -->
     <string name="contact_diary_onboarding_functionality_third_section">"Günce girişlerinize yalnızca siz erişebilirsiniz. Girişleriniz yalnızca akıllı telefonunuza kaydedilecektir."</string>
     <!-- XTXT: Contact diary onboarding screen fourth functionality -->
-    <string name="contact_diary_onboarding_functionality_fourth_section">"Dilediğiniz zaman güncenizdeki kişi ve yer girişlerini kaldırabilirsiniz. Günce girişleri 16 günün ardından otomatik olarak silinecektir."</string>
+    <string name="contact_diary_onboarding_functionality_fourth_section">"Dilediğiniz zaman güncenizdeki kişi ve yer girişlerini silebilirsiniz. Günce girişleri 16 günün ardından otomatik olarak silinecektir."</string>
     <!-- XTXT: Contact diary onboarding screen fifth functionality -->
     <string name="contact_diary_onboarding_functionality_fifth_section">"Temas güncenizi düz metin biçiminde dışa aktarabilir ve ardından girişleri yazdırabilir, düzenleyebilir ya da gerekli olduğunda kamu sağlığı yetkilinize sunabilirsiniz."</string>
     <!-- XTXT: Contact diary onboarding screen sixth functionality -->
@@ -94,31 +94,31 @@
     <!-- XHED: Title for the contact diary edit persons -->
     <string name="contact_diary_edit_persons_title">"Kişileri Düzenle"</string>
     <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
-    <string name="contact_diary_remove_all_button">"Tümünü kaldır"</string>
+    <string name="contact_diary_remove_all_button">"Tümünü Sil"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
-    <string name="contact_diary_delete_button_positive">"Kaldır"</string>
+    <string name="contact_diary_delete_button_positive">"Sil"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
     <string name="contact_diary_delete_button_negative">"İptal"</string>
     <!-- XHED: Title for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_title">"Tüm yerleri gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="contact_diary_delete_locations_title">"Tüm yerleri gerçekten silmek istiyor musunuz?"</string>
     <!-- XHED: Title for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_title">"Tüm kişileri gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="contact_diary_delete_persons_title">"Tüm kişileri gerçekten silmek istiyor musunuz?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete all locations -->
-    <string name="contact_diary_delete_locations_message">"Tüm yerleri kaldırdığınızda tüm yerlere ilişkin tüm girişler güncenizden kaldırılacaktır."</string>
+    <string name="contact_diary_delete_locations_message">"Tüm yerleri sildiğinizde tüm yerlere ilişkin tüm girişler güncenizden silinecektir."</string>
     <!-- XTXT: Message for the contact diary dialog to delete all persons -->
-    <string name="contact_diary_delete_persons_message">"Tüm kişileri kaldırdığınızda tüm kişilere ilişkin tüm girişler güncenizden kaldırılacaktır."</string>
+    <string name="contact_diary_delete_persons_message">"Tüm kişileri sildiğinizde tüm kişilere ilişkin tüm girişler güncenizden silinecektir."</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_edit_icon_content_description">"Girişi Düzenle"</string>
     <!-- XACT: edit icon description for screen readers -->
     <string name="contact_diary_delete_icon_content_description">"Girişi Sil"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
-    <string name="contact_diary_delete_location_title">"Bu yeri gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="contact_diary_delete_location_title">"Bu yeri gerçekten silmek istiyor musunuz?"</string>
     <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
-    <string name="contact_diary_delete_person_title">"Bu kişiyi gerçekten kaldırmak istiyor musunuz?"</string>
+    <string name="contact_diary_delete_person_title">"Bu kişiyi gerçekten silmek istiyor musunuz?"</string>
     <!-- XTXT: Message for the contact diary dialog to delete a single location -->
-    <string name="contact_diary_delete_location_message">"Bir yeri kaldırdığınızda o yere ilişkin tüm girişler güncenizden kaldırılacaktır."</string>
+    <string name="contact_diary_delete_location_message">"Bir yeri sildiğinizde o yere ilişkin tüm girişler güncenizden silinecektir."</string>
     <!-- XTXT: Message for the contact diary dialog to delete a single person -->
-    <string name="contact_diary_delete_person_message">"Bir kişiyi kaldırdığınızda o kişiye ilişkin tüm girişler güncenizden kaldırılacaktır."</string>
+    <string name="contact_diary_delete_person_message">"Bir kişiyi sildiğinizde o kişiye ilişkin tüm girişler güncenizden silinecektir."</string>
 
     <!-- XHED: Title for the contact diary comment info screen -->
     <string name="contact_diary_comment_info_screen_title">"Not"</string>

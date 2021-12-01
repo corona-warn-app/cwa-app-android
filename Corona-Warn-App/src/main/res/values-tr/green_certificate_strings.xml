@@ -34,7 +34,7 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
-    <string name="green_certificate_details_menu_item_delete">"Sertifikayı Kaldır"</string>
+    <string name="green_certificate_details_menu_item_delete">"Sertifikayı Sil"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
     <string name="green_certificate_details_menu_item_export">"Basılı Versiyonu Görüntüle"</string>
 
@@ -62,7 +62,7 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_try_again">"Bağlantı kurulamadı. Lütfen tekrar deneyin."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_not_supported_by_lab">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden bir test sertifikası talep edemezsiniz. Lütfen sertifikayı kaldırın veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
+    <string name="error_tc_dcc_not_supported_by_lab">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden bir test sertifikası talep edemezsiniz. Lütfen sertifikayı silin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Error text -->
     <string name="error_tc_no_network">"İnternet bağlantınız kesildi. Lütfen bağlantıyı kontrol edin ve tekrar deneyin."</string>
     <!-- XTXT: Error text -->
@@ -72,17 +72,17 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_client_error_call_hotline">"Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_expired">"Bu sertifika artık güncel değil. Sertifikayı Corona-Warn-App\'ten kaldırabilirsiniz."</string>
+    <string name="error_tc_dcc_expired">"Bu sertifika artık güncel değil. Sertifikayı Corona-Warn-App\'ten silebilirsiniz."</string>
     <!-- XBUT: Test error delete button -->
-    <string name="test_certificate_error_delete_button">"Test Sertifikasını Kaldır"</string>
+    <string name="test_certificate_error_delete_button">"Test Sertifikasını Sil"</string>
     <!-- XTXT: Test error refresh dialog title -->
     <string name="test_certificate_refresh_dialog_title">"Yine de talebinizle ilgili problemler var."</string>
     <!-- XTXT: Test error delete dialog title -->
-    <string name="test_certificate_delete_dialog_title">"Sertifikayı kaldırmak istiyor musunuz?"</string>
+    <string name="test_certificate_delete_dialog_title">"Sertifikayı silmek istiyor musunuz?"</string>
     <!-- XTXT: Test error delete dialog body -->
     <string name="test_certificate_delete_dialog_body">"Sertifikayı kaldırırsanız tekrar talep edemezsiniz."</string>
     <!-- XBUT: Test error delete dialog confirm button -->
-    <string name="test_certificate_delete_dialog_confirm_button">"Kaldır"</string>
+    <string name="test_certificate_delete_dialog_confirm_button">"Sil"</string>
     <!-- XBUT: Test error delete dialog cancel button -->
     <string name="test_certificate_delete_dialog_cancel_button">"İptal Et"</string>
     <!-- XTXT: Test error card body refreshing -->

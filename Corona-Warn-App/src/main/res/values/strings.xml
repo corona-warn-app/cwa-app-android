@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -624,7 +623,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"A person has turned off Bluetooth on their smartphone, so an encounter with two other persons is not logged."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive" />
+    <string name="settings_tracing_location_illustration_description_inactive"/>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Notifications"</string>
@@ -820,7 +819,7 @@
     <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
 
     <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
-    <string name="debugging_debuglog_legal_privacy_card_title">"Verification of Authenticity and Data Transfer to Third Countries"</string>
+    <string name="debugging_debuglog_legal_privacy_card_title">"Validation of Authenticity and Data Transfer to Third Countries"</string>
     <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
     <string name="debugging_debuglog_legal_privacy_card_first_section">"To confirm the authenticity of your app, your smartphone generates a unique identifier that contains information about the version of your smartphone and the app. This is necessary to ensure that only people who actually use the Corona-Warn-App can send data to technical support and rule out manipulated error reports. To do so, the identifier is sent to Google. In this process, data may be transferred to the U.S. or other third countries, where the level of data privacy may not correspond to European law and you may not be able to enforce your European rights to data privacy. In particular, security services in the third country could access and analyze the data with Google, even if there is no grounds for suspicion, and link this data with other information, for example. This only involves the identifier that is sent to Google. Google does not receive the information from your error report, however, Google may be able to determine your identity based on the identifier and track that the authenticity check was performed on your smartphone."</string>
     <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
@@ -905,7 +904,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"QR code is invalid"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is invalid or has been registered on your smartphone already.\nYou will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus the public health authority will be notified through the legally prescribed channel and will contact you.\nIf you have deleted the test in the app, you can restore it from the recycle bin."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"The QR code is invalid or has been registered on your smartphone already.\nYou will receive your test result from the testing center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus the public health authority will be notified through the legally prescribed channel and will contact you.\nIf you have deleted the test in the app, you can restore it from the recycle bin."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Please try again."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -918,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Tests, Zertifikate, Check-ins und Überprüfung bei Ticketbuchungen"</string>
+    <string name="qr_code_scan_body_subtitle">"Your PCR tests, rapid tests, test certificates, vaccination certificates, certificates of recovery, and check-ins."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
@@ -944,21 +943,21 @@
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
-    <string name="qr_code_info_screen_title">"Informationen zu QR-Codes"</string>
+    <string name="qr_code_info_screen_title">"Information about QR codes"</string>
     <!-- XTXT: First bulletpiont for info screen -->
-    <string name="qr_code_info_screen_first_bulletpoint_text">"Ihre Testzertifikate, Impfzertifikate, Gensenenzertifikate, sowie Zertifikate Ihrer Familienmitglieder"</string>
+    <string name="qr_code_info_screen_first_bulletpoint_text">"Your test certificates, vaccination certificates, certificates of recovery, and certificates for your family members"</string>
     <!-- XTXT: Second bulletpoint for info screen -->
-    <string name="qr_code_info_screen_second_bulletpoint_text">"Check-ins für Veranstaltungen und Orte"</string>
+    <string name="qr_code_info_screen_second_bulletpoint_text">"Check-ins for events and places"</string>
     <!-- XTXT: Third bulletpoint for info screen -->
-    <string name="qr_code_info_screen_third_bulletpoint_text">"PCR-Tests und Schnelltests"</string>
+    <string name="qr_code_info_screen_third_bulletpoint_text">"PCR tests and rapid tests"</string>
     <!-- XTXT: Fourth bulletpoint for info screen -->
-    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Zur Überprüfung Ihrer Zertifikate bei Ticketbuchungen"</string>
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Validation of your certificates during ticket booking"</string>
     <!-- XTXT: QR Code info screen data details -->
-    <string name="qr_code_info_screen_data_details_text">"Die Daten aus dem jeweiligen QR-Code werden ausgelesen."</string>
+    <string name="qr_code_info_screen_data_details_text">"The data from the respective QR code is read."</string>
     <!-- XTXT: QR Code booking provider info text -->
-    <string name="qr_code_info_screen_booking_provider_text">"Beim Scan von QR-Codes zur Zertifikat-Prüfung bei Ticketbuchungen werden weitere Angaben zum Anbieter der Buchung abgefragt."</string>
+    <string name="qr_code_info_screen_booking_provider_text">"When you scan QR codes for certificate validation during ticket booking, additional information about the booking provider is retrieved."</string>
     <!-- XTXT: Privacy policy button text -->
-    <string name="qr_code_info_screen_privacy_policy">"Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung"</string>
+    <string name="qr_code_info_screen_privacy_policy">"For information about data processing, please refer to the privacy notice."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1017,7 +1016,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your Test Result Is Not Available Yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under “Request TAN” to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under Request TAN to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1062,7 +1061,7 @@
     <string name="submission_test_result_delete_steps_invalid_heading">"Delete Test"</string>
 
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the test center or laboratory involved to find out how to proceed."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"There was a problem evaluating your test. Please contact the testing center or laboratory involved to find out how to proceed."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_delete_steps_invalid_body">"You have to remove the last test before you can register a new one."</string>
 
@@ -1077,15 +1076,15 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Remove the test result?"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Delete the test result?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"The test result will be moved to the recycle bin. You’ll find the recycle bin on the “Status” tab page, under the three dots on the upper right. You can permanently delete or restore it there. The test result will be deleted automatically after 30 days."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Remove Test Result"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Delete Test Result"</string>
     <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Are you sure you want to remove your test?"</string>
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Are you sure you want to delete your test?"</string>
     <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"If you delete the test, you can no longer retrieve your test result. You will receive your test result from the test center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
+    <string name="submission_test_result_dialog_remove_test_message">"If you delete the test, you can no longer retrieve your test result. You will receive your test result from the testing center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
     <!-- YTXT: Dialog text for test removal no submission -->
     <string name="submission_test_result_dialog_remove_test_message_no_submission">"If you do, others will not be warned."</string>
     <!-- XBUT: Positive button for test removal -->
@@ -1101,7 +1100,7 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Thank you for helping to stop the spread of coronavirus."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br /><br />"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
+    <string name="submission_test_result_consent_given_body"><b>"Others you have had contact with will now be warned."</b>" "<br/><br/>"You can now help to improve the accuracy of the warnings. To do so, in the next step, tell us when you first developed symptoms. You can cancel this step at any time."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Exit"</string>
 
@@ -1139,7 +1138,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Find Testing Center"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Find test centers near you. You will be forwarded to an external RKI website."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Find testing centers near you. If any problems occur, you can report them.\nYou will be forwarded to an external RKI website."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
@@ -1183,7 +1182,7 @@
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Warn Others"</string>
     <!-- XBUT: Button for test removal -->
-    <string name="submission_test_result_positive_no_consent_button_remove_test">"Remove Test"</string>
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Delete Test"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1427,7 +1426,7 @@
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
-    <string name="statistics_card_local_incidence_menu_delete">"Remove"</string>
+    <string name="statistics_card_local_incidence_menu_delete">"Delete"</string>
     <!-- XTXT: Local hospitalization statistics text -->
     <string name="statistics_card_local_hospitalization_text">"Hospitalizations in %s"</string>
 

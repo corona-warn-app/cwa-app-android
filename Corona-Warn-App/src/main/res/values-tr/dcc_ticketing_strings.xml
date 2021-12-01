@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Error Handling -->
+    <!-- XTXT: Service Provider (without provider name) error message-->
+    <string name="dcc_ticketing_error_service_provider_error_no_name">"Sağlayıcı ile bağlantı kurulurken bir hata oluştu. Problem devam ederse lütfen sağlayıcı ile iletişime geçin."</string>
+    <!-- XTXT: Service Provider error message-->
+    <string name="dcc_ticketing_error_service_provider_error">"Sağlayıcı %1$s ile bağlantı kurulurken bir hata oluştu. Problem devam ederse lütfen sağlayıcı ile iletişime geçin."</string>
+    <!-- XTXT: Try again error message-->
+    <string name="dcc_ticketing_error_try_again">"Veri işleme sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin."</string>
+
+    <!-- DCC Ticketing: Consent One -->
+    <!-- XHED: DCC Ticketing: Consent One: Header -->
+    <string name="dcc_ticketing_consent_one_header">"İzniniz"</string>
+    <!-- XACT: DCC Ticketing: Consent One: Accessibility -->
+    <string name="dcc_ticketing_consent_one_acessibility">"Bir biletleme sisteminden QR kod taramak için akıllı telefon kullanılır. Biletleme sistemi ile akıllı telefon arasındaki bir bağlantı gösterilmektedir."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Title -->
+    <string name="dcc_ticketing_consent_one_title">"Biletleme sırasında sertifika doğrulaması"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider -->
+    <string name="dcc_ticketing_consent_one_provider">"Sağlayıcı:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider Default Value -->
+    <string name="dcc_ticketing_consent_one_provider_default">"“Lufthansa”"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking -->
+    <string name="dcc_ticketing_consent_one_booking">"Rezervasyon:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking  Deafault Value-->
+    <string name="dcc_ticketing_consent_one_booking_default">"“1234”:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Body -->
+    <string name="dcc_ticketing_consent_one_body">"Sağlayıcı, rezervasyonunuz için geçerli bir sertifikanın bulunduğundan emin olmak ister. Biletleme bilgilerinizin sağlayıcıdan alınması ve kaydedilen sertifikalarınızın serbest bırakılması için izniniz gereklidir."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
+    <string name="dcc_ticketing_consent_one_point_1">"Corona-Warn-App ile sertifikanızın doğrulanmasına izin vermeniz gerekmez. Aşınıza, testinize veya iyileşme durumunuza ilişkin kanıtı farklı bir şekilde de sunabilirsiniz."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
+    <string name="dcc_ticketing_consent_one_point_2">"Sertifika gereklilikleri sağlayıcı tarafından tanımlanır. RKI, bu süreçte herhangi bir etki sahibi değildir. Sertifika gereklilikleri hakkında daha fazla bilgi edinmek için lütfen sağlayıcı ile iletişime geçin."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 3 -->
+    <string name="dcc_ticketing_consent_one_point_3">"Uygun sertifikaların belirlenmesi işlemi akıllı telefonunuzda yerel olarak gerçekleştirilir. RKI veya başka bir sağlayıcıya veri gönderilmez."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 4 -->
+    <string name="dcc_ticketing_consent_one_point_4">"RKI, biletiniz veya kaydettiğiniz sertifikalar hakkında hiçbir veri almaz."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Data protection -->
+    <string name="dcc_ticketing_consent_one_data_protection">"Veri işleme hakkında daha ayrıntılı bilgi için lütfen gizlilik bildirimine başvurun."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
+    <string name="dcc_ticketing_consent_one_consent_btn">"Kabul Et"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
+    <string name="dcc_ticketing_consent_one_cancel_btn">"İptal"</string>
+
+    <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Doğrulamayı iptal etmek istiyor musunuz?"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Cancel Dialog: Body  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Doğrulamayı iptal ederseniz sertifika doğrulanamaz."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_continue_btn">"Doğrulamaya Devam Et"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Cancel Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_cancel_btn">"Doğrulamayı İptal Et"</string>
+
+    <!-- Not in Dcc ticketing allow list dialog-->
+    <!-- XTXT: not in AllowList dialog title -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_title">"Güvenlik Notu"</string>
+    <!-- XTXT: not in AllowList dialog message -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Bu sağlayıcı hakkında bilgi sahibi değiliz. Güvenlik nedenleriyle biletleme sırasnda doğrulama işlemi yalnızca bilinen sağlayıcılar için yapılabilir. Lütfen size bu QR kodu veren sağlayıcı ile iletişime geçin."</string>
+
+    <!-- DCC Ticketing: Certificate Selection Screen -->
+    <!-- XHED: Certificate Selection Screen Toolbar Title -->
+    <string name="dcc_ticketing_certificate_selection_title">"Sertifika Seç"</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Uygun sertifika bulunmamaktadır."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Biletleme sistemi gerekliliklerini karşılayan bir sertifikanız bulunmamaktadır. Lütfen biletleme sisteminde adınızın yazım biçiminin sertifikalarınızdaki ad ile eşleştiğinden emin olun. Henüz uygulamada bulunmayan ek sertifikalara ihtiyacınız olursa lütfen bunları şimdi ekleyin ve ardından doğrulamayı yeniden başlatın."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
+    <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Şu sertifika gereklidir:"</string>
+    <!-- XTXT: Certificate Selection Screen: More Information -->
+    <string name="dcc_ticketing_certificate_selection_more_information_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
+    <string name="dcc_ticketing_faq_link_container">"SSS"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
+    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
+    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
+    <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Sağlayıcı gereklilikleri:"</string>
+    <!-- XTXT: Certificate Selection Screen: Person Birthday -->
+    <string name="dcc_ticketing_certificate_birthday">"Doğum tarihi: %s"</string>
+    <!-- XTXT: Certificate Selection Screen: Certificates That Meet Requirements Title -->
+    <string name="dcc_ticketing_certificates_meeting_requirements_title">"Aşağıdaki sertifikalar sağlayıcı gerekliliklerini karşılıyor ve kanıt olarak kullanılabilir:"</string>
+    <!-- XTXT: Certificate Selection Screen: Rapid anitgen Test certificate-->
+    <string name="rat_test_certificate">"Hızlı Test Sertifikası"</string>
+    <!-- XTXT: Certificate Selection Screen: PCR Test certificate-->
+    <string name="pcr_test_certificate">"PCR Testi Sertifikası"</string>
+
+    <!-- DCC Ticketing: Consent Two -->
+    <!-- XHED: DCC Ticketing: Consent Two: Header -->
+    <string name="dcc_ticketing_consent_two_header">"İzniniz"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Title -->
+    <string name="dcc_ticketing_consent_two_title">"Sertifikanız doğrulama için gönderiliyor"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner -->
+    <string name="dcc_ticketing_consent_two_test_partner">"Doğrulama ortağı:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner Default Value -->
+    <string name="dcc_ticketing_consent_two_test_partner_default">"“Operator_Validation_Service”"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider -->
+    <string name="dcc_ticketing_consent_two_provider">"Sağlayıcı:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider Default Value -->
+    <string name="dcc_ticketing_consent_two_provider_default">"“Lufthansa”"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Body -->
+    <string name="dcc_ticketing_consent_two_body">"Seçilen sertifika ve rezervasyon bilgileriniz, sağlayıcının doğrulama ortağına gönderilecektir. Verilerinizin doğrulama ortağına gönderilmesi için izniniz gereklidir."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 1 -->
+    <string name="dcc_ticketing_consent_two_point_1">"Doğrulama ortağı, elektronik imzanın geçerli olup olmadığını ve sertifikanın teknik sona erme tarihinin geçip geçmediğini kontrol eder. Teknik sona erme tarihini ve aktarılan sertifika içeriğini, uygulamada sertifikanın ayrıntılı görünümünde görebilirsiniz."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 2 -->
+    <string name="dcc_ticketing_consent_two_point_2">"Sertifikalar hassas sağlık verileri içerir. Dolayısıyla yalnızca bildiğiniz ve güvendiğiniz sağlayıcıların sertifikalarınızı doğrulamasına izin vermelisiniz."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 3 -->
+    <string name="dcc_ticketing_consent_two_point_3">"RKI, sağlayıcı ve doğrulama ortağı tarafından gerçekleştirilen veri işleme işlemlerinden sorumlu değildir. Verilerinizin nasıl ve ne amaçla kullanıldığını öğrenmek için lütfen ilgili tarafların gizlilik bildirimlerini okuyun."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 4 -->
+    <string name="dcc_ticketing_consent_two_point_4">"Doğrulama ortağı sonucu hemen sağlayıcıya bildirir. Ortak doğrulamanın başarılı olup olmadığı konusunda çok nadir durumlar dışında iletişime geçmez."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Data protection -->
+    <string name="dcc_ticketing_consent_two_data_protection">"Veri işleme hakkında daha ayrıntılı bilgi için lütfen gizlilik bildirimine başvurun."</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Consent Button -->
+    <string name="dcc_ticketing_consent_two_consent_btn">"Kabul Et"</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Cancel Button -->
+    <string name="dcc_ticketing_consent_two_cancel_btn">"İptal"</string>
+
+
+    <!-- Validation Result -->
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_done">"Tamamlandı"</string>
+    <!-- XTXT: validation result FAQ text -->
+    <string name="dcc_ticketing_result_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
+    <!-- XTXT: validation result FAQ label -->
+    <string name="dcc_ticketing_result_faq_label">"SSS"</string>
+    <!-- XTXT: validation result FAQ link -->
+    <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
+    <!-- XTXT: validation result valid header  -->
+    <string name="dcc_ticketing_result_valid_header">"Sertifikanız başarıyla doğrulandı"</string>
+    <!-- XTXT: validation result invalid header  -->
+    <string name="dcc_ticketing_result_invalid_header">"Sertifikanız sağlayıcı gerekliliklerini karşılamıyor"</string>
+    <!-- XTXT: validation result valid body  -->
+    <string name="dcc_ticketing_result_valid_body">"Sağlayıcıya \"%s\", doğrulamanın başarılı olduğu bildirildi."</string>
+    <!-- XTXT: validation result invalid body  -->
+    <string name="dcc_ticketing_result_invalid_body">"Sorularınız varsa lütfen sağlayıcı \"%s\" ile iletişime geçin."</string>
+    <!-- XTXT: validation result testing details  -->
+    <string name="dcc_ticketing_result_testing_details">"%s tarihinde doğrulama ortağı tarafından kontrol edildi"</string>
+    <!-- XTXT: validation result passed title  -->
+    <string name="dcc_ticketing_result_passed_title">"Doğrulama Başarılı"</string>
+    <!-- XTXT: validation result open title  -->
+    <string name="dcc_ticketing_result_open_title">"Sertifika Doğrulanamıyor"</string>
+    <!-- XTXT: validation result failed title  -->
+    <string name="dcc_ticketing_result_failed_title">"Sertifika Tanınmıyor"</string>
+
+</resources>
