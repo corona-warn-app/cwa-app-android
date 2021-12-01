@@ -8,7 +8,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Geri Dönüşüm Kutusu Boş"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Sertifikaları ve testleri kaldırdığınızda sertifikalar ve testler geri dönüşüm kutusuna taşınır ve burada görüntülenir."</string>
+    <string name="recycler_bin_empty_description">"Sertifikaları ve testleri sildiğinizde sertifikalar ve testler geri dönüşüm kutusuna taşınır ve burada görüntülenir."</string>
     <!-- XHED: recycler bin remove all menu items -->
     <string name="recycler_bin_remove_all">"Tümünü Kalıcı Olarak Sil"</string>
 
@@ -20,11 +20,11 @@
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
-    <string name="recycle_bin_recycle_certificate_dialog_title">"Sertifikayı kaldırmak istiyor musunuz?"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Sertifikayı silmek istiyor musunuz?"</string>
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
     <string name="recycle_bin_recycle_certificate_dialog_message">"Sertifika geri dönüşüm kutusuna taşınacak. Geri dönüşüm kutusunu, sağ üst kısımdaki üç noktanın altında yer alan \"Durum\" sekme sayfasında bulabilirsiniz. Burada sertifikayı kalıcı olarak silebilir veya geri yükleyebilirsiniz. Sertifika 30 gün sonra otomatik olarak silinir."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
-    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Sertifikayı Kaldır"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Sertifikayı Sil"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"İptal"</string>
 
@@ -41,7 +41,7 @@
     <!-- XTXT: Recycle Bin - remove all dialog message -->
     <string name="recycle_bin_remove_all_dialog_message">"İçindekileri geri yükleyemeyeceksiniz."</string>
     <!-- XBUT: Recycle Bin - remove all dialog positive button -->
-    <string name="recycle_bin_remove_all_dialog_positive_button">"Kaldır"</string>
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Sil"</string>
     <!-- XBUT: Recycle Bin - remove all dialog negative button -->
     <string name="recycle_bin_remove_all_dialog_negative_button">"İptal Et"</string>
 

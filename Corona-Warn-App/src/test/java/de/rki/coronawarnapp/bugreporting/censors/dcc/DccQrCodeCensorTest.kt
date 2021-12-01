@@ -64,12 +64,14 @@ class DccQrCodeCensorTest : BaseTest() {
     fun setUp() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
         MockKAnnotations.init(this)
-        DccQrCodeCensor.clearCertificateToCensor()
-        DccQrCodeCensor.clearQRCodeStringToCensor()
+        runBlockingTest {
+            DccQrCodeCensor.clearCertificateToCensor()
+            DccQrCodeCensor.clearQRCodeStringToCensor()
+        }
     }
 
     @AfterEach
-    fun teardown() {
+    fun teardown() = runBlockingTest {
         DccQrCodeCensor.clearCertificateToCensor()
         DccQrCodeCensor.clearQRCodeStringToCensor()
     }

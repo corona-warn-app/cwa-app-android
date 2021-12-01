@@ -18,14 +18,14 @@
     <string name="trace_location_checkins_action_scan_qrcode">"Skanuj kod QR"</string>
 
     <!-- XBUT: My check-ins: menu entry to remove all -->
-    <string name="trace_location_checkins_menu_remove_all">"Usuń wszystko"</string>
+    <string name="trace_location_checkins_menu_remove_all">"Usuń wszystkie"</string>
     <!-- XBUT: My check-ins: menu entry to show information -->
     <string name="trace_location_checkins_menu_information">"Informacje"</string>
 
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
-    <string name="trace_location_checkins_remove_all_title">"Czy na pewno chcesz usunąć wszystkie wpisy?"</string>
+    <string name="trace_location_checkins_remove_all_title">"Czy na pewno chcesz usunąć wszystkie osoby?"</string>
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
-    <string name="trace_location_checkins_remove_single_title">"Czy na pewno chcesz usunąć ten wpis?"</string>
+    <string name="trace_location_checkins_remove_single_title">"Czy usunąć ten wpis?"</string>
     <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
     <string name="trace_location_checkins_remove_message">"Nie będziesz mieć możliwości ostrzegania osób, które zameldowały się w tym samym czasie w tym miejscu lub na tym wydarzeniu, ani one nie będą ostrzegać Ciebie."</string>
 
@@ -176,7 +176,7 @@
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
     <string name="trace_location_organizer_list_menu_information_btn">"Informacje"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
-    <string name="trace_location_organizer_list_menu_remove_all_btn">"Usuń wszystko"</string>
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Usuń wszystkie"</string>
     <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
     <string name="trace_location_organizer_list_menu_warn_guests_btn">"Ostrzegaj w imieniu innych"</string>
 

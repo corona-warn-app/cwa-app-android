@@ -124,7 +124,7 @@
     <!-- XTXT: coronatest negative antigen result second info body -->
     <string name="coronatest_negative_antigen_result_second_info_body">"Testul rapid furnizat nu a făcut dovada că aveți coronavirusul SARS-CoV-2."</string>
     <!-- XTXT: coronatest negative antigen result third info title -->
-    <string name="coronatest_negative_antigen_result_third_info_title">"Eliminare test"</string>
+    <string name="coronatest_negative_antigen_result_third_info_title">"Ștergere test"</string>
     <!-- XTXT: coronatest negative antigen result third info body -->
     <string name="coronatest_negative_antigen_restul_third_info_body">"Ștergeți testul din Corona-Warn-App pentru a salva un nou cod de test aici dacă este necesar."</string>
     <!-- XTXT: coronatest negative result certificate info title -->
