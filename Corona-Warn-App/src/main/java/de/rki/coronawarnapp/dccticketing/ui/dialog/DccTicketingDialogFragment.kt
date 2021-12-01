@@ -21,7 +21,11 @@ class DccTicketingDialogFragment : DialogFragment() {
 
         return config.run {
             MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle(titleRes)
+                when {
+                    titleRes != null -> setTitle(titleRes)
+                    title != null -> setTitle(title)
+                    else -> throw IllegalArgumentException("titleRes or title must be set!")
+                }
 
                 when {
                     msgRes != null -> setMessage(msgRes)
@@ -54,7 +58,8 @@ class DccTicketingDialogFragment : DialogFragment() {
 
     @Parcelize
     data class Config(
-        @StringRes val titleRes: Int,
+        @StringRes val titleRes: Int? = null,
+        val title: String? = null,
         @StringRes val msgRes: Int? = null,
         val msg: String? = null,
         @StringRes val positiveButtonRes: Int,
