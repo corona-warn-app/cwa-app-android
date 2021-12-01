@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -25,13 +26,15 @@ data class RecoveryCertificateContainer(
 
     @delegate:Transient
     internal val certificateData: DccData<RecoveryDccV1> by lazy {
-        data.recoveryCertificateQrCode.let {
-            (
-                qrCodeExtractor.extract(
-                    it,
-                    parserMode = Mode.CERT_REC_LENIENT
-                ) as RecoveryCertificateQRCode
-                ).data
+        runBlocking {
+            data.recoveryCertificateQrCode.let {
+                (
+                    qrCodeExtractor.extract(
+                        it,
+                        parserMode = Mode.CERT_REC_LENIENT
+                    ) as RecoveryCertificateQRCode
+                    ).data
+            }
         }
     }
 

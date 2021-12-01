@@ -9,6 +9,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @Reusable
@@ -17,11 +20,11 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     override suspend fun checkLog(message: String): CensorContainer? {
         var newMessage = CensorContainer(message)
 
-        synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.toList() }.forEach {
+        qrCodeFlow.first().forEach {
             newMessage = newMessage.censor(it, PLACEHOLDER + it.takeLast(4))
         }
 
-        synchronized(certsToCensor) { certsToCensor.toList() }.forEach {
+        certificateFlow.first().forEach {
             it.certificate.apply {
                 newMessage = newMessage.censor(
                     dateOfBirthFormatted,
@@ -259,26 +262,21 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     }
 
     companion object {
-        private val qrCodeStringsToCensor = ArrayList<String>()
 
-        fun addQRCodeStringToCensor(rawString: String) = synchronized(qrCodeStringsToCensor) {
-            qrCodeStringsToCensor.apply {
-                if (contains(rawString)) return@apply
-                add(rawString)
-            }
+        private val qrCodeFlow = MutableStateFlow<Set<String>>(value = emptySet())
+        private val certificateFlow = MutableStateFlow<Set<DccData<out DccV1.MetaData>>>(value = emptySet())
+
+        fun addQRCodeStringToCensor(rawString: String) = qrCodeFlow.update {
+            it.plus(rawString)
         }
 
-        fun clearQRCodeStringToCensor() = synchronized(qrCodeStringsToCensor) { qrCodeStringsToCensor.clear() }
+        fun clearQRCodeStringToCensor() = qrCodeFlow.update { emptySet() }
 
-        private val certsToCensor = ArrayList<DccData<out DccV1.MetaData>>()
-        fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = synchronized(certsToCensor) {
-            certsToCensor.apply {
-                if (contains(cert)) return@apply
-                add(cert)
-            }
+        fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = certificateFlow.update {
+            it.plus(cert)
         }
 
-        fun clearCertificateToCensor() = synchronized(certsToCensor) { certsToCensor.clear() }
+        fun clearCertificateToCensor() = certificateFlow.update { emptySet() }
 
         private const val PLACEHOLDER = "###"
     }
