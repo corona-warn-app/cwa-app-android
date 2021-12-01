@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Testler için Geri Dönüşüm Kutusunun İşlevi"</item>
+        <item>"Biletleme Sırasında Sertifika Doğrulaması"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Kaldırılan hızlı testler ve PCR testleri de artık geri dönüşüm kutusuna taşınır. Yani, yanlışlıkla sildiğiniz nesneleri geri yükleyebilirsiniz."</item>
+        <item>"Bir bilet rezervasyonu yaptığınızda aşı olduğunuza, iyileştiğinize veya test sonucunuzun negatif olduğuna dair kanıt sunabilirsiniz. Bunun için, biletleme sisteminde görüntülenen QR kodu taratın ve ardından uygulamada doğru sertifikayı seçin. Sertifika doğrulama sonnucu, doğrulama ortağı tarafından biletleme sistemine gönderilir."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

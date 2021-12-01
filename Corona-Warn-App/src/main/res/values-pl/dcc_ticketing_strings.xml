@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Error Handling -->
+    <!-- XTXT: Service Provider (without provider name) error message-->
+    <string name="dcc_ticketing_error_service_provider_error_no_name">"Podczas łączenia się z dostawcą wystąpił błąd. Skontaktuj się z dostawcą, jeśli problem nie zostanie rozwiązany."</string>
+    <!-- XTXT: Service Provider error message-->
+    <string name="dcc_ticketing_error_service_provider_error">"Podczas łączenia się z dostawcą %1$s wystąpił błąd. Skontaktuj się z dostawcą, jeśli problem nie zostanie rozwiązany."</string>
+    <!-- XTXT: Try again error message-->
+    <string name="dcc_ticketing_error_try_again">"Podczas przetwarzania danych wystąpił błąd. Spróbuj ponownie później."</string>
+
+    <!-- DCC Ticketing: Consent One -->
+    <!-- XHED: DCC Ticketing: Consent One: Header -->
+    <string name="dcc_ticketing_consent_one_header">"Twoja zgoda"</string>
+    <!-- XACT: DCC Ticketing: Consent One: Accessibility -->
+    <string name="dcc_ticketing_consent_one_acessibility">"Smartfon jest używany do skanowania kodu QR z systemu biletowego. Przedstawione jest połączenie pomiędzy systemem biletowym a smartfonem."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Title -->
+    <string name="dcc_ticketing_consent_one_title">"Walidacja certyfikatów podczas sprzedaży/rezerwacji biletów"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider -->
+    <string name="dcc_ticketing_consent_one_provider">"Dostawca:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider Default Value -->
+    <string name="dcc_ticketing_consent_one_provider_default">"„Lufthansa”"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking -->
+    <string name="dcc_ticketing_consent_one_booking">"Rezerwacja:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking  Deafault Value-->
+    <string name="dcc_ticketing_consent_one_booking_default">"„1234”"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Body -->
+    <string name="dcc_ticketing_consent_one_body">"Dostawca chce mieć pewność, że dla Twojej rezerwacji dostępny jest ważny certyfikat. Twoja zgoda jest wymagana do pobrania od dostawcy danych dotyczących biletu i udostępnienia zapisanych certyfikatów."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
+    <string name="dcc_ticketing_consent_one_point_1">"Nie musisz zezwalać na walidację Twojego certyfikatu za pomocą aplikacji Corona-Warn-App. Możesz również przedstawić dowód swojego szczepienia, testu lub statusu ozdrowieńca w inny sposób."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
+    <string name="dcc_ticketing_consent_one_point_2">"Wymagania dotyczące certyfikatu są określane przez dostawcę. RKI nie ma wpływu na ten proces. Aby uzyskać więcej informacji na temat wymagań dotyczących certyfikatu, skontaktuj się z dostawcą."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 3 -->
+    <string name="dcc_ticketing_consent_one_point_3">"Identyfikacja odpowiednich certyfikatów odbywa się lokalnie na Twoim smartfonie. Żadne dane nie są przesyłane do RKI ani do dostawcy."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 4 -->
+    <string name="dcc_ticketing_consent_one_point_4">"RKI nie otrzymuje żadnych danych dotyczących Twoich biletów ani zapisanych przez Ciebie certyfikatów."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Data protection -->
+    <string name="dcc_ticketing_consent_one_data_protection">"Więcej informacji na temat przetwarzania danych znajduje się w oświadczeniu o ochronie prywatności."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
+    <string name="dcc_ticketing_consent_one_consent_btn">"Akceptuj"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
+    <string name="dcc_ticketing_consent_one_cancel_btn">"Anuluj"</string>
+
+    <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Czy chcesz anulować walidację?"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Cancel Dialog: Body  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Jeśli anulujesz walidację, certyfikat nie będzie mógł być walidowany."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_continue_btn">"Kontynuuj walidację"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Cancel Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_cancel_btn">"Anuluj walidację"</string>
+
+    <!-- Not in Dcc ticketing allow list dialog-->
+    <!-- XTXT: not in AllowList dialog title -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_title">"Uwaga dotycząca bezpieczeństwa"</string>
+    <!-- XTXT: not in AllowList dialog message -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Ten dostawca nie jest nam znany. Ze względów bezpieczeństwa walidacja podczas sprzedaży/rezerwacji biletów jest możliwa tylko w przypadku znanych dostawców. Skontaktuj się z dostawcą, który przekazał Ci ten kod QR."</string>
+
+    <!-- DCC Ticketing: Certificate Selection Screen -->
+    <!-- XHED: Certificate Selection Screen Toolbar Title -->
+    <string name="dcc_ticketing_certificate_selection_title">"Wybierz certyfikat"</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Nie jest dostępny odpowiedni certyfikat."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Nie posiadasz certyfikatu, który spełnia wymagania systemu biletowego. Upewnij się, że pisownia Twojego nazwiska w systemie biletowym jest zgodna z nazwiskiem na Twoich certyfikatach. Jeśli potrzebujesz dodatkowych certyfikatów, które nie są jeszcze dostępne w aplikacji, dodaj je teraz, a następnie rozpocznij walidację ponownie."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
+    <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Wymagany jest następujący certyfikat:"</string>
+    <!-- XTXT: Certificate Selection Screen: More Information -->
+    <string name="dcc_ticketing_certificate_selection_more_information_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
+    <string name="dcc_ticketing_faq_link_container">"Często zadawane pytania"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
+    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
+    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
+    <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Wymagania dostawcy:"</string>
+    <!-- XTXT: Certificate Selection Screen: Person Birthday -->
+    <string name="dcc_ticketing_certificate_birthday">"Data urodzenia: %s"</string>
+    <!-- XTXT: Certificate Selection Screen: Certificates That Meet Requirements Title -->
+    <string name="dcc_ticketing_certificates_meeting_requirements_title">"Poniższe certyfikaty spełniają wymagania dostawcy i mogą być wykorzystane jako dowód:"</string>
+    <!-- XTXT: Certificate Selection Screen: Rapid anitgen Test certificate-->
+    <string name="rat_test_certificate">"Certyfikat szybkiego testu"</string>
+    <!-- XTXT: Certificate Selection Screen: PCR Test certificate-->
+    <string name="pcr_test_certificate">"Certyfikat testu PCR"</string>
+
+    <!-- DCC Ticketing: Consent Two -->
+    <!-- XHED: DCC Ticketing: Consent Two: Header -->
+    <string name="dcc_ticketing_consent_two_header">"Twoja zgoda"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Title -->
+    <string name="dcc_ticketing_consent_two_title">"Wysyłanie certyfikatu do walidacji"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner -->
+    <string name="dcc_ticketing_consent_two_test_partner">"Partner walidacyjny:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner Default Value -->
+    <string name="dcc_ticketing_consent_two_test_partner_default">"„Operator_Validation_Service”"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider -->
+    <string name="dcc_ticketing_consent_two_provider">"Dostawca:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider Default Value -->
+    <string name="dcc_ticketing_consent_two_provider_default">"„Lufthansa”"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Body -->
+    <string name="dcc_ticketing_consent_two_body">"Wybrany certyfikat i informacje o Twojej rezerwacji zostaną teraz wysłane do partnera walidacyjnego dostawcy. Przesłanie Twoich danych do partnera walidacyjnego wymaga Twojej zgody."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 1 -->
+    <string name="dcc_ticketing_consent_two_point_1">"Partner walidacyjny sprawdza, czy podpis elektroniczny jest ważny i czy techniczna data wygaśnięcia certyfikatu jeszcze nie minęła. Możesz sprawdzić techniczną datę wygaśnięcia i przesłaną zawartość certyfikatu w szczegółowym widoku certyfikatu w aplikacji."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 2 -->
+    <string name="dcc_ticketing_consent_two_point_2">"Certyfikaty zawierają wrażliwe dane dotyczące zdrowia. Z tego względu zezwalaj na walidację certyfikatów tylko tym dostawcom, których znasz i którym ufasz."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 3 -->
+    <string name="dcc_ticketing_consent_two_point_3">"RKI nie ponosi odpowiedzialności za przetwarzanie danych przez dostawcę i partnera walidacyjnego. Zapoznaj się z ich oświadczeniami o ochronie prywatności, aby dowiedzieć się, w jaki sposób wykorzystywane są Twoje dane i do jakich celów."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 4 -->
+    <string name="dcc_ticketing_consent_two_point_4">"Partner walidacyjny natychmiast powiadamia dostawcę o wyniku. Partner jedynie informuje, czy walidacja się powiodła, czy nie."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Data protection -->
+    <string name="dcc_ticketing_consent_two_data_protection">"Więcej informacji na temat przetwarzania danych znajduje się w oświadczeniu o ochronie prywatności."</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Consent Button -->
+    <string name="dcc_ticketing_consent_two_consent_btn">"Akceptuj"</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Cancel Button -->
+    <string name="dcc_ticketing_consent_two_cancel_btn">"Anuluj"</string>
+
+
+    <!-- Validation Result -->
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_done">"Gotowe"</string>
+    <!-- XTXT: validation result FAQ text -->
+    <string name="dcc_ticketing_result_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XTXT: validation result FAQ label -->
+    <string name="dcc_ticketing_result_faq_label">"Często zadawane pytania"</string>
+    <!-- XTXT: validation result FAQ link -->
+    <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
+    <!-- XTXT: validation result valid header  -->
+    <string name="dcc_ticketing_result_valid_header">"Twój certyfikat został pomyślnie walidowany"</string>
+    <!-- XTXT: validation result invalid header  -->
+    <string name="dcc_ticketing_result_invalid_header">"Twój certyfikat nie spełnia wymagań dostawcy"</string>
+    <!-- XTXT: validation result valid body  -->
+    <string name="dcc_ticketing_result_valid_body">"Dostawca „%s” został powiadomiony, że walidacja powiodła się."</string>
+    <!-- XTXT: validation result invalid body  -->
+    <string name="dcc_ticketing_result_invalid_body">"W przypadku pytań skontaktuj się z dostawcą „%s”."</string>
+    <!-- XTXT: validation result testing details  -->
+    <string name="dcc_ticketing_result_testing_details">"Sprawdzone przez partnera walidacyjnego w dniu %s"</string>
+    <!-- XTXT: validation result passed title  -->
+    <string name="dcc_ticketing_result_passed_title">"Walidacja powiodła się"</string>
+    <!-- XTXT: validation result open title  -->
+    <string name="dcc_ticketing_result_open_title">"Walidacja certyfikatu jest niemożliwa"</string>
+    <!-- XTXT: validation result failed title  -->
+    <string name="dcc_ticketing_result_failed_title">"Certyfikat nierozpoznany"</string>
+
+</resources>

@@ -819,7 +819,7 @@
     <string name="debugging_debuglog_status_additional_infos">"Mărime curentă: %1$s (necomprimat)"</string>
 
     <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
-    <string name="debugging_debuglog_legal_privacy_card_title">"Verificarea autenticității și a transferului de date către țări terțe"</string>
+    <string name="debugging_debuglog_legal_privacy_card_title">"Validarea autenticității și a transferului de date către țări terțe"</string>
     <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
     <string name="debugging_debuglog_legal_privacy_card_first_section">"Pentru a confirma autenticitatea aplicației dvs., smartphone-ul dvs. generează un identificator unic ce conține informații despre versiunea smartphone-ului și a aplicației. Acest lucru este necesar pentru a ne asigura că doar persoanele care utilizează efectiv aplicația Corona-Warn pot trimite date la suportul tehnic și să excludem rapoartele de erori manipulate. În acest scop, identificatorul este trimis la Google. În acest proces, pot fi transferate date în SUA sau în alte țări terțe, unde nivelul de confidențialitate a datelor poate să nu corespundă cu legislația europeană și se poate să nu vă puteți exercita drepturile europene în ceea ce privește confidențialitatea datelor. În special, serviciile de securitate din țările terțe ar putea să vă acceseze și să vă analizeze datele de la Google, chiar dacă nu există temei de suspiciune, și pot, de exemplu, lega aceste date de alte informații. Acest lucru se referă doar la identificatorul care este trimis la Google. Google nu primește informațiile din raportul dvs. de erori, însă Google ar putea determina identitatea dvs. pe baza identificatorului și ar putea urmări că a fost efectuată verificarea autenticității pe smartphone-ul dvs."</string>
     <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Ce coduri QR puteți scana?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Teste PCR și teste rapide, certificate de test, certificate de vaccinare, certificate de recuperare și check-inuri."</string>
+    <string name="qr_code_scan_body_subtitle">"Testele dvs. PCR, testele rapide, certificatele de test, certificatele de vaccinare, certificatele de recuperare și check-inurile."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Puteți scana check-inurile pentru a restaura evenimentele pe care le-ați șters."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +940,24 @@
     <string name="qr_code_no_suitable_qr_code_title">"Niciun cod QR potrivit"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"Codul QR nu este acceptat de Corona-Warn-App. Selectați un cod QR potrivit."</string>
+
+    <!-- QR Code Info Screen -->
+    <!-- XHED: Title for info screen -->
+    <string name="qr_code_info_screen_title">"Informații despre codurile QR"</string>
+    <!-- XTXT: First bulletpiont for info screen -->
+    <string name="qr_code_info_screen_first_bulletpoint_text">"Certificatele dvs. de test, certificatele de vaccinare, certificatele de recuperare după boală și certificatele pentru membrii familiei dvs."</string>
+    <!-- XTXT: Second bulletpoint for info screen -->
+    <string name="qr_code_info_screen_second_bulletpoint_text">"Check-inuri pentru evenimente și locuri"</string>
+    <!-- XTXT: Third bulletpoint for info screen -->
+    <string name="qr_code_info_screen_third_bulletpoint_text">"Teste PCR și teste rapide"</string>
+    <!-- XTXT: Fourth bulletpoint for info screen -->
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Validarea certificatelor dvs. la rezervarea biletelor"</string>
+    <!-- XTXT: QR Code info screen data details -->
+    <string name="qr_code_info_screen_data_details_text">"Sunt citite datele de la codul QR respectiv."</string>
+    <!-- XTXT: QR Code booking provider info text -->
+    <string name="qr_code_info_screen_booking_provider_text">"Când scanați coduri QR pentru validarea certificatului la rezervarea biletului, sunt obținute informații suplimentare despre furnizorul rezervării."</string>
+    <!-- XTXT: Privacy policy button text -->
+    <string name="qr_code_info_screen_privacy_policy">"Pentru mai multe informații despre prelucrarea datelor, consultați înștiințarea de confidențialitate."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -998,7 +1016,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la „Solicitare TAN” pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la Solicitare TAN pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Testul dvs. rapid a fost adăugat"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1058,13 +1076,13 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Eliminați rezultatul testului?"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Ștergeți rezultatul testului?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Rezultatul testului va fi mutat în coșul de reciclare. Veți găsi coșul de reciclare pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, îl puteți șterge definitiv sau restaura. Rezultatul testului va fi șters automat după 30 de zile."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Eliminare rezultat test"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Ștergere rezultat test"</string>
     <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sigur doriți să eliminați testul dvs.?"</string>
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sigur doriți să ștergeți testul dvs.?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
     <!-- YTXT: Dialog text for test removal no submission -->
@@ -1120,7 +1138,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Găsire centru de testare"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Găsiți centre de testare în aproprierea dvs. Veți fi redirecționat către un site web RKI extern."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Găsiți centre de testare în aproprierea dvs. Dacă apar probleme, le puteți raporta.\nVeți fi redirecționat către un site web RKI extern."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
@@ -1164,7 +1182,7 @@
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Avertizați-i pe ceilalți"</string>
     <!-- XBUT: Button for test removal -->
-    <string name="submission_test_result_positive_no_consent_button_remove_test">"Eliminare test"</string>
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Ștergere test"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1408,7 +1426,7 @@
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Informații"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
-    <string name="statistics_card_local_incidence_menu_delete">"Eliminare"</string>
+    <string name="statistics_card_local_incidence_menu_delete">"Ștergere"</string>
     <!-- XTXT: Local hospitalization statistics text -->
     <string name="statistics_card_local_hospitalization_text">"Spitalizări în %s"</string>
 

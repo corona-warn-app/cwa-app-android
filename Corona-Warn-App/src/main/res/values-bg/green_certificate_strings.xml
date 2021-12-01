@@ -34,7 +34,7 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
-    <string name="green_certificate_details_menu_item_delete">"Премахване на сертификат"</string>
+    <string name="green_certificate_details_menu_item_delete">"Изтриване на сертификат"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
     <string name="green_certificate_details_menu_item_export">"Показване на версия за печат"</string>
 
@@ -74,7 +74,7 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_dcc_expired">"Сертификатът вече не е актуален. Можете да го изтриете от Corona-Warn-App."</string>
     <!-- XBUT: Test error delete button -->
-    <string name="test_certificate_error_delete_button">"Изтриване на сертификата за тест"</string>
+    <string name="test_certificate_error_delete_button">"Изтриване на сертификата за тестване"</string>
     <!-- XTXT: Test error refresh dialog title -->
     <string name="test_certificate_refresh_dialog_title">"Все още има проблем със заявката."</string>
     <!-- XTXT: Test error delete dialog title -->
