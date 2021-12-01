@@ -45,7 +45,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction`() {
+    fun `happy path extraction`() = runBlockingTest {
         extractor.extract(VaccinationQrCodeTestData.validVaccinationQrCode, parserMode = Mode.CERT_VAC_STRICT)
     }
 
@@ -55,7 +55,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction with data`() {
+    fun `happy path extraction with data`() = runBlockingTest {
         val qrCode = extractor.extract(
             VaccinationQrCodeTestData.validVaccinationQrCode3,
             parserMode = Mode.CERT_VAC_STRICT
@@ -94,7 +94,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction 4`() {
+    fun `happy path extraction 4`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.validVaccinationQrCode4,
             parserMode = Mode.CERT_VAC_STRICT
@@ -102,7 +102,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() {
+    fun `valid encoding but not a health certificate fails with HC_CWT_NO_ISS`() = runBlockingTest {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.validEncoded,
@@ -112,7 +112,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `random string fails with HC_BASE45_DECODING_FAILED`() {
+    fun `random string fails with HC_BASE45_DECODING_FAILED`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 "nothing here to see",
@@ -122,7 +122,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() {
+    fun `uncompressed base45 string fails with HC_ZLIB_DECOMPRESSION_FAILED`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 Base45Decoder.encode("I'm taking my space".commonAsUtf8ToByteArray()),
@@ -132,7 +132,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `vaccination certificate missing fails with VC_NO_VACCINATION_ENTRY`() {
+    fun `vaccination certificate missing fails with VC_NO_VACCINATION_ENTRY`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.certificateMissing,
@@ -142,7 +142,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `test data person A check`() {
+    fun `test data person A check`() = runBlockingTest {
         val extracted = extractor.extract(
             vaccinationTestData.personAVac1QRCodeString,
             parserMode = Mode.CERT_VAC_STRICT
@@ -151,7 +151,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `test data person B check`() {
+    fun `test data person B check`() = runBlockingTest {
         val extracted = extractor.extract(
             vaccinationTestData.personBVac1QRCodeString,
             parserMode = Mode.CERT_VAC_STRICT
@@ -160,7 +160,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `null values fail with JSON_SCHEMA_INVALID`() {
+    fun `null values fail with JSON_SCHEMA_INVALID`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.qrCodeWithNullValues,
@@ -170,7 +170,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `blank name passes`() {
+    fun `blank name passes`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.qrCodeBlankLastNameStandardized,
             parserMode = Mode.CERT_VAC_STRICT
@@ -178,7 +178,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `Bulgarian qr code passes`() {
+    fun `Bulgarian qr code passes`() = runBlockingTest {
         val qrCode = extractor.extract(
             VaccinationQrCodeTestData.qrCodeBulgaria,
             parserMode = Mode.CERT_VAC_STRICT
@@ -216,7 +216,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `Swedish qr code passes`() {
+    fun `Swedish qr code passes`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.qrCodeSweden,
             parserMode = Mode.CERT_VAC_STRICT
@@ -224,7 +224,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `Polish qr code passes`() {
+    fun `Polish qr code passes`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.qrCodePoland,
             parserMode = Mode.CERT_VAC_STRICT
@@ -232,7 +232,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `fail vaccinated at date without day`() {
+    fun `fail vaccinated at date without day`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.failVaccinatedAtWithoutDay1,
@@ -242,7 +242,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `fail vaccinated at date without day and month`() {
+    fun `fail vaccinated at date without day and month`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.failVaccinatedAtWithoutDayAndMonth,
@@ -252,7 +252,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `pass german reference case`() {
+    fun `pass german reference case`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.passGermanReferenceCase,
             parserMode = Mode.CERT_VAC_STRICT
@@ -264,7 +264,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `pass vaccination and dob with time at midnight`() {
+    fun `pass vaccination and dob with time at midnight`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.passDatesWithTimeAtMidnight,
             parserMode = Mode.CERT_VAC_STRICT
@@ -276,7 +276,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `pass vaccination date with full timestamp`() {
+    fun `pass vaccination date with full timestamp`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.passDatesWithRealTimeInfo,
             parserMode = Mode.CERT_VAC_STRICT
@@ -295,7 +295,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `happy path extraction recovery with strict mode`() {
+    fun `happy path extraction recovery with strict mode`() = runBlockingTest {
         extractor.extract(
             RecoveryQrCodeTestData.validRecovery,
             parserMode = Mode.CERT_REC_STRICT
@@ -303,7 +303,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `recovery cert fails in mode CERT_VAC_STRICT`() {
+    fun `recovery cert fails in mode CERT_VAC_STRICT`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
                 RecoveryQrCodeTestData.validRecovery,
@@ -313,7 +313,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `recovery cert fails in mode CERT_TEST_STRICT`() {
+    fun `recovery cert fails in mode CERT_TEST_STRICT`() = runBlockingTest {
         shouldThrow<InvalidTestCertificateException> {
             extractor.extract(
                 RecoveryQrCodeTestData.validRecovery,
@@ -323,7 +323,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `vaccination cert fails in mode CERT_REC_STRICT`() {
+    fun `vaccination cert fails in mode CERT_REC_STRICT`() = runBlockingTest {
         shouldThrow<InvalidRecoveryCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.validVaccinationQrCode,
@@ -333,7 +333,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `vaccination lenient modes do not verify schema`() {
+    fun `vaccination lenient modes do not verify schema`() = runBlockingTest {
         extractor.extract(
             VaccinationQrCodeTestData.qrCodePoland,
             parserMode = Mode.CERT_VAC_LENIENT
@@ -350,7 +350,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `test lenient modes do not verify schema`() {
+    fun `test lenient modes do not verify schema`() = runBlockingTest {
         extractor.extract(
             testTestData.personATest1CertQRCodeString,
             parserMode = Mode.CERT_TEST_LENIENT,
@@ -368,7 +368,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `recovery lenient modes do not verify schema`() {
+    fun `recovery lenient modes do not verify schema`() = runBlockingTest {
         extractor.extract(
             RecoveryQrCodeTestData.validRecovery,
             parserMode = Mode.CERT_REC_LENIENT,
@@ -386,7 +386,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `invalid base45 encoding fails in strict mode`() {
+    fun `invalid base45 encoding fails in strict mode`() = runBlockingTest {
         shouldThrow<InvalidHealthCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.invalidBase45,
@@ -397,7 +397,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `invalid base45 encoding passes in lenient mode`() {
+    fun `invalid base45 encoding passes in lenient mode`() = runBlockingTest {
         shouldNotThrowAny {
             extractor.extract(
                 VaccinationQrCodeTestData.invalidBase45,
