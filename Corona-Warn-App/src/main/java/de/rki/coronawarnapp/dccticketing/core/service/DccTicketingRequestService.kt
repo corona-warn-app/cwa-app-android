@@ -1,8 +1,12 @@
 package de.rki.coronawarnapp.dccticketing.core.service
 
 import dagger.Reusable
+import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.processor.AccessTokenRequestProcessor
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenInput
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenOutput
+import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationServiceRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -18,29 +22,32 @@ class DccTicketingRequestService @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
     private val validationDecoratorRequestProcessor: ValidationDecoratorRequestProcessor,
     private val validationServiceRequestProcessor: ValidationServiceRequestProcessor,
-    private val accessTokenRequestProcessor: AccessTokenRequestProcessor
+    private val accessTokenRequestProcessor: AccessTokenRequestProcessor,
+    private val resultTokenRequestProcessor: ResultTokenRequestProcessor
 ) {
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
         url: String
-    ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult = withContext(dispatcherProvider.Default) {
-        Timber.tag(TAG).d("requestValidationDecorator(url=%s)", url)
-        validationDecoratorRequestProcessor.requestValidationDecorator(url)
-    }
+    ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult =
+        execute("Failed to get validation decorator from $url") {
+            Timber.tag(TAG).d("requestValidationDecorator(url=%s)", url)
+            validationDecoratorRequestProcessor.requestValidationDecorator(url)
+        }
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>
-    ): ValidationServiceRequestProcessor.ValidationServiceResult = withContext(dispatcherProvider.Default) {
-        Timber.tag(TAG).d(
-            "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
-            validationService,
-            validationServiceJwkSet
-        )
-        validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet)
-    }
+    ): ValidationServiceRequestProcessor.ValidationServiceResult =
+        execute("Failed to get validation service from ${validationService.serviceEndpoint}") {
+            Timber.tag(TAG).d(
+                "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
+                validationService,
+                validationServiceJwkSet
+            )
+            validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet)
+        }
 
     @Suppress("LongParameterList")
     @Throws(DccTicketingException::class)
@@ -51,16 +58,33 @@ class DccTicketingRequestService @Inject constructor(
         validationService: DccTicketingService,
         publicKeyBase64: String,
         authorization: String
-    ): AccessTokenRequestProcessor.Output = withContext(dispatcherProvider.Default) {
-        Timber.tag(TAG).d("requestAccessToken()")
-        accessTokenRequestProcessor.requestAccessToken(
-            accessTokenService,
-            accessTokenServiceJwkSet,
-            accessTokenSignJwkSet,
-            validationService,
-            publicKeyBase64,
-            authorization
-        )
+    ): AccessTokenRequestProcessor.Output =
+        execute("Failed to get access token from ${accessTokenService.serviceEndpoint}") {
+            Timber.tag(TAG).d("requestAccessToken()")
+            accessTokenRequestProcessor.requestAccessToken(
+                accessTokenService,
+                accessTokenServiceJwkSet,
+                accessTokenSignJwkSet,
+                validationService,
+                publicKeyBase64,
+                authorization
+            )
+        }
+
+    @Throws(DccTicketingException::class)
+    suspend fun requestResultToken(resultTokenInput: ResultTokenInput): ResultTokenOutput =
+        execute("Failed to get result token from ${resultTokenInput.serviceEndpoint}") {
+            Timber.tag(TAG).d("requestResultToken(resultTokenInput=%s)", resultTokenInput)
+            resultTokenRequestProcessor.requestResultToken(resultTokenInput)
+        }
+
+    private suspend fun <T> execute(info: String, block: suspend () -> T): T = withContext(dispatcherProvider.Default) {
+        try {
+            block()
+        } catch (e: Exception) {
+            e.reportProblem(tag = TAG, info = info)
+            throw e
+        }
     }
 
     companion object {
