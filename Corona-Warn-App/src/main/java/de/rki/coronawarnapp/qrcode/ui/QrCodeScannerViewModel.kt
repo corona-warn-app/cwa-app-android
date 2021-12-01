@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -93,7 +94,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
             result.postValue(DccTicketingResult.ConsentI(transactionContext))
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onTicketValidationQrCode failed")
-            result.postValue(Error(error = e))
+            val error = when (e) {
+                is DccTicketingException -> DccTicketingError(
+                    errorMsg = e.errorMessage(serviceProvider = qrCode.data.serviceProvider)
+                )
+                else -> Error(error = e)
+            }
+            result.postValue(error)
         }
     }
 
