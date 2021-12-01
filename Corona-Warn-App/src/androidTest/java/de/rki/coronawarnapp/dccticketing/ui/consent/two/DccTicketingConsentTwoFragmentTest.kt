@@ -16,14 +16,16 @@ import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
-import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
+import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -43,6 +45,7 @@ import java.util.UUID
 class DccTicketingConsentTwoFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: DccTicketingConsentTwoViewModel
+    private val vcContainerId = VaccinationCertificateContainerId("1")
 
     private val dccTicketingTransactionContext: DccTicketingTransactionContext = DccTicketingTransactionContext(
         initializationData = generateDccTicketingQrCodeData(),
@@ -82,7 +85,7 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
         every { viewModel.uiState } returns MutableLiveData(
             DccTicketingConsentTwoViewModel.UiState(
                 dccTicketingTransactionContext = dccTicketingTransactionContext,
-                certificate = mockTestCertificate("Andrea Schneider")
+                certificate = mockVaccinationCertificate(2, true)
             )
         )
         launchFragmentInContainer2<DccTicketingConsentTwoFragment>(
@@ -104,34 +107,43 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
         takeScreenshot<DccTicketingConsentTwoFragment>("4")
     }
 
-    private fun mockTestCertificate(
-        name: String,
-        isPending: Boolean = false,
-        isUpdating: Boolean = false
-    ): TestCertificate = mockk<TestCertificate>().apply {
-        every { headerExpiresAt } returns Instant.now().plus(20)
-        every { isCertificateRetrievalPending } returns isPending
-        every { isUpdatingData } returns isUpdating
-        every { fullName } returns name
-        every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { personIdentifier } returns CertificatePersonIdentifier(
-            firstNameStandardized = "firstNameStandardized",
-            lastNameStandardized = "lastNameStandardized",
-            dateOfBirthFormatted = "1943-04-18"
-        )
-        every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
-        every { isValid } returns true
-        every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
-        every { isNew } returns false
-        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
-        every { rawCertificate } returns mockk<TestDccV1>().apply {
-            every { test } returns mockk<DccV1.TestCertificateData>().apply {
-                every { testType } returns "LP6464-4"
+    private fun mockVaccinationCertificate(
+        number: Int = 1,
+        final: Boolean = false,
+        booster: Boolean = false
+    ): VaccinationCertificate =
+        mockk<VaccinationCertificate>().apply {
+            val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            every { fullName } returns "Andrea Schneider"
+            every { certificateId } returns "vaccinationCertificateId$number"
+            every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
+                every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
+                    every { doseNumber } returns number
+                    every { totalSeriesOfDoses } returns 2
+                    every { vaccinatedOn } returns localDate
+                    every { medicalProductId } returns "medicalProductId"
+                }
             }
+            every { containerId } returns vcContainerId
+            every { vaccinatedOn } returns localDate
+            every { personIdentifier } returns certificatePersonIdentifier
+            every { vaccinatedOn } returns Instant.parse("2021-06-21T11:35:00.000Z").toLocalDateUserTz()
+            every { personIdentifier } returns CertificatePersonIdentifier(
+                firstNameStandardized = "firstNameStandardized",
+                lastNameStandardized = "lastNameStandardized",
+                dateOfBirthFormatted = "1943-04-18"
+            )
+            every { doseNumber } returns number
+            every { totalSeriesOfDoses } returns if (booster) number else 2
+            every { dateOfBirthFormatted } returns "1981-03-20"
+            every { isSeriesCompletingShot } returns final
+            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { hasNotificationBadge } returns false
+            every { isNew } returns false
+            every { isNotBlocked } returns true
         }
-        every { isPCRTestCertificate } returns false
-    }
 
     private fun generateDccTicketingQrCodeData(): DccTicketingQrCodeData {
         return DccTicketingQrCodeData(
@@ -153,6 +165,12 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             fingerprint256 = mockk()
         )
     }
+
+    private val certificatePersonIdentifier = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "1981-03-20",
+        firstNameStandardized = "firstNameStandardized",
+        lastNameStandardized = "lastNameStandardized",
+    )
 }
 
 @Module
