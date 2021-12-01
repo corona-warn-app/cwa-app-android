@@ -56,7 +56,7 @@ class ValidationResultItemCreator @Inject constructor() {
     }
 
     private fun descriptionVHItem(
-        result: DccTicketingResultToken.DccResult?,
+        result: DccTicketingResultToken.DccResult,
         serviceProvider: String
     ): DescriptionVH.Item {
         @StringRes val title: Int
@@ -67,7 +67,11 @@ class ValidationResultItemCreator @Inject constructor() {
                 subtitle = R.string.dcc_ticketing_result_valid_body.toResolvingString(serviceProvider)
                 title = R.string.dcc_ticketing_result_valid_header
             }
-            else -> {
+            DccTicketingResultToken.DccResult.OPEN -> {
+                subtitle = R.string.dcc_ticketing_result_invalid_body.toResolvingString(serviceProvider)
+                title = R.string.dcc_ticketing_result_open_header
+            }
+            DccTicketingResultToken.DccResult.FAIL -> {
                 subtitle = R.string.dcc_ticketing_result_invalid_body.toResolvingString(serviceProvider)
                 title = R.string.dcc_ticketing_result_invalid_header
             }
@@ -81,10 +85,10 @@ class ValidationResultItemCreator @Inject constructor() {
 
     private fun faqVHItem(): ValidationFaqVH.Item = ValidationFaqVH.Item
 
-    private fun testingInfoVHItem(validatedAt: Instant?): TestingInfoVH.Item =
+    private fun testingInfoVHItem(validatedAt: Instant): TestingInfoVH.Item =
         TestingInfoVH.Item(
             info = R.string.dcc_ticketing_result_testing_details.toResolvingString(
-                validatedAt?.toUserTimeZone()?.toShortDateTimeFormat() ?: ""
+                validatedAt.toUserTimeZone().toShortDateTimeFormat()
             )
         )
 }

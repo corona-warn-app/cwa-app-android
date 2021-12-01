@@ -128,6 +128,8 @@
     <string name="dcc_ticketing_result_valid_header">Ihr Zertifikat wurde erfolgreich überprüft</string>
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">Ihr Zertifikat entspricht nicht den Anforderungen des Anbieters</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">Ihr Zertifikat konnte durch den Prüfpartner nicht geprüft werden</string>
     <!-- XTXT: validation result valid body  -->
     <string name="dcc_ticketing_result_valid_body">Der Anbieter “%s” wurde über die erfolgreiche Prüfung informiert.</string>
     <!-- XTXT: validation result invalid body  -->
