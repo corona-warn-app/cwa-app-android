@@ -104,17 +104,17 @@ class AccessTokenRequestProcessor @Inject constructor(
         }.let { DccTicketingException(it) }
     }
 
-    private fun getAccessTokenPayload(jwt: String): DccTicketingAccessToken = try {
+    private suspend fun getAccessTokenPayload(jwt: String): DccTicketingAccessToken = try {
         jwtTokenParser.getAccessToken(jwt).also {
-            it?.vc?.let { vc ->
+            it.vc?.let { vc ->
                 jwtCensor.addVc(vc)
             }
         }
     } catch (e: Exception) {
         throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR, e)
-    }?.apply {
+    }.apply {
         validate()
-    } ?: throw DccTicketingException(DccTicketingException.ErrorCode.ATR_PARSE_ERR)
+    }
 
     data class Output(
         val accessToken: String,

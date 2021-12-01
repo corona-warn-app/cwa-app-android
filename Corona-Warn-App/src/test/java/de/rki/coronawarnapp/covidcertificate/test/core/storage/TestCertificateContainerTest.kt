@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.spyk
-import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -86,7 +86,7 @@ class TestCertificateContainerTest : BaseTest() {
 
         container.certificateId shouldNotBe null
 
-        verify {
+        coVerify {
             extractorSpy.extract(certificateTestData.personATest1CertQRCodeString, DccV1Parser.Mode.CERT_TEST_LENIENT)
         }
     }
