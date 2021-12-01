@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelStore
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.scrollTo
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import dagger.Module
@@ -20,7 +23,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.mockk.MockKAnnotations
@@ -41,28 +43,7 @@ import java.util.UUID
 class DccTicketingConsentTwoFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: DccTicketingConsentTwoViewModel
-    private val vc = DccTicketingValidationCondition(
-        lang = "en-en",
-        fnt = "SCHNEIDER",
-        gnt = "ANDREA",
-        dob = "1989-12-12",
-        coa = "AF",
-        cod = "SJ",
-        roa = "AF",
-        rod = "SJ",
-        type = listOf(
-            "r",
-            "v",
-            "t"
-        ),
-        category = listOf(
-            "Standard"
-        ),
-        validationClock = "2021-11-03T15:39:43+00:00",
-        validFrom = "2021-11-03T07:15:43+00:00",
-        validTo = "2021-11-03T15:39:43+00:00",
-        hash = null
-    )
+
     private val dccTicketingTransactionContext: DccTicketingTransactionContext = DccTicketingTransactionContext(
         initializationData = generateDccTicketingQrCodeData(),
         allowlist = setOf(generateDccTicketingAllowListEntry())
@@ -109,6 +90,18 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             fragmentArgs = fragmentArgs
         )
         takeScreenshot<DccTicketingConsentTwoFragment>()
+
+        // Take legal part screenshot
+        onView(withId(R.id.legal_second_bulletpoint_text)).perform(scrollTo())
+        takeScreenshot<DccTicketingConsentTwoFragment>("2")
+
+        // Take description bullet point screenshot
+        onView(withId(R.id.third_bulletpoint_text)).perform(scrollTo())
+        takeScreenshot<DccTicketingConsentTwoFragment>("3")
+
+        // Take privacy information button screenshot
+        onView(withId(R.id.privacy_information)).perform(scrollTo())
+        takeScreenshot<DccTicketingConsentTwoFragment>("4")
     }
 
     private fun mockTestCertificate(
@@ -149,13 +142,13 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             token = UUID.randomUUID().toString(),
             consent = "Yes, please",
             subject = UUID.randomUUID().toString(),
-            serviceProvider = "Service Provider"
+            serviceProvider = "Anbietername"
         )
     }
 
     private fun generateDccTicketingAllowListEntry(): DccTicketingAllowListEntry {
         return DccTicketingAllowListEntry(
-            serviceProvider = "Allow List Provider",
+            serviceProvider = "Betreiber_ValidationService",
             hostname = "http://very-host-allow-provider",
             fingerprint256 = mockk()
         )
