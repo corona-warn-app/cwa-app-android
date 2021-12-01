@@ -2,41 +2,40 @@ package de.rki.coronawarnapp.bugreporting.censors.dccticketing
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DccTicketingJwtCensor @Inject constructor() : BugCensor {
 
-    private val vcMutex = Mutex()
-    private val jwtMutex = Mutex()
+    private val jwtFlow = MutableStateFlow<Set<String>>(value = emptySet())
+    private val vcFlow = MutableStateFlow<Set<DccTicketingValidationCondition>>(value = emptySet())
 
     override suspend fun checkLog(message: String): BugCensor.CensorContainer? {
         var newMessage = BugCensor.CensorContainer(message)
-        jwtMutex.withLock {
-            jwtSet.forEach {
-                newMessage = censorJwt(it, newMessage)
-            }
+        jwtFlow.first().forEach {
+            newMessage = censorJwt(it, newMessage)
         }
-        vcMutex.withLock {
-            vcSet.forEach {
-                newMessage = censorVc(it, newMessage)
-            }
+
+        vcFlow.first().forEach {
+            newMessage = censorVc(it, newMessage)
         }
+
         return newMessage.nullIfEmpty()
     }
 
-    suspend fun addJwt(rawJwt: String) {
-        jwtMutex.withLock {
-            jwtSet.add(rawJwt)
+    fun addJwt(rawJwt: String) {
+        jwtFlow.update {
+            it.plus(rawJwt)
         }
     }
 
-    suspend fun addVc(vc: DccTicketingValidationCondition) {
-        vcMutex.withLock {
-            vcSet.add(vc)
+    fun addVc(vc: DccTicketingValidationCondition) {
+        vcFlow.update {
+            it.plus(vc)
         }
     }
 
@@ -136,7 +135,4 @@ class DccTicketingJwtCensor @Inject constructor() : BugCensor {
         )
         return newMessage
     }
-
-    private val jwtSet: MutableSet<String> = mutableSetOf()
-    private val vcSet: MutableSet<DccTicketingValidationCondition> = mutableSetOf()
 }
