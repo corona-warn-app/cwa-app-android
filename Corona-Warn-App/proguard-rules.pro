@@ -102,4 +102,7 @@
 -keep class com.networknt.schema.** { *; }
 
 ## prevents JWK verification from failing
--keep class org.bouncycastle.** { *; }
+-keep class org.bouncycastle.jce.provider.BouncyCastleProvider
+-keep class org.bouncycastle.pqc.** { *; }
+-keep class org.bouncycastle.asn1.** { *; }
+-keep class org.bouncycastle.jcajce.provider.** { *; }
