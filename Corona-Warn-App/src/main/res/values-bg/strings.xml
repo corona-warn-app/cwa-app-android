@@ -904,7 +904,7 @@
     <!-- XHED: Dialog headline for invalid QR code  -->
     <string name="submission_qr_code_scan_invalid_dialog_headline">"Невалиден QR код"</string>
     <!-- YTXT: Dialog Body text for invalid QR code -->
-    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на Вашия смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас. Ако сте изтрили този тест в приложението може да го възстановите от кошчето."</string>
+    <string name="submission_qr_code_scan_invalid_dialog_body">"QR кодът е невалиден или вече е регистриран на Вашия смартфон. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас.\nАко сте изтрили този тест в приложението може да го възстановите от кошчето."</string>
     <!-- XBUT: Dialog(Invalid QR code) - positive button (right) -->
     <string name="submission_qr_code_scan_invalid_dialog_button_positive">"Моля, опитайте отново."</string>
     <!-- XBUT: Dialog(Invalid QR code) - negative button (left) -->
@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Какви QR кодове можете да сканирате?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR и бързи тестове, сертификати за тестове, ваксинация и възстановяване и регистрации."</string>
+    <string name="qr_code_scan_body_subtitle">"Вашите PCR и бързи тестове, сертификати за тестове, ваксинация и възстановяване и регистрации."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Можете да сканирате регистрации, за да възстановите събития, които сте изтрили."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +940,24 @@
     <string name="qr_code_no_suitable_qr_code_title">"Няма подходящ QR код"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"QR кодът не се поддържа от Corona-Warn-App. Моля, изберете  подходящ QR код."</string>
+
+    <!-- QR Code Info Screen -->
+    <!-- XHED: Title for info screen -->
+    <string name="qr_code_info_screen_title">"Информация за QR кодове"</string>
+    <!-- XTXT: First bulletpiont for info screen -->
+    <string name="qr_code_info_screen_first_bulletpoint_text">"Вашите сертификати за тестване, сертификати за ваксиниране, сертификати за възстановяване и сертификати за членовете на семейството Ви"</string>
+    <!-- XTXT: Second bulletpoint for info screen -->
+    <string name="qr_code_info_screen_second_bulletpoint_text">"Регистрации за места и събития"</string>
+    <!-- XTXT: Third bulletpoint for info screen -->
+    <string name="qr_code_info_screen_third_bulletpoint_text">"PCR тестове и бързи тестове"</string>
+    <!-- XTXT: Fourth bulletpoint for info screen -->
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Валидиране на Вашите сертификати при резервиране на билети"</string>
+    <!-- XTXT: QR Code info screen data details -->
+    <string name="qr_code_info_screen_data_details_text">"Данните от съответния QR код са прочетени."</string>
+    <!-- XTXT: QR Code booking provider info text -->
+    <string name="qr_code_info_screen_booking_provider_text">"Когато сканирате QR кодове за валидиране на сертификати при резервиране на билети се извлича допълнителна информация за доставчика на резервации."</string>
+    <!-- XTXT: Privacy policy button text -->
+    <string name="qr_code_info_screen_privacy_policy">"За повече информация относно обработката на данни, прочетете декларацията за поверителност."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -1043,7 +1061,7 @@
     <string name="submission_test_result_delete_steps_invalid_heading">"Изтриване на тест"</string>
 
     <!-- YTXT: Body text for next steps section of invalid test result-->
-    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест. Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
+    <string name="submission_test_result_invalid_steps_invalid_body">"Възникна проблем при определянето на резултата от Вашия тест.Моля, свържете се със съответния център за тестване или лаборатория, за да получите информация какво можете да направите."</string>
     <!-- YTXT: Body text for next steps section of invalid test result-->
     <string name="submission_test_result_delete_steps_invalid_body">"Трябва да изтриете последния тест, за да можете да регистрирате нов."</string>
 
@@ -1058,7 +1076,7 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Тестът може да се сканира само веднъж."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Изтриване на резултат от тест?"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Изтриване на резултата от теста?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Резултатът от тест ще бъде преместен в кошчето. То се намира в страницата на таб \"Статус\", която може да отворите през трите точки горе вдясно. Там можете да го изтриете за постоянно или да го възстановите. Резултатът ще бъде изтрит автоматично след 30 дни."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
@@ -1120,7 +1138,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Намерете центровете за тестване в близост до вас. Ще бъдете препратени към външен уебсайт на RKI."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Намерете центровете за тестване в близост до вас. Ако възникнат проблеми, можете да докладвате за тях.\nЩе бъдете препратени към външен уеб сайт на RKI."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
@@ -1164,7 +1182,7 @@
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Предупредете другите"</string>
     <!-- XBUT: Button for test removal -->
-    <string name="submission_test_result_positive_no_consent_button_remove_test">"Премахване на теста"</string>
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Изтриване на тест"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->

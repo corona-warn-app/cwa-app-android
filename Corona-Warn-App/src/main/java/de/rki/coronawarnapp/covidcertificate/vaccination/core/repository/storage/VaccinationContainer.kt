@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
@@ -45,13 +46,15 @@ data class VaccinationContainer internal constructor(
 
     @delegate:Transient
     internal val certificateData: DccData<VaccinationDccV1> by lazy {
-        preParsedData ?: (
-            qrCodeExtractor.extract(
-                vaccinationQrCode,
-                parserMode = DccV1Parser.Mode.CERT_VAC_LENIENT
-            ) as VaccinationCertificateQRCode
-            )
-            .data
+        runBlocking {
+            preParsedData ?: (
+                qrCodeExtractor.extract(
+                    vaccinationQrCode,
+                    parserMode = DccV1Parser.Mode.CERT_VAC_LENIENT
+                ) as VaccinationCertificateQRCode
+                )
+                .data
+        }
     }
 
     override val containerId: VaccinationCertificateContainerId
