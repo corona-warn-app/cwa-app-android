@@ -100,3 +100,6 @@
 ## json-schema-validator
 # Caused this error: https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-8402
 -keep class com.networknt.schema.** { *; }
+
+## makes JWK verification fail
+-keep class org.bouncycastle.** { *; }
