@@ -18,19 +18,19 @@
     <string name="trace_location_checkins_action_scan_qrcode">"Scanare cod QR"</string>
 
     <!-- XBUT: My check-ins: menu entry to remove all -->
-    <string name="trace_location_checkins_menu_remove_all">"Eliminare toate"</string>
+    <string name="trace_location_checkins_menu_remove_all">"Ștergere tot"</string>
     <!-- XBUT: My check-ins: menu entry to show information -->
     <string name="trace_location_checkins_menu_information">"Informații"</string>
 
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
-    <string name="trace_location_checkins_remove_all_title">"Sigur doriți să eliminați toate intrările?"</string>
+    <string name="trace_location_checkins_remove_all_title">"Sigur doriți să ștergeți toate intrările?"</string>
     <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
-    <string name="trace_location_checkins_remove_single_title">"Sigur doriți să eliminați această intrare?"</string>
+    <string name="trace_location_checkins_remove_single_title">"Ștergeți această intrare?"</string>
     <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
     <string name="trace_location_checkins_remove_message">"Nu veți mai putea avertiza alte persoane care au făcut check-in în acest loc sau la acest eveniment în același timp cu dvs. și nici dvs. nu veți mai fi avertizat de către acestea."</string>
 
     <!-- XBUT: My check-ins card: Menu, remove item -->
-    <string name="trace_location_checkins_menu_remove_item">"Eliminare"</string>
+    <string name="trace_location_checkins_menu_remove_item">"Ștergere"</string>
     <!-- XBUT: My check-ins card: Active event, checkout button -->
     <string name="trace_location_checkins_card_action_checkout">"Check-out acum"</string>
     <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
@@ -176,23 +176,23 @@
     <!-- XBUT: Event organiser qr codes list: menu: information button  -->
     <string name="trace_location_organizer_list_menu_information_btn">"Informații"</string>
     <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
-    <string name="trace_location_organizer_list_menu_remove_all_btn">"Eliminare toate"</string>
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Ștergere tot"</string>
     <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
     <string name="trace_location_organizer_list_menu_warn_guests_btn">"Avertizarea altor persoane"</string>
 
     <!-- XHED:  Event organiser qr codes list: delete single popup title -->
-    <string name="trace_location_organiser_list_delete_single_popup_title">"Doriți să eliminați codul QR?"</string>
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Doriți să ștergeți codul QR?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
     <string name="trace_location_organiser_list_delete_single_popup_message">"Luați în considerare că dacă faceți acest lucru, codul QR nu mai poate fi utilizat pentru check-in."</string>
 
     <!-- XHED:  Event organiser qr codes list: delete all popup title -->
-    <string name="trace_location_organiser_list_delete_all_popup_title">"Sigur doriți să eliminați toate codurile QR?"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Sigur doriți să ștergeți toate codurile QR?"</string>
     <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
     <string name="trace_location_organiser_list_delete_all_popup_message">"Luați în considerare că dacă faceți acest lucru, codurile QR nu mai pot fi utilizate pentru check-in."</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
     <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Anulare"</string>
     <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
-    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Eliminare"</string>
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Ștergere"</string>
 
     <!-- XTXT: Event organiser list item: duration-->
     <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>

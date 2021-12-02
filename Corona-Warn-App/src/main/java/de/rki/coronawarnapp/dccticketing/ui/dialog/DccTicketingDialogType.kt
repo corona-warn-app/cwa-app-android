@@ -15,12 +15,19 @@ sealed class DccTicketingDialogType {
             )
     }
 
-    data class ErrorDialog(private val msg: String) : DccTicketingDialogType() {
+    data class ErrorDialog(private val title: String? = null, private val msg: String) : DccTicketingDialogType() {
         override val config: DccTicketingDialogFragment.Config
-            get() = DccTicketingDialogFragment.Config(
-                titleRes = R.string.errors_generic_headline_short,
-                msg = msg,
-                positiveButtonRes = R.string.errors_generic_button_positive
-            )
+            get() {
+                val config = DccTicketingDialogFragment.Config(
+                    title = title,
+                    msg = msg,
+                    positiveButtonRes = R.string.errors_generic_button_positive
+                )
+
+                return when (config.title == null) {
+                    true -> config.copy(titleRes = R.string.errors_generic_headline_short)
+                    false -> config
+                }
+            }
     }
 }

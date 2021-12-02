@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Hangi QR kodları tarayabilirsiniz?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR testleri ve hızlı testler, test sertifikaları, aşı sertifikaları, iyileşme sertifikaları ve check-in\'ler."</string>
+    <string name="qr_code_scan_body_subtitle">"PCR testleriniz, hızlı testleriniz, test sertifikalarınız, aşı sertifikalarınız, iyileşme sertifikalarınız ve check-in\'leriniz."</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sildiğiniz etkinlikleri geri yüklemek için check-in\'leri tarayabilirsiniz."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +940,24 @@
     <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod seçin."</string>
+
+    <!-- QR Code Info Screen -->
+    <!-- XHED: Title for info screen -->
+    <string name="qr_code_info_screen_title">"QR kodlar ile ilgili bilgi"</string>
+    <!-- XTXT: First bulletpiont for info screen -->
+    <string name="qr_code_info_screen_first_bulletpoint_text">"Test sertifikalarınız, aşı sertifikalarınız, iyileşme sertifikalarınız ve aile üyelerinizin sertifikaları"</string>
+    <!-- XTXT: Second bulletpoint for info screen -->
+    <string name="qr_code_info_screen_second_bulletpoint_text">"Etkinlikler ve yerler için check-in\'ler"</string>
+    <!-- XTXT: Third bulletpoint for info screen -->
+    <string name="qr_code_info_screen_third_bulletpoint_text">"PCR testleri ve hızlı testler"</string>
+    <!-- XTXT: Fourth bulletpoint for info screen -->
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Bilet rezervasyonu sırasında sertifikalarınıza ilişkin doğrulama"</string>
+    <!-- XTXT: QR Code info screen data details -->
+    <string name="qr_code_info_screen_data_details_text">"İlgili QR koddan alınan veriler okunur."</string>
+    <!-- XTXT: QR Code booking provider info text -->
+    <string name="qr_code_info_screen_booking_provider_text">"Bilet rezerasyonu sırasında sertifika doğrulaması için QR kodları tarattığınızda rezervasyon sağlayıcı hakkında ek bilgiler alınır."</string>
+    <!-- XTXT: Privacy policy button text -->
+    <string name="qr_code_info_screen_privacy_policy">"Veri işleme hakkında bilgi için lütfen gizlilik bildirimine başvurun."</string>
 
     <!-- QR Code Consent Screen -->
     <!-- XHED: Page headline for Submission consent  -->
@@ -998,7 +1016,7 @@
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
-    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için \"TAN Talebi\" başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için TAN Talebi başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1058,13 +1076,13 @@
     <!-- XHED: Dialog title for test removal  -->
     <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Test sonucu kaldırılsın mı?"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Test sonucu silinsin mi?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Test sonucu geri dönüşüm kutusuna taşınacak. Geri dönüşüm kutusunu, sağ üst kısımdaki üç noktanın altında yer alan \"Durum\" sekme sayfasında bulabilirsiniz. Burada test sonucunu kalıcı olarak silebilir veya geri yükleyebilirsiniz. Test sonucu 30 gün sonra otomatik olarak silinir."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
-    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Test Sonucunu Kaldır"</string>
+    <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Test Sonucunu Sil"</string>
     <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Testi kaldırmak istediğinizden emin misiniz?"</string>
+    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Testinizi silmek istediğinizden emin misiniz?"</string>
     <!-- YTXT: Dialog text for test removal -->
     <string name="submission_test_result_dialog_remove_test_message">"Testi silerseniz test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
     <!-- YTXT: Dialog text for test removal no submission -->
@@ -1120,7 +1138,7 @@
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
-    <string name="submission_dispatcher_card_test_center_text">"Yakınınızdaki test merkezlerini bulun. Bir harici RKI web sitesine yönlendirileceksiniz."</string>
+    <string name="submission_dispatcher_card_test_center_text">"Yakınınızdaki test merkezlerini bulun. Herhangi bir sorun olursa bunu bildirebilirsiniz.\nBir harici RKI web sitesine yönlendirileceksiniz."</string>
     <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
     <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
@@ -1164,7 +1182,7 @@
     <!-- XBUT: Button for giving consent for key sharing -->
     <string name="submission_test_result_positive_no_consent_button_warn_others">"Diğer Kullanıcıları Uyarın"</string>
     <!-- XBUT: Button for test removal -->
-    <string name="submission_test_result_positive_no_consent_button_remove_test">"Testi Kaldır"</string>
+    <string name="submission_test_result_positive_no_consent_button_remove_test">"Testi Sil"</string>
 
     <!-- Submission Country Selector -->
     <!-- XHED: Page title for the submission country selection page -->
@@ -1408,7 +1426,7 @@
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Bilgi"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
-    <string name="statistics_card_local_incidence_menu_delete">"Kaldır"</string>
+    <string name="statistics_card_local_incidence_menu_delete">"Sil"</string>
     <!-- XTXT: Local hospitalization statistics text -->
     <string name="statistics_card_local_hospitalization_text">"%s için hastaneye yatış sayısı"</string>
 

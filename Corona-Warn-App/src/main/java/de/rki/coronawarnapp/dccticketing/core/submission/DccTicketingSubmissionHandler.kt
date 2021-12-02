@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.VS_ID_CLIENT_ERR
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.VS_ID_NO_ENC_KEY
 import de.rki.coronawarnapp.dccticketing.core.security.DccTicketingSecurityTool
+import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenInput
-import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import timber.log.Timber
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class DccTicketingSubmissionHandler @Inject constructor(
     private val securityTool: DccTicketingSecurityTool,
     private val converter: DccJWKConverter,
-    private val processor: ResultTokenRequestProcessor
+    private val requestService: DccTicketingRequestService
 ) {
 
     suspend fun submitDcc(transactionContext: DccTicketingTransactionContext): DccTicketingTransactionContext {
@@ -31,7 +31,7 @@ class DccTicketingSubmissionHandler @Inject constructor(
                 signatureAlgorithm = signedOutput.signatureAlgorithm,
             )
 
-            val resultTokenOutput = processor.requestResultToken(
+            val resultTokenOutput = requestService.requestResultToken(
                 context.getRequestParameters(
                     kid = encryptionParameters.jwk.kid,
                     scheme = encryptionParameters.schema.toString(),

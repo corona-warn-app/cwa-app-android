@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import java.util.Locale
 
@@ -27,11 +28,13 @@ data class TestCertificateContainer(
 
     @delegate:Transient
     internal val testCertificateQRCode: TestCertificateQRCode? by lazy {
-        data.testCertificateQrCode!!.let {
-            qrCodeExtractor.extract(
-                it,
-                DccV1Parser.Mode.CERT_TEST_LENIENT
-            ) as? TestCertificateQRCode
+        runBlocking {
+            data.testCertificateQrCode!!.let {
+                qrCodeExtractor.extract(
+                    it,
+                    DccV1Parser.Mode.CERT_TEST_LENIENT
+                ) as? TestCertificateQRCode
+            }
         }
     }
 

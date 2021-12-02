@@ -160,7 +160,7 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `vaccination certificate fails with NO_TEST_ENTRY`() {
+    fun `vaccination certificate fails with NO_TEST_ENTRY`() = runBlockingTest {
         shouldThrow<InvalidTestCertificateException> {
             extractor.extract(
                 VaccinationQrCodeTestData.certificateMissing,
