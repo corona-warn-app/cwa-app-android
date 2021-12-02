@@ -15,10 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.ViewCompat
 import androidx.core.widget.ImageViewCompat
+import androidx.databinding.BindingAdapter
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.hasAPILevel
 import setTextWithUrl
+import java.lang.reflect.Method
 
 class BehaviorInfoRow @JvmOverloads constructor(
     context: Context,
@@ -29,6 +32,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
     private val body by lazy { findViewById<TextView>(R.id.body) }
     private val icon by lazy { findViewById<ImageView>(R.id.icon) }
     private val iconBackground by lazy { findViewById<View>(R.id.icon_background) }
+    private val infoButton by lazy { findViewById<View>(R.id.info_icon) }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.tracing_details_item_behavior_row_view, this, true)
@@ -49,6 +53,11 @@ class BehaviorInfoRow @JvmOverloads constructor(
                 body.text = if (it != 0) resources.getString(it)
                 else getString(R.styleable.TracingDetailsBehaviorRow_android_text)
             }
+//
+//            getText(R.styleable.TracingDetailsBehaviorRow_onInfoClick)?.toString()?.let { methodName ->
+//                val method: Method = context::class.java.getMethod(methodName, View::class.java)
+//                infoButton.setOnClickListener { method.invoke(context, infoButton) }
+//            }
         }
 
         if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
@@ -76,5 +85,12 @@ class BehaviorInfoRow @JvmOverloads constructor(
 
     fun setForegroundTint(@ColorInt color: Int) {
         ImageViewCompat.setImageTintList(icon, ColorStateList.valueOf(color))
+    }
+}
+
+@BindingAdapter("infoCallback")
+fun BehaviorInfoRow.infoCallback(callback: () -> Unit) {
+    findViewById<View>(R.id.info_icon).setOnClickListener {
+        callback()
     }
 }

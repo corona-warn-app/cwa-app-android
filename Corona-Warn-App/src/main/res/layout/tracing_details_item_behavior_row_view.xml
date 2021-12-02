@@ -7,7 +7,6 @@
     android:focusable="true"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-
     <FrameLayout
         android:id="@+id/icon_background"
         android:layout_width="wrap_content"
@@ -41,9 +40,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
         android:layout_marginEnd="@dimen/spacing_small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/info_icon"
         app:layout_constraintStart_toEndOf="@+id/icon_background"
         app:layout_constraintTop_toTopOf="@+id/icon_background"
         tools:text="@string/risk_details_behavior_body_contact_doctor" />
+
+    <ImageView
+        android:id="@+id/info_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/icon_background"
+        app:srcCompat="@drawable/ic_menu_info"
+        app:tint="@color/colorPrimary" />
 
 </merge>

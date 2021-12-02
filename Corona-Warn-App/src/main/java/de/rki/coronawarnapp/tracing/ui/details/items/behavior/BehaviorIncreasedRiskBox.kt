@@ -23,7 +23,13 @@ class BehaviorIncreasedRiskBox(
     override val onBindData: TracingDetailsItemBehaviorIncreasedViewBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { _, _ -> }
+    ) -> Unit = { item, _ ->
+        state = item
+    }
 
-    object Item : BehaviorItem
+    data class Item(
+        val onClick: () -> Unit
+    ) : BehaviorItem {
+        fun getClickListener() = onClick
+    }
 }

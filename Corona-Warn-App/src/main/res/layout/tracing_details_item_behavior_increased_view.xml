@@ -2,6 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="state"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox.Item" />
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:text="@string/risk_details_subtitle_behavior"
+            android:text="@string/risk_details_subtitle_behavior_increased_risk"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/risk_details_behavior_headline" />
 
@@ -33,13 +39,13 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:layout_marginTop="@dimen/spacing_normal"
             android:backgroundTint="@color/colorSemanticHighRisk"
+            android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
+            app:infoCallback="@{ () -> state.getClickListener() }"
             android:icon="@drawable/ic_risk_details_home"
             android:text="@string/risk_details_behavior_body_stay_home" />
-
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
