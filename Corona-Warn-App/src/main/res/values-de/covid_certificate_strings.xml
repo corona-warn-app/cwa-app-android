@@ -55,12 +55,12 @@
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
     <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
-        <item quantity="one">"letzte Impfung vor %1$d Tag"</item>
-        <item quantity="other">"letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="zero">"letzte Impfung heute"</item>
-        <item quantity="two">"letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="few">"letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="many">"letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="one">"Letzte Impfung vor %1$d Tag"</item>
+        <item quantity="other">"Letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="zero">"Letzte Impfung heute"</item>
+        <item quantity="two">"Letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="few">"Letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="many">"Letzte Impfung vor %1$d Tagen"</item>
     </plurals>
     <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
     <string name="vaccination_days_since_last_shot_today">"Letzte Impfung heute"</string>
