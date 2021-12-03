@@ -292,13 +292,13 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1_label">"Testmöglichkeiten finden Sie hier"</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/de/faq/#red_card_how_to_test"</string>
+    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Weitere Informationen in der FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2_label">"FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2_link">"http://TODO"</string>
+    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/de/faq/#red_card_how_to_test"</string>
 
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Infektionsrisiko"</string>
