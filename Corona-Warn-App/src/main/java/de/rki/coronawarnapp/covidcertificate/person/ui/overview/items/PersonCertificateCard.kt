@@ -27,7 +27,6 @@ class PersonCertificateCard(parent: ViewGroup) :
     }
 
     // TODO: Update curItem with the right certificate
-
     override val onBindData: PersonOverviewItemBinding.(
         item: Item,
         payloads: List<Any>
@@ -68,10 +67,11 @@ class PersonCertificateCard(parent: ViewGroup) :
             context.getColorCompat(colorShade.starsTint)
         )
 
+    // TODO: Remove default value for admissionState once logic is implemented
     data class Item(
-        val certificate2G: CwaCovidCertificate?,
-        val certificateTest: CwaCovidCertificate?,
-        val admissionState: PersonCertificates.AdmissionState,
+        val certificate2G: CwaCovidCertificate? = null,
+        val certificateTest: CwaCovidCertificate? = null,
+        val admissionState: PersonCertificates.AdmissionState = PersonCertificates.AdmissionState.OTHER,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
         val onClickAction: (Item, Int) -> Unit,
