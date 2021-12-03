@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import kotlinx.parcelize.Parcelize
 import java.security.PrivateKey
