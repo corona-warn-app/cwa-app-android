@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.allowlist
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.api.DccTicketingAllowListServer
+import de.rki.coronawarnapp.dccticketing.core.allowlist.server.DccTicketingAllowListServer
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import kotlinx.coroutines.flow.Flow

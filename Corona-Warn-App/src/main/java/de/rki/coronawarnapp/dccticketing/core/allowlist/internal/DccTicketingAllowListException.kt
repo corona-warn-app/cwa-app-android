@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccticketing.core.allowlist
+package de.rki.coronawarnapp.dccticketing.core.allowlist.internal
 
 import android.content.Context
 import de.rki.coronawarnapp.R

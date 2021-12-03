@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import de.rki.coronawarnapp.dccticketing.core.allowlist.api.DccTicketingAllowListApi1
+import de.rki.coronawarnapp.dccticketing.core.allowlist.server.DccTicketingAllowListApi1
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingApiV1
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
@@ -61,7 +61,6 @@ class DccTicketingCoreModule {
                 .build()
         )
         .baseUrl(url)
-        .addConverterFactory(gsonConverterFactory)
         .build()
         .create(DccTicketingAllowListApi1::class.java)
 
