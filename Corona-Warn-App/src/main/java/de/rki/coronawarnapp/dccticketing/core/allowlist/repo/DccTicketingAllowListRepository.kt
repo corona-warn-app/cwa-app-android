@@ -50,7 +50,7 @@ class DccTicketingAllowListRepository @Inject constructor(
             .drop(1)
             .onEach {
                 Timber.tag(TAG).v("Storing %s", it)
-                dccTicketingAllowListStorage.save(value = it)
+                dccTicketingAllowListStorage.save(container = it)
             }
             .catch {
                 Timber.tag(TAG).e(it, "Storing allow list data failed")
