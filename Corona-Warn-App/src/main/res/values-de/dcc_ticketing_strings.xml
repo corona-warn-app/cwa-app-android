@@ -62,7 +62,7 @@
     <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
     <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Kein geeignetes Zertifikat vorhanden."</string>
     <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
-    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Sie haben kein Zertifikat, das den Anforderungen des Buchungssystems entspricht. Prüfen Sie, ob die Schreibweise ihres Namens im Buchungssystem mit der in Ihren Zertifikaten übereinstimmt. Falls Sie weitere Zertifikate benötigen, die noch nicht in der App verfügbar sind, fügen Sie diese bitte hinzu und starten Sie die Überprüfung erneut."</string>
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Sie haben kein Zertifikat, das den Anforderungen des Buchungssystems entspricht. Prüfen Sie, ob die Schreibweise Ihres Namens im Buchungssystem mit der in Ihren Zertifikaten übereinstimmt. Falls Sie weitere Zertifikate benötigen, die noch nicht in der App verfügbar sind, fügen Sie diese bitte hinzu und starten Sie die Überprüfung erneut."</string>
     <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
     <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Folgendes Zertifikat wird angefordert:"</string>
     <!-- XTXT: Certificate Selection Screen: More Information -->
