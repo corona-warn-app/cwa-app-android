@@ -55,7 +55,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
     }
-
+    // TODO: Update tests
     @Test
     fun `refreshCertificate causes an error dialog event`() {
         val error = mockk<Exception>()
@@ -102,8 +102,8 @@ class PersonOverviewViewModelTest : BaseTest() {
                     "testCertificateContainerId"
                 )
             }
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
+            (get(1) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Zeebee" }
+            (get(2) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Andrea Schneider" }
         }
     }
 
@@ -126,8 +126,8 @@ class PersonOverviewViewModelTest : BaseTest() {
                     "testCertificateContainerId"
                 )
             }
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
+            (get(1) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Zeebee" }
+            (get(2) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Andrea Schneider" }
         }
     }
 
@@ -143,9 +143,9 @@ class PersonOverviewViewModelTest : BaseTest() {
                 }.run { flowOf(this.toSet()) }
 
         instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
+            (get(0) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Andrea Schneider" }
+            (get(1) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Erika Musterfrau" }
+            (get(2) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Max Mustermann" }
         }
     }
 
@@ -160,11 +160,11 @@ class PersonOverviewViewModelTest : BaseTest() {
                 }.run { flowOf(this.toSet()) }
 
         instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" } // CWA user
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
-            (get(3) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
-            (get(4) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee A" }
+            (get(0) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Zeebee" } // CWA user
+            (get(1) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Andrea Schneider" }
+            (get(2) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Erika Musterfrau" }
+            (get(3) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Max Mustermann" }
+            (get(4) as PersonCertificateCard.Item).apply { certificate2G?.fullName shouldBe "Zeebee A" }
         }
     }
 
