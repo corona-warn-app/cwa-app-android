@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.allowlist.filtering
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListRepository
+import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class DccTicketingJwkFilter @Inject constructor(
