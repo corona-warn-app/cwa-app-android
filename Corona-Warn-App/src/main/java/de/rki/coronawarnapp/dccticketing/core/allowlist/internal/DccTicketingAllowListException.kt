@@ -14,6 +14,12 @@ class DccTicketingAllowListException(
     enum class ErrorCode(
         val message: String
     ) {
+        FILE_MISSING("Allow list archive is missing files."),
+        SIGNATURE_INVALID("Allow list archive has an invalid signature."),
+        NO_NETWORK("No or poor network when downloading allow list."),
+        SERVER_ERROR("Update of Allow list failed with server error."),
+        CLIENT_ERROR("Update of Allow list failed with client error."),
+
         ALLOWLIST_NO_MATCH("AllowList no match."),
     }
 
