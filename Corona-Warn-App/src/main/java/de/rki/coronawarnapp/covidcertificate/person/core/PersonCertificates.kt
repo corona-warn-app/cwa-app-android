@@ -15,12 +15,15 @@ data class PersonCertificates(
         certificates.findHighestPriorityCertificate()
     }
 
-    enum class AdmissionState {
-        IS_2G_PLUS_PCR,
-        IS_2G_PLUS_RAT,
-        IS_2G,
-        IS_3G_WITH_PCR,
-        IS_3G_WITH_RAT,
-        OTHER
+    sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
+        class Is2GPlusPCR(certificate2G: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
+            AdmissionState(certificate2G)
+
+        class Is2GPlusRAT(certificate2G: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
+            AdmissionState(certificate2G)
+
+        class Is2G(certificate2G: CwaCovidCertificate) : AdmissionState(certificate2G)
+        class Is3GWithPCR(certificateTest: CwaCovidCertificate) : AdmissionState(certificateTest)
+        class Is3GWithRAT(certificateTest: CwaCovidCertificate) : AdmissionState(certificateTest)
     }
 }
