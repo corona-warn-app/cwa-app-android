@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.TracingDetailsItemBehaviorIncreasedViewBinding
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsAdapter
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox.Item
+import setTextWithUrl
 
 class BehaviorIncreasedRiskBox(
     parent: ViewGroup,
@@ -28,6 +29,16 @@ class BehaviorIncreasedRiskBox(
     ) -> Unit = { _, _ ->
         lineHome.infoCallback { openHomeInfo() }
         lineHygiene.infoCallback { openHygieneInfo() }
+        riskDetailsBehaviorBulletPoint1.setTextWithUrl(
+            R.string.risk_details_behavior_increased_body_1,
+            R.string.risk_details_behavior_increased_body_1_label,
+            R.string.risk_details_behavior_increased_body_1_link
+        )
+        riskDetailsBehaviorBulletPoint2.setTextWithUrl(
+            R.string.risk_details_behavior_increased_body_2,
+            R.string.risk_details_behavior_increased_body_2_label,
+            R.string.risk_details_behavior_increased_body_2_link
+        )
     }
 
     object Item : BehaviorItem

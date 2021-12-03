@@ -46,7 +46,7 @@
 
     <ImageView
         android:id="@+id/info_icon"
-        android:padding="@dimen/spacing_mega_tiny"
+        android:padding="2dp"
         android:layout_width="@dimen/spacing_normal"
         android:layout_height="@dimen/spacing_normal"
         android:background="?android:attr/selectableItemBackgroundBorderless"
