@@ -1,0 +1,53 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_notifications_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="@string/settings_notifications_title"
+    android:focusable="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/settings_notifications_header"
+        style="@style/CWAToolbar.BackArrow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/settings_notifications_title" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:scrollbarStyle="outsideOverlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_notifications_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/information_details_header_illustration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/settings_notifications_illustration_description_active"
+                android:focusable="true"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_illustration_notification_on"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

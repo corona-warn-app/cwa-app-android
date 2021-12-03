@@ -25,10 +25,10 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
-import timber.log.Timber
 
 class TracingDetailsAdapter(
-    private val onItemClickListener: (item: DetailsItem) -> Unit
+    private val onItemClickListener: (item: DetailsItem) -> Unit,
+    private val onInfoItemClickListener: (item: TracingDetailsFragmentViewModel.InfoItem) -> Unit
 ) : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DetailsItem> {
 
@@ -52,10 +52,10 @@ class TracingDetailsAdapter(
                     BehaviorIncreasedRiskBox(
                         parent = it,
                         openHygieneInfo = {
-                                          Timber.d("TEST 1")
+                            onInfoItemClickListener(TracingDetailsFragmentViewModel.InfoItem.HYGIENE_RULES)
                         },
                         openHomeInfo = {
-                            Timber.d("TEST 2")
+                            onInfoItemClickListener(TracingDetailsFragmentViewModel.InfoItem.HOME_RULES)
                         }
                     )
                 },
