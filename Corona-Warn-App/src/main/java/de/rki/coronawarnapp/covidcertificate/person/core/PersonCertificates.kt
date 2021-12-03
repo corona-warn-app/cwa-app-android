@@ -14,4 +14,13 @@ data class PersonCertificates(
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
         certificates.findHighestPriorityCertificate()
     }
+
+    enum class AdmissionState {
+        IS_2G_PLUS_PCR,
+        IS_2G_PLUS_RAT,
+        IS_2G,
+        IS_3G_WITH_PCR,
+        IS_3G_WITH_RAT,
+        OTHER
+    }
 }

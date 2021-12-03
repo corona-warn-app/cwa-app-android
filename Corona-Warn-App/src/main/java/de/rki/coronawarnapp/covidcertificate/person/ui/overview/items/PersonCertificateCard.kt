@@ -5,6 +5,7 @@ import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
@@ -25,6 +26,8 @@ class PersonCertificateCard(parent: ViewGroup) :
         PersonOverviewItemBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
+    // TODO: Update curItem with the right certificate
+
     override val onBindData: PersonOverviewItemBinding.(
         item: Item,
         payloads: List<Any>
@@ -32,12 +35,12 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
         val color = when {
-            curItem.certificate.isValid -> curItem.colorShade
+            curItem.certificate2G!!.isValid -> curItem.colorShade
             else -> PersonColorShade.COLOR_INVALID
         }
-        name.text = curItem.certificate.fullName
+        name.text = curItem.certificate2G.fullName
 
-        qrCodeCard.image.loadAny(curItem.certificate.getValidQrCode(Locale.getDefault().language)) {
+        qrCodeCard.image.loadAny(curItem.certificate2G.getValidQrCode(Locale.getDefault().language)) {
             crossfade(true)
             loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }
@@ -47,14 +50,16 @@ class PersonCertificateCard(parent: ViewGroup) :
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
-            transitionName = curItem.certificate.personIdentifier.codeSHA256
+            transitionName = curItem.certificate2G.personIdentifier.codeSHA256
         }
-        qrCodeCard.bindValidityViews(
-            curItem.certificate,
-            isPersonOverview = true,
-            badgeCount = curItem.badgeCount,
-            onCovPassInfoAction = curItem.onCovPassInfoAction
-        )
+        curItem.certificate2G.let {
+            qrCodeCard.bindValidityViews(
+                it,
+                isPersonOverview = true,
+                badgeCount = curItem.badgeCount,
+                onCovPassInfoAction = curItem.onCovPassInfoAction
+            )
+        }
     }
 
     private fun starsDrawable(colorShade: PersonColorShade) =
@@ -64,13 +69,16 @@ class PersonCertificateCard(parent: ViewGroup) :
         )
 
     data class Item(
-        val certificate: CwaCovidCertificate,
+        val certificate2G: CwaCovidCertificate?,
+        val certificateTest: CwaCovidCertificate?,
+        val admissionState: PersonCertificates.AdmissionState,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
         val onClickAction: (Item, Int) -> Unit,
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId: Long = certificate.personIdentifier.codeSHA256.hashCode().toLong()
+        override val stableId: Long = certificate2G?.personIdentifier?.codeSHA256?.hashCode()?.toLong()
+            ?: certificateTest!!.personIdentifier.codeSHA256.hashCode().toLong()
     }
 }
