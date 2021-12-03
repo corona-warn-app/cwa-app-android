@@ -132,6 +132,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         takeScreenshot<PersonOverviewFragment>(suffix)
     }
 
+    // TODO: update items with the right certificates
     private fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
         .apply {
             add(
@@ -144,7 +145,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider"),
+                    certificate2G = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
@@ -165,7 +166,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider"),
+                    certificate2G = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
@@ -178,7 +179,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider"),
+                    certificate2G = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 5,
@@ -188,7 +189,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Mia Schneider"),
+                    certificate2G = mockTestCertificate("Mia Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_2,
                     badgeCount = 3,
@@ -198,7 +199,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Thomas Schneider"),
+                    certificate2G = mockTestCertificate("Thomas Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_3,
                     badgeCount = 0,
@@ -211,7 +212,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider"),
+                    certificate2G = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
@@ -224,7 +225,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificate = mockTestCertificate("Andrea Schneider"),
+                    certificate2G = mockTestCertificate("Andrea Schneider"),
                     onClickAction = { _, _ -> },
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 1,
