@@ -25,16 +25,18 @@ class DccTicketingAllowListParser @Inject constructor() {
         validationServiceAllowList = certificatesList.toValidationServiceAllowList().toSet()
     )
 
-    private fun List<ServiceProviderAllowlistItem>.toServiceProviderAllowList(): List<DccTicketingServiceProviderAllowListEntry> =
-        map { it.toServiceProviderAllowListEntry() }
+    private fun List<ServiceProviderAllowlistItem>.toServiceProviderAllowList():
+        List<DccTicketingServiceProviderAllowListEntry> =
+            map { it.toServiceProviderAllowListEntry() }
 
     private fun ServiceProviderAllowlistItem.toServiceProviderAllowListEntry() =
         DccTicketingServiceProviderAllowListEntry(
             serviceIdentityHash = serviceIdentityHash.toOkioByteString()
         )
 
-    private fun List<ValidationServiceAllowlistItem>.toValidationServiceAllowList(): List<DccTicketingValidationServiceAllowListEntry> =
-        map { it.toValidationServiceAllowListEntry() }
+    private fun List<ValidationServiceAllowlistItem>.toValidationServiceAllowList():
+        List<DccTicketingValidationServiceAllowListEntry> =
+            map { it.toValidationServiceAllowListEntry() }
 
     private fun ValidationServiceAllowlistItem.toValidationServiceAllowListEntry() =
         DccTicketingValidationServiceAllowListEntry(
@@ -51,4 +53,3 @@ class DccTicketingAllowListParser @Inject constructor() {
 private typealias ValidationServiceAllowlist = ValidationServiceAllowlistOuterClass.ValidationServiceAllowlist
 private typealias ServiceProviderAllowlistItem = ValidationServiceAllowlistOuterClass.ServiceProviderAllowlistItem
 private typealias ValidationServiceAllowlistItem = ValidationServiceAllowlistOuterClass.ValidationServiceAllowlistItem
-
