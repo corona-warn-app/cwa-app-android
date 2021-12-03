@@ -61,9 +61,7 @@ class TracingDetailsItemProvider @Inject constructor(
 
             when {
                 status != Status.TRACING_INACTIVE && latestCalc.riskState == RiskState.INCREASED_RISK ->
-                    BehaviorIncreasedRiskBox.Item {
-                        Timber.d("TEST CLICK CLICK!!!")
-                    }
+                    BehaviorIncreasedRiskBox.Item
                 else -> BehaviorNormalRiskBox.Item(
                     tracingStatus = status,
                     riskState = latestCalc.riskState

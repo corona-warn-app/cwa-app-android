@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.util.lists.modular.ModularAdapter
 import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
+import timber.log.Timber
 
 class TracingDetailsAdapter(
     private val onItemClickListener: (item: DetailsItem) -> Unit
@@ -47,7 +48,17 @@ class TracingDetailsAdapter(
                 TypedVHCreatorMod({ data[it] is DetailsIncreasedRiskBox.Item }) { DetailsIncreasedRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is DetailsLowRiskBox.Item }) { DetailsLowRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
-                TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) {
+                    BehaviorIncreasedRiskBox(
+                        parent = it,
+                        openHygieneInfo = {
+                                          Timber.d("TEST 1")
+                        },
+                        openHomeInfo = {
+                            Timber.d("TEST 2")
+                        }
+                    )
+                },
                 TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is FindDetailsInJournalBox.Item }) { FindDetailsInJournalBox(it) },

@@ -14,14 +14,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.ViewCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
 import androidx.databinding.BindingAdapter
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ui.submission.consentstatus.ConsentStatusView
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.hasAPILevel
 import setTextWithUrl
-import java.lang.reflect.Method
 
 class BehaviorInfoRow @JvmOverloads constructor(
     context: Context,
@@ -53,11 +53,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
                 body.text = if (it != 0) resources.getString(it)
                 else getString(R.styleable.TracingDetailsBehaviorRow_android_text)
             }
-//
-//            getText(R.styleable.TracingDetailsBehaviorRow_onInfoClick)?.toString()?.let { methodName ->
-//                val method: Method = context::class.java.getMethod(methodName, View::class.java)
-//                infoButton.setOnClickListener { method.invoke(context, infoButton) }
-//            }
+            infoButton.isGone = true
         }
 
         if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
@@ -90,7 +86,8 @@ class BehaviorInfoRow @JvmOverloads constructor(
 
 @BindingAdapter("infoCallback")
 fun BehaviorInfoRow.infoCallback(callback: () -> Unit) {
-    findViewById<View>(R.id.info_icon).setOnClickListener {
-        callback()
+    findViewById<View>(R.id.info_icon).apply {
+        isVisible = true
+        setOnClickListener { callback() }
     }
 }

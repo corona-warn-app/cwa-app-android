@@ -39,7 +39,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginEnd="@dimen/spacing_small"
         app:layout_constraintEnd_toStartOf="@id/info_icon"
         app:layout_constraintStart_toEndOf="@+id/icon_background"
         app:layout_constraintTop_toTopOf="@+id/icon_background"
@@ -47,10 +46,13 @@
 
     <ImageView
         android:id="@+id/info_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:padding="@dimen/spacing_mega_tiny"
+        android:layout_width="@dimen/spacing_normal"
+        android:layout_height="@dimen/spacing_normal"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@null"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/icon_background"
         app:srcCompat="@drawable/ic_menu_info"
