@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -63,13 +62,14 @@ class DccTicketingAllowListRepository @Inject constructor(
     val validationServiceAllowList: Flow<Set<DccTicketingValidationServiceAllowListEntry>> = internalData.data
         .map { it.validationServiceAllowList }
 
-    val serviceProviderAllowListEntry: Flow<Set<DccTicketingServiceProviderAllowListEntry>> = internalData.data
+    val serviceProviderAllowList: Flow<Set<DccTicketingServiceProviderAllowListEntry>> = internalData.data
         .map { it.serviceProviderAllowList }
 
-    suspend fun refresh() {
+    suspend fun refresh() = internalData.updateBlocking {
         Timber.tag(TAG).d("refresh() - start")
-        internalData.updateBlocking { tryGetAndParse() ?: this }
-        Timber.tag(TAG).d("refresh() - DONE")
+        tryGetAndParse() ?: this
+    }.also {
+        Timber.tag(TAG).d("refresh() - returning %s", it)
     }
 
     suspend fun clear() {

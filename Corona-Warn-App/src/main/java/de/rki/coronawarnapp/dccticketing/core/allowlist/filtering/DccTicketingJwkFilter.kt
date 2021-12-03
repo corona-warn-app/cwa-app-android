@@ -9,7 +9,9 @@ class DccTicketingJwkFilter @Inject constructor(
 ) {
 
     suspend fun filter(jwkSet: Set<DccJWK>): DccJwkFilteringResult {
-        val allowList = dccTicketingAllowListRepository.allowList.first()
+        val container = dccTicketingAllowListRepository.refresh()
+        val validationServiceAllowList = container.validationServiceAllowList
+        val serviceProviderAllowList = container.serviceProviderAllowList
         // TODO
         return DccJwkFilteringResult(
             filteredAllowlist = emptySet(),

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.transaction
 
 import android.os.Parcelable
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import kotlinx.parcelize.Parcelize
 import java.security.PrivateKey
@@ -30,5 +31,5 @@ data class DccTicketingTransactionContext(
     val signatureAlgorithm: String? = null,
     val resultToken: String? = null,
     val resultTokenPayload: DccTicketingResultToken? = null,
-    val allowlist: Set<DccTicketingAllowListEntry>? = null,
+    val allowlist: Set<DccTicketingValidationServiceAllowListEntry>? = null,
 ) : Parcelable
