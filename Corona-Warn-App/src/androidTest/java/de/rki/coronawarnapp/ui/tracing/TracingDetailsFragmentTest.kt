@@ -133,7 +133,6 @@ class TracingDetailsFragmentTest : BaseUITest() {
 
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
         takeScreenshot<TracingDetailsFragment>("tracing_increased_5")
-
     }
 
     private fun mockData(pair: Pair<TracingDetailsState, List<DetailsItem>>) {
