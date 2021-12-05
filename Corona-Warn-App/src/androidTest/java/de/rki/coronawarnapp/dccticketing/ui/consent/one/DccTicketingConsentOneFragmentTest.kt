@@ -70,10 +70,12 @@ class DccTicketingConsentOneFragmentTest : BaseUITest() {
     @Screenshot
     @Test
     fun dccTicketingConsentOneScreeshots() {
-        every { viewModel.uiState } returns MutableLiveData(mockk<UiState>().apply {
-            every { provider } returns "Anbietername"
-            every { subject } returns "Buchungsbetreff"
-        })
+        every { viewModel.uiState } returns MutableLiveData(
+            mockk<UiState>().apply {
+                every { provider } returns "Anbietername"
+                every { subject } returns "Buchungsbetreff"
+            }
+        )
 
         launchFragmentInContainer2<DccTicketingConsentOneFragment>(
             testNavHostController = navController,
