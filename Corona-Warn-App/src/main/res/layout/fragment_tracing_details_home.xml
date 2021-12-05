@@ -45,6 +45,15 @@
                 android:src="@drawable/ic_illustration_stay_at_home"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                style="@style/body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/risk_details_minimize_risk_body" />
+
             <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +101,15 @@
                 android:backgroundTint="@color/colorSemanticHighRisk"
                 android:icon="@drawable/ic_risk_details_health_department"
                 android:text="@string/risk_details_behavior_body_health_department" />
+
+            <TextView
+                style="@style/body2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:text="@string/risk_details_minimize_risk_faq" />
 
         </LinearLayout>
 
