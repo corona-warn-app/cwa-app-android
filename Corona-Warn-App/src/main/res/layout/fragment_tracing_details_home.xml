@@ -8,7 +8,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/settings_notifications_header"
-        style="@style/CWAToolbar.BackArrow"
+        style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,11 +46,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                style="@style/body2"
+                style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_small"
                 android:focusable="true"
                 android:text="@string/risk_details_minimize_risk_body" />
 
@@ -103,7 +104,8 @@
                 android:text="@string/risk_details_behavior_body_health_department" />
 
             <TextView
-                style="@style/body2"
+                android:id="@+id/faq_text"
+                style="@style/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"

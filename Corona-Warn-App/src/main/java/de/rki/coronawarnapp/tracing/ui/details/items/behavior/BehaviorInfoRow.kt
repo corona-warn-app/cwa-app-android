@@ -56,11 +56,11 @@ class BehaviorInfoRow @JvmOverloads constructor(
             infoButton.isGone = true
         }
 
-        if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
+        if (body.text == context.getString(R.string.risk_details_behavior_body_health_department)) {
             body.setTextWithUrl(
-                R.string.risk_details_increased_risk_faq_link_text,
-                R.string.risk_details_increased_risk_faq_link_label,
-                R.string.risk_details_increased_risk_faq_url
+                R.string.risk_details_behavior_body_health_department,
+                R.string.risk_details_behavior_body_health_department_label,
+                R.string.risk_details_behavior_body_health_department_link
             )
         }
     }
