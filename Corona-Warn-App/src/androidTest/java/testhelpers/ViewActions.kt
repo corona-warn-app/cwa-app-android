@@ -33,16 +33,13 @@ fun recyclerScrollTo(
     additionalY = additionalY
 )
 
-fun betterScrollTo(): ViewAction
-{
+fun betterScrollTo(): ViewAction {
     return ViewActions.actionWithAssertions(BetterScrollToAction())
 }
 
 // scroll-to action that also works with NestedScrollViews
-class BetterScrollToAction:ViewAction by ScrollToAction()
-{
-    override fun getConstraints(): Matcher<View>
-    {
+class BetterScrollToAction : ViewAction by ScrollToAction() {
+    override fun getConstraints(): Matcher<View> {
         return allOf(
             withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
             isDescendantOfA(
