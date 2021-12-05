@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.databinding.FragmentTracingDetailsHomeBinding
 import de.rki.coronawarnapp.util.ui.viewBinding
 import setTextWithUrl
@@ -20,6 +19,5 @@ class HomeRulesFragment : Fragment(R.layout.fragment_tracing_details_home) {
             R.string.risk_details_minimize_risk_faq_label,
             R.string.risk_details_minimize_risk_faq_link
         )
-
     }
 }
