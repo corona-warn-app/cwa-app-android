@@ -1,21 +1,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settings_notifications_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/settings_notifications_title"
+    android:contentDescription="@string/risk_details_hygiene_rules_title"
     android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/settings_notifications_header"
-        style="@style/CWAToolbar.BackArrow"
+        style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/settings_notifications_title" />
+        app:title="@string/risk_details_hygiene_rules_title" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -43,8 +42,48 @@
                 android:paddingTop="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_small"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_illustration_notification_on"
+                android:src="@drawable/ic_hygiene_image"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:backgroundTint="@color/colorSemanticHighRisk"
+                android:icon="@drawable/ic_risk_details_mask"
+                android:text="@string/risk_details_behavior_body_wear_mask" />
+
+            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:backgroundTint="@color/colorSemanticHighRisk"
+                android:icon="@drawable/ic_risk_details_distance"
+                android:text="@string/risk_details_behavior_body_stay_away" />
+
+            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:backgroundTint="@color/colorSemanticHighRisk"
+                android:icon="@drawable/ic_risk_details_sneeze"
+                android:text="@string/risk_details_behavior_body_cough_sneeze" />
+
+            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:backgroundTint="@color/colorSemanticHighRisk"
+                android:icon="@drawable/ic_risk_details_wash"
+                android:text="@string/risk_details_behavior_body_wash_hands" />
+
+            <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:backgroundTint="@color/colorSemanticHighRisk"
+                android:icon="@drawable/ic_risk_details_ventilation"
+                android:text="@string/risk_details_behavior_body_ventilation" />
 
         </LinearLayout>
 
