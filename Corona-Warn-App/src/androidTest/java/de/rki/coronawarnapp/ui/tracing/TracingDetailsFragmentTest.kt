@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.ui.tracing
 
 import androidx.lifecycle.MutableLiveData
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingRepository
@@ -28,6 +31,7 @@ import testhelpers.Screenshot
 import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
+import testhelpers.recyclerScrollTo
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
@@ -116,7 +120,20 @@ class TracingDetailsFragmentTest : BaseUITest() {
     @Test
     fun capture_screenshot_tracing_increased() {
         mockData(TracingData.INCREASED_RISK)
-        captureScreenshot("tracing_increased")
+        captureScreenshot("tracing_increased_1")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(1))
+        takeScreenshot<TracingDetailsFragment>("tracing_increased_2")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(1, additionalY = 800))
+        takeScreenshot<TracingDetailsFragment>("tracing_increased_3")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
+        takeScreenshot<TracingDetailsFragment>("tracing_increased_4")
+
+        onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(3))
+        takeScreenshot<TracingDetailsFragment>("tracing_increased_5")
+
     }
 
     private fun mockData(pair: Pair<TracingDetailsState, List<DetailsItem>>) {
