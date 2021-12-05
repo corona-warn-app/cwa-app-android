@@ -11,8 +11,8 @@ import setTextWithUrl
 class BehaviorIncreasedRiskBox(
     parent: ViewGroup,
     @LayoutRes containerLayout: Int = R.layout.tracing_details_item_container_layout,
-    private val openHomeInfo: () -> Unit,
-    private val openHygieneInfo: () -> Unit
+    private val openHomeRules: () -> Unit,
+    private val openHygieneRules: () -> Unit
 ) : TracingDetailsAdapter.DetailsItemVH<Item, TracingDetailsItemBehaviorIncreasedViewBinding>(containerLayout, parent) {
 
     override val viewBinding = lazy {
@@ -27,8 +27,8 @@ class BehaviorIncreasedRiskBox(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { _, _ ->
-        lineHome.infoCallback { openHomeInfo() }
-        lineHygiene.infoCallback { openHygieneInfo() }
+        lineHome.infoButtonCallback { openHomeRules() }
+        lineHygiene.infoButtonCallback { openHygieneRules() }
         riskDetailsBehaviorBulletPoint1.setTextWithUrl(
             R.string.risk_details_behavior_increased_body_1,
             R.string.risk_details_behavior_increased_body_1_label,

@@ -33,12 +33,12 @@
             android:id="@+id/line_hygiene"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:layout_marginTop="@dimen/spacing_normal"
             android:backgroundTint="@color/colorSemanticHighRisk"
+            android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_risk_details_distance"
-            android:text="@string/risk_details_behavior_body_stay_away" />
+            android:text="@string/risk_details_behavior_body_hygiene" />
 
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:id="@+id/line_home"
@@ -63,9 +63,9 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:backgroundTint="@color/colorSemanticHighRisk"
+            android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_faq_information"
             android:text="@string/risk_details_increased_risk_faq_link_text" />
@@ -82,10 +82,10 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/bullet_point"
-                app:tint="@color/colorSemanticHighRisk"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_1" />
+                app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_1"
+                app:srcCompat="@drawable/bullet_point"
+                app:tint="@color/colorSemanticHighRisk" />
 
             <TextView
                 android:id="@+id/risk_details_behavior_bullet_point_1"
@@ -107,10 +107,10 @@
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_mega_tiny"
                 android:importantForAccessibility="no"
-                app:srcCompat="@drawable/bullet_point"
-                app:tint="@color/colorSemanticHighRisk"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_2" />
+                app:layout_constraintTop_toTopOf="@id/risk_details_behavior_bullet_point_2"
+                app:srcCompat="@drawable/bullet_point"
+                app:tint="@color/colorSemanticHighRisk" />
 
             <TextView
                 android:id="@+id/risk_details_behavior_bullet_point_2"
@@ -132,18 +132,18 @@
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="true"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:backgroundTint="@color/colorSemanticHighRisk"
+            android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_vaccination_arm"
-            android:text="@string/risk_details_increased_risk_faq_vaccination"/>
+            android:text="@string/risk_details_increased_risk_faq_vaccination" />
 
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:backgroundTint="@color/colorSemanticHighRisk"
+            android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_risk_details_contact"
             android:text="@string/risk_details_behavior_body_contact_doctor" />

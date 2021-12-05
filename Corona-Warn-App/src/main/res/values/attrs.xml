@@ -38,7 +38,6 @@
         <attr name="android:icon" />
         <attr name="android:backgroundTint" />
         <attr name="android:foregroundTint" />
-        <attr name="onInfoClick" format="string" />
     </declare-styleable>
     <declare-styleable name="QrViewfinderView">
         <attr name="maskSize" format="dimension" />

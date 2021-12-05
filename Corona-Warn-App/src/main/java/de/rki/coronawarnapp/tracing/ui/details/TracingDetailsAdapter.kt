@@ -51,10 +51,10 @@ class TracingDetailsAdapter(
                 TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) {
                     BehaviorIncreasedRiskBox(
                         parent = it,
-                        openHygieneInfo = {
+                        openHygieneRules = {
                             onInfoItemClickListener(TracingDetailsFragmentViewModel.InfoItem.HYGIENE_RULES)
                         },
-                        openHomeInfo = {
+                        openHomeRules = {
                             onInfoItemClickListener(TracingDetailsFragmentViewModel.InfoItem.HOME_RULES)
                         }
                     )

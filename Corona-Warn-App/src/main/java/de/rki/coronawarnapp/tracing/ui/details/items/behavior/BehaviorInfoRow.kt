@@ -84,8 +84,8 @@ class BehaviorInfoRow @JvmOverloads constructor(
     }
 }
 
-@BindingAdapter("infoCallback")
-fun BehaviorInfoRow.infoCallback(callback: () -> Unit) {
+@BindingAdapter("infoButtonCallback")
+fun BehaviorInfoRow.infoButtonCallback(callback: () -> Unit) {
     findViewById<View>(R.id.info_icon).apply {
         isVisible = true
         setOnClickListener { callback() }
