@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toResolvingString
@@ -21,9 +22,16 @@ import timber.log.Timber
 
 class DccTicketingConsentOneViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingSharedViewModel: DccTicketingSharedViewModel,
+    @Assisted private val qrcodeSharedViewModel: QrcodeSharedViewModel,
+    @Assisted private val transactionContextIdentifier: String,
     dispatcherProvider: DispatcherProvider,
     private val dccTicketingConsentOneProcessor: DccTicketingConsentOneProcessor
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
+
+    init {
+        val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(transactionContextIdentifier)
+        dccTicketingSharedViewModel.updateTransactionContext(ctx)
+    }
 
     private val currentIsLoading = MutableStateFlow(false)
     val isLoading: LiveData<Boolean> = currentIsLoading.asLiveData()
@@ -84,7 +92,9 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccTicketingConsentOneViewModel> {
         fun create(
-            dccTicketingSharedViewModel: DccTicketingSharedViewModel
+            dccTicketingSharedViewModel: DccTicketingSharedViewModel,
+            qrcodeSharedViewModel: QrcodeSharedViewModel,
+            transactionContextIdentifier: String
         ): DccTicketingConsentOneViewModel
     }
 }
