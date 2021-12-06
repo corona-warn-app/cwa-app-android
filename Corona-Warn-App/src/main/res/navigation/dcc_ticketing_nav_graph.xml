@@ -29,9 +29,7 @@
         tools:layout="@layout/fragment_dcc_ticketing_certificate_selection">
         <action
             android:id="@+id/action_dccTicketingCertificateSelectionFragment_to_dccTicketingConsentTwoFragment"
-            app:destination="@id/dccTicketingConsentTwoFragment"
-            app:popUpTo="@id/dccTicketingCertificateSelectionFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/dccTicketingConsentTwoFragment" />
     </fragment>
     <fragment
         android:id="@+id/dccTicketingConsentTwoFragment"
@@ -52,4 +50,8 @@
         android:name="de.rki.coronawarnapp.dccticketing.ui.validationresult.DccTicketingValidationResultFragment"
         android:label="fragment_dcc_ticketing_validation_result"
         tools:layout="@layout/fragment_dcc_ticketing_validation_result" />
+    <action
+        android:id="@+id/action_dcc_ticketing_nav_graph_pop"
+        app:popUpTo="@id/dcc_ticketing_nav_graph"
+        app:popUpToInclusive="true" />
 </navigation>

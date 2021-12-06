@@ -10,3 +10,4 @@ data class ShowErrorDialog(val lazyErrorMessage: LazyString) : DccTicketingConse
 object NavigateToValidationResult : DccTicketingConsentTwoEvent()
 object NavigateToPrivacyInformation : DccTicketingConsentTwoEvent()
 object NavigateBack : DccTicketingConsentTwoEvent()
+object NavigateToHome : DccTicketingConsentTwoEvent()
