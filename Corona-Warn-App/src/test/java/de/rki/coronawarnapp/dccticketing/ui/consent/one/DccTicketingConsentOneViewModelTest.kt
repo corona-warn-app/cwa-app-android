@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
@@ -27,6 +28,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
 
     @MockK private lateinit var dccTicketingSharedViewModel: DccTicketingSharedViewModel
     @MockK private lateinit var dccTicketingConsentOneProcessor: DccTicketingConsentOneProcessor
+    @MockK private lateinit var qrcodeSharedViewModel: QrcodeSharedViewModel
 
     private val mutableTransactionContextFlow = MutableStateFlow<DccTicketingTransactionContext?>(null)
 
@@ -34,7 +36,9 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
         get() = DccTicketingConsentOneViewModel(
             dccTicketingSharedViewModel = dccTicketingSharedViewModel,
             dispatcherProvider = TestDispatcherProvider(),
-            dccTicketingConsentOneProcessor = dccTicketingConsentOneProcessor
+            dccTicketingConsentOneProcessor = dccTicketingConsentOneProcessor,
+            qrcodeSharedViewModel = qrcodeSharedViewModel,
+            transactionContextIdentifier = ""
         )
 
     private val data = DccTicketingQrCodeData(
@@ -55,6 +59,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         mutableTransactionContextFlow.value = transactionContext
+        every { qrcodeSharedViewModel.dccTicketingTransactionContext(any()) } returns transactionContext
         dccTicketingSharedViewModel.apply {
             every { transactionContext } returns mutableTransactionContextFlow.filterNotNull()
             every { updateTransactionContext(any()) } answers { mutableTransactionContextFlow.value = arg(0) }
