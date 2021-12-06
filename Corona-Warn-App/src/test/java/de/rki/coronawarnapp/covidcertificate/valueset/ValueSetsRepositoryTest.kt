@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.valueset
 
+import android.content.Context
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.testCertificateValueSetsDe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.testCertificateValueSetsEn
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.vaccinationValueSetsDe
@@ -31,6 +33,7 @@ class ValueSetsRepositoryTest : BaseTest() {
 
     @MockK lateinit var certificateValueSetServer: CertificateValueSetServer
     @MockK lateinit var valueSetsStorage: ValueSetsStorage
+    @MockK lateinit var context: Context
 
     @BeforeEach
     fun setUp() {
@@ -41,6 +44,7 @@ class ValueSetsRepositoryTest : BaseTest() {
             coEvery { getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns valueSetsContainerEn
             coEvery { getVaccinationValueSets(languageCode = Locale.GERMAN) } returns valueSetsContainerDe
             every { clear() } just Runs
+            every { context.getLocale() } returns Locale.GERMAN
         }
 
         valueSetsStorage.apply {
@@ -53,7 +57,8 @@ class ValueSetsRepositoryTest : BaseTest() {
         certificateValueSetServer = certificateValueSetServer,
         valueSetsStorage = valueSetsStorage,
         scope = scope,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        context = context,
     )
 
     @Test

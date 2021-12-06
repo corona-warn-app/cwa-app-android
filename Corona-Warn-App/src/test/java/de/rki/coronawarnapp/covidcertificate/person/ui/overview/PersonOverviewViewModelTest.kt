@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
-import android.content.Context
-import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
@@ -31,7 +29,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import java.util.Locale
 
 @ExtendWith(InstantExecutorExtension::class)
 class PersonOverviewViewModelTest : BaseTest() {
@@ -39,7 +36,6 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
-    @MockK lateinit var context: Context
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
 
     @BeforeEach
@@ -51,7 +47,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { personCertificatesProvider.personCertificates } returns emptyFlow()
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
-        every { context.getLocale() } returns Locale.GERMAN
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
     }
@@ -184,8 +179,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
-            valueSetsRepository = valueSetsRepository,
-            context = context,
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService
         )
