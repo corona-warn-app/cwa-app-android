@@ -23,8 +23,8 @@ class DccTicketingQrCodeHandler @Inject constructor(
     suspend fun handleQrCode(qrCode: DccTicketingQrCode): DccTicketingTransactionContext {
         val container = allowListRepository.refresh()
 
-        container.serviceProviderAllowList.validateServiceProvider(
-            qrCode.data.serviceProvider
+        container.serviceProviderAllowList.validateServiceIdentity(
+            qrCode.data.serviceIdentity
         )
 
         val validationServiceAllowList = container.validationServiceAllowList
@@ -47,9 +47,9 @@ class DccTicketingQrCodeHandler @Inject constructor(
         )
     }
 
-    private fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceProvider(serviceProvider: String) {
-        if (!qrCodeSettings.checkServiceProvider.value) return
-        val hash = serviceProvider.toSHA256().encodeUtf8()
+    private fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceIdentity(serviceIdentity: String) {
+        if (!qrCodeSettings.checkServiceIdentity.value) return
+        val hash = serviceIdentity.toSHA256().encodeUtf8()
         find { it.serviceIdentityHash == hash } ?: throw DccTicketingException(SP_ALLOWLIST_NO_MATCH)
     }
 

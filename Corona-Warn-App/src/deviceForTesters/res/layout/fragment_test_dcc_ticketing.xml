@@ -72,11 +72,11 @@
                     android:layout_height="wrap_content"
                     android:text="Check against allow list" />
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/swich_service_provider_check"
+                    android:id="@+id/swich_service_identity_check"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="Service provider" />
+                    android:text="Service Identity" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

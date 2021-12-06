@@ -14,12 +14,12 @@ class DccTicketingQrCodeSettings @Inject constructor(
         context.getSharedPreferences("dccTicketing_qrcode", Context.MODE_PRIVATE)
     }
 
-    val checkServiceProvider: FlowPreference<Boolean> = prefs.createFlowPreference(
-        key = PREFS_KEY_CHECK_SERVICE_PROVIDER,
+    val checkServiceIdentity: FlowPreference<Boolean> = prefs.createFlowPreference(
+        key = PREFS_KEY_CHECK_SERVICE_IDENTITY,
         defaultValue = true
     )
 
     fun clear() = prefs.clearAndNotify()
 }
 
-private const val PREFS_KEY_CHECK_SERVICE_PROVIDER = "dccTicketing_checkServiceProvider"
+private const val PREFS_KEY_CHECK_SERVICE_IDENTITY = "dccTicketing_checkServiceIdentity"
