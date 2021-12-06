@@ -34,7 +34,10 @@ class DccTicketingTestFragment : Fragment(R.layout.fragment_test_dcc_ticketing),
             consentOneButton.setOnClickListener {
                 findNavController().navigate(R.id.dcc_ticketing_nav_graph)
             }
-            swichServiceProviderCheck.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            swichServiceProviderCheck.isChecked = viewModel.checkServiceProvider
+
+            swichServiceProviderCheck.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.toggleServiceProviderCheck(isChecked)
             }
         }
