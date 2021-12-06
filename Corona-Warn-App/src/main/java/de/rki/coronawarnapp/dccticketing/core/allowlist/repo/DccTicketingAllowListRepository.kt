@@ -76,7 +76,7 @@ class DccTicketingAllowListRepository @Inject constructor(
     private fun ByteArray?.toAllowListContainer(): DccTicketingAllowListContainer = when (this != null) {
         true -> dccTicketingAllowListParser.parse(rawData = this)
         false -> {
-            Timber.tag(TAG).d("No data to parse")
+            Timber.tag(TAG).d("No data to parse. Returning empty allow list container")
             emptyDccTicketingAllowListContainer
         }
     }
