@@ -13,12 +13,7 @@ import de.rki.coronawarnapp.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import org.joda.time.Duration
 import timber.log.Timber
@@ -34,6 +29,9 @@ class DccTicketingAllowListRepository @Inject constructor(
     private val dccTicketingAllowListParser: DccTicketingAllowListParser
 ) {
 
+    private val emptyDccTicketingAllowListContainer: DccTicketingAllowListContainer
+        get() = DccTicketingAllowListContainer()
+
     private val internalData: HotDataFlow<DccTicketingAllowListContainer> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
@@ -41,23 +39,8 @@ class DccTicketingAllowListRepository @Inject constructor(
             stopTimeoutMillis = Duration.standardSeconds(5).millis,
             replayExpirationMillis = 0
         ),
-        startValueProvider = { dccTicketingAllowListStorage.load() }
+        startValueProvider = { loadInitialData() }
     )
-
-    init {
-        internalData.data
-            .onStart { Timber.tag(TAG).d("Observing allow list") }
-            .drop(1)
-            .onEach {
-                Timber.tag(TAG).v("Storing %s", it)
-                dccTicketingAllowListStorage.save(container = it)
-            }
-            .catch {
-                Timber.tag(TAG).e(it, "Storing allow list data failed")
-                throw it
-            }
-            .launchIn(scope = appScope + dispatcherProvider.IO)
-    }
 
     val validationServiceAllowList: Flow<Set<DccTicketingValidationServiceAllowListEntry>> = internalData.data
         .map { it.validationServiceAllowList }
@@ -75,18 +58,36 @@ class DccTicketingAllowListRepository @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).d("clear()")
         internalData.updateBlocking {
-            DccTicketingAllowListContainer()
+            dccTicketingAllowListStorage.clear()
+            emptyDccTicketingAllowListContainer
         }
     }
 
     private suspend fun tryGetAndParse(): DccTicketingAllowListContainer? = try {
         Timber.tag(TAG).d("tryGetAndParse()")
         val rawData = dccTicketingAllowListServer.getAllowlist()
-        dccTicketingAllowListParser.parse(rawData = rawData)
+        rawData.toAllowListContainer()
+            .also { dccTicketingAllowListStorage.save(data = rawData) }
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Failed to get new allow list.")
         null
     }.also { Timber.tag(TAG).d("Returning %S", it) }
+
+    private fun ByteArray?.toAllowListContainer(): DccTicketingAllowListContainer = when (this != null) {
+        true -> dccTicketingAllowListParser.parse(rawData = this)
+        false -> {
+            Timber.tag(TAG).d("No data to parse")
+            emptyDccTicketingAllowListContainer
+        }
+    }
+
+    private suspend fun loadInitialData(): DccTicketingAllowListContainer = try {
+        Timber.tag(TAG).d("loadInitialData()")
+        dccTicketingAllowListStorage.load().toAllowListContainer()
+    } catch (e: Exception) {
+        Timber.tag(TAG).w(e, "Failed to load initial data. Returning empty allow list container")
+        emptyDccTicketingAllowListContainer
+    }
 
     companion object {
         private val TAG = tag<DccTicketingAllowListRepository>()

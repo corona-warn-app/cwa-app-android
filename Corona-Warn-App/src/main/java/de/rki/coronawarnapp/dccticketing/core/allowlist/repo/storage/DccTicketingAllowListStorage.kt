@@ -1,75 +1,68 @@
 package de.rki.coronawarnapp.dccticketing.core.allowlist.repo.storage
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import dagger.Reusable
-import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
+import de.rki.coronawarnapp.dccticketing.core.DccTicketing
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 @Reusable
 class DccTicketingAllowListStorage @Inject constructor(
-    @AppContext context: Context,
-    @BaseGson private val gson: Gson
+    @DccTicketing private val localStorage: File
 ) {
 
     private val mutex = Mutex()
-    private val prefs: SharedPreferences by lazy {
-        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+    private val allowListLocalData = File(localStorage, ALLOW_LIST_FILE_NAME)
+
+    suspend fun load(): ByteArray? = mutex.withLock {
+        Timber.tag(TAG).v("Loading data")
+        allowListLocalData.load()
     }
 
-    suspend fun load(): DccTicketingAllowListContainer = mutex.withLock {
-        Timber.tag(TAG).v("Load()")
-        DccTicketingAllowListContainer(
-            serviceProviderAllowList = load(PKEY_ALLOW_LIST_SERVICE_PROVIDER),
-            validationServiceAllowList = load(PKEY_ALLOW_LIST_VALIDATION_SERVICE)
-        ).also { Timber.v("Returning %s", it) }
+    suspend fun save(data: ByteArray) = mutex.withLock {
+        Timber.tag(TAG).v("Saving data")
+        allowListLocalData.save(data = data)
     }
 
-    suspend fun save(container: DccTicketingAllowListContainer) = mutex.withLock {
-        Timber.tag(TAG).v("save(container=%s)", container)
-        save(key = PKEY_ALLOW_LIST_SERVICE_PROVIDER, value = container.serviceProviderAllowList)
-        save(key = PKEY_ALLOW_LIST_VALIDATION_SERVICE, value = container.validationServiceAllowList)
-    }
-
-    private inline fun <reified T> load(key: String): Set<T> = try {
-        Timber.tag(TAG).v("load(key=%s)", key)
-        val json = prefs.getString(key, null)
-
-        when (json != null) {
-            true -> gson.fromJson(json)
-            false -> emptySet()
+    private fun File.load(): ByteArray? = try {
+        if (exists()) {
+            readBytes()
+        } else {
+            Timber.tag(TAG).v("%s does not exist", name)
+            null
         }
     } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Loading data failed. Fallback to empty set.")
-        emptySet()
+        Timber.tag(TAG).w(e, "Failed to load data from %s. Returning null.", name)
+        null
     }
 
-    private inline fun <reified T> save(key: String, value: Set<T>) = try {
-        Timber.tag(TAG).v("save(key=%s, value=%s)", key, value)
-        prefs.edit(commit = true) {
-            val type = object : TypeToken<Set<T>>() {}.type
-            val json = gson.toJson(value, type)
-            putString(key, json)
+    private fun File.save(data: ByteArray) = try {
+        if (exists()) {
+            Timber.tag(TAG).v("Replacing %s with new data", name)
         }
+        parentFile?.mkdirs()
+        writeBytes(data)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Saving data failed.")
+    }
+
+    suspend fun clear() = mutex.withLock {
+        localStorage.run {
+            if (exists()) {
+                val success = deleteRecursively()
+                Timber.tag(TAG).d("Deleted %s successfully %b", name, success)
+            } else {
+                Timber.tag(TAG).d("%s did not exist, so nothing to delete", name)
+            }
+        }
     }
 
     companion object {
         private val TAG = tag<DccTicketingAllowListStorage>()
 
-        private const val PREF_NAME = "allowlist_localdata"
-        private const val PKEY_ALLOW_LIST_VALIDATION_SERVICE = "allow_list_validation_service"
-        private const val PKEY_ALLOW_LIST_SERVICE_PROVIDER = "allow_list_service_provider"
+        private const val ALLOW_LIST_FILE_NAME = "dcc_ticketing_allow_list_raw"
     }
 }
