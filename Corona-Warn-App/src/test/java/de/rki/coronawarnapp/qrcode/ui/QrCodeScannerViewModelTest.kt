@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException

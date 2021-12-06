@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccticketing.core.service
 
 import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.processor.AccessTokenRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ResultTokenInput
@@ -28,17 +29,22 @@ class DccTicketingRequestService @Inject constructor(
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
-        url: String
+        url: String,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult =
         execute("Failed to get validation decorator from $url") {
             Timber.tag(TAG).d("requestValidationDecorator(url=%s)", url)
-            validationDecoratorRequestProcessor.requestValidationDecorator(url)
+            validationDecoratorRequestProcessor.requestValidationDecorator(
+                url,
+                validationServiceAllowList
+            )
         }
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
-        validationServiceJwkSet: Set<DccJWK>
+        validationServiceJwkSet: Set<DccJWK>,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceRequestProcessor.ValidationServiceResult =
         execute("Failed to get validation service from ${validationService.serviceEndpoint}") {
             Timber.tag(TAG).d(
@@ -46,7 +52,11 @@ class DccTicketingRequestService @Inject constructor(
                 validationService,
                 validationServiceJwkSet
             )
-            validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet)
+            validationServiceRequestProcessor.requestValidationService(
+                validationService,
+                validationServiceJwkSet,
+                validationServiceAllowList
+            )
         }
 
     @Suppress("LongParameterList")
