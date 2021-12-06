@@ -16,7 +16,7 @@ data class PersonCertificates(
     }
 
     // TODO: would be implemented in admission state logic task
-    val admissionState = AdmissionState.ThreeGWithPCR(highestPriorityCertificate!!)
+    val admissionState: AdmissionState = AdmissionState.ThreeGWithPCR(highestPriorityCertificate!!)
 
     sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
         class TwoGPlusPCR(twoGCertificate: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -90,6 +91,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
                 )
             )
+
+            if (personCertificates.admissionState !is PersonCertificates.AdmissionState.Other) {
+                add(
+                    ConfirmedStatusCard.Item(
+                        admissionState = personCertificates.admissionState,
+                        colorShade = colorShade
+                    )
+                )
+            }
 
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
