@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 internal class DccTicketingJwkFilterTest : BaseTest() {
 
     private val jwk1 = DccJWK(
