@@ -56,10 +56,10 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
-        val onUserCancelAction = { viewModel.onUserCancel() }
+        val onBackAction = { viewModel.goBack() }
 
-        toolbar.setNavigationOnClickListener { onUserCancelAction() }
-        cancelButton.setOnClickListener { onUserCancelAction() }
+        toolbar.setNavigationOnClickListener { onBackAction() }
+        cancelButton.setOnClickListener { viewModel.showCancelConfirmationDialog() }
         agreeButton.setOnClickListener { viewModel.onUserConsent() }
 
         privacyInformation.setOnClickListener {
@@ -89,12 +89,13 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
             agreeButton.isLoading = it
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onUserCancelAction() }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onBackAction() }
     }
 
     private fun handleEvents(event: DccTicketingConsentTwoEvent) {
         Timber.d("handleEvents(event=%s)", event)
         when (event) {
+            NavigateToHome -> findNavController().navigate(R.id.action_dcc_ticketing_nav_graph_pop)
             NavigateBack -> popBackStack()
             NavigateToValidationResult -> doNavigate(
                 DccTicketingConsentTwoFragmentDirections.actionConsentTwoFragmentToValidationResultFragment()
@@ -109,7 +110,7 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
     private fun showCloseDialog() {
         DccTicketingDialogType.ConfirmCancelation.show(
             fragment = this,
-            negativeButtonAction = { viewModel.goBack() }
+            negativeButtonAction = { viewModel.cancel() }
         )
     }
 
