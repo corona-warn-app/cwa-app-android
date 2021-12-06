@@ -16,14 +16,17 @@ data class PersonCertificates(
     }
 
     sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
-        class Is2GPlusPCR(certificate2G: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
-            AdmissionState(certificate2G)
+        class TwoGPlusPCR(twoGCertificate: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
+            AdmissionState(twoGCertificate)
 
-        class Is2GPlusRAT(certificate2G: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
-            AdmissionState(certificate2G)
+        class TwoGPlusRAT(twoGCertificate: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
+            AdmissionState(twoGCertificate)
 
-        class Is2G(certificate2G: CwaCovidCertificate) : AdmissionState(certificate2G)
-        class Is3GWithPCR(certificateTest: CwaCovidCertificate) : AdmissionState(certificateTest)
-        class Is3GWithRAT(certificateTest: CwaCovidCertificate) : AdmissionState(certificateTest)
+        class TwoG(twoGCertificate: CwaCovidCertificate) : AdmissionState(twoGCertificate)
+
+        class ThreeGWithPCR(testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
+        class ThreeGWithRAT(testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
+
+        class Other(certificate: CwaCovidCertificate) : AdmissionState(certificate)
     }
 }

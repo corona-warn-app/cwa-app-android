@@ -146,7 +146,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
@@ -169,7 +169,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
@@ -184,7 +184,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
@@ -196,7 +196,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
@@ -208,7 +208,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
@@ -223,7 +223,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
@@ -238,7 +238,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.Is2G(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(
                         mockTestCertificate("Andrea Schneider")
                     ),
                     onClickAction = { _, _ -> },
