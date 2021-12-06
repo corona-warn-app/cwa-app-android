@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
+import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException.ErrorCode
-import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.SP_ALLOWLIST_NO_MATCH
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import okio.ByteString.Companion.encodeUtf8
 import javax.inject.Inject
 
 class DccTicketingQrCodeHandler @Inject constructor(
@@ -15,7 +20,13 @@ class DccTicketingQrCodeHandler @Inject constructor(
     private val allowListRepository: DccTicketingAllowListRepository,
 ) {
     suspend fun handleQrCode(qrCode: DccTicketingQrCode): DccTicketingTransactionContext {
-        val validationServiceAllowList = allowListRepository.refresh().validationServiceAllowList
+        val container = allowListRepository.refresh()
+
+        container.serviceProviderAllowList.validateServiceProvider(
+            qrCode.data.serviceProvider
+        )
+
+        val validationServiceAllowList = container.validationServiceAllowList
         val transactionContext = DccTicketingTransactionContext(
             initializationData = qrCode.data
         ).decorate(validationServiceAllowList)
@@ -32,6 +43,13 @@ class DccTicketingQrCodeHandler @Inject constructor(
             allowlist = filteringResult.filteredAllowlist,
             validationServiceJwkSet = filteringResult.filteredJwkSet
         )
+    }
+
+    private fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceProvider(serviceProvider: String) {
+        val hash = serviceProvider.toSHA256().encodeUtf8()
+        if (this.find { it.serviceIdentityHash == hash } == null) {
+            throw DccTicketingException(SP_ALLOWLIST_NO_MATCH)
+        }
     }
 
     suspend fun DccTicketingTransactionContext.decorate(
