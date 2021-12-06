@@ -38,10 +38,9 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
         constructorCall = { factory, _ ->
             factory as DccTicketingConsentOneViewModel.Factory
             factory.create(
-                dccTicketingSharedViewModel = dccTicketingSharedViewModel.also {
-                    val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(args.transactionContextIdentifier)
-                    it.updateTransactionContext(ctx)
-                }
+                dccTicketingSharedViewModel = dccTicketingSharedViewModel,
+                qrcodeSharedViewModel = qrcodeSharedViewModel,
+                args.transactionContextIdentifier
             )
         }
     )
