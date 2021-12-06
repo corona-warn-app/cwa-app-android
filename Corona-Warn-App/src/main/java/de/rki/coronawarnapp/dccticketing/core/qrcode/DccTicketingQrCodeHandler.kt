@@ -18,6 +18,7 @@ class DccTicketingQrCodeHandler @Inject constructor(
     private val requestService: DccTicketingRequestService,
     private val dccTicketingJwkFilter: DccTicketingJwkFilter,
     private val allowListRepository: DccTicketingAllowListRepository,
+    private val qrCodeSettings: DccTicketingQrCodeSettings,
 ) {
     suspend fun handleQrCode(qrCode: DccTicketingQrCode): DccTicketingTransactionContext {
         val container = allowListRepository.refresh()
@@ -27,6 +28,7 @@ class DccTicketingQrCodeHandler @Inject constructor(
         )
 
         val validationServiceAllowList = container.validationServiceAllowList
+
         val transactionContext = DccTicketingTransactionContext(
             initializationData = qrCode.data
         ).decorate(validationServiceAllowList)
@@ -46,10 +48,9 @@ class DccTicketingQrCodeHandler @Inject constructor(
     }
 
     private fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceProvider(serviceProvider: String) {
+        if (!qrCodeSettings.checkServiceProvider.value) return
         val hash = serviceProvider.toSHA256().encodeUtf8()
-        if (this.find { it.serviceIdentityHash == hash } == null) {
-            throw DccTicketingException(SP_ALLOWLIST_NO_MATCH)
-        }
+        find { it.serviceIdentityHash == hash } ?: throw DccTicketingException(SP_ALLOWLIST_NO_MATCH)
     }
 
     suspend fun DccTicketingTransactionContext.decorate(

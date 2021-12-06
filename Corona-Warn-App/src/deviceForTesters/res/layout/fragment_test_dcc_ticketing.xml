@@ -59,6 +59,25 @@
                     android:layout_height="wrap_content"
                     android:text="Open Consent I screen" />
             </LinearLayout>
+
+            <LinearLayout
+                style="@style/Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Check against allow list" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swich_service_provider_check"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Service provider" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
