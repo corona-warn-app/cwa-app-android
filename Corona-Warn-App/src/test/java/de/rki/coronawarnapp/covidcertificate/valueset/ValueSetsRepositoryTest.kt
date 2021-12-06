@@ -20,6 +20,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockkStatic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
@@ -38,19 +39,21 @@ class ValueSetsRepositoryTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         certificateValueSetServer.apply {
             coEvery { getVaccinationValueSets(any()) } returns null
             coEvery { getVaccinationValueSets(languageCode = Locale.ENGLISH) } returns valueSetsContainerEn
             coEvery { getVaccinationValueSets(languageCode = Locale.GERMAN) } returns valueSetsContainerDe
             every { clear() } just Runs
-            every { context.getLocale() } returns Locale.GERMAN
         }
 
         valueSetsStorage.apply {
             coEvery { save(any()) } just Runs
             coEvery { load() } returns emptyValueSetsContainer
         }
+
+        every { context.getLocale() } returns Locale.GERMAN
     }
 
     private fun createInstance(scope: CoroutineScope) = ValueSetsRepository(
