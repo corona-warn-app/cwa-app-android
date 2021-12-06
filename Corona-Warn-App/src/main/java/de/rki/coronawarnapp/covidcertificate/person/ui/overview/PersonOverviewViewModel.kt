@@ -76,8 +76,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 if (certificate != null) {
                     add(
                         PersonCertificateCard.Item(
-                            // TODO update data class with right certificates
-                            admissionState = PersonCertificates.AdmissionState.TwoG(certificate),
+                            admissionState = person.admissionState,
                             colorShade = color,
                             badgeCount = badgeCount,
                             onClickAction = { _, position ->
