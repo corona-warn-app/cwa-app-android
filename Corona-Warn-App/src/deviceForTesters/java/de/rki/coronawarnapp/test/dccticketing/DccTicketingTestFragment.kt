@@ -35,7 +35,7 @@ class DccTicketingTestFragment : Fragment(R.layout.fragment_test_dcc_ticketing),
                 findNavController().navigate(R.id.dcc_ticketing_nav_graph)
             }
 
-            swichServiceIdentityCheck.isChecked = viewModel.checkServiceIdentity
+            swichServiceIdentityCheck.isChecked = viewModel.checkServiceIdentity.value
 
             swichServiceIdentityCheck.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.toggleServiceIdentityCheck(isChecked)

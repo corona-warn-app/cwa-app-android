@@ -16,7 +16,7 @@ class DccTicketingTestViewModel @AssistedInject constructor(
 
     val ecKeyPair = SingleLiveEvent<ECKeyPair>()
 
-    val checkServiceIdentity = qrCodeSettings.checkServiceIdentity.value
+    val checkServiceIdentity = qrCodeSettings.checkServiceIdentity
 
     fun generateECKeyPair() = launch {
         ecKeyPair.postValue(
