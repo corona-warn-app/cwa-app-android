@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.allowlist.filtering
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.createSha256Fingerprint
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -9,14 +9,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class DccTicketingJwkFilter @Inject constructor(
-    private val dccTicketingAllowListRepository: DccTicketingAllowListRepository,
     private val dccJWKConverter: DccJWKConverter,
 ) {
 
-    suspend fun filter(jwkSet: Set<DccJWK>): DccJwkFilteringResult {
+    fun filter(
+        jwkSet: Set<DccJWK>,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
+    ): DccJwkFilteringResult {
         Timber.tag(TAG).d("filter()")
-        val container = dccTicketingAllowListRepository.refresh()
-        val validationServiceAllowList = container.validationServiceAllowList
 
         val allowListFingerprints = validationServiceAllowList.map { it.fingerprint256 }
         val jwkFingerprintsMap = jwkSet.associateBy {

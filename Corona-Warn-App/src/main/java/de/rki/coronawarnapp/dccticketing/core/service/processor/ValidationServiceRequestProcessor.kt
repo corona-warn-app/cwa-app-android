@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
@@ -28,7 +29,8 @@ class ValidationServiceRequestProcessor @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
-        validationServiceJwkSet: Set<DccJWK>
+        validationServiceJwkSet: Set<DccJWK>,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceResult {
         Timber.tag(TAG).d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
@@ -37,6 +39,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
         )
 
         // 1. Call Service Identity Document
+        // TODO: Checking the Server Certificate Against an Allowlist.
         val serviceIdentityDocument = getServiceIdentityDocument(
             url = validationService.serviceEndpoint,
             jwkSet = validationServiceJwkSet
