@@ -23,7 +23,7 @@ class DccTicketingJwkFilter @Inject constructor(
             dccJWKConverter.createX509Certificate(jwk = it).createSha256Fingerprint()
         }
         val fingerprintIntersection = allowListFingerprints intersect jwkFingerprintsMap.keys.also {
-            Timber.tag(TAG).d("fingerprintIntersection=%s",it)
+            Timber.tag(TAG).d("fingerprintIntersection=%s", it)
         }
 
         val filteredAllowlist = validationServiceAllowList.filter {
