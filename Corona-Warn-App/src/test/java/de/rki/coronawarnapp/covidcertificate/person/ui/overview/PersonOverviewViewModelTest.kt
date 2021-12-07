@@ -104,10 +104,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                 )
             }
             (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                admissionState.primaryCertificate!!.fullName shouldBe "Zeebee"
             }
             (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                admissionState.primaryCertificate!!.fullName shouldBe "Andrea Schneider"
             }
         }
     }
@@ -132,10 +132,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                 )
             }
             (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                admissionState.primaryCertificate!!.fullName shouldBe "Zeebee"
             }
             (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                admissionState.primaryCertificate!!.fullName shouldBe "Andrea Schneider"
             }
         }
     }
@@ -153,13 +153,13 @@ class PersonOverviewViewModelTest : BaseTest() {
 
         instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                admissionState.primaryCertificate!!.fullName shouldBe "Andrea Schneider"
             }
             (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+                admissionState.primaryCertificate!!.fullName shouldBe "Erika Musterfrau"
             }
             (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+                admissionState.primaryCertificate!!.fullName shouldBe "Max Mustermann"
             }
         }
     }
@@ -176,19 +176,19 @@ class PersonOverviewViewModelTest : BaseTest() {
 
         instance.personCertificates.getOrAwaitValue().apply {
             (get(0) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                admissionState.primaryCertificate!!.fullName shouldBe "Zeebee"
             } // CWA user
             (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                admissionState.primaryCertificate!!.fullName shouldBe "Andrea Schneider"
             }
             (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+                admissionState.primaryCertificate!!.fullName shouldBe "Erika Musterfrau"
             }
             (get(3) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+                admissionState.primaryCertificate!!.fullName shouldBe "Max Mustermann"
             }
             (get(4) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee A"
+                admissionState.primaryCertificate!!.fullName shouldBe "Zeebee A"
             }
         }
     }

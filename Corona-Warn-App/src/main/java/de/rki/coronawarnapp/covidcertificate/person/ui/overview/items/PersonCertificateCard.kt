@@ -33,7 +33,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
 
         val color = when {
-            curItem.admissionState.primaryCertificate.isValid -> curItem.colorShade
+            curItem.admissionState.primaryCertificate!!.isValid -> curItem.colorShade
             else -> PersonColorShade.COLOR_INVALID
         }
         name.text = curItem.admissionState.primaryCertificate.fullName
@@ -73,6 +73,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId: Long = admissionState.primaryCertificate.personIdentifier.codeSHA256.hashCode().toLong()
+        override val stableId: Long =
+            admissionState.primaryCertificate!!.personIdentifier.codeSHA256.hashCode().toLong()
     }
 }
