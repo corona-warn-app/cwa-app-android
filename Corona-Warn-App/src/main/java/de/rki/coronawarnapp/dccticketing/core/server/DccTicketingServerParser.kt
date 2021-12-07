@@ -16,6 +16,7 @@ class DccTicketingServerParser @Inject constructor(
     @BaseGson private val gson: Gson
 ) {
 
+    @Throws(DccTicketingServerException::class)
     fun createServiceIdentityDocument(response: Response<ResponseBody>): DccTicketingServiceIdentityDocument =
         response.parse()
 
