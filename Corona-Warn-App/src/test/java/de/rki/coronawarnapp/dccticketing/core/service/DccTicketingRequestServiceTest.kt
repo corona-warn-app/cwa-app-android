@@ -232,6 +232,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
             signatureBase64 = "signatureBase64",
             signatureAlgorithm = "signatureAlgorithm",
             encryptionScheme = "encryptionScheme",
+            allowlist = emptySet()
         )
 
         with(instance) {
