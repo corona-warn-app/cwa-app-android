@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
@@ -18,7 +19,10 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
 ) {
 
     @Throws(DccTicketingException::class)
-    suspend fun requestValidationDecorator(url: String): ValidationDecoratorResult {
+    suspend fun requestValidationDecorator(
+        url: String,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
+    ): ValidationDecoratorResult {
         Timber.tag(TAG).d("requestServiceIdentityDocumentValidationDecorator(url=%s)", url)
 
         // 1. Call Service Identity Document
@@ -38,7 +42,10 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
             .findJwkSet(jwkSetType = JwkSetType.AccessTokenServiceJwkSet)
 
         // 6. Find validationService
-        val validationService = serviceIdentityDocument.findService(serviceType = ServiceType.ValidationService)
+        val validationService = serviceIdentityDocument.findService(
+            serviceType = ServiceType.ValidationService,
+            validationServiceAllowList = validationServiceAllowList
+        )
 
         // 7. Find validationServiceJwkSet
         val validationServiceJwkSet = serviceIdentityDocument
@@ -74,6 +81,31 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
         )
 
         val foundService = service.firstOrNull { it.type == serviceType.type }
+        if (foundService == null) {
+            Timber.tag(TAG).d("No matching entries for %s, aborting", serviceType)
+            throw DccTicketingException(errorCode = serviceType.notFoundErrorCode)
+        }
+        return foundService.also { Timber.d("Found %s=%s", serviceType.type, foundService) }
+    }
+
+    private fun DccTicketingServiceIdentityDocument.findService(
+        serviceType: ServiceType,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
+    ): DccTicketingService {
+        Timber.tag(TAG).d(
+            message = "findService(serviceType=%s, notFoundErrorCode=%s)",
+            serviceType.type,
+            serviceType.notFoundErrorCode
+        )
+
+        val foundService = service.filter { it.type == serviceType.type }
+            .firstOrNull { service ->
+                validationServiceAllowList.any { allowlistItem ->
+                    service.serviceEndpoint.startsWith(
+                        "https://${allowlistItem.hostname}"
+                    )
+                }
+            }
         if (foundService == null) {
             Timber.tag(TAG).d("No matching entries for %s, aborting", serviceType)
             throw DccTicketingException(errorCode = serviceType.notFoundErrorCode)

@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
+import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccJwkFilteringResult
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
+import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -15,6 +18,7 @@ import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -23,6 +27,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
 
     @MockK lateinit var requestService: DccTicketingRequestService
     @MockK lateinit var dccTicketingJwkFilter: DccTicketingJwkFilter
+    @MockK lateinit var allowListRepository: DccTicketingAllowListRepository
 
     private val qrcode = DccTicketingQrCode(
         qrCode = "QrCodeString",
@@ -47,20 +52,30 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     )
 
     private val mockkJwt = mockk<DccJWK>()
+    private val validationServiceAllowList = setOf(
+        DccTicketingValidationServiceAllowListEntry(
+            serviceProvider = "serviceProvider",
+            hostname = "eu.service.com",
+            fingerprint256 = "fingerprint256".decodeBase64()!!.sha256()
+        )
+    )
     private val filteringResult = DccJwkFilteringResult(
         filteredJwkSet = setOf(mockkJwt),
-        filteredAllowlist = emptySet()
+        filteredAllowlist = validationServiceAllowList
     )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        coEvery { allowListRepository.refresh() } returns DccTicketingAllowListContainer(
+            validationServiceAllowList = validationServiceAllowList
+        )
     }
 
     @Test
     fun `handleQrCode decorate TransactionContext`() = runBlockingTest {
-        coEvery { dccTicketingJwkFilter.filter(any()) } returns filteringResult
-        coEvery { requestService.requestValidationDecorator(any()) } returns decorator
+        coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
+        coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
 
         instance().handleQrCode(qrcode) shouldBe
             DccTicketingTransactionContext(
@@ -69,19 +84,20 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
                 accessTokenServiceJwkSet = decorator.accessTokenServiceJwkSet,
                 accessTokenSignJwkSet = decorator.accessTokenSignJwkSet,
                 validationService = decorator.validationService,
-                validationServiceJwkSet = decorator.validationServiceJwkSet,
+                validationServiceJwkSet = setOf(mockkJwt),
+                allowlist = validationServiceAllowList,
             )
 
         coVerifySequence {
-            requestService.requestValidationDecorator(any())
-            dccTicketingJwkFilter.filter(any())
+            requestService.requestValidationDecorator(any(), any())
+            dccTicketingJwkFilter.filter(any(), any())
         }
     }
 
     @Test
     fun `handleQrCode throws ALLOWLIST_NO_MATCH error`() = runBlockingTest {
-        coEvery { dccTicketingJwkFilter.filter(any()) } returns DccJwkFilteringResult(emptySet(), emptySet())
-        coEvery { requestService.requestValidationDecorator(any()) } returns decorator
+        coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns DccJwkFilteringResult(emptySet(), emptySet())
+        coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
 
         shouldThrow<DccTicketingAllowListException> {
             instance().handleQrCode(qrcode) shouldBe
@@ -98,6 +114,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
 
     private fun instance() = DccTicketingQrCodeHandler(
         requestService = requestService,
-        dccTicketingJwkFilter = dccTicketingJwkFilter
+        dccTicketingJwkFilter = dccTicketingJwkFilter,
+        allowListRepository = allowListRepository
     )
 }
