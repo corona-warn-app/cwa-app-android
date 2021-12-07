@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListEntry
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
@@ -158,8 +158,8 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
         )
     }
 
-    private fun generateDccTicketingAllowListEntry(): DccTicketingAllowListEntry {
-        return DccTicketingAllowListEntry(
+    private fun generateDccTicketingAllowListEntry(): DccTicketingValidationServiceAllowListEntry {
+        return DccTicketingValidationServiceAllowListEntry(
             serviceProvider = "Betreiber_ValidationService",
             hostname = "http://very-host-allow-provider",
             fingerprint256 = mockk()

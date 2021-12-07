@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsExposureWindowsSettings
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.datadonation.survey.SurveySettings
+import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.main.CWASettings
@@ -80,6 +81,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var boosterRulesRepository: BoosterRulesRepository
     @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
+    @MockK lateinit var dccTicketingAllowListRepository: DccTicketingAllowListRepository
 
     @BeforeEach
     fun setUp() {
@@ -121,7 +123,8 @@ internal class DataResetTest : BaseTest() {
         recoveryCertificateRepository = recoveryCertificateRepository,
         dscRepository = dscRepository,
         boosterRulesRepository = boosterRulesRepository,
-        exposureWindowsSettings = exposureWindowsSettings
+        exposureWindowsSettings = exposureWindowsSettings,
+        dccTicketingAllowListRepository = dccTicketingAllowListRepository
     )
 
     @Test
@@ -163,6 +166,7 @@ internal class DataResetTest : BaseTest() {
             recoveryCertificateRepository.clear()
             dscRepository.clear()
             boosterRulesRepository.clear()
+            dccTicketingAllowListRepository.clear()
         }
     }
 }

@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.allowlist.filtering
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListRepository
+import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class DccTicketingJwkFilter @Inject constructor(
@@ -10,7 +9,9 @@ class DccTicketingJwkFilter @Inject constructor(
 ) {
 
     suspend fun filter(jwkSet: Set<DccJWK>): DccJwkFilteringResult {
-        val allowList = dccTicketingAllowListRepository.allowList.first()
+        val container = dccTicketingAllowListRepository.refresh()
+        val validationServiceAllowList = container.validationServiceAllowList
+        val serviceProviderAllowList = container.serviceProviderAllowList
         // TODO
         return DccJwkFilteringResult(
             filteredAllowlist = emptySet(),
