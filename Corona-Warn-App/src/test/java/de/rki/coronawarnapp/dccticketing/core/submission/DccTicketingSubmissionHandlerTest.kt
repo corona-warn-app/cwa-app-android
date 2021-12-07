@@ -56,7 +56,7 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
             consent = "consent",
             serviceProvider = "service provider",
             subject = "subject",
-            token = "token"
+            token = "token",
         )
     )
 
@@ -142,7 +142,8 @@ class DccTicketingSubmissionHandlerTest : BaseTest() {
             validationServiceSignKeyJwkSet = setOf(dccJWK),
             ecPrivateKey = privateKey,
             accessTokenPayload = jwtTokenObject,
-            accessToken = "access token"
+            accessToken = "access token",
+            allowlist = emptySet()
         )
         every { converter.createPublicKey(any()) } returns publicKey
         every { securityTool.encryptAndSign(any()) } returns output
