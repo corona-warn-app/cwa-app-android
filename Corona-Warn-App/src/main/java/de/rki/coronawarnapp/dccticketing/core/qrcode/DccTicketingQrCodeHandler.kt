@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException.ErrorCode
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
