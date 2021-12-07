@@ -57,7 +57,8 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
         encryptionKeyBase64 = "encryptionKeyBase64",
         signatureBase64 = "signatureBase64",
         signatureAlgorithm = "signatureAlgorithm",
-        encryptionScheme = "encryptionScheme"
+        encryptionScheme = "encryptionScheme",
+        allowlist = emptySet()
     )
 
     @BeforeEach
@@ -67,7 +68,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
         val responseBody = mockk<ResponseBody>().apply { every { string() } returns jsonResultToken }
         response = Response.success(responseBody)
 
-        every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } just Runs
+        every { dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any()) } just Runs
         coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } returns response
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } just Runs
     }
@@ -81,45 +82,42 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
         coVerifySequence {
             dccTicketingServer.getResultToken(any(), any(), any())
-            dccTicketingServerCertificateChecker.checkCertificate(any(), any())
+            dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any())
             jwtVerification.verify(any(), any<Set<DccJWK>>())
         }
     }
 
     @Test
     fun `checkServerCertificate throws RTR_CERT_PIN_MISMATCH `() = runBlockingTest {
-        every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } throws
+        every { dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any()) } throws
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH)
 
-        val jwtSet = setOf<DccJWK>()
         shouldThrow<DccTicketingException> {
-            instance().checkServerCertificate(response, jwtSet)
+            instance().checkServerCertificate(response, input.allowlist)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_MISMATCH
     }
 
     @Test
     fun `checkServerCertificate throws RTR_CERT_PIN_HOST_MISMATCH `() = runBlockingTest {
-        every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } throws
+        every { dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any()) } throws
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
 
-        val jwtSet = setOf<DccJWK>()
         shouldThrow<DccTicketingException> {
-            instance().checkServerCertificate(response, jwtSet)
+            instance().checkServerCertificate(response, input.allowlist)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
 
-        every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } throws
+        every { dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(any(), any()) } throws
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH)
 
         shouldThrow<DccTicketingException> {
-            instance().checkServerCertificate(response, jwtSet)
+            instance().checkServerCertificate(response, input.allowlist)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
     }
 
     @Test
     fun `checkServerCertificate Pass`() = runBlockingTest {
-        val jwtSet = setOf<DccJWK>()
         shouldNotThrowAny {
-            instance().checkServerCertificate(response, jwtSet)
+            instance().checkServerCertificate(response, input.allowlist)
         }
     }
 
