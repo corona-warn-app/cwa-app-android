@@ -60,7 +60,8 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
         accessTokenServiceJwkSet = validationDecoratorResult.accessTokenServiceJwkSet,
         accessTokenSignJwkSet = validationDecoratorResult.accessTokenSignJwkSet,
         validationService = validationDecoratorResult.validationService,
-        validationServiceJwkSet = validationDecoratorResult.validationServiceJwkSet
+        validationServiceJwkSet = validationDecoratorResult.validationServiceJwkSet,
+        allowlist = emptySet()
     )
 
     private val validationServiceResult = ValidationServiceRequestProcessor.ValidationServiceResult(
@@ -104,7 +105,7 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         dccTicketingRequestService.apply {
-            coEvery { requestValidationService(any(), any()) } returns validationServiceResult
+            coEvery { requestValidationService(any(), any(), any()) } returns validationServiceResult
             coEvery { requestAccessToken(any(), any(), any(), any(), any(), any()) } returns accessTokenOutput
         }
 
@@ -129,7 +130,8 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
             ecPublicKeyBase64 = ecKeyPair.publicKeyBase64,
             accessToken = accessTokenOutput.accessToken,
             accessTokenPayload = accessTokenOutput.accessTokenPayload,
-            nonceBase64 = accessTokenOutput.nonceBase64
+            nonceBase64 = accessTokenOutput.nonceBase64,
+            allowlist = emptySet()
         )
     }
 
@@ -145,7 +147,13 @@ class DccTicketingConsentOneProcessorTest : BaseTest() {
                 updateTransactionContext(transactionContext)
             } shouldBe genericError
 
-            coEvery { dccTicketingRequestService.requestValidationService(any(), any()) } throws dccTicketingException
+            coEvery {
+                dccTicketingRequestService.requestValidationService(
+                    any(),
+                    any(),
+                    any()
+                )
+            } throws dccTicketingException
 
             shouldThrow<Exception> {
                 updateTransactionContext(transactionContext)

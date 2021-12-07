@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
@@ -35,6 +36,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     )
 
     private val validationServiceJwkSet = emptySet<DccJWK>()
+    private val validationAllowlist = emptySet<DccTicketingValidationServiceAllowListEntry>()
 
     private val jwkRSAOAEPWithSHA256AESCBC = DccJWK(
         x5c = listOf("x5c"),
@@ -171,7 +173,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationAllowlist
             )
         }.errorCode shouldBe DccTicketingErrorCode.VS_ID_NO_ENC_KEY
     }
@@ -192,7 +195,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationAllowlist
             )
         }.errorCode shouldBe DccTicketingErrorCode.VS_ID_NO_SIGN_KEY
     }
@@ -210,7 +214,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
 
         instance.requestValidationService(
             validationService = validationService,
-            validationServiceJwkSet = validationServiceJwkSet
+            validationServiceJwkSet = validationServiceJwkSet,
+            validationServiceAllowList = validationAllowlist
         ) shouldBe result
     }
 
@@ -269,7 +274,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationAllowlist
             )
         }.errorCode shouldBe processorErrorCode
     }
