@@ -2,15 +2,19 @@ package de.rki.coronawarnapp.dccticketing.ui.certificateselection
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingCertificateSelectionBinding
+import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
+import de.rki.coronawarnapp.dccticketing.ui.dialog.show
 import de.rki.coronawarnapp.dccticketing.ui.shared.DccTicketingSharedViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -39,19 +43,30 @@ class DccTicketingCertificateSelectionFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            toolbar.setNavigationOnClickListener { viewModel.closeScreen() }
+            toolbar.setNavigationOnClickListener { viewModel.onUserCancel() }
             recyclerView.apply {
                 adapter = certificatesAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
         }
-        viewModel.events.observe(viewLifecycleOwner) { event -> navigate(event) }
-        viewModel.items.observe(viewLifecycleOwner) { certificatesAdapter.update(it) }
+        viewModel.apply {
+            events.observe2(this@DccTicketingCertificateSelectionFragment) { event -> navigate(event) }
+            items.observe2(this@DccTicketingCertificateSelectionFragment) { certificatesAdapter.update(it) }
+        }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) { viewModel.onUserCancel() }
     }
 
-    private fun navigate(event: DccTicketingCertificateSelectionEvents?) {
+    private fun showCloseDialog() {
+        DccTicketingDialogType.ConfirmCancelation.show(
+            fragment = this,
+            negativeButtonAction = { viewModel.closeScreen() }
+        )
+    }
+
+    private fun navigate(event: DccTicketingCertificateSelectionEvents) {
         when (event) {
-            is CloseSelectionScreen -> popBackStack()
+            ShowCancelConfirmationDialog -> showCloseDialog()
+            CloseSelectionScreen -> popBackStack()
             is NavigateToConsentTwoFragment -> doNavigate(
                 DccTicketingCertificateSelectionFragmentDirections
                     .actionDccTicketingCertificateSelectionFragmentToDccTicketingConsentTwoFragment(
