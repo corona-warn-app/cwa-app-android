@@ -23,27 +23,27 @@ class DccTicketingConsentOneProcessor @Inject constructor(
 
     private suspend fun DccTicketingTransactionContext.requestServiceIdentityDocumentOfValidationService():
         DccTicketingTransactionContext {
-        Timber.tag(TAG).d("requestServiceIdentityDocumentOfValidationService")
+            Timber.tag(TAG).d("requestServiceIdentityDocumentOfValidationService")
 
-        requireNotNull(validationService) { "ctx.validationService must not be null" }
-        requireNotNull(validationServiceJwkSet) { "ctx.validationServiceJwkSet must not be null" }
-        requireNotNull(allowlist) { "ctx.validationServiceJwkSet must not be null" }
+            requireNotNull(validationService) { "ctx.validationService must not be null" }
+            requireNotNull(validationServiceJwkSet) { "ctx.validationServiceJwkSet must not be null" }
+            requireNotNull(allowlist) { "ctx.validationServiceJwkSet must not be null" }
 
-        val document = dccTicketingRequestService.requestValidationService(
-            validationService,
-            validationServiceJwkSet,
-            allowlist
-        )
+            val document = dccTicketingRequestService.requestValidationService(
+                validationService,
+                validationServiceJwkSet,
+                allowlist
+            )
 
-        return copy(
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
-            document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
-            validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
-            document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
-            validationServiceSignKeyJwkSet =
-            document.validationServiceSignKeyJwkSet
-        )
-    }
+            return copy(
+                validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =
+                document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC,
+                validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM =
+                document.validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESGCM,
+                validationServiceSignKeyJwkSet =
+                document.validationServiceSignKeyJwkSet
+            )
+        }
 
     private fun DccTicketingTransactionContext.generateECKeyPair(): DccTicketingTransactionContext {
         Timber.tag(TAG).d("generateECKeyPair()")

@@ -72,7 +72,6 @@ class DccTicketingException(
         RTR_NO_NETWORK(message = RTR_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
         RTR_SERVER_ERR(message = RTR_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
 
-
         /**
          * Validation Decorator error codes.
          * Failure when obtaining Service Identity Document of Validation Decorator; user may retry
