@@ -402,4 +402,41 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Bitte beachten Sie, dass in anderen Ländern gegebenenfalls andere Apps zur Zertifikatsprüfung durch Dritte verwendet werden."</string>
 
+    <!-- #####################################################
+        CONFIRMED STATUS CARD
+        ##################################################### -->
+
+    <!-- XTXT: Confirmed status card title -->
+    <string name="confirmed_status_title">"Status-Nachweis"</string>
+
+    <!-- XTXT: Confirmed status card 2g+ PCR subtitle -->
+    <string name="confirmed_status_2g_pcr_subtitle">"2G+ PCR-Test"</string>
+    <!-- XTXT: Confirmed status card 2g+ RAT subtitle -->
+    <string name="confirmed_status_2g_rat_subtitle">"2G+ Schnelltest"</string>
+
+    <!-- XTXT: Confirmed status card 2G badge -->
+    <string name="confirmed_status_2g_badge">"2G"</string>
+    <!-- XTXT: Confirmed status card 2G+ badge -->
+    <string name="confirmed_status_2g_plus_badge">"2G+"</string>
+    <!-- XTXT: Confirmed status card 3G badge -->
+    <string name="confirmed_status_3g_badge">"3G"</string>
+    <!-- XTXT: Confirmed status card 3G+ badge -->
+    <string name="confirmed_status_3g_plus_badge">"3G+"</string>
+
+    <!-- XTXT: Confirmed status card 2G body -->
+    <string name="confirmed_status_2g_body">"Ihre Zertifikate ermöglichen Ihnen Zutritt für 2G Events. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
+    <!-- XTXT: Confirmed status card 2G+ body -->
+    <string name="confirmed_status_2g_plus_body">"Ihre Zertifikate ermöglichen Ihnen Zutritt für 2G+ Events. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
+    <!-- XTXT: Confirmed status card 3G body -->
+    <string name="confirmed_status_3g_body">"Ihre Zertifikate ermöglichen Ihnen Zutritt für 3G Events. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
+    <!-- XTXT: Confirmed status card 3G+ body -->
+    <string name="confirmed_status_3g_plus_body">"Ihre Zertifikate ermöglichen Ihnen Zutritt für 3G+ Events. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
+
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_text">"Mehr Informationen finden Sie in den FAQ."</string>
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_label">"FAQ"</string>
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_link">"https://www.coronawarn.app/de/faq/"</string>
+
 </resources>

@@ -114,6 +114,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-        override val stableId: Long = admissionState.primaryCertificate.personIdentifier.codeSHA256.hashCode().toLong()
+        override val stableId: Long =
+            admissionState.primaryCertificate!!.personIdentifier.codeSHA256.hashCode().toLong()
     }
 }
