@@ -1,12 +1,8 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
-import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException.ErrorCode
-import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
-import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException.ErrorCode
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
@@ -25,7 +21,6 @@ class DccTicketingQrCodeHandler @Inject constructor(
     private val qrCodeSettings: DccTicketingQrCodeSettings,
 ) {
     suspend fun handleQrCode(qrCode: DccTicketingQrCode): DccTicketingTransactionContext {
-        val validationServiceAllowList = allowListRepository.refresh().validationServiceAllowList
         val container = allowListRepository.refresh()
 
         container.serviceProviderAllowList.validateServiceIdentity(
