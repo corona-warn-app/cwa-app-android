@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.valueset
 
+import android.content.Context
 import dagger.Reusable
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.valueset.server.CertificateValueSetServer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
@@ -10,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsCo
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.isEmpty
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +33,8 @@ class ValueSetsRepository @Inject constructor(
     private val certificateValueSetServer: CertificateValueSetServer,
     private val valueSetsStorage: ValueSetsStorage,
     @AppScope private val scope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    @AppContext context: Context,
 ) {
 
     private val internalData: HotDataFlow<ValueSetsContainer> = HotDataFlow(
@@ -44,7 +48,10 @@ class ValueSetsRepository @Inject constructor(
 
     init {
         internalData.data
-            .onStart { Timber.d("Observing value set") }
+            .onStart {
+                triggerUpdateValueSet(languageCode = context.getLocale())
+                Timber.d("Observing value set")
+            }
             .drop(1) // Initial emission that ways restored from storage anyways.
             .onEach {
                 Timber.v("Storing new valueset data.")
