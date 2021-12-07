@@ -52,8 +52,7 @@ class DccTicketingCoreModule {
     fun allowListApi(
         @DownloadCDNHttpClient httpClient: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        @DccTicketing cache: Cache,
-        gsonConverterFactory: GsonConverterFactory
+        @DccTicketing cache: Cache
     ): DccTicketingAllowListApi1 = Retrofit.Builder()
         .client(
             httpClient.newBuilder()
@@ -63,6 +62,14 @@ class DccTicketingCoreModule {
         .baseUrl(url)
         .build()
         .create(DccTicketingAllowListApi1::class.java)
+
+    @Singleton
+    @Provides
+    @DccTicketing
+    // Create in files dir to be in line with tech spec
+    fun localStorageDir(
+        @AppContext context: Context
+    ): File = File(context.filesDir, "dcc_ticketing_local_storage")
 
     @Singleton
     @Provides
