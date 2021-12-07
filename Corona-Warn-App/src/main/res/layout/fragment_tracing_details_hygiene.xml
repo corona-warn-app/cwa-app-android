@@ -7,10 +7,11 @@
     android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/settings_notifications_header"
+        android:id="@+id/toolbar"
         style="@style/CWAToolbar.Close"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@color/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_notifications_header">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"

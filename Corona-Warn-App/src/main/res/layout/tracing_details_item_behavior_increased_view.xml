@@ -58,7 +58,7 @@
             android:focusable="true"
             android:foregroundTint="@color/colorStableLight"
             android:icon="@drawable/ic_thermometer"
-            android:text="@string/risk_details_faq_symptoms" />
+            android:text="@string/risk_details_faq_symptoms_increase" />
 
         <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
             android:layout_width="match_parent"
