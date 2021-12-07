@@ -48,7 +48,7 @@ class QrcodeSharedViewModel : ViewModel() {
     fun dccTicketingTransactionContext(transactionContextIdentifier: String): DccTicketingTransactionContext {
         return dccTicketingTransactionContextCache.remove(transactionContextIdentifier)
             ?: throw IllegalArgumentException(
-                "DccTicketingTransactionContext must be privided " +
+                "DccTicketingTransactionContext must be provided " +
                     "by putDccTicketingTransactionContext first from start destination"
             )
     }
