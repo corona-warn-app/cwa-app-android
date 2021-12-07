@@ -139,9 +139,6 @@ class DccTicketingServerCertificateChecker @Inject constructor(
         }
     }
 
-    private fun Certificate.createSha256Fingerprint(): ByteString = encoded.toByteString()
-        .sha256()
-
     // Takes the first 8 bytes of the SHA-256 fingerprint of the certificate and encodes them with base64
     private fun Certificate.createKid(): String = createSha256Fingerprint()
         .substring(0, BYTE_COUNT)
@@ -169,5 +166,7 @@ class DccTicketingServerCertificateChecker @Inject constructor(
         private val TAG = tag<DccTicketingServerCertificateChecker>()
     }
 }
+
+fun Certificate.createSha256Fingerprint(): ByteString = encoded.toByteString().sha256()
 
 private const val BYTE_COUNT: Int = 8
