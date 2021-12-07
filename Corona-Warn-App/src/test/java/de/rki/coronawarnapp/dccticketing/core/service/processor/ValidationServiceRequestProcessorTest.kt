@@ -41,7 +41,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
             dccTicketingServerParser = dccTicketingServerParser
         )
 
-    val response: Response<ResponseBody> = mockk{
+    val response: Response<ResponseBody> = mockk {
         every { raw() } returns mockk()
     }
 
