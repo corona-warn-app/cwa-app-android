@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
@@ -15,6 +16,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
+import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -27,6 +29,13 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
         get() = ValidationDecoratorRequestProcessor(dccTicketingServer = dccTicketingServer)
 
     private val url = "url"
+    private val validationServiceAllowList = setOf(
+        DccTicketingValidationServiceAllowListEntry(
+            serviceProvider = "serviceProvider",
+            hostname = "eu.service.com",
+            fingerprint256 = "fingerprint256".decodeBase64()!!.sha256()
+        )
+    )
 
     private val accessTokenServiceJWK = DccJWK(
         x5c = listOf("accessTokenServiceJWK"),
@@ -54,7 +63,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     private val accessTokenService = DccTicketingService(
         id = "id",
         type = "AccessTokenService",
-        serviceEndpoint = "serviceEndpoint",
+        serviceEndpoint = "https://eu.service.com",
         name = "name"
     )
 
@@ -82,7 +91,10 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
             validationService = validationService,
             validationServiceJwkSet = setOf(validationServiceKey.publicKeyJwk!!)
         )
-        instance.requestValidationDecorator(url = url) shouldBe validationDecoratorResult
+        instance.requestValidationDecorator(
+            url = url,
+            validationServiceAllowList = validationServiceAllowList
+        ) shouldBe validationDecoratorResult
 
         coVerify { dccTicketingServer.getServiceIdentityDocument(url = url) }
     }
@@ -153,7 +165,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
         } throws serverException
 
         shouldThrow<DccTicketingException> {
-            requestValidationDecorator(url = url)
+            requestValidationDecorator(url = url, validationServiceAllowList = validationServiceAllowList)
         }.errorCode shouldBe processorErrorCode
     }
 
@@ -164,7 +176,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
         coEvery { dccTicketingServer.getServiceIdentityDocument(any()) } returns document
 
         shouldThrow<DccTicketingException> {
-            instance.requestValidationDecorator(url = url)
+            instance.requestValidationDecorator(url = url, validationServiceAllowList = validationServiceAllowList)
         }.errorCode shouldBe errorCode
     }
 
