@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
-import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
@@ -36,7 +35,6 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     )
 
     private val validationServiceJwkSet = emptySet<DccJWK>()
-    private val validationAllowlist = emptySet<DccTicketingValidationServiceAllowListEntry>()
 
     private val jwkRSAOAEPWithSHA256AESCBC = DccJWK(
         x5c = listOf("x5c"),
@@ -173,8 +171,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet,
-                validationServiceAllowList = validationAllowlist
+                validationServiceJwkSet = validationServiceJwkSet
             )
         }.errorCode shouldBe DccTicketingErrorCode.VS_ID_NO_ENC_KEY
     }
@@ -195,8 +192,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet,
-                validationServiceAllowList = validationAllowlist
+                validationServiceJwkSet = validationServiceJwkSet
             )
         }.errorCode shouldBe DccTicketingErrorCode.VS_ID_NO_SIGN_KEY
     }
@@ -214,8 +210,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
 
         instance.requestValidationService(
             validationService = validationService,
-            validationServiceJwkSet = validationServiceJwkSet,
-            validationServiceAllowList = validationAllowlist
+            validationServiceJwkSet = validationServiceJwkSet
         ) shouldBe result
     }
 
@@ -241,9 +236,16 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
 
             checkServerErrorMapping(
                 serverCertCheckErrorCode =
+                DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH,
+                processorErrorCode =
+                DccTicketingErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
+            )
+
+            checkServerErrorMapping(
+                serverCertCheckErrorCode =
                 DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID,
                 processorErrorCode =
-                DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
+                DccTicketingErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
             )
             checkServerErrorMapping(
                 serverCertCheckErrorCode = DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH,
@@ -274,8 +276,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet,
-                validationServiceAllowList = validationAllowlist
+                validationServiceJwkSet = validationServiceJwkSet
             )
         }.errorCode shouldBe processorErrorCode
     }

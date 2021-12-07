@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import dagger.Reusable
-import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.*
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
@@ -29,8 +29,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
-        validationServiceJwkSet: Set<DccJWK>,
-        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
+        validationServiceJwkSet: Set<DccJWK>
     ): ValidationServiceResult {
         Timber.tag(TAG).d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
@@ -39,7 +38,6 @@ class ValidationServiceRequestProcessor @Inject constructor(
         )
 
         // 1. Call Service Identity Document
-        // TODO: Checking the Server Certificate Against an Allowlist.
         val serviceIdentityDocument = getServiceIdentityDocument(
             url = validationService.serviceEndpoint,
             jwkSet = validationServiceJwkSet
@@ -105,9 +103,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
     } catch (e: DccTicketingServerCertificateCheckException) {
         Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
-                DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
+            CERT_PIN_HOST_MISMATCH,
+            CERT_PIN_NO_JWK_FOR_KID ->
+                DccTicketingErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
+            CERT_PIN_MISMATCH ->
                 DccTicketingErrorCode.VS_ID_CERT_PIN_MISMATCH
         }.let { DccTicketingException(errorCode = it, cause = e) }
     }

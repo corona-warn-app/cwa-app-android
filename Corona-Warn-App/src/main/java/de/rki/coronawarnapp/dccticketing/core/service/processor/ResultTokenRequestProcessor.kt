@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.core.service.processor
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.*
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
@@ -60,9 +61,10 @@ class ResultTokenRequestProcessor @Inject constructor(
     } catch (e: DccTicketingServerCertificateCheckException) {
         Timber.tag(TAG).e(e, "checkServerCertificate for result token failed")
         throw when (e.errorCode) {
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
-                DccTicketingException.ErrorCode.RTR_CERT_PIN_NO_JWK_FOR_KID
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
+            CERT_PIN_HOST_MISMATCH,
+            CERT_PIN_NO_JWK_FOR_KID ->
+                DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
+            CERT_PIN_MISMATCH ->
                 DccTicketingException.ErrorCode.RTR_CERT_PIN_MISMATCH
         }.let { DccTicketingException(it) }
     }

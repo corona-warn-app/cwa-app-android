@@ -98,14 +98,21 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     }
 
     @Test
-    fun `checkServerCertificate throws RTR_CERT_PIN_NO_JWK_FOR_KID `() = runBlockingTest {
+    fun `checkServerCertificate throws RTR_CERT_PIN_HOST_MISMATCH `() = runBlockingTest {
         every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } throws
             DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
 
         val jwtSet = setOf<DccJWK>()
         shouldThrow<DccTicketingException> {
             instance().checkServerCertificate(response, jwtSet)
-        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_NO_JWK_FOR_KID
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
+
+        every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } throws
+            DccTicketingServerCertificateCheckException(DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH)
+
+        shouldThrow<DccTicketingException> {
+            instance().checkServerCertificate(response, jwtSet)
+        }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
     }
 
     @Test
