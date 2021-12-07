@@ -137,6 +137,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     }
 }
 
+@Suppress("LongParameterList", "ComplexMethod")
 fun PersonOverviewItemBinding.setUIState(
     primaryCertificate: CwaCovidCertificate,
     secondaryCertificate: CwaCovidCertificate? = null,
@@ -219,7 +220,6 @@ fun PersonOverviewItemBinding.setUIState(
             expirationStatusIcon.isVisible = false
             expirationStatusText.isVisible = false
         }
-
     }
 }
 
