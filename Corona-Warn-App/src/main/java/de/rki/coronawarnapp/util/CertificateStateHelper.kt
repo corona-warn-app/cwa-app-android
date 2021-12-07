@@ -1,24 +1,32 @@
 package de.rki.coronawarnapp.util
 
+import android.content.Context
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import coil.loadAny
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
+import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
+import de.rki.coronawarnapp.util.coil.loadingView
+import java.util.Locale
 
 @Suppress("LongParameterList", "ComplexMethod")
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
-    isPersonOverview: Boolean = false,
     isPersonDetails: Boolean = false,
     isCertificateDetails: Boolean = false,
     badgeCount: Int = 0,
@@ -41,9 +49,6 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             certificate.hasNotificationBadge &&
             certificate.getState() !is CwaCovidCertificate.State.Valid
     }
-
-    qrTitle.isVisible = !isPersonOverview
-    qrSubtitle.isVisible = !isPersonOverview
 
     when (certificate) {
         is TestCertificate -> {
@@ -130,10 +135,99 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             startValidationCheckButton.isVisible = isPersonDetails
         }
     }
+}
+
+fun PersonOverviewItemBinding.setUIState(
+    primaryCertificate: CwaCovidCertificate,
+    secondaryCertificate: CwaCovidCertificate? = null,
+    colorShade: PersonColorShade,
+    isCombinedCertificate: Boolean,
+    statusBadgeText: Int,
+    badgeCount: Int = 0,
+    onCovPassInfoAction: () -> Unit
+) {
+    val valid = primaryCertificate.isValid
+    val context = root.context
+    val color = when {
+        primaryCertificate.isValid -> colorShade
+        else -> PersonColorShade.COLOR_INVALID
+    }
+    backgroundImage.setImageResource(color.background)
+    starsImage.setImageDrawable(starsDrawable(context, color))
+    name.text = primaryCertificate.fullName
+
+    qrCodeCard.apply {
+        image.loadAny(primaryCertificate.getValidQrCode(Locale.getDefault().language)) {
+            crossfade(true)
+            loadingView(qrCodeCard.image, qrCodeCard.progressBar)
+        }
+        statusText.isVisible = valid
+        statusBadge.isVisible = valid
+        statusBadge.text = context.getString(statusBadgeText)
+        covpassInfoTitle.isVisible = valid
+        covpassInfoButton.isVisible = valid
+        covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
+        invalidOverlay.isGone = valid
+        image.isEnabled = valid
+        certificateToggleGroup.isVisible = isCombinedCertificate && valid
+        certificateToggleGroup.setOnCheckedChangeListener { checkedId ->
+            when (checkedId) {
+                R.id.primary_certificate -> {
+                    image.loadAny(primaryCertificate.getValidQrCode(Locale.getDefault().language)) {
+                        crossfade(true)
+                        loadingView(qrCodeCard.image, qrCodeCard.progressBar)
+                    }
+                }
+                R.id.secondary_certificate -> {
+                    image.loadAny(secondaryCertificate?.getValidQrCode(Locale.getDefault().language)) {
+                        crossfade(true)
+                        loadingView(qrCodeCard.image, qrCodeCard.progressBar)
+                    }
+                }
+            }
+        }
+    }
     certificateBadgeCount.isVisible = badgeCount != 0
     certificateBadgeCount.text = badgeCount.toString()
     certificateBadgeText.isVisible = badgeCount != 0
+
+    when (primaryCertificate.displayedState()) {
+        is CwaCovidCertificate.State.Expired -> {
+            expirationStatusIcon.isVisible = badgeCount == 0
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
+            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            expirationStatusText.isVisible = badgeCount == 0
+            expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
+        }
+
+        is CwaCovidCertificate.State.Invalid -> {
+            expirationStatusIcon.isVisible = badgeCount == 0
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            expirationStatusText.isVisible = badgeCount == 0
+            expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
+        }
+        is CwaCovidCertificate.State.Blocked -> {
+            expirationStatusIcon.isVisible = badgeCount == 0
+            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            expirationStatusText.isVisible = badgeCount == 0
+            expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
+        }
+
+        else -> {
+            expirationStatusIcon.isVisible = false
+            expirationStatusText.isVisible = false
+        }
+
+    }
 }
+
+private fun starsDrawable(context: Context, colorShade: PersonColorShade) =
+    context.resources.mutateDrawable(
+        R.drawable.ic_eu_stars_blue,
+        context.getColorCompat(colorShade.starsTint)
+    )
 
 fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
     when (certificate.displayedState()) {

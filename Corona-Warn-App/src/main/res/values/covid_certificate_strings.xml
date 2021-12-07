@@ -20,6 +20,12 @@
     <string name="person_overview_scan_button">"Certificate"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"A certificate with a QR code symbol on it."</string>
+    <!-- XTXT: Overview certificate status text -->
+    <string name="person_overview_status_text">"Status-Nachweis"</string>
+    <!-- XTXT: Overview certificate 2G selection button text -->
+    <string name="person_overview_two_g_certificate_text">"2G-Zertifikat"</string>
+    <!-- XTXT: Overview screen test certificate selection button text -->
+    <string name="person_overview_test_certificate_text">"Testzertifikat"</string>
     <!-- XTXT: Person card title-->
     <string name="person_card_title">"EU"</string>
     <!-- XTXT: Person card subtitle-->

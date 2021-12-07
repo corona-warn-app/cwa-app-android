@@ -17,6 +17,9 @@
 
     <!--Cards-->
     <color name="colorCardBackgroundHighlightGray">@color/cwaGrayHighlight</color>
+    <color name="colorPersonOverviewQrCardGrey">#F8F8F8</color>
+    <color name="colorPersonOverviewQrCardBorder">#EDEDED</color>
+    <color name="colorCertificateSelectorButtonStroke">#B9BABA</color>
 
     <!-- Text -->
     <color name="colorOnPrimary">#17191A</color>
