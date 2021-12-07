@@ -125,8 +125,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
         }
         negativeTestProofBody.text = getString(proofBodyString)
 
-        negativeTestProofAdditionalInformation.isGone = isAnonymousTest
-
         when (uiState.certificateState) {
             RATResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
                 coronatestNegativeAntigenResultThirdInfo.setIsFinal(true)
