@@ -1,6 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoG
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusPCR
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusRAT
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -44,9 +50,9 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
 
 /**
  * 1
- * PCR Test Certificate <= 48 hours
+ * PCR Test Certificate <= 72 hours
  * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP6464-4 and the time difference between the
- * time represented by t[0].sc and the current device time is <= 48 hours, sorted descending by t[0].sc
+ * time represented by t[0].sc and the current device time is <= 72 hours, sorted descending by t[0].sc
  * (i.e. latest first).
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
@@ -56,14 +62,14 @@ private fun Collection<CwaCovidCertificate>.rule1FindRecentPcrCertificate(
 ): CwaCovidCertificate? = this
     .filterIsInstance<TestCertificate>()
     .filter { it.rawCertificate.test.testType == "LP6464-4" }
-    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(48) }
+    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(72) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
 /**
  * 2
- * RAT Test Certificate <= 24 hours
+ * RAT Test Certificate <= 48 hours
  * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP217198-3 and the time difference between
- * the time represented by t[0].sc and the current device time is <= 24 hours, sorted descending by t[0].sc
+ * the time represented by t[0].sc and the current device time is <= 48 hours, sorted descending by t[0].sc
  * (i.e. latest first).
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
@@ -73,7 +79,7 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
 ): CwaCovidCertificate? = this
     .filterIsInstance<TestCertificate>()
     .filter { it.rawCertificate.test.testType == "LP217198-3" }
-    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(24) }
+    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(48) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
 /**
@@ -195,9 +201,9 @@ private fun Collection<CwaCovidCertificate>.rule7FindOldRecovery(
 
 /**
  * 8
- * PCR Test Certificate > 48 hours
+ * PCR Test Certificate > 72 hours
  * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP6464-4 and the time difference between
- * the time represented by t[0].sc and the current device time is > 48 hours,
+ * the time represented by t[0].sc and the current device time is > 72 hours,
  * sorted descending by t[0].sc (i.e. latest first).
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
@@ -207,14 +213,14 @@ private fun Collection<CwaCovidCertificate>.rule8FindOldPcrTest(
 ): CwaCovidCertificate? = this
     .filterIsInstance<TestCertificate>()
     .filter { it.rawCertificate.test.testType == "LP6464-4" }
-    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) > Duration.standardHours(48) }
+    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) > Duration.standardHours(72) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
 /**
  * 9
- * RAT Test Certificate > 24 hours
+ * RAT Test Certificate > 48 hours
  * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP217198-3 and the time difference between
- * the time represented by t[0].sc and the current device time is > 24 hours,
+ * the time represented by t[0].sc and the current device time is > 48 hours,
  * sorted descending by t[0].sc (i.e. latest first).
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
@@ -224,7 +230,7 @@ private fun Collection<CwaCovidCertificate>.rule9FindOldRaTest(
 ): CwaCovidCertificate? = this
     .filterIsInstance<TestCertificate>()
     .filter { it.rawCertificate.test.testType == "LP217198-3" }
-    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) > Duration.standardHours(24) }
+    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) > Duration.standardHours(48) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
 @Suppress("ReturnCount", "ComplexMethod")
@@ -260,12 +266,12 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule1FindRecentPcrCertificate(nowUtc)?.let {
-            Timber.d("Rule 1 match (PCR Test Certificate <= 48 hours): %s", it)
+            Timber.d("Rule 1 match (PCR Test Certificate <= 72 hours): %s", it)
             return@mapNotNull it
         }
 
         certsForState.rule2FindRecentRaCertificate(nowUtc)?.let {
-            Timber.d("Rule 2 match (RA Test Certificate <= 24 hours): %s", it)
+            Timber.d("Rule 2 match (RA Test Certificate <= 48 hours): %s", it)
             return@mapNotNull it
         }
 
@@ -298,12 +304,12 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         }
 
         certsForState.rule8FindOldPcrTest(nowUtc)?.let {
-            Timber.d("Rule 8 match (PCR Test Certificate > 48 hours): %s", it)
+            Timber.d("Rule 8 match (PCR Test Certificate > 72 hours): %s", it)
             return@mapNotNull it
         }
 
         certsForState.rule9FindOldRaTest(nowUtc)?.let {
-            Timber.d("Rule 9 match (RAT Test Certificate > 24 hours): %s", it)
+            Timber.d("Rule 9 match (RAT Test Certificate > 48 hours): %s", it)
             return@mapNotNull it
         }
 
@@ -318,3 +324,65 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
          */
         Timber.e("No priority match, this should not happen: %s", this)
     }
+
+fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = Instant.now()): PersonCertificates.AdmissionState? {
+
+    Timber.v("Determining the admission state(nowUtc=%s): %s", nowUtc, this)
+
+    if (isEmpty()) {
+        Timber.v("Admission state cannot be determined, there are no certificates")
+        return null
+    }
+
+    // The operations from the tech spec are documented as comments here
+
+    // 1. validity state has to be VALID or EXPIRING_SOON
+    // => we are only passing valid certificates to this function
+
+    // 2. determine has2G: at least one valid vaccination or recovery certificate
+    val recentVaccination = rule3FindRecentLastShot(nowUtc)
+    val recentRecovery = rule4findRecentRecovery(nowUtc)
+
+    val hasVaccination = recentVaccination != null
+    val hasRecentRecovery = recentRecovery != null
+
+    val has2G = hasVaccination || hasRecentRecovery
+
+    // 3. determine hasPCR and 4. hasRAT
+    val recentPCR = rule1FindRecentPcrCertificate(nowUtc)
+    val recentRAT = rule2FindRecentRaCertificate(nowUtc)
+
+    val hasPCR = recentPCR != null
+    val hasRAT = recentRAT != null
+
+    // 5. determine admission state
+    when {
+        has2G -> {
+            val twoGCertificate = recentVaccination ?: recentRecovery!!
+            if (hasPCR) {
+                Timber.v("Determined admission state = 2G+ PCR")
+                return TwoGPlusPCR(twoGCertificate, recentPCR!!)
+            } else if (hasRAT) {
+                Timber.v("Determined admission state = 2G+ RAT")
+                return TwoGPlusRAT(twoGCertificate, recentRAT!!)
+            }
+            Timber.v("Determined admission state = 2G")
+            return TwoG(twoGCertificate)
+        }
+        hasPCR -> {
+            Timber.v("Determined admission state = 3G with PCR")
+            return ThreeGWithPCR(recentPCR!!)
+        }
+        hasRAT -> {
+            Timber.v("Determined admission state = 3G with RAT")
+            return ThreeGWithRAT(recentRAT!!)
+        }
+        else -> {
+            Timber.v("Determined admission state = other")
+            return when (val certificate = findHighestPriorityCertificate(nowUtc)) {
+                null -> null
+                else -> Other(certificate)
+            }
+        }
+    }
+}
