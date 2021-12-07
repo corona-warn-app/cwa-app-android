@@ -31,18 +31,20 @@ class ValidationServiceRequestProcessor @Inject constructor(
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>,
-        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceResult {
         Timber.tag(TAG).d(
-            "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
+            "requestValidationService(validationService=%s, validationServiceJwkSet=%s, validationServiceAllowList=%s)",
             validationService,
-            validationServiceJwkSet
+            validationServiceJwkSet,
+            validationServiceAllowList
         )
 
         // 1. Call Service Identity Document
+        // TODO: Checking the Server Certificate Against an Allowlist.
         val serviceIdentityDocument = getServiceIdentityDocument(
             url = validationService.serviceEndpoint,
-            allowList = allowList
+            allowList = validationServiceAllowList
         )
 
         // 2. Verify JWKs

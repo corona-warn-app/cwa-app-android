@@ -29,27 +29,36 @@ class DccTicketingRequestService @Inject constructor(
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
-        url: String
+        url: String,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult =
         execute("Failed to get validation decorator from $url") {
             Timber.tag(TAG).d("requestValidationDecorator(url=%s)", url)
-            validationDecoratorRequestProcessor.requestValidationDecorator(url)
+            validationDecoratorRequestProcessor.requestValidationDecorator(
+                url,
+                validationServiceAllowList
+            )
         }
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>,
-        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceRequestProcessor.ValidationServiceResult =
         execute("Failed to get validation service from ${validationService.serviceEndpoint}") {
             Timber.tag(TAG).d(
-                "requestValidationService(validationService=%s, validationServiceJwkSet=%s, allowlist=%s)",
+                "requestValidationService(validationService=%s, validationServiceJwkSet=%s, validationServiceAllowList=%s)",
                 validationService,
                 validationServiceJwkSet,
-                allowList
+                validationServiceAllowList
             )
-            validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet, allowList)
+
+            validationServiceRequestProcessor.requestValidationService(
+                validationService,
+                validationServiceJwkSet,
+                validationServiceAllowList
+            )
         }
 
     @Suppress("LongParameterList")

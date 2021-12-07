@@ -27,7 +27,7 @@ class DccTicketingAllowListParser @Inject constructor() {
 
     private fun List<ServiceProviderAllowlistItem>.toServiceProviderAllowList():
         List<DccTicketingServiceProviderAllowListEntry> =
-            map { it.toServiceProviderAllowListEntry() }
+        map { it.toServiceProviderAllowListEntry() }
 
     private fun ServiceProviderAllowlistItem.toServiceProviderAllowListEntry() =
         DccTicketingServiceProviderAllowListEntry(
@@ -36,7 +36,7 @@ class DccTicketingAllowListParser @Inject constructor() {
 
     private fun List<ValidationServiceAllowlistItem>.toValidationServiceAllowList():
         List<DccTicketingValidationServiceAllowListEntry> =
-            map { it.toValidationServiceAllowListEntry() }
+        map { it.toValidationServiceAllowListEntry() }
 
     private fun ValidationServiceAllowlistItem.toValidationServiceAllowListEntry() =
         DccTicketingValidationServiceAllowListEntry(
