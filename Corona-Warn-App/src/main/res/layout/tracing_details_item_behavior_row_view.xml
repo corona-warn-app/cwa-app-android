@@ -43,7 +43,7 @@
         app:layout_constraintStart_toEndOf="@+id/icon_background"
         app:layout_goneMarginEnd="@dimen/no_padding"
         app:layout_constraintTop_toTopOf="@+id/icon_background"
-        tools:text="Soething showt one sentend\newline" />
+        tools:text="@string/risk_details_behavior_body_contact_doctor" />
 
     <ImageView
         android:id="@+id/info_icon"
