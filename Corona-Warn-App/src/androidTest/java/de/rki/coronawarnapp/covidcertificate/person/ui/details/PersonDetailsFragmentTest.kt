@@ -137,7 +137,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 ConfirmedStatusCard.Item(
                     admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
                         twoGCertificate = vaccinationCertificate2,
-                        certificateTest = testCertificate
+                        testCertificate = testCertificate
                     ),
                     colorShade = PersonColorShade.COLOR_1
                 )
