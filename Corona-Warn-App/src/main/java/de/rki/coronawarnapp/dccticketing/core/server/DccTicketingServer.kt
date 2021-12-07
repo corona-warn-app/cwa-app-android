@@ -21,7 +21,6 @@ import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
 import timber.log.Timber
-import java.security.cert.Certificate
 import javax.inject.Inject
 
 @Reusable
@@ -78,25 +77,18 @@ class DccTicketingServer @Inject constructor(
 
     private fun Response<ResponseBody>.validateAgainstJwkSet(jwkSet: Set<DccJWK>) {
         Timber.tag(TAG).d("Validating response with jwk set=%s", jwkSet)
-        serverCertificateChecker.checkCertificate(serverCertificateChain, jwkSet)
+        serverCertificateChecker.checkCertificate(raw(), jwkSet)
     }
 
     private fun Response<ResponseBody>.validateAgainstAllowlist(
         allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ) {
         Timber.tag(TAG).d("Validating response with against allow list=%s", allowList)
-        serverCertificateChecker.checkCertificate(
-            hostname = hostname,
-            certificateChain = serverCertificateChain,
-            allowList = allowList
+        serverCertificateChecker.checkCertificateAgainstAllowlist(
+            response = raw(),
+            allowlist = allowList
         )
     }
-
-    private val Response<ResponseBody>.serverCertificateChain: List<Certificate>
-        get() = raw().handshake?.peerCertificates ?: emptyList()
-
-    private val Response<ResponseBody>.hostname: String
-        get() = raw().request.url.host
 
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getAccessToken(
@@ -115,11 +107,10 @@ class DccTicketingServer @Inject constructor(
             AccessTokenResponse(jwtToken, iv)
         }
 
-    suspend fun getResultTokenAndValidate(
+    suspend fun getResultToken(
         url: String,
         authorizationHeader: String,
-        requestBody: ResultTokenRequest,
-        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+        requestBody: ResultTokenRequest
     ): Response<ResponseBody> =
         withContext(dispatcherProvider.IO) {
             Timber.d("getResultToken(url=%s)", url)
@@ -127,7 +118,7 @@ class DccTicketingServer @Inject constructor(
                 url,
                 authorizationHeader,
                 requestBody
-            ).also { it.validateAgainstAllowlist(allowList = allowList) }
+            )
         }
 
     companion object {

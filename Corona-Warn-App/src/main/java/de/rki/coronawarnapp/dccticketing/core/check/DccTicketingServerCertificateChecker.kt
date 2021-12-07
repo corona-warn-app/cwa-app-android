@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidat
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
+import de.rki.coronawarnapp.tag
+import okhttp3.Response
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
@@ -24,15 +26,28 @@ class DccTicketingServerCertificateChecker @Inject constructor(
      * Note that the absence of an error code indicates a successful check
      */
     @Throws(DccTicketingServerCertificateCheckException::class)
+    fun checkCertificate(response: Response, jwkSet: Set<DccJWK>) = checkCertificate(
+        certificateChain = response.serverCertificateChain,
+        jwkSet = jwkSet
+    )
+
+    /**
+     * Checks the server certificate against a set of [DccJWK]
+     *
+     * @throws [DccTicketingServerCertificateCheckException] if the check fails
+     *
+     * Note that the absence of an error code indicates a successful check
+     */
+    @Throws(DccTicketingServerCertificateCheckException::class)
     fun checkCertificate(certificateChain: List<Certificate>, jwkSet: Set<DccJWK>) = try {
-        Timber.d("checkCertificate(certificateChain=%s, jwkSet=%s)", certificateChain, jwkSet)
+        Timber.tag(TAG).d("checkCertificate(certificateChain=%s, jwkSet=%s)", certificateChain, jwkSet)
 
         // 1. Extract leafCertificate
         val leafCertificate = certificateChain.first()
 
         // 2. Determine requiredKid
         val requiredKid = leafCertificate.createKid()
-            .also { Timber.d("requiredKid=%s", it) }
+            .also { Timber.tag(TAG).d("requiredKid=%s", it) }
 
         // 3. Find requiredJwkSet
         val requiredJwkSet = jwkSet.findRequiredJwkSet(requiredKid = requiredKid)
@@ -45,14 +60,14 @@ class DccTicketingServerCertificateChecker @Inject constructor(
 
         // 6. Compare fingerprints
         when (requiredFingerprints.contains(leafCertificate.createSha256Fingerprint())) {
-            true -> Timber.d("Certificate check was successful against jwk set=%s", jwkSet)
+            true -> Timber.tag(TAG).d("Certificate check was successful against jwk set=%s", jwkSet)
             false -> throw DccTicketingServerCertificateCheckException(ErrorCode.CERT_PIN_MISMATCH)
         }
     } catch (e: Exception) {
         throw when (e) {
             is DccTicketingServerCertificateCheckException -> e
             else -> {
-                Timber.w(e, "Certificate check failed with an unspecified error. Needs further investigation!")
+                Timber.tag(TAG).w(e, "Certificate check failed with an unspecified error. Needs further investigation!")
                 DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_MISMATCH, cause = e)
             }
         }
@@ -65,23 +80,37 @@ class DccTicketingServerCertificateChecker @Inject constructor(
      *
      * Note that the absence of an error code indicates a successful check
      */
-    fun checkCertificate(
+    fun checkCertificateAgainstAllowlist(
+        response: Response,
+        allowlist: Set<DccTicketingValidationServiceAllowListEntry>
+    ) = with(response) {
+        checkCertificateAgainstAllowlist(hostname, serverCertificateChain, allowlist)
+    }
+
+    /**
+     * Checks the server certificate against a set of [DccTicketingValidationServiceAllowListEntry]
+     *
+     * @throws [DccTicketingServerCertificateCheckException] if the check fails
+     *
+     * Note that the absence of an error code indicates a successful check
+     */
+    fun checkCertificateAgainstAllowlist(
         hostname: String,
         certificateChain: List<Certificate>,
-        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+        allowlist: Set<DccTicketingValidationServiceAllowListEntry>
     ) = try {
-        Timber.d(
+        Timber.tag(TAG).d(
             "checkCertificate(hostname=%s, certificateChain=%s, allowList=%s)",
             hostname,
             certificateChain,
-            allowList
+            allowlist
         )
 
         // 1. Extract leafCertificate
         val leafCertificate = certificateChain.first()
 
         // 2. Find requiredFingerprints
-        val requiredFingerprintsHostnameMap = allowList.map { it.fingerprint256 to it.hostname }.toMap()
+        val requiredFingerprintsHostnameMap = allowlist.map { it.fingerprint256 to it.hostname }.toMap()
 
         // 3. Compare fingerprints
         val leafCertificateFingerprint = leafCertificate.createSha256Fingerprint()
@@ -97,14 +126,14 @@ class DccTicketingServerCertificateChecker @Inject constructor(
 
         // 5. Compare hostnames
         when (requiredHostnames.contains(hostname)) {
-            true -> Timber.d("Certificate check was successful against allowlist=%s", allowList)
+            true -> Timber.tag(TAG).d("Certificate check was successful against allowlist=%s", allowlist)
             false -> throw DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_HOST_MISMATCH)
         }
     } catch (e: Exception) {
         throw when (e) {
             is DccTicketingServerCertificateCheckException -> e
             else -> {
-                Timber.w(e, "Certificate check failed with an unspecified error. Needs further investigation!")
+                Timber.tag(TAG).w(e, "Certificate check failed with an unspecified error. Needs further investigation!")
                 DccTicketingServerCertificateCheckException(errorCode = ErrorCode.CERT_PIN_MISMATCH, cause = e)
             }
         }
@@ -119,15 +148,25 @@ class DccTicketingServerCertificateChecker @Inject constructor(
         .base64()
 
     private fun Set<DccJWK>.findRequiredJwkSet(requiredKid: String): Set<DccJWK> {
-        Timber.d("findRequiredJwkSet(requiredKid=%s)", requiredKid)
+        Timber.tag(TAG).d("findRequiredJwkSet(requiredKid=%s)", requiredKid)
         val requiredJwkSet = filter { it.kid == requiredKid }.toSet()
 
         if (requiredJwkSet.isEmpty()) {
-            Timber.d("Didn't find jwk for required kid, aborting")
+            Timber.tag(TAG).d("Didn't find jwk for required kid, aborting")
             throw DccTicketingServerCertificateCheckException(ErrorCode.CERT_PIN_NO_JWK_FOR_KID)
         }
 
         return requiredJwkSet
+    }
+
+    private val Response.serverCertificateChain: List<Certificate>
+        get() = handshake?.peerCertificates.orEmpty()
+
+    private val Response.hostname: String
+        get() = request.url.host
+
+    companion object {
+        private val TAG = tag<DccTicketingServerCertificateChecker>()
     }
 }
 
