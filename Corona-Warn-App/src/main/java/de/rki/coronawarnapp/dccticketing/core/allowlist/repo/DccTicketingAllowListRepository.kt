@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.allowlist.repo
 
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
-import de.rki.coronawarnapp.dccticketing.core.allowlist.server.DccTicketingAllowListServer
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListParser
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.storage.DccTicketingAllowListStorage
+import de.rki.coronawarnapp.dccticketing.core.allowlist.server.DccTicketingAllowListServer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
