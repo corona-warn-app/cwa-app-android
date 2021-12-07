@@ -16,20 +16,22 @@ data class PersonCertificates(
     }
 
     // TODO: would be implemented in admission state logic task
-    val admissionState = AdmissionState.ThreeGWithPCR(highestPriorityCertificate!!)
+    // null when certificates list is empty
+    val admissionState: AdmissionState?
+        get() = AdmissionState.ThreeGWithPCR(highestPriorityCertificate!!)
 
     sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
-        class TwoGPlusPCR(twoGCertificate: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
+        data class TwoGPlusPCR(val twoGCertificate: CwaCovidCertificate, val testCertificate: CwaCovidCertificate) :
             AdmissionState(twoGCertificate)
 
-        class TwoGPlusRAT(twoGCertificate: CwaCovidCertificate, certificateTest: CwaCovidCertificate) :
+        data class TwoGPlusRAT(val twoGCertificate: CwaCovidCertificate, val testCertificate: CwaCovidCertificate) :
             AdmissionState(twoGCertificate)
 
-        class TwoG(twoGCertificate: CwaCovidCertificate) : AdmissionState(twoGCertificate)
+        data class TwoG(val twoGCertificate: CwaCovidCertificate) : AdmissionState(twoGCertificate)
 
-        class ThreeGWithPCR(testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
-        class ThreeGWithRAT(testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
+        data class ThreeGWithPCR(val testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
+        data class ThreeGWithRAT(val testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
 
-        class Other(certificate: CwaCovidCertificate) : AdmissionState(certificate)
+        data class Other(val otherCertificate: CwaCovidCertificate) : AdmissionState(otherCertificate)
     }
 }
