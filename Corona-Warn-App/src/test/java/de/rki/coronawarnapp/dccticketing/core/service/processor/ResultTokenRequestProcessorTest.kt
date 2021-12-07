@@ -68,7 +68,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
         response = Response.success(responseBody)
 
         every { dccTicketingServerCertificateChecker.checkCertificate(any(), any()) } just Runs
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } returns response
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } returns response
         every { jwtVerification.verify(any(), any<Set<DccJWK>>()) } just Runs
     }
 
@@ -80,7 +80,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
         )
 
         coVerifySequence {
-            dccTicketingServer.getResultToken(any(), any(), any())
+            dccTicketingServer.getResultTokenAndValidate(any(), any(), any())
             dccTicketingServerCertificateChecker.checkCertificate(any(), any())
             jwtVerification.verify(any(), any<Set<DccJWK>>())
         }
@@ -177,7 +177,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse verify request and response`() = runBlockingTest {
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } answers {
             arg<String>(0) shouldBe input.serviceEndpoint
             arg<String>(1) shouldBe "Bearer ${input.jwt}"
             arg<ResultTokenRequest>(2) shouldBe ResultTokenRequest(
@@ -197,7 +197,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
     @Test
     fun `resultTokenResponse verify null response`() = runBlockingTest {
 
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } answers {
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } answers {
             Response.success(null)
         }
         shouldThrow<DccTicketingException> {
@@ -207,7 +207,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse throws RTR_NO_NETWORK when CwaUnknownHostException`() = runBlockingTest {
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } throws
             CwaUnknownHostException(cause = null)
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
@@ -216,7 +216,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse throws RTR_NO_NETWORK when NetworkReadTimeoutException`() = runBlockingTest {
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } throws
             NetworkReadTimeoutException(message = null)
 
         shouldThrow<DccTicketingException> {
@@ -226,7 +226,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse throws RTR_NO_NETWORK when NetworkConnectTimeoutException`() = runBlockingTest {
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws NetworkConnectTimeoutException()
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } throws NetworkConnectTimeoutException()
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
         }.errorCode shouldBe DccTicketingException.ErrorCode.RTR_NO_NETWORK
@@ -234,7 +234,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse throws RTR_CLIENT_ERR when CwaClientError`() = runBlockingTest {
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } throws
             CwaClientError(404, "message")
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)
@@ -243,7 +243,7 @@ internal class ResultTokenRequestProcessorTest : BaseTest() {
 
     @Test
     fun `resultTokenResponse throws RTR_NO_NETWORK when any error`() = runBlockingTest {
-        coEvery { dccTicketingServer.getResultToken(any(), any(), any()) } throws
+        coEvery { dccTicketingServer.getResultTokenAndValidate(any(), any(), any()) } throws
             Exception()
         shouldThrow<DccTicketingException> {
             instance().resultTokenResponse(input)

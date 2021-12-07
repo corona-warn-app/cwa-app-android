@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.*
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
@@ -29,7 +30,8 @@ class ValidationServiceRequestProcessor @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
-        validationServiceJwkSet: Set<DccJWK>
+        validationServiceJwkSet: Set<DccJWK>,
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceResult {
         Timber.tag(TAG).d(
             "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
@@ -40,7 +42,7 @@ class ValidationServiceRequestProcessor @Inject constructor(
         // 1. Call Service Identity Document
         val serviceIdentityDocument = getServiceIdentityDocument(
             url = validationService.serviceEndpoint,
-            jwkSet = validationServiceJwkSet
+            allowList = allowList
         )
 
         // 2. Verify JWKs
@@ -88,10 +90,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
 
     private suspend fun getServiceIdentityDocument(
         url: String,
-        jwkSet: Set<DccJWK>
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): DccTicketingServiceIdentityDocument = try {
-        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, jwkSet=%s)", url, jwkSet)
-        dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(url = url, jwkSet = jwkSet)
+        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, allowList=%s)", url, allowList)
+        dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(url = url, allowList = allowList)
     } catch (e: DccTicketingServerException) {
         Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {

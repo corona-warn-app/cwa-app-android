@@ -29,34 +29,27 @@ class DccTicketingRequestService @Inject constructor(
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationDecorator(
-        url: String,
-        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
+        url: String
     ): ValidationDecoratorRequestProcessor.ValidationDecoratorResult =
         execute("Failed to get validation decorator from $url") {
             Timber.tag(TAG).d("requestValidationDecorator(url=%s)", url)
-            validationDecoratorRequestProcessor.requestValidationDecorator(
-                url,
-                validationServiceAllowList
-            )
+            validationDecoratorRequestProcessor.requestValidationDecorator(url)
         }
 
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
         validationServiceJwkSet: Set<DccJWK>,
-        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceRequestProcessor.ValidationServiceResult =
         execute("Failed to get validation service from ${validationService.serviceEndpoint}") {
             Timber.tag(TAG).d(
-                "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
-                validationService,
-                validationServiceJwkSet
-            )
-            validationServiceRequestProcessor.requestValidationService(
+                "requestValidationService(validationService=%s, validationServiceJwkSet=%s, allowlist=%s)",
                 validationService,
                 validationServiceJwkSet,
-                validationServiceAllowList
+                allowList
             )
+            validationServiceRequestProcessor.requestValidationService(validationService, validationServiceJwkSet, allowList)
         }
 
     @Suppress("LongParameterList")

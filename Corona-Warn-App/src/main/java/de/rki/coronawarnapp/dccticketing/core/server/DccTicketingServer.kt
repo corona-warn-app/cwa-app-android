@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.core.server
 import com.google.gson.Gson
 import dagger.Lazy
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
@@ -20,6 +21,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
 import timber.log.Timber
+import java.security.cert.Certificate
 import javax.inject.Inject
 
 @Reusable
@@ -44,11 +46,11 @@ class DccTicketingServer @Inject constructor(
     @Throws(DccTicketingServerException::class, DccTicketingServerCertificateCheckException::class)
     suspend fun getServiceIdentityDocumentAndValidateServerCert(
         url: String,
-        jwkSet: Set<DccJWK>
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): DccTicketingServiceIdentityDocument = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s)", url)
+        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, allowlist=%s)", url, allowList)
         get(url).run {
-            validate(jwkSet = jwkSet)
+            validateAgainstAllowlist(allowList = allowList)
             parse()
         }
     }
@@ -74,11 +76,27 @@ class DccTicketingServer @Inject constructor(
         throw DccTicketingServerException(errorCode = ErrorCode.PARSE_ERR, cause = e)
     }
 
-    private fun Response<ResponseBody>.validate(jwkSet: Set<DccJWK>) {
-        Timber.tag(TAG).d("Validating response=%s", jwkSet)
-        val certificateChain = raw().handshake?.peerCertificates ?: emptyList()
-        serverCertificateChecker.checkCertificate(certificateChain, jwkSet)
+    private fun Response<ResponseBody>.validateAgainstJwkSet(jwkSet: Set<DccJWK>) {
+        Timber.tag(TAG).d("Validating response with jwk set=%s", jwkSet)
+        serverCertificateChecker.checkCertificate(serverCertificateChain, jwkSet)
     }
+
+    private fun Response<ResponseBody>.validateAgainstAllowlist(
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+    ) {
+        Timber.tag(TAG).d("Validating response with against allow list=%s", allowList)
+        serverCertificateChecker.checkCertificate(
+            hostname = hostname,
+            certificateChain = serverCertificateChain,
+            allowList = allowList
+        )
+    }
+
+    private val Response<ResponseBody>.serverCertificateChain: List<Certificate>
+        get() = raw().handshake?.peerCertificates ?: emptyList()
+
+    private val Response<ResponseBody>.hostname: String
+        get() = raw().request.url.host
 
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getAccessToken(
@@ -90,21 +108,26 @@ class DccTicketingServer @Inject constructor(
         withContext(dispatcherProvider.IO) {
             Timber.d("getAccessToken(url=%s)", url)
             val response = dccTicketingApiV1.getAccessToken(url, authorizationHeader, requestBody)
-            response.validate(jwkSet)
+            response.validateAgainstJwkSet(jwkSet)
 
             val jwtToken: String = response.body()?.string()!!
             val iv = response.headers()["x-nonce"]!!
             AccessTokenResponse(jwtToken, iv)
         }
 
-    suspend fun getResultToken(
+    suspend fun getResultTokenAndValidate(
         url: String,
         authorizationHeader: String,
-        requestBody: ResultTokenRequest
+        requestBody: ResultTokenRequest,
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): Response<ResponseBody> =
         withContext(dispatcherProvider.IO) {
             Timber.d("getResultToken(url=%s)", url)
-            dccTicketingApiV1.getResultToken(url, authorizationHeader, requestBody)
+            dccTicketingApiV1.getResultToken(
+                url,
+                authorizationHeader,
+                requestBody
+            ).also { it.validateAgainstAllowlist(allowList = allowList) }
         }
 
     companion object {
