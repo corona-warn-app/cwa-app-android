@@ -81,7 +81,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             deleteTestCertificate(TestCertificateContainerId("Identifier"))
         }
 
-        coEvery { testCertificateRepository.deleteCertificate(any()) }
+        coVerify { testCertificateRepository.deleteCertificate(any()) }
     }
 
     @Test
