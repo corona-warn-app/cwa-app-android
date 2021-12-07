@@ -10,8 +10,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.SP_ALLOWLIST_NO_MATCH
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import okio.ByteString.Companion.encodeUtf8
+import okio.ByteString.Companion.encode
 import javax.inject.Inject
 
 class DccTicketingQrCodeHandler @Inject constructor(
@@ -49,7 +48,7 @@ class DccTicketingQrCodeHandler @Inject constructor(
 
     private fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceIdentity(serviceIdentity: String) {
         if (!qrCodeSettings.checkServiceIdentity.value) return
-        val hash = serviceIdentity.toSHA256().encodeUtf8()
+        val hash = serviceIdentity.toHash()
         find { it.serviceIdentityHash == hash } ?: throw DccTicketingException(SP_ALLOWLIST_NO_MATCH)
     }
 
@@ -70,3 +69,5 @@ class DccTicketingQrCodeHandler @Inject constructor(
         )
     }
 }
+
+internal fun String.toHash() = encode().sha256()

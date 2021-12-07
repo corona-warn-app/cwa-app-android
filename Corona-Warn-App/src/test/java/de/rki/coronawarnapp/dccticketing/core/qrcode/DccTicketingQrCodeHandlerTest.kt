@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -23,7 +22,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.encodeUtf8
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -67,7 +65,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     )
 
     private val serviceProviderAllowListEntry = DccTicketingServiceProviderAllowListEntry(
-        serviceIdentityHash = "serviceIdentity".toSHA256().encodeUtf8()
+        serviceIdentityHash = "serviceIdentity".toHash()
     )
     private val serviceProviderAllowList = setOf(serviceProviderAllowListEntry)
 
