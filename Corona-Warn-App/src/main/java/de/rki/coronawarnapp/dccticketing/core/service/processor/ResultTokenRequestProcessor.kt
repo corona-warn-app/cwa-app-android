@@ -38,7 +38,7 @@ class ResultTokenRequestProcessor @Inject constructor(
         // 1. Call Validation Service
         val response = resultTokenResponse(resultTokenInput)
         // Checking the Server Certificate Against an allowlist.
-        //checkServerCertificate(response, resultTokenInput.allowlist)
+        checkServerCertificate(response, resultTokenInput.allowlist)
         // 2. Find `resultToken`
         val resultToken = response.body()?.string() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
         // 3. Verify signature the signature of the resultToken

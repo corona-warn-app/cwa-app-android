@@ -4,20 +4,26 @@ import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.*
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerParser
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
 import de.rki.coronawarnapp.tag
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class ValidationServiceRequestProcessor @Inject constructor(
-    private val dccTicketingServer: DccTicketingServer
+    private val dccTicketingServer: DccTicketingServer,
+    private val serverCertificateChecker: DccTicketingServerCertificateChecker,
+    private val dccTicketingServerParser: DccTicketingServerParser
 ) {
 
     private val regexRSAOAEPWithSHA256AESCBC = """ValidationServiceEncScheme-RSAOAEPWithSHA256AESCBC${'$'}"""
@@ -41,7 +47,6 @@ class ValidationServiceRequestProcessor @Inject constructor(
         )
 
         // 1. Call Service Identity Document
-        // TODO: Checking the Server Certificate Against an Allowlist.
         val serviceIdentityDocument = getServiceIdentityDocument(
             url = validationService.serviceEndpoint,
             allowList = validationServiceAllowList
@@ -95,7 +100,10 @@ class ValidationServiceRequestProcessor @Inject constructor(
         allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): DccTicketingServiceIdentityDocument = try {
         Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, allowList=%s)", url, allowList)
-        dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(url = url, allowList = allowList)
+        dccTicketingServer.getServiceIdentityDocument(url = url).run {
+            validateAgainstAllowlist(allowList = allowList)
+            parse()
+        }
     } catch (e: DccTicketingServerException) {
         Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
@@ -114,6 +122,18 @@ class ValidationServiceRequestProcessor @Inject constructor(
                 DccTicketingErrorCode.VS_ID_CERT_PIN_MISMATCH
         }.let { DccTicketingException(errorCode = it, cause = e) }
     }
+
+    private fun Response<ResponseBody>.validateAgainstAllowlist(
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+    ) {
+        Timber.tag(TAG).d("Validating response against allow list=%s", allowList)
+        serverCertificateChecker.checkCertificateAgainstAllowlist(
+            response = raw(),
+            allowlist = allowList
+        )
+    }
+
+    private fun Response<ResponseBody>.parse() = dccTicketingServerParser.createServiceIdentityDocument(this)
 
     private fun DccTicketingServiceIdentityDocument.findVerificationMethods(forRegex: Regex): Set<String> {
         Timber.tag(TAG).d("findVerificationMethods(forRegex=%s)", forRegex)
