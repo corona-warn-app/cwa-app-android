@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import okio.ByteString.Companion.encode
+import timber.log.Timber
 import javax.inject.Inject
 
 class DccTicketingQrCodeHandler @Inject constructor(
@@ -47,9 +48,21 @@ class DccTicketingQrCodeHandler @Inject constructor(
     }
 
     private fun Set<DccTicketingServiceProviderAllowListEntry>.validateServiceIdentity(serviceIdentity: String) {
-        if (!qrCodeSettings.checkServiceIdentity.value) return
-        val hash = serviceIdentity.toHash()
-        find { it.serviceIdentityHash == hash } ?: throw DccTicketingException(SP_ALLOWLIST_NO_MATCH)
+        if (!qrCodeSettings.checkServiceIdentity.value) {
+            Timber.i("Service identity check is turned off.")
+            return
+        }
+        Timber.v("Service identity check is turned on.")
+        Timber.v("Allowed hashes are $this.")
+
+        val hash = serviceIdentity.toHash().also {
+            Timber.v("Calculated hash of service identity is $it")
+        }
+        find { it.serviceIdentityHash == hash } ?: throw DccTicketingException(SP_ALLOWLIST_NO_MATCH).also {
+            Timber.e("Service identity check failed.")
+        }
+
+        Timber.i("Service identity check passed.")
     }
 
     suspend fun DccTicketingTransactionContext.decorate(
