@@ -48,7 +48,9 @@ class DccTicketingRequestService @Inject constructor(
     ): ValidationServiceRequestProcessor.ValidationServiceResult =
         execute("Failed to get validation service from ${validationService.serviceEndpoint}") {
             Timber.tag(TAG).d(
-                "requestValidationService(validationService=%s, validationServiceJwkSet=%s, validationServiceAllowList=%s)",
+                "requestValidationService(validationService=%s, " +
+                    "validationServiceJwkSet=%s, " +
+                    "validationServiceAllowList=%s)",
                 validationService,
                 validationServiceJwkSet,
                 validationServiceAllowList

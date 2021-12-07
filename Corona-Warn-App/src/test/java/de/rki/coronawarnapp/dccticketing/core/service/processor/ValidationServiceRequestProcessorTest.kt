@@ -214,7 +214,9 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
 
     @Test
     fun `throws if parser throws`() = runBlockingTest {
-        coEvery { dccTicketingServerParser.createServiceIdentityDocument(any()) } throws DccTicketingServerException(errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR)
+        coEvery {
+            dccTicketingServerParser.createServiceIdentityDocument(any())
+        } throws DccTicketingServerException(errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR)
 
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(validationService, validationServiceJwkSet, validationAllowlist)

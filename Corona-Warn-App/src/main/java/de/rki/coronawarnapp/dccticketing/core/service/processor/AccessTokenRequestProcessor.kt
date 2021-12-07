@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
-import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode.*
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
@@ -70,9 +69,11 @@ class AccessTokenRequestProcessor @Inject constructor(
         dccTicketingServer.getAccessToken(url, authorizationHeader, body, jwkSet)
     } catch (e: DccTicketingServerCertificateCheckException) {
         throw when (e.errorCode) {
-            CERT_PIN_HOST_MISMATCH,
-            CERT_PIN_NO_JWK_FOR_KID -> DccTicketingException.ErrorCode.ATR_CERT_PIN_NO_JWK_FOR_KID
-            CERT_PIN_MISMATCH -> DccTicketingException.ErrorCode.ATR_CERT_PIN_MISMATCH
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH,
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
+                DccTicketingException.ErrorCode.ATR_CERT_PIN_NO_JWK_FOR_KID
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
+                DccTicketingException.ErrorCode.ATR_CERT_PIN_MISMATCH
         }.let { DccTicketingException(it) }
     } catch (e: Exception) {
         Timber.e(e, "Getting access token failed")
