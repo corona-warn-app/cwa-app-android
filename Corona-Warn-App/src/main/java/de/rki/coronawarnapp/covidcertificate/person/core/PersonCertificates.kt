@@ -16,10 +16,11 @@ data class PersonCertificates(
     }
 
     // TODO: would be implemented in admission state logic task
-    val admissionState: AdmissionState
+    // null when certificates list is empty
+    val admissionState: AdmissionState?
         get() = AdmissionState.ThreeGWithPCR(highestPriorityCertificate!!)
 
-    sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate?) {
+    sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
         data class TwoGPlusPCR(val twoGCertificate: CwaCovidCertificate, val testCertificate: CwaCovidCertificate) :
             AdmissionState(twoGCertificate)
 
@@ -31,6 +32,6 @@ data class PersonCertificates(
         data class ThreeGWithPCR(val testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
         data class ThreeGWithRAT(val testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)
 
-        data class Other(val otherCertificate: CwaCovidCertificate?) : AdmissionState(otherCertificate)
+        data class Other(val otherCertificate: CwaCovidCertificate) : AdmissionState(otherCertificate)
     }
 }
