@@ -95,7 +95,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             if (personCertificates.admissionState !is PersonCertificates.AdmissionState.Other) {
                 add(
                     ConfirmedStatusCard.Item(
-                        admissionState = personCertificates.admissionState,
+                        admissionState = personCertificates.admissionState!!,
                         colorShade = colorShade
                     )
                 )
