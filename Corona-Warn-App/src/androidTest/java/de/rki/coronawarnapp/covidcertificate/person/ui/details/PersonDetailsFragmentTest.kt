@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -133,6 +134,16 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
             add(
+                ConfirmedStatusCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
+                        twoGCertificate = vaccinationCertificate2,
+                        testCertificate = testCertificate
+                    ),
+                    colorShade = PersonColorShade.COLOR_1
+                )
+            )
+
+            add(
                 VaccinationInfoCard.Item(
                     vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
                     daysUntilImmunity = null,
@@ -210,6 +221,13 @@ class PersonDetailsFragmentTest : BaseUITest() {
             }
 
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
+
+            add(
+                ConfirmedStatusCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(vaccinationCertificate1),
+                    colorShade = PersonColorShade.COLOR_1
+                )
+            )
 
             add(
                 VaccinationInfoCard.Item(
