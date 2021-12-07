@@ -100,7 +100,9 @@ class DccTicketingException(
         VS_ID_PARSE_ERR(message = VS_ID_ERROR_MSG),
         VS_ID_EMPTY_X5C(message = VS_ID_ERROR_MSG),
         VS_ID_NO_NETWORK(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
-        VS_ID_SERVER_ERR(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN)
+        VS_ID_SERVER_ERR(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
+
+        SP_ALLOWLIST_NO_MATCH(message = SP_ERROR_MSG, textKey = TextKey.SERVICE_PROVIDER_ERROR_NO_NAME)
     }
 
     private fun ErrorCode.errorMessageRes(serviceProvider: String): LazyString = when (textKey) {
@@ -124,5 +126,6 @@ private const val VS_ID_ERROR_MSG = "Failure when obtaining Service Identity Doc
 private const val VD_ID_ERROR_MSG = "Failure when obtaining Service Identity Document of Validation Decorator"
 private const val RTR_ERROR_MSG = "Failure when obtaining Result Token"
 private const val ENC_ERROR_MSG = "Failure while encrypting DCC"
+private const val SP_ERROR_MSG = "Failure when scaning QR code"
 
 typealias DccTicketingErrorCode = DccTicketingException.ErrorCode
