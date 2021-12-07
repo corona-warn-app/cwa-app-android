@@ -142,7 +142,7 @@ fun PersonOverviewItemBinding.setUIState(
     secondaryCertificate: CwaCovidCertificate? = null,
     colorShade: PersonColorShade,
     isCombinedCertificate: Boolean,
-    statusBadgeText: Int,
+    statusBadgeText: Int = 0,
     badgeCount: Int = 0,
     onCovPassInfoAction: () -> Unit
 ) {
