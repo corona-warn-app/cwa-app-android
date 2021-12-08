@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Jakie kody QR można zeskanować?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Testy PCR, szybkie testy, certyfikaty testów, certyfikaty szczepień, certyfikaty statusu ozdrowieńca i zameldowania."</string>
+    <string name="qr_code_scan_body_subtitle">"Testy, Twoje certyfikaty, zameldowania i walidacja podczas rezerwacji biletów"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
     <!-- XBUT: open image file button  -->
@@ -1519,7 +1519,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Kierunek strzałki wskazuje, czy trend rośnie, maleje, czy też pozostaje stabilny, czyli wykazuje odchylenie mniejsze niż 1%% w porównaniu z poprzednim dniem lub 5%% w porównaniu z poprzednim tygodniem (z uwzględnieniem miejsc po przecinku). Kolor wskazuje, że trend jest pozytywny (zielony), negatywny (czerwony) lub neutralny (szary)."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Można przedstawić następujące trendy:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Przykłady wyświetlanych trendów:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Trend: rosnący (negatywny)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->

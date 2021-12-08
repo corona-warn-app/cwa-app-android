@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Моля, имайте предвид, че правилата за влизане подлежат на промяна. Затова, моля, проверете сертификата си непосредствено преди да влезете в държавата на местоназначение (макс. 48 часа)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"В отделни райони може да се прилагат допълнителни правила и ограничения."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"С цел удостоверяване на автентичността всеки сертификат се издава с електронен подпис, който се проверява с помощта на приложение за проверка."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Corona-Warn-App не проверява дали записаните в сертификата данни са валидни."</string>
     <!-- XTXT: Validation start FAQ -->
