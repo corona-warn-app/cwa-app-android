@@ -96,7 +96,7 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
     @Test
     fun `onConsent() - error path`() {
         coEvery { dccTicketingConsentOneProcessor.updateTransactionContext(any()) } throws DccTicketingException(
-            errorCode = DccTicketingException.ErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
+            errorCode = DccTicketingException.ErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
         )
 
         instance.run {

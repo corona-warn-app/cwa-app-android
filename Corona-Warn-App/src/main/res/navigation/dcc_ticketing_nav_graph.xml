@@ -39,7 +39,7 @@
         <action
             android:id="@+id/action_consentTwoFragment_to_validationResultFragment"
             app:destination="@id/dccTicketingValidationResultFragment"
-            app:popUpTo="@id/dccTicketingConsentTwoFragment"
+            app:popUpTo="@id/dccTicketingCertificateSelectionFragment"
             app:popUpToInclusive="true" />
         <argument
             android:name="containerId"

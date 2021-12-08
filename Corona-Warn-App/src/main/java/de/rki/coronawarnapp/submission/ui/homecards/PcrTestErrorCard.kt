@@ -24,7 +24,7 @@ class PcrTestErrorCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         itemView.setOnClickListener { curItem.onDeleteTest(item) }
         showTestAction.setOnClickListener { itemView.performClick() }
     }
@@ -32,7 +32,5 @@ class PcrTestErrorCard(
     data class Item(
         val state: SubmissionStatePCR.TestError,
         val onDeleteTest: (Item) -> Unit
-    ) : TestResultItem.PCR, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-    }
+    ) : TestResultItem.PCR, HasPayloadDiffer
 }

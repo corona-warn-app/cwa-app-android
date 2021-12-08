@@ -62,7 +62,7 @@ class StatisticsHomeCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         savedStateKey = "stats:${curItem.stableId}"
 
@@ -96,7 +96,6 @@ class StatisticsHomeCard(
         val onClickListener: (GenericStatsItem) -> Unit,
         val onRemoveListener: (LocalStatsItem) -> Unit = {},
     ) : HomeItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
 
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
     }

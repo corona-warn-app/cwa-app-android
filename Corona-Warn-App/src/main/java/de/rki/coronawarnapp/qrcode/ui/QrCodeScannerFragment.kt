@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
+import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -97,7 +98,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is DccResult -> onDccResult(scannerResult)
                 is CheckInResult -> onCheckInResult(scannerResult)
                 is DccTicketingResult -> onDccTicketingResult(scannerResult)
-                is DccTicketingError -> showDccTicketingErrorDialog(errorMsg = scannerResult.errorMsg)
+                is DccTicketingError -> when {
+                    scannerResult.isDccTicketingMinVersionError ->
+                        showValidationServiceMinVersionDialog(errorMsg = scannerResult.errorMsg)
+                    else -> showDccTicketingErrorDialog(errorMsg = scannerResult.errorMsg)
+                }
                 is Error -> when {
                     scannerResult.isDccTicketingError || scannerResult.isAllowListError -> showDccTicketingErrorDialog(
                         humanReadableError = scannerResult.error.tryHumanReadableError(requireContext())
@@ -197,6 +202,19 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         .toQrCodeErrorDialogBuilder(requireContext())
         .setOnDismissListener { startDecode() }
         .show()
+
+    private fun showValidationServiceMinVersionDialog(errorMsg: LazyString) {
+        val msg = errorMsg.get(requireContext())
+        val dialogType = DccTicketingDialogType.ErrorDialog(
+            msg = msg,
+            negativeButtonRes = R.string.dcc_ticketing_error_min_version_google_play
+        )
+        dialogType.show(
+            this,
+            positiveButtonAction = { startDecode() },
+            negativeButtonAction = { requireContext().openGooglePlay() }
+        )
+    }
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 

@@ -13,6 +13,7 @@ class DccTicketingException(
     enum class TextKey {
         SERVICE_PROVIDER_ERROR_NO_NAME,
         SERVICE_PROVIDER_ERROR,
+        MIN_VER_ERROR,
         TRY_AGAIN
     }
 
@@ -62,7 +63,7 @@ class DccTicketingException(
          *  Failure when obtaining Result Token; user may retry
          */
         RTR_CERT_PIN_MISMATCH(message = RTR_ERROR_MSG),
-        RTR_CERT_PIN_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
+        RTR_CERT_PIN_HOST_MISMATCH(message = RTR_ERROR_MSG),
         RTR_JWT_VER_ALG_NOT_SUPPORTED(message = RTR_ERROR_MSG),
         RTR_JWT_VER_EMPTY_JWKS(message = RTR_ERROR_MSG),
         RTR_JWT_VER_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
@@ -92,7 +93,7 @@ class DccTicketingException(
          * Failure when obtaining Service Identity Document of Validation Service; user may retry
          */
         VS_ID_CERT_PIN_MISMATCH(message = VS_ID_ERROR_MSG),
-        VS_ID_CERT_PIN_NO_JWK_FOR_KID(message = VS_ID_ERROR_MSG),
+        VS_ID_CERT_PIN_HOST_MISMATCH(message = VS_ID_ERROR_MSG),
         VS_ID_CLIENT_ERR(message = VS_ID_ERROR_MSG),
         VS_ID_NO_ENC_KEY(message = VS_ID_ERROR_MSG),
         VS_ID_NO_SIGN_KEY(message = VS_ID_ERROR_MSG),
@@ -101,7 +102,9 @@ class DccTicketingException(
         VS_ID_NO_NETWORK(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
         VS_ID_SERVER_ERR(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
 
-        SP_ALLOWLIST_NO_MATCH(message = SP_ERROR_MSG, textKey = TextKey.SERVICE_PROVIDER_ERROR_NO_NAME)
+        SP_ALLOWLIST_NO_MATCH(message = SP_ERROR_MSG, textKey = TextKey.SERVICE_PROVIDER_ERROR_NO_NAME),
+
+        MIN_VERSION_REQUIRED(message = MIN_VER_ERROR_MSG, textKey = TextKey.MIN_VER_ERROR)
     }
 
     private fun ErrorCode.errorMessageRes(serviceProvider: String): LazyString = when (textKey) {
@@ -113,6 +116,7 @@ class DccTicketingException(
             )
         TextKey.TRY_AGAIN ->
             R.string.dcc_ticketing_error_try_again.toResolvingString()
+        TextKey.MIN_VER_ERROR -> R.string.dcc_ticketing_error_min_version.toResolvingString()
     }
 
     fun errorMessage(serviceProvider: String): LazyString = CachedString { context ->
@@ -126,5 +130,6 @@ private const val VD_ID_ERROR_MSG = "Failure when obtaining Service Identity Doc
 private const val RTR_ERROR_MSG = "Failure when obtaining Result Token"
 private const val ENC_ERROR_MSG = "Failure while encrypting DCC"
 private const val SP_ERROR_MSG = "Failure when scaning QR code"
+private const val MIN_VER_ERROR_MSG = "minimum version of CWA not supported for this feature anymore"
 
 typealias DccTicketingErrorCode = DccTicketingException.ErrorCode
