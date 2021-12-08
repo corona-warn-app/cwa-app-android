@@ -63,7 +63,7 @@ class DccTicketingException(
          *  Failure when obtaining Result Token; user may retry
          */
         RTR_CERT_PIN_MISMATCH(message = RTR_ERROR_MSG),
-        RTR_CERT_PIN_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
+        RTR_CERT_PIN_HOST_MISMATCH(message = RTR_ERROR_MSG),
         RTR_JWT_VER_ALG_NOT_SUPPORTED(message = RTR_ERROR_MSG),
         RTR_JWT_VER_EMPTY_JWKS(message = RTR_ERROR_MSG),
         RTR_JWT_VER_NO_JWK_FOR_KID(message = RTR_ERROR_MSG),
@@ -93,7 +93,7 @@ class DccTicketingException(
          * Failure when obtaining Service Identity Document of Validation Service; user may retry
          */
         VS_ID_CERT_PIN_MISMATCH(message = VS_ID_ERROR_MSG),
-        VS_ID_CERT_PIN_NO_JWK_FOR_KID(message = VS_ID_ERROR_MSG),
+        VS_ID_CERT_PIN_HOST_MISMATCH(message = VS_ID_ERROR_MSG),
         VS_ID_CLIENT_ERR(message = VS_ID_ERROR_MSG),
         VS_ID_NO_ENC_KEY(message = VS_ID_ERROR_MSG),
         VS_ID_NO_SIGN_KEY(message = VS_ID_ERROR_MSG),

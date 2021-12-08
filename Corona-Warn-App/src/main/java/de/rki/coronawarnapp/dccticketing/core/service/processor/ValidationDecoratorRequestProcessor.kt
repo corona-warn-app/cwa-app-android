@@ -6,16 +6,20 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerParser
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
 import de.rki.coronawarnapp.tag
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class ValidationDecoratorRequestProcessor @Inject constructor(
-    private val dccTicketingServer: DccTicketingServer
+    private val dccTicketingServer: DccTicketingServer,
+    private val dccTicketingServerParser: DccTicketingServerParser
 ) {
 
     @Throws(DccTicketingException::class)
@@ -62,7 +66,7 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
 
     private suspend fun getServiceIdentityDocument(url: String): DccTicketingServiceIdentityDocument = try {
         Timber.d("getServiceIdentityDocument(url=%s)", url)
-        dccTicketingServer.getServiceIdentityDocument(url = url)
+        dccTicketingServer.getServiceIdentityDocument(url = url).parse()
     } catch (e: DccTicketingServerException) {
         Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
@@ -112,6 +116,8 @@ class ValidationDecoratorRequestProcessor @Inject constructor(
         }
         return foundService.also { Timber.d("Found %s=%s", serviceType.type, foundService) }
     }
+
+    private fun Response<ResponseBody>.parse() = dccTicketingServerParser.createServiceIdentityDocument(this)
 
     data class ValidationDecoratorResult(
         val accessTokenService: DccTicketingService,
