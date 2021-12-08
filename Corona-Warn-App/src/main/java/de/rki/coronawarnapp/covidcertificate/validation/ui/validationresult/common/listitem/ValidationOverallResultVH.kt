@@ -21,7 +21,7 @@ class ValidationOverallResultVH(
         item: Item,
         payloads: List<Any>,
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         headline.text = curItem.headlineText.get(context)
     }
 
@@ -29,7 +29,5 @@ class ValidationOverallResultVH(
         val headlineText: LazyString
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
-
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

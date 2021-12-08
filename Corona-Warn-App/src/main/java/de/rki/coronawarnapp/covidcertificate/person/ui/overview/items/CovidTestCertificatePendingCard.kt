@@ -26,7 +26,7 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         val registrationTime = curItem.certificate.registeredAt.toUserTimeZone()
         testTime.text = context.getString(
@@ -60,7 +60,6 @@ class CovidTestCertificatePendingCard(parent: ViewGroup) :
         val onRetryAction: (Item) -> Unit,
         val onDeleteAction: (Item) -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId: Long = certificate.containerId.hashCode().toLong()
     }
 }

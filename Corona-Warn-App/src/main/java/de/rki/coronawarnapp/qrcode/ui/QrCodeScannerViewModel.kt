@@ -89,13 +89,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onTicketValidationQrCode(qrCode: DccTicketingQrCode) {
         try {
-            // TODO finalise it
             val transactionContext = dccTicketingQrCodeHandler.handleQrCode(qrCode)
             result.postValue(DccTicketingResult.ConsentI(transactionContext))
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onTicketValidationQrCode failed")
             val error = when (e) {
                 is DccTicketingException -> DccTicketingError(
+                    error = e,
                     errorMsg = e.errorMessage(serviceProvider = qrCode.data.serviceProvider)
                 )
                 else -> Error(error = e)

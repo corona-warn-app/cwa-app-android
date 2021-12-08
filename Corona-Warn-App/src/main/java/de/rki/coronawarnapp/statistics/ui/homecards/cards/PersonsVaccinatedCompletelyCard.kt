@@ -33,7 +33,7 @@ class PersonsVaccinatedCompletelyCard(parent: ViewGroup) :
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { orig, payloads ->
-        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().singleOrNull() ?: orig
+        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().lastOrNull() ?: orig
 
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)

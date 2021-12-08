@@ -139,6 +139,23 @@ object ExternalActionHelper {
     }
 
     /**
+     * Opens Google play on CWA page
+     */
+    fun Context.openGooglePlay() {
+        try {
+            val uriStringInPlayStore = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(uriStringInPlayStore)
+                setPackage("com.android.vending")
+            }.also {
+                startActivity(it)
+            }
+        } catch (e: Exception) {
+            ExternalActionException(e).report(ExceptionCategory.UI)
+        }
+    }
+
+    /**
      * Open App's device details settings such as permissions
      */
     fun Context.openAppDetailsSettings() {

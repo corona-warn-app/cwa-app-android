@@ -27,7 +27,8 @@ import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
 class TracingDetailsAdapter(
-    private val onItemClickListener: (item: DetailsItem) -> Unit
+    private val onItemClickListener: (item: DetailsItem) -> Unit,
+    private val onInfoItemClickListener: (item: TracingDetailsFragmentViewModel.InfoItem) -> Unit
 ) : ModularAdapter<TracingDetailsAdapter.DetailsItemVH<DetailsItem, ViewBinding>>(),
     AsyncDiffUtilAdapter<DetailsItem> {
 
@@ -47,7 +48,17 @@ class TracingDetailsAdapter(
                 TypedVHCreatorMod({ data[it] is DetailsIncreasedRiskBox.Item }) { DetailsIncreasedRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is DetailsLowRiskBox.Item }) { DetailsLowRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is PeriodLoggedBox.Item }) { PeriodLoggedBox(it) },
-                TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) { BehaviorIncreasedRiskBox(it) },
+                TypedVHCreatorMod({ data[it] is BehaviorIncreasedRiskBox.Item }) {
+                    BehaviorIncreasedRiskBox(
+                        parent = it,
+                        openHygieneRules = {
+                            onInfoItemClickListener(TracingDetailsFragmentViewModel.InfoItem.HYGIENE_RULES)
+                        },
+                        openHomeRules = {
+                            onInfoItemClickListener(TracingDetailsFragmentViewModel.InfoItem.HOME_RULES)
+                        }
+                    )
+                },
                 TypedVHCreatorMod({ data[it] is BehaviorNormalRiskBox.Item }) { BehaviorNormalRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is AdditionalInfoLowRiskBox.Item }) { AdditionalInfoLowRiskBox(it) },
                 TypedVHCreatorMod({ data[it] is FindDetailsInJournalBox.Item }) { FindDetailsInJournalBox(it) },
