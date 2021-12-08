@@ -325,7 +325,8 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
         Timber.e("No priority match, this should not happen: %s", this)
     }
 
-fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = Instant.now()): PersonCertificates.AdmissionState? {
+fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = Instant.now()):
+    PersonCertificates.AdmissionState? {
 
     Timber.v("Determining the admission state(nowUtc=%s): %s", nowUtc, this)
 
@@ -356,30 +357,30 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
     val hasRAT = recentRAT != null
 
     // 5. determine admission state
-    when {
+    return when {
         has2G -> {
             val twoGCertificate = recentVaccination ?: recentRecovery!!
             if (hasPCR) {
                 Timber.v("Determined admission state = 2G+ PCR")
-                return TwoGPlusPCR(twoGCertificate, recentPCR!!)
+                TwoGPlusPCR(twoGCertificate, recentPCR!!)
             } else if (hasRAT) {
                 Timber.v("Determined admission state = 2G+ RAT")
-                return TwoGPlusRAT(twoGCertificate, recentRAT!!)
+                TwoGPlusRAT(twoGCertificate, recentRAT!!)
             }
             Timber.v("Determined admission state = 2G")
-            return TwoG(twoGCertificate)
+            TwoG(twoGCertificate)
         }
         hasPCR -> {
             Timber.v("Determined admission state = 3G with PCR")
-            return ThreeGWithPCR(recentPCR!!)
+            ThreeGWithPCR(recentPCR!!)
         }
         hasRAT -> {
             Timber.v("Determined admission state = 3G with RAT")
-            return ThreeGWithRAT(recentRAT!!)
+            ThreeGWithRAT(recentRAT!!)
         }
         else -> {
             Timber.v("Determined admission state = other")
-            return when (val certificate = findHighestPriorityCertificate(nowUtc)) {
+            when (val certificate = findHighestPriorityCertificate(nowUtc)) {
                 null -> null
                 else -> Other(certificate)
             }
