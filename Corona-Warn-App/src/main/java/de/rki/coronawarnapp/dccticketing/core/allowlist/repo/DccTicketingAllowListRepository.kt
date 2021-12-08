@@ -71,7 +71,7 @@ class DccTicketingAllowListRepository @Inject constructor(
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Failed to get new allow list.")
         null
-    }.also { Timber.tag(TAG).d("Returning %S", it) }
+    }.also { Timber.tag(TAG).d("Returning %s", it) }
 
     private fun ByteArray?.toAllowListContainer(): DccTicketingAllowListContainer = when (this != null) {
         true -> dccTicketingAllowListParser.parse(rawData = this)
