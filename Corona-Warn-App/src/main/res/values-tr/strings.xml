@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Hangi QR kodları tarayabilirsiniz?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR testleriniz, hızlı testleriniz, test sertifikalarınız, aşı sertifikalarınız, iyileşme sertifikalarınız ve check-in\'leriniz."</string>
+    <string name="qr_code_scan_body_subtitle">"Testler, sertifikalarınız, check-in\'ler ve bilet rezervasyonu sırasında doğrulama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sildiğiniz etkinlikleri geri yüklemek için check-in\'leri tarayabilirsiniz."</string>
     <!-- XBUT: open image file button  -->
@@ -1519,7 +1519,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Ok yönü trendin arttığını, azaldığını ya da sabit kaldığını belirtir. Sabit kalması, önceki güne göre %%1’den az veya önceki haftaya göre %%5’ten az sapma olduğu anlamına gelir (ondalık basamaklar hesaba katılır). Renk ise bu trendin pozitif (yeşil), negatif (kırmızı) ya da nötr (gri) olduğunu belirtir."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Şu trendler gösterilebilir:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Görüntülenen trend örnekleri:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Trend: yukarı (negatif)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->

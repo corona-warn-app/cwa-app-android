@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Какви QR кодове можете да сканирате?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Вашите PCR и бързи тестове, сертификати за тестове, ваксинация и възстановяване и регистрации."</string>
+    <string name="qr_code_scan_body_subtitle">"Тестове, Вашите сертификати, регистрации и валидиране при резервиране на билети"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Можете да сканирате регистрации, за да възстановите събития, които сте изтрили."</string>
     <!-- XBUT: open image file button  -->
@@ -1519,7 +1519,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Посоката на стрелката указва дали тенденцията е към нарастване, намаляване или стабилизиране, т.е. отклонението е по-малко от 1%% спрямо предишния ден или от 5%% спрямо предишната седмица (като се вземат предвид десетичните знаци). Цветът указва тенденцията като положителна (зелено), отрицателна (червено) или неутрална (сиво)."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Възможни са следните тенденции:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Примери на показаните тенденции:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Тенденция: Нагоре (отрицателна)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
