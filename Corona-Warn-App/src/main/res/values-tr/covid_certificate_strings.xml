@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Giriş kurallarında değişiklik yapılabileceğini lütfen unutmayın. Bu nedenle, lütfen gideceğiniz ülkeye girmeden kısa bir süre (en fazla 48 saat) önce sertifikayı kontrol edin."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"Bölgeler özelinde ek kurallar ve sınırlamalar geçerli olabilir."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Sertifikaların doğruluğundan emin olmak üzere her bir sertifika dijital imza ile düzenlenir. Doğrulama uygulaması, yalnızca bu imzayı doğrular."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Corona-Warn-App, sertifikaya kaydedilen verilerin geçerli olup olmadığını kontrol etmez."</string>
     <!-- XTXT: Validation start FAQ -->
