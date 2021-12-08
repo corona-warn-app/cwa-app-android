@@ -8,7 +8,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close"
+        style="@style/CWAToolbar.Close.Transparent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorSurface"
@@ -43,7 +43,7 @@
                 android:paddingTop="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_small"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_illustration_stay_at_home"
+                app:srcCompat="@drawable/ic_illustration_stay_at_home"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

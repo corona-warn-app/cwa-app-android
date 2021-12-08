@@ -51,7 +51,7 @@
         android:layout_height="@dimen/spacing_normal"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        android:contentDescription="@null"
+        android:contentDescription="@string/risk_details_info_button"
         android:focusable="true"
         android:padding="2dp"
         app:layout_constraintEnd_toEndOf="parent"

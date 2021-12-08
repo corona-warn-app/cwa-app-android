@@ -32,4 +32,6 @@
     <string name="risk_details_minimize_risk_faq_link">https://www.coronawarn.app/en/faq/#voluntary_self_quarantine</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms_increase">"Achten Sie auf Krankheitssymptome. Symptome können auch bei geimpften und bei genesenen Personen auftreten. Falls Sie sich krank fühlen oder Symptome auftreten, wenden Sie sich bitte an Ihre Hausarztpraxis."</string>
+    <!-- XTXT: risk details information (Accessibilty) -->
+    <string name="risk_details_info_button">"Weitere Informationen"</string>
 </resources>
