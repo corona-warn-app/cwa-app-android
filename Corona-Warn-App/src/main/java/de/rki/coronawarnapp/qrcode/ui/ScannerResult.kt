@@ -48,9 +48,10 @@ sealed class DccTicketingResult : ScannerResult {
 
 data class Error(val error: Throwable) : ScannerResult {
     val isDccTicketingError = error is DccTicketingInvalidQrCodeException
-    val isDccTicketingMinVersionError = error is DccTicketingException &&
-        error.errorCode == DccTicketingException.ErrorCode.MIN_VERSION_REQUIRED
     val isAllowListError = error is DccTicketingAllowListException
 }
 
-data class DccTicketingError(val errorMsg: LazyString) : ScannerResult
+data class DccTicketingError(val error: DccTicketingException, val errorMsg: LazyString) : ScannerResult {
+    val isDccTicketingMinVersionError
+        get() = error.errorCode == DccTicketingException.ErrorCode.MIN_VERSION_REQUIRED
+}

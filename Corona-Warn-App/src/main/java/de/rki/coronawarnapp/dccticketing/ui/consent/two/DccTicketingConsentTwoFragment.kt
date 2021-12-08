@@ -108,7 +108,7 @@ class DccTicketingConsentTwoFragment : Fragment(R.layout.fragment_dcc_ticketing_
     }
 
     private fun showCloseDialog() {
-        DccTicketingDialogType.ConfirmCancelation.show(
+        DccTicketingDialogType.ConfirmCancellation.show(
             fragment = this,
             negativeButtonAction = { viewModel.cancel() }
         )
