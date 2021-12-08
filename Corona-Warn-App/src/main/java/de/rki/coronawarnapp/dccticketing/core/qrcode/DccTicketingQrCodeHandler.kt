@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
-import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
@@ -66,7 +65,7 @@ class DccTicketingQrCodeHandler @Inject constructor(
                     validationServiceMinVersion,
                     BuildConfigWrap.VERSION_CODE
                 )
-                throw  DccTicketingException(MIN_VERSION_REQUIRED)
+                throw DccTicketingException(MIN_VERSION_REQUIRED)
             }
             else -> Timber.tag(TAG).w(
                 "Validation service min version check passed minConfigV=%s,appV=%s",
