@@ -1,20 +1,23 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
-import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccJwkFilteringResult
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
+import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
@@ -28,6 +31,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     @MockK lateinit var requestService: DccTicketingRequestService
     @MockK lateinit var dccTicketingJwkFilter: DccTicketingJwkFilter
     @MockK lateinit var allowListRepository: DccTicketingAllowListRepository
+    @MockK lateinit var qrCodeSettings: DccTicketingQrCodeSettings
 
     private val qrcode = DccTicketingQrCode(
         qrCode = "QrCodeString",
@@ -59,6 +63,12 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
             fingerprint256 = "fingerprint256".decodeBase64()!!.sha256()
         )
     )
+
+    private val serviceProviderAllowListEntry = DccTicketingServiceProviderAllowListEntry(
+        serviceIdentityHash = "serviceIdentity".toHash()
+    )
+    private val serviceProviderAllowList = setOf(serviceProviderAllowListEntry)
+
     private val filteringResult = DccJwkFilteringResult(
         filteredJwkSet = setOf(mockkJwt),
         filteredAllowlist = validationServiceAllowList
@@ -68,8 +78,10 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         coEvery { allowListRepository.refresh() } returns DccTicketingAllowListContainer(
-            validationServiceAllowList = validationServiceAllowList
+            validationServiceAllowList = validationServiceAllowList,
+            serviceProviderAllowList = serviceProviderAllowList
         )
+        every { qrCodeSettings.checkServiceIdentity.value } returns true
     }
 
     @Test
@@ -95,6 +107,21 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     }
 
     @Test
+    fun `no service provider check`() = runBlockingTest {
+        coEvery { allowListRepository.refresh() } returns DccTicketingAllowListContainer(
+            validationServiceAllowList = validationServiceAllowList,
+            serviceProviderAllowList = emptySet()
+        )
+        coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
+        coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
+        every { qrCodeSettings.checkServiceIdentity.value } returns false
+
+        shouldNotThrow<Exception> {
+            instance().handleQrCode(qrcode)
+        }
+    }
+
+    @Test
     fun `handleQrCode throws ALLOWLIST_NO_MATCH error`() = runBlockingTest {
         coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns DccJwkFilteringResult(emptySet(), emptySet())
         coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
@@ -115,6 +142,7 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     private fun instance() = DccTicketingQrCodeHandler(
         requestService = requestService,
         dccTicketingJwkFilter = dccTicketingJwkFilter,
-        allowListRepository = allowListRepository
+        allowListRepository = allowListRepository,
+        qrCodeSettings = qrCodeSettings,
     )
 }
