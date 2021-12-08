@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.observe2
-import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
@@ -67,7 +66,8 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
     private fun handleNavigation(navigation: DccTicketingValidationNavigation) {
         when (navigation) {
             DccTicketingValidationNavigation.Close,
-            DccTicketingValidationNavigation.Done -> findNavController().navigate(R.id.action_dcc_ticketing_nav_graph_pop)
+            DccTicketingValidationNavigation.Done ->
+                findNavController().navigate(R.id.action_dcc_ticketing_nav_graph_pop)
         }
     }
 }
