@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.core.service
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.processor.AccessTokenRequestProcessor
@@ -78,12 +79,13 @@ class DccTicketingRequestServiceTest : BaseTest() {
         coEvery {
             validationServiceRequestProcessor.requestValidationService(
                 any(),
+                any(),
                 any()
             )
         } returns validationServiceResult
 
         coEvery {
-            validationDecoratorRequestProcessor.requestValidationDecorator(any())
+            validationDecoratorRequestProcessor.requestValidationDecorator(any(), any())
         } returns validationDecoratorResult
 
         coEvery {
@@ -103,16 +105,22 @@ class DccTicketingRequestServiceTest : BaseTest() {
     @Test
     fun `requestValidationDecorator() - forwards call to processor`() = runBlockingTest {
         val url = "serviceEndpoint"
+        val validationServiceAllowList = setOf<DccTicketingValidationServiceAllowListEntry>()
 
         with(instance) {
-            requestValidationDecorator(url) shouldBe validationDecoratorResult
+            requestValidationDecorator(url, validationServiceAllowList) shouldBe validationDecoratorResult
 
-            coVerify { validationDecoratorRequestProcessor.requestValidationDecorator(url) }
+            coVerify { validationDecoratorRequestProcessor.requestValidationDecorator(url, validationServiceAllowList) }
 
             val error = DccTicketingException(errorCode = DccTicketingErrorCode.VD_ID_SERVER_ERR)
-            coEvery { validationDecoratorRequestProcessor.requestValidationDecorator(any()) } throws error
+            coEvery { validationDecoratorRequestProcessor.requestValidationDecorator(any(), any()) } throws error
 
-            shouldThrow<DccTicketingException> { requestValidationDecorator(url) } shouldBe error
+            shouldThrow<DccTicketingException> {
+                requestValidationDecorator(
+                    url,
+                    validationServiceAllowList
+                )
+            } shouldBe error
         }
     }
 
@@ -120,17 +128,20 @@ class DccTicketingRequestServiceTest : BaseTest() {
     fun `requestValidationService() - forwards call to processor`() = runBlockingTest {
         val validationService = dccTicketingService
         val validationServiceJwkSet = emptySet<DccJWK>()
+        val validationServiceAllowList = emptySet<DccTicketingValidationServiceAllowListEntry>()
 
         with(instance) {
             requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationServiceAllowList
             ) shouldBe validationServiceResult
 
             coVerify {
                 validationServiceRequestProcessor.requestValidationService(
                     validationService = validationService,
-                    validationServiceJwkSet = validationServiceJwkSet
+                    validationServiceJwkSet = validationServiceJwkSet,
+                    validationServiceAllowList = validationServiceAllowList
                 )
             }
 
@@ -138,14 +149,16 @@ class DccTicketingRequestServiceTest : BaseTest() {
             coEvery {
                 validationServiceRequestProcessor.requestValidationService(
                     validationService = any(),
-                    validationServiceJwkSet = any()
+                    validationServiceJwkSet = any(),
+                    validationServiceAllowList = any()
                 )
             } throws error
 
             shouldThrow<DccTicketingException> {
                 requestValidationService(
                     validationService = validationService,
-                    validationServiceJwkSet = validationServiceJwkSet
+                    validationServiceJwkSet = validationServiceJwkSet,
+                    validationServiceAllowList = validationServiceAllowList
                 )
             } shouldBe error
         }
@@ -219,6 +232,7 @@ class DccTicketingRequestServiceTest : BaseTest() {
             signatureBase64 = "signatureBase64",
             signatureAlgorithm = "signatureAlgorithm",
             encryptionScheme = "encryptionScheme",
+            allowlist = emptySet()
         )
 
         with(instance) {

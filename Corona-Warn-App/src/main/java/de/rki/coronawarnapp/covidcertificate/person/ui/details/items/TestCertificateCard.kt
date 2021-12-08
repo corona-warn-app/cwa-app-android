@@ -26,7 +26,7 @@ class TestCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val certificate = curItem.certificate
         root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
@@ -71,7 +71,6 @@ class TestCertificateCard(parent: ViewGroup) :
         val colorShade: PersonColorShade,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.containerId.hashCode().toLong()
     }
 }

@@ -27,7 +27,7 @@ class TestUnregisteredCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         itemView.setOnClickListener { curItem.onClickAction(item) }
         nextStepsAction.setOnClickListener { curItem.onClickAction(item) }
@@ -36,7 +36,5 @@ class TestUnregisteredCard(
     data class Item(
         val state: CommonSubmissionStates.TestUnregistered,
         val onClickAction: (Item) -> Unit
-    ) : TestResultItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-    }
+    ) : TestResultItem, HasPayloadDiffer
 }

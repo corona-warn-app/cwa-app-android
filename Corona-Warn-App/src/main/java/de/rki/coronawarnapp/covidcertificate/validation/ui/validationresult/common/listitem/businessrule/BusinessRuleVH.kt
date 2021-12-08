@@ -28,7 +28,7 @@ class BusinessRuleVH(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         with(curItem) {
             ruleIcon.setImageResource(ruleIconRes)
             ruleDescription.text = ruleDescriptionText.get(context)
@@ -50,7 +50,5 @@ class BusinessRuleVH(
         val identifier: String
     ) : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = identifier.hashCode().toLong()
-
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }
