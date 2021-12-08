@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.dccticketing.core.qrcode
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
@@ -7,10 +9,12 @@ import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccJwkFilterin
 import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJwkFilter
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.service.processor.ValidationDecoratorRequestProcessor
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -20,6 +24,8 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkObject
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
@@ -32,6 +38,8 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     @MockK lateinit var dccTicketingJwkFilter: DccTicketingJwkFilter
     @MockK lateinit var allowListRepository: DccTicketingAllowListRepository
     @MockK lateinit var qrCodeSettings: DccTicketingQrCodeSettings
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var configData: ConfigData
 
     private val qrcode = DccTicketingQrCode(
         qrCode = "QrCodeString",
@@ -77,11 +85,16 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkObject(BuildConfigWrap)
+
         coEvery { allowListRepository.refresh() } returns DccTicketingAllowListContainer(
             validationServiceAllowList = validationServiceAllowList,
             serviceProviderAllowList = serviceProviderAllowList
         )
         every { qrCodeSettings.checkServiceIdentity.value } returns true
+        every { BuildConfigWrap.VERSION_CODE } returns 2150002
+        every { appConfigProvider.currentConfig } returns flowOf(configData)
+        every { configData.validationServiceMinVersion } returns 0
     }
 
     @Test
@@ -103,6 +116,39 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             requestService.requestValidationDecorator(any(), any())
             dccTicketingJwkFilter.filter(any(), any())
+        }
+    }
+
+    @Test
+    fun `handleQrCode throws MIN_VERSION_REQUIRED`() = runBlockingTest {
+        every { configData.validationServiceMinVersion } returns 2160101
+        coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
+        coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
+
+        shouldThrow<DccTicketingException> {
+            instance().handleQrCode(qrcode)
+        }.errorCode shouldBe DccTicketingException.ErrorCode.MIN_VERSION_REQUIRED
+    }
+
+    @Test
+    fun `handleQrCode  pass when minVersion is older`() = runBlockingTest {
+        every { configData.validationServiceMinVersion } returns 2140000
+        coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
+        coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
+
+        shouldNotThrow<DccTicketingException> {
+            instance().handleQrCode(qrcode)
+        }
+    }
+
+    @Test
+    fun `handleQrCode pass when versions are the same`() = runBlockingTest {
+        every { configData.validationServiceMinVersion } returns 2150002
+        coEvery { dccTicketingJwkFilter.filter(any(), any()) } returns filteringResult
+        coEvery { requestService.requestValidationDecorator(any(), any()) } returns decorator
+
+        shouldNotThrow<DccTicketingException> {
+            instance().handleQrCode(qrcode)
         }
     }
 
@@ -144,5 +190,6 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
         dccTicketingJwkFilter = dccTicketingJwkFilter,
         allowListRepository = allowListRepository,
         qrCodeSettings = qrCodeSettings,
+        appConfigProvider = appConfigProvider
     )
 }
