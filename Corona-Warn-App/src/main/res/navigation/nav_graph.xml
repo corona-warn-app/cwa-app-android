@@ -277,7 +277,25 @@
         <action
             android:id="@+id/action_riskDetailsFragment_to_surveyConsentFragment"
             app:destination="@id/surveyConsentFragment" />
+        <action
+            android:id="@+id/action_riskDetailsFragment_to_hygieneRules"
+            app:destination="@id/hygieneRulesFragment" />
+        <action
+            android:id="@+id/action_riskDetailsFragment_to_homeRules"
+            app:destination="@id/homeRulesFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/hygieneRulesFragment"
+        android:name="de.rki.coronawarnapp.tracing.ui.details.hygiene.HygieneRulesFragment"
+        android:label="@layout/fragment_tracing_details_hygiene"
+        tools:layout="@layout/fragment_tracing_details_hygiene" />
+
+    <fragment
+        android:id="@+id/homeRulesFragment"
+        android:name="de.rki.coronawarnapp.tracing.ui.details.home.HomeRulesFragment"
+        android:label="@layout/fragment_tracing_details_home"
+        tools:layout="@layout/fragment_tracing_details_home" />
 
     <fragment
         android:id="@+id/statisticsExplanationFragment"
