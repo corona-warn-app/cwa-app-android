@@ -117,7 +117,7 @@ class DccTicketingException(
             )
         TextKey.TRY_AGAIN ->
             R.string.dcc_ticketing_error_try_again.toResolvingString()
-        TextKey.MIN_VER_ERROR -> "TODO meh".toLazyString()
+        TextKey.MIN_VER_ERROR -> R.string.dcc_ticketing_error_min_version.toResolvingString()
     }
 
     fun errorMessage(serviceProvider: String): LazyString = CachedString { context ->

@@ -8,6 +8,10 @@
     <string name="dcc_ticketing_error_service_provider_error">Es trat ein Fehler bei der Verbindung mit dem Anbieter %1$s auf. Bitte kontaktieren Sie den Anbieter wenn das Problem weiterhin besteht.</string>
     <!-- XTXT: Try again error message-->
     <string name="dcc_ticketing_error_try_again">Es trat ein Fehler bei der Verarbeitung der Daten auf. Bitte versuchen Sie es später erneut.</string>
+    <!-- XTXT: Validation service min version message-->
+    <string name="dcc_ticketing_error_min_version">In der aktuellen Version ihrer Corona-Warn-App wird die Tickerüberprüfung nicht mehr unterstützt. Bitte aktualisieren Sie Ihre App und versuchen Sie die Ticketüberprüfung erneut.</string>
+    <!-- XBUT: Validation service min version Google play button-->
+    <string name="dcc_ticketing_error_min_version_google_play">zu Google Play</string>
 
     <!-- DCC Ticketing: Consent One -->
     <!-- XHED: DCC Ticketing: Consent One: Header -->
@@ -54,7 +58,7 @@
     <!-- XTXT: not in AllowList dialog title -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_title">Sicherheitshinweis</string>
     <!-- XTXT: not in AllowList dialog message -->
-    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Aus Sicherheitsgründen ist die Überprüfung bei Ticketbuchung nur für bekannte Anbieter möglich. Bitte kontaktieren Sie den Anbieter, der ihnen dieses QR-Code bereitgstellt hat.</string>
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Aus Sicherheitsgründen ist die Überprüfung bei Ticketbuchung nur für bekannte Anbieter möglich. Bitte kontaktieren Sie den Anbieter, der ihnen dieses QR-Code bereitgstellt hat und versuchen Sie Ihre App auf die neuste Version zu aktualisieren.</string>
 
     <!-- DCC Ticketing: Certificate Selection Screen -->
     <!-- XHED: Certificate Selection Screen Toolbar Title -->
