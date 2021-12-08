@@ -57,7 +57,7 @@ class DccTicketingCertificateSelectionFragment :
     }
 
     private fun showCloseDialog() {
-        DccTicketingDialogType.ConfirmCancelation.show(
+        DccTicketingDialogType.ConfirmCancellation.show(
             fragment = this,
             negativeButtonAction = { viewModel.closeScreen() }
         )
