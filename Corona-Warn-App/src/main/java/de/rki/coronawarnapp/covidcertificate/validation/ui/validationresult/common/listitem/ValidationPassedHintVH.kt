@@ -23,7 +23,5 @@ class ValidationPassedHintVH(
 
     object Item : ValidationResultItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
-
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

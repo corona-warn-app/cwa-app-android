@@ -7,9 +7,7 @@ import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.util.lists.HasStableId
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-sealed class StatisticsCardItem : HasStableId, HasPayloadDiffer {
-    override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-}
+sealed class StatisticsCardItem : HasStableId, HasPayloadDiffer
 
 data class GlobalStatisticsCardItem(
     val stats: GlobalStatsItem,

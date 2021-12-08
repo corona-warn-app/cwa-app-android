@@ -21,7 +21,7 @@ class SelectableCheckInVH(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val checkIn = curItem.checkIn
         val imageResource = if (checkIn.hasSubmissionConsent) R.drawable.ic_selected else R.drawable.ic_unselected
 
@@ -39,6 +39,5 @@ class SelectableCheckInVH(parent: ViewGroup) :
         val onItemSelected: (CheckIn) -> Unit
     ) : CheckInsConsentItem, HasPayloadDiffer {
         override val stableId: Long = checkIn.id
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
     }
 }

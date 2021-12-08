@@ -23,7 +23,7 @@ class CwaUserCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val certificate = curItem.personCertificates.highestPriorityCertificate
         curItem.apply {
             userName.text = certificate?.fullName
@@ -61,7 +61,7 @@ class CwaUserCard(parent: ViewGroup) :
         val personCertificates: PersonCertificates,
         val onSwitch: (Boolean) -> Unit
     ) : CertificateItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
+
         override val stableId = Item::class.hashCode().toLong()
     }
 }
