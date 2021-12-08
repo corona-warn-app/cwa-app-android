@@ -360,15 +360,20 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
         return when {
             has2G -> {
                 val twoGCertificate = recentVaccination ?: recentRecovery!!
-                if (hasPCR) {
-                    Timber.v("Determined admission state = 2G+ PCR")
-                    TwoGPlusPCR(twoGCertificate, recentPCR!!)
-                } else if (hasRAT) {
-                    Timber.v("Determined admission state = 2G+ RAT")
-                    TwoGPlusRAT(twoGCertificate, recentRAT!!)
+                return when {
+                    hasPCR -> {
+                        Timber.v("Determined admission state = 2G+ PCR")
+                        TwoGPlusPCR(twoGCertificate, recentPCR!!)
+                    }
+                    hasRAT -> {
+                        Timber.v("Determined admission state = 2G+ RAT")
+                        TwoGPlusRAT(twoGCertificate, recentRAT!!)
+                    }
+                    else -> {
+                        Timber.v("Determined admission state = 2G")
+                        TwoG(twoGCertificate)
+                    }
                 }
-                Timber.v("Determined admission state = 2G")
-                TwoG(twoGCertificate)
             }
             hasPCR -> {
                 Timber.v("Determined admission state = 3G with PCR")
