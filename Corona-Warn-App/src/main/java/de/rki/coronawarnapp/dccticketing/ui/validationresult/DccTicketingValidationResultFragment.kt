@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccticketing.ui.validationresult
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentDccTicketingValidationResultBinding
@@ -66,7 +67,7 @@ class DccTicketingValidationResultFragment : Fragment(R.layout.fragment_dcc_tick
     private fun handleNavigation(navigation: DccTicketingValidationNavigation) {
         when (navigation) {
             DccTicketingValidationNavigation.Close,
-            DccTicketingValidationNavigation.Done -> popBackStack()
+            DccTicketingValidationNavigation.Done -> findNavController().navigate(R.id.action_dcc_ticketing_nav_graph_pop)
         }
     }
 }
