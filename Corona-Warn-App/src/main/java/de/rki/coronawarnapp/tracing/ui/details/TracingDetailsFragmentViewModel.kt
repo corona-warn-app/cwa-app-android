@@ -127,6 +127,18 @@ class TracingDetailsFragmentViewModel @AssistedInject constructor(
         }
     }
 
+    fun onInfoItemClicked(item: InfoItem) {
+        when (item) {
+            InfoItem.HYGIENE_RULES -> routeToScreen.postValue(TracingDetailsNavigationEvents.NavigateToHygieneRules)
+            InfoItem.HOME_RULES -> routeToScreen.postValue(TracingDetailsNavigationEvents.NavigateToHomeRules)
+        }
+    }
+
+    enum class InfoItem {
+        HYGIENE_RULES,
+        HOME_RULES
+    }
+
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<TracingDetailsFragmentViewModel>
 }
