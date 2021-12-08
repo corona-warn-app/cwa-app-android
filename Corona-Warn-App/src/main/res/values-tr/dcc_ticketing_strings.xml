@@ -127,6 +127,8 @@
     <string name="dcc_ticketing_result_valid_header">"Sertifikanız başarıyla doğrulandı"</string>
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">"Sertifikanız sağlayıcı gerekliliklerini karşılamıyor"</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Sertifikanız doğrulama ortağı tarafından doğrulanamadı"</string>
     <!-- XTXT: validation result valid body  -->
     <string name="dcc_ticketing_result_valid_body">"Sağlayıcıya \"%s\", doğrulamanın başarılı olduğu bildirildi."</string>
     <!-- XTXT: validation result invalid body  -->
