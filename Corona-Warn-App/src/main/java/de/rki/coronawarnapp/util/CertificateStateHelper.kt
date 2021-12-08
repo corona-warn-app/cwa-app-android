@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
+import android.graphics.Typeface
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
@@ -171,19 +172,25 @@ fun PersonOverviewItemBinding.setUIState(
         invalidOverlay.isGone = valid
         image.isEnabled = valid
         certificateToggleGroup.isVisible = isCombinedCertificate && valid
+        primaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
+        secondaryCertificateButton.typeface = Typeface.DEFAULT
         certificateToggleGroup.setOnCheckedChangeListener { checkedId ->
             when (checkedId) {
-                R.id.primary_certificate -> {
+                R.id.primary_certificate_button -> {
                     image.loadAny(primaryCertificate.getValidQrCode(Locale.getDefault().language)) {
                         crossfade(true)
                         loadingView(qrCodeCard.image, qrCodeCard.progressBar)
                     }
+                    primaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
+                    secondaryCertificateButton.typeface = Typeface.DEFAULT
                 }
-                R.id.secondary_certificate -> {
+                R.id.secondary_certificate_button -> {
                     image.loadAny(secondaryCertificate?.getValidQrCode(Locale.getDefault().language)) {
                         crossfade(true)
                         loadingView(qrCodeCard.image, qrCodeCard.progressBar)
                     }
+                    primaryCertificateButton.typeface = Typeface.DEFAULT
+                    secondaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
                 }
             }
         }
