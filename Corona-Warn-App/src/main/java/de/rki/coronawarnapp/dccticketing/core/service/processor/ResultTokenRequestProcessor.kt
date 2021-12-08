@@ -109,15 +109,6 @@ class ResultTokenRequestProcessor @Inject constructor(
                 )
             }
         )
-    } catch (e: DccTicketingServerCertificateCheckException) {
-        Timber.tag(TAG).e(e, "checkServerCertificate for result token failed")
-        throw when (e.errorCode) {
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH,
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
-                DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
-            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
-                DccTicketingException.ErrorCode.RTR_CERT_PIN_MISMATCH
-        }.let { DccTicketingException(it) }
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Requesting result token failed")
         throw when (e) {
