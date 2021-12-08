@@ -14,5 +14,7 @@ interface CWAConfig {
 
     val isUnencryptedCheckInsEnabled: Boolean
 
+    val validationServiceMinVersion: Int
+
     interface Mapper : ConfigMapper<CWAConfig>
 }

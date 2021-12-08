@@ -14,7 +14,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.ViewCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.ImageViewCompat
+import androidx.databinding.BindingAdapter
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.hasAPILevel
@@ -29,6 +32,7 @@ class BehaviorInfoRow @JvmOverloads constructor(
     private val body by lazy { findViewById<TextView>(R.id.body) }
     private val icon by lazy { findViewById<ImageView>(R.id.icon) }
     private val iconBackground by lazy { findViewById<View>(R.id.icon_background) }
+    private val infoButton by lazy { findViewById<View>(R.id.info_icon) }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.tracing_details_item_behavior_row_view, this, true)
@@ -49,13 +53,14 @@ class BehaviorInfoRow @JvmOverloads constructor(
                 body.text = if (it != 0) resources.getString(it)
                 else getString(R.styleable.TracingDetailsBehaviorRow_android_text)
             }
+            infoButton.isGone = true
         }
 
-        if (body.text == context.getString(R.string.risk_details_increased_risk_faq_link_text)) {
+        if (body.text == context.getString(R.string.risk_details_behavior_body_health_department)) {
             body.setTextWithUrl(
-                R.string.risk_details_increased_risk_faq_link_text,
-                R.string.risk_details_increased_risk_faq_link_label,
-                R.string.risk_details_increased_risk_faq_url
+                R.string.risk_details_behavior_body_health_department,
+                R.string.risk_details_behavior_body_health_department_label,
+                R.string.risk_details_behavior_body_health_department_link
             )
         }
     }
@@ -76,5 +81,13 @@ class BehaviorInfoRow @JvmOverloads constructor(
 
     fun setForegroundTint(@ColorInt color: Int) {
         ImageViewCompat.setImageTintList(icon, ColorStateList.valueOf(color))
+    }
+}
+
+@BindingAdapter("infoButtonCallback")
+fun BehaviorInfoRow.infoButtonCallback(callback: () -> Unit) {
+    findViewById<View>(R.id.info_icon).apply {
+        isVisible = true
+        setOnClickListener { callback() }
     }
 }

@@ -4,7 +4,7 @@
 
     <TextView
         android:id="@+id/risk_details_find_details_in_journal"
-        style="@style/body1"
+        style="@style/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"

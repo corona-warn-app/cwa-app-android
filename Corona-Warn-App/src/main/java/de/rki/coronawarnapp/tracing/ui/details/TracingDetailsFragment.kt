@@ -32,7 +32,10 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
     )
     private val binding: TracingDetailsFragmentLayoutBinding by viewBinding()
 
-    private val detailsAdapter = TracingDetailsAdapter { vm.onItemClicked(it) }
+    private val detailsAdapter = TracingDetailsAdapter(
+        onItemClickListener = { vm.onItemClicked(it) },
+        onInfoItemClickListener = { vm.onInfoItemClicked(it) }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,6 +61,12 @@ class TracingDetailsFragment : Fragment(R.layout.tracing_details_fragment_layout
                     TracingDetailsFragmentDirections.actionRiskDetailsFragmentToSurveyConsentFragment(it.type)
                 )
                 is TracingDetailsNavigationEvents.NavigateToSurveyUrlInBrowser -> openUrl(it.url)
+                TracingDetailsNavigationEvents.NavigateToHomeRules -> doNavigate(
+                    TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHomeRules()
+                )
+                TracingDetailsNavigationEvents.NavigateToHygieneRules -> doNavigate(
+                    TracingDetailsFragmentDirections.actionRiskDetailsFragmentToHygieneRules()
+                )
             }
         }
 

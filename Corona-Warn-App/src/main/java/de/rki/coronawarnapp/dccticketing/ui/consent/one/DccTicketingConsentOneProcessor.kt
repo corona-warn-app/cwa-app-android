@@ -27,9 +27,13 @@ class DccTicketingConsentOneProcessor @Inject constructor(
 
             requireNotNull(validationService) { "ctx.validationService must not be null" }
             requireNotNull(validationServiceJwkSet) { "ctx.validationServiceJwkSet must not be null" }
+            requireNotNull(allowlist) { "ctx.allowlist must not be null" }
 
-            val document = dccTicketingRequestService
-                .requestValidationService(validationService, validationServiceJwkSet)
+            val document = dccTicketingRequestService.requestValidationService(
+                validationService,
+                validationServiceJwkSet,
+                allowlist
+            )
 
             return copy(
                 validationServiceEncKeyJwkSetForRSAOAEPWithSHA256AESCBC =

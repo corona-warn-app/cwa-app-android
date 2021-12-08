@@ -52,12 +52,14 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
     }
     val uiState = uiStateFlow.asLiveData2()
 
-    fun onUserCancel() {
-        Timber.d("onUserCancel()")
+    fun showCancelConfirmationDialog() {
+        Timber.d("showCancelConfirmationDialog()")
         postEvent(ShowCancelConfirmationDialog)
     }
 
     fun goBack() = postEvent(NavigateBack)
+
+    fun cancel() = postEvent(NavigateToHome)
 
     fun showPrivacyInformation() = postEvent(NavigateToPrivacyInformation)
 
