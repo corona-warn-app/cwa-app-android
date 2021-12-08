@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Należy pamiętać, że zasady dotyczące wjazdu mogą ulec zmianie. Dlatego prosimy o sprawdzenie certyfikatu na krótko przed wjazdem do kraju docelowego (maks. 48 godzin)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"W poszczególnych regionach mogą obowiązywać dodatkowe zasady i ograniczenia."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Wszystkie certyfikaty są opatrzone podpisem cyfrowym zapewniającym ich autentyczność. Aplikacja walidacyjna jedynie waliduje ten podpis."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Aplikacja Corona-Warn-App nie sprawdza, czy dane zapisane w certyfikacie są ważne."</string>
     <!-- XTXT: Validation start FAQ -->
