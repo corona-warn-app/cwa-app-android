@@ -31,6 +31,8 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
+import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -99,6 +101,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is DccTicketingResult -> onDccTicketingResult(scannerResult)
                 is DccTicketingError -> showDccTicketingErrorDialog(errorMsg = scannerResult.errorMsg)
                 is Error -> when {
+                    scannerResult.isDccTicketingMinVersionError -> showValidationServiceMinVersionDialog(
+                        scannerResult.error
+                    )
+
                     scannerResult.isDccTicketingError || scannerResult.isAllowListError -> showDccTicketingErrorDialog(
                         humanReadableError = scannerResult.error.tryHumanReadableError(requireContext())
                     )
@@ -196,6 +202,14 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private fun showScannerResultErrorDialog(error: Throwable) = error
         .toQrCodeErrorDialogBuilder(requireContext())
         .setOnDismissListener { startDecode() }
+        .show()
+
+    private fun showValidationServiceMinVersionDialog(error: Throwable) = error
+        .toQrCodeErrorDialogBuilder(requireContext())
+        .setNeutralButton(R.string.dcc_ticketing_error_min_version_google_play) { _, _ ->
+            requireContext().openGooglePlay()
+        }
+        .setPositiveButton(android.R.string.ok) { _, _ -> startDecode() }
         .show()
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
