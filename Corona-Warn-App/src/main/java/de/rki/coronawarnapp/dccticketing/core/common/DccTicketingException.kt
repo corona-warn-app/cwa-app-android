@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.dccticketing.core.common
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ui.CachedString
 import de.rki.coronawarnapp.util.ui.LazyString
-import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 
 class DccTicketingException(
