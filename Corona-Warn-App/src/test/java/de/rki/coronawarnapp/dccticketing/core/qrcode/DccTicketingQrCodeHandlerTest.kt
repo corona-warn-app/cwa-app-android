@@ -20,6 +20,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -128,6 +129,11 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
         shouldThrow<DccTicketingException> {
             instance().handleQrCode(qrcode)
         }.errorCode shouldBe DccTicketingException.ErrorCode.MIN_VERSION_REQUIRED
+
+        coVerify(exactly = 0) {
+            requestService.requestValidationDecorator(any(), any())
+            dccTicketingJwkFilter.filter(any(), any())
+        }
     }
 
     @Test
@@ -139,6 +145,11 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
         shouldNotThrow<DccTicketingException> {
             instance().handleQrCode(qrcode)
         }
+
+        coVerify {
+            requestService.requestValidationDecorator(any(), any())
+            dccTicketingJwkFilter.filter(any(), any())
+        }
     }
 
     @Test
@@ -149,6 +160,11 @@ internal class DccTicketingQrCodeHandlerTest : BaseTest() {
 
         shouldNotThrow<DccTicketingException> {
             instance().handleQrCode(qrcode)
+        }
+
+        coVerify {
+            requestService.requestValidationDecorator(any(), any())
+            dccTicketingJwkFilter.filter(any(), any())
         }
     }
 
