@@ -25,7 +25,7 @@ class AddCard(parent: ViewGroup) :
         item: AddLocalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<AddLocalStatisticsCardItem>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<AddLocalStatisticsCardItem>().lastOrNull() ?: item
 
         with(curItem) {
             warningText.isGone = stats.isEnabled
