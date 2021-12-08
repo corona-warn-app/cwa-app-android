@@ -127,6 +127,8 @@
     <string name="dcc_ticketing_result_valid_header">"Сертификатът Ви е успешно валидиран"</string>
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">"Вашият сертификат не отговаря на изискванията на доставчика"</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Вашият сертификат не можа да се валидира от от партньора за валидиране"</string>
     <!-- XTXT: validation result valid body  -->
     <string name="dcc_ticketing_result_valid_body">"Изпратено е известие на доставчик “%s”, че валидирането е успешно."</string>
     <!-- XTXT: validation result invalid body  -->
