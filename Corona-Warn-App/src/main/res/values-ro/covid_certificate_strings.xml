@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Rețineți că regulile de intrare se supun modificărilor. În consecință, verificați certificatul cu puțin timp înainte de a intra în țara de destinație (cu maximum 48 de ore înainte)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"În regiuni individuale se pot aplica reguli și restricții suplimentare."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Pentru a asigura autenticitatea certificatelor, fiecare certificat este emis cu o semnătură digitală. O aplicație de validare doar validează această semnătură."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Aplicația Corona-Warn nu verifică dacă datele înregistrate în acest certificat sunt valabile."</string>
     <!-- XTXT: Validation start FAQ -->
