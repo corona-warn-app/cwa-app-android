@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.Error
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.SP_ALLOWLIST_NO_MATCH
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.first
 import okio.ByteString.Companion.encode
@@ -59,18 +60,18 @@ class DccTicketingQrCodeHandler @Inject constructor(
     private suspend fun checkValidationServiceMinVersion() {
         val validationServiceMinVersion = appConfigProvider.currentConfig.first().validationServiceMinVersion
         when {
-            validationServiceMinVersion > BuildConfig.VERSION_CODE -> {
+            validationServiceMinVersion > BuildConfigWrap.VERSION_CODE -> {
                 Timber.tag(TAG).w(
                     "Validation service min version check failed minConfigV=%s,appV=%s",
                     validationServiceMinVersion,
-                    BuildConfig.VERSION_CODE
+                    BuildConfigWrap.VERSION_CODE
                 )
                 throw  DccTicketingException(MIN_VERSION_REQUIRED)
             }
             else -> Timber.tag(TAG).w(
                 "Validation service min version check passed minConfigV=%s,appV=%s",
                 validationServiceMinVersion,
-                BuildConfig.VERSION_CODE
+                BuildConfigWrap.VERSION_CODE
             )
         }
     }
