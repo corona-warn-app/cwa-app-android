@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/settings_notifications_illustration_description_active"
                 android:focusable="true"
-                android:paddingTop="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_small"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/ic_illustration_stay_at_home"
