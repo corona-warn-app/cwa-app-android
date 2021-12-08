@@ -262,6 +262,18 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(71))
             every { getState() } returns mockk<State.Valid>()
         }
+        // RAT test that expires soon
+        val ratTestExpiringSoon = mockk<TestCertificate>().apply {
+            every { rawCertificate.test.testType } returns "LP217198-3"
+            every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(1))
+            every { getState() } returns mockk<State.ExpiringSoon>()
+        }
+        // PCR test that expires soon
+        val pcrTestExpiringSoon = mockk<TestCertificate>().apply {
+            every { rawCertificate.test.testType } returns "LP6464-4"
+            every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(1))
+            every { getState() } returns mockk<State.ExpiringSoon>()
+        }
 
         mutableListOf<CwaCovidCertificate>().apply {
 
@@ -382,6 +394,17 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             // Add PCR test < 72 hours old
             add(fifteenth)
             determineAdmissionState() shouldBe ThreeGWithPCR(fifteenth)
+
+            // Remove all Certificates
+            clear()
+
+            // Add RAT test that expires soon
+            add(ratTestExpiringSoon)
+            determineAdmissionState() shouldBe ThreeGWithRAT(ratTestExpiringSoon)
+
+            // Add PCR test that expires soon
+            add(pcrTestExpiringSoon)
+            determineAdmissionState() shouldBe ThreeGWithPCR(pcrTestExpiringSoon)
         }
     }
 

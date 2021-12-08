@@ -15,11 +15,8 @@ data class PersonCertificates(
         certificates.findHighestPriorityCertificate()
     }
 
-    val validCertificates: List<CwaCovidCertificate>
-        get() = certificates.filter { it.isValid }
-
     val admissionState: AdmissionState?
-        get() = validCertificates.determineAdmissionState()
+        get() = certificates.determineAdmissionState()
 
     sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
         data class TwoGPlusPCR(val twoGCertificate: CwaCovidCertificate, val testCertificate: CwaCovidCertificate) :

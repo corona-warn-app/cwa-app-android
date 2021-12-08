@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
@@ -245,10 +249,9 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
 
         this.forEach {
             when (it.getState()) {
-                is CwaCovidCertificate.State.Valid,
-                is CwaCovidCertificate.State.ExpiringSoon -> valid.add(it)
-                is CwaCovidCertificate.State.Expired -> expired.add(it)
-                is CwaCovidCertificate.State.Invalid -> invalid.add(it)
+                is Valid, is ExpiringSoon -> valid.add(it)
+                is Expired -> expired.add(it)
+                is Invalid -> invalid.add(it)
             }
         }
 
@@ -338,11 +341,17 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
         // The operations from the tech spec are documented as comments here
 
         // 1. validity state has to be VALID or EXPIRING_SOON
-        // => we are only passing valid certificates to this function
+        val validCerts =
+            filter {
+                when (it.getState()) {
+                    is Valid, is ExpiringSoon -> true
+                    else -> false
+                }
+            }
 
         // 2. determine has2G: at least one valid vaccination or recovery certificate
-        val recentVaccination = rule3FindRecentLastShot(nowUtc)
-        val recentRecovery = rule4findRecentRecovery(nowUtc)
+        val recentVaccination = validCerts.rule3FindRecentLastShot(nowUtc)
+        val recentRecovery = validCerts.rule4findRecentRecovery(nowUtc)
 
         val hasVaccination = recentVaccination != null
         val hasRecentRecovery = recentRecovery != null
@@ -350,8 +359,8 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
         val has2G = hasVaccination || hasRecentRecovery
 
         // 3. determine hasPCR and 4. hasRAT
-        val recentPCR = rule1FindRecentPcrCertificate(nowUtc)
-        val recentRAT = rule2FindRecentRaCertificate(nowUtc)
+        val recentPCR = validCerts.rule1FindRecentPcrCertificate(nowUtc)
+        val recentRAT = validCerts.rule2FindRecentRaCertificate(nowUtc)
 
         val hasPCR = recentPCR != null
         val hasRAT = recentRAT != null
