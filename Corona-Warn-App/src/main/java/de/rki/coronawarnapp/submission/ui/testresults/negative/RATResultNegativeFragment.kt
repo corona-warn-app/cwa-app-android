@@ -107,24 +107,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             localTime.toShortTimeFormat()
         )
 
-        val isAnonymousTest = with(uiState.test) {
-            firstName == null && lastName == null && dateOfBirth == null
-        }
-
-        val titleString = if (isAnonymousTest) {
-            R.string.submission_test_result_antigen_negative_proof_title_anonymous
-        } else {
-            R.string.submission_test_result_antigen_negative_proof_title
-        }
-        negativeTestProofTitle.text = getString(titleString)
-
-        val proofBodyString = if (isAnonymousTest) {
-            R.string.submission_test_result_antigen_negative_proof_body_anonymous
-        } else {
-            R.string.submission_test_result_antigen_negative_proof_body
-        }
-        negativeTestProofBody.text = getString(proofBodyString)
-
         when (uiState.certificateState) {
             RATResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
                 coronatestNegativeAntigenResultThirdInfo.setIsFinal(true)
