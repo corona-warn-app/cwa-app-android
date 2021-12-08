@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Your PCR tests, rapid tests, test certificates, vaccination certificates, certificates of recovery, and check-ins."</string>
+    <string name="qr_code_scan_body_subtitle">"Tests, your certificates, check-ins, and validation during ticket booking"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
@@ -1519,7 +1519,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"The arrow direction indicates whether the trend is increasing, decreasing, or remaining steady – that is, demonstrates a deviation of less than 1%% compared to the previous day or 5%% compared to the previous week (taking decimal places into account). The color indicates this trend as positive (green), negative (red), or neutral (gray)."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"The following trends can be shown:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Examples of displayed trends:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Trend: upwards (negative)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->

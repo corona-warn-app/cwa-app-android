@@ -71,7 +71,7 @@
     <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
     <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
     <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
-    <string name="dcc_ticketing_faq_link_english">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
     <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Cerințe furnizor:"</string>
     <!-- XTXT: Certificate Selection Screen: Person Birthday -->
@@ -127,6 +127,8 @@
     <string name="dcc_ticketing_result_valid_header">"Certificatul dvs. a fost validat cu succes"</string>
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">"Certificatul dvs. nu îndeplinește cerințele furnizorului"</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Certificatul dvs. nu a putut fi validat de către partenerul de validare"</string>
     <!-- XTXT: validation result valid body  -->
     <string name="dcc_ticketing_result_valid_body">"Furnizorul „%s” a fost notificat că validarea a fost reușită."</string>
     <!-- XTXT: validation result invalid body  -->

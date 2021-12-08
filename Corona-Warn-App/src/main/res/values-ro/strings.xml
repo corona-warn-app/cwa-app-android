@@ -917,7 +917,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Ce coduri QR puteți scana?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Testele dvs. PCR, testele rapide, certificatele de test, certificatele de vaccinare, certificatele de recuperare și check-inurile."</string>
+    <string name="qr_code_scan_body_subtitle">"Testele, certificatele dvs., check-inurile și validarea la rezervarea biletului"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Puteți scana check-inurile pentru a restaura evenimentele pe care le-ați șters."</string>
     <!-- XBUT: open image file button  -->
@@ -1519,7 +1519,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Pot fi afișate următoarele tendințe:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Exemple de tendințe afișate:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Tendință: ascendentă (negativă)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
