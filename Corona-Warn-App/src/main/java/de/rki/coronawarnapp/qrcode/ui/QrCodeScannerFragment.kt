@@ -371,7 +371,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showMaxPersonExceedsMaxResult(max:Int) {
+    private fun showMaxPersonExceedsMaxResult(max: Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.qr_code_error_max_person_max_title)
             .setCancelable(false)
