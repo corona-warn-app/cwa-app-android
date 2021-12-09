@@ -149,6 +149,26 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
+    fun `feature, dcc-person-warn-threshold - negative`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "dcc-person-warn-threshold"
+                            value = -1
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            dccPersonCountMax shouldBe 20
+            dccPersonWarnThreshold shouldBe 10
+        }
+    }
+
+    @Test
     fun `feature, dcc-person-count-max`() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
@@ -164,6 +184,26 @@ class CWAConfigMapperTest : BaseTest() {
             .build()
         createInstance().map(rawConfig).apply {
             dccPersonCountMax shouldBe 30
+            dccPersonWarnThreshold shouldBe 10
+        }
+    }
+
+    @Test
+    fun `feature, dcc-person-count-max - negative`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "dcc-person-count-max"
+                            value = -1
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            dccPersonCountMax shouldBe 20
             dccPersonWarnThreshold shouldBe 10
         }
     }
