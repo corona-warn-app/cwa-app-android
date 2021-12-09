@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.Manifest
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -32,6 +33,7 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFr
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
@@ -348,6 +350,44 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 viewModel.restoreCoronaTest(recycledCoronaTest)
+            }
+            .show()
+    }
+
+    private fun showMaxPersonExceedsThresholdResult(deeplink: Uri, navOptions: NavOptions) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.qr_code_error_max_person_threshold_title)
+            .setCancelable(false)
+            .setMessage(R.string.qr_code_error_max_person_threshold_body)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                findNavController().navigate(deeplink, navOptions)
+            }
+            .setNegativeButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
+                findNavController().navigate(deeplink, navOptions)
+                openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
+            }
+            .setNeutralButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
+                findNavController().navigate(deeplink, navOptions)
+                openUrl(R.string.qr_code_error_max_person_faq_link)
+            }
+            .show()
+    }
+
+    private fun showMaxPersonExceedsMaxResult(deeplink: Uri, navOptions: NavOptions) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.qr_code_error_max_person_max_title)
+            .setCancelable(false)
+            .setMessage(R.string.qr_code_error_max_person_max_body)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                findNavController().navigate(deeplink, navOptions)
+            }
+            .setNegativeButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
+                findNavController().navigate(deeplink, navOptions)
+                openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
+            }
+            .setNeutralButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
+                findNavController().navigate(deeplink, navOptions)
+                openUrl(R.string.qr_code_error_max_person_faq_link)
             }
             .show()
     }
