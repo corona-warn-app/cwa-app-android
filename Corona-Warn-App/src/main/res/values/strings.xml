@@ -953,11 +953,11 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Warnung"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"Die Corona-Warn-App darf nicht zur  Zertifikatsprüfung durch Dritte verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für 20 Personen Zertifikate hinzufügen. Danach können Sie keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zum  Impfzertifikat finden Sie in den FAQ."</string>
+    <string name="qr_code_error_max_person_threshold_body">"Die Corona-Warn-App darf nicht zur Zertifikatsprüfung durch Dritte verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für %d Personen Zertifikate hinzufügen. Danach können Sie keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zum Impfzertifikat finden Sie in den FAQ."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Fehler"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"Die Corona-Warn-App darf nicht zur  Zertifikatsprüfung durch Dritte verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für %s Personen Zertifikate hinzufügen. Sie können keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zum  Impfzertifikat finden Sie in den FAQ."</string>
+    <string name="qr_code_error_max_person_max_body">"Die Corona-Warn-App darf nicht zur Zertifikatsprüfung durch Dritte verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für %d Personen Zertifikate hinzufügen. Sie können keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zum Impfzertifikat finden Sie in den FAQ."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Download CovPassCheck"</string>
     <!-- XTXT: QR Code error message: covpasscheck app link  -->
