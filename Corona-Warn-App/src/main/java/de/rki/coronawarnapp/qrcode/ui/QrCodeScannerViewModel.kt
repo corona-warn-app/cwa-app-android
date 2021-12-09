@@ -150,13 +150,17 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode()")
 
+        val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
+
         when (dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
             DccMaxPersonChecker.Result.PASSED -> { /*continue*/
             }
-            DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD -> TODO()
-            DccMaxPersonChecker.Result.EXCEEDS_MAX -> TODO()
+            DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD -> { /* TODO*/
+            }
+            DccMaxPersonChecker.Result.EXCEEDS_MAX -> { /*TODO*/
+            }
         }
-        val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
+
         val event = when {
             recycledContainerId != null -> {
                 Timber.tag(TAG).d("recycledContainerId=$recycledContainerId")
