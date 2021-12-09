@@ -85,19 +85,16 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                             SubmissionDeletionWarningFragmentDirections
                                 .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
                                     testType = state.test.type
-                                ).run { findNavController().navigate(this, navOptions) }
+                                )
                         } else {
                             NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
-                                .run { findNavController().navigate(this, navOptions) }
                         }
                     }
-                    else ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testType = state.test.type,
-                            testIdentifier = state.test.identifier
-                        )
-                            .run { findNavController().navigate(this, navOptions) }
-                }
+                    else -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                        testType = state.test.type,
+                        testIdentifier = state.test.identifier
+                    )
+                }.also { findNavController().navigate(it, navOptions) }
             }
 
             viewModel.routeToScreen.observe2(this) { event ->
