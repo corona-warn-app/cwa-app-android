@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import kotlinx.coroutines.flow.first
@@ -7,9 +8,16 @@ import javax.inject.Inject
 
 class DccMaxPersonChecker @Inject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
+    private val configProvider: AppConfigProvider
 ) {
 
     suspend fun checkForMaxPersons(dccQrCode: DccQrCode): Result {
+
+        configProvider.currentConfig.first()
+
+        // todo
+        val threshold = 10
+        val max = 20
 
         val importedPersons = personCertificatesProvider.personCertificates.first()
         val allIdentifiers = importedPersons.map {
@@ -38,11 +46,6 @@ class DccMaxPersonChecker @Inject constructor(
 
         return Result.PASSED
     }
-
-    // todo replace with config params
-    private val threshold: Int = 10
-
-    private val max: Int = 20
 
     enum class Result {
         PASSED,
