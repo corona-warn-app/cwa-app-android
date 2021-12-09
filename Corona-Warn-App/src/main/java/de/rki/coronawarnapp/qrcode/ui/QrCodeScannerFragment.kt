@@ -357,7 +357,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.qr_code_error_max_person_threshold_title)
             .setCancelable(false)
-            .setMessage(R.string.qr_code_error_max_person_threshold_body)
+            .setMessage(requireContext().getString(R.string.qr_code_error_max_person_threshold_body).format(20))
             .setOnDismissListener {
                 findNavController().navigate(deeplink, navOptions)
             }
@@ -375,7 +375,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.qr_code_error_max_person_max_title)
             .setCancelable(false)
-            .setMessage(R.string.qr_code_error_max_person_max_body)
+            .setMessage(requireContext().getString(R.string.qr_code_error_max_person_max_body).format(20))
             .setOnDismissListener { popBackStack() }
             .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
