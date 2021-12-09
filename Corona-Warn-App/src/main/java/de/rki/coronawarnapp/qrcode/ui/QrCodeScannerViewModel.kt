@@ -147,6 +147,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode()")
+        // TODO: Check number of persons
         val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
         val event = when {
             recycledContainerId != null -> {
