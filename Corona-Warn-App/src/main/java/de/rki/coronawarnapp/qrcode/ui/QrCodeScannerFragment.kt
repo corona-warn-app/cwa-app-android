@@ -277,14 +277,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .setPopUpTo(R.id.universalScanner, true)
             .build()
         when (scannerResult) {
-            is DccResult.Details -> {
-                if (scannerResult.showWarningDialog) {
-                    // TODO show warning dialog and on dismiss
-                    // TODO  findNavController().navigate(scannerResult.uri, navOptions)
-                } else {
-                    findNavController().navigate(scannerResult.uri, navOptions)
-                }
-            }
+            is DccResult.Details -> findNavController().navigate(scannerResult.uri, navOptions)
             is DccResult.Onboarding -> {
                 qrcodeSharedViewModel.putDccQrCode(scannerResult.dccQrCode)
                 findNavController().navigate(
@@ -295,6 +288,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
             DccResult.MaxPersonsBlock -> {
                 // TODO show block dialog
+            }
+            is DccResult.MaxPersonsWarning -> {
+                // TODO show warning dialog and on dismiss
+                //  findNavController().navigate(scannerResult.uri, navOptions)
             }
         }
     }

@@ -20,9 +20,10 @@ object InProgress : ScannerResult
 object InfoScreen : ScannerResult
 
 sealed class DccResult : ScannerResult {
-    data class Details(val uri: Uri, val showWarningDialog: Boolean = false) : DccResult()
+    data class Details(val uri: Uri) : DccResult()
     data class Onboarding(val dccQrCode: DccQrCode) : DccResult()
     data class InRecycleBin(val recycledContainerId: CertificateContainerId) : DccResult()
+    data class MaxPersonsWarning(val uri: Uri) : DccResult()
     object MaxPersonsBlock : DccResult()
 }
 
