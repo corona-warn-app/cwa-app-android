@@ -13,7 +13,6 @@
         style="@style/subtitleBoldSixteen"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-
         android:text="@string/person_overview_status_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -104,8 +103,8 @@
 
     <ImageButton
         android:id="@+id/covpass_info_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="11dp"
         android:adjustViewBounds="true"
         android:background="?android:selectableItemBackground"

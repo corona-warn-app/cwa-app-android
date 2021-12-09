@@ -143,7 +143,6 @@ fun PersonOverviewItemBinding.setUIState(
     primaryCertificate: CwaCovidCertificate,
     secondaryCertificate: CwaCovidCertificate? = null,
     colorShade: PersonColorShade,
-    isCombinedCertificate: Boolean,
     statusBadgeText: Int = 0,
     badgeCount: Int = 0,
     onCovPassInfoAction: () -> Unit
@@ -171,7 +170,7 @@ fun PersonOverviewItemBinding.setUIState(
         covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
         invalidOverlay.isGone = valid
         image.isEnabled = valid
-        certificateToggleGroup.isVisible = isCombinedCertificate && valid
+        certificateToggleGroup.isVisible = secondaryCertificate != null
         primaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
         secondaryCertificateButton.typeface = Typeface.DEFAULT
         certificateToggleGroup.setOnCheckedChangeListener { checkedId ->

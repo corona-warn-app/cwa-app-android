@@ -36,7 +36,6 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     colorShade = curItem.colorShade,
-                    isCombinedCertificate = false,
                     statusBadgeText = R.string.confirmed_status_2g_badge,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
@@ -47,7 +46,6 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    isCombinedCertificate = true,
                     statusBadgeText = R.string.confirmed_status_2g_plus_badge,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
@@ -59,7 +57,6 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    isCombinedCertificate = true,
                     statusBadgeText = R.string.confirmed_status_2g_plus_badge,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
@@ -70,7 +67,6 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    isCombinedCertificate = false,
                     statusBadgeText = R.string.confirmed_status_3g_plus_badge,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
@@ -81,7 +77,6 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    isCombinedCertificate = false,
                     statusBadgeText = R.string.confirmed_status_3g_badge,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
@@ -92,7 +87,6 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.otherCertificate,
                     colorShade = curItem.colorShade,
-                    isCombinedCertificate = false,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
