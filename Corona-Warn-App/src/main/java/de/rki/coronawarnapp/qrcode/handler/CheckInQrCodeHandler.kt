@@ -47,7 +47,7 @@ class CheckInQrCodeHandler @Inject constructor() {
 
     companion object {
         private const val CRYPTO_SEED_LENGTH = 16
-        private const val DESCRIPTION_MAX_LENGTH = 100
-        private const val ADDRESS_MAX_LENGTH = 100
+        private const val DESCRIPTION_MAX_LENGTH = 255
+        private const val ADDRESS_MAX_LENGTH = 255
     }
 }

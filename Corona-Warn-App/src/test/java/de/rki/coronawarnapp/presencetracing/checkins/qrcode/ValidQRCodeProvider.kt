@@ -91,6 +91,25 @@ class ValidQRCodeProvider : ArgumentsProvider {
                             .build()
                     )
                     .build()
+            ),
+            Arguments.of(
+                TraceLocationOuterClass.QRCodePayload.newBuilder()
+                    .setVersion(1)
+                    .setCrowdNotifierData(
+                        TraceLocationOuterClass.CrowdNotifierData.newBuilder()
+                            .setCryptographicSeed(CRYPTOGRAPHIC_SEED.decodeBase64()!!.toProtoByteString())
+                            .setPublicKey(PUB_KEY.decodeBase64()!!.toProtoByteString())
+                            .setVersion(1)
+                    )
+                    .setVendorData("CAEQARgK".decodeBase64()!!.toProtoByteString())
+                    .setLocationData(
+                        TraceLocationOuterClass.TraceLocation.newBuilder()
+                            .setDescription("Ice Cream Shop with a very long description that has more than one hundred characters as allowed by Luca app.")
+                            .setAddress("Main Street 1")
+                            .setVersion(1)
+                            .build()
+                    )
+                    .build()
             )
         )
     }
