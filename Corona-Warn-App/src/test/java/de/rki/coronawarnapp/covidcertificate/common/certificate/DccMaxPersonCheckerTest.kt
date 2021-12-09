@@ -25,33 +25,33 @@ class DccMaxPersonCheckerTest : BaseTest() {
     @MockK lateinit var configData: ConfigData
     @MockK lateinit var qrCode: VaccinationCertificateQRCode
 
-    val existingIdentifier = CertificatePersonIdentifier(
+    private val existingIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "1980-10-10",
         firstNameStandardized = "firstNameStandardized",
         lastNameStandardized = "lastNameStandardized"
     )
 
-    val existingIdentifier2 = CertificatePersonIdentifier(
+    private val existingIdentifier2 = CertificatePersonIdentifier(
         dateOfBirthFormatted = "1980-10-10",
         firstNameStandardized = "firstNameStandardized2",
         lastNameStandardized = "lastNameStandardized2"
     )
 
-    val newIdentifier = CertificatePersonIdentifier(
+    private val newIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "1990-10-10",
         firstNameStandardized = "firstNameStandardized1",
         lastNameStandardized = "lastNameStandardized1"
     )
 
-    val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
+    private val vaccinationCertificate = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns existingIdentifier
     }
-    val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
+    private val personCertificate = PersonCertificates(certificates = listOf(vaccinationCertificate))
 
-    val vaccinationCertificate2 = mockk<VaccinationCertificate>().apply {
+    private val vaccinationCertificate2 = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns existingIdentifier2
     }
-    val personCertificate2 = PersonCertificates(certificates = listOf(vaccinationCertificate2))
+    private val personCertificate2 = PersonCertificates(certificates = listOf(vaccinationCertificate2))
 
     @BeforeEach
     fun setup() {
@@ -72,7 +72,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
         every { qrCode.personIdentifier } returns newIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.PASSED
+        ) shouldBe DccMaxPersonChecker.Result.Passed
     }
 
     @Test
@@ -83,7 +83,10 @@ class DccMaxPersonCheckerTest : BaseTest() {
         every { qrCode.personIdentifier } returns newIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD
+        ) shouldBe DccMaxPersonChecker.Result.ExceedsThreshold(
+            max = 3,
+            threshold = 1
+        )
     }
 
     @Test
@@ -94,7 +97,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
         every { qrCode.personIdentifier } returns existingIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.PASSED
+        ) shouldBe DccMaxPersonChecker.Result.Passed
     }
 
     @Test
@@ -105,7 +108,10 @@ class DccMaxPersonCheckerTest : BaseTest() {
         every { qrCode.personIdentifier } returns newIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.EXCEEDS_MAX
+        ) shouldBe DccMaxPersonChecker.Result.ExceedsMax(
+            max = 2,
+            threshold = 1
+        )
     }
 
     @Test
@@ -116,7 +122,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
         every { qrCode.personIdentifier } returns existingIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.PASSED
+        ) shouldBe DccMaxPersonChecker.Result.Passed
     }
 
     private fun createInstance() = DccMaxPersonChecker(
