@@ -289,11 +289,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
             is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
             DccResult.MaxPersonsBlock -> {
-                // TODO show block dialog
+                showMaxPersonExceedsMaxResult()
             }
             is DccResult.MaxPersonsWarning -> {
-                // TODO show warning dialog and on dismiss
-                //  findNavController().navigate(scannerResult.uri, navOptions)
+                showMaxPersonExceedsThresholdResult(scannerResult.uri, navOptions)
             }
         }
     }
@@ -359,36 +358,32 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .setTitle(R.string.qr_code_error_max_person_threshold_title)
             .setCancelable(false)
             .setMessage(R.string.qr_code_error_max_person_threshold_body)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
+            .setOnDismissListener {
                 findNavController().navigate(deeplink, navOptions)
             }
-            .setNegativeButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
-                findNavController().navigate(deeplink, navOptions)
+            .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
             }
-            .setNeutralButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
-                findNavController().navigate(deeplink, navOptions)
+            .setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_faq_link)
             }
+            .setNeutralButton(android.R.string.ok) { _, _ -> }
             .show()
     }
 
-    private fun showMaxPersonExceedsMaxResult(deeplink: Uri, navOptions: NavOptions) {
+    private fun showMaxPersonExceedsMaxResult() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.qr_code_error_max_person_max_title)
             .setCancelable(false)
             .setMessage(R.string.qr_code_error_max_person_max_body)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                findNavController().navigate(deeplink, navOptions)
-            }
-            .setNegativeButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
-                findNavController().navigate(deeplink, navOptions)
+            .setOnDismissListener { popBackStack() }
+            .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
             }
-            .setNeutralButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
-                findNavController().navigate(deeplink, navOptions)
+            .setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_faq_link)
             }
+            .setNeutralButton(android.R.string.ok) { _, _ -> }
             .show()
     }
 
