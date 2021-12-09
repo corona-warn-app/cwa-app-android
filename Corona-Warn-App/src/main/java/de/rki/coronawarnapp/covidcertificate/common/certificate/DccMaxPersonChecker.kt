@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 import javax.inject.Inject
 
 class DccMaxPersonChecker @Inject constructor(
@@ -28,27 +29,38 @@ class DccMaxPersonChecker @Inject constructor(
         ).toSet()
 
         // below threshold -> allow import
-        if (allIdentifiersWithNew.size <= threshold) return Result.PASSED
+        if (allIdentifiersWithNew.size <= threshold) return Result.Passed
 
         // not a new person -> allow import
-        if (allIdentifiers.size == allIdentifiersWithNew.size) return Result.PASSED
+        if (allIdentifiers.size == allIdentifiersWithNew.size) return Result.Passed
 
         // adding the certificate results in exceeding max -> block import
         if (allIdentifiersWithNew.size > max) {
-            return Result.EXCEEDS_MAX
+            Timber.i("Maximum exceeded. Max is $max, no of persons is ${allIdentifiersWithNew.size}")
+            return Result.ExceedsMax(
+                max = max,
+                threshold = threshold
+            )
         }
 
         // adding the certificate results in exceeding threshold -> allow import
         if (allIdentifiersWithNew.size > threshold) {
-            return Result.EXCEEDS_THRESHOLD
+            Timber.i(
+                "Threshold exceeded. Threshold is $threshold, " +
+                    "no of persons is ${allIdentifiersWithNew.size}"
+            )
+            return Result.ExceedsThreshold(
+                max = max,
+                threshold = threshold
+            )
         }
 
-        return Result.PASSED
+        return Result.Passed
     }
 
-    enum class Result {
-        PASSED,
-        EXCEEDS_THRESHOLD,
-        EXCEEDS_MAX
+    sealed class Result {
+        object Passed : Result()
+        data class ExceedsThreshold(val max: Int, val threshold: Int) : Result()
+        data class ExceedsMax(val max: Int, val threshold: Int) : Result()
     }
 }
