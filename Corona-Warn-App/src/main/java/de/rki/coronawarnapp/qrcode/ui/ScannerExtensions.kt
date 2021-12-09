@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -44,13 +45,18 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
     }
 }
 
-fun CertificateContainerId.toDccDetails(): DccResult {
+fun CertificateContainerId.toDccDetails(
+    checkerResult: DccMaxPersonChecker.Result = DccMaxPersonChecker.Result.PASSED
+): DccResult {
     val uri = when (this) {
         is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(identifier)
         is TestCertificateContainerId -> TestCertificateDetailsFragment.uri(identifier)
         is VaccinationCertificateContainerId -> VaccinationDetailsFragment.uri(identifier)
     }
-    return DccResult.Details(uri)
+    return DccResult.Details(
+        uri = uri,
+        showWarningDialog = checkerResult == DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD
+    )
 }
 
 fun CheckInQrCodeHandler.Result.toCheckInResult(requireOnboarding: Boolean): CheckInResult = when (this) {
