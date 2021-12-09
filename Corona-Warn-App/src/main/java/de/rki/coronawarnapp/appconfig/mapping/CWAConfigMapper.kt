@@ -80,6 +80,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             (0 until appFeatures.appFeaturesCount)
                 .map { appFeatures.getAppFeatures(it) }
                 .firstOrNull { it.label == "dcc-person-warn-threshold" }?.value
+                ?.takeIf { it >= 0 }
                 ?: DCC_PERSON_WARN_THRESHOLD
         } catch (e: Exception) {
             Timber.e(e, "Failed to find `dcc-person-warn-threshold` from %s", this)
@@ -93,6 +94,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             (0 until appFeatures.appFeaturesCount)
                 .map { appFeatures.getAppFeatures(it) }
                 .firstOrNull { it.label == "dcc-person-count-max" }?.value
+                ?.takeIf { it >= 0 }
                 ?: DCC_PERSON_COUNT_MAX
         } catch (e: Exception) {
             Timber.e(e, "Failed to find `dcc-person-count-max` from %s", this)
