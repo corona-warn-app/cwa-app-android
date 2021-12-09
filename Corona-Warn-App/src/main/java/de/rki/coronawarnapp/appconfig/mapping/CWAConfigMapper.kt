@@ -16,7 +16,9 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             supportedCountries = rawConfig.getMappedSupportedCountries(),
             isDeviceTimeCheckEnabled = !rawConfig.isDeviceTimeCheckDisabled(),
             isUnencryptedCheckInsEnabled = rawConfig.isUnencryptedCheckInsEnabled(),
-            validationServiceMinVersion = rawConfig.validationServiceMinVersionCode()
+            validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
+            dccPersonCountMax = rawConfig.dccPersonCountMax(),
+            dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
         )
     }
 
@@ -72,6 +74,32 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
+    private fun ApplicationConfigurationAndroid.dccPersonWarnThreshold(): Int {
+        if (!hasAppFeatures()) return DCC_PERSON_WARN_THRESHOLD
+        return try {
+            (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == "dcc-person-warn-threshold" }?.value
+                ?: DCC_PERSON_WARN_THRESHOLD
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to find `dcc-person-warn-threshold` from %s", this)
+            DCC_PERSON_WARN_THRESHOLD
+        }
+    }
+
+    private fun ApplicationConfigurationAndroid.dccPersonCountMax(): Int {
+        if (!hasAppFeatures()) return DCC_PERSON_COUNT_MAX
+        return try {
+            (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == "dcc-person-count-max" }?.value
+                ?: DCC_PERSON_COUNT_MAX
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to find `dcc-person-count-max` from %s", this)
+            DCC_PERSON_COUNT_MAX
+        }
+    }
+
     data class CWAConfigContainer(
         override val latestVersionCode: Long,
         override val minVersionCode: Long,
@@ -79,10 +107,15 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         override val isDeviceTimeCheckEnabled: Boolean,
         override val isUnencryptedCheckInsEnabled: Boolean,
         override val validationServiceMinVersion: Int,
+        override val dccPersonWarnThreshold: Int,
+        override val dccPersonCountMax: Int,
     ) : CWAConfig
 
     companion object {
         private val VALID_CC = "^([A-Z]{2,3})$".toRegex()
         private const val DEFAULT_VALIDATION_SERVICE_MIN_VERSION = 0
+
+        private const val DCC_PERSON_WARN_THRESHOLD: Int = 10
+        private const val DCC_PERSON_COUNT_MAX: Int = 20
     }
 }
