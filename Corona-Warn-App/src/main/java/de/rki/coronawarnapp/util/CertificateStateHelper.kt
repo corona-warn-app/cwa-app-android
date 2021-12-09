@@ -164,7 +164,9 @@ fun PersonOverviewItemBinding.setUIState(
         }
         statusText.isVisible = valid
         statusBadge.isVisible = valid
-        statusBadge.text = context.getString(statusBadgeText)
+        if (statusBadgeText != 0) {
+            statusBadge.text = context.getString(statusBadgeText)
+        }
         covpassInfoTitle.isVisible = valid
         covpassInfoButton.isVisible = valid
         covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
