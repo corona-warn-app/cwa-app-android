@@ -95,7 +95,6 @@ class DccMaxPersonCheckerTest : BaseTest() {
         createInstance().checkForMaxPersons(
             qrCode
         ) shouldBe DccMaxPersonChecker.Result.PASSED
-
     }
 
     @Test
