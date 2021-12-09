@@ -61,7 +61,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule1FindRecentPcrCertificate(
+private fun Collection<CwaCovidCertificate>.rule3FindRecentPcrCertificate(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<TestCertificate>()
@@ -78,7 +78,7 @@ private fun Collection<CwaCovidCertificate>.rule1FindRecentPcrCertificate(
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
+private fun Collection<CwaCovidCertificate>.rule4FindRecentRaCertificate(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<TestCertificate>()
@@ -97,7 +97,7 @@ private fun Collection<CwaCovidCertificate>.rule2FindRecentRaCertificate(
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
+private fun Collection<CwaCovidCertificate>.rule1FindRecentLastShot(
     nowUtc: Instant
 ): CwaCovidCertificate? {
     val isOlderThanTwoWeeks = { certificate: VaccinationCertificate ->
@@ -136,7 +136,7 @@ private fun Collection<CwaCovidCertificate>.rule3FindRecentLastShot(
  * If there is one or more certificates matching these requirements,
  * the first one is returned as a result of the operation.
  */
-private fun Collection<CwaCovidCertificate>.rule4findRecentRecovery(
+private fun Collection<CwaCovidCertificate>.rule2findRecentRecovery(
     nowUtc: Instant
 ): CwaCovidCertificate? = this
     .filterIsInstance<RecoveryCertificate>()
@@ -268,26 +268,26 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
             Timber.v("Checking %d certs with for %s", certsForState.size, stateName)
         }
 
-        certsForState.rule1FindRecentPcrCertificate(nowUtc)?.let {
-            Timber.d("Rule 1 match (PCR Test Certificate <= 72 hours): %s", it)
-            return@mapNotNull it
-        }
-
-        certsForState.rule2FindRecentRaCertificate(nowUtc)?.let {
-            Timber.d("Rule 2 match (RA Test Certificate <= 48 hours): %s", it)
-            return@mapNotNull it
-        }
-
-        certsForState.rule3FindRecentLastShot(nowUtc)?.let {
+        certsForState.rule1FindRecentLastShot(nowUtc)?.let {
             Timber.d(
-                "Rule 3 match (Vaccination Certificate with full dose that are either booster or > 14 days): %s",
+                "Rule 1 match (Vaccination Certificate with full dose that are either booster or > 14 days): %s",
                 it
             )
             return@mapNotNull it
         }
 
-        certsForState.rule4findRecentRecovery(nowUtc)?.let {
-            Timber.d("Rule 4 match (Recovery Certificate <= 180 days): %s", it)
+        certsForState.rule2findRecentRecovery(nowUtc)?.let {
+            Timber.d("Rule 2 match (Recovery Certificate <= 180 days): %s", it)
+            return@mapNotNull it
+        }
+
+        certsForState.rule3FindRecentPcrCertificate(nowUtc)?.let {
+            Timber.d("Rule 3 match (PCR Test Certificate <= 72 hours): %s", it)
+            return@mapNotNull it
+        }
+
+        certsForState.rule4FindRecentRaCertificate(nowUtc)?.let {
+            Timber.d("Rule 4 match (RA Test Certificate <= 48 hours): %s", it)
             return@mapNotNull it
         }
 
@@ -350,8 +350,8 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
             }
 
         // 2. determine has2G: at least one valid vaccination or recovery certificate
-        val recentVaccination = validCerts.rule3FindRecentLastShot(nowUtc)
-        val recentRecovery = validCerts.rule4findRecentRecovery(nowUtc)
+        val recentVaccination = validCerts.rule1FindRecentLastShot(nowUtc)
+        val recentRecovery = validCerts.rule2findRecentRecovery(nowUtc)
 
         val hasVaccination = recentVaccination != null
         val hasRecentRecovery = recentRecovery != null
@@ -359,8 +359,8 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
         val has2G = hasVaccination || hasRecentRecovery
 
         // 3. determine hasPCR and 4. hasRAT
-        val recentPCR = validCerts.rule1FindRecentPcrCertificate(nowUtc)
-        val recentRAT = validCerts.rule2FindRecentRaCertificate(nowUtc)
+        val recentPCR = validCerts.rule3FindRecentPcrCertificate(nowUtc)
+        val recentRAT = validCerts.rule4FindRecentRaCertificate(nowUtc)
 
         val hasPCR = recentPCR != null
         val hasRAT = recentRAT != null

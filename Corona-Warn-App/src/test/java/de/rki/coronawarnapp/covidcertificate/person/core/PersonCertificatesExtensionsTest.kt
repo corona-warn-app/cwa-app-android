@@ -93,36 +93,36 @@ class PersonCertificatesExtensionsTest : BaseTest() {
     @Test
     fun `determine Highest Priority Certificate and AdmissionState`() {
         // RAT certificate > 48 hours
-        val first = mockk<TestCertificate>().apply {
+        val expiredRat = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP217198-3"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(49))
             every { getState() } returns mockk<State.Expired>()
         }
         // RAT certificate > 48 hours invalid
-        val firstInvalid = mockk<TestCertificate>().apply {
+        val invalidRat = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP217198-3"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(49))
             every { getState() } returns mockk<State.Invalid>()
         }
         // PCR certificate > 72 hours
-        val second = mockk<TestCertificate>().apply {
+        val expiredPcr = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(73))
             every { getState() } returns mockk<State.Expired>()
         }
         // PCR certificate > 72 hours invalid
-        val secondInvalid = mockk<TestCertificate>().apply {
+        val invalidPcr = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(73))
-            every { getState() } returns mockk<State.Expired>()
+            every { getState() } returns mockk<State.Invalid>()
         }
         // Recovery certificate > 180 days
-        val third = mockk<RecoveryCertificate>().apply {
+        val oldRecovery = mockk<RecoveryCertificate>().apply {
             every { rawCertificate.recovery.validFrom } returns time.minus(Duration.standardDays(181)).toLocalDateUtc()
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate with dose 1/2 and > 14 days since administration
-        val fourth = mockk<VaccinationCertificate>().apply {
+        val incompleteVaccination = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
@@ -134,7 +134,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate with dose 1/2 and < 14 days since administration
-        val fifth = mockk<VaccinationCertificate>().apply {
+        val incompleteTooRecentVaccination = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
@@ -146,7 +146,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Recovery certificate < 180 days old
-        val sixth = mockk<RecoveryCertificate>().apply {
+        val recentRecovery = mockk<RecoveryCertificate>().apply {
             every { headerIssuedAt } returns time.minus(Duration.standardDays(10))
             every { rawCertificate.recovery.validFrom } returns time.minus(Duration.standardDays(10))
                 .toLocalDateUtc()
@@ -155,7 +155,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type J&J and < 14 days old
-        val seventh = mockk<VaccinationCertificate>().apply {
+        val tooRecentJJVaccination = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 1
@@ -167,7 +167,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type J&J and > 14 days old
-        val eighth = mockk<VaccinationCertificate>().apply {
+        val jjVacination = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time.minus(Duration.standardDays(18))
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 1
@@ -179,7 +179,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 1/1 and < 14 days old
-        val ninth = mockk<VaccinationCertificate>().apply {
+        val tooRecentCompleteVaccinationDose1Of1 = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 1
@@ -191,7 +191,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 2/2 < 14 days old
-        val tenth = mockk<VaccinationCertificate>().apply {
+        val tooRecentVaccinationDose2Of2 = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
@@ -203,7 +203,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 2/2 and > 14 days old
-        val eleventh = mockk<VaccinationCertificate>().apply {
+        val vaccinationDose2Of2 = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time.minus(Duration.standardDays(16))
             every { rawCertificate.vaccination.doseNumber } returns 2
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
@@ -215,7 +215,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 1/1 and > 14 days old
-        val twelfth = mockk<VaccinationCertificate>().apply {
+        val vaccinationDose1Of1 = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time.minus(Duration.standardDays(17))
             every { rawCertificate.vaccination.doseNumber } returns 1
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 1
@@ -227,7 +227,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 3/3 < 14 days old
-        val thirteenth = mockk<VaccinationCertificate>().apply {
+        val tooRecentVaccinationDose3Of3 = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time
             every { rawCertificate.vaccination.doseNumber } returns 3
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
@@ -239,7 +239,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 3/3 < 14 days old issue at a different time
-        val thirteenthDifferentTime = mockk<VaccinationCertificate>().apply {
+        val tooRecentVaccinationDose3Of3DifferentTime = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns time.minus(Duration.standardDays(1))
             every { rawCertificate.vaccination.doseNumber } returns 3
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
@@ -251,13 +251,13 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { getState() } returns mockk<State.Valid>()
         }
         // RAT test < 48 hours old
-        val fourteenth = mockk<TestCertificate>().apply {
+        val recentRat = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP217198-3"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(47))
             every { getState() } returns mockk<State.Valid>()
         }
         // PCR test < 72 hours old
-        val fifteenth = mockk<TestCertificate>().apply {
+        val recentPcr = mockk<TestCertificate>().apply {
             every { rawCertificate.test.testType } returns "LP6464-4"
             every { rawCertificate.test.sampleCollectedAt } returns time.minus(Duration.standardHours(71))
             every { getState() } returns mockk<State.Valid>()
@@ -281,129 +281,187 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             determineAdmissionState(time) shouldBe null
 
             // Start scanning the certificates one by one, starting with RAT > 48 hours old
-            add(first)
-            findHighestPriorityCertificate() shouldBe first
-            determineAdmissionState() shouldBe Other(first)
+            add(expiredRat)
+            // certificates = expiredRat
+            findHighestPriorityCertificate() shouldBe expiredRat
+            determineAdmissionState() shouldBe Other(expiredRat)
 
             // Add RAT > 48 hours but invalid
-            add(firstInvalid)
-            findHighestPriorityCertificate() shouldBe first
-            determineAdmissionState() shouldBe Other(first)
+            add(invalidRat)
+            // certificates = expiredRat, invalidRat
+            findHighestPriorityCertificate() shouldBe expiredRat
+            determineAdmissionState() shouldBe Other(expiredRat)
 
             // Add PCR > 72 hours old
-            add(second)
-            findHighestPriorityCertificate() shouldBe second
-            determineAdmissionState() shouldBe Other(second)
+            add(expiredPcr)
+            // certificates = expiredRat, invalidRat, expiredPcr
+            findHighestPriorityCertificate() shouldBe expiredPcr
+            determineAdmissionState() shouldBe Other(expiredPcr)
 
             // Add PCR > 72 hours old but invalid
-            add(secondInvalid)
-            findHighestPriorityCertificate() shouldBe second
-            determineAdmissionState() shouldBe Other(second)
+            add(invalidPcr)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr
+            findHighestPriorityCertificate() shouldBe expiredPcr
+            determineAdmissionState() shouldBe Other(expiredPcr)
 
             // Add Recovery > 180 days old
-            add(third)
-            findHighestPriorityCertificate() shouldBe third
-            determineAdmissionState() shouldBe Other(third)
+            add(oldRecovery)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery
+            findHighestPriorityCertificate() shouldBe oldRecovery
+            determineAdmissionState() shouldBe Other(oldRecovery)
 
             // Add  Vaccination 1/2 and > 14 days
-            add(fourth)
-            findHighestPriorityCertificate() shouldBe fourth
-            determineAdmissionState() shouldBe Other(fourth)
+            add(incompleteVaccination)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination
+            findHighestPriorityCertificate() shouldBe incompleteVaccination
+            determineAdmissionState() shouldBe Other(incompleteVaccination)
 
             // Add Vaccination 1/2 and < 14 days
-            add(fifth)
-            findHighestPriorityCertificate() shouldBe fifth
-            determineAdmissionState() shouldBe Other(fifth)
+            add(incompleteTooRecentVaccination)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination
+            findHighestPriorityCertificate() shouldBe incompleteTooRecentVaccination
+            determineAdmissionState() shouldBe Other(incompleteTooRecentVaccination)
 
             // Add Recovery < 180 days
-            add(sixth)
-            findHighestPriorityCertificate() shouldBe sixth
-            determineAdmissionState() shouldBe TwoG(sixth)
+            add(recentRecovery)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, recentRecovery
+            findHighestPriorityCertificate() shouldBe recentRecovery
+            determineAdmissionState() shouldBe TwoG(recentRecovery)
 
             // Add J&J vaccine < 14 days, after a recovery certificate should still give recovery certificate priority
-            add(seventh)
-            findHighestPriorityCertificate() shouldBe sixth
-            determineAdmissionState() shouldBe TwoG(sixth)
+            add(tooRecentJJVaccination)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, recentRecovery, tooRecentJJVaccination
+            findHighestPriorityCertificate() shouldBe recentRecovery
+            determineAdmissionState() shouldBe TwoG(recentRecovery)
 
             // Add J&J vaccine > 14 days, after a recovery certificate should give vaccine priority
-            add(eighth)
-            findHighestPriorityCertificate() shouldBe eighth
-            determineAdmissionState() shouldBe TwoG(eighth)
+            add(jjVacination)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, recentRecovery, tooRecentJJVaccination, jjVaccination
+            findHighestPriorityCertificate() shouldBe jjVacination
+            determineAdmissionState() shouldBe TwoG(jjVacination)
 
             // Add Pfizer/Moderna/AZ vaccine 1/1 < 14 days, after a recovery certificate should give vaccine priority
-            add(ninth)
-            findHighestPriorityCertificate() shouldBe ninth
-            determineAdmissionState() shouldBe TwoG(ninth)
+            add(tooRecentCompleteVaccinationDose1Of1)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, recentRecovery, tooRecentJJVaccination, jjVaccination,
+            // tooRecentCompleteVaccinationDose1Of1
+            findHighestPriorityCertificate() shouldBe tooRecentCompleteVaccinationDose1Of1
+            determineAdmissionState() shouldBe TwoG(tooRecentCompleteVaccinationDose1Of1)
 
             // Cleaning up certificates
-            remove(sixth)
-            remove(seventh)
-            remove(ninth)
+            remove(recentRecovery)
+            remove(tooRecentJJVaccination)
+            remove(tooRecentCompleteVaccinationDose1Of1)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, jjVaccination,
 
             // Add Pfizer/Moderna/AZ vaccine 2/2 < 14 days after J&J vaccine 1/1, priority should still be J&J
-            add(tenth)
-            findHighestPriorityCertificate() shouldBe eighth
-            determineAdmissionState() shouldBe TwoG(eighth)
+            add(tooRecentVaccinationDose2Of2)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, jjVaccination, tooRecentVaccinationDose2Of2
+            findHighestPriorityCertificate() shouldBe jjVacination
+            determineAdmissionState() shouldBe TwoG(jjVacination)
 
             // Add Pfizer/Moderna/AZ vaccine 2/2 > 14 days after J&J vaccine 1/1
-            add(eleventh)
-            findHighestPriorityCertificate() shouldBe eleventh
-            determineAdmissionState() shouldBe TwoG(eleventh)
+            add(vaccinationDose2Of2)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, jjVaccination, vaccinationDose2Of2
+            findHighestPriorityCertificate() shouldBe vaccinationDose2Of2
+            determineAdmissionState() shouldBe TwoG(vaccinationDose2Of2)
 
             // Cleaning up certificates
-            remove(eighth)
-            remove(eleventh)
+            remove(jjVacination)
+            remove(vaccinationDose2Of2)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination
 
-            // Add Pfizer/Moderna/AZ 1/1 > 14 days compared to the tenth vaccine.
-            add(twelfth)
-            findHighestPriorityCertificate() shouldBe twelfth
-            determineAdmissionState() shouldBe TwoG(twelfth)
+            // Add Pfizer/Moderna/AZ 1/1 > 14 days
+            add(vaccinationDose1Of1)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1
+            findHighestPriorityCertificate() shouldBe vaccinationDose1Of1
+            determineAdmissionState() shouldBe TwoG(vaccinationDose1Of1)
 
             // Add Pfizer/Moderna/AZ 2/2 > 14 days after Pfizer/Moderna/AZ 1/1 > 14 days
-            add(eleventh)
-            findHighestPriorityCertificate() shouldBe eleventh
-            determineAdmissionState() shouldBe TwoG(eleventh)
+            add(vaccinationDose2Of2)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2
+            findHighestPriorityCertificate() shouldBe vaccinationDose2Of2
+            determineAdmissionState() shouldBe TwoG(vaccinationDose2Of2)
 
             // Add Pfizer/Moderna/AZ 3/3 < 14 days after Pfizer/Moderna/AZ 2/2 > 14 days
-            add(thirteenth)
-            findHighestPriorityCertificate() shouldBe thirteenth
-            determineAdmissionState() shouldBe TwoG(thirteenth)
+            add(tooRecentVaccinationDose3Of3)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
+            determineAdmissionState() shouldBe TwoG(tooRecentVaccinationDose3Of3)
 
             // Add Pfizer/Moderna/AZ 3/3 < 14 days after Pfizer/Moderna/AZ 3/3 < 14 days, issued at 1 day in sooner
-            add(thirteenthDifferentTime)
-            findHighestPriorityCertificate() shouldBe thirteenth
-            determineAdmissionState() shouldBe TwoG(thirteenth)
+            add(tooRecentVaccinationDose3Of3DifferentTime)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3,
+            // tooRecentVaccinationDose3Of3DifferentTime
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
+            determineAdmissionState() shouldBe TwoG(tooRecentVaccinationDose3Of3)
 
-            // Add RAT test < 48 hours old
-            add(fourteenth)
-            findHighestPriorityCertificate() shouldBe fourteenth
-            determineAdmissionState() shouldBe TwoGPlusRAT(thirteenth, fourteenth)
+            // Add RAT test < 48 hours old, vaccination certificate has priority over the rat test
+            add(recentRat)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3,
+            // tooRecentVaccinationDose3Of3DifferentTime, recentRat
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
+            determineAdmissionState() shouldBe TwoGPlusRAT(tooRecentVaccinationDose3Of3, recentRat)
 
-            // Add PCR test < 72 hours old
-            add(fifteenth)
-            findHighestPriorityCertificate() shouldBe fifteenth
-            determineAdmissionState() shouldBe TwoGPlusPCR(thirteenth, fifteenth)
+            // Add PCR test < 72 hours old, vaccination certificate has priority over the pcr test
+            add(recentPcr)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3,
+            // tooRecentVaccinationDose3Of3DifferentTime, recentRat, recentPcr
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
+            determineAdmissionState() shouldBe TwoGPlusPCR(tooRecentVaccinationDose3Of3, recentPcr)
 
             // Remove all Certificates
             clear()
 
             // Add RAT test < 48 hours old
-            add(fourteenth)
-            determineAdmissionState() shouldBe ThreeGWithRAT(fourteenth)
+            add(recentRat)
+            // certificates = recentRat
+            findHighestPriorityCertificate() shouldBe recentRat
+            determineAdmissionState() shouldBe ThreeGWithRAT(recentRat)
 
             // Add PCR test < 72 hours old
-            add(fifteenth)
-            determineAdmissionState() shouldBe ThreeGWithPCR(fifteenth)
+            add(recentPcr)
+            // certificates = recentRat, recentPcr
+            findHighestPriorityCertificate() shouldBe recentPcr
+            determineAdmissionState() shouldBe ThreeGWithPCR(recentPcr)
+
+            // Add recent recovery - should have priority over the tests
+            add(recentRecovery)
+            // certificates = recentRat, recentPcr, recentRecovery
+            findHighestPriorityCertificate() shouldBe recentRecovery
+            determineAdmissionState() shouldBe TwoGPlusPCR(recentRecovery, recentPcr)
+
+            // Add full vaccination - should have priority over the recovery
+            add(vaccinationDose2Of2)
+            findHighestPriorityCertificate() shouldBe vaccinationDose2Of2
+            // certificates = recentRat, recentPcr, recentRecovery, vaccinationDose2Of2
+            determineAdmissionState() shouldBe TwoGPlusPCR(vaccinationDose2Of2, recentPcr)
 
             // Remove all Certificates
             clear()
 
             // Add RAT test that expires soon
             add(ratTestExpiringSoon)
+            // certificates = ratTestExpiringSoon
             determineAdmissionState() shouldBe ThreeGWithRAT(ratTestExpiringSoon)
 
             // Add PCR test that expires soon
             add(pcrTestExpiringSoon)
+            // certificates = ratTestExpiringSoon, pcrTestExpiringSoon
             determineAdmissionState() shouldBe ThreeGWithPCR(pcrTestExpiringSoon)
         }
     }
