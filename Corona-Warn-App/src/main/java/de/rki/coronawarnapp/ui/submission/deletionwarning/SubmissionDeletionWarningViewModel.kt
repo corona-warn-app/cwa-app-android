@@ -48,13 +48,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 } else {
                     Timber.d("Continuing with our new CoronaTest: %s", newTest)
                 }
-
-                routeToScreen.postValue(
-                    DuplicateWarningEvent.Direction(
-                        SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(newTest.type)
-                    )
-                )
             }
 
             is CoronaTestQRCode -> routeToScreen.postValue(
