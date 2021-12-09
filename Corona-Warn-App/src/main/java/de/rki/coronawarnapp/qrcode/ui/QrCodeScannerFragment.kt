@@ -279,9 +279,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         when (scannerResult) {
             is DccResult.Details -> {
                 if (scannerResult.showWarningDialog) {
-                    // TODO show warning
+                    // TODO show warning dialog and on dismiss
+                    // TODO  findNavController().navigate(scannerResult.uri, navOptions)
+                } else {
+                    findNavController().navigate(scannerResult.uri, navOptions)
                 }
-                findNavController().navigate(scannerResult.uri, navOptions)
             }
             is DccResult.Onboarding -> {
                 qrcodeSharedViewModel.putDccQrCode(scannerResult.dccQrCode)
