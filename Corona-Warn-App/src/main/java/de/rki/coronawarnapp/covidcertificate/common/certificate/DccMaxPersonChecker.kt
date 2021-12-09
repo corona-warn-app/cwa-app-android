@@ -13,11 +13,10 @@ class DccMaxPersonChecker @Inject constructor(
 
     suspend fun checkForMaxPersons(dccQrCode: DccQrCode): Result {
 
-        configProvider.currentConfig.first()
+        val config = configProvider.currentConfig.first()
 
-        // todo
-        val threshold = 10
-        val max = 20
+        val threshold = config.dccPersonWarnThreshold
+        val max = config.dccPersonCountMax
 
         val importedPersons = personCertificatesProvider.personCertificates.first()
         val allIdentifiers = importedPersons.map {
