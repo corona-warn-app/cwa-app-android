@@ -13,12 +13,15 @@ import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.updateCountBadge
@@ -91,6 +94,20 @@ class PersonOverviewFragmentTest : BaseUITest() {
     fun capture_fragment_one_person() {
         every { viewModel.personCertificates } returns MutableLiveData(onePersonItem())
         takeSelfie("one_person")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_two_g_plus_certificate() {
+        every { viewModel.personCertificates } returns MutableLiveData(twoGPlusCertificate())
+        takeSelfie("two_g_plus")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_two_g_plus_certificate_with_badge() {
+        every { viewModel.personCertificates } returns MutableLiveData(twoGPlusCertificate())
+        takeSelfie("two_g_plus_with_badge")
     }
 
     @Test
@@ -249,6 +266,36 @@ class PersonOverviewFragmentTest : BaseUITest() {
             )
         }
 
+    private fun twoGPlusCertificate() = mutableListOf<PersonCertificatesItem>()
+        .apply {
+            add(
+                PersonCertificateCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
+                        mockVaccinationCertificate("Andrea Schneider"), mockTestCertificate("Andrea Schneider")
+                    ),
+                    onClickAction = { _, _ -> },
+                    colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 0,
+                    onCovPassInfoAction = {}
+                )
+            )
+        }
+
+    private fun twoGPlusCertificateWithBadge() = mutableListOf<PersonCertificatesItem>()
+        .apply {
+            add(
+                PersonCertificateCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
+                        mockVaccinationCertificate("Andrea Schneider"), mockTestCertificate("Andrea Schneider")
+                    ),
+                    onClickAction = { _, _ -> },
+                    colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 2,
+                    onCovPassInfoAction = {}
+                )
+            )
+        }
+
     private fun mockTestCertificate(
         name: String,
         isPending: Boolean = false,
@@ -277,6 +324,26 @@ class PersonOverviewFragmentTest : BaseUITest() {
         every { registeredAt } returns Instant.EPOCH
         every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
     }
+
+    private fun mockVaccinationCertificate(name: String): VaccinationCertificate =
+        mockk<VaccinationCertificate>().apply {
+            every { headerExpiresAt } returns Instant.now().plus(20)
+            every { containerId } returns VaccinationCertificateContainerId("2")
+            val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
+            every { fullName } returns name
+            every { fullNameFormatted } returns name
+            every { doseNumber } returns 2
+            every { totalSeriesOfDoses } returns 2
+            every { vaccinatedOn } returns localDate.minusDays(15)
+            every { personIdentifier } returns CertificatePersonIdentifier(
+                firstNameStandardized = "firstNameStandardized",
+                lastNameStandardized = "lastNameStandardized",
+                dateOfBirthFormatted = "1943-04-18"
+            )
+            every { isValid } returns true
+            every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+            every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
+        }
 }
 
 @Module
