@@ -60,5 +60,5 @@ sealed class HomeFragmentEvents {
     data class GoToTestResultPositiveFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
         HomeFragmentEvents()
 
-    data class RecycleTest(val identifier: TestIdentifier) : HomeFragmentEvents()
+    data class DeleteOutdatedRAT(val identifier: TestIdentifier) : HomeFragmentEvents()
 }
