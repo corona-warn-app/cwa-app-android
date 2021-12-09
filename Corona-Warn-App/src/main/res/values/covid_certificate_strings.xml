@@ -216,8 +216,6 @@
     <string name="validation_start_note_point_1">"Please note that entry rules are subject to change. Therefore, please check the certificate shortly before you enter the destination country (max. 48 hours)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"Additional rules and restrictions may apply in individual regions."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"To ensure the authenticity of certificates, each certificate is issued with a digital signature. A validation app merely validates this signature."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"The Corona-Warn-App does not check whether the data recorded in the certificate is valid."</string>
     <!-- XTXT: Validation start FAQ -->

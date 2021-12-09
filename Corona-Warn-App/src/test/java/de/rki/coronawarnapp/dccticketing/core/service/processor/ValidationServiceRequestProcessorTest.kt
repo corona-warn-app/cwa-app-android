@@ -1,10 +1,13 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerParser
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
@@ -14,18 +17,33 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import okhttp3.ResponseBody
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Response
 import testhelpers.BaseTest
 
 class ValidationServiceRequestProcessorTest : BaseTest() {
 
     @MockK lateinit var dccTicketingServer: DccTicketingServer
+    @RelaxedMockK lateinit var dccTicketingServerCertificateChecker: DccTicketingServerCertificateChecker
+    @MockK lateinit var dccTicketingServerParser: DccTicketingServerParser
 
     private val instance: ValidationServiceRequestProcessor
-        get() = ValidationServiceRequestProcessor(dccTicketingServer = dccTicketingServer)
+        get() = ValidationServiceRequestProcessor(
+            dccTicketingServer = dccTicketingServer,
+            serverCertificateChecker = dccTicketingServerCertificateChecker,
+            dccTicketingServerParser = dccTicketingServerParser
+        )
+
+    val response: Response<ResponseBody> = mockk {
+        every { raw() } returns mockk()
+    }
 
     private val validationService = DccTicketingService(
         id = "id",
@@ -35,6 +53,7 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     )
 
     private val validationServiceJwkSet = emptySet<DccJWK>()
+    private val validationAllowlist = emptySet<DccTicketingValidationServiceAllowListEntry>()
 
     private val jwkRSAOAEPWithSHA256AESCBC = DccJWK(
         x5c = listOf("x5c"),
@@ -91,6 +110,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        coEvery { dccTicketingServer.getServiceIdentityDocument(any()) } returns response
     }
 
     @Test
@@ -104,10 +125,8 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         checkResult(document = serviceIdentityDocument, result = validationServiceResult)
 
         coVerify {
-            dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(
-                url = validationService.serviceEndpoint,
-                jwkSet = validationServiceJwkSet
-            )
+            dccTicketingServer.getServiceIdentityDocument(url = validationService.serviceEndpoint)
+            dccTicketingServerParser.createServiceIdentityDocument(response = response)
         }
     }
 
@@ -162,16 +181,14 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         )
 
         coEvery {
-            dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(
-                url = any(),
-                jwkSet = any()
-            )
+            dccTicketingServerParser.createServiceIdentityDocument(any())
         } returns document
 
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationAllowlist
             )
         }.errorCode shouldBe DccTicketingErrorCode.VS_ID_NO_ENC_KEY
     }
@@ -183,35 +200,27 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         )
 
         coEvery {
-            dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(
-                url = any(),
-                jwkSet = any()
-            )
+            dccTicketingServerParser.createServiceIdentityDocument(any())
         } returns document
 
         shouldThrow<DccTicketingException> {
             instance.requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationAllowlist
             )
         }.errorCode shouldBe DccTicketingErrorCode.VS_ID_NO_SIGN_KEY
     }
 
-    private suspend fun checkResult(
-        document: DccTicketingServiceIdentityDocument,
-        result: ValidationServiceRequestProcessor.ValidationServiceResult
-    ) {
+    @Test
+    fun `throws if parser throws`() = runBlockingTest {
         coEvery {
-            dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(
-                url = any(),
-                jwkSet = any()
-            )
-        } returns document
+            dccTicketingServerParser.createServiceIdentityDocument(any())
+        } throws DccTicketingServerException(errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR)
 
-        instance.requestValidationService(
-            validationService = validationService,
-            validationServiceJwkSet = validationServiceJwkSet
-        ) shouldBe result
+        shouldThrow<DccTicketingException> {
+            instance.requestValidationService(validationService, validationServiceJwkSet, validationAllowlist)
+        }.errorCode shouldBe DccTicketingErrorCode.VS_ID_PARSE_ERR
     }
 
     @Test
@@ -236,9 +245,16 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
 
             checkServerErrorMapping(
                 serverCertCheckErrorCode =
+                DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH,
+                processorErrorCode =
+                DccTicketingErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
+            )
+
+            checkServerErrorMapping(
+                serverCertCheckErrorCode =
                 DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID,
                 processorErrorCode =
-                DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
+                DccTicketingErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
             )
             checkServerErrorMapping(
                 serverCertCheckErrorCode = DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH,
@@ -260,17 +276,30 @@ class ValidationServiceRequestProcessorTest : BaseTest() {
         }
 
         coEvery {
-            dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(
-                url = any(),
-                jwkSet = any()
-            )
+            dccTicketingServer.getServiceIdentityDocument(any())
         } throws serverException!!
 
         shouldThrow<DccTicketingException> {
             requestValidationService(
                 validationService = validationService,
-                validationServiceJwkSet = validationServiceJwkSet
+                validationServiceJwkSet = validationServiceJwkSet,
+                validationServiceAllowList = validationAllowlist
             )
         }.errorCode shouldBe processorErrorCode
+    }
+
+    private suspend fun checkResult(
+        document: DccTicketingServiceIdentityDocument,
+        result: ValidationServiceRequestProcessor.ValidationServiceResult
+    ) {
+        coEvery {
+            dccTicketingServerParser.createServiceIdentityDocument(any())
+        } returns document
+
+        instance.requestValidationService(
+            validationService = validationService,
+            validationServiceJwkSet = validationServiceJwkSet,
+            validationServiceAllowList = validationAllowlist
+        ) shouldBe result
     }
 }

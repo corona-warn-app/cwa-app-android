@@ -1,21 +1,28 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import dagger.Reusable
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
+import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerParser
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
 import de.rki.coronawarnapp.tag
+import okhttp3.ResponseBody
+import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class ValidationServiceRequestProcessor @Inject constructor(
-    private val dccTicketingServer: DccTicketingServer
+    private val dccTicketingServer: DccTicketingServer,
+    private val serverCertificateChecker: DccTicketingServerCertificateChecker,
+    private val dccTicketingServerParser: DccTicketingServerParser
 ) {
 
     private val regexRSAOAEPWithSHA256AESCBC = """ValidationServiceEncScheme-RSAOAEPWithSHA256AESCBC${'$'}"""
@@ -28,18 +35,20 @@ class ValidationServiceRequestProcessor @Inject constructor(
     @Throws(DccTicketingException::class)
     suspend fun requestValidationService(
         validationService: DccTicketingService,
-        validationServiceJwkSet: Set<DccJWK>
+        validationServiceJwkSet: Set<DccJWK>,
+        validationServiceAllowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): ValidationServiceResult {
         Timber.tag(TAG).d(
-            "requestValidationService(validationService=%s, validationServiceJwkSet=%s)",
+            "requestValidationService(validationService=%s, validationServiceJwkSet=%s, validationServiceAllowList=%s)",
             validationService,
-            validationServiceJwkSet
+            validationServiceJwkSet,
+            validationServiceAllowList
         )
 
         // 1. Call Service Identity Document
         val serviceIdentityDocument = getServiceIdentityDocument(
             url = validationService.serviceEndpoint,
-            jwkSet = validationServiceJwkSet
+            allowList = validationServiceAllowList
         )
 
         // 2. Verify JWKs
@@ -87,10 +96,13 @@ class ValidationServiceRequestProcessor @Inject constructor(
 
     private suspend fun getServiceIdentityDocument(
         url: String,
-        jwkSet: Set<DccJWK>
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
     ): DccTicketingServiceIdentityDocument = try {
-        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, jwkSet=%s)", url, jwkSet)
-        dccTicketingServer.getServiceIdentityDocumentAndValidateServerCert(url = url, jwkSet = jwkSet)
+        Timber.tag(TAG).d("getServiceIdentityDocument(url=%s, allowList=%s)", url, allowList)
+        dccTicketingServer.getServiceIdentityDocument(url = url).run {
+            validateAgainstAllowlist(allowList = allowList)
+            parse()
+        }
     } catch (e: DccTicketingServerException) {
         Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
@@ -102,12 +114,25 @@ class ValidationServiceRequestProcessor @Inject constructor(
     } catch (e: DccTicketingServerCertificateCheckException) {
         Timber.tag(TAG).e(e, "Getting ServiceIdentityDocument failed")
         throw when (e.errorCode) {
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH,
             DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
-                DccTicketingErrorCode.VS_ID_CERT_PIN_NO_JWK_FOR_KID
+                DccTicketingErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
             DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
                 DccTicketingErrorCode.VS_ID_CERT_PIN_MISMATCH
         }.let { DccTicketingException(errorCode = it, cause = e) }
     }
+
+    private fun Response<ResponseBody>.validateAgainstAllowlist(
+        allowList: Set<DccTicketingValidationServiceAllowListEntry>
+    ) {
+        Timber.tag(TAG).d("Validating response against allow list=%s", allowList)
+        serverCertificateChecker.checkCertificateAgainstAllowlist(
+            response = raw(),
+            allowlist = allowList
+        )
+    }
+
+    private fun Response<ResponseBody>.parse() = dccTicketingServerParser.createServiceIdentityDocument(this)
 
     private fun DccTicketingServiceIdentityDocument.findVerificationMethods(forRegex: Regex): Set<String> {
         Timber.tag(TAG).d("findVerificationMethods(forRegex=%s)", forRegex)

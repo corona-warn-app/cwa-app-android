@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.dccticketing.core.service.processor
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServer
 import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerException
+import de.rki.coronawarnapp.dccticketing.core.server.DccTicketingServerParser
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingServiceIdentityDocument
@@ -14,19 +16,36 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
+import okhttp3.ResponseBody
+import okio.ByteString.Companion.decodeBase64
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import retrofit2.Response
 import testhelpers.BaseTest
 
 class ValidationDecoratorRequestProcessorTest : BaseTest() {
 
     @MockK lateinit var dccTicketingServer: DccTicketingServer
+    @MockK lateinit var dccTicketingServerParser: DccTicketingServerParser
 
     private val instance: ValidationDecoratorRequestProcessor
-        get() = ValidationDecoratorRequestProcessor(dccTicketingServer = dccTicketingServer)
+        get() = ValidationDecoratorRequestProcessor(
+            dccTicketingServer = dccTicketingServer,
+            dccTicketingServerParser = dccTicketingServerParser
+        )
+
+    private val response: Response<ResponseBody> = mockk()
 
     private val url = "url"
+    private val validationServiceAllowList = setOf(
+        DccTicketingValidationServiceAllowListEntry(
+            serviceProvider = "serviceProvider",
+            hostname = "eu.service.com",
+            fingerprint256 = "fingerprint256".decodeBase64()!!.sha256()
+        )
+    )
 
     private val accessTokenServiceJWK = DccJWK(
         x5c = listOf("accessTokenServiceJWK"),
@@ -54,7 +73,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     private val accessTokenService = DccTicketingService(
         id = "id",
         type = "AccessTokenService",
-        serviceEndpoint = "serviceEndpoint",
+        serviceEndpoint = "https://eu.service.com",
         name = "name"
     )
 
@@ -69,11 +88,13 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        coEvery { dccTicketingServer.getServiceIdentityDocument(any()) } returns response
     }
 
     @Test
     fun `happy path`() = runBlockingTest {
-        coEvery { dccTicketingServer.getServiceIdentityDocument(any()) } returns serviceIdentityDocument
+        coEvery { dccTicketingServerParser.createServiceIdentityDocument(any()) } returns serviceIdentityDocument
 
         val validationDecoratorResult = ValidationDecoratorRequestProcessor.ValidationDecoratorResult(
             accessTokenService = accessTokenService,
@@ -82,9 +103,15 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
             validationService = validationService,
             validationServiceJwkSet = setOf(validationServiceKey.publicKeyJwk!!)
         )
-        instance.requestValidationDecorator(url = url) shouldBe validationDecoratorResult
+        instance.requestValidationDecorator(
+            url = url,
+            validationServiceAllowList = validationServiceAllowList
+        ) shouldBe validationDecoratorResult
 
-        coVerify { dccTicketingServer.getServiceIdentityDocument(url = url) }
+        coVerify {
+            dccTicketingServer.getServiceIdentityDocument(url = url)
+            dccTicketingServerParser.createServiceIdentityDocument(response = response)
+        }
     }
 
     @Test
@@ -122,6 +149,17 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
     }
 
     @Test
+    fun `throws if parser throws`() = runBlockingTest {
+        coEvery { dccTicketingServerParser.createServiceIdentityDocument(any()) } throws DccTicketingServerException(
+            errorCode = DccTicketingServerException.ErrorCode.PARSE_ERR
+        )
+
+        shouldThrow<DccTicketingException> {
+            instance.requestValidationDecorator(url, validationServiceAllowList)
+        }.errorCode shouldBe DccTicketingErrorCode.VD_ID_PARSE_ERR
+    }
+
+    @Test
     fun `Check server error mapping`() = runBlockingTest {
         with(instance) {
             checkServerErrorMapping(
@@ -153,7 +191,7 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
         } throws serverException
 
         shouldThrow<DccTicketingException> {
-            requestValidationDecorator(url = url)
+            requestValidationDecorator(url = url, validationServiceAllowList = validationServiceAllowList)
         }.errorCode shouldBe processorErrorCode
     }
 
@@ -161,10 +199,10 @@ class ValidationDecoratorRequestProcessorTest : BaseTest() {
         document: DccTicketingServiceIdentityDocument,
         errorCode: DccTicketingErrorCode
     ) {
-        coEvery { dccTicketingServer.getServiceIdentityDocument(any()) } returns document
+        coEvery { dccTicketingServerParser.createServiceIdentityDocument(any()) } returns document
 
         shouldThrow<DccTicketingException> {
-            instance.requestValidationDecorator(url = url)
+            instance.requestValidationDecorator(url = url, validationServiceAllowList = validationServiceAllowList)
         }.errorCode shouldBe errorCode
     }
 

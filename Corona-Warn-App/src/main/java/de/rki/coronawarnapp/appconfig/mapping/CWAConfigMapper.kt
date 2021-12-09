@@ -15,7 +15,8 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             minVersionCode = rawConfig.minVersionCode,
             supportedCountries = rawConfig.getMappedSupportedCountries(),
             isDeviceTimeCheckEnabled = !rawConfig.isDeviceTimeCheckDisabled(),
-            isUnencryptedCheckInsEnabled = rawConfig.isUnencryptedCheckInsEnabled()
+            isUnencryptedCheckInsEnabled = rawConfig.isUnencryptedCheckInsEnabled(),
+            validationServiceMinVersion = rawConfig.validationServiceMinVersionCode()
         )
     }
 
@@ -58,15 +59,30 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
+    private fun ApplicationConfigurationAndroid.validationServiceMinVersionCode(): Int {
+        if (!hasAppFeatures()) return DEFAULT_VALIDATION_SERVICE_MIN_VERSION
+        return try {
+            (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == "validation-service-android-min-version-code" }?.value
+                ?: DEFAULT_VALIDATION_SERVICE_MIN_VERSION
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to find `validation-service-android-min-version-code` from %s", this)
+            DEFAULT_VALIDATION_SERVICE_MIN_VERSION
+        }
+    }
+
     data class CWAConfigContainer(
         override val latestVersionCode: Long,
         override val minVersionCode: Long,
         override val supportedCountries: List<String>,
         override val isDeviceTimeCheckEnabled: Boolean,
         override val isUnencryptedCheckInsEnabled: Boolean,
+        override val validationServiceMinVersion: Int,
     ) : CWAConfig
 
     companion object {
         private val VALID_CC = "^([A-Z]{2,3})$".toRegex()
+        private const val DEFAULT_VALIDATION_SERVICE_MIN_VERSION = 0
     }
 }

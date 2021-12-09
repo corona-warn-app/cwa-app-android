@@ -255,6 +255,8 @@
     <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior">"This is what you should do:"</string>
+    <!-- XHED: risk details - multiline headline, bold, how to act correct -->
+    <string name="risk_details_subtitle_behavior_increased_risk">"So verhalten Sie sich richtig, auch, wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
@@ -286,8 +288,16 @@
     <string name="risk_details_behavior_body_cough_sneeze">"Sneeze or cough into your elbow or a tissue."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Your general practitioner"</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_1_label">"Testmöglichkeiten finden Sie hier"</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"The general medical emergency service on telephone number 116 117"</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_2_label">"FAQ zum Testablauf."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
     <!-- XMSG: risk details - public health department, bullet point -->
     <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
@@ -917,7 +927,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Your PCR tests, rapid tests, test certificates, vaccination certificates, certificates of recovery, and check-ins."</string>
+    <string name="qr_code_scan_body_subtitle">"Tests, your certificates, check-ins, and validation during ticket booking"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
@@ -1519,7 +1529,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"The arrow direction indicates whether the trend is increasing, decreasing, or remaining steady – that is, demonstrates a deviation of less than 1%% compared to the previous day or 5%% compared to the previous week (taking decimal places into account). The color indicates this trend as positive (green), negative (red), or neutral (gray)."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"The following trends can be shown:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Examples of displayed trends:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Trend: upwards (negative)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->

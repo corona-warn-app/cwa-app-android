@@ -56,26 +56,6 @@
         app:layout_constraintTop_toBottomOf="@id/note_text_one" />
 
     <include
-        android:id="@+id/note_bulletpoint_three"
-        layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
-        app:layout_constraintBaseline_toBaselineOf="@id/note_text_three"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/note_text_three"
-        style="@style/subtitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_mega_tiny"
-        android:text="@string/validation_start_note_point_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/note_bulletpoint_three"
-        app:layout_constraintTop_toBottomOf="@id/note_text_two" />
-
-    <include
         android:id="@+id/note_bulletpoint_four"
         layout="@layout/include_bullet_point"
         android:layout_width="@dimen/bullet_point_size"
@@ -93,6 +73,6 @@
         android:text="@string/validation_start_note_point_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/note_bulletpoint_four"
-        app:layout_constraintTop_toBottomOf="@id/note_text_three" />
+        app:layout_constraintTop_toBottomOf="@id/note_text_two" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

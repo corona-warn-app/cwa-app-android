@@ -61,12 +61,12 @@
 
     <!-- XTXT: Vaccination card immunity information: Days since last shot -->
     <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
-        <item quantity="one">"letzte Impfung vor %1$d Tag"</item>
-        <item quantity="other">"letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="zero">"letzte Impfung heute"</item>
-        <item quantity="two">"letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="few">"letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="many">"letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="one">"Letzte Impfung vor %1$d Tag"</item>
+        <item quantity="other">"Letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="zero">"Letzte Impfung heute"</item>
+        <item quantity="two">"Letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="few">"Letzte Impfung vor %1$d Tagen"</item>
+        <item quantity="many">"Letzte Impfung vor %1$d Tagen"</item>
     </plurals>
     <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
     <string name="vaccination_days_since_last_shot_today">"Letzte Impfung heute"</string>
@@ -217,8 +217,6 @@
     <string name="validation_start_note_point_1">"Beachten Sie, dass sich die Einreiseregeln ändern können. Prüfen Sie daher das Zertifikat kurz vor der Einreise (max. 48 Stunden)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"Es können in einzelnen Regionen weitere Regeln oder Einschränkungen gelten."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Um die Echtheit eines Zertifikats sicherzustellen, wird jedes Zertifikat mit einer digitalen Signatur ausgestellt. Diese Signatur wird nur in einer Prüf-Anwendung validiert."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Ob die im Zertifikat eingetragenen Daten richtig sind, wird in der Corona-Warn-App nicht geprüft."</string>
     <!-- XTXT: Validation start FAQ -->

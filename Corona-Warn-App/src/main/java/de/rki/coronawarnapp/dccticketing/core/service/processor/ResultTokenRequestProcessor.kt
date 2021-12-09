@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccticketing.core.service.processor
 
 import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateChecker
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKVerification
@@ -35,8 +36,8 @@ class ResultTokenRequestProcessor @Inject constructor(
     suspend fun requestResultToken(resultTokenInput: ResultTokenInput): ResultTokenOutput {
         // 1. Call Validation Service
         val response = resultTokenResponse(resultTokenInput)
-        // Checking the Server Certificate Against a Set of JWKs.
-        checkServerCertificate(response, resultTokenInput.validationServiceJwkSet)
+        // Checking the Server Certificate Against an allowlist.
+        checkServerCertificate(response, resultTokenInput.allowlist)
         // 2. Find `resultToken`
         val resultToken = response.body()?.string() ?: throw DccTicketingException(DccTicketingErrorCode.RTR_SERVER_ERR)
         // 3. Verify signature the signature of the resultToken
@@ -51,17 +52,18 @@ class ResultTokenRequestProcessor @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun checkServerCertificate(
         response: Response<ResponseBody>,
-        jwkSet: Set<DccJWK>
+        allowlist: Set<DccTicketingValidationServiceAllowListEntry>
     ) = try {
-        dccTicketingServerCertificateChecker.checkCertificate(
-            response.raw().handshake?.peerCertificates.orEmpty(),
-            jwkSet
+        dccTicketingServerCertificateChecker.checkCertificateAgainstAllowlist(
+            response = response.raw(),
+            allowlist = allowlist
         )
     } catch (e: DccTicketingServerCertificateCheckException) {
         Timber.tag(TAG).e(e, "checkServerCertificate for result token failed")
         throw when (e.errorCode) {
+            DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_HOST_MISMATCH,
             DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_NO_JWK_FOR_KID ->
-                DccTicketingException.ErrorCode.RTR_CERT_PIN_NO_JWK_FOR_KID
+                DccTicketingException.ErrorCode.RTR_CERT_PIN_HOST_MISMATCH
             DccTicketingServerCertificateCheckException.ErrorCode.CERT_PIN_MISMATCH ->
                 DccTicketingException.ErrorCode.RTR_CERT_PIN_MISMATCH
         }.let { DccTicketingException(it) }
@@ -135,6 +137,7 @@ data class ResultTokenInput(
     val signatureBase64: String,
     val signatureAlgorithm: String,
     val encryptionScheme: String,
+    val allowlist: Set<DccTicketingValidationServiceAllowListEntry>
 )
 
 @Parcelize

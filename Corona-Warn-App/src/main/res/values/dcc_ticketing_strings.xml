@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- Error Handling -->
     <!-- XTXT: Service Provider (without provider name) error message-->
@@ -7,6 +8,10 @@
     <string name="dcc_ticketing_error_service_provider_error">"An error occurred when connecting to the provider %1$s. Please contact the provider if the problem persists."</string>
     <!-- XTXT: Try again error message-->
     <string name="dcc_ticketing_error_try_again">"An error occurred during data processing. Please try again later."</string>
+    <!-- XTXT: Validation service min version message-->
+    <string name="dcc_ticketing_error_min_version">In der aktuellen Version ihrer Corona-Warn-App wird die Tickerüberprüfung nicht mehr unterstützt. Bitte aktualisieren Sie Ihre App und versuchen Sie die Ticketüberprüfung erneut.</string>
+    <!-- XBUT: Validation service min version Google play button-->
+    <string name="dcc_ticketing_error_min_version_google_play">zu Google Play</string>
 
     <!-- DCC Ticketing: Consent One -->
     <!-- XHED: DCC Ticketing: Consent One: Header -->
@@ -71,7 +76,7 @@
     <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
     <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
     <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
-    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <string name="dcc_ticketing_faq_link_english">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
     <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Provider requirements:"</string>
     <!-- XTXT: Certificate Selection Screen: Person Birthday -->
@@ -125,12 +130,10 @@
     <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
     <!-- XTXT: validation result valid header  -->
     <string name="dcc_ticketing_result_valid_header">"Your certificate has been validated successfully"</string>
-
-    <!-- XTXT: validation result open header  -->
-    <string name="dcc_ticketing_result_open_header">Ihr Zertifikat konnte durch den Prüfpartner nicht geprüft werden</string>
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">"Your certificate does not meet the provider’s requirements"</string>
-
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Your certificate could not be validated by the validation partner"</string>
     <!-- XTXT: validation result valid body  -->
     <string name="dcc_ticketing_result_valid_body">"The provider “%s” has been notified that validation was successful."</string>
     <!-- XTXT: validation result invalid body  -->

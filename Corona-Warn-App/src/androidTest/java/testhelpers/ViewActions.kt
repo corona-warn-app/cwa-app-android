@@ -1,18 +1,27 @@
 package testhelpers
 
 import android.view.View
+import android.widget.HorizontalScrollView
+import android.widget.ScrollView
 import androidx.annotation.IdRes
+import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ScrollToAction
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.Matcher
-import androidx.core.view.isVisible
 
 fun recyclerScrollTo(
     position: Int? = null,
@@ -23,6 +32,26 @@ fun recyclerScrollTo(
     additionalX = additionalX,
     additionalY = additionalY
 )
+
+fun betterScrollTo(): ViewAction {
+    return ViewActions.actionWithAssertions(BetterScrollToAction())
+}
+
+// scroll-to action that also works with NestedScrollViews
+class BetterScrollToAction : ViewAction by ScrollToAction() {
+    override fun getConstraints(): Matcher<View> {
+        return allOf(
+            withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+            isDescendantOfA(
+                anyOf(
+                    isAssignableFrom(ScrollView::class.java),
+                    isAssignableFrom(HorizontalScrollView::class.java),
+                    isAssignableFrom(NestedScrollView::class.java)
+                )
+            )
+        )
+    }
+}
 
 private class RecyclerViewScrollAction(
     private val position: Int? = null,

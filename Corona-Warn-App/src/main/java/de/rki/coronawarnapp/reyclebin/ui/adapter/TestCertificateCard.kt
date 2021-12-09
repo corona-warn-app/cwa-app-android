@@ -30,7 +30,7 @@ class TestCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val certificate = latestItem!!.certificate
 
         certificateIcon.setImageResource(R.drawable.ic_certificates_filled_white)
@@ -67,7 +67,6 @@ class TestCertificateCard(parent: ViewGroup) :
         val onRemove: (TestCertificate, Int?) -> Unit,
         val onRestore: (TestCertificate) -> Unit
     ) : RecyclerBinItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.containerId.hashCode().toLong()
     }
 
