@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -47,6 +48,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
+    private val dccMaxPersonChecker: DccMaxPersonChecker
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -147,7 +149,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode()")
-        // TODO: Check number of persons
+
+        when (dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
+            DccMaxPersonChecker.Result.PASSED -> { /*continue*/
+            }
+            DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD -> TODO()
+            DccMaxPersonChecker.Result.EXCEEDS_MAX -> TODO()
+        }
         val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
         val event = when {
             recycledContainerId != null -> {
