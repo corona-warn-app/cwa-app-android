@@ -83,7 +83,9 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     state.test.isPositive -> {
                         if (args.testRegistrationRequest is CoronaTestTAN) {
                             SubmissionDeletionWarningFragmentDirections
-                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(testType = state.test.type)
+                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
+                                    testType = state.test.type
+                                ).run { findNavController().navigate(this, navOptions) }
                         } else {
                             NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
                                 .run { findNavController().navigate(this, navOptions) }
