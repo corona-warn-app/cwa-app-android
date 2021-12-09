@@ -286,6 +286,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             }
             is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
+            DccResult.MaxPersonsBlock -> {
+                // TODO show block dialog
+            }
+            is DccResult.MaxPersonsWarning -> {
+                // TODO show warning dialog and on dismiss
+                //  findNavController().navigate(scannerResult.uri, navOptions)
+            }
         }
     }
 

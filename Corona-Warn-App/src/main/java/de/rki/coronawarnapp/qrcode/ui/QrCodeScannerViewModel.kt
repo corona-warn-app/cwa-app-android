@@ -151,25 +151,28 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         Timber.tag(TAG).d("onDccQrCode()")
 
         val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
-
-        when (dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
-            DccMaxPersonChecker.Result.PASSED -> { /*continue*/
-            }
-            DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD -> { /* TODO*/
-            }
-            DccMaxPersonChecker.Result.EXCEEDS_MAX -> { /*TODO*/
-            }
-        }
-
         val event = when {
             recycledContainerId != null -> {
                 Timber.tag(TAG).d("recycledContainerId=$recycledContainerId")
                 DccResult.InRecycleBin(recycledContainerId)
             }
             dccSettings.isOnboarded.value -> {
-                val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
-                Timber.tag(TAG).d("containerId=$containerId")
-                containerId.toDccDetails()
+                when (val checkerResult = dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
+                    DccMaxPersonChecker.Result.PASSED -> {
+                        val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
+                        Timber.tag(TAG).d("containerId=$containerId,checkerResult=$checkerResult")
+                        containerId.toDccDetails()
+                    }
+                    DccMaxPersonChecker.Result.EXCEEDS_THRESHOLD -> {
+                        val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
+                        Timber.tag(TAG).d("containerId=$containerId,checkerResult=$checkerResult")
+                        containerId.toMaxPersonsWarning()
+                    }
+                    DccMaxPersonChecker.Result.EXCEEDS_MAX -> {
+                        Timber.tag(TAG).w("Importing new certificate is blocked")
+                        DccResult.MaxPersonsBlock
+                    }
+                }
             }
             else -> DccResult.Onboarding(dccQrCode)
         }

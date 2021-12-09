@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.content.Context
+import android.net.Uri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
@@ -44,13 +45,13 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
     }
 }
 
-fun CertificateContainerId.toDccDetails(): DccResult {
-    val uri = when (this) {
-        is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(identifier)
-        is TestCertificateContainerId -> TestCertificateDetailsFragment.uri(identifier)
-        is VaccinationCertificateContainerId -> VaccinationDetailsFragment.uri(identifier)
-    }
-    return DccResult.Details(uri)
+fun CertificateContainerId.toDccDetails(): DccResult = DccResult.Details(uri())
+fun CertificateContainerId.toMaxPersonsWarning(): DccResult = DccResult.MaxPersonsWarning(uri())
+
+private fun CertificateContainerId.uri(): Uri = when (this) {
+    is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(identifier)
+    is TestCertificateContainerId -> TestCertificateDetailsFragment.uri(identifier)
+    is VaccinationCertificateContainerId -> VaccinationDetailsFragment.uri(identifier)
 }
 
 fun CheckInQrCodeHandler.Result.toCheckInResult(requireOnboarding: Boolean): CheckInResult = when (this) {
