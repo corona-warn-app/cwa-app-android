@@ -162,8 +162,8 @@ fun PersonOverviewItemBinding.setUIState(
             crossfade(true)
             loadingView(qrCodeCard.image, qrCodeCard.progressBar)
         }
-        statusText.isVisible = valid
-        statusBadge.isVisible = valid
+        statusText.isVisible = statusBadgeText != 0
+        statusBadge.isVisible = statusBadgeText != 0
         if (statusBadgeText != 0) {
             statusBadge.text = context.getString(statusBadgeText)
         }
