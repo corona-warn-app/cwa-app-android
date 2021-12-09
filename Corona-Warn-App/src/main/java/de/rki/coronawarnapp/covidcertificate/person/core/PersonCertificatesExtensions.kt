@@ -53,41 +53,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
 }
 
 /**
- * 1
- * PCR Test Certificate <= 72 hours
- * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP6464-4 and the time difference between the
- * time represented by t[0].sc and the current device time is <= 72 hours, sorted descending by t[0].sc
- * (i.e. latest first).
- * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
- */
-private fun Collection<CwaCovidCertificate>.rule3FindRecentPcrCertificate(
-    nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<TestCertificate>()
-    .filter { it.rawCertificate.test.testType == "LP6464-4" }
-    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(72) }
-    .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
-
-/**
- * 2
- * RAT Test Certificate <= 48 hours
- * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP217198-3 and the time difference between
- * the time represented by t[0].sc and the current device time is <= 48 hours, sorted descending by t[0].sc
- * (i.e. latest first).
- * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
- */
-private fun Collection<CwaCovidCertificate>.rule4FindRecentRaCertificate(
-    nowUtc: Instant
-): CwaCovidCertificate? = this
-    .filterIsInstance<TestCertificate>()
-    .filter { it.rawCertificate.test.testType == "LP217198-3" }
-    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(48) }
-    .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
-
-/**
- * 3
+ * Rule 1
  * Series-completing Vaccination Certificate:
  * Find Vaccination Certificates where total number of doses == number of administered doses and
  * 3.1 For vaccines with dose 3/3, priority will be received right away
@@ -128,7 +94,7 @@ private fun Collection<CwaCovidCertificate>.rule1FindRecentLastShot(
 }
 
 /**
- * 4
+ * Rule 2
  * Recovery Certificate <= 180 days
  * Find Recovery Certificates (i.e. DGC with r[0]) where the time difference between the time
  * represented by r[0].df and the current device time is <= 180 days, sorted descending by r[0].df
@@ -145,7 +111,41 @@ private fun Collection<CwaCovidCertificate>.rule2findRecentRecovery(
     }.maxByOrNull { it.rawCertificate.recovery.validFrom }
 
 /**
- * 5
+ * Rule 3
+ * PCR Test Certificate <= 72 hours
+ * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP6464-4 and the time difference between the
+ * time represented by t[0].sc and the current device time is <= 72 hours, sorted descending by t[0].sc
+ * (i.e. latest first).
+ * If there is one or more certificates matching these requirements,
+ * the first one is returned as a result of the operation.
+ */
+private fun Collection<CwaCovidCertificate>.rule3FindRecentPcrCertificate(
+    nowUtc: Instant
+): CwaCovidCertificate? = this
+    .filterIsInstance<TestCertificate>()
+    .filter { it.rawCertificate.test.testType == "LP6464-4" }
+    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(72) }
+    .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
+
+/**
+ * Rule 4
+ * RAT Test Certificate <= 48 hours
+ * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP217198-3 and the time difference between
+ * the time represented by t[0].sc and the current device time is <= 48 hours, sorted descending by t[0].sc
+ * (i.e. latest first).
+ * If there is one or more certificates matching these requirements,
+ * the first one is returned as a result of the operation.
+ */
+private fun Collection<CwaCovidCertificate>.rule4FindRecentRaCertificate(
+    nowUtc: Instant
+): CwaCovidCertificate? = this
+    .filterIsInstance<TestCertificate>()
+    .filter { it.rawCertificate.test.testType == "LP217198-3" }
+    .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) <= Duration.standardHours(48) }
+    .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
+
+/**
+ * Rule 5
  * Series-completing Vaccination Certificate <= 14 days
  * Find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn equal to v[0].sd and the time difference
  * between the time represented by v[0].dt and the current device time is <= 14 days,
@@ -171,7 +171,7 @@ private fun Collection<CwaCovidCertificate>.rule5findTooRecentFinalShot(
     )
 
 /**
- * 6
+ * Rule 6
  * Other Vaccination Certificate
  * Find Vaccination Certificates (i.e. DGC with v[0])sorted descending by v[0].dt (i.e. latest first).
  * If there is one or more certificates matching these requirements,
@@ -187,7 +187,7 @@ private fun Collection<CwaCovidCertificate>.rule6findOtherVaccinations(): CwaCov
     )
 
 /**
- * 7
+ * Rule 7
  * Recovery Certificate > 180 days
  * Find Recovery Certificates (i.e. DGC with r[0]) where the time difference between the time represented by r[0].df
  * and the current device time is > 180 days, sorted descending by r[0].df (i.e. latest first).
@@ -204,7 +204,7 @@ private fun Collection<CwaCovidCertificate>.rule7FindOldRecovery(
     .maxByOrNull { it.rawCertificate.recovery.validFrom }
 
 /**
- * 8
+ * Rule 8
  * PCR Test Certificate > 72 hours
  * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP6464-4 and the time difference between
  * the time represented by t[0].sc and the current device time is > 72 hours,
@@ -221,7 +221,7 @@ private fun Collection<CwaCovidCertificate>.rule8FindOldPcrTest(
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
 /**
- * 9
+ * Rule 9
  * RAT Test Certificate > 48 hours
  * Find Test Certificates (i.e. DGC with t[0]) where t[0].tt is set to LP217198-3 and the time difference between
  * the time represented by t[0].sc and the current device time is > 48 hours,
