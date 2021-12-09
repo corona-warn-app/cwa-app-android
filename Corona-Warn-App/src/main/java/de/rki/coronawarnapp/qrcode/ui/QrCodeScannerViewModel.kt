@@ -166,11 +166,11 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                     is DccMaxPersonChecker.Result.ExceedsThreshold -> {
                         val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
                         Timber.tag(TAG).d("containerId=$containerId,checkerResult=$checkerResult")
-                        containerId.toMaxPersonsWarning()
+                        containerId.toMaxPersonsWarning(checkerResult.max)
                     }
                     is DccMaxPersonChecker.Result.ExceedsMax -> {
                         Timber.tag(TAG).w("Importing new certificate is blocked")
-                        DccResult.MaxPersonsBlock
+                        DccResult.MaxPersonsBlock(checkerResult.max)
                     }
                 }
             }

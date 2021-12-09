@@ -288,11 +288,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             }
             is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
-            DccResult.MaxPersonsBlock -> {
-                showMaxPersonExceedsMaxResult()
+            is DccResult.MaxPersonsBlock -> {
+                showMaxPersonExceedsMaxResult(scannerResult.max)
             }
             is DccResult.MaxPersonsWarning -> {
-                showMaxPersonExceedsThresholdResult(scannerResult.uri, navOptions)
+                showMaxPersonExceedsThresholdResult(scannerResult.max, scannerResult.uri, navOptions)
             }
         }
     }
@@ -353,11 +353,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showMaxPersonExceedsThresholdResult(deeplink: Uri, navOptions: NavOptions) {
+    private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.qr_code_error_max_person_threshold_title)
             .setCancelable(false)
-            .setMessage(requireContext().getString(R.string.qr_code_error_max_person_threshold_body).format(20))
+            .setMessage(requireContext().getString(R.string.qr_code_error_max_person_threshold_body).format(max))
             .setOnDismissListener {
                 findNavController().navigate(deeplink, navOptions)
             }
@@ -371,11 +371,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showMaxPersonExceedsMaxResult() {
+    private fun showMaxPersonExceedsMaxResult(max:Int) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.qr_code_error_max_person_max_title)
             .setCancelable(false)
-            .setMessage(requireContext().getString(R.string.qr_code_error_max_person_max_body).format(20))
+            .setMessage(requireContext().getString(R.string.qr_code_error_max_person_max_body).format(max))
             .setOnDismissListener { popBackStack() }
             .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
                 openUrl(R.string.qr_code_error_max_person_covpasscheck_link)

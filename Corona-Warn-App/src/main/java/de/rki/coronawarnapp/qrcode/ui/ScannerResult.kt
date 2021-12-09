@@ -23,8 +23,8 @@ sealed class DccResult : ScannerResult {
     data class Details(val uri: Uri) : DccResult()
     data class Onboarding(val dccQrCode: DccQrCode) : DccResult()
     data class InRecycleBin(val recycledContainerId: CertificateContainerId) : DccResult()
-    data class MaxPersonsWarning(val uri: Uri) : DccResult()
-    object MaxPersonsBlock : DccResult()
+    data class MaxPersonsWarning(val uri: Uri, val max: Int) : DccResult()
+    data class MaxPersonsBlock(val max: Int) : DccResult()
 }
 
 sealed class CheckInResult : ScannerResult {

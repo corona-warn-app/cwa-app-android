@@ -46,7 +46,7 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
 }
 
 fun CertificateContainerId.toDccDetails(): DccResult = DccResult.Details(uri())
-fun CertificateContainerId.toMaxPersonsWarning(): DccResult = DccResult.MaxPersonsWarning(uri())
+fun CertificateContainerId.toMaxPersonsWarning(max: Int): DccResult = DccResult.MaxPersonsWarning(uri(), max)
 
 private fun CertificateContainerId.uri(): Uri = when (this) {
     is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(identifier)
