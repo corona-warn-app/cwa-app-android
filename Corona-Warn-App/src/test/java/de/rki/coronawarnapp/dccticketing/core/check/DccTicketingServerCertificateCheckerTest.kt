@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.dccticketing.core.check
 
+import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockk
+import okhttp3.Response
 import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.security.cert.Certificate
@@ -47,47 +52,202 @@ class DccTicketingServerCertificateCheckerTest : BaseTest() {
         use = DccJWK.Purpose.SIGNATURE
     )
 
+    private val hostname = "validation-service.acme.org"
+    private val validationServiceAllowListEntry = DccTicketingValidationServiceAllowListEntry(
+        serviceProvider = "ACME Inc.",
+        hostname = hostname,
+        fingerprint256 = "E87E26EB9D22280125E113F755BE2F9F90DB076DD011D5940E0A78DD2F20EDFA".decodeHex()
+    )
+    private val validationServiceAllowlist = setOf(validationServiceAllowListEntry)
+
     @Test
     fun `check certificate - happy path`() {
         shouldNotThrowAny {
-            instance.checkCertificate(certificateChain = listOf(happyCert), jwkSet = setOf(happyJwk))
-            instance.checkCertificate(certificateChain = listOf(sadCert), jwkSet = setOf(sadJwk))
-            instance.checkCertificate(
+            with(instance) {
+                checkCertificateBoth(certificateChain = listOf(happyCert), jwkSet = setOf(happyJwk))
+                checkCertificateBoth(certificateChain = listOf(sadCert), jwkSet = setOf(sadJwk))
+                checkCertificateBoth(
+                    certificateChain = listOf(happyCert),
+                    jwkSet = setOf(sadJwk, happyJwk, mismatchJwk)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `check certificate - Maps unspecified error to CERT_PIN_MISMATCH`() {
+        instance.checkCertificateBothError(
+            certificateChain = emptyList(),
+            jwkSet = emptySet(),
+            errorCode = ErrorCode.CERT_PIN_MISMATCH
+        )
+    }
+
+    @Test
+    fun `check certificate - Empty jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
+        instance.checkCertificateBothError(
+            certificateChain = listOf(happyCert, sadCert),
+            jwkSet = emptySet(),
+            errorCode = ErrorCode.CERT_PIN_NO_JWK_FOR_KID
+        )
+    }
+
+    @Test
+    fun `check certificate - Not matching cert and jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
+        instance.checkCertificateBothError(
+            certificateChain = listOf(happyCert),
+            jwkSet = setOf(sadJwk),
+            errorCode = ErrorCode.CERT_PIN_NO_JWK_FOR_KID
+        )
+    }
+
+    @Test
+    fun `check certificate - Mismatch set leads to CERT_PIN_MISMATCH`() {
+        instance.checkCertificateBothError(
+            certificateChain = listOf(happyCert),
+            jwkSet = setOf(mismatchJwk),
+            errorCode = ErrorCode.CERT_PIN_MISMATCH
+        )
+    }
+
+    @Test
+    fun `check certificate against allowlist - happy path`() {
+        shouldNotThrowAny {
+            instance.checkCertificateAgainstAllowlistBoth(
+                hostname = hostname,
                 certificateChain = listOf(happyCert),
-                jwkSet = setOf(sadJwk, happyJwk, mismatchJwk)
+                allowlist = validationServiceAllowlist
             )
         }
     }
 
     @Test
-    fun `Maps unspecified error to CERT_PIN_MISMATCH`() {
-        shouldThrow<DccTicketingServerCertificateCheckException> {
-            instance.checkCertificate(certificateChain = emptyList(), jwkSet = emptySet())
-        }.errorCode shouldBe ErrorCode.CERT_PIN_MISMATCH
+    fun `check certificate against allowlist - Maps unspecified error to CERT_PIN_MISMATCH`() {
+        instance.checkCertificateAgainstAllowlistBothError(
+            hostname = hostname,
+            certificateChain = emptyList(),
+            allowlist = validationServiceAllowlist,
+            errorCode = ErrorCode.CERT_PIN_MISMATCH
+        )
     }
 
     @Test
-    fun `Empty jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
-        shouldThrow<DccTicketingServerCertificateCheckException> {
-            instance.checkCertificate(certificateChain = listOf(happyCert, sadCert), jwkSet = emptySet())
-        }.errorCode shouldBe ErrorCode.CERT_PIN_NO_JWK_FOR_KID
+    fun `check certificate against allowlist - no matching fingerprint leads to CERT_PIN_MISMATCH`() {
+        val wrongFingerprintEntry =
+            validationServiceAllowListEntry.copy(fingerprint256 = "Wrong fingerprint".decodeBase64()!!)
+
+        with(instance) {
+            checkCertificateAgainstAllowlistBothError(
+                hostname = hostname,
+                certificateChain = listOf(happyCert),
+                allowlist = emptySet(),
+                errorCode = ErrorCode.CERT_PIN_MISMATCH
+            )
+
+            checkCertificateAgainstAllowlistBothError(
+                hostname = hostname,
+                certificateChain = listOf(happyCert),
+                allowlist = setOf(wrongFingerprintEntry),
+                errorCode = ErrorCode.CERT_PIN_MISMATCH
+            )
+        }
     }
 
     @Test
-    fun `Not matching cert and jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
-        shouldThrow<DccTicketingServerCertificateCheckException> {
-            instance.checkCertificate(certificateChain = listOf(happyCert), jwkSet = setOf(sadJwk))
-        }.errorCode shouldBe ErrorCode.CERT_PIN_NO_JWK_FOR_KID
+    fun `check certificate against allowlist - no matching hostname leads to CERT_PIN_HOST_MISMATCH`() {
+        val wrongHostnameEntry = validationServiceAllowListEntry.copy(hostname = "Wrong hostname")
+        with(instance) {
+            checkCertificateAgainstAllowlistBothError(
+                hostname = "Wrong hostname",
+                certificateChain = listOf(happyCert),
+                allowlist = validationServiceAllowlist,
+                errorCode = ErrorCode.CERT_PIN_HOST_MISMATCH
+            )
+
+            checkCertificateAgainstAllowlistBothError(
+                hostname = hostname,
+                certificateChain = listOf(happyCert),
+                allowlist = setOf(wrongHostnameEntry),
+                errorCode = ErrorCode.CERT_PIN_HOST_MISMATCH
+            )
+        }
     }
 
-    @Test
-    fun `Mismatch set leads to CERT_PIN_MISMATCH`() {
+    private fun DccTicketingServerCertificateChecker.checkCertificateBoth(
+        certificateChain: List<Certificate>,
+        jwkSet: Set<DccJWK>
+    ) {
+        val response = createResponse(certs = certificateChain)
+
+        checkCertificate(response = response, jwkSet = jwkSet)
+        checkCertificate(certificateChain = certificateChain, jwkSet = jwkSet)
+    }
+
+    private fun DccTicketingServerCertificateChecker.checkCertificateBothError(
+        certificateChain: List<Certificate>,
+        jwkSet: Set<DccJWK>,
+        errorCode: ErrorCode
+    ) {
+        val response = createResponse(certs = certificateChain)
+
         shouldThrow<DccTicketingServerCertificateCheckException> {
-            instance.checkCertificate(certificateChain = listOf(happyCert), jwkSet = setOf(mismatchJwk))
-        }.errorCode shouldBe ErrorCode.CERT_PIN_MISMATCH
+            checkCertificate(response = response, jwkSet = jwkSet)
+        }.errorCode shouldBe errorCode
+
+        shouldThrow<DccTicketingServerCertificateCheckException> {
+            checkCertificate(certificateChain = certificateChain, jwkSet = jwkSet)
+        }.errorCode shouldBe errorCode
+    }
+
+    private fun DccTicketingServerCertificateChecker.checkCertificateAgainstAllowlistBoth(
+        hostname: String,
+        certificateChain: List<Certificate>,
+        allowlist: Set<DccTicketingValidationServiceAllowListEntry>
+    ) {
+        val response = createResponse(certs = certificateChain, hostname = hostname)
+
+        checkCertificateAgainstAllowlist(response = response, allowlist = allowlist)
+        checkCertificateAgainstAllowlist(
+            hostname = hostname,
+            certificateChain = certificateChain,
+            allowlist = allowlist
+        )
+    }
+
+    private fun DccTicketingServerCertificateChecker.checkCertificateAgainstAllowlistBothError(
+        hostname: String,
+        certificateChain: List<Certificate>,
+        allowlist: Set<DccTicketingValidationServiceAllowListEntry>,
+        errorCode: ErrorCode
+    ) {
+        val response = createResponse(certs = certificateChain, hostname = hostname)
+
+        shouldThrow<DccTicketingServerCertificateCheckException> {
+            checkCertificateAgainstAllowlist(response = response, allowlist = allowlist)
+        }.errorCode shouldBe errorCode
+
+        shouldThrow<DccTicketingServerCertificateCheckException> {
+            checkCertificateAgainstAllowlist(
+                hostname = hostname,
+                certificateChain = certificateChain,
+                allowlist = allowlist
+            )
+        }.errorCode shouldBe errorCode
     }
 
     private fun createCert(base64: String): Certificate = base64.decodeBase64()?.toByteArray()?.inputStream().use {
         certificateFactory.generateCertificate(it)
+    }
+
+    private fun createResponse(certs: List<Certificate>, hostname: String = ""): Response = mockk {
+        every { handshake } returns mockk {
+            every { peerCertificates } returns certs
+        }
+
+        every { request } returns mockk {
+            every { url } returns mockk {
+                every { host } returns hostname
+            }
+        }
     }
 }
