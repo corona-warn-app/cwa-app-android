@@ -71,6 +71,10 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
             else -> error("Unsupported certificate$this")
         }
 
+    fun onUserCancel() {
+        events.postValue(ShowCancelConfirmationDialog)
+    }
+
     fun closeScreen() {
         events.postValue(CloseSelectionScreen)
     }
