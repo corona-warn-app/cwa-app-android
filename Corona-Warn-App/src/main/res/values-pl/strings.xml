@@ -254,11 +254,13 @@
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Wytyczne"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior">"Zalecenia:"</string>
+    <string name="risk_details_subtitle_behavior">"Zalecenia"</string>
+    <!-- XHED: risk details - multiline headline, bold, how to act correct -->
+    <string name="risk_details_subtitle_behavior_increased_risk">"Oto, co powinieneś (powinnaś) zrobić, nawet jeśli jesteś zaszczepiony(-s) lub jesteś ozdrowieńcem bądź jeżeli nie masz żadnych objawów:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Jeśli to możliwe, idź do domu i w nim pozostań."</string>
+    <string name="risk_details_behavior_body_stay_home">"Jeśli to możliwe, idź do domu i w nim pozostań. Unikaj wszelkich spotkań poza domem."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"W przypadku pytań dotyczących objawów, możliwości wykonania testu lub kwarantanny skontaktuj się z jednym z poniższych miejsc:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"W razie jakichkolwiek innych pytań związanych ze zdrowiem skontaktuj się z pogotowiem ratunkowym pod numerem: 116 117."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Regularnie myj ręce mydłem przez 20 sekund."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -266,18 +268,13 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Zachowuj odległość co najmniej 1,5 metra od innych osób."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów."</string>
-
+    <string name="risk_details_find_details_in_journal">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów.\n\nMasz zwiększone ryzyko infekcji. Jeśli zostałeś(-aś) zarażony(-a), możesz zarazić inne osoby, nawet jeśli jesteś zaszczepiony(-a) lub jesteś ozdrowieńcem bądź jeżeli nie masz żadnych objawów."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Jeśli poddasz się testowi, dodatkowe informacje na temat procedury testowania znajdziesz w „Często zadawanych pytaniach”."</string>
-    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
-    <string name="risk_details_increased_risk_faq_link_label">"Często zadawanych pytaniach"</string>
-    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Przetestuj się, nawet jeśli nie masz żadnych objawów. Jeśli otrzymasz ostrzeżenie o zwiększonym ryzyku („czerwony kafelek”), będziesz mieć prawo do bezpłatnego testu. Nie musi to być test PCR."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy COVID-19. W przełomowych przypadkach objawy mogą wystąpić nawet u osób zaszczepionych. Jeśli zauważysz jakiekolwiek podejrzane objawy, zrób test."</string>
+    <string name="risk_details_faq_symptoms">"Zwróć uwagę na typowe objawy. Objawy mogą wystąpić nawet u osób zaszczepionych i ozdrowieńców. Jeśli poczujesz się źle lub zauważysz jakiekolwiek objawy, skontaktuj się z lekarzem rodzinnym."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Jeśli nie jesteś jeszcze zaszczepiony(-a), skonsultuj się z lekarzem rodzinnym lub pogotowiem ratunkowym, aby umówić się na test. Po wykonaniu testu omów kwestię szczepienia przeciw SARS-CoV-2 ze swoim lekarzem rodzinnym."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Jeśli nie jesteś jeszcze zaszczepiony(-a), skonsultuj się z lekarzem rodzinnym po wykonaniu testu."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Zaszczep się przeciwko wirusowi SARS-CoV-2, jeśli jeszcze tego nie zrobiłeś(-aś)."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -285,11 +282,18 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Kichaj i kaszl w łokieć lub chusteczkę."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Twój lekarz rodzinny"</string>
+    <string name="risk_details_behavior_increased_body_1">"Możesz zapoznać się z możliwościami testowania w tym miejscu lub skontaktować się z lekarzem rodzinnym lub apteką."</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_1_label">"Informacje o możliwościach testowania znajdują się tutaj:"</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Pogotowie ratunkowe pod numerem telefonu 116 117"</string>
-    <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"Organ ds. zdrowia publicznego"</string>
+    <string name="risk_details_behavior_increased_body_2">"Więcej informacji na temat procedury testowania można znaleźć na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_2_label">"Często zadawane pytania na temat procedury testowania."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Ryzyko zakażenia"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -819,7 +823,7 @@
     <string name="debugging_debuglog_status_additional_infos">"Bieżący rozmiar: %1$s (nieskompresowane)"</string>
 
     <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
-    <string name="debugging_debuglog_legal_privacy_card_title">"Walidacja autentyczności i przekazywanie danych do krajów trzecich"</string>
+    <string name="debugging_debuglog_legal_privacy_card_title">"Weryfikacja autentyczności i przekazywanie danych do krajów trzecich"</string>
     <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
     <string name="debugging_debuglog_legal_privacy_card_first_section">"Aby potwierdzić autentyczność aplikacji, smartfon generuje unikalny identyfikator zawierający informacje o wersji smartfona i aplikacji. Jest to konieczne w celu zapewnienia, by tylko osoby, które faktycznie używają aplikacji Corona-Warn-App mogły wysyłać dane do pomocy technicznej, i wykluczenia zmanipulowanych raportów o błędach. W tym celu identyfikator jest wysyłany do Google. W tym procesie dane mogą być przekazywane do Stanów Zjednoczonych lub innych krajów trzecich, gdzie poziom prywatności danych może nie odpowiadać prawu europejskiemu i możesz nie być w stanie wyegzekwować swoich europejskich praw do prywatności danych. W szczególności organy ds. bezpieczeństwa w kraju trzecim mogłyby uzyskać dostęp do danych i analizować je przy pomocy Google, nawet jeśli nie ma podstaw do podejrzeń, i na przykład łączyć te dane z innymi informacjami. Dotyczy to tylko identyfikatora wysyłanego do Google. Google nie otrzymuje informacji z Twojego raportu o błędzie, może jednak określić Twoją tożsamość na podstawie identyfikatora i poprzez prześledzenie danych ustalić, że sprawdzanie autentyczności zostało przeprowadzone na Twoim smartfonie."</string>
     <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
@@ -917,7 +921,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Jakie kody QR można zeskanować?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Testy, Twoje certyfikaty, zameldowania i walidacja podczas rezerwacji biletów"</string>
+    <string name="qr_code_scan_body_subtitle">"Testy, Twoje certyfikaty, zameldowania i weryfikacja podczas rezerwacji biletów"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +944,22 @@
     <string name="qr_code_no_suitable_qr_code_title">"Brak odpowiedniego kodu QR"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Wybierz odpowiedni kod QR."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_title">"Ostrzeżenie"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_body">"Aplikacja Corona-Warn-App nie może być używana do weryfikacji zewnętrznych certyfikatów. Do tego celu należy użyć aplikacji CovPassCheck.\n\nMożesz dodać certyfikaty dla maksymalnie %d osób. Po osiągnięciu tego limitu nie możesz skanować nowych certyfikatów dla kolejnych osób.\n\nWięcej informacji na temat certyfikatów szczepień znajdziesz na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_title">"Błąd"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_body">"Aplikacja Corona-Warn-App nie może być używana do weryfikacji zewnętrznych certyfikatów. Do tego celu należy użyć aplikacji CovPassCheck.\n\nMożesz dodać certyfikaty dla maksymalnie %d osób. Nie możesz skanować nowych certyfikatów dla kolejnych osób.\n\nWięcej informacji na temat certyfikatów szczepień znajdziesz na naszej stronie „Często zadawane pytania”."</string>
+    <!-- XBUT: QR Code error message: covpasscheck app button  -->
+    <string name="qr_code_error_max_person_covpasscheck_button">"Pobierz CovPassCheck"</string>
+    <!-- XTXT: QR Code error message: covpasscheck app link  -->
+    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
+    <!-- XBUT: QR Code error message: FAQ button  -->
+    <string name="qr_code_error_max_person_faq_button">"Strona „Często zadawane pytania” dotyczące weryfikacji certyfikatów"</string>
+    <!-- XTXT: QR Code error message: FAQ link  -->
+    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -951,11 +971,11 @@
     <!-- XTXT: Third bulletpoint for info screen -->
     <string name="qr_code_info_screen_third_bulletpoint_text">"Testy PCR i szybkie testy"</string>
     <!-- XTXT: Fourth bulletpoint for info screen -->
-    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Walidacja certyfikatów podczas rezerwacji biletów"</string>
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Weryfikacja certyfikatów podczas rezerwacji biletów"</string>
     <!-- XTXT: QR Code info screen data details -->
     <string name="qr_code_info_screen_data_details_text">"Odczytywane są dane z odpowiedniego kodu."</string>
     <!-- XTXT: QR Code booking provider info text -->
-    <string name="qr_code_info_screen_booking_provider_text">"Podczas skanowania kodów QR w celu walidacji certyfikatu przy rezerwacji biletu pobierane są dodatkowe informacje o dostawcy rezerwacji."</string>
+    <string name="qr_code_info_screen_booking_provider_text">"Podczas skanowania kodów QR w celu weryfikacji certyfikatów w procesie rezerwacji biletów pobierane są dodatkowe informacje o dostawcy rezerwacji."</string>
     <!-- XTXT: Privacy policy button text -->
     <string name="qr_code_info_screen_privacy_policy">"Informacje na temat przetwarzania danych znajdują się w oświadczeniu o ochronie prywatności."</string>
 

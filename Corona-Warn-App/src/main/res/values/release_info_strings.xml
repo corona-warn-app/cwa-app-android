@@ -16,12 +16,12 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Certificate Validation during Ticketing"</item>
+        <item>"Certificate Verification during Ticketing"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"When you book a ticket, you can present proof that you have been vaccinated, recovered, or tested negative. To do so, scan the QR code displayed in the ticketing system and then select the right certificate in the app. The result of the certificate validation is sent to the ticketing system by the validation partner."</item>
+        <item>"When you book a ticket, you can present proof that you have been vaccinated, recovered, or tested negative. To do so, scan the QR code displayed in the ticketing system and then select the right certificate in the app. The result of the certificate verification is sent to the ticketing system by the verification partner."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

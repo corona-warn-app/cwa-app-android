@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorSurface"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     tools:context=".dccticketing.ui.consent.one.DccTicketingConsentOneFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -124,11 +124,12 @@
 
                 <TextView
                     android:id="@+id/body"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="24dp"
+                    android:letterSpacing="0.0015"
                     android:text="@string/dcc_ticketing_consent_one_body"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -140,8 +141,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="11dp"
-                    android:layout_marginEnd="13dp"
                     android:layout_marginTop="32dp"
+                    android:layout_marginEnd="13dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/body">
@@ -160,7 +161,7 @@
 
                     <TextView
                         android:id="@+id/legal_body"
-                        style="@style/body1"
+                        style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
@@ -180,7 +181,7 @@
 
                     <TextView
                         android:id="@+id/legal_first_bulletpoint_text"
-                        style="@style/body1"
+                        style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
@@ -200,7 +201,7 @@
 
                     <TextView
                         android:id="@+id/legal_second_bulletpoint_text"
-                        style="@style/body1"
+                        style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -217,15 +218,15 @@
                 <include
                     android:id="@+id/bulletpoint_one"
                     layout="@layout/include_bullet_point"
-                    android:layout_marginStart="35dp"
                     android:layout_width="6dp"
                     android:layout_height="6dp"
+                    android:layout_marginStart="35dp"
                     app:layout_constraintBaseline_toBaselineOf="@id/first_bulletpoint_text"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/first_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
@@ -246,7 +247,7 @@
 
                 <TextView
                     android:id="@+id/second_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -266,7 +267,7 @@
 
                 <TextView
                     android:id="@+id/third_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -286,7 +287,7 @@
 
                 <TextView
                     android:id="@+id/forth_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -337,7 +338,7 @@
         android:text="@string/dcc_ticketing_consent_one_cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
