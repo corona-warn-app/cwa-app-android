@@ -16,5 +16,9 @@ interface CWAConfig {
 
     val validationServiceMinVersion: Int
 
+    val dccPersonWarnThreshold: Int
+
+    val dccPersonCountMax: Int
+
     interface Mapper : ConfigMapper<CWAConfig>
 }

@@ -129,6 +129,114 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
+    fun `feature, dcc-person-warn-threshold`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "dcc-person-warn-threshold"
+                            value = 3
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            dccPersonCountMax shouldBe 20
+            dccPersonWarnThreshold shouldBe 3
+        }
+    }
+
+    @Test
+    fun `feature, dcc-person-warn-threshold - negative`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "dcc-person-warn-threshold"
+                            value = -1
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            dccPersonCountMax shouldBe 20
+            dccPersonWarnThreshold shouldBe 10
+        }
+    }
+
+    @Test
+    fun `feature, dcc-person-count-max`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "dcc-person-count-max"
+                            value = 30
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            dccPersonCountMax shouldBe 30
+            dccPersonWarnThreshold shouldBe 10
+        }
+    }
+
+    @Test
+    fun `feature, dcc-person-count-max - negative`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "dcc-person-count-max"
+                            value = -1
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            dccPersonCountMax shouldBe 20
+            dccPersonWarnThreshold shouldBe 10
+        }
+    }
+
+    @Test
+    fun `feature, validation-service-android-min-version-code defaults to 0`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .build()
+        createInstance().map(rawConfig).apply {
+            validationServiceMinVersion shouldBe 0
+        }
+    }
+
+    @Test
+    fun `feature, validation-service-android-min-version-code`() {
+        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(
+                        AppFeature.newBuilder().apply {
+                            label = "validation-service-android-min-version-code"
+                            value = 3_00_000
+                        }.build()
+                    )
+                }
+            )
+            .build()
+        createInstance().map(rawConfig).apply {
+            validationServiceMinVersion shouldBe 3_00_000
+        }
+    }
+
+    @Test
     fun `feature, unencrypted checkins disabled`() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
