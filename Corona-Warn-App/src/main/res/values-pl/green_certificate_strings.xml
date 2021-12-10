@@ -8,7 +8,7 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"Certyfikat testu jest ważnym dowodem negatywnego wyniku testu na terenie UE (np. dla celów podróży)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"Certyfikat testu zawiera dane, które umożliwiają aplikacji weryfikacyjnej jego walidację."</string>
+    <string name="request_green_certificate_body_3">"Certyfikat testu zawiera dane, które umożliwiają aplikacji weryfikacyjnej jego weryfikację."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Poproś o certyfikat testu"</string>
     <!-- XBUT: Request green certificate disagree button -->
