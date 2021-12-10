@@ -106,7 +106,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_two_g_plus_certificate_with_badge() {
-        every { viewModel.personCertificates } returns MutableLiveData(twoGPlusCertificate())
+        every { viewModel.personCertificates } returns MutableLiveData(twoGPlusCertificateWithBadge())
         takeSelfie("two_g_plus_with_badge")
     }
 
