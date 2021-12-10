@@ -65,7 +65,7 @@ class DccTicketingServerCertificateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `Maps unspecified error to CERT_PIN_MISMATCH`() {
+    fun `check certificate - Maps unspecified error to CERT_PIN_MISMATCH`() {
         checkCertificateBothError(
             certificateChain = emptyList(),
             jwkSet = emptySet(),
@@ -74,7 +74,7 @@ class DccTicketingServerCertificateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `Empty jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
+    fun `check certificate - Empty jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
         checkCertificateBothError(
             certificateChain = listOf(happyCert, sadCert),
             jwkSet = emptySet(),
@@ -83,7 +83,7 @@ class DccTicketingServerCertificateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `Not matching cert and jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
+    fun `check certificate - Not matching cert and jwk set leads to CERT_PIN_NO_JWK_FOR_KID`() {
         checkCertificateBothError(
             certificateChain = listOf(happyCert),
             jwkSet = setOf(sadJwk),
@@ -92,12 +92,28 @@ class DccTicketingServerCertificateCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `Mismatch set leads to CERT_PIN_MISMATCH`() {
+    fun `check certificate - Mismatch set leads to CERT_PIN_MISMATCH`() {
         checkCertificateBothError(
             certificateChain = listOf(happyCert),
             jwkSet = setOf(mismatchJwk),
             errorCode = ErrorCode.CERT_PIN_MISMATCH
         )
+    }
+
+    @Test
+    fun `check certificate against allowlist - happy path`() {
+    }
+
+    @Test
+    fun `check certificate against allowlist - Maps unspecified error to CERT_PIN_MISMATCH`() {
+    }
+
+    @Test
+    fun `check certificate against allowlist - no matching fingerprint leads to CERT_PIN_MISMATCH`() {
+    }
+
+    @Test
+    fun `check certificate against allowlist - no matching hostname leads to CERT_PIN_HOST_MISMATCH`() {
     }
 
     private fun DccTicketingServerCertificateChecker.checkCertificateBoth(
