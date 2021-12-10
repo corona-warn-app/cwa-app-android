@@ -4,7 +4,9 @@ import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
-import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.*
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ServiceProviderAllowlistItem
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlist
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlistItem
 import de.rki.coronawarnapp.util.toProtoByteString
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
