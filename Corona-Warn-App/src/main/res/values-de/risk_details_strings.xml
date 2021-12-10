@@ -23,7 +23,7 @@
     <!-- XTXT: risk details - health department info link url -->
     <string name="risk_details_behavior_body_health_department_link">https://www.coronawarn.app/de/faq/#quarantine_measures</string>
     <!-- XTXT: risk details - home rules body -->
-    <string name="risk_details_minimize_risk_body">Falls Sie sich angesteckt haben, verringern Sie so das Risiko, andere anzustecken:</string>
+    <string name="risk_details_minimize_risk_body">Falls Sie sich unerkannt angesteckt haben, verringern Sie so das Risiko, andere zu infizieren:</string>
     <!-- XTXT: risk details - home rules faq -->
     <string name="risk_details_minimize_risk_faq">Weitere Hinweise finden Sie in der FAQ zur freiwilligen Selbstquarantäne.</string>
     <!-- XTXT: risk details - home rules faq link label -->

@@ -28,11 +28,12 @@ class DccTicketingAllowListStorage @Inject constructor(
     }
 
     private fun File.load(): ByteArray? = try {
-        if (exists()) {
-            readBytes()
-        } else {
-            Timber.tag(TAG).v("%s does not exist", name)
-            null
+        when (exists()) {
+            true -> readBytes()
+            false -> {
+                Timber.tag(TAG).v("%s does not exist", name)
+                null
+            }
         }
     } catch (e: Exception) {
         Timber.tag(TAG).w(e, "Failed to load data from %s. Returning null.", name)

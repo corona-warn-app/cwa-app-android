@@ -7,6 +7,10 @@
     <string name="dcc_ticketing_error_service_provider_error">"Sağlayıcı %1$s ile bağlantı kurulurken bir hata oluştu. Problem devam ederse lütfen sağlayıcı ile iletişime geçin."</string>
     <!-- XTXT: Try again error message-->
     <string name="dcc_ticketing_error_try_again">"Veri işleme sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin."</string>
+    <!-- XTXT: Validation service min version message-->
+    <string name="dcc_ticketing_error_min_version">"Corona-Warn-App\'in geçerli versiyonu artık bilet kontrolünü desteklemiyor. Lütfen uygulamayı güncelleyin ve bilet kontrolünü yeniden başlatın."</string>
+    <!-- XBUT: Validation service min version Google play button-->
+    <string name="dcc_ticketing_error_min_version_google_play">"Google Play\'e git"</string>
 
     <!-- DCC Ticketing: Consent One -->
     <!-- XHED: DCC Ticketing: Consent One: Header -->
@@ -53,7 +57,7 @@
     <!-- XTXT: not in AllowList dialog title -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_title">"Güvenlik Notu"</string>
     <!-- XTXT: not in AllowList dialog message -->
-    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Bu sağlayıcı hakkında bilgi sahibi değiliz. Güvenlik nedenleriyle biletleme sırasnda doğrulama işlemi yalnızca bilinen sağlayıcılar için yapılabilir. Lütfen size bu QR kodu veren sağlayıcı ile iletişime geçin."</string>
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Bu sağlayıcı hakkında bilgi sahibi değiliz. Güvenlik nedenleriyle biletleme sırasnda doğrulama işlemi yalnızca bilinen sağlayıcılar için yapılabilir. Lütfen size bu QR kodu veren sağlayıcı ile iletişime geçin be uygulamanızı son versiyona güncellemeyi deneyin."</string>
 
     <!-- DCC Ticketing: Certificate Selection Screen -->
     <!-- XHED: Certificate Selection Screen Toolbar Title -->
@@ -71,7 +75,7 @@
     <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
     <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
     <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
-    <string name="dcc_ticketing_faq_link_english">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
     <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Sağlayıcı gereklilikleri:"</string>
     <!-- XTXT: Certificate Selection Screen: Person Birthday -->
@@ -91,7 +95,7 @@
     <!-- XTXT: DCC Ticketing: Consent Two: Test Partner -->
     <string name="dcc_ticketing_consent_two_test_partner">"Doğrulama ortağı:"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Test Partner Default Value -->
-    <string name="dcc_ticketing_consent_two_test_partner_default">"“Operator_Validation_Service”"</string>
+    <string name="dcc_ticketing_consent_two_test_partner_default">"“Operator_Verification_Service”"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Provider -->
     <string name="dcc_ticketing_consent_two_provider">"Sağlayıcı:"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Provider Default Value -->
