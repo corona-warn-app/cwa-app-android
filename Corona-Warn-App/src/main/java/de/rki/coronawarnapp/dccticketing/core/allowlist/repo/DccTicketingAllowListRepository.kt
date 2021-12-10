@@ -36,8 +36,7 @@ class DccTicketingAllowListRepository @Inject constructor(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.WhileSubscribed(
-            stopTimeoutMillis = Duration.standardSeconds(5).millis,
-            replayExpirationMillis = 0
+            stopTimeoutMillis = Duration.standardMinutes(5).millis
         ),
         startValueProvider = { loadInitialData() }
     )
