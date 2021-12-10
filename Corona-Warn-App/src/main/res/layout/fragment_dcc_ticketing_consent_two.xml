@@ -108,7 +108,7 @@
 
             <TextView
                 android:id="@+id/body"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -144,7 +144,7 @@
 
                 <TextView
                     android:id="@+id/legal_body"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -164,7 +164,7 @@
 
                 <TextView
                     android:id="@+id/legal_first_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
@@ -184,7 +184,7 @@
 
                 <TextView
                     android:id="@+id/legal_second_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -205,7 +205,7 @@
 
                 <TextView
                     android:id="@+id/legal_second_one_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -227,7 +227,7 @@
 
                 <TextView
                     android:id="@+id/legal_second_two_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -249,7 +249,7 @@
 
                 <TextView
                     android:id="@+id/legal_second_three_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -271,7 +271,7 @@
 
                 <TextView
                     android:id="@+id/legal_second_four_bulletpoint_text"
-                    style="@style/body1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -297,7 +297,7 @@
 
             <TextView
                 android:id="@+id/first_bulletpoint_text"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
@@ -318,7 +318,7 @@
 
             <TextView
                 android:id="@+id/second_bulletpoint_text"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -338,7 +338,7 @@
 
             <TextView
                 android:id="@+id/third_bulletpoint_text"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -358,7 +358,7 @@
 
             <TextView
                 android:id="@+id/forth_bulletpoint_text"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

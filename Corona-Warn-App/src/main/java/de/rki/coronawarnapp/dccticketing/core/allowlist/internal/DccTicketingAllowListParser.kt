@@ -4,7 +4,9 @@ import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
-import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ServiceProviderAllowlistItem
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlist
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlistItem
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.toOkioByteString
 import timber.log.Timber
@@ -49,7 +51,3 @@ class DccTicketingAllowListParser @Inject constructor() {
         private val TAG = tag<DccTicketingAllowListParser>()
     }
 }
-
-private typealias ValidationServiceAllowlist = ValidationServiceAllowlistOuterClass.ValidationServiceAllowlist
-private typealias ServiceProviderAllowlistItem = ValidationServiceAllowlistOuterClass.ServiceProviderAllowlistItem
-private typealias ValidationServiceAllowlistItem = ValidationServiceAllowlistOuterClass.ValidationServiceAllowlistItem
