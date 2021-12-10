@@ -4,7 +4,9 @@ import dagger.Reusable
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingAllowListContainer
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingServiceProviderAllowListEntry
 import de.rki.coronawarnapp.dccticketing.core.allowlist.data.DccTicketingValidationServiceAllowListEntry
-import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.*
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ServiceProviderAllowlistItem
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlist
+import de.rki.coronawarnapp.server.protocols.internal.dgc.ValidationServiceAllowlistOuterClass.ValidationServiceAllowlistItem
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.toOkioByteString
 import timber.log.Timber
@@ -27,7 +29,7 @@ class DccTicketingAllowListParser @Inject constructor() {
 
     private fun List<ServiceProviderAllowlistItem>.toServiceProviderAllowList():
         List<DccTicketingServiceProviderAllowListEntry> =
-        map { it.toServiceProviderAllowListEntry() }
+            map { it.toServiceProviderAllowListEntry() }
 
     private fun ServiceProviderAllowlistItem.toServiceProviderAllowListEntry() =
         DccTicketingServiceProviderAllowListEntry(
@@ -36,7 +38,7 @@ class DccTicketingAllowListParser @Inject constructor() {
 
     private fun List<ValidationServiceAllowlistItem>.toValidationServiceAllowList():
         List<DccTicketingValidationServiceAllowListEntry> =
-        map { it.toValidationServiceAllowListEntry() }
+            map { it.toValidationServiceAllowListEntry() }
 
     private fun ValidationServiceAllowlistItem.toValidationServiceAllowListEntry() =
         DccTicketingValidationServiceAllowListEntry(
