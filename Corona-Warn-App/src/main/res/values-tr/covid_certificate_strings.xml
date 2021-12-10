@@ -176,7 +176,7 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Avrupa Haritası"</string>
     <!-- XTXT: Start Validation Rule Check Button -->
-    <string name="start_validation_rule_check_button">"Geçerliliği Kontrol Et"</string>
+    <string name="start_validation_rule_check_button">"Seyahat için Geçerliliği Kontrol Et"</string>
     <!-- XTXT: Start Validation Rule Check Loading Text -->
     <string name="start_validation_rule_check_loading_text">"Lütfen bekleyin..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
@@ -184,7 +184,7 @@
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
     <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Geçerliliği Kontrol Et"</string>
+    <string name="test_certificate_validation_start_button">"Seyahat için Geçerliliği Kontrol Et"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -387,10 +387,10 @@
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Corona-Warn-App\'te sertifikalarınızın geçerliliğini kendiniz doğrulayabilirsiniz ve CovPassCheck uygulamasını kullanmanız gerekmez."</string>
+    <string name="cov_pass_info_section_one">"Corona-Warn-App\'te sertifikalarınızın geçerliliğini seyahat etmeden önce kendiniz doğrulayabilirsiniz ve CovPassCheck uygulamasını kullanmanız gerekmez."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Ancak üçüncü tarafların sertifikaları görsel olarak doğrulaması yeterli değildir. Üçüncü tarafların Almanya\'da CovPassCheck uygulamasını kullanması gerekir."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_three">"Diğer ülkelerdeki üçüncü tarafların sertifika doğrulaması için başka uygulamaları kullanabileceğini lütfen unutmayın."</string>
+    <string name="cov_pass_info_section_three">"Diğer ülkelerdeki üçüncü tarafların sertifika doğrulaması için farklı uygulamaları kullanabileceğini lütfen unutmayın."</string>
 
 </resources>
