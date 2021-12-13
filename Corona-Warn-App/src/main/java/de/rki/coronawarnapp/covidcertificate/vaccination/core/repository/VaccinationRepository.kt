@@ -130,7 +130,7 @@ class VaccinationRepository @Inject constructor(
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
-            val matchingPerson = this.singleOrNull {
+            val matchingPerson = this.lastOrNull {
                 it.identifier == qrCode.personIdentifier
             } ?: VaccinatedPerson(
                 data = VaccinatedPersonData(),
@@ -298,7 +298,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun markAsSeenByUser(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("markAsSeenByUser(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+            val toUpdatePerson = lastOrNull { it.findVaccination(containerId) != null }
 
             if (toUpdatePerson == null) {
                 Timber.tag(TAG).w("markAsSeenByUser Couldn't find %s", containerId)
@@ -320,7 +320,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun acknowledgeBoosterRule(personIdentifierCode: String) {
         Timber.tag(TAG).d("acknowledgeBoosterRule(personIdentifierCode=%s)", personIdentifierCode)
         internalData.updateBlocking {
-            val vaccinatedPerson = singleOrNull { it.identifier.codeSHA256 == personIdentifierCode }
+            val vaccinatedPerson = lastOrNull { it.identifier.codeSHA256 == personIdentifierCode }
 
             if (vaccinatedPerson == null) {
                 Timber.tag(TAG).w("acknowledgeBoosterRule couldn't find person %s", personIdentifierCode)
@@ -346,7 +346,7 @@ class VaccinationRepository @Inject constructor(
         Timber.tag(TAG)
             .d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", personIdentifier, rule?.identifier)
         internalData.updateBlocking {
-            val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+            val vaccinatedPerson = lastOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
                 Timber.tag(TAG).w("updateBoosterRule couldn't find person %s", personIdentifier.codeSHA256)
@@ -377,7 +377,7 @@ class VaccinationRepository @Inject constructor(
     ) {
         Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", personIdentifier.codeSHA256, time)
         internalData.updateBlocking {
-            val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
+            val vaccinatedPerson = lastOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
                 Timber.tag(TAG).w("updateBoosterNotifiedAt couldn't find person %s", personIdentifier.codeSHA256)
@@ -401,7 +401,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun recycleCertificate(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("recycleCertificate(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+            val toUpdatePerson = lastOrNull { it.findVaccination(containerId) != null }
 
             if (toUpdatePerson == null) {
                 Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
@@ -427,7 +427,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun restoreCertificate(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("restoreCertificate(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdatePerson = singleOrNull { it.findVaccination(containerId) != null }
+            val toUpdatePerson = lastOrNull { it.findVaccination(containerId) != null }
 
             if (toUpdatePerson == null) {
                 Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
