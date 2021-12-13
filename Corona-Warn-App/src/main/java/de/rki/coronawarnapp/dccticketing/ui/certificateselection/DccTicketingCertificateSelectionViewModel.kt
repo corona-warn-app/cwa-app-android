@@ -30,7 +30,7 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingSharedViewModel: DccTicketingSharedViewModel,
 ) : CWAViewModel(dispatcherProvider) {
 
-    var hasValidCertificate = false
+    private var hasValidCertificate = false
     val events = SingleLiveEvent<DccTicketingCertificateSelectionEvents>()
     val items = dccTicketingSharedViewModel.transactionContext.map { cxt -> certificateItems(cxt) }.asLiveData2()
 
