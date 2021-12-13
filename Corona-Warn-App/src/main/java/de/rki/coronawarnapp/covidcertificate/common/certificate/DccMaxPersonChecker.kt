@@ -35,7 +35,7 @@ class DccMaxPersonChecker @Inject constructor(
         if (allIdentifiers.size == allIdentifiersWithNew.size) return Result.Passed
 
         // adding the certificate results in exceeding max -> block import
-        if (allIdentifiersWithNew.size > max) {
+        if (allIdentifiersWithNew.size >= max) {
             Timber.i("Maximum exceeded. Max is $max, no of persons is ${allIdentifiersWithNew.size}")
             return Result.ExceedsMax(
                 max = max,
