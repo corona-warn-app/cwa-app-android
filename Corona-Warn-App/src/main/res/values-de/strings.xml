@@ -966,7 +966,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
-    <string name="qr_code_info_screen_title">"Informationen zu QR-Codes"</string>
+    <string name="qr_code_info_screen_title">"Zertifikat auswählen"</string>
     <!-- XTXT: First bulletpiont for info screen -->
     <string name="qr_code_info_screen_first_bulletpoint_text">"Ihre Testzertifikate, Impfzertifikate, Genesenenzertifikate, sowie Zertifikate Ihrer Familienmitglieder"</string>
     <!-- XTXT: Second bulletpoint for info screen -->
