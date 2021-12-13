@@ -60,15 +60,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
     ) {
         persons.filterNotPending()
             .forEachIndexed { index, person ->
-                val certificate = person.highestPriorityCertificate
-                val badgeCount = person.badgeCount
+                val admissionState = person.admissionState
                 val color = PersonColorShade.shadeFor(index)
-                if (certificate != null) {
+                if (admissionState != null) {
                     add(
                         PersonCertificateCard.Item(
-                            admissionState = person.admissionState!!,
+                            admissionState = admissionState,
                             colorShade = color,
-                            badgeCount = badgeCount,
+                            badgeCount = person.badgeCount,
                             onClickAction = { _, position ->
                                 person.personIdentifier?.let { personIdentifier ->
                                     events.postValue(
