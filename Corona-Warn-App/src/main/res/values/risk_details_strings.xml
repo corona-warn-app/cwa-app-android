@@ -22,7 +22,7 @@
     <!-- XTXT: risk details - health department info link url -->
     <string name="risk_details_behavior_body_health_department_link">"https://www.coronawarn.app/en/faq/#quarantine_measures"</string>
     <!-- XTXT: risk details - home rules body -->
-    <string name="risk_details_minimize_risk_body">"If you have been infected, you can reduce the risk of infecting others:"</string>
+    <string name="risk_details_minimize_risk_body">"If you have been infected unknowingly, here’s how you can reduce the risk of infecting others:"</string>
     <!-- XTXT: risk details - home rules faq -->
     <string name="risk_details_minimize_risk_faq">"Additional information is available on our FAQ page on voluntary self-quarantine."</string>
     <!-- XTXT: risk details - home rules faq link label HAS TO MATCH the link text above -->
