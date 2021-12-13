@@ -5,9 +5,10 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
@@ -20,26 +21,26 @@ import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestPending
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestNegative
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestInvalid
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestNegative
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestPending
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestPositive
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.WarnOthers
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
-import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
-import io.kotest.matchers.should
-import io.kotest.matchers.types.beInstanceOf
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
@@ -69,6 +70,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
+    @MockK lateinit var dccMaxPersonChecker: DccMaxPersonChecker
 
     private val recycledRAT = RACoronaTest(
         identifier = "rat-identifier",
@@ -418,6 +420,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         qrCodeValidator = qrCodeValidator,
         recycledCertificatesProvider = recycledCertificatesProvider,
         recycledCoronaTestsProvider = recycledCoronaTestsProvider,
-        dccTicketingQrCodeHandler = dccTicketingQrCodeHandler
+        dccTicketingQrCodeHandler = dccTicketingQrCodeHandler,
+        dccMaxPersonChecker = dccMaxPersonChecker
     )
 }

@@ -34,6 +34,12 @@ class DccTicketingTestFragment : Fragment(R.layout.fragment_test_dcc_ticketing),
             consentOneButton.setOnClickListener {
                 findNavController().navigate(R.id.dcc_ticketing_nav_graph)
             }
+
+            swichServiceIdentityCheck.isChecked = viewModel.checkServiceIdentity.value
+
+            swichServiceIdentityCheck.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.toggleServiceIdentityCheck(isChecked)
+            }
         }
         val color = requireContext().getColorCompat(R.color.colorPrimary)
         viewModel.ecKeyPair.observe(viewLifecycleOwner) {

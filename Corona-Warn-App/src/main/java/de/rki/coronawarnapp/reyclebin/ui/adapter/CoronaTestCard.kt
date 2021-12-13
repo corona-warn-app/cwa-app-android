@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheck
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import java.lang.IllegalStateException
 
 class CoronaTestCard(parent: ViewGroup) :
     RecyclerBinAdapter.ItemVH<CoronaTestCard.Item, RecyclerBinCertificateItemBinding>(
@@ -31,7 +30,7 @@ class CoronaTestCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        latestItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val test = latestItem!!.test
 
         certificateType.setText(R.string.recycle_bin_test_item_name)
@@ -73,7 +72,6 @@ class CoronaTestCard(parent: ViewGroup) :
         val onRemove: (CoronaTest, Int?) -> Unit,
         val onRestore: (CoronaTest) -> Unit
     ) : RecyclerBinItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = test.hashCode().toLong()
     }
 

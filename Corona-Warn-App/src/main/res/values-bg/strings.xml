@@ -254,11 +254,13 @@
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Насоки"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior">"Ето какво трябва да направите:"</string>
+    <string name="risk_details_subtitle_behavior">"Ето какво трябва да направите."</string>
+    <!-- XHED: risk details - multiline headline, bold, how to act correct -->
+    <string name="risk_details_subtitle_behavior_increased_risk">"Ето какво трябва да направите, дори и да сте ваксинирани или преболедували, или не проявявате никакви симптоми:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"По възможност се приберете и си останете вкъщи."</string>
+    <string name="risk_details_behavior_body_stay_home">"По възможност се приберете и си останете вкъщи, избягвайки срещи с хора, които не са от Вашето домакинство."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси относно симптомите, възможностите за тестване или карантинните мерки, обърнете се към:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси, свързани със здравето, се обадете на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Мийте редовно ръцете си със сапун в продължение на 20 сек."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -266,18 +268,13 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Спазвайте дистанция от поне 1,5 м от околните."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Ще намерите още информация относно излаганията ви на риск във вашия дневник на контактите."</string>
-
+    <string name="risk_details_find_details_in_journal">"Ще намерите още информация относно излаганията Ви на риск във Вашия дневник на контактите. Имате повишено ниво на риск от заразяване. Ако сте заразени Вие може да заразявате други хора, дори и да сте ваксинирани или да сте преболедували или да не проявявате никакви симптоми."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Ако се тествате, вижте Процедура за тестване в ЧЗВ, за да получите допълнителна информация."</string>
-    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
-    <string name="risk_details_increased_risk_faq_link_label">"ЧЗВ"</string>
-    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Моля, направете си тест, дори и да не проявявате симптоми. Ако получите предупреждение за повишено ниво на риск от заразяване (“червена плочка”) Вие имате право на безплатен тест. Не е задължително да е PCR тест."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора проявяват такива при случаи на пробив в защитата на ваксината. Направете си тест, ако забележите съмнителни симптоми."</string>
+    <string name="risk_details_faq_symptoms">"Следете за типичните симптоми на COVID-19. Дори ваксинираните хора и преболедувалите може да проявят симптоми. Ако не се чувствате добре или проявявате симптоми моля, свържете се с Вашия личен лекар."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Ако все още не сте се ваксинирали, консултирайте се с личния си лекар или се обадете на телефона на Общата служба за медицинска помощ, за да си запазите час за тест. След теста обсъдете с личния си лекар възможността за ваксинация срещу SARS-CoV-2."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Ако все още не сте се ваксинирали, консултирайте се с Вашия личен лекар, след като се тествате."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Ваксинирайте се срещу вируса SARS-CoV-2, ако все още не сте го направили."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -285,11 +282,18 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Кихайте и кашляйте в кърпичка или в сгъвката на лакътя си."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Вашия личен лекар"</string>
+    <string name="risk_details_behavior_increased_body_1">"Тук може да видите възможности за тестване или да се свържете с Вашия личен лекар или аптека."</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_1_label">"Тук ще откриете възможности за тестване:"</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Общата служба за медицинска помощ на телефон 116 117"</string>
-    <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"Местна служба за обществено здравеопазване"</string>
+    <string name="risk_details_behavior_increased_body_2">"Повече информация относно процедурата  за тестване може да намерите на страницата ни за „ЧЗВ“."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_2_label">"ЧЗВ относно процедурата за тестване."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Риск от заразяване"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -917,7 +921,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Какви QR кодове можете да сканирате?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Вашите PCR и бързи тестове, сертификати за тестове, ваксинация и възстановяване и регистрации."</string>
+    <string name="qr_code_scan_body_subtitle">"Тестове, Вашите сертификати, регистрации и валидиране при продажба на билети"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Можете да сканирате регистрации, за да възстановите събития, които сте изтрили."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +944,22 @@
     <string name="qr_code_no_suitable_qr_code_title">"Няма подходящ QR код"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"QR кодът не се поддържа от Corona-Warn-App. Моля, изберете  подходящ QR код."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_title">"Предупреждение"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Когато достигнете лимита Вие няма да може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за ваксинационни сертификати на нашата страница “ЧЗВ”."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_title">"Грешка"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Не може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за ваксинационни сертификати на нашата страница “ЧЗВ”."</string>
+    <!-- XBUT: QR Code error message: covpasscheck app button  -->
+    <string name="qr_code_error_max_person_covpasscheck_button">"Изтегляне на CovPassCheck"</string>
+    <!-- XTXT: QR Code error message: covpasscheck app link  -->
+    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
+    <!-- XBUT: QR Code error message: FAQ button  -->
+    <string name="qr_code_error_max_person_faq_button">"ЧЗВ относно валидирането на сертификат"</string>
+    <!-- XTXT: QR Code error message: FAQ link  -->
+    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -951,11 +971,11 @@
     <!-- XTXT: Third bulletpoint for info screen -->
     <string name="qr_code_info_screen_third_bulletpoint_text">"PCR тестове и бързи тестове"</string>
     <!-- XTXT: Fourth bulletpoint for info screen -->
-    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Валидиране на Вашите сертификати при резервиране на билети"</string>
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Валидиране на Вашите сертификати при продажба на билети"</string>
     <!-- XTXT: QR Code info screen data details -->
     <string name="qr_code_info_screen_data_details_text">"Данните от съответния QR код са прочетени."</string>
     <!-- XTXT: QR Code booking provider info text -->
-    <string name="qr_code_info_screen_booking_provider_text">"Когато сканирате QR кодове за валидиране на сертификати при резервиране на билети се извлича допълнителна информация за доставчика на резервации."</string>
+    <string name="qr_code_info_screen_booking_provider_text">"Когато сканирате QR кодове за проверка на сертификати при закупуване на билети се извлича допълнителна информация за доставчика на резервации."</string>
     <!-- XTXT: Privacy policy button text -->
     <string name="qr_code_info_screen_privacy_policy">"За повече информация относно обработката на данни, прочетете декларацията за поверителност."</string>
 
@@ -1519,7 +1539,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Посоката на стрелката указва дали тенденцията е към нарастване, намаляване или стабилизиране, т.е. отклонението е по-малко от 1%% спрямо предишния ден или от 5%% спрямо предишната седмица (като се вземат предвид десетичните знаци). Цветът указва тенденцията като положителна (зелено), отрицателна (червено) или неутрална (сиво)."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Възможни са следните тенденции:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Примери на показаните тенденции:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Тенденция: Нагоре (отрицателна)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->

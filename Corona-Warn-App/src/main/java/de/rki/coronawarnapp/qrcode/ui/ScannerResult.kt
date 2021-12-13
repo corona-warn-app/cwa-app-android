@@ -5,7 +5,8 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
-import de.rki.coronawarnapp.dccticketing.core.allowlist.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
+import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocation
@@ -22,6 +23,8 @@ sealed class DccResult : ScannerResult {
     data class Details(val uri: Uri) : DccResult()
     data class Onboarding(val dccQrCode: DccQrCode) : DccResult()
     data class InRecycleBin(val recycledContainerId: CertificateContainerId) : DccResult()
+    data class MaxPersonsWarning(val uri: Uri, val max: Int) : DccResult()
+    data class MaxPersonsBlock(val max: Int) : DccResult()
 }
 
 sealed class CheckInResult : ScannerResult {
@@ -50,4 +53,7 @@ data class Error(val error: Throwable) : ScannerResult {
     val isAllowListError = error is DccTicketingAllowListException
 }
 
-data class DccTicketingError(val errorMsg: LazyString) : ScannerResult
+data class DccTicketingError(val error: DccTicketingException, val errorMsg: LazyString) : ScannerResult {
+    val isDccTicketingMinVersionError
+        get() = error.errorCode == DccTicketingException.ErrorCode.MIN_VERSION_REQUIRED
+}

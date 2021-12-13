@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.R
 sealed class DccTicketingDialogType {
     abstract val config: DccTicketingDialogFragment.Config
 
-    object ConfirmCancelation : DccTicketingDialogType() {
+    object ConfirmCancellation : DccTicketingDialogType() {
         override val config: DccTicketingDialogFragment.Config
             get() = DccTicketingDialogFragment.Config(
                 titleRes = R.string.dcc_ticketing_consent_one_cancel_dialog_title,
@@ -15,12 +15,17 @@ sealed class DccTicketingDialogType {
             )
     }
 
-    data class ErrorDialog(private val title: String? = null, private val msg: String) : DccTicketingDialogType() {
+    data class ErrorDialog(
+        private val title: String? = null,
+        private val negativeButtonRes: Int? = null,
+        private val msg: String
+    ) : DccTicketingDialogType() {
         override val config: DccTicketingDialogFragment.Config
             get() {
                 val config = DccTicketingDialogFragment.Config(
                     title = title,
                     msg = msg,
+                    negativeButtonRes = negativeButtonRes,
                     positiveButtonRes = R.string.errors_generic_button_positive
                 )
 

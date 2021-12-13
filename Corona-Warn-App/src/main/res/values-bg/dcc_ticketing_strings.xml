@@ -7,6 +7,10 @@
     <string name="dcc_ticketing_error_service_provider_error">"Възникна грешка при свързване с доставчик %1$s. Моля, свържете се с доставчика, ако проблемът продължава."</string>
     <!-- XTXT: Try again error message-->
     <string name="dcc_ticketing_error_try_again">"Възникна грешка при обработката на данни. Моля, опитайте отново по-късно."</string>
+    <!-- XTXT: Validation service min version message-->
+    <string name="dcc_ticketing_error_min_version">"Последната версия на приложението Ви  Corona-Warn-App вече не поддържа проверка на билети. Моля, актуализирайте приложението и започнете проверката на билет отново."</string>
+    <!-- XBUT: Validation service min version Google play button-->
+    <string name="dcc_ticketing_error_min_version_google_play">"Отидете в Google Play"</string>
 
     <!-- DCC Ticketing: Consent One -->
     <!-- XHED: DCC Ticketing: Consent One: Header -->
@@ -26,7 +30,7 @@
     <!-- XTXT: DCC Ticketing: Consent One: Body -->
     <string name="dcc_ticketing_consent_one_body">"Доставчикът иска да гарантира, че за резервацията Ви е наличен валиден сертификат. Изисква се съгласието Ви за извличане на подробни данни за продажба на билети от доставчика и деблокиране на запазените Ви сертификати."</string>
     <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
-    <string name="dcc_ticketing_consent_one_point_1">"Не е необходимо да позволявате валидиране на сертификата Ви с Corona-Warn-App. Можете да предоставите доказателство за ваксинация, тестване или статус на възстановяване и по различен начин."</string>
+    <string name="dcc_ticketing_consent_one_point_1">"Не е необходимо да позволявате проверка на сертификата Ви с Corona-Warn-App. Можете да предоставите доказателство за ваксинация, тестване или статус на възстановяване и по различен начин."</string>
     <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
     <string name="dcc_ticketing_consent_one_point_2">"Изискванията за сертификат се определят от доставчика. RKI няма влияние върху този процес. Моля, свържете се с доставчика за повече информация относно изискванията за сертификат."</string>
     <!-- XTXT: DCC Ticketing: Consent One: Point 3 -->
@@ -43,7 +47,7 @@
     <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
     <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Желаете ли да отмените валидирането?"</string>
     <!-- XTXT: DCC Ticketing: Consent One: Cancel Dialog: Body  -->
-    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Ако отмените валидирането, сертификатът не може да бъде валидиран."</string>
+    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Ако отмените валидирането, сертификатът не може да бъде проверен."</string>
     <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
     <string name="dcc_ticketing_consent_one_cancel_dialog_continue_btn">"Продължаване на валидирането"</string>
     <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Cancel Button  -->
@@ -53,7 +57,7 @@
     <!-- XTXT: not in AllowList dialog title -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_title">"Бележка за сигурността"</string>
     <!-- XTXT: not in AllowList dialog message -->
-    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Този доставчик не ни е известен. От съображения за сигурност, валидирането при продажба на билети е възможно само за известни доставчици. Моля, свържете се с доставчика, който ви е предоставил този QR код."</string>
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Този доставчик не ни е известен. От съображения за сигурност, валидирането при продажба на билети е възможно само за известни доставчици. Моля, свържете се с доставчика, който ви е предоставил този QR кода и актуализирайте Вашите приложение с най-новата версия."</string>
 
     <!-- DCC Ticketing: Certificate Selection Screen -->
     <!-- XHED: Certificate Selection Screen Toolbar Title -->
@@ -61,7 +65,7 @@
     <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
     <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Няма наличен подходящ сертификат."</string>
     <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
-    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Нямате сертификат, който отговаря на изискванията на системата за продажба на билето. Моля, уверете се, че изписването на името Ви в системата за продажба на билети съответства на името в сертификатите Ви. Ако са Ви необходими допълнителни сертификати, които още не са налични в приложението, добавете ги сега и стартирайте валидирането отново."</string>
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Нямате сертификат, който отговаря на изискванията на системата за продажба на билети. Моля, уверете се, че изписването на името Ви в системата за продажба на билети съответства на името в сертификатите Ви. Ако са Ви необходими допълнителни сертификати, които още не са налични в приложението, добавете ги сега и стартирайте валидирането отново."</string>
     <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
     <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Изисква се следният сертификат:"</string>
     <!-- XTXT: Certificate Selection Screen: More Information -->
@@ -127,6 +131,8 @@
     <string name="dcc_ticketing_result_valid_header">"Сертификатът Ви е успешно валидиран"</string>
     <!-- XTXT: validation result invalid header  -->
     <string name="dcc_ticketing_result_invalid_header">"Вашият сертификат не отговаря на изискванията на доставчика"</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Вашият сертификат не можа да се валидира от партньора за валидиране"</string>
     <!-- XTXT: validation result valid body  -->
     <string name="dcc_ticketing_result_valid_body">"Изпратено е известие на доставчик “%s”, че валидирането е успешно."</string>
     <!-- XTXT: validation result invalid body  -->

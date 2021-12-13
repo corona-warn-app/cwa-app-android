@@ -93,6 +93,7 @@ class DccTicketingSubmissionHandler @Inject constructor(
         signatureBase64 = signatureBase64!!,
         signatureAlgorithm = signatureAlgorithm!!,
         encryptionScheme = scheme,
+        allowlist = allowlist!!
     )
 
     data class EncryptionParameters(

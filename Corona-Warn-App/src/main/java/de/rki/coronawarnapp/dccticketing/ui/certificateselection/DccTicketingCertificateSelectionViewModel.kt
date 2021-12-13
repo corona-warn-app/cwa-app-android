@@ -30,12 +30,14 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
     @Assisted private val dccTicketingSharedViewModel: DccTicketingSharedViewModel,
 ) : CWAViewModel(dispatcherProvider) {
 
+    private var hasValidCertificate = false
     val events = SingleLiveEvent<DccTicketingCertificateSelectionEvents>()
     val items = dccTicketingSharedViewModel.transactionContext.map { cxt -> certificateItems(cxt) }.asLiveData2()
 
     private suspend fun certificateItems(cxt: DccTicketingTransactionContext): List<DccTicketingCertificateItem> {
         val validationCondition = cxt.accessTokenPayload?.vc
         val certificates = dccTicketingCertificateFilter.filter(validationCondition)
+        hasValidCertificate = certificates.isNotEmpty()
         return when {
             certificates.isEmpty() -> listOf(
                 // Header no Valid certificates
@@ -70,6 +72,14 @@ class DccTicketingCertificateSelectionViewModel @AssistedInject constructor(
             }
             else -> error("Unsupported certificate$this")
         }
+
+    fun onUserCancel() {
+        if (hasValidCertificate) {
+            events.postValue(ShowCancelConfirmationDialog)
+        } else {
+            events.postValue(CloseSelectionScreen)
+        }
+    }
 
     fun closeScreen() {
         events.postValue(CloseSelectionScreen)

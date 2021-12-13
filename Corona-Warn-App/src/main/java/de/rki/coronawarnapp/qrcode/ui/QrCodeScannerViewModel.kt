@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -47,6 +48,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
+    private val dccMaxPersonChecker: DccMaxPersonChecker
 ) : CWAViewModel(dispatcherProvider) {
 
     val result = SingleLiveEvent<ScannerResult>()
@@ -89,13 +91,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onTicketValidationQrCode(qrCode: DccTicketingQrCode) {
         try {
-            // TODO finalise it
             val transactionContext = dccTicketingQrCodeHandler.handleQrCode(qrCode)
             result.postValue(DccTicketingResult.ConsentI(transactionContext))
         } catch (e: Exception) {
             Timber.tag(TAG).d(e, "onTicketValidationQrCode failed")
             val error = when (e) {
                 is DccTicketingException -> DccTicketingError(
+                    error = e,
                     errorMsg = e.errorMessage(serviceProvider = qrCode.data.serviceProvider)
                 )
                 else -> Error(error = e)
@@ -147,6 +149,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
         Timber.tag(TAG).d("onDccQrCode()")
+
         val recycledContainerId = recycledCertificatesProvider.findCertificate(dccQrCode.qrCode)
         val event = when {
             recycledContainerId != null -> {
@@ -154,9 +157,22 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                 DccResult.InRecycleBin(recycledContainerId)
             }
             dccSettings.isOnboarded.value -> {
-                val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
-                Timber.tag(TAG).d("containerId=$containerId")
-                containerId.toDccDetails()
+                when (val checkerResult = dccMaxPersonChecker.checkForMaxPersons(dccQrCode)) {
+                    DccMaxPersonChecker.Result.Passed -> {
+                        val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
+                        Timber.tag(TAG).d("containerId=%s,checkerResult=%s", containerId, checkerResult)
+                        containerId.toDccDetails()
+                    }
+                    is DccMaxPersonChecker.Result.ExceedsThreshold -> {
+                        val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
+                        Timber.tag(TAG).d("containerId=%s,checkerResult=%s", containerId, checkerResult)
+                        containerId.toMaxPersonsWarning(checkerResult.max)
+                    }
+                    is DccMaxPersonChecker.Result.ExceedsMax -> {
+                        Timber.tag(TAG).w("Importing new certificate is blocked")
+                        DccResult.MaxPersonsBlock(checkerResult.max)
+                    }
+                }
             }
             else -> DccResult.Onboarding(dccQrCode)
         }

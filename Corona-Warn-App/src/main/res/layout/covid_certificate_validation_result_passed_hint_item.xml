@@ -55,24 +55,6 @@
         app:layout_constraintStart_toStartOf="@id/first_bulletpoint_text"
         app:layout_constraintTop_toBottomOf="@id/first_bulletpoint_text" />
 
-    <include
-        android:id="@+id/bulletpoint_three"
-        layout="@layout/include_bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
-        app:layout_constraintBaseline_toBaselineOf="@id/third_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/validation_rules_result_valid_title" />
-
-    <TextView
-        android:id="@+id/third_bulletpoint_text"
-        style="@style/subtitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/validation_start_note_point_3"
-        app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
-        app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
 
     <include
         android:id="@+id/bulletpoint_four"
@@ -90,8 +72,8 @@
         android:layout_marginTop="@dimen/spacing_tiny"
         android:paddingBottom="@dimen/spacing_small"
         android:text="@string/validation_start_note_point_4"
-        app:layout_constraintEnd_toEndOf="@id/third_bulletpoint_text"
-        app:layout_constraintStart_toStartOf="@id/third_bulletpoint_text"
-        app:layout_constraintTop_toBottomOf="@id/third_bulletpoint_text" />
+        app:layout_constraintEnd_toEndOf="@id/second_bulletpoint_text"
+        app:layout_constraintStart_toStartOf="@id/second_bulletpoint_text"
+        app:layout_constraintTop_toBottomOf="@id/second_bulletpoint_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

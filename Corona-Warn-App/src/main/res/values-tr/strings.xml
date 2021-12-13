@@ -254,11 +254,13 @@
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Talimatlar"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior">"Yapmanız gerekenler:"</string>
+    <string name="risk_details_subtitle_behavior">"Yapmanız gerekenler belirtilmiştir."</string>
+    <!-- XHED: risk details - multiline headline, bold, how to act correct -->
+    <string name="risk_details_subtitle_behavior_increased_risk">"Aşı olduysanız veya iyileştiyseniz bile ve hiçbir belirtiniz yoksa bile yapmanız gerekenler:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen eve gidin ve evde kalın."</string>
+    <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen eve gidin ve evde kalın ve beraber yaşadığınız kişiler haricinde başka insanlarla karşılaşmaktan kaçının."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Belirtiler, test kullanılabilirliği veya karantina önlemleri hakkında sorularınız varsa lütfen aşağıdakilerden biri ile iletişime geçin:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Başka sorularınız varsa lütfen tıbbi acil servis yardım hattı ile 116 117 numaralı telefondan iletişime geçin."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Ellerinizi düzenli olarak 20 saniye sabunla yıkayın."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -266,18 +268,13 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Diğer insanlarla aranızda en az 1,5 metre mesafeyi koruyun."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz."</string>
-
+    <string name="risk_details_find_details_in_journal">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz.\n\nEnfekte olmuş olma riskiniz daha yüksek. Enfekte olduysanız aşı olmuş ya da iyileşmiş olsanız bile ve hiçbir belirtiniz olmasa bile başka kişilerin enfekte olmasına neden olabilirsiniz."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"Test yaptırırsanız SSS bölümünde test prosedürü hakkında ek bilgi bulabilirsiniz."</string>
-    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
-    <string name="risk_details_increased_risk_faq_link_label">"SSS"</string>
-    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Hiçbir belirtiniz olmasa bile lütfen test yaptırın. Daha yüksek risk uyarısı (\"kırmızı kutucuk\") alırsanız ücretsiz test yaptırma hakkınız olur. Bunun illa bir PCR testi olması gerekmez."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Tipik COVID-19 belirtilerine karşı dikkatli olun. Nadir durumlarda, aşı olmuş kişiler bile belirti gösterebilir. Herhangi bir şüpheli belirti fark ederseniz test yaptırın."</string>
+    <string name="risk_details_faq_symptoms">"Tipik belirtilere karşı dikkatli olun. Aşı olmuş ve daha önce hastalığı geçirmiş kişilerde bile belirtiler gelişebilir. Hasta hissederseniz ya da herhangi bir belirti gelişirse lütfen aile hekiminizle iletişime geçin."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız bir test randevusu oluşturmak için aile hekiminize veya genel acil servis numarasına danışın. Testinizi yaptırdıktan sonra aile hekiminizle SARS-CoV-2 aşısı hakkında görüşün."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"Henüz aşı olmadıysanız test yaptırdıktan sonra aile hekiminize danışın."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Henüz olmadıysanız SARS-CoV-2 virüsüne karşı aşı olun."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -285,11 +282,18 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Öksürürken ya da hapşırırken dirseğinizin iç kısmına dönün veya bir mendil kullanın."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Aile hekiminiz"</string>
+    <string name="risk_details_behavior_increased_body_1">"Test olanaklarını burada bulabilir ya da aile hekiminize veya bir eczaneye danışabilirsiniz."</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_1_label">"Test olanaklarını burada bulabilirsiniz:"</string>
+    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"116 117 numaralı telefondan genel acil servis"</string>
-    <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"Kamu sağlığı yetkiliniz"</string>
+    <string name="risk_details_behavior_increased_body_2">"SSS sayfamızda test prosedürü hakkında daha fazla bilgi bulunmaktadır."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
+    <string name="risk_details_behavior_increased_body_2_label">"Test prosedürü hakkında SSS."</string>
+    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
+    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -917,7 +921,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"Hangi QR kodları tarayabilirsiniz?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"PCR testleriniz, hızlı testleriniz, test sertifikalarınız, aşı sertifikalarınız, iyileşme sertifikalarınız ve check-in\'leriniz."</string>
+    <string name="qr_code_scan_body_subtitle">"Testler, Sertifikalarınız, Check-in\'ler ve Biletleme Sırasında Doğrulama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sildiğiniz etkinlikleri geri yüklemek için check-in\'leri tarayabilirsiniz."</string>
     <!-- XBUT: open image file button  -->
@@ -940,6 +944,22 @@
     <string name="qr_code_no_suitable_qr_code_title">"Uygun QR Kod Yok"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod seçin."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_title">"Uyarı"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Bu limite ulaşıldığında, başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda aşı sertifikaları hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_title">"Hata"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda aşı sertifikaları hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <!-- XBUT: QR Code error message: covpasscheck app button  -->
+    <string name="qr_code_error_max_person_covpasscheck_button">"CovPassCheck\'i İndir"</string>
+    <!-- XTXT: QR Code error message: covpasscheck app link  -->
+    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
+    <!-- XBUT: QR Code error message: FAQ button  -->
+    <string name="qr_code_error_max_person_faq_button">"Sertifika doğrulama hakkında SSS sayfası"</string>
+    <!-- XTXT: QR Code error message: FAQ link  -->
+    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -951,11 +971,11 @@
     <!-- XTXT: Third bulletpoint for info screen -->
     <string name="qr_code_info_screen_third_bulletpoint_text">"PCR testleri ve hızlı testler"</string>
     <!-- XTXT: Fourth bulletpoint for info screen -->
-    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Bilet rezervasyonu sırasında sertifikalarınıza ilişkin doğrulama"</string>
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Biletleme sırasında sertifikalarınıza ilişkin doğrulama"</string>
     <!-- XTXT: QR Code info screen data details -->
     <string name="qr_code_info_screen_data_details_text">"İlgili QR koddan alınan veriler okunur."</string>
     <!-- XTXT: QR Code booking provider info text -->
-    <string name="qr_code_info_screen_booking_provider_text">"Bilet rezerasyonu sırasında sertifika doğrulaması için QR kodları tarattığınızda rezervasyon sağlayıcı hakkında ek bilgiler alınır."</string>
+    <string name="qr_code_info_screen_booking_provider_text">"Biletleme işlemi sırasında sertifika doğrulaması için QR kodları tarattığınızda rezervasyon sağlayıcı hakkında ek bilgiler alınır."</string>
     <!-- XTXT: Privacy policy button text -->
     <string name="qr_code_info_screen_privacy_policy">"Veri işleme hakkında bilgi için lütfen gizlilik bildirimine başvurun."</string>
 
@@ -1519,7 +1539,7 @@
     <!-- YTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend_text">"Ok yönü trendin arttığını, azaldığını ya da sabit kaldığını belirtir. Sabit kalması, önceki güne göre %%1’den az veya önceki haftaya göre %%5’ten az sapma olduğu anlamına gelir (ondalık basamaklar hesaba katılır). Renk ise bu trendin pozitif (yeşil), negatif (kırmızı) ya da nötr (gri) olduğunu belirtir."</string>
     <!-- XHED: Explanation screen trend icons title -->
-    <string name="statistics_explanation_trend_icons_title">"Şu trendler gösterilebilir:"</string>
+    <string name="statistics_explanation_trend_icons_title">"Görüntülenen trend örnekleri:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
     <string name="statistics_explanation_trend_increasing_title">"Trend: yukarı (negatif)"</string>
     <!-- XHED: Explanation screen trend decreasing title -->
