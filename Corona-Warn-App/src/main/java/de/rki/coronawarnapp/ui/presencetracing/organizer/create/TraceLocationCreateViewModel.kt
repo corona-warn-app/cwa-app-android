@@ -185,4 +185,3 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
 }
 
 private const val MAX_LENGTH_DESCRIPTION = 255
-
