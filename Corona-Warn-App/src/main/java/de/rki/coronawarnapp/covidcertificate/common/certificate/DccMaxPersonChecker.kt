@@ -29,7 +29,7 @@ class DccMaxPersonChecker @Inject constructor(
         ).toSet()
 
         // below threshold -> allow import
-        if (allIdentifiersWithNew.size <= threshold) return Result.Passed
+        if (allIdentifiersWithNew.size < threshold) return Result.Passed
 
         // not a new person -> allow import
         if (allIdentifiers.size == allIdentifiersWithNew.size) return Result.Passed
