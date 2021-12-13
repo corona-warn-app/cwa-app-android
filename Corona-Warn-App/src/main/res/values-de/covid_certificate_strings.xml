@@ -435,6 +435,6 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_label">"FAQ"</string>
     <!-- XTXT: Confirmed status card FAQ link -->
-    <string name="confirmed_status_faq_link">"https://www.coronawarn.app/de/faq/"</string>
+    <string name="confirmed_status_faq_link">"https://www.coronawarn.app/de/faq/#admission_policy"</string>
 
 </resources>
