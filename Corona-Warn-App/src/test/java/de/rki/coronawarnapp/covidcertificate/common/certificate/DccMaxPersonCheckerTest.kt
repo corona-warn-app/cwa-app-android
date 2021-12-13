@@ -83,7 +83,7 @@ class DccMaxPersonCheckerTest : BaseTest() {
         every { qrCode.personIdentifier } returns newIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.ExceedsThreshold(
+        ) shouldBe DccMaxPersonChecker.Result.ReachesThreshold(
             max = 3,
             threshold = 1
         )
