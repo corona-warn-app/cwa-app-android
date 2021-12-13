@@ -41,7 +41,8 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             R.string.vaccination_certificate_vaccinated_on,
             certificate.vaccinatedOn.toShortDayFormat()
         )
-        val bookmarkIcon = if (curItem.certificate.isDisplayValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
+        val bookmarkIcon =
+            if (curItem.certificate.isDisplayValid) R.drawable.ic_bookmark_blue else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 
