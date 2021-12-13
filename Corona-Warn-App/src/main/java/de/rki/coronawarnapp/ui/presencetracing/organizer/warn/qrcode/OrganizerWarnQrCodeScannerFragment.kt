@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -63,6 +64,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
             qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             qrCodeScanSubtitle.setText(R.string.qr_code_scan_body_subtitle_vertretung_warnen)
+            infoButton.isGone = true
             buttonOpenFile.setOnClickListener {
                 filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
             }
