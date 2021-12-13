@@ -28,7 +28,7 @@ class DccTicketingJwkFilter @Inject constructor(
             Timber.tag(TAG).d("jwkFingerprintsMap=%s", it)
         }
 
-        val fingerprintIntersection = allowListFingerprints intersect jwkFingerprintsMap.keys
+        val fingerprintIntersection = allowListFingerprints.intersect(jwkFingerprintsMap.keys)
             .also {
                 Timber.tag(TAG).d("fingerprintIntersection=%s", it)
             }

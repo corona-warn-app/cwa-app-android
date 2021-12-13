@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
@@ -79,17 +80,21 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     popBackStack()
                 }
                 is State.TestRegistered -> when {
-                    state.test.isPositive ->
-                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
-                            .run { findNavController().navigate(this, navOptions) }
-
-                    else ->
-                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testType = state.test.type,
-                            testIdentifier = state.test.identifier
-                        )
-                            .run { findNavController().navigate(this, navOptions) }
-                }
+                    state.test.isPositive -> {
+                        if (args.testRegistrationRequest is CoronaTestTAN) {
+                            SubmissionDeletionWarningFragmentDirections
+                                .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
+                                    testType = state.test.type
+                                )
+                        } else {
+                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                        }
+                    }
+                    else -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                        testType = state.test.type,
+                        testIdentifier = state.test.identifier
+                    )
+                }.also { findNavController().navigate(it, navOptions) }
             }
 
             viewModel.routeToScreen.observe2(this) { event ->

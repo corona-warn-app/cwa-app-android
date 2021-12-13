@@ -8,6 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
@@ -92,10 +93,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            if (personCertificates.admissionState !is PersonCertificates.AdmissionState.Other) {
+            val admissionState = personCertificates.admissionState
+            if (admissionState != null && admissionState !is Other) {
                 add(
                     ConfirmedStatusCard.Item(
-                        admissionState = personCertificates.admissionState!!,
+                        admissionState = admissionState,
                         colorShade = colorShade
                     )
                 )

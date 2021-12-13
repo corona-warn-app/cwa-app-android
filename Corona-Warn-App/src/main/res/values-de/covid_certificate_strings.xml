@@ -183,7 +183,7 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Karte von Europa"</string>
     <!-- XTXT: Start Validation Rule Check Button -->
-    <string name="start_validation_rule_check_button">Gültigkeit prüfen</string>
+    <string name="start_validation_rule_check_button">Reisegültigkeit prüfen</string>
     <!-- XTXT: Start Validation Rule Check Loading Text -->
     <string name="start_validation_rule_check_loading_text">Bitte warten…</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
@@ -191,7 +191,7 @@
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline."</string>
     <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Gültigkeit prüfen"</string>
+    <string name="test_certificate_validation_start_button">"Reisegültigkeit prüfen"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -394,7 +394,7 @@
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/de/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Sie selbst können Ihre Zertifikate in der Corona-Warn-App auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
+    <string name="cov_pass_info_section_one">"Sie selbst können Ihre Zertifikate in der Corona-Warn-App vor einer Reise auf Gültigkeit prüfen und benötigen dazu nicht die CovPassCheck-App."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Für Dritte reicht eine Sichtprüfung der Zertifikate nicht aus. Sie müssen in Deutschland die CovPassCheck-App nutzen."</string>
     <!-- XHED: Cov Pass Info Fragment title -->

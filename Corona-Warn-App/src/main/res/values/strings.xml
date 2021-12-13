@@ -254,13 +254,13 @@
     <!-- XHED: risk details - headline, how a user should act -->
     <string name="risk_details_headline_behavior">"Guidelines"</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior">"This is what you should do:"</string>
+    <string name="risk_details_subtitle_behavior">"This is what you should do."</string>
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
-    <string name="risk_details_subtitle_behavior_increased_risk">"So verhalten Sie sich richtig, auch, wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben:"</string>
+    <string name="risk_details_subtitle_behavior_increased_risk">"This is what you should do, even if you have been vaccinated or have recovered, and even if you don’t have any symptoms:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home."</string>
+    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household.."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"If you have questions about symptoms, testing availability, or quarantine measures, please contact one of the following:"</string>
+    <string name="risk_details_behavior_body_contact_doctor">"If you have any other questions, please contact the general medical emergency service on telephone number 116 117."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for 20 seconds."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -268,18 +268,13 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Keep at least 1.5 meters distance from other people."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"You will find more information about your exposures in your contact journal."</string>
-
+    <string name="risk_details_find_details_in_journal">"You will find more information about your exposures in your contact journal.\n\nYou have an increased risk of infection. If you have been infected, you can infect other people, even if you have been vaccinated or have recovered and even if you don’t have any symptoms."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
-    <string name="risk_details_increased_risk_faq_link_text">"If you get tested, you will find additional information about the testing procedure in the FAQ."</string>
-    <!-- XTXT: Explanation screen increased risk level link label - HAS TO MATCH the link text above -->
-    <string name="risk_details_increased_risk_faq_link_label">"FAQ"</string>
-    <!-- XTXT: Explains user about increased risk level: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="risk_details_increased_risk_faq_url">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
+    <string name="risk_details_increased_risk_faq_link_text">"Please get tested, even if you don’t have any symptoms. If you get a warning of increased risk (“red tile”), you are entitled to a test free of charge. It does not necessarily have to be a PCR test."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
-    <string name="risk_details_faq_symptoms">"Be alert for typical COVID-19 symptoms. Even vaccinated people can show symptoms in breakthrough cases. If you notice any suspicious symptoms, get tested."</string>
+    <string name="risk_details_faq_symptoms">"Be alert for typical symptoms. Even vaccinated people and those who have recovered can develop symptoms. If you feel sick or develop any symptoms, please contact your family doctor."</string>
     <!-- XTXT: risk details - vaccination bullet point -->
-    <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor or the general medical emergency service number to arrange a test. After your test, discuss the SARS-CoV-2 vaccination with your family doctor."</string>
+    <string name="risk_details_increased_risk_faq_vaccination">"If you have not been vaccinated yet, consult with your family doctor after you get tested."</string>
     <!-- XTXT: risk details - normal risk vaccination bullet -->
     <string name="risk_details_normal_risk_faq_vaccination">"Get vaccinated against the SARS-CoV-2 virus if you have not already done so."</string>
     <!-- XMSG: risk details - ventilation bullet point -->
@@ -287,19 +282,18 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Sneeze or cough into your elbow or a tissue."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Your general practitioner"</string>
+    <string name="risk_details_behavior_increased_body_1">"You can find testing possibilities here or contact your family doctor or a pharmacy."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"Testmöglichkeiten finden Sie hier"</string>
+    <string name="risk_details_behavior_increased_body_1_label">"You will find testing possibilities here:"</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link url -->
     <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"The general medical emergency service on telephone number 116 117"</string>
+    <string name="risk_details_behavior_increased_body_2">"More information about the testing procedure is available on our FAQ page."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"FAQ zum Testablauf."</string>
+    <string name="risk_details_behavior_increased_body_2_label">"FAQ for testing procedure."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
     <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
-    <!-- XMSG: risk details - public health department, bullet point -->
-    <string name="risk_details_behavior_increased_body_3">"Your public health authority"</string>
+
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -829,7 +823,7 @@
     <string name="debugging_debuglog_status_additional_infos">"Current size: %1$s (uncompressed)"</string>
 
     <!-- XHED: Title for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
-    <string name="debugging_debuglog_legal_privacy_card_title">"Validation of Authenticity and Data Transfer to Third Countries"</string>
+    <string name="debugging_debuglog_legal_privacy_card_title">"Verification of Authenticity and Data Transfer to Third Countries"</string>
     <!-- YTXT: First section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
     <string name="debugging_debuglog_legal_privacy_card_first_section">"To confirm the authenticity of your app, your smartphone generates a unique identifier that contains information about the version of your smartphone and the app. This is necessary to ensure that only people who actually use the Corona-Warn-App can send data to technical support and rule out manipulated error reports. To do so, the identifier is sent to Google. In this process, data may be transferred to the U.S. or other third countries, where the level of data privacy may not correspond to European law and you may not be able to enforce your European rights to data privacy. In particular, security services in the third country could access and analyze the data with Google, even if there is no grounds for suspicion, and link this data with other information, for example. This only involves the identifier that is sent to Google. Google does not receive the information from your error report, however, Google may be able to determine your identity based on the identifier and track that the authenticity check was performed on your smartphone."</string>
     <!-- YTXT: Second section for debug legal screen privacy card - LEGAL STRING MOVED TO THIS FILE ON PURPOSE FOR TRANSLATION -->
@@ -927,7 +921,7 @@
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_title">"What QR codes can you scan?"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
-    <string name="qr_code_scan_body_subtitle">"Tests, your certificates, check-ins, and validation during ticket booking"</string>
+    <string name="qr_code_scan_body_subtitle">"Tests, Your Certificates, Check-ins, and Verification during Ticketing"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
     <!-- XBUT: open image file button  -->
@@ -950,6 +944,22 @@
     <string name="qr_code_no_suitable_qr_code_title">"No Suitable QR Code"</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">"The QR code is not supported by the Corona-Warn-App. Please select a suitable QR code."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_title">"Warning"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. Once this limit is reached, you cannot scan any more new certificates for additional people.\n\nYou’ll find more information about vaccination certificates on our FAQ page."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_title">"Error"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. You cannot scan any more new certificates for additional people.\n\nYou’ll find more information about vaccination certificates on our FAQ page."</string>
+    <!-- XBUT: QR Code error message: covpasscheck app button  -->
+    <string name="qr_code_error_max_person_covpasscheck_button">"Download CovPassCheck"</string>
+    <!-- XTXT: QR Code error message: covpasscheck app link  -->
+    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
+    <!-- XBUT: QR Code error message: FAQ button  -->
+    <string name="qr_code_error_max_person_faq_button">"FAQ page on certificate verification"</string>
+    <!-- XTXT: QR Code error message: FAQ link  -->
+    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -961,11 +971,11 @@
     <!-- XTXT: Third bulletpoint for info screen -->
     <string name="qr_code_info_screen_third_bulletpoint_text">"PCR tests and rapid tests"</string>
     <!-- XTXT: Fourth bulletpoint for info screen -->
-    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Validation of your certificates during ticket booking"</string>
+    <string name="qr_code_info_screen_fourth_bulletpoint_text">"Verification of your certificates during ticketing"</string>
     <!-- XTXT: QR Code info screen data details -->
     <string name="qr_code_info_screen_data_details_text">"The data from the respective QR code is read."</string>
     <!-- XTXT: QR Code booking provider info text -->
-    <string name="qr_code_info_screen_booking_provider_text">"When you scan QR codes for certificate validation during ticket booking, additional information about the booking provider is retrieved."</string>
+    <string name="qr_code_info_screen_booking_provider_text">"When you scan QR codes for certificate verification during the ticketing process, additional information about the booking provider is retrieved."</string>
     <!-- XTXT: Privacy policy button text -->
     <string name="qr_code_info_screen_privacy_policy">"For information about data processing, please refer to the privacy notice."</string>
 
@@ -1369,12 +1379,13 @@
     <string name="test_result_card_status_pending">"Your result is not yet available"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Other information:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Sie haben trotzdem akute gesundheitliche Beschwerden?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Still feeling unwell? If you feel very poorly and/or your symptoms have worsened, please contact your general practitioner."</item>
-        <item>"Remain at home until you feel well again. If you were to get infected with coronavirus (SARS-CoV-2) whilst weakened from another infection, this could lead to a serious illness."</item>
-        <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk."</item>
-        <item>"If your symptoms worsen, you might need another SARS-CoV-2 test."</item>
+        <item>"Bleiben Sie bis zu Ihrer Genesung möglichst zu Hause. Verringern Sie Ihr Risiko, sich zusätzlich zu einer anderen Infektion mit dem Coronavirus zu infizieren."</item>
+        <item>"Gehen Sie nicht krank zur Arbeit, um die Ansteckung anderer Personen zu vermeiden."</item>
+        <item>"Wenn Sie sich sehr krank fühlen oder Ihre Beschwerden zunehmen, wenden Sie sich bitte an Ihre Hausarztpraxis. Diese kann Sie auch über die Notwendigkeit eines weiteren SARS-CoV-2-Tests beraten."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->

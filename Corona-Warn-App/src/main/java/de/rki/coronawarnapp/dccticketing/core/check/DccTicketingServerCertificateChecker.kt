@@ -80,6 +80,7 @@ class DccTicketingServerCertificateChecker @Inject constructor(
      *
      * Note that the absence of an error code indicates a successful check
      */
+    @Throws(DccTicketingServerCertificateCheckException::class)
     fun checkCertificateAgainstAllowlist(
         response: Response,
         allowlist: Set<DccTicketingValidationServiceAllowListEntry>
@@ -94,6 +95,7 @@ class DccTicketingServerCertificateChecker @Inject constructor(
      *
      * Note that the absence of an error code indicates a successful check
      */
+    @Throws(DccTicketingServerCertificateCheckException::class)
     fun checkCertificateAgainstAllowlist(
         hostname: String,
         certificateChain: List<Certificate>,

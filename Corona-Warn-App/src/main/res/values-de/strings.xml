@@ -269,7 +269,7 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Halten Sie mindestens 1,5 Meter Abstand zu anderen Personen."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.\n\nSie haben ein erhöhtes Risiko, sich angesteckt zu haben. Falls Sie sich angesteckt haben, können Sie Ihrerseits andere Personen anstecken, auch wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben.</string>
+    <string name="risk_details_find_details_in_journal">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.\n\nSie haben ein erhöhtes Risiko, sich angesteckt zu haben. Falls Sie infiziert sind, können Sie Ihrerseits andere Personen anstecken, auch wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben.</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Lassen Sie sich testen, auch wenn Sie keine Symptome haben. Bei einer Warnung über ein erhöhtes Risiko („Rote Kachel“) haben Sie Anspruch auf einen kostenlosen Test. Dies muss nicht notwendigerweise ein PCR-Test sein."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
@@ -947,6 +947,22 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="qr_code_no_suitable_qr_code_title">Kein geeigneter QR-Code</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_no_suitable_qr_code_body">Der QR-Code wird nicht von der Corona-Warn-App unterstützt. Bitte wählen Sie einen geeigneten QR-Code.</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_title">"Warnung"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_threshold_body">"Die Corona-Warn-App darf nicht zur Zertifikatsprüfung durch Dritte verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für %d Personen Zertifikate hinzufügen. Danach können Sie keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zum Impfzertifikat finden Sie in den FAQ."</string>
+    <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_title">"Fehler"</string>
+    <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
+    <string name="qr_code_error_max_person_max_body">"Die Corona-Warn-App darf nicht zur Zertifikatsprüfung durch Dritte verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für %d Personen Zertifikate hinzufügen. Sie können keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zum Impfzertifikat finden Sie in den FAQ."</string>
+    <!-- XBUT: QR Code error message: covpasscheck app button  -->
+    <string name="qr_code_error_max_person_covpasscheck_button">"Download CovPassCheck"</string>
+    <!-- XTXT: QR Code error message: covpasscheck app link  -->
+    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
+    <!-- XBUT: QR Code error message: FAQ button  -->
+    <string name="qr_code_error_max_person_faq_button">"FAQ zur Zertifikatsprüfung"</string>
+    <!-- XTXT: QR Code error message: FAQ link  -->
+    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/de/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -1366,12 +1382,13 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="test_result_card_status_pending">"Ergebnis liegt noch nicht vor"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Weitere Infos:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Sie haben trotzdem akute gesundheitliche Beschwerden?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Sie haben trotzdem gesundheitliche Beschwerden? Wenn Sie sich sehr krank fühlen und/oder Ihre Beschwerden sich verschlechtert haben, wenden Sie sich bitte an Ihre Hausarztpraxis."</item>
-        <item>"Bleiben Sie bis zu Ihrer Genesung trotzdem zu Hause. Falls Sie sich durch eine andere Infektion geschwächt mit dem Coronavirus (SARS-CoV-2) infizieren, kann dies zu schwereren Krankheitsverläufen führen."</item>
-        <item>"Gehen Sie nicht krank zur Arbeit, um andere Personen nicht zu gefährden."</item>
-        <item>"Falls sich Ihre Symptome verschlechtern, kann die Notwendigkeit eines weiteren SARS-CoV-2-Tests bestehen."</item>
+        <item>"Bleiben Sie bis zu Ihrer Genesung möglichst zu Hause. Verringern Sie Ihr Risiko, sich zusätzlich zu einer anderen Infektion mit dem Coronavirus zu infizieren."</item>
+        <item>"Gehen Sie nicht krank zur Arbeit, um die Ansteckung anderer Personen zu vermeiden."</item>
+        <item>"Wenn Sie sich sehr krank fühlen oder Ihre Beschwerden zunehmen, wenden Sie sich bitte an Ihre Hausarztpraxis. Diese kann Sie auch über die Notwendigkeit eines weiteren SARS-CoV-2-Tests beraten."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
