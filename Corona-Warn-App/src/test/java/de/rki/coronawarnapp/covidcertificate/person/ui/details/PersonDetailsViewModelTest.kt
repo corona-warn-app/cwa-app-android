@@ -187,7 +187,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
-        every { isValid } returns true
+        every { isDisplayValid } returns true
         every { getState() } returns State.Valid(headerExpiresAt)
         every { qrCodeToDisplay } returns CoilQrCode("qrCode")
     }
@@ -212,7 +212,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isSeriesCompletingShot } returns final
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
         }
@@ -225,7 +225,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { containerId } returns rcContainerId
             every { fullName } returns "Andrea Schneider"
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
                 every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {
                     every { validFrom } returns LocalDate.now()

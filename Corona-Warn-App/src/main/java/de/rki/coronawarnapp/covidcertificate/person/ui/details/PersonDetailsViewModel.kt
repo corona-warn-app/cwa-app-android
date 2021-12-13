@@ -79,7 +79,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         val certificateItems = mutableListOf<CertificateItem>().apply {
             when {
-                priorityCertificate.isValid -> colorShade
+                priorityCertificate.isDisplayValid -> colorShade
                 else -> PersonColorShade.COLOR_INVALID
             }.also { colorShadeData.postValue(it) }
 

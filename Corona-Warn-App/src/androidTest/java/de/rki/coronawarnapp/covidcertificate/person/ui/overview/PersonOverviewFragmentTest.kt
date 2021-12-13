@@ -312,7 +312,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             dateOfBirthFormatted = "1943-04-18"
         )
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.testCertificate)
-        every { isValid } returns true
+        every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
@@ -340,7 +340,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                 lastNameStandardized = "lastNameStandardized",
                 dateOfBirthFormatted = "1943-04-18"
             )
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
         }
