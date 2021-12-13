@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
-                    android:maxLength="100" />
+                    android:maxLength="255" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
                     android:inputType="textCapWords"
-                    android:maxLength="100" />
+                    android:maxLength="255" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
