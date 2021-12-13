@@ -51,7 +51,7 @@ Licensing: [Apache License 2.0](https://github.com/JodaOrg/joda-time/blob/master
 
 
 ### Room
-Room is a persistence library that provides an abstraction layer over SQLite. In contrary against the SharedPreferences Room is used for storing more complex data.
+Room is a persistence library that provides an abstraction layer over SQLite. As opposed to SharedPreferences, Room is used for storing more complex data.
 
 [Documentation](https://developer.android.com/topic/libraries/architecture/room)
 
