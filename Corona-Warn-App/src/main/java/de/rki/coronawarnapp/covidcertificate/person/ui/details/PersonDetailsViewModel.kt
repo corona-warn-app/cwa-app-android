@@ -8,8 +8,10 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -78,7 +80,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         val certificateItems = mutableListOf<CertificateItem>().apply {
             when {
-                priorityCertificate.isValid -> colorShade
+                priorityCertificate.isDisplayValid -> colorShade
                 else -> PersonColorShade.COLOR_INVALID
             }.also { colorShadeData.postValue(it) }
 
@@ -90,6 +92,16 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
                 )
             )
+
+            val admissionState = personCertificates.admissionState
+            if (admissionState != null && admissionState !is Other) {
+                add(
+                    ConfirmedStatusCard.Item(
+                        admissionState = admissionState,
+                        colorShade = colorShade
+                    )
+                )
+            }
 
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
