@@ -95,14 +95,14 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
                 isDateVisible = category.uiType == TraceLocationUIType.EVENT,
                 isSendEnable = when (category.uiType) {
                     TraceLocationUIType.LOCATION -> {
-                        description.isTextFormattedCorrectly() &&
-                            address.isTextFormattedCorrectly() &&
+                        description.isTextFormattedCorrectly(MAX_LENGTH_DESCRIPTION) &&
+                            address.isTextFormattedCorrectly(MAX_LENGTH_LOCATION) &&
                             checkInLength > Duration.ZERO &&
                             !requestInProgress
                     }
                     TraceLocationUIType.EVENT -> {
-                        description.isTextFormattedCorrectly() &&
-                            address.isTextFormattedCorrectly() &&
+                        description.isTextFormattedCorrectly(MAX_LENGTH_DESCRIPTION) &&
+                            address.isTextFormattedCorrectly(MAX_LENGTH_LOCATION) &&
                             begin != null && end != null && end?.isAfter(begin) == true &&
                             !requestInProgress
                     }
@@ -111,7 +111,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         )
     }
 
-    private fun String.isTextFormattedCorrectly() = trim().length in 1..MAX_LENGTH_DESCRIPTION && !contains('\n')
+    private fun String.isTextFormattedCorrectly(max: Int) = trim().length in 1..max && !contains('\n')
 
     data class UIState(
         private val begin: DateTime? = null,
@@ -184,4 +184,5 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
     }
 }
 
-private const val MAX_LENGTH_DESCRIPTION = 255
+internal const val MAX_LENGTH_DESCRIPTION = 255
+internal const val MAX_LENGTH_LOCATION = 255
