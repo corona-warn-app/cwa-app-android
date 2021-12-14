@@ -1,32 +1,46 @@
 package de.rki.coronawarnapp.rootdetection
 
 import com.scottyab.rootbeer.RootBeer
+import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkObject
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import testhelpers.preferences.mockFlowPreference
 
 class RootDetectionCheckTest : BaseTest() {
 
     @MockK private lateinit var rootBeer: RootBeer
+    @MockK private lateinit var cwaSettings: CWASettings
+
+    private val lastSuppressRootInfoVersionCode = mockFlowPreference(0L)
 
     private val testDispatcherProvider = TestDispatcherProvider()
 
     private fun createInstance() = RootDetectionCheck(
         rootBeer = rootBeer,
-        dispatcherProvider = testDispatcherProvider
+        dispatcherProvider = testDispatcherProvider,
+        cwaSettings = cwaSettings
     )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+
+        mockkObject(BuildConfigWrap)
+        every { BuildConfigWrap.VERSION_CODE } returns 0L
+
+        every { cwaSettings.lastSuppressRootInfoVersionCode } returns lastSuppressRootInfoVersionCode
+        lastSuppressRootInfoVersionCode.update { 0 }
     }
 
     @Test
@@ -48,5 +62,55 @@ class RootDetectionCheckTest : BaseTest() {
         every { rootBeer.isRooted } throws Exception("Test error")
         createInstance().isRooted() shouldBe false
         verify { rootBeer.isRooted }
+    }
+
+    @Test
+    fun `current version is greater than last suppress root info version code`() {
+        lastSuppressRootInfoVersionCode.update { 9L }
+        every { BuildConfigWrap.VERSION_CODE } returns 10L
+
+        createInstance().shouldShowRootInfo shouldBe true
+    }
+
+    @Test
+    fun `current version is less than or equal to last suppress root info version code`() {
+        lastSuppressRootInfoVersionCode.update { 10 }
+        every { BuildConfigWrap.VERSION_CODE } returns 10L
+
+        with(createInstance()){
+            shouldShowRootInfo shouldBe false
+            lastSuppressRootInfoVersionCode.update { 11 }
+            shouldShowRootInfo shouldBe false
+        }
+    }
+
+    @Test
+    fun `updates lastSuppressRootInfoVersionCode with current version code if suppress is true`() {
+        val versionCode = 123L
+        every { BuildConfigWrap.VERSION_CODE } returns versionCode
+
+        createInstance().suppressRootInfoForCurrentVersion(suppress = true)
+
+        lastSuppressRootInfoVersionCode.value shouldBe versionCode
+
+        verify {
+            cwaSettings.lastSuppressRootInfoVersionCode
+        }
+    }
+
+    @Test
+    fun `updates lastSuppressRootInfoVersionCode with default version code if suppress is false`() {
+        val versionCode = 123L
+        every { BuildConfigWrap.VERSION_CODE } returns versionCode
+
+        lastSuppressRootInfoVersionCode.update { 456 }
+
+        createInstance().suppressRootInfoForCurrentVersion(suppress = false)
+
+        lastSuppressRootInfoVersionCode.value shouldBe 0
+
+        verify {
+            cwaSettings.lastSuppressRootInfoVersionCode
+        }
     }
 }

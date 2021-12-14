@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.rootdetection.core
 
 import com.scottyab.rootbeer.RootBeer
-import de.rki.coronawarnapp.BuildConfig
+import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -51,7 +51,7 @@ class RootDetectionCheck @Inject constructor(
         }
 
     private val currentVersionCode
-        get() = BuildConfig.VERSION_CODE.toLong()
+        get() = BuildConfigWrap.VERSION_CODE
 
     private val lastSuppressRootInfoVersionCode
         get() = cwaSettings.lastSuppressRootInfoVersionCode.value
