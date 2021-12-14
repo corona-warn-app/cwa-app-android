@@ -82,7 +82,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
         val viewModel = createViewModel(category)
 
         viewModel.address = "Address"
-        viewModel.description = "A".repeat(101)
+        viewModel.description = "A".repeat(256)
         viewModel.begin = DateTime()
         viewModel.end = DateTime().plusHours(1)
         viewModel.checkInLength = Duration.standardMinutes(1)
@@ -97,7 +97,7 @@ internal class TraceLocationCreateViewModelTest : BaseTest() {
     fun `send should not not be enabled when address it too long`(category: TraceLocationCategory) {
         val viewModel = createViewModel(category)
 
-        viewModel.address = "A".repeat(101)
+        viewModel.address = "A".repeat(256)
         viewModel.description = "Description"
         viewModel.begin = DateTime()
         viewModel.end = DateTime().plusHours(1)

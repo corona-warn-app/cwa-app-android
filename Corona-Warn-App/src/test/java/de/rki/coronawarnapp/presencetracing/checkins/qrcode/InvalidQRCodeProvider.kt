@@ -77,7 +77,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                 baseValidQrCodeBuilder()
                     .setLocationData(
                         baseValidLocationData()
-                            .setDescription((0..101).joinToString { "a" })
+                            .setDescription("A".repeat(256))
                             .build()
                     ).build(),
                 CheckInQrCodeHandler.Result.Invalid.Description
@@ -113,7 +113,7 @@ class InvalidQRCodeProvider : ArgumentsProvider {
                 baseValidQrCodeBuilder()
                     .setLocationData(
                         baseValidLocationData()
-                            .setAddress((0..101).joinToString { "a" })
+                            .setAddress("A".repeat(256))
                             .build()
                     ).build(),
                 CheckInQrCodeHandler.Result.Invalid.Address
