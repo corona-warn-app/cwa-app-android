@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -133,6 +134,16 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
             add(
+                ConfirmedStatusCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
+                        twoGCertificate = vaccinationCertificate2,
+                        testCertificate = testCertificate
+                    ),
+                    colorShade = PersonColorShade.COLOR_1
+                )
+            )
+
+            add(
                 VaccinationInfoCard.Item(
                     vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
                     daysUntilImmunity = null,
@@ -212,6 +223,13 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
 
             add(
+                ConfirmedStatusCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(vaccinationCertificate1),
+                    colorShade = PersonColorShade.COLOR_1
+                )
+            )
+
+            add(
                 VaccinationInfoCard.Item(
                     vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
                     daysUntilImmunity = null,
@@ -260,7 +278,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             lastNameStandardized = "lastNameStandardized",
             dateOfBirthFormatted = "1943-04-18"
         )
-        every { isValid } returns true
+        every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
@@ -299,7 +317,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
@@ -315,7 +333,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false

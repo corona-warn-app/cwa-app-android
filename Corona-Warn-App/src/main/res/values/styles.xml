@@ -108,6 +108,18 @@
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
+    <style name="certificateSelectionToggleButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/certificate_selector_button_stroke</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="cornerRadius">5dp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/certificate_selector_button_text_color</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
     <style name="buttonReset" parent="button">
         <item name="android:backgroundTint">@color/button_red</item>
         <item name="android:textColor">@color/button_text_color_emphasized</item>
@@ -197,7 +209,7 @@
     </style>
 
     <style name="Card.Vaccination" parent="Card.NoElevation">
-        <item name="android:backgroundTint">@color/colorVaccinationCardBackground</item>
+        <item name="android:background">@drawable/ic_certificate_background_border</item>
     </style>
 
     <style name="Card.GreenCertificate" parent="Card.NoElevation">
