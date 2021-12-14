@@ -111,7 +111,7 @@ class TraceLocationCreateViewModel @AssistedInject constructor(
         )
     }
 
-    private fun String.isTextFormattedCorrectly(max: Int) = isNotBlank() && length <= max && !contains('\n')
+    private fun String.isTextFormattedCorrectly(max: Int) = isNotBlank() && trim().length <= max && !contains('\n')
 
     data class UIState(
         private val begin: DateTime? = null,
