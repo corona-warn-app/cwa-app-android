@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.create
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.text.format.DateFormat.is24HourFormat
 import android.view.View
 import androidx.core.view.isVisible
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import de.rki.coronawarnapp.R
@@ -82,10 +84,12 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
             }
         }
 
+        binding.descriptionInputEdit.setMaxLength(MAX_LENGTH_DESCRIPTION)
         binding.descriptionInputEdit.doOnTextChanged { text, _, _, _ ->
             viewModel.description = text.toString()
         }
 
+        binding.placeInputEdit.setMaxLength(MAX_LENGTH_LOCATION)
         binding.placeInputEdit.doOnTextChanged { text, _, _, _ ->
             viewModel.address = text.toString()
         }
@@ -230,6 +234,10 @@ class TraceLocationCreateFragment : Fragment(R.layout.trace_location_create_frag
         }
         viewModel.begin = savedInstanceState?.getSerializable(BEGIN) as DateTime?
         viewModel.end = savedInstanceState?.getSerializable(END) as DateTime?
+    }
+
+    private fun TextInputEditText.setMaxLength(max: Int) {
+        filters += InputFilter.LengthFilter(max)
     }
 
     companion object {
