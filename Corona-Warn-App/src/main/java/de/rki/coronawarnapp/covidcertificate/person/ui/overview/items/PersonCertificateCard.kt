@@ -1,19 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
-import coil.loadAny
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoG
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusPCR
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusRAT
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
-import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
-import de.rki.coronawarnapp.util.bindValidityViews
-import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import de.rki.coronawarnapp.util.mutateDrawable
-import java.util.Locale
+import de.rki.coronawarnapp.util.setUIState
 
 class PersonCertificateCard(parent: ViewGroup) :
     PersonOverviewAdapter.PersonOverviewItemVH<PersonCertificateCard.Item, PersonOverviewItemBinding>(
@@ -25,48 +25,82 @@ class PersonCertificateCard(parent: ViewGroup) :
         PersonOverviewItemBinding.inflate(layoutInflater, itemView.findViewById(R.id.card_container), true)
     }
 
-    // TODO: Update curItem with the right certificate
     override val onBindData: PersonOverviewItemBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        val color = when {
-            curItem.admissionState.primaryCertificate!!.isValid -> curItem.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
-        name.text = curItem.admissionState.primaryCertificate.fullName
-
-        qrCodeCard.image
-            .loadAny(curItem.admissionState.primaryCertificate.getValidQrCode(Locale.getDefault().language)) {
-                crossfade(true)
-                loadingView(qrCodeCard.image, qrCodeCard.progressBar)
+        when (curItem.admissionState) {
+            is TwoG -> {
+                setUIState(
+                    primaryCertificate = curItem.admissionState.twoGCertificate,
+                    colorShade = curItem.colorShade,
+                    statusBadgeText = R.string.confirmed_status_2g_badge,
+                    badgeCount = curItem.badgeCount,
+                    onCovPassInfoAction = curItem.onCovPassInfoAction
+                )
+            }
+            is TwoGPlusPCR -> {
+                setUIState(
+                    primaryCertificate = curItem.admissionState.twoGCertificate,
+                    secondaryCertificate = curItem.admissionState.testCertificate,
+                    colorShade = curItem.colorShade,
+                    statusBadgeText = R.string.confirmed_status_2g_plus_badge,
+                    badgeCount = curItem.badgeCount,
+                    onCovPassInfoAction = curItem.onCovPassInfoAction
+                )
             }
 
-        backgroundImage.setImageResource(color.background)
-        starsImage.setImageDrawable(starsDrawable(color))
+            is TwoGPlusRAT -> {
+                setUIState(
+                    primaryCertificate = curItem.admissionState.twoGCertificate,
+                    secondaryCertificate = curItem.admissionState.testCertificate,
+                    colorShade = curItem.colorShade,
+                    statusBadgeText = R.string.confirmed_status_2g_plus_badge,
+                    badgeCount = curItem.badgeCount,
+                    onCovPassInfoAction = curItem.onCovPassInfoAction
+                )
+            }
+
+            is ThreeGWithPCR -> {
+                setUIState(
+                    primaryCertificate = curItem.admissionState.testCertificate,
+                    colorShade = curItem.colorShade,
+                    statusBadgeText = R.string.confirmed_status_3g_plus_badge,
+                    badgeCount = curItem.badgeCount,
+                    onCovPassInfoAction = curItem.onCovPassInfoAction
+                )
+            }
+
+            is ThreeGWithRAT -> {
+                setUIState(
+                    primaryCertificate = curItem.admissionState.testCertificate,
+                    colorShade = curItem.colorShade,
+                    statusBadgeText = R.string.confirmed_status_3g_badge,
+                    badgeCount = curItem.badgeCount,
+                    onCovPassInfoAction = curItem.onCovPassInfoAction
+                )
+            }
+
+            is Other -> {
+                setUIState(
+                    primaryCertificate = curItem.admissionState.otherCertificate,
+                    colorShade = curItem.colorShade,
+                    badgeCount = curItem.badgeCount,
+                    onCovPassInfoAction = curItem.onCovPassInfoAction
+                )
+            }
+        }
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
             transitionName = curItem.admissionState.primaryCertificate.personIdentifier.codeSHA256
         }
-        qrCodeCard.bindValidityViews(
-            curItem.admissionState.primaryCertificate,
-            isPersonOverview = true,
-            badgeCount = curItem.badgeCount,
-            onCovPassInfoAction = curItem.onCovPassInfoAction
-        )
     }
 
-    private fun starsDrawable(colorShade: PersonColorShade) =
-        resources.mutateDrawable(
-            R.drawable.ic_eu_stars_blue,
-            context.getColorCompat(colorShade.starsTint)
-        )
-
     data class Item(
-        val admissionState: PersonCertificates.AdmissionState,
+        val admissionState: AdmissionState,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
         val onClickAction: (Item, Int) -> Unit,
