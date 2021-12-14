@@ -104,7 +104,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     private fun validVaccinationDetailsData(complete: Boolean): LiveData<VaccinationDetails> {
         val vaccinationCertificate = vaccinationCertificate().apply {
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
         }
         return MutableLiveData(VaccinationDetails(vaccinationCertificate, complete))
@@ -113,7 +113,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     private fun invalidVaccinationDetailsData(): LiveData<VaccinationDetails> {
         val vaccinationCertificate = vaccinationCertificate().apply {
             every { doseNumber } returns 2
-            every { isValid } returns false
+            every { isDisplayValid } returns false
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Invalid()
         }
@@ -123,7 +123,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
     private fun expiredVaccinationDetailsData(): LiveData<VaccinationDetails> {
         val vaccinationCertificate = vaccinationCertificate().apply {
             every { doseNumber } returns 2
-            every { isValid } returns false
+            every { isDisplayValid } returns false
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
