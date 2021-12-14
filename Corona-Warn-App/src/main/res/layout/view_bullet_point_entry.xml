@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/bullet_point"
-        android:layout_width="@dimen/bullet_point_size"
-        android:layout_height="@dimen/bullet_point_size"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
         android:layout_marginStart="@dimen/bullet_point_spacing_before"
         android:baseline="@dimen/bullet_point_baseline_offset"
         app:srcCompat="@drawable/bullet_point"
