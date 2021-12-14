@@ -8,7 +8,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
+import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.update.getUpdateInfo

@@ -10,7 +10,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
+import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.update.UpdateChecker
@@ -83,7 +83,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
 
     private fun checkForRoot() = launch {
         Timber.tag(TAG).d("checkForRoot()")
-        when (rootDetectionCheck.isRooted()) {
+        when (!rootDetectionCheck.isRooted()) {
             true -> events.postValue(LauncherEvent.ShowRootedDialog)
             false -> checkForUpdate()
         }

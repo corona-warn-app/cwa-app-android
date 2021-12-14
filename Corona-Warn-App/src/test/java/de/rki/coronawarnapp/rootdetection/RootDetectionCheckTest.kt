@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.rootdetection
 
 import com.scottyab.rootbeer.RootBeer
+import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every

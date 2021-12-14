@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.rootdetection
+package de.rki.coronawarnapp.rootdetection.ui
 
 import android.app.Dialog
 import android.os.Bundle
@@ -11,9 +11,15 @@ import androidx.fragment.app.setFragmentResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
-import timber.log.Timber
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
-class RootDetectionDialogFragment : DialogFragment() {
+class RootDetectionDialogFragment : DialogFragment(), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val vm: RootDetectionDialogViewModel by cwaViewModels { viewModelFactory }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = MaterialAlertDialogBuilder(requireContext())
         .setTitle(R.string.root_dialog_title)
@@ -34,7 +40,7 @@ class RootDetectionDialogFragment : DialogFragment() {
 
         val checkbox = findViewById<CheckBox>(R.id.checkbox)
         checkbox?.setOnCheckedChangeListener { _, isChecked ->
-            Timber.d("Checked %s", isChecked)
+            vm.onSuppressCheckedChanged(isChecked = isChecked)
         }
     }
 

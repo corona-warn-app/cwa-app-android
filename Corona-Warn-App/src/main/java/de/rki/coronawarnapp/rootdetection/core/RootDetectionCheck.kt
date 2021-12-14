@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.rootdetection
+package de.rki.coronawarnapp.rootdetection.core
 
 import com.scottyab.rootbeer.RootBeer
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider

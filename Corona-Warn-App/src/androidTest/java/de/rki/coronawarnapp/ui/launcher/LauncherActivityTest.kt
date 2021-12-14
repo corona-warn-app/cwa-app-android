@@ -9,7 +9,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
+import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
