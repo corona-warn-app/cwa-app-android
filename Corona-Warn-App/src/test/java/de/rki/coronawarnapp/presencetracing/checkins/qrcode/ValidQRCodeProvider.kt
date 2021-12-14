@@ -106,7 +106,7 @@ class ValidQRCodeProvider : ArgumentsProvider {
                     .setLocationData(
                         TraceLocationOuterClass.TraceLocation.newBuilder()
                             .setDescription("Ice Cream Shop with a very long description that has more than one hundred characters as allowed by Luca app.")
-                            .setAddress("Main Street 1")
+                            .setAddress("Main Street 1 in Capital town with a very long description that has more than one hundred characters as allowed by Luca app.")
                             .setVersion(1)
                             .build()
                     )
