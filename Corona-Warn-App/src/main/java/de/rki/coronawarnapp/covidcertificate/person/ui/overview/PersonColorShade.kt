@@ -39,7 +39,7 @@ enum class PersonColorShade(
         R.drawable.bg_certificate_grey,
         R.drawable.ic_bookmark,
         R.drawable.ic_admission_badge_1,
-        ),
+    ),
     COLOR_UNDEFINED(
         R.color.starsColorInvalid,
         R.drawable.bg_person_overview_invalid,
