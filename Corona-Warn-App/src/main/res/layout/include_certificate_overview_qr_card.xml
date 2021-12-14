@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Card.Vaccination"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:padding="13dp">
+
+    <TextView
+        android:id="@+id/status_text"
+        style="@style/subtitleBoldSixteen"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/person_overview_status_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/status_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_admission_badge_1"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/status_text"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/status_text"
+        tools:text="2G+" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:contentDescription="@string/vaccination_list_qr_code_accessibility"
+        android:transitionName="full_qr_code_image"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status_badge"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
+        tools:src="@drawable/ic_qrcode"
+        tools:tint="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/invalid_qr_code_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/invalid_certificate_overlay"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="@id/image"
+        app:layout_constraintRight_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
+
+    <ImageView
+        android:id="@+id/invalid_qr_code_symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintLeft_toLeftOf="@id/image"
+        app:layout_constraintRight_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image"
+        app:srcCompat="@drawable/ic_invalid_qr_code" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/invalid_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:constraint_referenced_ids="invalid_qr_code_overlay,invalid_qr_code_symbol"
+        tools:visibility="visible" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="140dp"
+        android:layout_height="24dp"
+        android:indeterminate="true"
+        app:hideAnimationBehavior="inward"
+        app:layout_constraintBottom_toBottomOf="@id/image"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
+
+    <TextView
+        android:id="@+id/covpass_info_title"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:paddingBottom="11dp"
+        android:text="@string/person_details_certificate_covpass_info_title"
+        app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/image" />
+
+    <ImageButton
+        android:id="@+id/covpass_info_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="11dp"
+        android:adjustViewBounds="true"
+        android:background="?android:selectableItemBackground"
+        android:contentDescription="@string/cov_pass_info_title"
+        android:minWidth="48dp"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        app:srcCompat="@drawable/ic_info"
+        app:tint="@color/colorSecondary" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/certificate_toggle_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:checkedButton="@id/primary_certificate_button"
+        app:layout_constraintEnd_toEndOf="@id/image"
+        app:layout_constraintStart_toStartOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/primary_certificate_button"
+            style="@style/certificateSelectionToggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/person_overview_two_g_certificate_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/secondary_certificate_button"
+            style="@style/certificateSelectionToggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/person_overview_test_certificate_text" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -65,7 +65,7 @@ interface CwaCovidCertificate : Recyclable {
      */
     fun getState(): State
 
-    val isValid
+    val isDisplayValid
         get() = when (this) {
             is TestCertificate -> getState() !is State.Invalid
             else -> getState() is State.Valid || getState() is State.ExpiringSoon
