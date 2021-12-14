@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
 import java.util.stream.Stream
 
+@Suppress("MaxLineLength")
 class ValidQRCodeProvider : ArgumentsProvider {
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
         return Stream.of(
@@ -87,6 +88,25 @@ class ValidQRCodeProvider : ArgumentsProvider {
                         TraceLocationOuterClass.TraceLocation.newBuilder()
                             .setDescription("Icecream Shop")
                             .setAddress("Main Street 1")
+                            .setVersion(1)
+                            .build()
+                    )
+                    .build()
+            ),
+            Arguments.of(
+                TraceLocationOuterClass.QRCodePayload.newBuilder()
+                    .setVersion(1)
+                    .setCrowdNotifierData(
+                        TraceLocationOuterClass.CrowdNotifierData.newBuilder()
+                            .setCryptographicSeed(CRYPTOGRAPHIC_SEED.decodeBase64()!!.toProtoByteString())
+                            .setPublicKey(PUB_KEY.decodeBase64()!!.toProtoByteString())
+                            .setVersion(1)
+                    )
+                    .setVendorData("CAEQARgK".decodeBase64()!!.toProtoByteString())
+                    .setLocationData(
+                        TraceLocationOuterClass.TraceLocation.newBuilder()
+                            .setDescription("Ice Cream Shop with a very long description that has more than one hundred characters as allowed by Luca app.")
+                            .setAddress("Main Street 1 in Capital town with a very long description that has more than one hundred characters as allowed by Luca app.")
                             .setVersion(1)
                             .build()
                     )
