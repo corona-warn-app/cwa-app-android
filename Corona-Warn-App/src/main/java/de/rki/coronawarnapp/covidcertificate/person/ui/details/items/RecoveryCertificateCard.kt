@@ -34,17 +34,18 @@ class RecoveryCertificateCard(parent: ViewGroup) :
             certificate.validUntil.toShortDayFormat()
         )
 
-        val bookmarkIcon = if (curItem.certificate.isValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+        val bookmarkIcon =
+            if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
         currentCertificate.isVisible = curItem.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 
         val color = when {
-            curItem.certificate.isValid -> curItem.colorShade
+            curItem.certificate.isDisplayValid -> curItem.colorShade
             else -> PersonColorShade.COLOR_INVALID
         }
 
         when {
-            curItem.certificate.isValid -> R.drawable.ic_recovery_certificate
+            curItem.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
             else -> R.drawable.ic_certificate_invalid
         }.also { certificateIcon.setImageResource(it) }
 

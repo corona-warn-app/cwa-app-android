@@ -72,7 +72,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
                 it.certificate?.let { certificate -> bindCertificateViews(certificate) }
-                val stateInValid = it.certificate?.isValid == false
+                val stateInValid = it.certificate?.isDisplayValid == false
                 val isFinalShot = it.certificate?.isSeriesCompletingShot == true
                 val isColorDefined = args.colorShade != PersonColorShade.COLOR_UNDEFINED
 
