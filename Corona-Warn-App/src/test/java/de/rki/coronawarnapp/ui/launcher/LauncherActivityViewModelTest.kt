@@ -68,6 +68,8 @@ class LauncherActivityViewModelTest : BaseTest() {
         } returns true
 
         coEvery { rootDetectionCheck.isRooted() } returns false
+        coEvery { rootDetectionCheck.shouldShowRootInfo } returns true
+
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
     }
 
@@ -245,6 +247,47 @@ class LauncherActivityViewModelTest : BaseTest() {
         }
 
         coVerify {
+            rootDetectionCheck.isRooted()
+        }
+    }
+
+    @Test
+    fun `device not rooted triggers update check`() {
+        coEvery { rootDetectionCheck.isRooted() } returns false
+
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
+
+        createViewModel().run {
+            onRootedDialogDismiss()
+            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
+        }
+
+        coVerify {
+            rootDetectionCheck.isRooted()
+        }
+    }
+
+    @Test
+    fun `rooted device but suppress root dialog`() {
+        coEvery { rootDetectionCheck.isRooted() } returns true
+        coEvery { rootDetectionCheck.shouldShowRootInfo } returns false
+
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
+
+        createViewModel().run {
+            onRootedDialogDismiss()
+            events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
+        }
+
+        coVerify(exactly = 0) {
             rootDetectionCheck.isRooted()
         }
     }
