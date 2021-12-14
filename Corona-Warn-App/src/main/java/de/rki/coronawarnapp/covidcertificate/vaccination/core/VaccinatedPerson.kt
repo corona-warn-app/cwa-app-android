@@ -70,9 +70,6 @@ data class VaccinatedPerson(
     val fullName: String
         get() = allVaccinationCertificates.first().fullName
 
-    val dateOfBirthFormatted: String
-        get() = allVaccinationCertificates.first().dateOfBirthFormatted
-
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         if (boosterRule != null) return Status.BOOSTER_ELIGIBLE
 
