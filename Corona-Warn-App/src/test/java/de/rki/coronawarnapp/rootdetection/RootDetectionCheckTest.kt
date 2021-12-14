@@ -77,7 +77,7 @@ class RootDetectionCheckTest : BaseTest() {
         lastSuppressRootInfoVersionCode.update { 10 }
         every { BuildConfigWrap.VERSION_CODE } returns 10L
 
-        with(createInstance()){
+        with(createInstance()) {
             shouldShowRootInfo shouldBe false
             lastSuppressRootInfoVersionCode.update { 11 }
             shouldShowRootInfo shouldBe false
