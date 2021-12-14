@@ -29,7 +29,7 @@ class DccMaxPersonChecker @Inject constructor(
         ).toSet()
 
         // below threshold -> allow import
-        if (allIdentifiersWithNew.size <= threshold) return Result.Passed
+        if (allIdentifiersWithNew.size < threshold) return Result.Passed
 
         // not a new person -> allow import
         if (allIdentifiers.size == allIdentifiersWithNew.size) return Result.Passed
@@ -44,12 +44,12 @@ class DccMaxPersonChecker @Inject constructor(
         }
 
         // adding the certificate results in exceeding threshold -> allow import
-        if (allIdentifiersWithNew.size > threshold) {
+        if (allIdentifiersWithNew.size >= threshold) {
             Timber.i(
-                "Threshold exceeded. Threshold is $threshold, " +
+                "Threshold reached. Threshold is $threshold, " +
                     "no of persons is ${allIdentifiersWithNew.size}"
             )
-            return Result.ExceedsThreshold(
+            return Result.ReachesThreshold(
                 max = max,
                 threshold = threshold
             )
@@ -60,7 +60,7 @@ class DccMaxPersonChecker @Inject constructor(
 
     sealed class Result {
         object Passed : Result()
-        data class ExceedsThreshold(val max: Int, val threshold: Int) : Result()
+        data class ReachesThreshold(val max: Int, val threshold: Int) : Result()
         data class ExceedsMax(val max: Int, val threshold: Int) : Result()
     }
 }

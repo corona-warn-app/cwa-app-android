@@ -268,7 +268,7 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Păstrați o distanță de cel puțin 1,5 metri față de alte persoane."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Veți găsi mai multe informații despre expunerile dvs. în jurnalul dvs. de contacte.\n\nAveți un risc crescut de infectare. Dacă ați fost infectat, puteți infecta alte persoane, chiar dacă sunteți vaccinat sau dacă v-ați recuperat după boală și chiar dacă nu aveți simptome."</string>
+    <string name="risk_details_find_details_in_journal">"Veți găsi mai multe informații despre expunerile dvs. în jurnalul dvs. de contacte.\n\nExistă un risc crescut să fi fost infectat. Dacă ați fost infectat, puteți infecta alte persoane, chiar dacă sunteți vaccinat sau dacă v-ați recuperat după boală și chiar dacă nu aveți simptome."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Vă rugăm să vă testați, chiar dacă nu aveți simptome. Dacă primiți o avertizare de risc crescut („un mozaic roșu”), aveți dreptul la un test gratuit. Nu este obligatoriu să fie un test PCR."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
@@ -284,13 +284,13 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Puteți găsi aici posibilitățile de testare sau puteți contacta medicul de familie sau o farmacie."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"Veți găsi posibilitățile de testare aici:"</string>
+    <string name="risk_details_behavior_increased_body_1_label">"Puteți găsi aici posibilitățile de testare"</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link url -->
     <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Mai multe informații despre procedura de testare sunt disponibile pe pagina noastră de întrebări frecvente."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"Întrebări frecvente despre procedura de testare."</string>
+    <string name="risk_details_behavior_increased_body_2_label">"întrebări frecvente"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
     <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
 

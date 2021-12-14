@@ -163,7 +163,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
                         Timber.tag(TAG).d("containerId=%s,checkerResult=%s", containerId, checkerResult)
                         containerId.toDccDetails()
                     }
-                    is DccMaxPersonChecker.Result.ExceedsThreshold -> {
+                    is DccMaxPersonChecker.Result.ReachesThreshold -> {
                         val containerId = dccHandler.handleQrCode(dccQrCode = dccQrCode)
                         Timber.tag(TAG).d("containerId=%s,checkerResult=%s", containerId, checkerResult)
                         containerId.toMaxPersonsWarning(checkerResult.max)
