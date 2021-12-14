@@ -165,7 +165,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     events.postValue(
                         OpenTestCertificateDetails(
                             containerId = certificate.containerId,
-                            colorShade = getItemColorShade(certificate.isValid, isCurrentCertificate)
+                            colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                         )
                     )
                 }
@@ -182,7 +182,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                         events.postValue(
                             OpenVaccinationCertificateDetails(
                                 containerId = certificate.containerId,
-                                colorShade = getItemColorShade(certificate.isValid, isCurrentCertificate)
+                                colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                             )
                         )
                     }
@@ -194,7 +194,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     events.postValue(
                         OpenRecoveryCertificateDetails(
                             containerId = certificate.containerId,
-                            colorShade = getItemColorShade(certificate.isValid, isCurrentCertificate)
+                            colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                         )
                     )
                 }
