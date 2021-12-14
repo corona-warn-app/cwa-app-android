@@ -39,6 +39,10 @@ data class VaccinatedPerson(
             .mapToVaccinationCertificateSet(state = CwaCovidCertificate.State.Recycled)
     }
 
+    private val allVaccinationCertificates: Set<VaccinationCertificate> by lazy {
+        vaccinationContainers.mapToVaccinationCertificateSet()
+    }
+
     private fun Collection<VaccinationContainer>.mapToVaccinationCertificateSet(
         state: CwaCovidCertificate.State? = null
     ): Set<VaccinationCertificate> = map {
@@ -64,10 +68,7 @@ data class VaccinatedPerson(
     }
 
     val fullName: String
-        get() = vaccinationCertificates.first().fullName
-
-    val dateOfBirthFormatted: String
-        get() = vaccinationCertificates.first().dateOfBirthFormatted
+        get() = allVaccinationCertificates.first().fullName
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         if (boosterRule != null) return Status.BOOSTER_ELIGIBLE
