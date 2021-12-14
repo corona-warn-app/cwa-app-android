@@ -66,8 +66,8 @@ class DccMaxPersonCheckerTest : BaseTest() {
 
     @Test
     fun `happy path below threshold results in PASSED`() = runBlockingTest {
-        every { configData.dccPersonWarnThreshold } returns 3
-        every { configData.dccPersonCountMax } returns 4
+        every { configData.dccPersonWarnThreshold } returns 4
+        every { configData.dccPersonCountMax } returns 5
         coEvery { configProvider.currentConfig } returns flowOf(configData)
         every { qrCode.personIdentifier } returns newIdentifier
         createInstance().checkForMaxPersons(
@@ -76,16 +76,16 @@ class DccMaxPersonCheckerTest : BaseTest() {
     }
 
     @Test
-    fun `new person exceeds threshold results in EXCEEDS_THRESHOLD`() = runBlockingTest {
-        every { configData.dccPersonWarnThreshold } returns 1
-        every { configData.dccPersonCountMax } returns 3
+    fun `new person exceeds threshold results in REACHES_THRESHOLD`() = runBlockingTest {
+        every { configData.dccPersonWarnThreshold } returns 3
+        every { configData.dccPersonCountMax } returns 5
         coEvery { configProvider.currentConfig } returns flowOf(configData)
         every { qrCode.personIdentifier } returns newIdentifier
         createInstance().checkForMaxPersons(
             qrCode
-        ) shouldBe DccMaxPersonChecker.Result.ExceedsThreshold(
-            max = 3,
-            threshold = 1
+        ) shouldBe DccMaxPersonChecker.Result.ReachesThreshold(
+            max = 5,
+            threshold = 3
         )
     }
 
