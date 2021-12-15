@@ -1,11 +1,13 @@
-package de.rki.coronawarnapp.rootdetection
+package de.rki.coronawarnapp.rootdetection.core
 
 import com.scottyab.rootbeer.RootBeer
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.called
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
@@ -65,24 +67,53 @@ class RootDetectionCheckTest : BaseTest() {
     }
 
     @Test
-    fun `current version is greater than last suppress root info version code`() {
-        lastSuppressRootInfoVersionCode.update { 9L }
-        every { BuildConfigWrap.VERSION_CODE } returns 10L
+    fun `device is rooted and current version is greater than last suppress root info version code`() =
+        runBlockingTest {
+            lastSuppressRootInfoVersionCode.update { 9L }
+            every { BuildConfigWrap.VERSION_CODE } returns 10L
 
-        createInstance().shouldShowRootInfo shouldBe true
-    }
+            coEvery { rootBeer.isRooted } returns true
+
+            createInstance().shouldShowRootInfo() shouldBe true
+
+            coVerify {
+                rootBeer.isRooted
+            }
+        }
 
     @Test
-    fun `current version is less than or equal to last suppress root info version code`() {
-        lastSuppressRootInfoVersionCode.update { 10 }
-        every { BuildConfigWrap.VERSION_CODE } returns 10L
+    fun `device is not rooted and current version is greater than last suppress root info version code`() =
+        runBlockingTest {
+            lastSuppressRootInfoVersionCode.update { 9L }
+            every { BuildConfigWrap.VERSION_CODE } returns 10L
 
-        with(createInstance()) {
-            shouldShowRootInfo shouldBe false
-            lastSuppressRootInfoVersionCode.update { 11 }
-            shouldShowRootInfo shouldBe false
+            coEvery { rootBeer.isRooted } returns false
+
+            createInstance().shouldShowRootInfo() shouldBe false
+
+            coVerify {
+                rootBeer.isRooted
+            }
         }
-    }
+
+    @Test
+    fun `device is rooted but current version is less than or equal to last suppress root info version code`() =
+        runBlockingTest {
+            lastSuppressRootInfoVersionCode.update { 10 }
+            every { BuildConfigWrap.VERSION_CODE } returns 10L
+
+            coEvery { rootBeer.isRooted } returns true
+
+            with(createInstance()) {
+                shouldShowRootInfo() shouldBe false
+                lastSuppressRootInfoVersionCode.update { 11 }
+                shouldShowRootInfo() shouldBe false
+            }
+
+            coVerify {
+                rootBeer wasNot called
+            }
+        }
 
     @Test
     fun `updates lastSuppressRootInfoVersionCode with current version code if suppress is true`() {

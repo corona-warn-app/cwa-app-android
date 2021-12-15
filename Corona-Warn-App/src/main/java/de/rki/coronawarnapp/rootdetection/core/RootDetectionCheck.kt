@@ -15,19 +15,10 @@ class RootDetectionCheck @Inject constructor(
     private val cwaSettings: CWASettings
 ) {
 
-    val shouldShowRootInfo: Boolean
-        get() {
-            val showRootInfo = currentVersionCode > lastSuppressRootInfoVersionCode
-            Timber.tag(TAG).d(
-                "current version %d is greater than last suppress root info version code %d - %s",
-                currentVersionCode,
-                lastSuppressRootInfoVersionCode,
-                showRootInfo
-            )
-            return showRootInfo
-        }
+    suspend fun shouldShowRootInfo(): Boolean = (shouldShow && isRooted())
+        .also { Timber.tag(TAG).d("Should show root info - %b", it) }
 
-    fun suppressRootInfoForCurrentVersion(suppress: Boolean) = cwaSettings.lastSuppressRootInfoVersionCode.update {
+    fun suppressRootInfoForCurrentVersion(suppress: Boolean) = lastSuppressRootInfoVersionCode.update {
         Timber.tag(TAG).d("suppressRootInfoForCurrentVersion(suppress=%s)", suppress)
         when (suppress) {
             true -> currentVersionCode
@@ -54,7 +45,20 @@ class RootDetectionCheck @Inject constructor(
         get() = BuildConfigWrap.VERSION_CODE
 
     private val lastSuppressRootInfoVersionCode
-        get() = cwaSettings.lastSuppressRootInfoVersionCode.value
+        get() = cwaSettings.lastSuppressRootInfoVersionCode
+
+    private val shouldShow: Boolean
+        get() {
+            val suppressVersionCode = lastSuppressRootInfoVersionCode.value
+            val showRootInfo = currentVersionCode > suppressVersionCode
+            Timber.tag(TAG).d(
+                "current version %d is greater than last suppress root info version code %d - %s",
+                currentVersionCode,
+                suppressVersionCode,
+                showRootInfo
+            )
+            return showRootInfo
+        }
 
     companion object {
         private val TAG = tag<RootDetectionCheck>()
