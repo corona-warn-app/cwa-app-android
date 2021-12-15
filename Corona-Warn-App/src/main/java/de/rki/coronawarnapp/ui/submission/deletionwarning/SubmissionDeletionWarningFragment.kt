@@ -76,7 +76,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                     // Handled above
                 }
                 is State.Error -> {
-                    state.getDialogBuilder(requireContext()).show()
+                    state.getDialogBuilder(requireContext(), args.testRegistrationRequest is CoronaTestTAN).show()
                     popBackStack()
                 }
                 is State.TestRegistered -> when {
