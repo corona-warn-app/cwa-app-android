@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.dccticketing.core.allowlist.filtering.DccTicketingJw
 import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowListRepository
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.MIN_VERSION_REQUIRED
-import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException.ErrorCode.SP_ALLOWLIST_NO_MATCH
 import de.rki.coronawarnapp.dccticketing.core.service.DccTicketingRequestService
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import de.rki.coronawarnapp.environment.BuildConfigWrap
@@ -86,9 +85,10 @@ class DccTicketingQrCodeHandler @Inject constructor(
         val hash = serviceIdentity.toHash().also {
             Timber.tag(TAG).v("Calculated hash of service identity is $it")
         }
-        find { it.serviceIdentityHash == hash } ?: throw DccTicketingException(SP_ALLOWLIST_NO_MATCH).also {
-            Timber.tag(TAG).e("Service identity check failed.")
-        }
+        find { it.serviceIdentityHash == hash }
+            ?: throw DccTicketingAllowListException(ErrorCode.SP_ALLOWLIST_NO_MATCH).also {
+                Timber.tag(TAG).e("Service identity check failed.")
+            }
 
         Timber.tag(TAG).i("Service identity check passed.")
     }
