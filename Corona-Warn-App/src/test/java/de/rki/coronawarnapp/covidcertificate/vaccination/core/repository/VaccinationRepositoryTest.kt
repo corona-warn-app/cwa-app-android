@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -56,6 +57,8 @@ class VaccinationRepositoryTest : BaseTest() {
 
     // Few days after issued dates of person A in test data.
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+    
+    private val containerId  = VaccinationTestData.Vac1QRCodeString.toSHA256()
 
     @BeforeEach
     fun setup() {
@@ -302,7 +305,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            VaccinationCertificateContainerId("01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"),
+            VaccinationCertificateContainerId(containerId),
             CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
             Instant.EPOCH
         )
@@ -332,7 +335,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            VaccinationCertificateContainerId("01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"),
+            VaccinationCertificateContainerId(containerId),
             CwaCovidCertificate.State.Expired(Instant.EPOCH),
             Instant.EPOCH
         )
@@ -362,7 +365,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            VaccinationCertificateContainerId("01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"),
+            VaccinationCertificateContainerId(containerId),
             CwaCovidCertificate.State.Invalid(),
             Instant.EPOCH
         )
@@ -392,7 +395,7 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            VaccinationCertificateContainerId("01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"),
+            VaccinationCertificateContainerId(containerId),
             CwaCovidCertificate.State.Blocked,
             Instant.EPOCH
         )
@@ -423,7 +426,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         shouldThrow<UnsupportedOperationException> {
             instance.setNotifiedState(
-                VaccinationCertificateContainerId("01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"),
+                VaccinationCertificateContainerId(containerId),
                 CwaCovidCertificate.State.Valid(Instant.EPOCH),
                 Instant.EPOCH
             )

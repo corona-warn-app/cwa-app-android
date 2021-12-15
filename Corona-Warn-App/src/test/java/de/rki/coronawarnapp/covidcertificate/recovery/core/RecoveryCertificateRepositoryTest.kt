@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyVaccinationValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -48,6 +49,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     private var testStorage: Set<StoredRecoveryCertificateData> = emptySet()
 
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+    
+    private val containerId = RecoveryQrCodeTestData.validRecovery.toSHA256()
 
     @BeforeEach
     fun setup() {
@@ -171,7 +174,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            RecoveryCertificateContainerId(containerId),
             CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
             Instant.EPOCH
         )
@@ -192,7 +195,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            RecoveryCertificateContainerId(containerId),
             CwaCovidCertificate.State.Expired(Instant.EPOCH),
             Instant.EPOCH
         )
@@ -213,7 +216,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            RecoveryCertificateContainerId(containerId),
             CwaCovidCertificate.State.Invalid(),
             Instant.EPOCH
         )
@@ -234,7 +237,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+            RecoveryCertificateContainerId(containerId),
             CwaCovidCertificate.State.Blocked,
             Instant.EPOCH
         )
@@ -255,7 +258,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         shouldThrow<UnsupportedOperationException> {
             instance.setNotifiedState(
-                RecoveryCertificateContainerId("URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"),
+                RecoveryCertificateContainerId(containerId),
                 CwaCovidCertificate.State.Valid(Instant.EPOCH),
                 Instant.EPOCH
             )
