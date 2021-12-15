@@ -56,7 +56,6 @@
         android:padding="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/icon_background"
-        app:srcCompat="@drawable/ic_menu_info"
-        app:tint="@color/colorPrimary" />
+        app:srcCompat="@drawable/ic_info" />
 
 </merge>
