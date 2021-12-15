@@ -8,7 +8,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.rootdetection.RootDetectionCheck
+import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.update.UpdateChecker
 import de.rki.coronawarnapp.update.getUpdateInfo
@@ -67,7 +67,8 @@ class LauncherActivityViewModelTest : BaseTest() {
             )
         } returns true
 
-        coEvery { rootDetectionCheck.isRooted() } returns false
+        coEvery { rootDetectionCheck.shouldShowRootInfo() } returns false
+
         coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
     }
 
@@ -239,13 +240,30 @@ class LauncherActivityViewModelTest : BaseTest() {
 
     @Test
     fun `rooted device triggers root dialog`() {
-        coEvery { rootDetectionCheck.isRooted() } returns true
+        coEvery { rootDetectionCheck.shouldShowRootInfo() } returns true
         createViewModel().run {
             events.getOrAwaitValue() shouldBe LauncherEvent.ShowRootedDialog
         }
 
         coVerify {
-            rootDetectionCheck.isRooted()
+            rootDetectionCheck.shouldShowRootInfo()
+        }
+    }
+
+    @Test
+    fun `device not rooted triggers update check`() {
+        coEvery { rootDetectionCheck.shouldShowRootInfo() } returns false
+
+        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = true)
+        coEvery { appUpdateManager.getUpdateInfo() } returns
+            mockk<AppUpdateInfo>().apply {
+                every { updateAvailability() } returns UpdateAvailability.UPDATE_AVAILABLE
+            }
+
+        createViewModel().events.getOrAwaitValue() shouldBe instanceOf(LauncherEvent.ShowUpdateDialog::class)
+
+        coVerify {
+            rootDetectionCheck.shouldShowRootInfo()
         }
     }
 

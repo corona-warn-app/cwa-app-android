@@ -2066,6 +2066,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/de/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"OK"</string>
+    <!-- XTXT: App Root Detection text for checkbox -->
+    <string name="root_dialog_suppress_checkbox">"Meldung bis zum nächsten Update unterdrücken"</string>
 
     <!-- ####################################
         Incompatibility warning card
