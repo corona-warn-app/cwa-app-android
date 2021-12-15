@@ -58,7 +58,7 @@
     <!-- XTXT: not in AllowList dialog title -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_title">Sicherheitshinweis</string>
     <!-- XTXT: not in AllowList dialog message -->
-    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Aus Sicherheitsgründen ist die Überprüfung bei Ticketbuchung nur für bekannte Anbieter möglich. Bitte kontaktieren Sie den Anbieter, der Ihnen dieses QR-Code bereitgstellt hat und versuchen Sie Ihre App auf die neuste Version zu aktualisieren.</string>
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Aus Sicherheitsgründen ist die Überprüfung bei Ticketbuchung nur für bekannte Anbieter möglich. Bitte kontaktieren Sie den Anbieter, der Ihnen diesen QR-Code bereitgstellt hat und versuchen Sie Ihre App auf die neuste Version zu aktualisieren.</string>
 
     <!-- DCC Ticketing: Certificate Selection Screen -->
     <!-- XHED: Certificate Selection Screen Toolbar Title -->
