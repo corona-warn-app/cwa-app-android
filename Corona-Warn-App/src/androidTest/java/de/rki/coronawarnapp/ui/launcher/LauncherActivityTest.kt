@@ -5,59 +5,35 @@ import android.net.Uri
 import androidx.test.core.app.launchActivity
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.google.android.play.core.appupdate.AppUpdateManager
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.main.CWASettings
-import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
-import de.rki.coronawarnapp.storage.OnboardingSettings
-import de.rki.coronawarnapp.update.UpdateChecker
+import de.rki.coronawarnapp.rootdetection.ui.RootDetectionDialogFragment
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.spyk
+import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class LauncherActivityTest : BaseUITest() {
 
-    @MockK lateinit var updateChecker: UpdateChecker
-    @MockK lateinit var cwaSettings: CWASettings
-    @MockK lateinit var onboardingSettings: OnboardingSettings
-    @MockK lateinit var rootDetectionCheck: RootDetectionCheck
-    @MockK lateinit var appUpdateManager: AppUpdateManager
-    lateinit var viewModel: LauncherActivityViewModel
+    @RelaxedMockK lateinit var viewModel: LauncherActivityViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
 
-        coEvery { rootDetectionCheck.isRooted() } returns false
-
-        coEvery { updateChecker.checkForUpdate() } returns UpdateChecker.Result(isUpdateNeeded = false)
-        every { onboardingSettings.isOnboarded } returns false
-        viewModel = launcherActivityViewModel()
         setupMockViewModel(
             object : LauncherActivityViewModel.Factory {
                 override fun create(): LauncherActivityViewModel = viewModel
             }
         )
-
-        every { viewModel.events } returns mockk<SingleLiveEvent<LauncherEvent>>().apply {
-            every { observe(any(), any()) } just Runs
-        }
     }
 
     @After
@@ -87,13 +63,9 @@ class LauncherActivityTest : BaseUITest() {
     @Screenshot
     @Test
     fun capture_root_dialog_screenshot() {
-        coEvery { rootDetectionCheck.isRooted() } returns true
-
-        setupMockViewModel(
-            object : LauncherActivityViewModel.Factory {
-                override fun create(): LauncherActivityViewModel = launcherActivityViewModel()
-            }
-        )
+        every { viewModel.events } returns SingleLiveEvent<LauncherEvent>().also {
+            it.postValue(LauncherEvent.ShowRootedDialog)
+        }
 
         launchActivity<LauncherActivity>()
         takeScreenshot<LauncherActivity>("launcher_root")
@@ -104,21 +76,13 @@ class LauncherActivityTest : BaseUITest() {
         addCategory(Intent.CATEGORY_BROWSABLE)
         addCategory(Intent.CATEGORY_DEFAULT)
     }
-
-    private fun launcherActivityViewModel() = spyk(
-        LauncherActivityViewModel(
-            updateChecker = updateChecker,
-            dispatcherProvider = TestDispatcherProvider(),
-            cwaSettings = cwaSettings,
-            onboardingSettings = onboardingSettings,
-            rootDetectionCheck = rootDetectionCheck,
-            appUpdateManager = appUpdateManager
-        )
-    )
 }
 
 @Module
 abstract class LauncherActivityTestModule {
     @ContributesAndroidInjector
     abstract fun launcherActivity(): LauncherActivity
+
+    @ContributesAndroidInjector
+    abstract fun rootDetectionDialogFragment(): RootDetectionDialogFragment
 }
