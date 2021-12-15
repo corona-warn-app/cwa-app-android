@@ -3,7 +3,11 @@ package de.rki.coronawarnapp.dccticketing.ui.certificateselection
 import android.content.Context
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType
-import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.*
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.PCR_TEST
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.RA_TEST
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.RECOVERY
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.TEST
+import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.VACCINATION
 
 fun Context.certificateTypesText(certificateTypes: List<String>, separator: String = ", "): String =
         certificateTypes
