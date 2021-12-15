@@ -208,20 +208,20 @@
 
     <!-- DCC Ticketing Consent Two Screen -->
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Title -->
-    <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Ihr Einverständnis "</string>
+    <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Rıza beyanınız"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Body -->
-    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in die Übermittlung der folgenden Daten an den Prüfpartner ein:"</string>
+    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"“Kabul ediyorum” üzerine tıklayarak aşağıdaki bilgilerin kontrol ortağına aktarılmasına onay verirsiniz:"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 1 -->
-    <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Zertifikatsinhalt und elektronische Signatur des ausgewählten Zertifikats (u.a. Name und Geburtsdatum des Zertifikatsinhabers, Gültigkeitsdauer, Aussteller und Ausstellungsdatum, Angaben zu Impfstoff/Test/Genesung)."</string>
+    <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Seçilen sertifikanın (özellikle sertifika sahibinin adı ve doğum tarihi, geçerlilik süresi, düzenleyen ve düzenleme tarihi, aşı/test/iyileşme ile ilgili bilgiler) sertifika içeriği ve elektronik imza."</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2 -->
-    <string name="dcc_ticketing_consent_two_legal_point_2" translatable="false">"Die bei dem Anbieter abgerufenen Buchungsdaten:"</string>
+    <string name="dcc_ticketing_consent_two_legal_point_2" translatable="false">"Sağlayıcı tarafından açılan rezervasyon bilgileri:"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-1 -->
-    <string name="dcc_ticketing_consent_two_legal_point_2_1" translatable="false">"Zeitraum, in dem das Zertifikat gültig sein muss (Reisedauer oder Veranstaltungsdatum)"</string>
+    <string name="dcc_ticketing_consent_two_legal_point_2_1" translatable="false">"Sertifikanın geçerli olması gereken süre (seyahat süresi ya da etkinlik süresi)"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-2 -->
-    <string name="dcc_ticketing_consent_two_legal_point_2_2" translatable="false">"bei Reisebuchungen: Ausgangsland und Zielland der Reise"</string>
+    <string name="dcc_ticketing_consent_two_legal_point_2_2" translatable="false">"Seyahat rezervasyonlarında: Seyahate çıkılan çıkış ve varış ülkesi"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-3 -->
-    <string name="dcc_ticketing_consent_two_legal_point_2_3" translatable="false">"bei grenzüberschreitenden Reisen: Anforderungen des Ziellandes an das Zertifikat"</string>
+    <string name="dcc_ticketing_consent_two_legal_point_2_3" translatable="false">"Sınırları aşan seyahatlerde: gidilen ülkenin sertifikaya ilişkin talepleri"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
-    <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"weitere Anforderungen des Anbieters an das Zertifikat (z.B. welche Impfstoffe oder Testverfahren akzeptiert werden)"</string>
+    <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"Sağlayıcının sertifikaya ilişkin talepleri (örn. hangi aşılar veya test yöntemleri kabul edilir)"</string>
 
 </resources>
