@@ -102,8 +102,6 @@ class DccTicketingException(
         VS_ID_NO_NETWORK(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
         VS_ID_SERVER_ERR(message = VS_ID_ERROR_MSG, textKey = TextKey.TRY_AGAIN),
 
-        SP_ALLOWLIST_NO_MATCH(message = SP_ERROR_MSG, textKey = TextKey.SERVICE_PROVIDER_ERROR_NO_NAME),
-
         MIN_VERSION_REQUIRED(message = MIN_VER_ERROR_MSG, textKey = TextKey.MIN_VER_ERROR)
     }
 
@@ -129,7 +127,6 @@ private const val VS_ID_ERROR_MSG = "Failure when obtaining Service Identity Doc
 private const val VD_ID_ERROR_MSG = "Failure when obtaining Service Identity Document of Validation Decorator"
 private const val RTR_ERROR_MSG = "Failure when obtaining Result Token"
 private const val ENC_ERROR_MSG = "Failure while encrypting DCC"
-private const val SP_ERROR_MSG = "Failure when scaning QR code"
 private const val MIN_VER_ERROR_MSG = "minimum version of CWA not supported for this feature anymore"
 
 typealias DccTicketingErrorCode = DccTicketingException.ErrorCode
