@@ -21,12 +21,13 @@ class DccTicketingAllowListException(
         CLIENT_ERROR("Update of Allow list failed with client error."),
 
         ALLOWLIST_NO_MATCH("AllowList no match."),
+        SP_ALLOWLIST_NO_MATCH("Service Provider allowlist mismatch "),
     }
 
     override fun toHumanReadableError(context: Context): HumanReadableError {
         return HumanReadableError(
             title = TITLE_ID.toResolvingString().get(context),
-            description = MESSAGE_ID.toResolvingString().get(context)
+            description = MESSAGE_ID.toResolvingString().get(context) + " ($errorCode)"
         )
     }
 
