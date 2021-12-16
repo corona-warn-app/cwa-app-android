@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdap
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.BOOSTER_ELIGIBLE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
@@ -57,7 +58,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
             // Final shot
             certificate.isSeriesCompletingShot -> when (curItem.status) {
-                IMMUNITY -> R.drawable.ic_vaccination_immune
+                IMMUNITY, BOOSTER_ELIGIBLE -> R.drawable.ic_vaccination_immune
                 else -> R.drawable.ic_vaccination_complete
             }
 
