@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- XTXT: Detail green certificate travel notice link en -->
+    <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
+    <!-- XTXT: Detail green certificate travel notice link de -->
+    <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
+    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
+    <string name="dcc_ticketing_faq_link_english">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link English-->
+    <string name="vaccination_card_booster_eligible_faq_link_english">"https://www.coronawarn.app/en/faq/#vac_booster"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link German-->
+    <string name="vaccination_card_booster_eligible_faq_link_german">"https://www.coronawarn.app/de/faq/#vac_booster"</string>
+    <!-- XTXT: validation result FAQ link -->
+    <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_vc_faq_link">"https://www.coronawarn.app/en/faq/#vac_cert_invalid"</string>
+    <!-- XTXT: risk details - health department info link url -->
+    <string name="risk_details_behavior_body_health_department_link">"https://www.coronawarn.app/en/faq/#quarantine_measures"</string>
+    <!-- XTXT: risk details - home rules faq link url -->
+    <string name="risk_details_minimize_risk_faq_link">"https://www.coronawarn.app/en/faq/#voluntary_self_quarantine"</string>
+    <!-- XTXT: notification management: delta onboarding: faq link -->
+    <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
+    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
+    <string name="error_button_dcc_faq_link">"https://www.coronawarn.app/en/faq/#hc_prefix_invalid"</string>
+    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc -->
+    <string name="error_dcc_already_registered_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc"</string>
+    <!-- XTXT: Validation start reopen europe link -->
+    <string name="validation_start_reopen_europe_link">"https://reopen.europa.eu/en"</string>
+    <!-- XTXT: Validation start reopen europe label -->
+    <string name="validation_start_reopen_europe_label">"https://reopen.europa.eu/en"</string>
+    <!-- XTXT: Validation start FAQ link -->
+    <string name="validation_start_faq_link">"https://www.coronawarn.app/en/faq/#cert_eu_travel"</string>
+    <!-- XTXT: Signature validation dialog FAQ lint-->
+    <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq link -->
+    <string name="certificate_export_error_dialog_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_export"</string>
+    <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
+    <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_link">"https://www.coronawarn.app/en/faq/#admission_policy"</string>
+</resources>
