@@ -44,7 +44,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import java.net.URLEncoder
-import java.util.Locale
 import javax.inject.Inject
 
 class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_details), AutoInject {
@@ -92,7 +91,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 )
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.getValidQrCode(Locale.getDefault().language, true)
+                    val request = it.certificate?.getValidQrCode(showBlocked = true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)
