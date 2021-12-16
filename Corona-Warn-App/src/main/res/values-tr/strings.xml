@@ -947,11 +947,11 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Uyarı"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Bu limite ulaşıldığında, başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda aşı sertifikaları hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Bu limite ulaşıldığında, başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda sertifika doğrulama hakkında daha fazla bilgi bulabilirsiniz."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Hata"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda aşı sertifikaları hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda sertifika doğrulama hakkında daha fazla bilgi bulabilirsiniz."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"CovPassCheck\'i İndir"</string>
     <!-- XTXT: QR Code error message: covpasscheck app link  -->
@@ -1379,12 +1379,13 @@
     <string name="test_result_card_status_pending">"Sonucunuz henüz çıkmadı"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Diğer bilgiler:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Yine de akut belirtileriniz mi var?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Hâlâ kendinizi iyi hissetmiyor musunuz? Kendinizi kötü hissediyorsanız ve/veya belirtileriniz kötüleştiyse lütfen aile hekiminizle iletişime geçin."</item>
-        <item>"Kendinizi yeniden iyi hissedene dek evde kalın. Başka bir enfeksiyon nedeniyle bağışıklığınız zayıflamışken koronavirüse (SARS-CoV-2) yakalanırsanız ciddi bir hastalıkla karşılaşabilirsiniz."</item>
+        <item>"Yapabiliyorsanız kendinizi yeniden iyi hissedene dek evde kalın. Koronavirüsün yanında farklı bir enfeksiyonla enfekte olma riskinizi azaltın."</item>
         <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin."</item>
-        <item>"Belirtileriniz kötüleşirse başka bir SARS-CoV-2 testinin yapılması gerekebilir."</item>
+        <item>"Çok hasta hissediyorsanız ya da belirtileriniz kötüleşirse lütfen aile hekiminizle iletişime geçin. Aile hekiminiz, başka bir SARS-CoV-2 testi yaptırmanızın gerekip gerekmediği konusunda da size tavsiyede bulunabilir."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -2053,6 +2054,8 @@
     <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"Tamam"</string>
+    <!-- XTXT: App Root Detection text for checkbox -->
+    <string name="root_dialog_suppress_checkbox">"Sonraki güncellemeye dek bildirimi gizle"</string>
 
     <!-- ####################################
         Incompatibility warning card

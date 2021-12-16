@@ -947,11 +947,11 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Warning"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. Once this limit is reached, you cannot scan any more new certificates for additional people.\n\nYou’ll find more information about vaccination certificates on our FAQ page."</string>
+    <string name="qr_code_error_max_person_threshold_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. Once this limit is reached, you cannot scan any more new certificates for additional people.\n\nYou’ll find more information about certificate verification on our FAQ page."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Error"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. You cannot scan any more new certificates for additional people.\n\nYou’ll find more information about vaccination certificates on our FAQ page."</string>
+    <string name="qr_code_error_max_person_max_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. You cannot scan any more new certificates for additional people.\n\nYou’ll find more information about certificate verification on our FAQ page."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Download CovPassCheck"</string>
     <!-- XTXT: QR Code error message: covpasscheck app link  -->
@@ -1380,12 +1380,12 @@
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Other information:"</string>
     <!-- XHED: Title for further info of test result negative -->
-    <string name="test_result_card_negative_further_info_body">"Sie haben trotzdem akute gesundheitliche Beschwerden?"</string>
+    <string name="test_result_card_negative_further_info_body">"Do you have acute symptoms anyway?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Bleiben Sie bis zu Ihrer Genesung möglichst zu Hause. Verringern Sie Ihr Risiko, sich zusätzlich zu einer anderen Infektion mit dem Coronavirus zu infizieren."</item>
-        <item>"Gehen Sie nicht krank zur Arbeit, um die Ansteckung anderer Personen zu vermeiden."</item>
-        <item>"Wenn Sie sich sehr krank fühlen oder Ihre Beschwerden zunehmen, wenden Sie sich bitte an Ihre Hausarztpraxis. Diese kann Sie auch über die Notwendigkeit eines weiteren SARS-CoV-2-Tests beraten."</item>
+        <item>"Remain at home to the extent possible until you feel well again. Reduce your risk of being infected with coronavirus in addition to a different infection."</item>
+        <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk."</item>
+        <item>"If you feel very ill or your symptoms get worse, please contact your family doctor. They can also advise you whether you should take another SARS-CoV-2 test."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -2055,7 +2055,7 @@
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"OK"</string>
     <!-- XTXT: App Root Detection text for checkbox -->
-    <string name="root_dialog_suppress_checkbox">"Meldung bis zum nächsten Update unterdrücken"</string>
+    <string name="root_dialog_suppress_checkbox">"Hide notification until next update"</string>
 
     <!-- ####################################
         Incompatibility warning card
