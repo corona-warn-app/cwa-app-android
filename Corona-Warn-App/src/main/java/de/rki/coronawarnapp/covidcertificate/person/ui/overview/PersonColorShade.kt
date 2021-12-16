@@ -8,6 +8,7 @@ enum class PersonColorShade(
     @ColorRes val starsTint: Int,
     @DrawableRes val background: Int,
     @DrawableRes val currentCertificateBg: Int,
+    @DrawableRes val bookmarkIcon: Int,
     @DrawableRes val admissionBadgeBg: Int,
 ) {
 
@@ -15,24 +16,35 @@ enum class PersonColorShade(
         R.color.starsColor1,
         R.drawable.bg_person_overview_1,
         R.drawable.bg_certificate_blue_1,
+        R.drawable.ic_bookmark_blue_1,
         R.drawable.ic_admission_badge_1,
     ),
     COLOR_2(
         R.color.starsColor2,
         R.drawable.bg_person_overview_2,
         R.drawable.bg_certificate_blue_2,
+        R.drawable.ic_bookmark_blue_2,
         R.drawable.ic_admission_badge_2,
     ),
     COLOR_3(
         R.color.starsColor3,
         R.drawable.bg_person_overview_3,
         R.drawable.bg_certificate_blue_3,
+        R.drawable.ic_bookmark_blue_3,
         R.drawable.ic_admission_badge_3,
     ),
     COLOR_INVALID(
         R.color.starsColorInvalid,
         R.drawable.bg_person_overview_invalid,
         R.drawable.bg_certificate_grey,
+        R.drawable.ic_bookmark,
+        R.drawable.ic_admission_badge_1,
+    ),
+    COLOR_UNDEFINED(
+        R.color.starsColorInvalid,
+        R.drawable.bg_person_overview_invalid,
+        R.drawable.bg_certificate_grey,
+        R.drawable.ic_bookmark,
         R.drawable.ic_admission_badge_1,
     );
 
