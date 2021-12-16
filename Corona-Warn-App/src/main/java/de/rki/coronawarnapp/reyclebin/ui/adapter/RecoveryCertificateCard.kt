@@ -38,7 +38,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
             R.string.recovery_certificate_valid_until,
             certificate.validUntil.toShortDayFormat()
         )
-        certificatePersonName.text = certificate.fullNameFormatted
+        certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.recovery_certificate_name)
 
         root.setOnClickListener { item.onRestore(item.certificate) }
