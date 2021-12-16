@@ -54,7 +54,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 1 of 2`() {
         testData.personAVac1Container.apply {
             certificate shouldBe testData.personAVac1Certificate
-            certificateId shouldBe  testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            certificateId shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
         }
     }
 
@@ -62,7 +62,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 2 of 2`() {
         testData.personAVac2Container.apply {
             certificate shouldBe testData.personAVac2Certificate
-            certificateId shouldBe  testData.personAVac2Container.vaccinationQrCode.toSHA256()
+            certificateId shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
         }
     }
 

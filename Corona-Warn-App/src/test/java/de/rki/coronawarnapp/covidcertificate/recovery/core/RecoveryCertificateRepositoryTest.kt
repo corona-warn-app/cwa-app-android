@@ -49,7 +49,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     private var testStorage: Set<StoredRecoveryCertificateData> = emptySet()
 
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
-    
+
     private val containerId = RecoveryQrCodeTestData.validRecovery.toSHA256()
 
     @BeforeEach

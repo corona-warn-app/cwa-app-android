@@ -57,8 +57,8 @@ class VaccinationRepositoryTest : BaseTest() {
 
     // Few days after issued dates of person A in test data.
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
-    
-    private val containerId  = VaccinationTestData.Vac1QRCodeString.toSHA256()
+
+    private val containerId = VaccinationTestData.Vac1QRCodeString.toSHA256()
 
     @BeforeEach
     fun setup() {
