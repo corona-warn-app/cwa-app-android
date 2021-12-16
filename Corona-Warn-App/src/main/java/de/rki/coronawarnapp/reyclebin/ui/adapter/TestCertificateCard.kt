@@ -48,7 +48,7 @@ class TestCertificateCard(parent: ViewGroup) :
             else -> R.string.test_certificate_rapid_test_type
         }.also { certificateInfoLine1.setText(it) }
 
-        certificatePersonName.text = certificate.fullNameFormatted
+        certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.test_certificate_name)
 
         root.setOnClickListener { item.onRestore(item.certificate) }
