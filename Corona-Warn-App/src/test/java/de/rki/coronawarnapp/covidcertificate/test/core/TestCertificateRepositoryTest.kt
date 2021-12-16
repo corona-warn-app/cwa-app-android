@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import io.kotest.assertions.throwables.shouldThrow
@@ -59,6 +60,8 @@ class TestCertificateRepositoryTest : BaseTest() {
     private var storageSet = mutableSetOf<BaseTestCertificateData>()
 
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
+
+    private val identifier by lazy { testData.personATest1StoredData.testCertificateQrCode!!.toSHA256() }
 
     @BeforeEach
     fun setup() {
@@ -124,7 +127,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         ).apply {
             this.qrCodeExtractor shouldBe qrCodeExtractor
 
-            certificateId shouldBe null
+            certificateId shouldBe data.identifier
             data.testCertificateQrCode shouldBe null
 
             isCertificateRetrievalPending shouldBe true
@@ -191,9 +194,15 @@ class TestCertificateRepositoryTest : BaseTest() {
 
     @Test
     fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
-        val data = testData.personATest1StoredData
-        val recycled = data.copy(identifier = "Recycled", recycledAt = nowUTC)
-        val notRecycled = data.copy(identifier = "NotRecycled", recycledAt = null)
+        val recycled = testData.personATest2StoredData.copy(
+            identifier = testData.personATest2StoredData.testCertificateQrCode!!.toSHA256(),
+            recycledAt = nowUTC
+        )
+        val notRecycled =
+            testData.personATest1StoredData.copy(
+                identifier = testData.personATest1StoredData.testCertificateQrCode!!.toSHA256(),
+                recycledAt = null
+            )
 
         coEvery { storage.load() } returns setOf(recycled, notRecycled)
 
@@ -244,7 +253,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            TestCertificateContainerId("identifier"),
+            TestCertificateContainerId(identifier),
             CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
             Instant.EPOCH
         )
@@ -264,7 +273,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            TestCertificateContainerId("identifier"),
+            TestCertificateContainerId(identifier),
             CwaCovidCertificate.State.Expired(Instant.EPOCH),
             Instant.EPOCH
         )
@@ -284,7 +293,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            TestCertificateContainerId("identifier"),
+            TestCertificateContainerId(identifier),
             CwaCovidCertificate.State.Invalid(),
             Instant.EPOCH
         )
@@ -304,7 +313,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            TestCertificateContainerId("identifier"),
+            TestCertificateContainerId(identifier),
             CwaCovidCertificate.State.Blocked,
             Instant.EPOCH
         )
@@ -324,7 +333,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
 
         instance.setNotifiedState(
-            TestCertificateContainerId("identifier"),
+            TestCertificateContainerId(identifier),
             CwaCovidCertificate.State.Valid(Instant.EPOCH),
             Instant.EPOCH
         )
