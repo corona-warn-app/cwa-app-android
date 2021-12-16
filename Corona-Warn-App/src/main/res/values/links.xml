@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Special case both links have to displayed together regardless of current user local-->
+
     <!-- XTXT: Detail green certificate travel notice link en -->
     <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
+
     <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
     <string name="dcc_ticketing_faq_link">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Vaccination card booster eligible FAQ Link English-->
