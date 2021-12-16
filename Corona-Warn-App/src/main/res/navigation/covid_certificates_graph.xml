@@ -259,9 +259,7 @@
             app:argType="de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId" />
         <action
             android:id="@+id/action_certificatePdfExportInfoFragment_to_certificatePosterFragment"
-            app:destination="@id/certificatePosterFragment"
-            app:popUpTo="@id/certificatePdfExportInfoFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/certificatePosterFragment" />
     </fragment>
     <fragment
         android:id="@+id/certificatePosterFragment"
