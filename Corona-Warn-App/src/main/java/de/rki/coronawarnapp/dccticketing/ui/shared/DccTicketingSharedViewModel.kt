@@ -14,7 +14,7 @@ import timber.log.Timber
  */
 class DccTicketingSharedViewModel(private val savedState: SavedStateHandle) : ViewModel() {
 
-    private val currentTransactionContext = MutableStateFlow<DccTicketingTransactionContext?>(
+    private val currentTransactionContext = MutableStateFlow(
         getSavedTransactionContext()
     )
 
@@ -28,12 +28,17 @@ class DccTicketingSharedViewModel(private val savedState: SavedStateHandle) : Vi
         }
     }
 
+    // returns the transaction context that is stored in the savedStateHandle, or null otherwise
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getSavedTransactionContext(): DccTicketingTransactionContext? =
-        savedState.get(TRANSACTION_CONTEXT_SAVED_STATE_KEY)
+    fun getSavedTransactionContext(): DccTicketingTransactionContext? {
+        val transactionContext: DccTicketingTransactionContext? = savedState.get(TRANSACTION_CONTEXT_SAVED_STATE_KEY)
+        Timber.d("DccTicketingTransactionContext: %s loaded from savedStateHandle", transactionContext)
+        return transactionContext
+    }
 
-    private fun saveTransactionContext(ctx: DccTicketingTransactionContext) {
-        savedState.set(TRANSACTION_CONTEXT_SAVED_STATE_KEY, ctx)
+    private fun saveTransactionContext(transactionContext: DccTicketingTransactionContext) {
+        Timber.d("Saving DccTicketingTransactionContext: %s into savedStateHandle", transactionContext)
+        savedState.set(TRANSACTION_CONTEXT_SAVED_STATE_KEY, transactionContext)
     }
 
     companion object {
