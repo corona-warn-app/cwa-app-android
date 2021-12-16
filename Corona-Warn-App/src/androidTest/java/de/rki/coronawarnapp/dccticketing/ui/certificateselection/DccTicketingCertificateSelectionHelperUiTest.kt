@@ -58,5 +58,7 @@ class DccTicketingCertificateSelectionHelperUiTest : BaseTestInstrumentation() {
                 getString(R.string.pcr_test_certificate),
                 getString(R.string.rat_test_certificate)
             ).joinToString(", ")
+
+        certificateTypesText(listOf()) shouldBe ""
     }
 }
