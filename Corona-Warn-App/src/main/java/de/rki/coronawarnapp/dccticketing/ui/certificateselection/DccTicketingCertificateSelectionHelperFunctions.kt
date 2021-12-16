@@ -10,19 +10,21 @@ import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingC
 import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.VACCINATION
 
 fun Context.certificateTypesText(certificateTypes: List<String>, separator: String = ", "): String =
-    certificateTypes.joinToString(separator) { type ->
-        when (DccTicketingCertificatesFilterType.typeOf(type)) {
-            VACCINATION -> getString(R.string.vaccination_certificate_name)
-            RECOVERY -> getString(R.string.recovery_certificate_name)
-            PCR_TEST -> getString(R.string.pcr_test_certificate)
-            RA_TEST -> getString(R.string.rat_test_certificate)
-            TEST -> listOf(
-                getString(R.string.rat_test_certificate),
-                getString(R.string.pcr_test_certificate)
-            ).joinToString(separator)
-            else -> ""
+    certificateTypes
+        .filter { it !in arrayOf(PCR_TEST.type, RA_TEST.type) || !certificateTypes.contains(TEST.type) }
+        .joinToString(separator) { type ->
+            when (DccTicketingCertificatesFilterType.typeOf(type)) {
+                VACCINATION -> getString(R.string.vaccination_certificate_name)
+                RECOVERY -> getString(R.string.recovery_certificate_name)
+                PCR_TEST -> getString(R.string.pcr_test_certificate)
+                RA_TEST -> getString(R.string.rat_test_certificate)
+                TEST -> listOf(
+                    getString(R.string.rat_test_certificate),
+                    getString(R.string.pcr_test_certificate)
+                ).joinToString(separator)
+                else -> ""
+            }
         }
-    }
 
 fun getFullName(familyName: String?, givenName: String?): String =
     listOfNotNull(familyName, givenName).joinToString("<<")
