@@ -32,5 +32,7 @@
     <string name="confirmed_status_faq_link">"https://www.coronawarn.app/de/faq/#admission_policy"</string>
     <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
     <string name="dcc_ticketing_faq_link">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
+    <!-- XTXT: Vaccination card booster eligible FAQ Link German-->
+    <string name="vaccination_card_booster_eligible_faq_link">"https://www.coronawarn.app/de/faq/#vac_booster"</string>
 
 </resources>

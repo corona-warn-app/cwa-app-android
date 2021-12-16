@@ -7,9 +7,7 @@
     <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
     <string name="dcc_ticketing_faq_link">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Vaccination card booster eligible FAQ Link English-->
-    <string name="vaccination_card_booster_eligible_faq_link_english">"https://www.coronawarn.app/en/faq/#vac_booster"</string>
-    <!-- XTXT: Vaccination card booster eligible FAQ Link German-->
-    <string name="vaccination_card_booster_eligible_faq_link_german">"https://www.coronawarn.app/de/faq/#vac_booster"</string>
+    <string name="vaccination_card_booster_eligible_faq_link">"https://www.coronawarn.app/en/faq/#vac_booster"</string>
     <!-- XTXT: validation result FAQ link -->
     <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
     <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
