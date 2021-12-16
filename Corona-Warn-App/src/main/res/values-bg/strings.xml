@@ -947,11 +947,11 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Предупреждение"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Когато достигнете лимита Вие няма да може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за ваксинационни сертификати на нашата страница “ЧЗВ”."</string>
+    <string name="qr_code_error_max_person_threshold_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Когато достигнете лимита Вие няма да може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за валидиране на сертификат на нашата страница “ЧЗВ”."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Грешка"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Не може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за ваксинационни сертификати на нашата страница “ЧЗВ”."</string>
+    <string name="qr_code_error_max_person_max_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Не може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за валидиране на сертификат на нашата страница “ЧЗВ”."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Изтегляне на CovPassCheck"</string>
     <!-- XTXT: QR Code error message: covpasscheck app link  -->
@@ -1379,12 +1379,13 @@
     <string name="test_result_card_status_pending">"Все още няма резултат от теста Ви"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Още информация:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Проявявате ли някакви остри симптоми?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Все още ли не се чувствате добре? Обадете се на личния си лекар, ако се чувствате много зле и/или симптомите Ви са се влошили."</item>
-        <item>"Останете си вкъщи, докато се почувствате добре. Ако се заразите с коронавирус (SARS-CoV-2) в момент, когато организмът Ви е отслабен от друга инфекция, това може да доведе до сериозно заболяване."</item>
+        <item>"Останете си вкъщи възможно най-дълго, докато се почувствате добре. Намелете риска си от заразяване с корона вирус, както и с друга инфекция."</item>
         <item>"Не ходете на работа, ако не се чувствате добре, за да не излагате други хора на риск."</item>
-        <item>"Ако симптомите Ви се влошат, може да се наложи да направите нов тест за SARS-CoV-2."</item>
+        <item>"Ако се почувствате много зле или симптомите Ви се влошават моля, свържете се с личния си лекар. Той може да Ви посъветва дали трябва да си направите още един тест за SARS-CoV-2."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -2053,6 +2054,8 @@
     <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"ОК"</string>
+    <!-- XTXT: App Root Detection text for checkbox -->
+    <string name="root_dialog_suppress_checkbox">"Скриване на известието до следващата актуализация"</string>
 
     <!-- ####################################
         Incompatibility warning card
