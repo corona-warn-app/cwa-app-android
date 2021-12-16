@@ -43,7 +43,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             R.string.vaccination_certificate_vaccinated_on,
             certificate.vaccinatedOn.toShortDayFormat()
         )
-        certificatePersonName.text = certificate.fullNameFormatted
+        certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.vaccination_certificate_name)
 
         root.setOnClickListener { item.onRestore(item.certificate) }
