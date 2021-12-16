@@ -289,9 +289,9 @@
     <!-- XMSG: risk details - contact your doctor, bullet point link url -->
     <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
-    <string name="risk_details_behavior_increased_body_2">"Weitere Informationen in der FAQ zum Testablauf."</string>
+    <string name="risk_details_behavior_increased_body_2">"Weitere Informationen in den FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"Weitere Informationen in der FAQ zum Testablauf."</string>
+    <string name="risk_details_behavior_increased_body_2_label">"Weitere Informationen in den FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
     <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/de/faq/#red_card_how_to_test"</string>
 
