@@ -4,8 +4,8 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class TestCertificateContainerId(private val certUuid: String) : CertificateContainerId() {
+class TestCertificateContainerId(private val certificateId: String) : CertificateContainerId() {
     @IgnoredOnParcel
     override val identifier: String
-        get() = certUuid
+        get() = certificateId
 }
