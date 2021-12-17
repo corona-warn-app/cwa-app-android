@@ -143,7 +143,7 @@ object ExternalActionHelper {
      */
     fun Context.openGooglePlay() {
         try {
-            val uriStringInPlayStore = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+            val uriStringInPlayStore = "https://play.google.com/store/apps/details?id=de.rki.coronawarnapp"
             Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(uriStringInPlayStore)
                 setPackage("com.android.vending")
