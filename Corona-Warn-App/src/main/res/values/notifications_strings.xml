@@ -21,8 +21,6 @@
     <string name="nm_faq">"For details on the settings for your operating system, please see our FAQ page."</string>
     <!-- XTXT: notification management: delta onboarding: faq label -->
     <string name="nm_faq_label">"FAQ"</string>
-    <!-- XTXT: notification management: delta onboarding: faq link -->
-    <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
 
     <!-- ####################################
                   Delta Onboarding
