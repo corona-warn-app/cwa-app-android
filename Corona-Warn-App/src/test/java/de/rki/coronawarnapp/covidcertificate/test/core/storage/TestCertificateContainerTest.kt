@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.coVerify
@@ -34,7 +35,8 @@ class TestCertificateContainerTest : BaseTest() {
     fun `ui facing test certificate creation and fallbacks`() {
         certificateTestData.personATest2CertContainer.apply {
             isCertificateRetrievalPending shouldBe false
-            certificateId shouldBe "URN:UVCI:V1:DE:7WR8CE12Y8O2AN4NK320TPNKB1"
+            certificateId shouldBe
+                certificateTestData.personATest2CertContainer.testCertificateQRCode?.qrCode?.toSHA256()
             data.testCertificateQrCode shouldBe certificateTestData.personATest2CertQRCodeString
             data.certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
             toTestCertificate(null, mockk()) shouldNotBe null
@@ -45,7 +47,7 @@ class TestCertificateContainerTest : BaseTest() {
     fun `pending check and nullability`() {
         certificateTestData.personATest3CertNokeyContainer.apply {
             isCertificateRetrievalPending shouldBe true
-            certificateId shouldBe null
+            certificateId shouldBe data.identifier
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
             toTestCertificate(mockk(), mockk()) shouldBe null
@@ -53,7 +55,7 @@ class TestCertificateContainerTest : BaseTest() {
 
         certificateTestData.personATest4CertPendingContainer.apply {
             isCertificateRetrievalPending shouldBe true
-            certificateId shouldBe null
+            certificateId shouldBe data.identifier
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
             toTestCertificate(mockk(), mockk()) shouldBe null
@@ -85,6 +87,7 @@ class TestCertificateContainerTest : BaseTest() {
         )
 
         container.certificateId shouldNotBe null
+        container.personIdentifier shouldNotBe null
 
         coVerify {
             extractorSpy.extract(certificateTestData.personATest1CertQRCodeString, DccV1Parser.Mode.CERT_TEST_LENIENT)
