@@ -43,7 +43,6 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.net.URLEncoder
-import java.util.Locale
 import javax.inject.Inject
 
 class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_certificate_details), AutoInject {
@@ -132,7 +131,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         )
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language, true)) {
+            image.loadAny(certificate.getValidQrCode(showBlocked = true)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
