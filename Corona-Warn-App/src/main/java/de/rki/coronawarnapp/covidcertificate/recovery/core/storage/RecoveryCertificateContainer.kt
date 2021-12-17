@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -39,10 +40,10 @@ data class RecoveryCertificateContainer(
     }
 
     override val containerId: RecoveryCertificateContainerId
-        get() = RecoveryCertificateContainerId(certificateData.certificate.recovery.uniqueCertificateIdentifier)
+        get() = RecoveryCertificateContainerId(certificateId)
 
     val certificateId: String
-        get() = certificateData.certificate.recovery.uniqueCertificateIdentifier
+        get() = data.recoveryCertificateQrCode.toSHA256()
 
     val personIdentifier: CertificatePersonIdentifier
         get() = certificateData.certificate.personIdentifier
@@ -132,7 +133,7 @@ data class RecoveryCertificateContainer(
                     .getDisplayCountry(userLocale)
 
             override val certificateId: String
-                get() = recoveryCertificate.uniqueCertificateIdentifier
+                get() = this@RecoveryCertificateContainer.certificateId
 
             override val headerIssuer: String
                 get() = header.issuer
