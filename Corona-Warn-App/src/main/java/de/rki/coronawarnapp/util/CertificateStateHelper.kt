@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coil.loadingView
-import java.util.Locale
 
 @Suppress("LongParameterList", "ComplexMethod")
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
@@ -219,7 +218,7 @@ private fun IncludeCertificateOverviewQrCardBinding.changeQrCodeOnButtonPress(
 }
 
 private fun IncludeCertificateOverviewQrCardBinding.loadQrImage(certificate: CwaCovidCertificate?) {
-    image.loadAny(certificate?.getValidQrCode(Locale.getDefault().language)) {
+    image.loadAny(certificate?.getValidQrCode()) {
         crossfade(true)
         loadingView(image, progressBar)
     }

@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import java.util.Locale
 
 class PersonDetailsQrCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<PersonDetailsQrCard.Item, IncludeCertificateQrcodeCardBinding>(
@@ -29,7 +28,7 @@ class PersonDetailsQrCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         curItem.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language)) {
+            image.loadAny(certificate.getValidQrCode()) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }
