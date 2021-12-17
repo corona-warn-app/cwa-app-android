@@ -33,6 +33,7 @@ class RecoveryCertificateContainerTest : BaseTest() {
         )
 
         container.certificateId shouldNotBe null
+        container.personIdentifier shouldNotBe null
 
         coVerify {
             extractorSpy.extract(RecoveryQrCodeTestData.validRecovery, DccV1Parser.Mode.CERT_REC_LENIENT)
