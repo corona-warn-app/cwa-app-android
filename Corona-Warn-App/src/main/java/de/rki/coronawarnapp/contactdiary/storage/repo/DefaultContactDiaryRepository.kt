@@ -126,8 +126,10 @@ class DefaultContactDiaryRepository @Inject constructor(
     ) {
         executeWhenIdNotDefault(visitId) {
             val original = contactDiaryLocationVisitDao.entityForId(visitId)
-            val updatedVisit = update(original.toContactDiaryLocationVisit())
-            contactDiaryLocationVisitDao.update(updatedVisit.toContactDiaryLocationVisitEntity())
+            original?.let {
+                val updatedVisit = update(it.toContactDiaryLocationVisit())
+                contactDiaryLocationVisitDao.update(updatedVisit.toContactDiaryLocationVisitEntity())
+            }
         }
     }
 
@@ -224,8 +226,10 @@ class DefaultContactDiaryRepository @Inject constructor(
     ) {
         executeWhenIdNotDefault(encounterId) {
             val original = contactDiaryPersonEncounterDao.entityForId(encounterId)
-            val updatedEncounter = update(original.toContactDiaryPersonEncounter())
-            contactDiaryPersonEncounterDao.update(updatedEncounter.toContactDiaryPersonEncounterEntity())
+            original?.let {
+                val updatedEncounter = update(it.toContactDiaryPersonEncounter())
+                contactDiaryPersonEncounterDao.update(updatedEncounter.toContactDiaryPersonEncounterEntity())
+            }
         }
     }
 
