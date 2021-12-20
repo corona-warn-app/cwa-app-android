@@ -308,6 +308,13 @@ repositories {
     maven { url "../local-maven-repo" }
 }
 
+// conflicts with a Android stuff
+configurations {
+    all*.exclude group: "xmlpull", module: "xmlpull"
+    all*.exclude group: "org.apache.commons", module: "commons-compress"
+    all*.exclude group: "com.thoughtworks.xstream", module: "commons-compress"
+}
+
 dependencies {
     // Comes from `local-maven-repo`
     // See https://github.com/corona-warn-app/dgc-certlogic-android
@@ -374,11 +381,13 @@ dependencies {
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
     // boofCV
-    def boofCVVersion = "0.39.1"
-    implementation("org.boofcv:boofcv-core:$boofCVVersion") {
-        exclude group: "com.thoughtworks.xstream", module: "commons-compress"
+    def boofCV_version = "0.39.1"
+    implementation("org.boofcv:boofcv-core:$boofCV_version") {
+        exclude group: 'com.google.protobuf'
     }
-    implementation "org.boofcv:boofcv-android:$boofCVVersion"
+    implementation("org.boofcv:boofcv-android:$boofCV_version") {
+        exclude group: 'com.google.protobuf'
+    }
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
