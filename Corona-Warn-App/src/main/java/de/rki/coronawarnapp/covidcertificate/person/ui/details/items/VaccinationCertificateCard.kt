@@ -28,7 +28,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val certificate = curItem.certificate
         root.setOnClickListener { curItem.onClick() }
         vaccinationDosesInfo.text = context.getString(
@@ -81,7 +81,6 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val status: VaccinatedPerson.Status,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
         override val stableId = certificate.containerId.hashCode().toLong()
     }
 }

@@ -197,4 +197,32 @@
     <!-- XTXT: Request GC legal information section for privacy card -->
     <string name="request_green_certificate_privacy_legal_information" translatable="false">Detailed information about this data processing is available in the privacy notice</string>
 
+    <!-- DCC Ticketing Sonsent Screen -->
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
+    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Your consent"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
+    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"By tapping on “Accept”, you consent to the following steps:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_one_legal_point_1" translatable="false">"The app will retrieve from the provider the name and date of birth of the person specified at the time of booking, the booking details relevant to the verification (e.g. destination country and date of travel) and the certificate requirements specified by the provider for your booking."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_one_legal_point_2" translatable="false">"Once retrieved, the app will use this data to determine which of your stored certificates can be used."</string>
+
+    <!-- DCC Ticketing Consent Two Screen -->
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Title -->
+    <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Your consent"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Body -->
+    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"By tapping on “Accept”, you consent to the transfer of the following data to the verification partner:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Content and electronic signature of the selected certificate (including name and date of birth of the certificate holder, validity period, issuer and date of issue, vaccine/test/recovery details)."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2" translatable="false">"The booking details retrieved from the provider:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_1" translatable="false">"Period during which the certificate must be valid (travel duration or event date)"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_2" translatable="false">"For travel bookings: Country of origin and country of destination or journey"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-3 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_3" translatable="false">"For cross-border travel: Certificate requirements imposed by the destination country"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"Further certificate requirements on the part of the provider (e.g. which vaccines or test procedures are accepted)"</string>
+
 </resources>

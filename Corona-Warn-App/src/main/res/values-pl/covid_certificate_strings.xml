@@ -176,7 +176,7 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Mapa Europy"</string>
     <!-- XTXT: Start Validation Rule Check Button -->
-    <string name="start_validation_rule_check_button">"Sprawdź ważność"</string>
+    <string name="start_validation_rule_check_button">"Sprawdź ważność na potrzeby podróży"</string>
     <!-- XTXT: Start Validation Rule Check Loading Text -->
     <string name="start_validation_rule_check_loading_text">"Proszę czekać..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
@@ -184,7 +184,7 @@
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Wystąpił błąd. Spróbuj ponownie później lub skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
     <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Sprawdź ważność"</string>
+    <string name="test_certificate_validation_start_button">"Sprawdź ważność na potrzeby podróży"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Należy pamiętać, że zasady dotyczące wjazdu mogą ulec zmianie. Dlatego prosimy o sprawdzenie certyfikatu na krótko przed wjazdem do kraju docelowego (maks. 48 godzin)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"W poszczególnych regionach mogą obowiązywać dodatkowe zasady i ograniczenia."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Wszystkie certyfikaty są opatrzone podpisem cyfrowym zapewniającym ich autentyczność. Aplikacja walidacyjna jedynie weryfikuje ten podpis."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Aplikacja Corona-Warn-App nie sprawdza, czy dane zapisane w certyfikacie są ważne."</string>
     <!-- XTXT: Validation start FAQ -->
@@ -232,7 +230,7 @@
     <string name="validation_start_time_error">"Podany czas już upłynął. Wprowadź lokalny czas wjazdu przypadający w przyszłości."</string>
 
     <!-- XHED: No Internet connection diaglog title -->
-    <string name="validation_start_no_internet_dialog_title">"Walidacja nie powiodła się"</string>
+    <string name="validation_start_no_internet_dialog_title">"Weryfikacja nie powiodła się"</string>
     <!-- XTXT: No Internet connection diaglog message -->
     <string name="validation_start_no_internet_dialog_msg">"Nastąpiła utrata połączenia z Internetem. Aby zakończyć sprawdzanie ważności certyfikatu, sprawdź połączenie i spróbuj ponownie."</string>
     <!-- XBUT: No Internet connection diaglog positive button -->
@@ -251,11 +249,11 @@
     <string name="validation_rules_result_not_valid_result_title">"Twój certyfikat nie jest ważny w wybranym kraju"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
-    <string name="validation_rules_open_header_title">"Walidacja nie jest możliwa"</string>
+    <string name="validation_rules_open_header_title">"Weryfikacja nie jest możliwa"</string>
     <!-- XTXT: Validation Rule Open Header Subtitle  -->
     <string name="validation_rules_open_header_subtitle">"Nie udało się sprawdzić poniższych zasad. Upewnij się, że certyfikat jest zgodny z zasadami obowiązującymi w kraju docelowym."</string>
     <!-- XTXT: Validation Rule Failure Header Title  -->
-    <string name="validation_rules_failure_header_title">"Walidacja zakończona"</string>
+    <string name="validation_rules_failure_header_title">"Weryfikacja zakończona"</string>
     <!-- XTXT: Validation Rule Failure Header Subtitle  -->
     <string name="validation_rules_failure_header_subtitle">"Brak zgodności z poniższymi zasadami:"</string>
     <!-- XTXT: Validation Rule Technical Failure Header Title  -->
@@ -284,7 +282,7 @@
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">"Certyfikat jest nieważny"</string>
     <!-- XHED: Toolbar title for the validation open screen -->
-    <string name="validation_open_title">"Walidacja certyfikatu jest niemożliwa"</string>
+    <string name="validation_open_title">"Weryfikacja certyfikatu jest niemożliwa"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
     <!-- XTXT: validation start for the validation open card  -->
@@ -383,13 +381,13 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_title">"Weryfikacja certyfikatów przez osoby trzecie"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Osoby trzecie mogą korzystać z aplikacji CovPassCheck, aby wiarygodnie sprawdzić, czy certyfikat szczepienia, certyfikat statusu ozdrowieńca lub certyfikat testu jest ważny."</string>
+    <string name="cov_pass_info_subtitle">"Osoby trzecie mogą korzystać z aplikacji CovPassCheck, aby w wiarygodny sposób ustalić, czy certyfikat szczepienia, certyfikat statusu ozdrowieńca lub certyfikat testu jest ważny."</string>
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"Często zadawane pytania dotyczące weryfikacji certyfikatu przez osoby trzecie"</string>
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Ważność certyfikatów możesz sprawdzić samodzielnie w aplikacji Corona-Warn-App bez korzystania z aplikacji CovPassCheck."</string>
+    <string name="cov_pass_info_section_one">"Ważność certyfikatów możesz sprawdzić przed podróżą samodzielnie w aplikacji Corona-Warn-App bez korzystania z aplikacji CovPassCheck."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Dla osób trzecich nie wystarczy jednak wizualna kontrola certyfikatów. Muszą one korzystać z aplikacji CovPassCheck w Niemczech."</string>
     <!-- XHED: Cov Pass Info Fragment title -->

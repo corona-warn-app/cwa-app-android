@@ -33,6 +33,7 @@ class VaccinationTestData @Inject constructor(
             familyNameStandardized = "ASTRA<EINS",
         ),
         dateOfBirthFormatted = "1966-11-11",
+        dob = "1966-11-11",
         vaccination =
         DccV1.VaccinationData(
             targetId = "840539006",
@@ -100,6 +101,7 @@ class VaccinationTestData @Inject constructor(
             familyNameStandardized = "ASTRA<EINS",
         ),
         dateOfBirthFormatted = "1966-11-11",
+        dob = "1966-11-11",
         vaccination = DccV1.VaccinationData(
             targetId = "840539006",
             vaccineId = "1119305005",
@@ -168,6 +170,7 @@ class VaccinationTestData @Inject constructor(
             familyNameStandardized = "JOHNSON<GUELTIG",
         ),
         dateOfBirthFormatted = "1966-11-11",
+        dob = "1966-11-11",
         vaccination = DccV1.VaccinationData(
             targetId = "840539006",
             vaccineId = "1119305005",

@@ -69,11 +69,11 @@
     3. Auf welcher Rechtsgrundlage werden Ihre Daten verarbeitet?
 </h2>
 <p>
-    Ihre Daten werden im Zusammenhang mit Risiko-Ermittlung und der Warnung Anderer vom RKI
-    grundsätzlich nur verarbeitet, wenn Sie zuvor Ihr ausdrückliches Einverständnis erteilt haben.
-    Die Rechtsgrundlage ist Art. 6 Abs. 1 S. 1 lit. a DSGVO sowie im Falle von Gesundheitsdaten Art.
-    9 Abs. 2 lit. a DSGVO. Sie können ein einmal erteiltes Einverständnis jederzeit wieder
-    zurücknehmen (sogenanntes Widerrufsrecht). Weitere Informationen zu Ihrem Widerrufsrecht finden
+    Ihre Daten werden im Zusammenhang mit den Funktionen der App grundsätzlich nur auf Grundlage
+    Ihres Einverständnisses verarbeitet. Dies umfasst z. B. die Datenverarbeitung zur
+    Risiko-Ermittlung und der Warnung Anderer sowie die Überprüfung von COVID-Zertifikaten bei
+    Ticketbuchungen. Die Rechtsgrundlage ist jeweils Art. 6 Abs. 1 S. 1 lit. a DSGVO sowie im Falle
+    von Gesundheitsdaten Art. 9 Abs. 2 lit. a DSGVO. Informationen zu Ihrem Widerrufsrecht finden
     Sie unter Punkt 12.
 </p>
 <p>
@@ -84,7 +84,7 @@
     Testzertifikaten erfolgt auf Basis von Art. 9 Abs. 2 lit. g DSGVO i.V.m § 22 Abs. 7 IfSG. Die
     Erstellung und Bescheinigung von Genesenenzertifikaten erfolgt auf Basis von Art. 9 Abs. 2 lit.
     g DSGVO i.V.m § 22 Abs. 6 IfSG. Die Verarbeitung von Zugriffsdaten in Zusammenhang mit der
-    Prüfung der Gültigkeit und Echtheit der Zertifikate sowie der Regeln für die Empfehlungen für
+    Funktion „Gültigkeit prüfen“ sowie der Prüfung der Regeln für die Empfehlungen für
     Auffrischungsimpfungen erfolgt auf Basis von Art. 6 Abs. 1 lit e DSGVO i.V.m § 3 BDSG.
 </p>
 <p>
@@ -104,18 +104,20 @@
     5. Welche Daten werden verarbeitet?
 </h2>
 <p>
-    Das gesamte System der App ist so programmiert, dass so wenig personenbezogene Daten wie möglich
-    verarbeitet werden. Das bedeutet, dass das System bei der Risiko-Ermittlung, der Warnung anderer
-    und dem Abruf des Testergebnisses keine Daten erfassen muss, die es dem RKI oder anderen Nutzern
-    ermöglichen, auf Ihre Identität, Ihren Namen, Ihren Standort oder andere persönliche Details zu
-    schließen.
+    Das gesamte System der App ist so programmiert, dass für die Kernfunktionen so wenig
+    personenbezogene Daten wie möglich verarbeitet werden. Das bedeutet, dass das System bei der
+    Risiko-Ermittlung, der Warnung anderer und dem Abruf des Testergebnisses keine Daten erfassen
+    muss, die es dem RKI oder anderen Nutzern ermöglichen, auf Ihre Identität, Ihren Namen, Ihren
+    Standort oder andere persönliche Details zu schließen.
 </p>
 <p>
-    Ausnahmen gelten für die Funktionen „Schnelltest-Ergebnis nachweisen“, mit der Sie eine auf
-    Ihren Namen ausgestellte Bestätigung für negative Schnelltest-Ergebnisse anzeigen lassen können
-    (siehe hierzu Punkt 6 c.), die Funktion zum Anlegen eines „Schnelltest-Profils“, mit der Sie
-    einer Teststelle die zur Durchführung eines Schnelltests erforderlichen Daten bereitstellen
-    können (siehe hierzu Punkt 6 d.) und wenn Sie digitale COVID-Zertifikate in der App hinzufügen.
+    Ausnahmen gelten für die ergänzenden Funktionen „Schnelltest-Ergebnis nachweisen“, mit der Sie
+    eine auf Ihren Namen ausgestellte Bestätigung für negative Schnelltest-Ergebnisse anzeigen
+    lassen können (siehe hierzu Punkt 6 c.), die Funktion zum Anlegen eines „Schnelltest-Profils“,
+    mit der Sie einer Teststelle die zur Durchführung eines Schnelltests erforderlichen Daten
+    bereitstellen können (siehe hierzu Punkt 6 d.) und wenn Sie digitale COVID-Zertifikate in der
+    App hinzufügen (siehe hierzu Punkt 6 h.) oder im Rahmen einer Ticketbuchung überprüfen lassen
+    (siehe hierzu Punkt 6 j.).
 </p>
 <p>
     Die App verzichtet standardmäßig auf die Auswertung Ihres Nutzungsverhaltens durch
@@ -451,7 +453,48 @@
     Die Daten werden in der App gespeichert, sobald Ihr Testergebnis vorliegt.
 </p>
 <h3>
-    k. Nutzungsdaten (Datenspende)
+    k. Buchungsdaten
+</h3>
+<p>
+    Wenn Sie über das Internet bei einem Reise- oder Veranstaltungsunternehmen oder einem sonstigen
+    Anbieter eine Buchung vornehmen, können Sie die App zum Nachweis eines gültigen digitalen
+    COVID-Zertifikats gegenüber dem jeweiligen Anbieter nutzen (Zertifikat-Prüfung bei
+    Ticketbuchungen). Voraussetzung hierfür ist, dass Sie in der App ein digitales COVID-Zertifikat
+    hinzugefügt haben. Zudem muss der jeweilige Anbieter an einen Überprüfungsservice angebunden
+    sein.
+</p>
+<p>
+    Zur Zertifikatsprüfung benötigen Sie einen speziellen QR-Code, den Sie im Rahmen des
+    Buchungsvorgangs von dem jeweiligen Anbieter erhalten. Dieser QR-Code enthält eine eindeutige
+    Transaktions-ID, eine kurze Beschreibung des Buchungsvorgangs (z. B. „Buchungsnummer 1234“) und
+    eine Internetadresse (URL).
+</p>
+<p>
+    Die App nutzt diese Informationen, um beim Anbieter technische Spezifikationen sowie die
+    folgenden Details zur Buchung abzurufen, die für die Überprüfung des COVID-Zertifikats
+    berücksichtigt werden sollen:
+</p>
+<ul>
+    <li>Ihren Namen</li>
+    <li>Ihr Geburtsdatum</li>
+    <li>Angaben zum Datum der erforderlichen Gültigkeit des COVID-Zertifikats (Reisedatum oder
+        Veranstaltungsdatum)
+    </li>
+    <li>Bei Reisen: Ausgangsland und Zielland</li>
+    <li>Nachweisanforderungen, insbesondere also die zum Nachweis geeigneten Zertifikatstypen, wie
+        z.B. Impfzertifikat (bei grenzüberschreitenden Reisen auch die Anforderungen des Ziellandes)
+    </li>
+    <li>Bei bestimmten Buchungen werden zusätzlich auch Angaben zur Veranstaltungsart mitgeteilt (z.
+        B. Konzert oder Großveranstaltung).
+    </li>
+</ul>
+<p>
+    Welche konkreten Informationen für die Überprüfung des COVID-Zertifikats verwendet werden sollen
+    und welche COVID-Zertifikate als Nachweis zugelassen sind, wird vom jeweiligen Anbieter
+    individuell festgelegt.
+</p>
+<h3>
+    l. Nutzungsdaten (Datenspende)
 
 </h3>
 <p>
@@ -521,7 +564,7 @@
     unter Punkt 5 n. und Punkt 11).
 </p>
 <h3>
-    l. Teilnahme an einer Befragung
+    m. Teilnahme an einer Befragung
 </h3>
 <p>
     Einigen Nutzern wird in der App die Teilnahme an einer Befragung des RKI angeboten. In der Regel
@@ -540,7 +583,7 @@
 
 </p>
 <h3>
-    m. Inhalte der Fehlerberichte
+    n. Inhalte der Fehlerberichte
 </h3>
 <p>
     Um den technischen Support der App bei der Fehleranalyse zu unterstützen, können Sie in der App
@@ -599,7 +642,7 @@
     und Punkt 11).
 </p>
 <h3>
-    n. Bestätigung der Echtheit Ihrer App
+    o. Bestätigung der Echtheit Ihrer App
 </h3>
 <p>
     Einige Funktionen der App setzen voraus, dass vorab die Echtheit Ihrer App geprüft und gegenüber
@@ -799,8 +842,7 @@
     Schnelltest-Ergebnis nicht mehr in der App angezeigt wird.
 </p>
 <p>
-    Die Schnelltest-Ergebnisse werden auch in Ihrem Kontakt-Tagebuch hinterlegt. Sie können diese
-    dort jederzeit wieder löschen.
+    Die Schnelltest-Ergebnisse werden auch in Ihrem Kontakt-Tagebuch hinterlegt.
 </p>
 <h3>
     d. Schnelltest-Profil
@@ -949,8 +991,8 @@
 
 </h3>
 <p>
-    Die App erlaubt es Ihnen digitale COVID-Zertifikate zu speichern und in elektronischer Form bei
-    sich zu führen.
+    Die App erlaubt es Ihnen digitale COVID-Zertifikate zu speichern, in elektronischer Form bei
+    sich zu führen und diese für Zertifikatsprüfungen bei Ticketbuchungen zu verwenden.
 </p>
 <p>
     Ein digitales COVID-Zertifikat ist ein Nachweis dafür, dass eine Person
@@ -961,7 +1003,7 @@
     <li>von einer COVID-19-Erkrankung genesen ist (COVID-Genesenenzertifikat).</li>
 </ul>
 <p>
-    Die digitalen COVID-Zertifikate gelten ab dem 01.07.2021 innerhalb der Europäischen Union (EU)
+    Die digitalen COVID-Zertifikate gelten seit dem 01.07.2021 innerhalb der Europäischen Union (EU)
     als Bescheinigung von COVID-19-Impfungen und -Tests sowie der Genesung von einer
     COVID-19-Infektion. Die offizielle Bezeichnung lautet „Digitales COVID-Zertifikat der EU“
     (COVID-Zertifikat).
@@ -990,11 +1032,7 @@
     ungewollten Zugriff auf die auf Ihrem Smartphone gespeicherten Zertifikate zu verhindern,
     sollten Sie auf dem Gerät eine Codesperre einrichten.
 </p>
-Bitte beachten Sie, dass die QR-Codes der COVID-Zertifikate Gesundheitsdaten (Daten über
-Corona-Impfungen, Corona-Testergebnisse oder durchgemachte Corona-Infektionen) enthalten. Zeigen Sie
-die Zertifikate und QR-Codes nur vor, wenn Sie einen entsprechenden Nachweis erbringen möchten.
-Stellen Sie die QR-Codes niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen
-werden.
+Bitte beachten Sie, dass die QR-Codes der COVID-Zertifikate Gesundheitsdaten (Daten über Corona-Impfungen, Corona-Testergebnisse oder durchgemachte Corona-Infektionen) enthalten. Zeigen Sie die Zertifikate und QR-Codes nur vor, wenn Sie einen entsprechenden Nachweis erbringen möchten. Stellen Sie die QR-Codes niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden.
 <p>
     Mit der App können Sie ausgedruckte eigene COVID-Zertifikate und COVID-Zertifikate von
     Familienmitgliedern (Familienzertifikate) scannen und verschlüsselt auf Ihrem Smartphone
@@ -1059,13 +1097,7 @@ werden.
     einer Reise können Sie daher mit der App die Gültigkeit der Zertifikate im Reiseland überprüfen.
 
 </p>
-Wenn Sie die Gültigkeit eines COVID-Zertifikats überprüfen möchten, lädt Ihre App die jeweils
-aktuellen Regeln aller Mitgliedstaaten vom Serversystem der App herunter. Die App überprüft dann
-anhand der in einem Zertifikat enthaltenen Daten, ob das Zertifikat den Regeln entspricht und zeigt
-Ihnen das entsprechende Ergebnis an. Die anschließende Überprüfung findet ausschließlich offline in
-der App statt und es werden dabei keine Daten an das RKI oder sonstige Empfänger (andere
-Gesundheitsbehörden in Deutschland oder anderen Ländern, Apple, Google und sonstige Dritte)
-weitergegeben.
+Wenn Sie die Gültigkeit eines COVID-Zertifikats überprüfen möchten, lädt Ihre App die jeweils aktuellen Regeln aller Mitgliedstaaten vom Serversystem der App herunter. Die App überprüft dann anhand der in einem Zertifikat enthaltenen Daten, ob das Zertifikat den Regeln entspricht und zeigt Ihnen das entsprechende Ergebnis an. Die anschließende Überprüfung findet ausschließlich offline in der App statt und es werden dabei keine Daten an das RKI oder sonstige Empfänger (andere Gesundheitsbehörden in Deutschland oder anderen Ländern, Apple, Google und sonstige Dritte) weitergegeben.
 <p>
 </p>
 <p>
@@ -1167,7 +1199,33 @@ weitergegeben.
     oder wen Sie getroffen haben.
 </p>
 <h3>
-    k. Fehlerberichte
+    k. Zertifikatsprüfung bei Ticketbuchungen
+</h3>
+<p>
+    Wenn Sie bei einem Reise- oder Veranstaltungsunternehmen oder einem sonstigen Anbieter eine
+    Ticketbuchung vornehmen, können Sie über die App ein digitales COVID-Zertifikat an den
+    Prüfpartner des Anbieters übermitteln, damit dieser die Gültigkeit des Zertifikats für Ihre
+    Buchung gegenüber dem Reise- oder Veranstaltungsunternehmen bestätigt.
+</p>
+Voraussetzung hierfür ist, dass Sie in der App ein digitales COVID-Zertifikat hinzugefügt haben. Die App erfragt beim jeweiligen Anbieter die zur Prüfung zu verwendenden Buchungsdaten und schlägt auf Basis dieser Angaben ein geeignetes Zertifikat vor. Dieses können Sie sodann auswählen und zusammen mit den vom Anbieter bereitgestellten Buchungsdaten (siehe Punkt 5 k.) dem Prüfpartner übermitteln.
+<p>
+    Der Prüfpartner überprüft, ob die elektronische Signatur des Zertifikats echt und das technische
+    Ablaufdatum des Zertifikats noch nicht erreicht ist. Der Prüfpartner teilt dem Anbieter sofort
+    das Prüfungsergebnis mit. Es wird nur mitgeteilt, ob die Prüfung erfolgreich war oder nicht. Das
+    Prüfungsergebnis wird Ihnen auch in der App angezeigt.
+</p>
+<p>
+    Die vom Anbieter bereitgestellten Buchungsdaten werden nur lokal in der App verarbeitet. Das RKI
+    kann daher nicht nachvollziehen, welche Zertifikate Sie ausgewählt und prüfen lassen haben oder
+    welche Reisen oder Veranstaltungen Sie gebucht haben.
+</p>
+<p>
+    Für die Datenverarbeitung durch den Anbieter und den Prüfpartner ist das RKI nicht
+    verantwortlich. Lesen Sie bitte deren Datenschutzhinweise, damit Sie wissen, wozu und wie Ihre
+    Daten verwendet werden.
+</p>
+<h3>
+    l. Fehlerberichte
 </h3>
 <p>
     Das RKI ist bemüht, eine fehlerfreie App anzubieten. Aufgrund der großen Anzahl verschiedener
@@ -1184,7 +1242,7 @@ weitergegeben.
     Offenlegung Ihrer Identität (z.&nbsp;B. per E-Mail) mitteilen.
 </p>
 <h3>
-    l. Befragungen
+    m. Befragungen
 </h3>
 <p>
     Befragungen finden auf einer Webseite außerhalb der App statt, auf die Sie weitergeleitet
@@ -1193,7 +1251,7 @@ weitergegeben.
     Befragung auf der Befragungs-Webseite beschrieben.
 </p>
 <h3>
-    m. Bestätigung der Echtheit Ihrer App
+    n. Bestätigung der Echtheit Ihrer App
 </h3>
 <p>
     Zur Bestätigung der Echtheit Ihrer App wird eine Funktion des Betriebssystems Ihres Smartphones
@@ -1408,16 +1466,19 @@ weitergegeben.
     Die Positiv-Listen werden nach 14 Tagen aus dem App-Speicher gelöscht. Event-Daten im Bereich
     „Meine Check-ins“ werden nach 14 Tagen automatisch gelöscht. Alternativ können Sie Einträge im
     Bereich „Meine Check-ins“ jederzeit händisch löschen. Das für Sie ermittelte Ansteckungsrisiko
-    (z.&nbsp;B. „niedriges Risiko“) wird nach jeder Aktualisierung, spätestens aber nach 14 Tagen
-    aus dem App-Speicher gelöscht. Sofern Sie ein positives Testergebnis abgerufen haben, wird das
-    Token im App-Speicher gelöscht, sobald Sie eine Warnung auslösen oder den Test aus der App
-    löschen. Die Einträge im Kontakt-Tagebuch bleiben für 16 Tage auf Ihrem Smartphone gespeichert
-    und werden dann automatisch gelöscht. Sie können diese Einträge jederzeit auch vorzeitig selbst
-    löschen. Bitte beachten Sie, dass beim Einchecken zu einem Event oder an einem Ort übernommene
-    Einträge im Kontakt-Tagebuch auch nach der Löschung des zugehörigen Check-ins dort noch
-    gespeichert sind. Wenn Sie Ihr Schnelltest-Profil einmal angelegt haben, bleibt dieses so lange
-    in der App gespeichert, bis Sie es selbst wieder löschen. Wenn Sie Impfzertifikate gescannt
-    haben, bleiben auch diese so lange in der App gespeichert, bis Sie sie selbst wieder löschen.
+    (z. B. „niedriges Risiko“) wird nach jeder Aktualisierung, spätestens aber nach 14 Tagen aus dem
+    App-Speicher gelöscht. Sofern Sie ein positives Testergebnis abgerufen haben, wird das Token im
+    App-Speicher gelöscht, sobald Sie eine Warnung auslösen oder den Test aus der App entfernen. Die
+    Einträge im Kontakt-Tagebuch bleiben für 16 Tage auf Ihrem Smartphone gespeichert und werden
+    dann automatisch gelöscht. Sie können diese Einträge jederzeit auch vorzeitig selbst löschen.
+    Bitte beachten Sie, dass beim Einchecken zu einem Event oder an einem Ort übernommene Einträge
+    im Kontakt-Tagebuch auch nach der Löschung des zugehörigen Check-ins dort noch gespeichert sind.
+    Wenn Sie Ihr Schnelltest-Profil einmal angelegt haben, bleibt dieses so lange in der App
+    gespeichert, bis Sie es selbst wieder löschen. Wenn Sie COVID-Impf-, Test- oder
+    Genesenenzertifikate einschließlich Familienzertifikate gescannt haben, bleiben auch diese so
+    lange in der App gespeichert, bis Sie sie selbst wieder löschen. Bitte löschen Sie
+    Familienzertifikate, wenn Sie diese nicht mehr für die vorgesehenen Zwecke benötigen. Die
+    Buchungsdaten werden nach Beendigung der Zertifikatsprüfung gelöscht.
 </p>
 
 <h3>
@@ -1501,6 +1562,13 @@ weitergegeben.
     Testzertifikat handelt oder nicht. Bei Testzertifikaten wird dann auch der Zeitpunkt der
     Probenahme angezeigt, damit die prüfende Person beurteilen kann, ob das zugrunde liegende
     Testergebnis noch gültig ist.
+</p>
+<p>
+    Bei der Zertifikatsprüfung für Ticketbuchungen werden Ihre COVID-Zertifikate und die
+    Buchungsdaten an einen Prüfpartner des Anbieters übermittelt. Der konkrete Prüfpartner wird
+    Ihnen vor der Übermittlung in der App angezeigt. Zum Abruf der individuellen Buchungsdaten
+    übermittelt die App dem Anbieter die im Buchungs-QR-Code des Anbieters enthaltene
+    Buchungskennung.
 </p>
 <h2>
     11. Werden Ihre Daten in Länder außerhalb der EU übermittelt?
@@ -1705,5 +1773,5 @@ weitergegeben.
     <a href="mailto:datenschutz@rki.de">datenschutz@rki.de</a>.
 </p>
 <p>
-    Stand: 22.11.2021
+    Stand: 15.12.2021
 </p>

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeExtractor
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -14,12 +15,14 @@ class QrCodeValidator @Inject constructor(
     raExtractor: RapidAntigenQrCodeExtractor,
     pcrExtractor: PcrQrCodeExtractor,
     checkInQrCodeExtractor: CheckInQrCodeExtractor,
+    dccTicketingQrCodeExtractor: DccTicketingQrCodeExtractor,
 ) {
     private val extractors = mutableSetOf<QrCodeExtractor<*>>(
         dccQrCodeExtractor,
         raExtractor,
         pcrExtractor,
-        checkInQrCodeExtractor
+        checkInQrCodeExtractor,
+        dccTicketingQrCodeExtractor,
     )
 
     /**

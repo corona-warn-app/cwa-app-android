@@ -1,0 +1,20 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.dgc;
+
+
+message ValidationServiceAllowlist {
+
+  repeated ValidationServiceAllowlistItem certificates = 1;
+  repeated ServiceProviderAllowlistItem serviceProviders = 2;
+}
+
+message ValidationServiceAllowlistItem {
+  string serviceProvider = 1;
+  string hostname = 2;
+  bytes fingerprint256 = 3;
+}
+
+message ServiceProviderAllowlistItem {
+  bytes serviceIdentityHash = 1;
+}

@@ -195,4 +195,33 @@
     <string name="request_green_certificate_privacy_section_5" translatable="false">Test sertifikasını istediğiniz zaman Uygulamadan kaldırma seçeneğiniz vardır. Bunu yapıncaya kadar test sertifikaları akıllı telefonunuzda kayıtlı kalacaktır.</string>
     <!-- XTXT: Request GC legal information section for privacy card -->
     <string name="request_green_certificate_privacy_legal_information" translatable="false">Veri işleme ile ilgili ayrıntılı bilgileri Veri Gizliliği Beyanında bulabilirsiniz</string>
+
+    <!-- DCC Ticketing Sonsent Screen -->
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
+    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Rıza beyanız"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
+    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"“Anladım” üzerine tıklayarak aşağıdaki adımları onaylarsınız:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_one_legal_point_1" translatable="false">"Uygulama, sağlayıcının sunduğu rezervasyonda belirtilen kişinin isim ve doğum tarihini, kontrolle ilgili rezervasyon ayrıntılarını (örn. hedef ülke ve seyahat tarihi) ve sağlayıcı tarafından rezervasyonunuza ilişkin belirlenen sertifika taleplerini açar."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_one_legal_point_2" translatable="false">"Açılan bilgiler kayıtlı sertifikalarınızdan hangilerinin kullanılabileceğini belirlemek için uygulama tarafından kullanılır."</string>
+
+    <!-- DCC Ticketing Consent Two Screen -->
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Title -->
+    <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Rıza beyanınız"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Body -->
+    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"“Kabul ediyorum” üzerine tıklayarak aşağıdaki bilgilerin kontrol ortağına aktarılmasına onay verirsiniz:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Seçilen sertifikanın (özellikle sertifika sahibinin adı ve doğum tarihi, geçerlilik süresi, düzenleyen ve düzenleme tarihi, aşı/test/iyileşme ile ilgili bilgiler) sertifika içeriği ve elektronik imza."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2" translatable="false">"Sağlayıcı tarafından açılan rezervasyon bilgileri:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_1" translatable="false">"Sertifikanın geçerli olması gereken süre (seyahat süresi ya da etkinlik süresi)"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_2" translatable="false">"Seyahat rezervasyonlarında: Seyahate çıkılan çıkış ve varış ülkesi"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-3 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_3" translatable="false">"Sınırları aşan seyahatlerde: gidilen ülkenin sertifikaya ilişkin talepleri"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"Sağlayıcının sertifikaya ilişkin talepleri (örn. hangi aşılar veya test yöntemleri kabul edilir)"</string>
+
 </resources>

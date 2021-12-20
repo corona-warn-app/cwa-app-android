@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.valueset
 
+import android.content.Context
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.testCertificateValueSetsDe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.testCertificateValueSetsEn
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.ValueSetTestData.vaccinationValueSetsDe
@@ -18,6 +20,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockkStatic
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import org.junit.jupiter.api.BeforeEach
@@ -31,10 +34,12 @@ class ValueSetsRepositoryTest : BaseTest() {
 
     @MockK lateinit var certificateValueSetServer: CertificateValueSetServer
     @MockK lateinit var valueSetsStorage: ValueSetsStorage
+    @MockK lateinit var context: Context
 
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         certificateValueSetServer.apply {
             coEvery { getVaccinationValueSets(any()) } returns null
@@ -47,13 +52,16 @@ class ValueSetsRepositoryTest : BaseTest() {
             coEvery { save(any()) } just Runs
             coEvery { load() } returns emptyValueSetsContainer
         }
+
+        every { context.getLocale() } returns Locale.GERMAN
     }
 
     private fun createInstance(scope: CoroutineScope) = ValueSetsRepository(
         certificateValueSetServer = certificateValueSetServer,
         valueSetsStorage = valueSetsStorage,
         scope = scope,
-        dispatcherProvider = TestDispatcherProvider()
+        dispatcherProvider = TestDispatcherProvider(),
+        context = context,
     )
 
     @Test

@@ -33,7 +33,7 @@ class SevenDayRValueCard(parent: ViewGroup) :
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { orig, payloads ->
-        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().singleOrNull() ?: orig
+        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().lastOrNull() ?: orig
 
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)
@@ -70,10 +70,10 @@ class SevenDayRValueCard(parent: ViewGroup) :
         item: GlobalStatsItem,
         reproductionNumber: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
-
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_title_reproduction))
+            .appendWithLineBreak(context.getString(R.string.statistics_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithTrailingSpace(
                 formatStatisticalValue(

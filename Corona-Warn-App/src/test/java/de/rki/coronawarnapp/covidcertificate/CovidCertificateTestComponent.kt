@@ -29,6 +29,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultSettingsTest
+import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeExtractorTest
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidatorTest
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerViewModelTest
 import de.rki.coronawarnapp.server.protocols.internal.v2.PresenceTracingParametersOuterClass.PresenceTracingQRCodeDescriptor
@@ -73,6 +74,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: CwaUserCensorTest)
     fun inject(testClass: VaccinationGroupingTest)
     fun inject(testClass: AnalyticsTestResultSettingsTest)
+    fun inject(testClass: DccTicketingQrCodeExtractorTest)
 
     @Component.Factory
     interface Factory {

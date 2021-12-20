@@ -5,8 +5,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import io.kotest.matchers.shouldNotBe
+import io.mockk.coVerify
 import io.mockk.spyk
-import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -34,7 +34,7 @@ class RecoveryCertificateContainerTest : BaseTest() {
 
         container.certificateId shouldNotBe null
 
-        verify {
+        coVerify {
             extractorSpy.extract(RecoveryQrCodeTestData.validRecovery, DccV1Parser.Mode.CERT_REC_LENIENT)
         }
     }

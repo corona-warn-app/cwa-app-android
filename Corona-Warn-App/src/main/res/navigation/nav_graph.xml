@@ -19,6 +19,8 @@
     <!--    Covid certificates graph-->
     <include app:graph="@navigation/covid_certificates_graph" />
 
+    <include app:graph="@navigation/dcc_ticketing_nav_graph" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
@@ -275,7 +277,25 @@
         <action
             android:id="@+id/action_riskDetailsFragment_to_surveyConsentFragment"
             app:destination="@id/surveyConsentFragment" />
+        <action
+            android:id="@+id/action_riskDetailsFragment_to_hygieneRules"
+            app:destination="@id/hygieneRulesFragment" />
+        <action
+            android:id="@+id/action_riskDetailsFragment_to_homeRules"
+            app:destination="@id/homeRulesFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/hygieneRulesFragment"
+        android:name="de.rki.coronawarnapp.tracing.ui.details.hygiene.HygieneRulesFragment"
+        android:label="@layout/fragment_tracing_details_hygiene"
+        tools:layout="@layout/fragment_tracing_details_hygiene" />
+
+    <fragment
+        android:id="@+id/homeRulesFragment"
+        android:name="de.rki.coronawarnapp.tracing.ui.details.home.HomeRulesFragment"
+        android:label="@layout/fragment_tracing_details_home"
+        tools:layout="@layout/fragment_tracing_details_home" />
 
     <fragment
         android:id="@+id/statisticsExplanationFragment"
@@ -905,6 +925,9 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
         <action
+            android:id="@+id/action_universalScanner_to_universalScannerInformationFragment"
+            app:destination="@id/universalScannerInformationFragment" />
+        <action
             android:id="@+id/action_universalScanner_to_submissionTestResultInvalidFragment"
             app:destination="@id/submissionTestResultInvalidFragment"
             app:popUpTo="@id/universalScanner"
@@ -942,4 +965,9 @@
             app:popUpToInclusive="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/universalScannerInformationFragment"
+        android:name="de.rki.coronawarnapp.qrcode.ui.info.UqsInfoFragment"
+        android:label="UqsInfoFragment"
+        tools:layout="@layout/fragment_uqs_info" />
 </navigation>

@@ -17,7 +17,8 @@ class SafetyNetException constructor(
             Type.ATTESTATION_FAILED,
             Type.ATTESTATION_REQUEST_FAILED,
             Type.DEVICE_TIME_UNVERIFIED,
-            Type.NONCE_MISMATCH ->
+            Type.NONCE_MISMATCH,
+            Type.INTERNAL_ERROR ->
                 R.string.datadonation_details_survey_consent_error_TRY_AGAIN_LATER
             Type.BASIC_INTEGRITY_REQUIRED,
             Type.CTS_PROFILE_MATCH_REQUIRED,
@@ -55,6 +56,8 @@ class SafetyNetException constructor(
         PLAY_SERVICES_VERSION_MISMATCH,
 
         // TIME_SINCE_ONBOARDING_UNVERIFIED (Text Key)
-        TIME_SINCE_ONBOARDING_UNVERIFIED
+        TIME_SINCE_ONBOARDING_UNVERIFIED,
+
+        INTERNAL_ERROR
     }
 }

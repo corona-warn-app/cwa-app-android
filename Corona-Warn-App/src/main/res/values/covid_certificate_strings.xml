@@ -176,7 +176,7 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Map of Europe"</string>
     <!-- XTXT: Start Validation Rule Check Button -->
-    <string name="start_validation_rule_check_button">"Check Validity"</string>
+    <string name="start_validation_rule_check_button">"Check Validity for Travel"</string>
     <!-- XTXT: Start Validation Rule Check Loading Text -->
     <string name="start_validation_rule_check_loading_text">"Please wait..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
@@ -184,7 +184,7 @@
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"An error occurred. Please try again later or contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Check Validity"</string>
+    <string name="test_certificate_validation_start_button">"Check Validity for Travel"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Please note that entry rules are subject to change. Therefore, please check the certificate shortly before you enter the destination country (max. 48 hours)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"Additional rules and restrictions may apply in individual regions."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"To ensure the authenticity of certificates, each certificate is issued with a digital signature. A validation app merely validates this signature."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"The Corona-Warn-App does not check whether the data recorded in the certificate is valid."</string>
     <!-- XTXT: Validation start FAQ -->
@@ -232,30 +230,30 @@
     <string name="validation_start_time_error">"The specified time has already passed. Enter a future time for your local time of entry."</string>
 
     <!-- XHED: No Internet connection diaglog title -->
-    <string name="validation_start_no_internet_dialog_title">"Validation Failed"</string>
+    <string name="validation_start_no_internet_dialog_title">"Verification Failed"</string>
     <!-- XTXT: No Internet connection diaglog message -->
     <string name="validation_start_no_internet_dialog_msg">"Your Internet connection was lost. To complete the validity check for the certificate, please check the connection and try again."</string>
     <!-- XBUT: No Internet connection diaglog positive button -->
     <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
-    <string name="validation_rules_result_valid_result_country_and_time">"Entering %1$s on %2$s, validated on %3$s"</string>
+    <string name="validation_rules_result_valid_result_country_and_time">"Entering %1$s on %2$s, verified on %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
     <string name="validation_rules_result_valid_result_title">"Your certificate is valid in the selected country"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
-    <string name="validation_rules_result_no_rules_title">"Your certificate could not be validated"</string>
+    <string name="validation_rules_result_no_rules_title">"Your certificate could not be verified"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
-    <string name="validation_rules_result_cannot_be_checked_result_title">"Your certificate could not be validated completely"</string>
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Your certificate could not be verified completely"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
     <string name="validation_rules_result_not_valid_result_title">"Your certificate is not valid in the selected country"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
-    <string name="validation_rules_open_header_title">"Validation is not possible"</string>
+    <string name="validation_rules_open_header_title">"Verification is not possible"</string>
     <!-- XTXT: Validation Rule Open Header Subtitle  -->
     <string name="validation_rules_open_header_subtitle">"The following rules could not be checked. Please make sure that the certificate satisfies the rules of your destination country."</string>
     <!-- XTXT: Validation Rule Failure Header Title  -->
-    <string name="validation_rules_failure_header_title">"Validation complete"</string>
+    <string name="validation_rules_failure_header_title">"Verification complete"</string>
     <!-- XTXT: Validation Rule Failure Header Subtitle  -->
     <string name="validation_rules_failure_header_subtitle">"The following rules are not satisfied:"</string>
     <!-- XTXT: Validation Rule Technical Failure Header Title  -->
@@ -284,7 +282,7 @@
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">"Certificate Is Not Valid"</string>
     <!-- XHED: Toolbar title for the validation open screen -->
-    <string name="validation_open_title">"Certificate Cannot Be Validated"</string>
+    <string name="validation_open_title">"Certificate Cannot Be Verified"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
     <!-- XTXT: validation start for the validation open card  -->
@@ -332,7 +330,7 @@
     <!-- XTXT: Signature validation dialog message-->
     <string name="dcc_signature_validation_dialog_message">"The signature of the certificate is invalid. The certificate cannot be used as proof and therefore cannot be imported."</string>
     <!-- XBUT: Signature validation dialog FAQ button-->
-    <string name="dcc_signature_validation_dialog_faq_button">"FAQ for Signature Validation"</string>
+    <string name="dcc_signature_validation_dialog_faq_button">"FAQ for Signature Verification"</string>
     <!-- XTXT: Signature validation dialog FAQ lint-->
     <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
 
@@ -383,16 +381,16 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_title">"Certificate Verification by Third Parties"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Third parties can use the CovPassCheck app to reliably verify whether the vaccination certificate, certificate of recovery, or test certificate is valid."</string>
+    <string name="cov_pass_info_subtitle">"Third parties can use the CovPassCheck app to reliably determine whether the vaccination certificate, certificate of recovery, or test certificate is valid."</string>
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"FAQ for Certificate Verification by Third Parties"</string>
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"You can check the validity of your certificates in the Corona-Warn-App yourself and do not need the CovPassCheck app."</string>
+    <string name="cov_pass_info_section_one">"You can check the validity of your certificates in the Corona-Warn-App yourself before traveling and do not need the CovPassCheck app."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"A visual check of the certificates is not sufficient for third parties, however. They must use the CovPassCheck app in Germany."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_three">"Please note that third parties in other countries may use other apps to verify certificates."</string>
+    <string name="cov_pass_info_section_three">"Please note that third parties in other countries may use different apps to verify certificates."</string>
 
 </resources>

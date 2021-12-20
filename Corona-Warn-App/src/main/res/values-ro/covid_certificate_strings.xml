@@ -176,7 +176,7 @@
     <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
     <string name="validation_rules_info_image">"Harta Europei"</string>
     <!-- XTXT: Start Validation Rule Check Button -->
-    <string name="start_validation_rule_check_button">"Verificare valabilitate"</string>
+    <string name="start_validation_rule_check_button">"Verificare valabilitate pentru deplasare"</string>
     <!-- XTXT: Start Validation Rule Check Loading Text -->
     <string name="start_validation_rule_check_loading_text">"Așteptați..."</string>
     <!-- XTXT: Digital covid certificate validation error message - no network -->
@@ -184,7 +184,7 @@
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"A apărut o eroare. Încercați din nou mai târziu sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
     <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Verificare valabilitate"</string>
+    <string name="test_certificate_validation_start_button">"Verificare valabilitate pentru deplasare"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -210,8 +210,6 @@
     <string name="validation_start_note_point_1">"Rețineți că regulile de intrare se supun modificărilor. În consecință, verificați certificatul cu puțin timp înainte de a intra în țara de destinație (cu maximum 48 de ore înainte)."</string>
     <!-- XTXT: Validation start note point 2 -->
     <string name="validation_start_note_point_2">"În regiuni individuale se pot aplica reguli și restricții suplimentare."</string>
-    <!-- XTXT: Validation start note point 3 -->
-    <string name="validation_start_note_point_3">"Pentru a asigura autenticitatea certificatelor, fiecare certificat este emis cu o semnătură digitală. O aplicație de validare doar validează această semnătură."</string>
     <!-- XTXT: Validation start note point 4 -->
     <string name="validation_start_note_point_4">"Aplicația Corona-Warn nu verifică dacă datele înregistrate în acest certificat sunt valabile."</string>
     <!-- XTXT: Validation start FAQ -->
@@ -232,30 +230,30 @@
     <string name="validation_start_time_error">"Ora specificată a trecut deja. Introduceți o oră în viitor pentru ora locală de intrare."</string>
 
     <!-- XHED: No Internet connection diaglog title -->
-    <string name="validation_start_no_internet_dialog_title">"Validare nereușită"</string>
+    <string name="validation_start_no_internet_dialog_title">"Verificare nereușită"</string>
     <!-- XTXT: No Internet connection diaglog message -->
     <string name="validation_start_no_internet_dialog_msg">"Conexiunea dvs. la internet s-a pierdut. Pentru a finaliza verificarea valabilității certificatului, verificați conexiunea și reîncercați."</string>
     <!-- XBUT: No Internet connection diaglog positive button -->
     <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
-    <string name="validation_rules_result_valid_result_country_and_time">"Intrare în %1$s pe %2$s, validat pe %3$s"</string>
+    <string name="validation_rules_result_valid_result_country_and_time">"Intrare în %1$s pe %2$s, verificat pe %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
     <string name="validation_rules_result_valid_result_title">"Certificatul dvs. este valabil în țara selectată"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
-    <string name="validation_rules_result_no_rules_title">"Certificatul dvs. nu a putut fi validat"</string>
+    <string name="validation_rules_result_no_rules_title">"Certificatul dvs. nu a putut fi verificat"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
-    <string name="validation_rules_result_cannot_be_checked_result_title">"Certificatul dvs. nu a putut fi validat complet"</string>
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Certificatul dvs. nu a putut fi verificat complet"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
     <string name="validation_rules_result_not_valid_result_title">"Certificatul dvs. nu este valabil în țara selectată"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
-    <string name="validation_rules_open_header_title">"Validarea nu este posibilă"</string>
+    <string name="validation_rules_open_header_title">"Verificarea nu este posibilă"</string>
     <!-- XTXT: Validation Rule Open Header Subtitle  -->
     <string name="validation_rules_open_header_subtitle">"Următoarele reguli nu au putut fi verificate. Asigurați-vă că certificatul îndeplinește regulile țării de destinație."</string>
     <!-- XTXT: Validation Rule Failure Header Title  -->
-    <string name="validation_rules_failure_header_title">"Validare completă"</string>
+    <string name="validation_rules_failure_header_title">"Verificare completă"</string>
     <!-- XTXT: Validation Rule Failure Header Subtitle  -->
     <string name="validation_rules_failure_header_subtitle">"Următoarele reguli nu sunt îndeplinite:"</string>
     <!-- XTXT: Validation Rule Technical Failure Header Title  -->
@@ -284,7 +282,7 @@
     <!-- XHED: Toolbar title for the validation failed screen -->
     <string name="validation_failed_title">"Certificatul nu este valabil"</string>
     <!-- XHED: Toolbar title for the validation open screen -->
-    <string name="validation_open_title">"Certificatul nu poate fi validat"</string>
+    <string name="validation_open_title">"Certificatul nu poate fi verificat"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
     <!-- XTXT: validation start for the validation open card  -->
@@ -332,7 +330,7 @@
     <!-- XTXT: Signature validation dialog message-->
     <string name="dcc_signature_validation_dialog_message">"Semnătura de pe certificat este nevalabilă. Certificatul nu poate fi utilizat ca dovadă și de aceea nu poate fi importat."</string>
     <!-- XBUT: Signature validation dialog FAQ button-->
-    <string name="dcc_signature_validation_dialog_faq_button">"Întrebări frecvente privind validarea semnăturii"</string>
+    <string name="dcc_signature_validation_dialog_faq_button">"Întrebări frecvente privind verificarea semnăturii"</string>
     <!-- XTXT: Signature validation dialog FAQ lint-->
     <string name="dcc_signature_validation_dialog_faq_link">"https://www.coronawarn.app/en/faq/#hc_signature_invalid"</string>
 
@@ -383,13 +381,13 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_title">"Verificare certificat de către parteneri (terți)"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Terții pot utiliza aplicația CovPassCheck pentru a verifica, cu încredere, dacă certificatul de vaccinare, certificatul de recuperare sau certificatul de test este valabil."</string>
+    <string name="cov_pass_info_subtitle">"Terții pot utiliza aplicația CovPassCheck pentru a determina, cu încredere, dacă certificatul de vaccinare, certificatul de recuperare sau certificatul de test este valabil."</string>
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"Întrebări frecvente pentru verificarea certificatului de către terți"</string>
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_section_one">"Puteți verifica chiar dvs. valabilitatea certificatelor dvs. în Corona-Warn-App și nu aveți nevoie de aplicația CovPassCheck."</string>
+    <string name="cov_pass_info_section_one">"Puteți verifica chiar dvs. valabilitatea certificatelor dvs. în Corona-Warn-App înainte de deplasare și nu aveți nevoie de aplicația CovPassCheck."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_two">"Totuși, o verificare vizuală a certificatelor nu este suficientă pentru terți. Aceștia trebuie să utilizeze aplicația CovPassCheck în Germania."</string>
     <!-- XHED: Cov Pass Info Fragment title -->

@@ -371,12 +371,13 @@ jobs:
               --environment-variables clearPackageData=true \
               --test-targets "notAnnotation testhelpers.Screenshot" \
               --timeout 20m \
-              --device-ids flame \
-              --os-version-ids 29 \
+              --device-ids blueline \
+              --os-version-ids 28 \
               --locales de_DE \
               --orientations portrait \
+              --num-flaky-test-attempts 3 \
               --no-record-video
-          no_output_timeout: 30m
+          no_output_timeout: 20m
       - run:
           name: Create directory to store test results
           command: mkdir firebase-results
@@ -385,12 +386,12 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-results
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/blueline* firebase-results
           when: always
       - store_test_results:
-          path: ./firebase-results/flame-29-de_DE-portrait
+          path: ./firebase-results/blueline-28-de_DE-portrait
       - compress-path:
-          input: ./firebase-results/flame-29-de_DE-portrait/*.xml
+          input: ./firebase-results/blueline-28-de_DE-portrait/*.xml
           output: /tmp/instrumentation_tests_device.zip
       - store_artifacts:
           path: /tmp/instrumentation_tests_device.zip

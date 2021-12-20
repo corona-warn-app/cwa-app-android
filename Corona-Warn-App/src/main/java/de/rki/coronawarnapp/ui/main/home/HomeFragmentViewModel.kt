@@ -413,7 +413,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
             is SubmissionStateRAT.TestOutdated -> RapidTestOutdatedCard.Item(state) {
-                events.postValue(HomeFragmentEvents.RecycleTest(testIdentifier))
+                events.postValue(HomeFragmentEvents.DeleteOutdatedRAT(testIdentifier))
             }
             is SubmissionStateRAT.SubmissionDone -> RapidTestSubmissionDoneCard.Item(state) {
                 events.postValue(HomeFragmentEvents.GoToTestResultKeysSharedFragment(RAPID_ANTIGEN, testIdentifier))
@@ -453,6 +453,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun moveTestToRecycleBinStorage(identifier: TestIdentifier) = launch {
         recycledTestProvider.recycleCoronaTest(identifier)
+    }
+
+    fun deleteCoronaTest(identifier: TestIdentifier) = launch {
+        recycledTestProvider.deleteCoronaTest(identifier)
     }
 
     @AssistedFactory

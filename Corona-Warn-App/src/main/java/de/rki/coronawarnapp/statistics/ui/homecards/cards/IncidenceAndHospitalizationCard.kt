@@ -33,7 +33,7 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
         item: GlobalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { orig, payloads ->
-        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().singleOrNull() ?: orig
+        val item = payloads.filterIsInstance<GlobalStatisticsCardItem>().lastOrNull() ?: orig
 
         infoStatistics.setOnClickListener {
             item.onClickListener(item.stats)
@@ -96,10 +96,10 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
         sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure,
         sevenDayIncidenceSecondary: KeyFigureCardOuterClass.KeyFigure,
     ): StringBuilder {
-
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_explanation_seven_day_incidence_title))
+            .appendWithLineBreak(context.getString(R.string.statistics_seven_day_hospitalization_nationwide_text))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithTrailingSpace(
                 formatStatisticalValue(
@@ -121,7 +121,6 @@ class IncidenceAndHospitalizationCard(parent: ViewGroup) :
                     sevenDayIncidenceSecondary.decimals
                 )
             )
-            .appendWithTrailingSpace(context.getString(R.string.statistics_seven_day_hospitalization_nationwide_text))
             .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayIncidenceSecondary.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }

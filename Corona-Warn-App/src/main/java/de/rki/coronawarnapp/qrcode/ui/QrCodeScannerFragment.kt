@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.Manifest
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -24,12 +25,19 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
+import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
+import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
+import de.rki.coronawarnapp.dccticketing.ui.dialog.show
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
+import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
+import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
+import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
+import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -39,6 +47,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
@@ -81,6 +90,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             buttonOpenFile.setOnClickListener {
                 filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
             }
+            infoButton.setOnClickListener { viewModel.onInfoButtonPress() }
         }
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
@@ -89,13 +99,42 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
                 is CheckInResult -> onCheckInResult(scannerResult)
+                is DccTicketingResult -> onDccTicketingResult(scannerResult)
+                is DccTicketingError -> when {
+                    scannerResult.isDccTicketingMinVersionError ->
+                        showValidationServiceMinVersionDialog(errorMsg = scannerResult.errorMsg)
+                    else -> showDccTicketingErrorDialog(errorMsg = scannerResult.errorMsg)
+                }
+                is Error -> when {
+                    scannerResult.isDccTicketingError || scannerResult.isAllowListError -> showDccTicketingErrorDialog(
+                        humanReadableError = scannerResult.error.tryHumanReadableError(requireContext())
+                    )
+                    else -> showScannerResultErrorDialog(scannerResult.error)
+                }
 
-                is Error -> showScannerResultErrorDialog(scannerResult.error)
                 InProgress -> binding.qrCodeProcessingView.isVisible = true
+                InfoScreen -> doNavigate(
+                    QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
+                )
             }
         }
 
         setupTransition()
+    }
+
+    private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
+        when (scannerResult) {
+            is DccTicketingResult.ConsentI -> {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.universalScanner, true)
+                    .build()
+                qrcodeSharedViewModel.putDccTicketingTransactionContext(scannerResult.transactionContext)
+                findNavController().navigate(
+                    DccTicketingConsentOneFragment.uri(scannerResult.transactionContext.initializationData.subject),
+                    navOptions
+                )
+            }
+        }
     }
 
     override fun onResume() {
@@ -165,6 +204,19 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         .toQrCodeErrorDialogBuilder(requireContext())
         .setOnDismissListener { startDecode() }
         .show()
+
+    private fun showValidationServiceMinVersionDialog(errorMsg: LazyString) {
+        val msg = errorMsg.get(requireContext())
+        val dialogType = DccTicketingDialogType.ErrorDialog(
+            msg = msg,
+            negativeButtonRes = R.string.dcc_ticketing_error_min_version_google_play
+        )
+        dialogType.show(
+            this,
+            positiveButtonAction = { startDecode() },
+            negativeButtonAction = { requireContext().openGooglePlay() }
+        )
+    }
 
     private fun requestCameraPermission() = requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
@@ -236,6 +288,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             }
             is DccResult.InRecycleBin -> showRestoreDgcConfirmation(scannerResult.recycledContainerId)
+            is DccResult.MaxPersonsBlock -> {
+                showMaxPersonExceedsMaxResult(scannerResult.max)
+            }
+            is DccResult.MaxPersonsWarning -> {
+                showMaxPersonExceedsThresholdResult(scannerResult.max, scannerResult.uri, navOptions)
+            }
         }
     }
 
@@ -294,6 +352,57 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
             .show()
     }
+
+    private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.qr_code_error_max_person_threshold_title)
+            .setCancelable(false)
+            .setMessage(getString(R.string.qr_code_error_max_person_threshold_body, max))
+            .setOnDismissListener {
+                findNavController().navigate(deeplink, navOptions)
+            }
+            .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
+                openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
+            }
+            .setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
+                openUrl(R.string.qr_code_error_max_person_faq_link)
+            }
+            .setNeutralButton(android.R.string.ok) { _, _ -> }
+            .show()
+    }
+
+    private fun showMaxPersonExceedsMaxResult(max: Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.qr_code_error_max_person_max_title)
+            .setCancelable(false)
+            .setMessage(getString(R.string.qr_code_error_max_person_max_body, max))
+            .setOnDismissListener { popBackStack() }
+            .setPositiveButton(R.string.qr_code_error_max_person_covpasscheck_button) { _, _ ->
+                openUrl(R.string.qr_code_error_max_person_covpasscheck_link)
+            }
+            .setNegativeButton(R.string.qr_code_error_max_person_faq_button) { _, _ ->
+                openUrl(R.string.qr_code_error_max_person_faq_link)
+            }
+            .setNeutralButton(android.R.string.ok) { _, _ -> }
+            .show()
+    }
+
+    private fun showDccTicketingErrorDialog(humanReadableError: HumanReadableError) {
+        val dialogType = DccTicketingDialogType.ErrorDialog(
+            title = humanReadableError.title,
+            msg = humanReadableError.description
+        )
+        showDccTicketingErrorDialog(dialogType = dialogType)
+    }
+
+    private fun showDccTicketingErrorDialog(errorMsg: LazyString) {
+        val msg = errorMsg.get(requireContext())
+        val dialogType = DccTicketingDialogType.ErrorDialog(msg = msg)
+        showDccTicketingErrorDialog(dialogType = dialogType)
+    }
+
+    private fun showDccTicketingErrorDialog(dialogType: DccTicketingDialogType.ErrorDialog) = dialogType
+        .show(this, dismissAction = { startDecode() })
 
     companion object {
         private val TAG = tag<QrCodeScannerFragment>()

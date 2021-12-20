@@ -3,11 +3,8 @@ package de.rki.coronawarnapp.statistics.ui.homecards.cards
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.HomeStatisticsCardsLocalIncidenceAndHospitalizationLayoutBinding
-import de.rki.coronawarnapp.datadonation.analytics.common.labelStringRes
 import de.rki.coronawarnapp.server.protocols.internal.stats.KeyFigureCardOuterClass
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
-import de.rki.coronawarnapp.statistics.LocalStatsItem
-import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter
 import de.rki.coronawarnapp.statistics.util.formatStatisticalValue
 import de.rki.coronawarnapp.statistics.util.getContentDescriptionForTrends
@@ -15,6 +12,8 @@ import de.rki.coronawarnapp.statistics.util.getLocalizedSpannableString
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithLineBreak
 import de.rki.coronawarnapp.util.StringBuilderExtension.appendWithTrailingSpace
+import de.rki.coronawarnapp.util.formatter.getDistrictLabel
+import de.rki.coronawarnapp.util.formatter.getLocationLabel
 import de.rki.coronawarnapp.util.formatter.getPrimaryLabel
 
 class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
@@ -36,7 +35,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
         item: LocalStatisticsCardItem,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<LocalStatisticsCardItem>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<LocalStatisticsCardItem>().lastOrNull() ?: item
 
         with(curItem.stats as LocalIncidenceAndHospitalizationStats) {
 
@@ -51,12 +50,7 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
             sevenDayIncidenceAndHospitalizationCardContainer.contentDescription =
                 buildAccessibilityStringForLocalIncidenceCard(curItem.stats, sevenDayIncidence, sevenDayHospitalization)
 
-            locationLabel.text = when (selectedLocation) {
-                is SelectedStatisticsLocation.SelectedDistrict ->
-                    selectedLocation.district.districtName
-                is SelectedStatisticsLocation.SelectedFederalState ->
-                    context.getString(selectedLocation.federalState.labelStringRes)
-            }
+            locationLabel.text = getLocationLabel(context)
 
             primaryLabel.text = getPrimaryLabel(context)
             primaryValue.text = getLocalizedSpannableString(
@@ -96,44 +90,19 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
                 .append(getContentDescriptionForTrends(context, sevenDayHospitalization.trend))
 
             secondaryTrendArrow.setTrend(sevenDayHospitalization.trend, sevenDayHospitalization.trendSemantic)
-            secondarySubtitle.text = when (selectedLocation) {
-                is SelectedStatisticsLocation.SelectedDistrict ->
-                    context.getString(R.string.statistics_card_local_hospitalization_text).format(
-                        when (selectedLocation.district.federalStateShortName) {
-                            "BW" -> context.getString(R.string.analytics_userinput_federalstate_bw)
-                            "BY" -> context.getString(R.string.analytics_userinput_federalstate_by)
-                            "BE" -> context.getString(R.string.analytics_userinput_federalstate_be)
-                            "BB" -> context.getString(R.string.analytics_userinput_federalstate_bb)
-                            "HB" -> context.getString(R.string.analytics_userinput_federalstate_hb)
-                            "HH" -> context.getString(R.string.analytics_userinput_federalstate_hh)
-                            "HE" -> context.getString(R.string.analytics_userinput_federalstate_he)
-                            "MV" -> context.getString(R.string.analytics_userinput_federalstate_mv)
-                            "NI" -> context.getString(R.string.analytics_userinput_federalstate_ni)
-                            "NW" -> context.getString(R.string.analytics_userinput_federalstate_nrw)
-                            "RP" -> context.getString(R.string.analytics_userinput_federalstate_rp)
-                            "SL" -> context.getString(R.string.analytics_userinput_federalstate_sl)
-                            "SN" -> context.getString(R.string.analytics_userinput_federalstate_sn)
-                            "ST" -> context.getString(R.string.analytics_userinput_federalstate_st)
-                            "SH" -> context.getString(R.string.analytics_userinput_federalstate_sh)
-                            "TH" -> context.getString(R.string.analytics_userinput_federalstate_th)
-                            else -> context.getString(R.string.statistics_nationwide_text)
-                        }
-                    )
-                is SelectedStatisticsLocation.SelectedFederalState ->
-                    context.getString(R.string.statistics_secondary_value_description)
-            }
+            secondarySubtitle.text = getDistrictLabel(context)
         }
     }
 
     private fun buildAccessibilityStringForLocalIncidenceCard(
-        item: LocalStatsItem,
+        item: LocalIncidenceAndHospitalizationStats,
         sevenDayIncidence: KeyFigureCardOuterClass.KeyFigure,
         sevenDayHospitalization: KeyFigureCardOuterClass.KeyFigure
     ): StringBuilder {
-
         return StringBuilder()
             .appendWithTrailingSpace(context.getString(R.string.accessibility_statistics_card_announcement))
             .appendWithLineBreak(context.getString(R.string.statistics_card_local_incidence_title))
+            .appendWithLineBreak(item.getLocationLabel(context))
             .appendWithTrailingSpace(item.getPrimaryLabel(context))
             .appendWithTrailingSpace(
                 formatStatisticalValue(
@@ -152,6 +121,8 @@ class LocalIncidenceAndHospitalizationCard(parent: ViewGroup) :
                     sevenDayHospitalization.decimals
                 )
             )
+            .appendWithTrailingSpace(item.getDistrictLabel(context))
+            .appendWithLineBreak(getContentDescriptionForTrends(context, sevenDayHospitalization.trend))
             .append(context.getString(R.string.accessibility_statistics_card_navigation_information))
     }
 }

@@ -36,6 +36,7 @@ class DccQrCodeCensorTest : BaseTest() {
                 givenNameStandardized = "BOB"
             ),
             dateOfBirthFormatted = "1969-11-16",
+            dob = "1969-11-16",
             vaccination = DccV1.VaccinationData(
                 targetId = "12345",
                 vaccineId = "1214765",
@@ -63,12 +64,14 @@ class DccQrCodeCensorTest : BaseTest() {
     fun setUp() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
         MockKAnnotations.init(this)
-        DccQrCodeCensor.clearCertificateToCensor()
-        DccQrCodeCensor.clearQRCodeStringToCensor()
+        runBlockingTest {
+            DccQrCodeCensor.clearCertificateToCensor()
+            DccQrCodeCensor.clearQRCodeStringToCensor()
+        }
     }
 
     @AfterEach
-    fun teardown() {
+    fun teardown() = runBlockingTest {
         DccQrCodeCensor.clearCertificateToCensor()
         DccQrCodeCensor.clearQRCodeStringToCensor()
     }

@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.presencetracing.risk.calculation
 
-import de.rki.coronawarnapp.covidcertificate.common.cryptography.AesCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.cryptography.CheckInCryptography
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.toTraceLocationIdHash
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
+import de.rki.coronawarnapp.util.encryption.aes.AesCryptography
 import de.rki.coronawarnapp.util.toProtoByteString
 import io.kotest.matchers.shouldBe
 import okio.ByteString.Companion.decodeBase64

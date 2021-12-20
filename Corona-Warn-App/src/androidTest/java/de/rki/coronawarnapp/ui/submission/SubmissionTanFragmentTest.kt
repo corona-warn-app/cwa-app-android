@@ -6,6 +6,7 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.FlakyTest
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
@@ -57,6 +58,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     }
 
     @Test
+    @FlakyTest
     fun testEventTanNextClicked() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         closeSoftKeyboard()

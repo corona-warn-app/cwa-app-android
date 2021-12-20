@@ -8,7 +8,7 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"Certificatul de test este o dovadă valabilă a unui rezultat de test negativ în UE (de exemplu, în scop de călătorie)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"Certificatul de test conține date care îi permit aplicației de verificare să vă valideze certificatul."</string>
+    <string name="request_green_certificate_body_3">"Certificatul de test conține date care îi permit aplicației de verificare să vă verifice certificatul."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Solicitare certificat de test"</string>
     <!-- XBUT: Request green certificate disagree button -->
@@ -34,7 +34,7 @@
     <!-- XTXT: Detail green certificate travel notice link de -->
     <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
-    <string name="green_certificate_details_menu_item_delete">"Eliminare certificat"</string>
+    <string name="green_certificate_details_menu_item_delete">"Ștergere certificat"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
     <string name="green_certificate_details_menu_item_export">"Afișare versiune de tipărire"</string>
 
@@ -62,7 +62,7 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_try_again">"Nu a putut fi stabilită o conexiune. Încercați din nou."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_not_supported_by_lab">"Nu puteți solicita un certificat de test deoarece acest punct de testare nu suportă emiterea de certificate de test. Eliminați certificatul sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <string name="error_tc_dcc_not_supported_by_lab">"Nu puteți solicita un certificat de test deoarece acest punct de testare nu suportă emiterea de certificate de test. Ștergeți certificatul sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
     <!-- XTXT: Error text -->
     <string name="error_tc_no_network">"Conexiunea dvs. la internet a fost pierdută. Verificați conexiunea și încercați din nou."</string>
     <!-- XTXT: Error text -->
@@ -72,17 +72,17 @@
     <!-- XTXT: Error text -->
     <string name="error_tc_client_error_call_hotline">"A apărut o eroare. Încercați din nou mai târziu sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
     <!-- XTXT: Error text -->
-    <string name="error_tc_dcc_expired">"Acest certificat nu mai este de actualitate. Îl puteți elimina din Corona-Warn-App."</string>
+    <string name="error_tc_dcc_expired">"Acest certificat nu mai este de actualitate. Îl puteți șterge din Corona-Warn-App."</string>
     <!-- XBUT: Test error delete button -->
-    <string name="test_certificate_error_delete_button">"Eliminare certificat de test"</string>
+    <string name="test_certificate_error_delete_button">"Ștergere certificat de test"</string>
     <!-- XTXT: Test error refresh dialog title -->
     <string name="test_certificate_refresh_dialog_title">"Încă există probleme cu cererea dvs."</string>
     <!-- XTXT: Test error delete dialog title -->
-    <string name="test_certificate_delete_dialog_title">"Doriți să eliminați certificatul?"</string>
+    <string name="test_certificate_delete_dialog_title">"Doriți să ștergeți certificatul?"</string>
     <!-- XTXT: Test error delete dialog body -->
     <string name="test_certificate_delete_dialog_body">"Dacă eliminați certificatul, nu îl puteți solicita din nou."</string>
     <!-- XBUT: Test error delete dialog confirm button -->
-    <string name="test_certificate_delete_dialog_confirm_button">"Eliminare"</string>
+    <string name="test_certificate_delete_dialog_confirm_button">"Ștergere"</string>
     <!-- XBUT: Test error delete dialog cancel button -->
     <string name="test_certificate_delete_dialog_cancel_button">"Anulare"</string>
     <!-- XTXT: Test error card body refreshing -->

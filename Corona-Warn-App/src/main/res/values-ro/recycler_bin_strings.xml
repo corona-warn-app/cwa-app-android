@@ -8,7 +8,7 @@
     <!-- XHED: empty recycler bin label -->
     <string name="recycler_bin_empty_label">"Coșul de reciclare este gol"</string>
     <!-- XHED: empty recycler bin description -->
-    <string name="recycler_bin_empty_description">"Când eliminați certificatele și testele, acestea sunt mutate în coșul de reciclare și sunt afișate acolo."</string>
+    <string name="recycler_bin_empty_description">"Când ștergeți certificatele și testele, acestea sunt mutate în coșul de reciclare și sunt afișate acolo."</string>
     <!-- XHED: recycler bin remove all menu items -->
     <string name="recycler_bin_remove_all">"Ștergere definitivă tot"</string>
 
@@ -20,11 +20,11 @@
 
     <!-- DGC  - Recycle certificate dialog-->
     <!-- XHED: Recycle Bin - recycle certificate dialog title -->
-    <string name="recycle_bin_recycle_certificate_dialog_title">"Doriți să eliminați certificatul?"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Doriți să ștergeți certificatul?"</string>
     <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
     <string name="recycle_bin_recycle_certificate_dialog_message">"Certificatul va fi mutat în coșul de reciclare. Veți găsi coșul de reciclare pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, puteți șterge definitiv sau restaura certificatul. Certificatul va fi șters automat după 30 de zile."</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
-    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Eliminare certificat"</string>
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Ștergere certificat"</string>
     <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
     <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Anulare"</string>
 
@@ -41,7 +41,7 @@
     <!-- XTXT: Recycle Bin - remove all dialog message -->
     <string name="recycle_bin_remove_all_dialog_message">"Nu veți mai putea restaura conținutul său."</string>
     <!-- XBUT: Recycle Bin - remove all dialog positive button -->
-    <string name="recycle_bin_remove_all_dialog_positive_button">"Eliminare"</string>
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Ștergere"</string>
     <!-- XBUT: Recycle Bin - remove all dialog negative button -->
     <string name="recycle_bin_remove_all_dialog_negative_button">"Anulare"</string>
 

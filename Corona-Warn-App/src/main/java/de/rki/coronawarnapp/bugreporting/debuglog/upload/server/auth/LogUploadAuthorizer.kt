@@ -37,13 +37,13 @@ class LogUploadAuthorizer @Inject constructor(
             override val checkDeviceTime: Boolean = false
             override val scenarioPayload: ByteArray = elsOtp.toByteArray()
         }
-        val attestionResult = deviceAttestation.attest(attestationRequest)
-        Timber.tag(TAG).d("Attestation passed, requesting authorization from server for %s", attestionResult)
+        val attestationResult = deviceAttestation.attest(attestationRequest)
+        Timber.tag(TAG).d("Attestation passed, requesting authorization from server for %s", attestationResult)
 
-        attestionResult.requirePass(appConfig.logUpload.safetyNetRequirements)
+        attestationResult.requirePass(appConfig.logUpload.safetyNetRequirements)
 
         val elsRequest = ElsOtpRequestAndroid.ELSOneTimePasswordRequestAndroid.newBuilder().apply {
-            authentication = attestionResult.accessControlProtoBuf
+            authentication = attestationResult.accessControlProtoBuf
             payload = elsOtp
         }.build()
 

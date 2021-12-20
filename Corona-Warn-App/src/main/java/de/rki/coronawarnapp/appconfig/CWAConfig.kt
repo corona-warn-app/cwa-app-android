@@ -14,5 +14,11 @@ interface CWAConfig {
 
     val isUnencryptedCheckInsEnabled: Boolean
 
+    val validationServiceMinVersion: Int
+
+    val dccPersonWarnThreshold: Int
+
+    val dccPersonCountMax: Int
+
     interface Mapper : ConfigMapper<CWAConfig>
 }

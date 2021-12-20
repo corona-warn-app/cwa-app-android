@@ -27,7 +27,7 @@ class RapidTestPositiveCard(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().singleOrNull() ?: item
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         val userDate = curItem.state.getFormattedRegistrationDate()
         date.text = resources.getString(R.string.ag_homescreen_card_rapid_body_result_date, userDate)
@@ -41,7 +41,5 @@ class RapidTestPositiveCard(
         val state: SubmissionStateRAT.TestPositive,
         val onClickAction: (Item) -> Unit,
         val onRemoveAction: () -> Unit
-    ) : TestResultItem.RA, HasPayloadDiffer {
-        override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
-    }
+    ) : TestResultItem.RA, HasPayloadDiffer
 }

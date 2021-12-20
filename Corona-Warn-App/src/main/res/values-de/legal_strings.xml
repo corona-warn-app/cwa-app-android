@@ -18,7 +18,7 @@
     <string name="submission_consent_your_consent_subsection_tapping_agree">"Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:"</string>
 
     <!-- YTXT: Body for consent sub section your consent subtext first point  -->
-    <string name="submission_consent_your_consent_subsection_first_point">"<b>Die App ruft Ihr Testergebnis ab.</b> Wenn Sie es sich später anders überlegen, können Sie den Test in der App entfernen."</string>
+    <string name="submission_consent_your_consent_subsection_first_point">"<b>Die App ruft Ihr Testergebnis ab.</b> Wenn Sie es sich später anders überlegen, können Sie den Test in der App löschen."</string>
     <!-- YTXT: Body for consent sub section your consent subtext second point  -->
     <string name="submission_consent_your_consent_subsection_second_point">"<b>Wenn Sie positiv auf Corona getestet wurden, teilt die App Ihr Testergebnis, um Nutzer, denen Sie begegnet sind, zu warnen. Dies betrifft Nutzer von Corona-Apps der oben genannten Länder und Nutzer, die zeitgleich am selben Event oder Ort wie Sie eingecheckt waren. Im Falle von Schnelltests werden nur Nutzer der Corona-Warn-App gewarnt.</b>"</string>
     <!-- YTXT: Body for consent sub section your consent subtext third point  -->
@@ -162,7 +162,7 @@
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent4" translatable="false">Auf Ihr persönliches Schnelltest-Profil haben zunächst nur Sie Zugriff. Nur wenn Sie den QR-Code des Schnelltest-Profils anderen Personen zeigen, können diese Zugriff auf die persönlichen Daten Ihres Schnelltest-Profils erhalten. Ein Zugriff auf andere Daten aus der App erfolgt dabei nicht (z.\u00A0B. Ihre Check-ins oder Angaben im Kontakt-Tagebuch).</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
-    <string name="rat_profile_onboarding_card_consent5" translatable="false">Sie haben jederzeit die Möglichkeit, Ihr Schnelltest-Profil wieder zu entfernen. Bis dahin bleibt es in der App auf Ihrem Smartphone gespeichert.</string>
+    <string name="rat_profile_onboarding_card_consent5" translatable="false">Sie haben jederzeit die Möglichkeit, Ihr Schnelltest-Profil wieder zu löschen. Bis dahin bleibt es in der App auf Ihrem Smartphone gespeichert.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
     <string name="rat_profile_onboarding_card_consent6" translatable="false">Der QR-Code enthält Ihre persönlichen Angaben. Stellen Sie Ihren persönlichen QR-Code niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden. Wir empfehlen Ihren persönlichen QR-Code nicht zu veröffentlichen und nicht per E-Mail zu versenden.</string>
     <!-- YMSG: RAT Profile Onboarding bullet points -->
@@ -178,7 +178,7 @@
     <!-- XTXT: First bulletpoint title for privacy card -->
     <string name="vaccination_privacy_card_third_bulletpoint_title_text" translatable="false">"Wenn Sie den QR-Code eines Zertifikats in der App zur Prüfung vorzeigen, können andere Personen nachvollziehen, dass ein negatives Testergebnis, ein vollständiger Impfschutz oder ein Nachweis über eine überstandene Infektion vorliegt. Bei der Prüfung werden in der offiziellen Prüf-App auch der Name und das Geburtsdatum angezeigt. Bei Testzertifikaten wird zusätzlich auch das Datum der Probenahme angezeigt."</string>
     <!-- XTXT: First bulletpoint title for privacy card -->
-    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Sie haben jederzeit die Möglichkeit, COVID-Zertifikate in der App wieder zu entfernen. Bis dahin bleiben die Zertifikate auf Ihrem Smartphone gespeichert."</string>
+    <string name="vaccination_privacy_card_fourth_bulletpoint_title_text" translatable="false">"Sie haben jederzeit die Möglichkeit, COVID-Zertifikate in der App wieder zu löschen. Bis dahin bleiben die Zertifikate auf Ihrem Smartphone gespeichert."</string>
 
     <!--    Green Certificate -->
     <!-- XTXT: Request GC title for privacy card -->
@@ -194,8 +194,36 @@
     <!-- XTXT: Request GC bullet point 4 for privacy card -->
     <string name="request_green_certificate_privacy_section_4" translatable="false">Wenn Sie den QR-Code des Testzertifikats in der App vorzeigen und dieser mit der Prüf-App gescannt wird, können andere Personen Ihr Testergebnis nachvollziehen. Bei der Prüfung werden in der offiziellen Prüf-App auch Ihr Name und Ihr Geburtsdatum angezeigt.</string>
     <!-- XTXT: Request GC bullet point 5 for privacy card -->
-    <string name="request_green_certificate_privacy_section_5" translatable="false">Sie haben jederzeit die Möglichkeit, Testzertifikate in der App wieder zu entfernen. Bis dahin bleiben die Testzertifikate auf Ihrem Smartphone gespeichert.</string>    <!-- XTXT: Request GC bullet point 1 for privacy card -->
+    <string name="request_green_certificate_privacy_section_5" translatable="false">Sie haben jederzeit die Möglichkeit, Testzertifikate in der App wieder zu löschen. Bis dahin bleiben die Testzertifikate auf Ihrem Smartphone gespeichert.</string>    <!-- XTXT: Request GC bullet point 1 for privacy card -->
     <!-- XTXT: Request GC legal information section for privacy card -->
     <string name="request_green_certificate_privacy_legal_information" translatable="false">Ausführliche Hinweise zur Datenverarbeitung finden Sie in der Datenschutzerklärung</string>
+
+    <!-- DCC Ticketing Sonsent Screen -->
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
+    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Ihr Einverständnis"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
+    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in die folgenden Schritte ein:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_one_legal_point_1" translatable="false">"Die App ruft vom Anbieter „Anbietername“ den Namen und das Geburtsdatum der bei Buchung angegebenen Person, die für die Prüfung relevanten Buchungsdetails (z.B. Zielland und Reisedatum) und die vom Anbieter zu Ihrer Buchung festgelegten Anforderungen an das Zertifikat ab."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_one_legal_point_2" translatable="false">"Die abgerufenen Daten werden von der App genutzt, um festzustellen, welche Ihrer gespeicherten Zertifikate verwendet werden können."</string>
+
+    <!-- DCC Ticketing Consent Two Screen -->
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Title -->
+    <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Ihr Einverständnis "</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Body -->
+    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in die Übermittlung der folgenden Daten an den Prüfpartner ein:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Zertifikatsinhalt und elektronische Signatur des ausgewählten Zertifikats (u.a. Name und Geburtsdatum des Zertifikatsinhabers, Gültigkeitsdauer, Aussteller und Ausstellungsdatum, Angaben zu Impfstoff/Test/Genesung)."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2" translatable="false">"Die bei dem Anbieter abgerufenen Buchungsdaten:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-1 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_1" translatable="false">"Zeitraum, in dem das Zertifikat gültig sein muss (Reisedauer oder Veranstaltungsdatum)"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-2 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_2" translatable="false">"bei Reisebuchungen: Ausgangsland und Zielland der Reise"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-3 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_3" translatable="false">"bei grenzüberschreitenden Reisen: Anforderungen des Ziellandes an das Zertifikat"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
+    <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"weitere Anforderungen des Anbieters an das Zertifikat (z.B. welche Impfstoffe oder Testverfahren akzeptiert werden)"</string>
 
 </resources>

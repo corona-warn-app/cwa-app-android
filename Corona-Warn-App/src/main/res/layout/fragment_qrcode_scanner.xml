@@ -43,7 +43,7 @@
     <TextView
         android:id="@+id/qr_code_scan_subtitle"
         style="@style/body2Medium"
-        android:layout_width="@dimen/scan_qr_code_viewfinder_size"
+        android:layout_width="@dimen/scan_qr_code_text_length"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
         android:text="@string/qr_code_scan_body_subtitle"
@@ -51,6 +51,26 @@
         app:layout_constraintEnd_toEndOf="@id/qr_code_scan_preview"
         app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_title" />
+
+    <ImageButton
+        android:id="@+id/info_button"
+        style="@style/UniversalScannerInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/statistics_info_button"
+        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_title"
+        app:layout_constraintTop_toTopOf="@id/qr_code_scan_subtitle" />
+
+    <View
+        android:id="@+id/qr_code_scan_background"
+        android:layout_width="@dimen/scan_qr_code_viewfinder_size"
+        android:layout_height="@dimen/scan_qr_code_viewfinder_size"
+        android:background="@color/dim_color"
+        app:layout_constraintBottom_toBottomOf="@id/qr_code_scan_preview"
+        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_preview"
+        app:layout_constraintStart_toStartOf="@id/qr_code_scan_preview"
+        app:layout_constraintTop_toTopOf="@id/qr_code_scan_preview"
+        app:layout_constraintVertical_bias="0.32" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/qr_code_scan_spinner"
@@ -72,6 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/qr_code_processing_message"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_spinner" />
@@ -81,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="qr_code_processing_message,qr_code_scan_spinner"
+        app:constraint_referenced_ids="qr_code_processing_message,qr_code_scan_spinner,qr_code_scan_background"
         tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
@@ -101,8 +122,8 @@
 
     <ToggleButton
         android:id="@+id/qr_code_scan_torch"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="end"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_medium"

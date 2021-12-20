@@ -94,7 +94,7 @@
     <!-- XHED: Title for the contact diary edit persons -->
     <string name="contact_diary_edit_persons_title">"Edytuj osoby"</string>
     <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
-    <string name="contact_diary_remove_all_button">"Usuń wszystko"</string>
+    <string name="contact_diary_remove_all_button">"Usuń wszystkie"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
     <string name="contact_diary_delete_button_positive">"Usuń"</string>
     <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->

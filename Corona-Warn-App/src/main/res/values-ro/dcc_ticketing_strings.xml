@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Error Handling -->
+    <!-- XTXT: Service Provider (without provider name) error message-->
+    <string name="dcc_ticketing_error_service_provider_error_no_name">"A apărut o eroare la conectarea la furnizor. Contactați furnizorul dacă problema persistă."</string>
+    <!-- XTXT: Service Provider error message-->
+    <string name="dcc_ticketing_error_service_provider_error">"A apărut o eroare la conectarea la furnizorul %1$s. Contactați furnizorul dacă problema persistă."</string>
+    <!-- XTXT: Try again error message-->
+    <string name="dcc_ticketing_error_try_again">"A apărut o eroare la prelucrarea datelor. Încercați din nou mai târziu."</string>
+    <!-- XTXT: Validation service min version message-->
+    <string name="dcc_ticketing_error_min_version">"Versiunea curentă a aplicației Corona-Warn nu mai acceptă verificarea biletelor. Actualizați aplicația și porniți din nou verificarea biletelor."</string>
+    <!-- XBUT: Validation service min version Google play button-->
+    <string name="dcc_ticketing_error_min_version_google_play">"Accesați Google Play"</string>
+
+    <!-- DCC Ticketing: Consent One -->
+    <!-- XHED: DCC Ticketing: Consent One: Header -->
+    <string name="dcc_ticketing_consent_one_header">"Consimțământul dvs."</string>
+    <!-- XACT: DCC Ticketing: Consent One: Accessibility -->
+    <string name="dcc_ticketing_consent_one_acessibility">"Un smartphone este utilizat pentru a scana un cod QR dintr-un sistem de bilete. Este stabilită o conexiune între sistemul de bilele și smartphone."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Title -->
+    <string name="dcc_ticketing_consent_one_title">"Verificarea certificatului la emiterea biletului"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider -->
+    <string name="dcc_ticketing_consent_one_provider">"Furnizor:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider Default Value -->
+    <string name="dcc_ticketing_consent_one_provider_default">"„Lufthansa”"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking -->
+    <string name="dcc_ticketing_consent_one_booking">"Rezervare:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking  Deafault Value-->
+    <string name="dcc_ticketing_consent_one_booking_default">"„1234”:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Body -->
+    <string name="dcc_ticketing_consent_one_body">"Furnizorul dorește să se asigure că este disponibil un certificat valabil pentru rezervarea dvs. Consimțământul dvs. este necesar pentru a obține detaliile de emitere a biletului de la furnizor și pentru elibera certificatele dvs. salvate."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
+    <string name="dcc_ticketing_consent_one_point_1">"Nu aveți obligația să permiteți verificarea certificatului dvs. cu aplicația Corona-Warn. De asemenea, puteți prezenta dovada vaccinării dvs., a testării sau starea recuperării după boală într-un mod diferit."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
+    <string name="dcc_ticketing_consent_one_point_2">"Cerințele certificatului sunt definite de către furnizor. RKI nu are nicio influență asupra acestui proces. Contactați furnizorul pentru a obține mai multe informații despre cerințele certificatului."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 3 -->
+    <string name="dcc_ticketing_consent_one_point_3">"Identificarea certificatelor corespunzătoare se efectuează local pe smartphone-ul dvs. Nu sunt expediate niciun fel de date la RKI sau la furnizor."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 4 -->
+    <string name="dcc_ticketing_consent_one_point_4">"RKI nu primește date privind emiterea biletelor dvs. sau privind certificatele pe care le-ați salvat."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Data protection -->
+    <string name="dcc_ticketing_consent_one_data_protection">"Pentru mai multe informații despre prelucrarea datelor, consultați înștiințarea de confidențialitate."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
+    <string name="dcc_ticketing_consent_one_consent_btn">"Accept"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
+    <string name="dcc_ticketing_consent_one_cancel_btn">"Anulare"</string>
+
+    <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Doriți să anulați verificarea?"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Cancel Dialog: Body  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Dacă anulați verificarea, certificatul nu poate fi verificat."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_continue_btn">"Reluare verificare"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Cancel Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_cancel_btn">"Anulare verificare"</string>
+
+    <!-- Not in Dcc ticketing allow list dialog-->
+    <!-- XTXT: not in AllowList dialog title -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_title">"Notă de securitate"</string>
+    <!-- XTXT: not in AllowList dialog message -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Acest furnizor este necunoscut pentru noi. Din motive de securitate, verificarea la emiterea biletului este posibilă doar pentru furnizorii cunoscuți. Contactați furnizorul care v-a transmis acest cod QR și încercați să actualizați aplicația la ultima versiune."</string>
+
+    <!-- DCC Ticketing: Certificate Selection Screen -->
+    <!-- XHED: Certificate Selection Screen Toolbar Title -->
+    <string name="dcc_ticketing_certificate_selection_title">"Selectare certificat"</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Niciun certificat corespunzător nu este disponibil."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"Nu aveți un certificat care îndeplinește cerințele sistemului de bilete. Asigurați-vă că numele dvs. din sistemul de bilete corespunde cu numele de pe certificatele dvs. Dacă aveți nevoie de certificate suplimentare care nu sunt încă disponibile în aplicație, adăugați-le acum și apoi începeți din nou verificarea."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
+    <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Următorul certificat este necesar:"</string>
+    <!-- XTXT: Certificate Selection Screen: More Information -->
+    <string name="dcc_ticketing_certificate_selection_more_information_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
+    <string name="dcc_ticketing_faq_link_container">"Întrebări frecvente"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
+    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
+    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
+    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
+    <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
+    <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Cerințe furnizor:"</string>
+    <!-- XTXT: Certificate Selection Screen: Person Birthday -->
+    <string name="dcc_ticketing_certificate_birthday">"Data nașterii: %s"</string>
+    <!-- XTXT: Certificate Selection Screen: Certificates That Meet Requirements Title -->
+    <string name="dcc_ticketing_certificates_meeting_requirements_title">"Următoarele certificate îndeplinesc cerințele furnizorului și pot fi utilizate ca dovadă:"</string>
+    <!-- XTXT: Certificate Selection Screen: Rapid anitgen Test certificate-->
+    <string name="rat_test_certificate">"Certificat de test rapid"</string>
+    <!-- XTXT: Certificate Selection Screen: PCR Test certificate-->
+    <string name="pcr_test_certificate">"Certificat de test PCR"</string>
+
+    <!-- DCC Ticketing: Consent Two -->
+    <!-- XHED: DCC Ticketing: Consent Two: Header -->
+    <string name="dcc_ticketing_consent_two_header">"Consimțământul dvs."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Title -->
+    <string name="dcc_ticketing_consent_two_title">"Transmiterea certificatului dvs. pentru verificare"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner -->
+    <string name="dcc_ticketing_consent_two_test_partner">"Partener de verificare:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner Default Value -->
+    <string name="dcc_ticketing_consent_two_test_partner_default">"„Operator_Verification_Service”"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider -->
+    <string name="dcc_ticketing_consent_two_provider">"Furnizor:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider Default Value -->
+    <string name="dcc_ticketing_consent_two_provider_default">"„Lufthansa”"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Body -->
+    <string name="dcc_ticketing_consent_two_body">"Certificatul selectat și informațiile dvs. de rezervare vor fi expediate acum la partenerul de verificare al furnizorului. Consimțământul dvs. este necesar pentru a expedia datele dvs. la partenerul de verificare."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 1 -->
+    <string name="dcc_ticketing_consent_two_point_1">"Partenerul de verificare verifică dacă semnătura electronică este valabilă și dacă data de expirare tehnică a certificatului a fost atinsă. Puteți vedea data de expirare tehnică și conținutul certificatului transmis în imaginea detaliată a certificatului din aplicație."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 2 -->
+    <string name="dcc_ticketing_consent_two_point_2">"Certificatele conțin date de sănătate sensibile. În consecință, trebuie să permiteți doar furnizorii pe care îi cunoașteți și în care aveți încredere pentru a verifica certificatele dvs."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 3 -->
+    <string name="dcc_ticketing_consent_two_point_3">"RKI nu răspunde de prelucrarea datelor de către furnizor și de către partenerul de verificare. Citiți înștiințările de confidențialitate ale acestora pentru a descoperi cum sunt utilizate datele dvs. și în ce scopuri."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 4 -->
+    <string name="dcc_ticketing_consent_two_point_4">"Partenerul de verificare notifică imediat furnizorul în legătură cu rezultatul. Partenerul doar comunică dacă verificarea a fost reușită sau nu."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Data protection -->
+    <string name="dcc_ticketing_consent_two_data_protection">"Pentru mai multe informații despre prelucrarea datelor, consultați înștiințarea de confidențialitate."</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Consent Button -->
+    <string name="dcc_ticketing_consent_two_consent_btn">"Accept"</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Cancel Button -->
+    <string name="dcc_ticketing_consent_two_cancel_btn">"Anulare"</string>
+
+
+    <!-- Validation Result -->
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_done">"Efectuat"</string>
+    <!-- XTXT: validation result FAQ text -->
+    <string name="dcc_ticketing_result_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
+    <!-- XTXT: validation result FAQ label -->
+    <string name="dcc_ticketing_result_faq_label">"Întrebări frecvente"</string>
+    <!-- XTXT: validation result FAQ link -->
+    <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
+    <!-- XTXT: validation result valid header  -->
+    <string name="dcc_ticketing_result_valid_header">"Certificatul dvs. a fost verificat cu succes"</string>
+    <!-- XTXT: validation result invalid header  -->
+    <string name="dcc_ticketing_result_invalid_header">"Certificatul dvs. nu îndeplinește cerințele furnizorului"</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Certificatul dvs. nu a putut fi verificat de către partenerul de verificare"</string>
+    <!-- XTXT: validation result valid body  -->
+    <string name="dcc_ticketing_result_valid_body">"Furnizorul „%s” a fost notificat că verificarea a fost reușită."</string>
+    <!-- XTXT: validation result invalid body  -->
+    <string name="dcc_ticketing_result_invalid_body">"Dacă aveți întrebări, contactați furnizorul „%s”."</string>
+    <!-- XTXT: validation result testing details  -->
+    <string name="dcc_ticketing_result_testing_details">"Verificat de către partenerul de verificare pe %s"</string>
+    <!-- XTXT: validation result passed title  -->
+    <string name="dcc_ticketing_result_passed_title">"Verificare reușită"</string>
+    <!-- XTXT: validation result open title  -->
+    <string name="dcc_ticketing_result_open_title">"Certificatul nu poate fi verificat"</string>
+    <!-- XTXT: validation result failed title  -->
+    <string name="dcc_ticketing_result_failed_title">"Certificat nerecunoscut"</string>
+
+</resources>
