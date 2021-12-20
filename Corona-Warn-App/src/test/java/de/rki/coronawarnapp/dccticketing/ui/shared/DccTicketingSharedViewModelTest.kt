@@ -73,7 +73,9 @@ class DccTicketingSharedViewModelTest : BaseTest() {
         val savedStateHandle = SavedStateHandle()
 
         shouldThrow<IllegalStateException>{
-            createInstance(savedStateHandle = savedStateHandle).updateTransactionContext { it.copy(initializationData = data) }
+            createInstance(savedStateHandle = savedStateHandle).updateTransactionContext {
+                it.copy(initializationData = data)
+            }
         }
 
         savedStateHandle.getTransactionContext() shouldBe null
