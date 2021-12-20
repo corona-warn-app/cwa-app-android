@@ -40,7 +40,7 @@ class PCRResultSchedulerTest : BaseTest() {
         every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<PCRCoronaTest>().apply {
-                    every { isFinal } returns true
+                    every { isRedeemed } returns true
                     every { type } returns CoronaTest.Type.PCR
                 }
             )
@@ -56,7 +56,7 @@ class PCRResultSchedulerTest : BaseTest() {
         every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<PCRCoronaTest>().apply {
-                    every { isFinal } returns false
+                    every { isRedeemed } returns false
                     every { type } returns CoronaTest.Type.PCR
                 }
             )

@@ -36,7 +36,7 @@ class PCRResultScheduler @Inject constructor(
     internal val shouldBePolling = coronaTestRepository.latestPCRT
         .map { test: PCRCoronaTest? ->
             if (test == null) return@map false
-            !test.isFinal
+            !test.isRedeemed
         }
         .distinctUntilChanged()
 
