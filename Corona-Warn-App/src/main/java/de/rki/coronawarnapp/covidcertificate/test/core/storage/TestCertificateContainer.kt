@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -39,7 +40,7 @@ data class TestCertificateContainer(
     }
 
     override val containerId: TestCertificateContainerId
-        get() = TestCertificateContainerId(data.identifier)
+        get() = TestCertificateContainerId(certificateId)
 
     override val recycledAt: Instant?
         get() = data.recycledAt
@@ -62,11 +63,8 @@ data class TestCertificateContainer(
     val isCertificateRetrievalPending: Boolean
         get() = data.certificateReceivedAt == null
 
-    val certificateId: String?
-        get() {
-            if (isCertificateRetrievalPending) return null
-            return testCertificateQRCode?.uniqueCertificateIdentifier
-        }
+    val certificateId: String
+        get() = data.testCertificateQrCode?.toSHA256() ?: data.identifier
 
     fun toTestCertificate(
         valueSet: TestCertificateValueSets? = null,
@@ -132,7 +130,7 @@ data class TestCertificateContainer(
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
             override val certificateId: String
-                get() = testCertificate.uniqueCertificateIdentifier
+                get() = this@TestCertificateContainer.certificateId
 
             override val headerIssuer: String
                 get() = header.issuer

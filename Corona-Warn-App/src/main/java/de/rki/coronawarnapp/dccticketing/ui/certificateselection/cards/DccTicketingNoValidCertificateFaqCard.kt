@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCer
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionAdapter
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import setTextWithUrl
-import java.util.Locale
 
 class DccTicketingNoValidCertificateFaqCard(parent: ViewGroup) :
     DccTicketingCertificateSelectionAdapter.CertificatesItemVH<
@@ -23,14 +22,10 @@ class DccTicketingNoValidCertificateFaqCard(parent: ViewGroup) :
 
     override val onBindData: DccTicketingNoValidCertificateFaqCardBinding.(item: Item, payloads: List<Any>) -> Unit =
         { _, _ ->
-            val link = when (Locale.getDefault().language) {
-                Locale.GERMAN.language -> R.string.dcc_ticketing_faq_link_german
-                else -> R.string.dcc_ticketing_faq_link_english
-            }
             faqLink.setTextWithUrl(
                 R.string.dcc_ticketing_certificate_selection_more_information_text,
                 R.string.dcc_ticketing_faq_link_container,
-                link
+                R.string.dcc_ticketing_faq_link
             )
         }
 

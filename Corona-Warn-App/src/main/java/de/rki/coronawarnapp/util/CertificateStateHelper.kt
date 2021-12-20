@@ -10,8 +10,8 @@ import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
+import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coil.loadingView
-import java.util.Locale
 
 @Suppress("LongParameterList", "ComplexMethod")
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
@@ -219,7 +218,7 @@ private fun IncludeCertificateOverviewQrCardBinding.changeQrCodeOnButtonPress(
 }
 
 private fun IncludeCertificateOverviewQrCardBinding.loadQrImage(certificate: CwaCovidCertificate?) {
-    image.loadAny(certificate?.getValidQrCode(Locale.getDefault().language)) {
+    image.loadAny(certificate?.getValidQrCode()) {
         crossfade(true)
         loadingView(image, progressBar)
     }
@@ -281,17 +280,21 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
     }
 }
 
-val CwaCovidCertificate.europaStarsResource
-    get() = when {
-        isDisplayValid -> R.drawable.ic_eu_stars_blue
-        else -> R.drawable.ic_eu_stars_grey
+fun CwaCovidCertificate.getEuropaStarsTint(colorShade: PersonColorShade): Int {
+    return when {
+        colorShade != PersonColorShade.COLOR_UNDEFINED -> colorShade.starsTint
+        isDisplayValid -> R.color.starsColor1
+        else -> R.color.starsColorInvalid
     }
+}
 
-val CwaCovidCertificate.expendedImageResource
-    get() = when {
+fun CwaCovidCertificate.expendedImageResource(colorShade: PersonColorShade): Int {
+    return when {
+        colorShade != PersonColorShade.COLOR_UNDEFINED -> colorShade.background
         isDisplayValid -> R.drawable.certificate_complete_gradient
         else -> R.drawable.vaccination_incomplete
     }
+}
 
 /**
  * Display state is just for UI purpose only and does change the state for Test Certificate only

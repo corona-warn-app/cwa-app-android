@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccticketing.ui.shared
 
+import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeData
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingTransactionContext
 import io.kotest.assertions.throwables.shouldThrow
@@ -12,7 +13,9 @@ import testhelpers.coroutines.runBlockingTest2
 class DccTicketingSharedViewModelTest : BaseTest() {
 
     private val instance: DccTicketingSharedViewModel
-        get() = DccTicketingSharedViewModel()
+        get() = DccTicketingSharedViewModel(
+            SavedStateHandle()
+        )
 
     @Test
     fun `Init with empty transaction context flow`() = runBlockingTest2(ignoreActive = true) {
@@ -37,6 +40,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
         instance.run {
             updateTransactionContext(ctx = ctx)
             transactionContext.first() shouldBe ctx
+            getSavedTransactionContext() shouldBe ctx
 
             val updatedCtx = ctx.copy(
                 initializationData = ctx.initializationData.copy(protocol = "Test protocol updated")

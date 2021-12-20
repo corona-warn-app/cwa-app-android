@@ -345,7 +345,10 @@ class TestCertificateRepository @Inject constructor(
                 refreshedCerts
                     .filter { it.error == null }
                     .map { it.certificateContainer }
-                    .forEach { this[it.containerId] = it }
+                    .forEach {
+                        remove(TestCertificateContainerId(it.data.identifier))
+                        this[it.containerId] = it
+                    }
             }
         }
 

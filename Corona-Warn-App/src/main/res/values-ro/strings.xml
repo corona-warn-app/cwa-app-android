@@ -947,11 +947,11 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Avertizare"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App nu poate fi utilizată pentru verificarea certificatelor de la terți. În acest scop, utilizați aplicația CovPassCheck.\n\nPuteți adăuga certificate pentru maximum %d persoane. După ce este atinsă această limită, nu mai puteți scana alte certificate noi pentru alte persoane.\n\nVeți găsi mai multe informații despre certificatele de vaccinare pe pagina noastră de întrebări frecvente."</string>
+    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App nu poate fi utilizată pentru verificarea certificatelor de la terți. În acest scop, utilizați aplicația CovPassCheck.\n\nPuteți adăuga certificate pentru maximum %d persoane. După ce este atinsă această limită, nu mai puteți scana alte certificate noi pentru alte persoane.\n\nVeți găsi mai multe informații despre verificarea certificatului pe pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Eroare"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App nu poate fi utilizată pentru verificarea certificatelor de la terți. În acest scop, utilizați aplicația CovPassCheck.\n\nPuteți adăuga certificate pentru maximum %d persoane. Nu mai puteți scana alte certificate noi pentru alte persoane.\n\nVeți găsi mai multe informații despre certificatele de vaccinare pe pagina noastră de întrebări frecvente."</string>
+    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App nu poate fi utilizată pentru verificarea certificatelor de la terți. În acest scop, utilizați aplicația CovPassCheck.\n\nPuteți adăuga certificate pentru maximum %d persoane. Nu mai puteți scana alte certificate noi pentru alte persoane.\n\nVeți găsi mai multe informații despre verificarea certificatului pe pagina noastră de întrebări frecvente."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Descărcare CovPassCheck"</string>
     <!-- XTXT: QR Code error message: covpasscheck app link  -->
@@ -1379,12 +1379,13 @@
     <string name="test_result_card_status_pending">"Rezultatul dvs. nu este încă disponibil"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Alte informații:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Aveți totuși simptome acute?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Încă vă simțiți rău? Dacă vă simțiți foarte rău și/sau simptomele dvs. s-au agravat, vă rugăm să contactați medicul dvs. de familie."</item>
-        <item>"Rămâneți acasă până vă simțiți din nou bine. Dacă v-ați infecta cu coronavirus (SARS-CoV-2) în timp ce organismul dvs. este slăbit din cauza unei alte infecții, aceasta ar putea duce la o boală gravă."</item>
+        <item>"Rămâneți în casă în măsura în care este posibil, până când vă simțiți din nou bine. Reduceți riscul de a vă infecta cu coronavirus, pe lângă infecția pe care o puteți avea deja."</item>
         <item>"Nu mergeți la serviciu dacă nu vă simțiți bine pentru a nu expune la risc alte persoane."</item>
-        <item>"Dacă simptomele dvs. se agravează, se poate să aveți nevoie de un alt test SARS-CoV-2."</item>
+        <item>"Dacă vă simțiți foarte rău sau dacă simptomele dvs. se agravează, contactați medicul de familie. Acesta vă poate sfătui dacă este necesar să faceți un alt test SARS-CoV-2."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -2053,6 +2054,8 @@
     <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"OK"</string>
+    <!-- XTXT: App Root Detection text for checkbox -->
+    <string name="root_dialog_suppress_checkbox">"Mascare notificare până la următoarea actualizare"</string>
 
     <!-- ####################################
         Incompatibility warning card

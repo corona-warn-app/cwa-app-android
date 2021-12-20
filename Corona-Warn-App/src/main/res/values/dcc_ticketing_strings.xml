@@ -125,8 +125,6 @@
     <string name="dcc_ticketing_result_faq_text">"For further information, please see our FAQ page."</string>
     <!-- XTXT: validation result FAQ label -->
     <string name="dcc_ticketing_result_faq_label">"FAQ"</string>
-    <!-- XTXT: validation result FAQ link -->
-    <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
     <!-- XTXT: validation result valid header  -->
     <string name="dcc_ticketing_result_valid_header">"Your certificate has been verified successfully"</string>
     <!-- XTXT: validation result invalid header  -->
