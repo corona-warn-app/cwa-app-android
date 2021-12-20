@@ -60,7 +60,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
             val updatedCtx = ctx.copy(
                 initializationData = updatedData
             )
-            updateTransactionContext{
+            updateTransactionContext {
                 it.copy(initializationData = updatedData)
             }
             transactionContext.first() shouldBe updatedCtx
@@ -72,7 +72,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
     fun `throws on updating a not initialized transaction context`() = runBlockingTest2(ignoreActive = true) {
         val savedStateHandle = SavedStateHandle()
 
-        shouldThrow<IllegalStateException>{
+        shouldThrow<IllegalStateException> {
             createInstance(savedStateHandle = savedStateHandle).updateTransactionContext {
                 it.copy(initializationData = data)
             }
