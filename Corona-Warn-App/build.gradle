@@ -373,6 +373,13 @@ dependencies {
     //ENA
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
+    // boofCV
+    def boofCVVersion = "0.39.1"
+    implementation("org.boofcv:boofcv-core:$boofCVVersion") {
+        exclude group: "com.thoughtworks.xstream", module: "commons-compress"
+    }
+    implementation "org.boofcv:boofcv-android:$boofCVVersion"
+
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation('org.robolectric:robolectric:4.5.1') {
