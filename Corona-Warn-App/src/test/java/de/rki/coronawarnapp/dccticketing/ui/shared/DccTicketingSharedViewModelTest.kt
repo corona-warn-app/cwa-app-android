@@ -44,7 +44,7 @@ class DccTicketingSharedViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `update transaction context`() = runBlockingTest2(ignoreActive = true) {
+    fun `init and update transaction context`() = runBlockingTest2(ignoreActive = true) {
         val savedStateHandle = SavedStateHandle()
 
         val ctx = DccTicketingTransactionContext(initializationData = data)
@@ -52,17 +52,31 @@ class DccTicketingSharedViewModelTest : BaseTest() {
         with(createInstance(savedStateHandle = savedStateHandle)) {
             savedStateHandle.getTransactionContext() shouldBe null
 
-            updateTransactionContext(ctx = ctx)
+            initializeTransactionContext(ctx = ctx)
             transactionContext.first() shouldBe ctx
             savedStateHandle.getTransactionContext() shouldBe ctx
 
+            val updatedData = ctx.initializationData.copy(protocol = "Test protocol updated")
             val updatedCtx = ctx.copy(
-                initializationData = ctx.initializationData.copy(protocol = "Test protocol updated")
+                initializationData = updatedData
             )
-            updateTransactionContext(ctx = updatedCtx)
+            updateTransactionContext{
+                it.copy(initializationData = updatedData)
+            }
             transactionContext.first() shouldBe updatedCtx
             savedStateHandle.getTransactionContext() shouldBe updatedCtx
         }
+    }
+
+    @Test
+    fun `throws on updating a not initialized transaction context`() = runBlockingTest2(ignoreActive = true) {
+        val savedStateHandle = SavedStateHandle()
+
+        shouldThrow<IllegalStateException>{
+            createInstance(savedStateHandle = savedStateHandle).updateTransactionContext { it.copy(initializationData = data) }
+        }
+
+        savedStateHandle.getTransactionContext() shouldBe null
     }
 
     private fun SavedStateHandle.getTransactionContext(): DccTicketingTransactionContext? =

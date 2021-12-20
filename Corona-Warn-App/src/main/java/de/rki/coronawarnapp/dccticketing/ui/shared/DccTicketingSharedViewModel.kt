@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -30,11 +32,16 @@ class DccTicketingSharedViewModel(private val savedState: SavedStateHandle) : Vi
             .launchIn(viewModelScope)
     }
 
-    fun updateTransactionContext(ctx: DccTicketingTransactionContext) {
-        Timber.tag(TAG).d("updateTransactionContext(ctx=%s)", ctx)
-        currentTransactionContext.tryEmit(ctx).also {
-            Timber.tag(TAG).d("Update was successful? %s", it)
-        }
+    fun initializeTransactionContext(ctx: DccTicketingTransactionContext) {
+        Timber.tag(TAG).d("initializeTransactionContext(ctx=%s)", ctx)
+        currentTransactionContext.value = ctx
+    }
+
+    suspend fun updateTransactionContext(
+        onUpdate: suspend (DccTicketingTransactionContext) -> DccTicketingTransactionContext
+    ) = currentTransactionContext.update { ctx ->
+        checkNotNull(ctx) { "Transaction context was not set. Update not possible" }
+        onUpdate(ctx).also { Timber.tag(TAG).d("Updated ctx=%s to %s", ctx, it) }
     }
 
     private var savedTransactionContext: DccTicketingTransactionContext?
