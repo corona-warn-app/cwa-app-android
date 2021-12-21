@@ -6,33 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="24dp"
-    android:padding="16dp">
+    android:padding="8dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="8dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="8dp" />
 
     <TextView
         android:id="@+id/covpass_info_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginTop="8dp"
         android:paddingBottom="@dimen/spacing_small"
         android:text="@string/person_details_certificate_covpass_info_title"
         app:layout_constraintEnd_toStartOf="@id/covpass_info_button"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/covpass_info_button"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:background="?android:selectableItemBackground"
-        android:contentDescription="@string/cov_pass_info_title"
-        android:minWidth="48dp"
-        android:scaleType="center"
+        android:layout_height="wrap_content"
+        style="@style/CertificateCardInfoButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_info"
-        app:tint="@color/colorSecondary" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
@@ -41,8 +49,8 @@
         android:contentDescription="@string/vaccination_list_qr_code_accessibility"
         android:transitionName="full_qr_code_image"
         app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_start"
+        app:layout_constraintRight_toRightOf="@id/guideline_end"
         app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
         tools:src="@drawable/ic_qrcode"
@@ -157,7 +165,8 @@
         android:layout_marginTop="10dp"
         android:text="@string/expiration_info"
         app:layout_constraintStart_toStartOf="@id/expiration_status_icon"
-        app:layout_constraintTop_toBottomOf="@id/expiration_status_text" />
+        app:layout_constraintTop_toBottomOf="@id/expiration_status_text"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end" />
 
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/start_validation_check_button"
@@ -169,8 +178,8 @@
         android:textColor="@color/text_button_color"
         app:buttonText="@string/start_validation_rule_check_button"
         app:isLoading="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/expiration_status_body"
         app:loadingText="@string/start_validation_rule_check_loading_text"
         app:strokeColor="@color/text_button_color" />
