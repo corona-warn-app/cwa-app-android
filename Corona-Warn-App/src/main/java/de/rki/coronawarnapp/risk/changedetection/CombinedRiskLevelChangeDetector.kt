@@ -85,8 +85,10 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         // Check sending a notification when risk level changes
         val isSubmissionSuccessful = coronaTestRepository.coronaTests.first().any { it.isSubmitted }
-        if ((oldRiskState.hasChangedFromLowToHigh(newRiskState) || oldRiskState.hasChangedFromHighToLow(newRiskState))
-            && !isSubmissionSuccessful
+        if (
+            !isSubmissionSuccessful && (
+                oldRiskState.hasChangedFromLowToHigh(newRiskState) || oldRiskState.hasChangedFromHighToLow(newRiskState)
+                )
         ) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
