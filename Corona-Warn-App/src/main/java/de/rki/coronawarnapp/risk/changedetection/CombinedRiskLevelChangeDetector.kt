@@ -43,7 +43,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
     fun launch() {
         Timber.v("Monitoring combined risk level changes.")
-        riskLevelStorage.latestCombinedEwPtRiskLevelResults
+        riskLevelStorage.allCombinedEwPtRiskLevelResults
             .map { results ->
                 results
                     .filter { it.wasSuccessfullyCalculated }
