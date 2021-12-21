@@ -125,6 +125,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         update: (ContactDiaryLocationVisit) -> ContactDiaryLocationVisit
     ) {
         executeWhenIdNotDefault(visitId) {
+            // Screen updates might come after the location is already removed, so we should be ready to handle null
             val original = contactDiaryLocationVisitDao.entityForId(visitId)
             original?.let {
                 val updatedVisit = update(it.toContactDiaryLocationVisit())
@@ -225,6 +226,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         update: (ContactDiaryPersonEncounter) -> ContactDiaryPersonEncounter
     ) {
         executeWhenIdNotDefault(encounterId) {
+            // Screen updates might come after the person is already removed, so we should be ready to handle null
             val original = contactDiaryPersonEncounterDao.entityForId(encounterId)
             original?.let {
                 val updatedEncounter = update(it.toContactDiaryPersonEncounter())
