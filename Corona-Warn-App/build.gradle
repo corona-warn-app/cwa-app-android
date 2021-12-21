@@ -313,6 +313,7 @@ configurations {
     all*.exclude group: "xmlpull", module: "xmlpull"
     all*.exclude group: "org.apache.commons", module: "commons-compress"
     all*.exclude group: "com.thoughtworks.xstream", module: "commons-compress"
+    all*.exclude group: "org.projectlombok", module: "lombok"
 }
 
 dependencies {
