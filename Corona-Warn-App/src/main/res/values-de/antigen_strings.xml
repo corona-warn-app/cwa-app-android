@@ -188,17 +188,17 @@
     <!-- XBUT: Create RAT Qr code profile next button-->
     <string name="rat_qr_code_profile_next_button">Weiter</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
-    <string name="rat_qr_code_profile_delete_item">Schnelltest-Profil löschen</string>
+    <string name="rat_qr_code_profile_delete_item">Schnelltest-Profil entfernen</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->
     <string name="rat_qr_code_profile_edit_item">Schnelltest-Profil bearbeiten</string>
     <!-- XTXT: Create RAT Qr code profile information item-->
     <string name="rat_qr_code_profile_information_item">Information</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog title-->
-    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil löschen?</string>
+    <string name="rat_qr_code_profile_dialog_title">Wollen Sie das Schnelltest-Profil entfernen?</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog message-->
     <string name="rat_qr_code_profile_dialog_message">Bitte denken Sie daran, dass der QR-Code danach nicht mehr zum Registrieren verwendet werden kann.</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
-    <string name="rat_qr_code_profile_dialog_positive_button">Löschen</string>
+    <string name="rat_qr_code_profile_dialog_positive_button">Entfernen</string>
     <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
     <string name="rat_qr_code_profile_dialog_negative_button">Abbrechen</string>
 </resources>
