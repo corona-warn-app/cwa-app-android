@@ -21,9 +21,9 @@ class RACoronaTestTest : BaseTest() {
             testedAt = Instant.EPOCH,
         )
 
-        instance.isFinal shouldBe true
-        instance.copy(testResult = CoronaTestResult.RAT_POSITIVE).isFinal shouldBe false
-        instance.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED).isFinal shouldBe true
+        instance.isRedeemed shouldBe true
+        instance.copy(testResult = CoronaTestResult.RAT_POSITIVE).isRedeemed shouldBe false
+        instance.copy(testResult = CoronaTestResult.PCR_OR_RAT_REDEEMED).isRedeemed shouldBe true
     }
 
     @Test

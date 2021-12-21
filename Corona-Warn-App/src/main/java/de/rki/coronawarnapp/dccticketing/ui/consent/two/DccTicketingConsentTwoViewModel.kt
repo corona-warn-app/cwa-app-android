@@ -68,12 +68,12 @@ class DccTicketingConsentTwoViewModel @AssistedInject constructor(
         currentIsLoading.compareAndSet(expect = false, update = true)
         val currentState = uiStateFlow.first()
         val event = try {
-            val ctx = currentState.dccTicketingTransactionContext.copy(
-                dccBarcodeData = currentState.certificate.qrCodeToDisplay.content
-            )
-            dccTicketingSharedViewModel.updateTransactionContext(
+            dccTicketingSharedViewModel.updateTransactionContext {
+                val ctx = currentState.dccTicketingTransactionContext.copy(
+                    dccBarcodeData = currentState.certificate.qrCodeToDisplay.content
+                )
                 dccTicketingSubmissionHandler.submitDcc(ctx)
-            )
+            }
             NavigateToValidationResult
         } catch (e: Exception) {
             Timber.e(e, "Error while submitting user consent")

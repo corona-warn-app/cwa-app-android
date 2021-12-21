@@ -109,9 +109,6 @@ data class RACoronaTest(
     val testTakenAt: Instant
         get() = sampleCollectedAt ?: testedAt
 
-    override val isFinal: Boolean
-        get() = testResult == PCR_OR_RAT_REDEEMED || testResult == RAT_REDEEMED
-
     override val isRedeemed: Boolean
         get() = testResult == PCR_OR_RAT_REDEEMED || testResult == RAT_REDEEMED
 
