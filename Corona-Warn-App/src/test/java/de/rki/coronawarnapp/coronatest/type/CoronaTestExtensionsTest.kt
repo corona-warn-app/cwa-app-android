@@ -17,7 +17,11 @@ class CoronaTestExtensionsTest : BaseTest() {
         }
 
         test.isOlderThan21Days(Instant.EPOCH.plus(Duration.standardDays(21))) shouldBe false
-        test.isOlderThan21Days(Instant.EPOCH.plus(Duration.standardDays(22))) shouldBe true
+        test.isOlderThan21Days(
+            Instant.EPOCH
+                .plus(Duration.standardDays(21))
+                .plus(Duration.standardSeconds(1))
+        ) shouldBe true
     }
 
     @Test
