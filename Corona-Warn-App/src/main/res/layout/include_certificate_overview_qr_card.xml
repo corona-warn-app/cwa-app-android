@@ -102,15 +102,11 @@
 
     <ImageButton
         android:id="@+id/covpass_info_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="14dp"
-        android:background="?android:selectableItemBackground"
-        android:contentDescription="@string/cov_pass_info_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/CertificateCardInfoButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
-        app:srcCompat="@drawable/ic_info"
-        app:tint="@color/colorSecondary" />
+        app:layout_constraintTop_toBottomOf="@id/image" />
 
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/certificate_toggle_group"
