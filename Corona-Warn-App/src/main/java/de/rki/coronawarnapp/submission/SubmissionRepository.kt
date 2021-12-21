@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.submission
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
-import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -15,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -122,23 +120,6 @@ class SubmissionRepository @Inject constructor(
         Timber.tag(TAG).v("reset()")
         tekHistoryStorage.clear()
         submissionSettings.clear()
-    }
-
-    fun removeTestFromDevice(type: CoronaTest.Type) {
-        Timber.tag(TAG).v("removeTestFromDevice(type=%s)", type)
-
-        scope.launch {
-            val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
-            if (test == null) {
-                Timber.tag(TAG).w("There is no test of type=$type to remove.")
-                return@launch
-            }
-            try {
-                coronaTestRepository.removeTest(identifier = test.identifier)
-            } catch (e: CoronaTestNotFoundException) {
-                Timber.tag(TAG).e(e, "Test not found (type=$type), already removed?")
-            }
-        }
     }
 
     companion object {
