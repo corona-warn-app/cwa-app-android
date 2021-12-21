@@ -172,7 +172,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
-                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(2)),
+                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(1)),
                     createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
