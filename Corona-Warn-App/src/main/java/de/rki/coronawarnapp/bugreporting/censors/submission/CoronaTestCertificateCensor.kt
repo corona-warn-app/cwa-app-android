@@ -31,7 +31,7 @@ class CoronaTestCertificateCensor @Inject constructor(
             .onEach { cert ->
                 mutex.withLock {
                     tokenHistory.addAll(cert.mapNotNull { it.registrationToken })
-                    identifierHistory.addAll(cert.map { it.containerId.identifier })
+                    identifierHistory.addAll(cert.map { it.containerId.qrCodeHash })
                 }
             }.launchIn(debugScope)
     }
