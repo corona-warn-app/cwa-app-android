@@ -55,9 +55,10 @@
         style="@style/UniversalScannerInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
         android:contentDescription="@string/statistics_info_button"
-        app:layout_constraintEnd_toEndOf="@id/qr_code_scan_title"
-        app:layout_constraintTop_toTopOf="@id/qr_code_scan_subtitle" />
+        app:layout_constraintStart_toEndOf="@id/qr_code_scan_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/qr_code_scan_title" />
 
     <View
         android:id="@+id/qr_code_scan_background"

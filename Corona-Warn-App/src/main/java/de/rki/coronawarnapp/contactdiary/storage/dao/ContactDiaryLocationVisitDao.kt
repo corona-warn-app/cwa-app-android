@@ -18,7 +18,7 @@ abstract class ContactDiaryLocationVisitDao :
 
     @Transaction
     @Query("SELECT * FROM locationvisits WHERE id = :id")
-    abstract override suspend fun entityForId(id: Long): ContactDiaryLocationVisitWrapper
+    abstract override suspend fun entityForId(id: Long): ContactDiaryLocationVisitWrapper?
 
     @Transaction
     @Query("SELECT * FROM locationvisits WHERE date = :date")
