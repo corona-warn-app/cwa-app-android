@@ -7,9 +7,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 sealed class PersonOverviewFragmentEvents
 
 data class ShowRefreshErrorDialog(val error: Throwable) : PersonOverviewFragmentEvents() {
-    val isLabError
-        get() = error is TestCertificateException &&
-            error.errorCode == TestCertificateException.ErrorCode.DCC_NOT_SUPPORTED_BY_LAB
+    val showTestCertificateFaq
+        get() = error is TestCertificateException
 }
 
 data class ShowDeleteDialog(val containerId: TestCertificateContainerId) : PersonOverviewFragmentEvents()

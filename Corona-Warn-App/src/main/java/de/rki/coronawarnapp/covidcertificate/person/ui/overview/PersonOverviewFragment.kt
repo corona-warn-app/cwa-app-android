@@ -79,7 +79,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             is ShowRefreshErrorDialog -> event.error.toErrorDialogBuilder(requireContext()).apply {
                 setTitle(R.string.test_certificate_refresh_dialog_title)
                 setCancelable(false)
-                if (event.isLabError) setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
+                if (event.showTestCertificateFaq) setNeutralButton(R.string.test_certificate_error_invalid_labid_faq) { _, _ ->
                     openUrl(getString(R.string.test_certificate_error_invalid_labid_faq_link))
                 }
             }.show()
