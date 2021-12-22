@@ -211,7 +211,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 it.size shouldBe 1
 
                 val wrapper = it.first()
-                wrapper.containerId.identifier shouldBe notRecycled.identifier
+                wrapper.containerId.qrCodeHash shouldBe notRecycled.identifier
                 wrapper.recycleInfo.isNotRecycled shouldBe true
                 wrapper.testCertificate!!.getState() shouldBe CwaCovidCertificate.State.Invalid()
             }
@@ -220,7 +220,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 it.size shouldBe 1
 
                 val cert = it.first()
-                cert.containerId.identifier shouldBe recycled.identifier
+                cert.containerId.qrCodeHash shouldBe recycled.identifier
                 cert.isRecycled shouldBe true
                 cert.getState() shouldBe CwaCovidCertificate.State.Recycled
             }
