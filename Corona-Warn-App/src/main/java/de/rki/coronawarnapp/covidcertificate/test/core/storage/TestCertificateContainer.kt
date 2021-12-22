@@ -133,7 +133,7 @@ data class TestCertificateContainer(
                 get() = this@TestCertificateContainer.qrcodeHash
 
             override val uniqueCertificateIdentifier: String
-                get() = testCertificateQRCode!!.hash
+                get() = testCertificate.uniqueCertificateIdentifier
 
             override val headerIssuer: String
                 get() = header.issuer
