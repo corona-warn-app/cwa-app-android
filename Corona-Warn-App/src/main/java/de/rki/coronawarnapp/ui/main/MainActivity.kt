@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
@@ -85,6 +86,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         AppInjector.setup(this)
         super.onCreate(savedInstanceState)
+
+        // ask setting permission at runtime
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            val canWriteSettings = Settings.System.canWrite(this)
+            if (!canWriteSettings) {
+                val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+                startActivity(intent)
+            }
+        }
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
