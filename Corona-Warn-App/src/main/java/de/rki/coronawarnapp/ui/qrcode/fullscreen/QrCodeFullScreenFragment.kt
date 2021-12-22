@@ -26,7 +26,7 @@ import kotlin.properties.Delegates
 class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    var brightness by Delegates.notNull<Int>()
+    private var brightness by Delegates.notNull<Int>()
     private val binding by viewBinding<FragmentQrCodeFullScreenBinding>()
     private val args by navArgs<QrCodeFullScreenFragmentArgs>()
     private val viewModel by cwaViewModelsAssisted<QrCodeFullScreenViewModel>(
@@ -53,13 +53,13 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         // Set screen brightness to maximum to increase scanability
         // Do this in a try catch block if user does not give permission to change system settings
         this.brightness = Settings.System.getInt(context?.contentResolver, Settings.System.SCREEN_BRIGHTNESS)
-        try {
+        if (Settings.System.canWrite(context)) {
             Settings.System.putInt(
                 context?.contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS,
                 255
             )
-        } catch (e: SecurityException) {}
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
@@ -86,13 +86,13 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
 
         // Set screen brightness back to old brightness level
         // Do this in a try catch block if user does not give permission to change system settings
-        try {
+        if (Settings.System.canWrite(context)) {
             Settings.System.putInt(
                 context?.contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS,
                 this.brightness
             )
-        } catch (e: SecurityException) {}
+        }
     }
 
     private fun exitImmersiveMode() {
