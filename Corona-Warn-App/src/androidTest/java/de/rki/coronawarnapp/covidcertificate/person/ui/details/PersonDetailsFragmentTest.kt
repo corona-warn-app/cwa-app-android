@@ -257,7 +257,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
     }
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
-        every { certificateId } returns "testCertificateId"
+        every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { fullName } returns "Andrea Schneider"
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { test } returns mockk<DccV1.TestCertificateData>().apply {
@@ -294,7 +294,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { fullName } returns "Andrea Schneider"
-            every { certificateId } returns "vaccinationCertificateId$number"
+            every { uniqueCertificateIdentifier } returns
+                "RN:UVCI:01:AT:858CC${number}8CFCF5965EF82F60E493349AA5#K"
             every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number
@@ -327,7 +328,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
     private fun mockRecoveryCertificate(): RecoveryCertificate =
         mockk<RecoveryCertificate>().apply {
             every { fullName } returns "Andrea Schneider"
-            every { certificateId } returns "recoveryCertificateId"
+            every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { validUntil } returns Instant.parse("2021-03-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier

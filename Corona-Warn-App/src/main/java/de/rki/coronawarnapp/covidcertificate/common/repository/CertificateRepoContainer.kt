@@ -7,6 +7,8 @@ import java.util.Locale
 interface CertificateRepoContainer : Recyclable {
     val containerId: CertificateContainerId
 
+    val qrCodeHash: String
+
     /**
      * Returns what qr code to display based on certificate state
      * @param state Certificate state

@@ -128,7 +128,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { validFromFormatted } returns "2021-06-07"
         every { validUntilFormatted } returns "2021-11-10"
         every { hasNotificationBadge } returns false
-        every { certificateId } returns "05930482748454836478695764787841"
+        every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
         every { validUntil } returns
             LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))

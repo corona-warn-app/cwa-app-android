@@ -81,7 +81,7 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
             "v.0.dt" -> certificate.vaccinatedOnFormatted
             "v.0.co" -> certificate.certificateCountry
             "v.0.is" -> certificate.certificateIssuer
-            "v.0.ci" -> certificate.certificateId
+            "v.0.ci" -> certificate.uniqueCertificateIdentifier
             else -> null
         }
 
@@ -95,7 +95,7 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
             "t.0.tc" -> certificate.testCenter
             "t.0.co" -> certificate.certificateCountry
             "t.0.is" -> certificate.certificateIssuer
-            "t.0.ci" -> certificate.certificateId
+            "t.0.ci" -> certificate.uniqueCertificateIdentifier
             else -> null
         }
 
@@ -106,7 +106,7 @@ private fun certificateValue(field: String, certificate: CwaCovidCertificate): S
             "r.0.du" -> certificate.validUntilFormatted
             "r.0.co" -> certificate.certificateCountry
             "r.0.is" -> certificate.certificateIssuer
-            "r.0.ci" -> certificate.certificateId
+            "r.0.ci" -> certificate.uniqueCertificateIdentifier
             else -> null
         }
         else -> null

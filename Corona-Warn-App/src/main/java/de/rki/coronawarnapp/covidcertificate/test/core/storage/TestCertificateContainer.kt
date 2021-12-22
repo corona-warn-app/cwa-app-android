@@ -40,7 +40,7 @@ data class TestCertificateContainer(
     }
 
     override val containerId: TestCertificateContainerId
-        get() = TestCertificateContainerId(certificateId)
+        get() = TestCertificateContainerId(qrCodeHash)
 
     override val recycledAt: Instant?
         get() = data.recycledAt
@@ -63,7 +63,11 @@ data class TestCertificateContainer(
     val isCertificateRetrievalPending: Boolean
         get() = data.certificateReceivedAt == null
 
-    val certificateId: String
+    /**
+     * Retrieved Test certificate container at beginning does not have QR Code. Until QR Code exist UUID is provided
+     * and in this is case it is not yet considered as certificate
+     */
+    override val qrCodeHash: String
         get() = data.testCertificateQrCode?.toSHA256() ?: data.identifier
 
     fun toTestCertificate(
@@ -129,8 +133,11 @@ data class TestCertificateContainer(
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
-            override val certificateId: String
-                get() = this@TestCertificateContainer.certificateId
+            override val qrCodeHash: String
+                get() = this@TestCertificateContainer.qrCodeHash
+
+            override val uniqueCertificateIdentifier: String
+                get() = testCertificate.uniqueCertificateIdentifier
 
             override val headerIssuer: String
                 get() = header.issuer
