@@ -109,7 +109,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         takeScreenshot<SubmissionTestResultNegativeFragment>()
     }
 
-    fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
+    private fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
         every { isCertificateRetrievalPending } returns true
         every { isUpdatingData } returns isUpdating
         every { registeredAt } returns Instant.EPOCH
@@ -118,7 +118,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     }
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
-        every { certificateId } returns "testCertificateId"
+        every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { fullName } returns "Andrea Schneider"
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { test } returns mockk<DccV1.TestCertificateData>().apply {

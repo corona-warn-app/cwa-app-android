@@ -35,7 +35,7 @@ class TestCertificateContainerTest : BaseTest() {
     fun `ui facing test certificate creation and fallbacks`() {
         certificateTestData.personATest2CertContainer.apply {
             isCertificateRetrievalPending shouldBe false
-            certificateId shouldBe
+            qrCodeHash shouldBe
                 certificateTestData.personATest2CertContainer.testCertificateQRCode?.qrCode?.toSHA256()
             data.testCertificateQrCode shouldBe certificateTestData.personATest2CertQRCodeString
             data.certificateReceivedAt shouldBe Instant.parse("1970-01-02T10:17:36.789Z")
@@ -47,7 +47,7 @@ class TestCertificateContainerTest : BaseTest() {
     fun `pending check and nullability`() {
         certificateTestData.personATest3CertNokeyContainer.apply {
             isCertificateRetrievalPending shouldBe true
-            certificateId shouldBe data.identifier
+            qrCodeHash shouldBe data.identifier
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
             toTestCertificate(mockk(), mockk()) shouldBe null
@@ -55,7 +55,7 @@ class TestCertificateContainerTest : BaseTest() {
 
         certificateTestData.personATest4CertPendingContainer.apply {
             isCertificateRetrievalPending shouldBe true
-            certificateId shouldBe data.identifier
+            qrCodeHash shouldBe data.identifier
             data.testCertificateQrCode shouldBe null
             data.certificateReceivedAt shouldBe null
             toTestCertificate(mockk(), mockk()) shouldBe null
@@ -86,7 +86,7 @@ class TestCertificateContainerTest : BaseTest() {
             qrCodeExtractor = extractorSpy
         )
 
-        container.certificateId shouldNotBe null
+        container.qrCodeHash shouldNotBe null
         container.personIdentifier shouldNotBe null
 
         coVerify {
