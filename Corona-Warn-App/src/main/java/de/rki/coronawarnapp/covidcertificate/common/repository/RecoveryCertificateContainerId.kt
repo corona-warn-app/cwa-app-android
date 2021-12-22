@@ -4,8 +4,8 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class RecoveryCertificateContainerId(private val qrcodeHash: String) : CertificateContainerId() {
+class RecoveryCertificateContainerId(private val qrCodeHash: String) : CertificateContainerId() {
     @IgnoredOnParcel
     override val identifier: String
-        get() = qrcodeHash
+        get() = qrCodeHash
 }

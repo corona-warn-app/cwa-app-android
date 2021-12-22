@@ -39,11 +39,11 @@ data class RecoveryCertificateContainer(
         }
     }
 
-    override val containerId: RecoveryCertificateContainerId
-        get() = RecoveryCertificateContainerId(qrcodeHash)
-
-    val qrcodeHash: String
+    override val qrCodeHash: String
         get() = data.recoveryCertificateQrCode.toSHA256()
+
+    override val containerId: RecoveryCertificateContainerId
+        get() = RecoveryCertificateContainerId(qrCodeHash)
 
     val personIdentifier: CertificatePersonIdentifier
         get() = certificateData.certificate.personIdentifier
@@ -132,8 +132,8 @@ data class RecoveryCertificateContainer(
                 get() = Locale(userLocale.language, recoveryCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
 
-            override val qrcodeHash: String
-                get() = this@RecoveryCertificateContainer.qrcodeHash
+            override val qrCodeHash: String
+                get() = this@RecoveryCertificateContainer.qrCodeHash
 
             override val uniqueCertificateIdentifier: String
                 get() = recoveryCertificate.uniqueCertificateIdentifier
