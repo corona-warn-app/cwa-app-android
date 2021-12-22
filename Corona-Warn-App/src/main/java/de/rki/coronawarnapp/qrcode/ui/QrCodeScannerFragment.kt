@@ -18,8 +18,6 @@ import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
-import com.google.zxing.BarcodeFormat
-import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -35,6 +33,7 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.HumanReadableError
+import de.rki.coronawarnapp.util.coroutine.await
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.tryHumanReadableError
@@ -57,6 +56,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private var showsPermissionDialog = false
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
+        Timber.d("Camera permission granted? %b", isGranted)
         if (!isGranted) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                 showCameraPermissionRationaleDialog()
@@ -84,9 +84,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
-            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> binding.qrCodeScanPreview.setTorch(isChecked) }
+            val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = cameraPreview)
+            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> cameraHelper.enableTorch(enable = isChecked) }
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
-            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            //qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             buttonOpenFile.setOnClickListener {
                 filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
             }
@@ -122,6 +123,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         setupTransition()
     }
 
+
+
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
         when (scannerResult) {
             is DccTicketingResult.ConsentI -> {
@@ -141,23 +144,24 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.qrCodeScanPreview.resume()
-            startDecode()
-            return
+            //binding.qrCodeScanPreview.resume()
+            //startDecode()
+            //return
         }
         if (showsPermissionDialog) return
 
         requestCameraPermission()
     }
 
-    override fun onPause() {
-        super.onPause()
-        binding.qrCodeScanPreview.pause()
-    }
 
+    private fun startDecode() {}
+
+    /*
     private fun startDecode() = binding.qrCodeScanPreview.decodeSingle { barcodeResult ->
         viewModel.onScanResult(barcodeResult.text)
     }
+
+     */
 
     private fun showCameraPermissionDeniedDialog() {
         MaterialAlertDialogBuilder(requireContext())

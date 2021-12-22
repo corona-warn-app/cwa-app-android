@@ -9,8 +9,6 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.zxing.BarcodeFormat
-import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
@@ -58,11 +56,11 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-                binding.qrCodeScanPreview.setTorch(isChecked)
+                //binding.qrCodeScanPreview.setTorch(isChecked)
             }
 
             qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
-            qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            //qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             qrCodeScanSubtitle.setText(R.string.qr_code_scan_body_subtitle_vertretung_warnen)
             infoButton.isGone = true
             buttonOpenFile.setOnClickListener {
@@ -94,7 +92,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
         if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            binding.qrCodeScanPreview.resume()
+            //binding.qrCodeScanPreview.resume()
             startDecode()
             return
         }
@@ -105,13 +103,18 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
 
     override fun onPause() {
         super.onPause()
-        binding.qrCodeScanPreview.pause()
+        //binding.qrCodeScanPreview.pause()
     }
 
+    private fun startDecode() {}
+
+    /*
     private fun startDecode() = binding.qrCodeScanPreview
         .decodeSingle { barcodeResult ->
             viewModel.onScanResult(barcodeResult.text)
         }
+
+     */
 
     private fun showCameraPermissionDeniedDialog() {
         MaterialAlertDialogBuilder(requireContext())
