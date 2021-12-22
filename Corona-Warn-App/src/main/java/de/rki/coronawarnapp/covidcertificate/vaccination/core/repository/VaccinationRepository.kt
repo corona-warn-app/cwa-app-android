@@ -138,7 +138,7 @@ class VaccinationRepository @Inject constructor(
                 valueSet = null,
             ).also { Timber.tag(TAG).i("Creating new person for %s", qrCode) }
 
-            if (matchingPerson.data.vaccinations.any { it.qrcodeHash == qrCode.hash }) {
+            if (matchingPerson.data.vaccinations.any { it.qrCodeHash == qrCode.hash }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.hash)
                 throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)
             }
@@ -167,7 +167,7 @@ class VaccinationRepository @Inject constructor(
         val updatedPerson = updatedData.single { it.identifier == qrCode.personIdentifier }
 
         return updatedPerson.vaccinationCertificates.single {
-            it.qrcodeHash == qrCode.hash
+            it.qrCodeHash == qrCode.hash
         }
     }
 

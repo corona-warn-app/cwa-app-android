@@ -173,7 +173,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
             get() = "G0593048274845483647869576478784"
         override val certificateCountry: String
             get() = "Germany"
-        override val qrcodeHash: String
+        override val qrCodeHash: String
             get() = "05930482748454836478695764787840"
 
         override val uniqueCertificateIdentifier: String
