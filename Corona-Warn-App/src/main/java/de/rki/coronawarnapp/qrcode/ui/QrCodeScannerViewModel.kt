@@ -89,7 +89,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     fun startDecode() = result.postValue(Scanning)
 
-    fun onScanResult(rawResult: String) = launch {
+    private fun onScanResult(rawResult: String) = launch {
         result.postValue(InProgress)
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {

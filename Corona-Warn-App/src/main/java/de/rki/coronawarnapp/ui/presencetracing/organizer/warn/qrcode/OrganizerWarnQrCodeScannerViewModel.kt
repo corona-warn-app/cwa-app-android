@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode
 
 import android.net.Uri
+import androidx.camera.core.ImageProxy
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
+import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
@@ -22,8 +24,10 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     private val cameraSettings: CameraSettings,
     private val checkInQrCodeHandler: CheckInQrCodeHandler,
     private val qrCodeFileParser: QrCodeFileParser,
+    private val qrCodeCameraImageParser: QrCodeCameraImageParser
 ) : CWAViewModel() {
     val events = SingleLiveEvent<OrganizerWarnQrCodeNavigation>()
+        .also { it.postValue(OrganizerWarnQrCodeNavigation.Scanning) }
 
     fun onNavigateUp() {
         events.postValue(OrganizerWarnQrCodeNavigation.BackNavigation)
@@ -49,7 +53,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onScanResult(rawResult: String) = launch {
+    private fun onScanResult(rawResult: String) = launch {
         events.postValue(OrganizerWarnQrCodeNavigation.InProgress)
         try {
             Timber.i("rawResult: $rawResult")
@@ -73,6 +77,12 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         Timber.d("setCameraDeniedPermanently(denied=$denied)")
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
+
+    fun onNewImage(image: ImageProxy) = launch {
+        qrCodeCameraImageParser.parseQrCode(imageProxy = image)
+    }
+
+    fun startDecode() = events.postValue(OrganizerWarnQrCodeNavigation.Scanning)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<OrganizerWarnQrCodeScannerViewModel>

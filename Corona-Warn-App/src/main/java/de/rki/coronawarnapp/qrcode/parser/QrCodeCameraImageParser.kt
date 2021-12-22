@@ -13,6 +13,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -27,7 +28,9 @@ class QrCodeCameraImageParser @Inject constructor(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-    val rawResults: Flow<String> = currentRawResults.distinctUntilChanged()
+    val rawResults: Flow<String> = currentRawResults
+        .distinctUntilChanged()
+        .filter { it.isNotEmpty() }
 
     private val mutex = Mutex()
     private val detector = FactoryFiducial.qrcode(null, GrayU8::class.java)
@@ -52,9 +55,10 @@ class QrCodeCameraImageParser @Inject constructor(
 
         Timber.tag(TAG).v("Found %d qr codes", qrCodes.size)
 
-        qrCodes
-            .map { it.message }
-            .forEach { currentRawResults.tryEmit(it) }
+        when (qrCodes.isEmpty()) {
+            true -> listOf("")
+            false -> qrCodes.map { it.message }
+        }.forEach { currentRawResults.tryEmit(it) }
     }
 
     private fun GrayU8.transpose(): GrayU8 {
