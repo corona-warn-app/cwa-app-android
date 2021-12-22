@@ -82,11 +82,11 @@ class CovidCertificateOnboardingFragment : Fragment(R.layout.covid_certificate_o
                 is CovidCertificateOnboardingViewModel.Event.NavigateToDccDetailsScreen -> {
                     val uri = when (event.containerId) {
                         is VaccinationCertificateContainerId ->
-                            VaccinationDetailsFragment.uri(event.containerId.identifier)
+                            VaccinationDetailsFragment.uri(event.containerId.qrCodeHash)
                         is TestCertificateContainerId ->
-                            TestCertificateDetailsFragment.uri(event.containerId.identifier)
+                            TestCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
                         is RecoveryCertificateContainerId ->
-                            RecoveryCertificateDetailsFragment.uri(event.containerId.identifier)
+                            RecoveryCertificateDetailsFragment.uri(event.containerId.qrCodeHash)
                     }
                     val navOption = NavOptions.Builder()
                         .setPopUpTo(R.id.covidCertificateOnboardingFragment, true)

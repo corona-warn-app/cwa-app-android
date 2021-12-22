@@ -207,7 +207,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(toRemove.certificateId)
+            VaccinationCertificateContainerId(toRemove.qrCodeHash)
         ) shouldBe vaccinationTestData.personAVac2Container
         advanceUntilIdle()
 
@@ -225,7 +225,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateId)
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.qrCodeHash)
         ) shouldBe null
     }
 
@@ -239,7 +239,7 @@ class VaccinationRepositoryTest : BaseTest() {
         instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personBData1Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.certificateId)
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.qrCodeHash)
         )
         advanceUntilIdle()
 
