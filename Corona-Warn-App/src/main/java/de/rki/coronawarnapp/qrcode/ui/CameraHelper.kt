@@ -4,6 +4,7 @@ import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -20,7 +21,8 @@ import kotlin.math.min
 
 class CameraHelper(
     lifecycleOwner: LifecycleOwner,
-    cameraPreview: PreviewView
+    cameraPreview: PreviewView,
+    private val onImageCallback: (ImageProxy) -> Unit
 ) {
 
     private var cameraProvider: ProcessCameraProvider? = null
@@ -32,6 +34,8 @@ class CameraHelper(
 
     private val hasFrontCamera: Boolean
         get() = hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
+
+    var scanEnabled = true
 
     fun enableTorch(enable: Boolean) {
         camera?.cameraControl?.enableTorch(enable)
@@ -93,9 +97,9 @@ class CameraHelper(
 
         val analyzer = ImageAnalysis.Builder()
             .build()
-            .also {
-                it.setAnalyzer(cameraExecutor) {
-
+            .also { imageAnalysis ->
+                imageAnalysis.setAnalyzer(cameraExecutor) {
+                    onImage(imageProxy = it)
                 }
             }
 
@@ -106,6 +110,14 @@ class CameraHelper(
             camera = cameraProvider.bindToLifecycle(lifecycleOwner, selector, preview, analyzer)
         } catch (e: Exception) {
             Timber.tag(TAG).e(e)
+        }
+    }
+
+    private fun onImage(imageProxy: ImageProxy) {
+        if (scanEnabled) {
+            onImageCallback(imageProxy)
+        } else {
+            imageProxy.use {  }
         }
     }
 

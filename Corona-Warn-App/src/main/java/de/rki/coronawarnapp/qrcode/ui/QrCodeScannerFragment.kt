@@ -33,7 +33,6 @@ import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.ExternalActionHelper.openGooglePlay
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.HumanReadableError
-import de.rki.coronawarnapp.util.coroutine.await
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import de.rki.coronawarnapp.util.tryHumanReadableError
@@ -83,8 +82,10 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = binding.cameraPreview) {
+            viewModel.onNewImage(it)
+        }
         with(binding) {
-            val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = cameraPreview)
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> cameraHelper.enableTorch(enable = isChecked) }
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
             //qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
@@ -96,6 +97,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
             binding.qrCodeProcessingView.isVisible = scannerResult == InProgress
+            cameraHelper.scanEnabled = scannerResult == Scanning
             when (scannerResult) {
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
@@ -117,6 +119,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 InfoScreen -> doNavigate(
                     QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
                 )
+                Scanning -> {}
             }
         }
 
@@ -143,25 +146,15 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     override fun onResume() {
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
-            //binding.qrCodeScanPreview.resume()
-            //startDecode()
-            //return
-        }
-        if (showsPermissionDialog) return
+        if (CameraPermissionHelper.hasCameraPermission(requireActivity()) || showsPermissionDialog) return
 
         requestCameraPermission()
     }
 
 
-    private fun startDecode() {}
-
-    /*
-    private fun startDecode() = binding.qrCodeScanPreview.decodeSingle { barcodeResult ->
-        viewModel.onScanResult(barcodeResult.text)
+    private fun startDecode() {
+        viewModel.startDecode()
     }
-
-     */
 
     private fun showCameraPermissionDeniedDialog() {
         MaterialAlertDialogBuilder(requireContext())
