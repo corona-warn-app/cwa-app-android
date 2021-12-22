@@ -36,7 +36,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.mapNotNull
 import timber.log.Timber
 
@@ -107,19 +107,23 @@ class PersonDetailsViewModel @AssistedInject constructor(
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
                 if (vaccinatedPerson != null) {
-                    val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                    val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
-                    val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
-                    val boosterRule = vaccinatedPerson.boosterRule
-                    add(
-                        VaccinationInfoCard.Item(
-                            vaccinationStatus = vaccinationStatus,
-                            daysUntilImmunity = daysUntilImmunity,
-                            boosterRule = boosterRule,
-                            daysSinceLastVaccination = daysSinceLastVaccination,
-                            hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
+                    try {
+                        val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
+                        val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
+                        val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
+                        val boosterRule = vaccinatedPerson.boosterRule
+                        add(
+                            VaccinationInfoCard.Item(
+                                vaccinationStatus = vaccinationStatus,
+                                daysUntilImmunity = daysUntilImmunity,
+                                boosterRule = boosterRule,
+                                daysSinceLastVaccination = daysSinceLastVaccination,
+                                hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        Timber.e(e, "creating VaccinationInfoCard.Item failed")
+                    }
                 }
             }
 
@@ -208,7 +212,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }
 
     private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
-        vaccinationRepository.vaccinationInfos.first().find { it.identifier == certificate.personIdentifier }
+        vaccinationRepository.vaccinationInfos.firstOrNull()?.find { it.identifier == certificate.personIdentifier }
 
     fun refreshBoosterRuleState() = launch(scope = appScope) {
         Timber.v("refreshBoosterRuleState personIdentifierCode=$personIdentifierCode")
