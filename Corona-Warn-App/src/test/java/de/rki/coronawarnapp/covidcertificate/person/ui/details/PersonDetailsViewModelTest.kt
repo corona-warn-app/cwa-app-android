@@ -184,7 +184,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
-        every { certificateId } returns "testCertificateId"
+        every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { fullName } returns "Andrea Schneider"
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { test } returns mockk<DccV1.TestCertificateData>().apply {
@@ -207,7 +207,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
-            every { certificateId } returns "vaccinationCertificateId$number"
+            every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { fullName } returns "Andrea Schneider"
             every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
@@ -231,7 +231,7 @@ class PersonDetailsViewModelTest : BaseTest() {
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
         mockk<RecoveryCertificate>().apply {
-            every { certificateId } returns "recoveryCertificateId"
+            every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")

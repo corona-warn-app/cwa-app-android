@@ -32,7 +32,7 @@ class RecoveryCertificateContainerTest : BaseTest() {
             qrCodeExtractor = extractorSpy
         )
 
-        container.certificateId shouldNotBe null
+        container.qrcodeHash shouldNotBe null
         container.personIdentifier shouldNotBe null
 
         coVerify {

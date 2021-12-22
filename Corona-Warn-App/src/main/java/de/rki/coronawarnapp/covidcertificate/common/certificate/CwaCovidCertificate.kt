@@ -29,7 +29,12 @@ interface CwaCovidCertificate : Recyclable {
     val personIdentifier: CertificatePersonIdentifier
     val certificateIssuer: String
     val certificateCountry: String
-    val certificateId: String
+    val qrcodeHash: String
+
+    /**
+     * `ci` field
+     */
+    val uniqueCertificateIdentifier: String
 
     /**
      * The ID of the container holding this certificate in the CWA.

@@ -127,7 +127,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         ).apply {
             this.qrCodeExtractor shouldBe qrCodeExtractor
 
-            certificateId shouldBe data.identifier
+            qrcodeHash shouldBe data.identifier
             data.testCertificateQrCode shouldBe null
 
             isCertificateRetrievalPending shouldBe true
@@ -161,7 +161,7 @@ class TestCertificateRepositoryTest : BaseTest() {
             this.qrCodeExtractor shouldBe qrCodeExtractor
 
             data.testCertificateQrCode shouldBe testData.personATest1CertQRCodeString
-            certificateId shouldBe testData.personATest1CertQRCode().uniqueCertificateIdentifier
+            qrcodeHash shouldBe testData.personATest1CertQRCode().hash
 
             isCertificateRetrievalPending shouldBe false
             isUpdatingData shouldBe false

@@ -40,7 +40,7 @@ data class TestCertificateContainer(
     }
 
     override val containerId: TestCertificateContainerId
-        get() = TestCertificateContainerId(certificateId)
+        get() = TestCertificateContainerId(qrcodeHash)
 
     override val recycledAt: Instant?
         get() = data.recycledAt
@@ -63,7 +63,7 @@ data class TestCertificateContainer(
     val isCertificateRetrievalPending: Boolean
         get() = data.certificateReceivedAt == null
 
-    val certificateId: String
+    val qrcodeHash: String
         get() = data.testCertificateQrCode?.toSHA256() ?: data.identifier
 
     fun toTestCertificate(
@@ -129,8 +129,11 @@ data class TestCertificateContainer(
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
-            override val certificateId: String
-                get() = this@TestCertificateContainer.certificateId
+            override val qrcodeHash: String
+                get() = this@TestCertificateContainer.qrcodeHash
+
+            override val uniqueCertificateIdentifier: String
+                get() = testCertificateQRCode!!.hash
 
             override val headerIssuer: String
                 get() = header.issuer
