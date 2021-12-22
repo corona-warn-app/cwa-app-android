@@ -88,7 +88,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         with(binding) {
             qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> cameraHelper.enableTorch(enable = isChecked) }
             qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
-            //qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+            // qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
             buttonOpenFile.setOnClickListener {
                 filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
             }
@@ -126,8 +126,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         setupTransition()
     }
 
-
-
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
         when (scannerResult) {
             is DccTicketingResult.ConsentI -> {
@@ -150,7 +148,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
         requestCameraPermission()
     }
-
 
     private fun startDecode() {
         viewModel.startDecode()

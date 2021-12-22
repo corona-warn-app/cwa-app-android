@@ -64,7 +64,8 @@ class CameraHelper(
             {
                 cameraProvider = cameraProviderFuture.get()
                 bindUseCases(cameraPreviewView, lifecycleOwner)
-            }, ContextCompat.getMainExecutor(context)
+            },
+            ContextCompat.getMainExecutor(context)
         )
     }
 
@@ -117,7 +118,7 @@ class CameraHelper(
         if (scanEnabled) {
             onImageCallback(imageProxy)
         } else {
-            imageProxy.use {  }
+            imageProxy.use { }
         }
     }
 
