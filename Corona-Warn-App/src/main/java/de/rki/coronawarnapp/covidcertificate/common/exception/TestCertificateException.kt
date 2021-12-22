@@ -19,7 +19,9 @@ class TestCertificateException(
     )
 
     private val errorMessage: LazyString = CachedString { context ->
-        context.getString(errorCode.stringRes) + " ($errorCode)\n\n" + context.getString(R.string.test_certificate_error_faq)
+        context.getString(errorCode.stringRes) +
+            " ($errorCode)\n\n" +
+            context.getString(R.string.test_certificate_error_faq)
     }
 
     enum class ErrorCode(
