@@ -96,7 +96,7 @@
     <style name="checkValidityButton" parent="button">
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>
-        <item name="backgroundTint">@color/whiteAlpha60</item>
+        <item name="backgroundTint">@color/colorPersonOverviewQrCardBorder</item>
         <item name="android:textColor">@color/text_button_color</item>
         <item name="strokeColor">@color/text_button_color</item>
         <item name="strokeWidth">1dp</item>
