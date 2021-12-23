@@ -34,12 +34,10 @@ interface RiskLevelStorage {
     val allPtRiskLevelResults: Flow<List<PtRiskLevelResult>>
 
     /** COMBINED RISK RESULT
-     * The newest 2 results.
      * Used by the risk level detector to check for state changes (LOW/INCREASED RISK) triggering NOTIFICATION.
-     * Can be 0-2 entries.
      * Newest item first.
      */
-    val latestCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
+    val allCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
 
     /** EXPOSURE WINDOW RISK RESULT
      * The newest result, and the last successfully result.
