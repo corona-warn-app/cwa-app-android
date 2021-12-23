@@ -129,7 +129,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `nothing happens if there is only one result yet`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
         runBlockingTest {
@@ -146,10 +146,11 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `no risk level change, nothing should happen`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
                     createCombinedRiskLevel(LOW_RISK),
+                    createCombinedRiskLevel(CALCULATION_FAILED),
                     createCombinedRiskLevel(LOW_RISK)
                 )
             )
@@ -168,10 +169,11 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `combined risk state change from HIGH to LOW triggers notification`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
-                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(2)),
+                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(1)),
                     createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
@@ -193,11 +195,13 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `combined risk state change from LOW to HIGH triggers notification`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
+                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(3)),
+                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(2)),
+                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH),
                 )
             )
 
@@ -218,7 +222,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `risk level went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
 
@@ -236,15 +240,16 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
     @Test
     fun `combined risk level went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
+                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(2)),
+                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(1)),
                     createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
                 )
             )
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(1)
+        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(2)
 
         runBlockingTest {
             val instance = createInstance(scope = this)
@@ -259,13 +264,24 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     }
 
     @Test
-    fun `evaluate risk level change detection function`() {
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, CALCULATION_FAILED) shouldBe false
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, LOW_RISK) shouldBe false
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, INCREASED_RISK) shouldBe false
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, LOW_RISK) shouldBe true
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(LOW_RISK, INCREASED_RISK) shouldBe true
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(CALCULATION_FAILED, INCREASED_RISK) shouldBe true
-        CombinedRiskLevelChangeDetector.hasHighLowLevelChanged(INCREASED_RISK, CALCULATION_FAILED) shouldBe true
+    fun `evaluate risk level change detection function low to high`() {
+        CALCULATION_FAILED.hasChangedFromLowToHigh(CALCULATION_FAILED) shouldBe false
+        LOW_RISK.hasChangedFromLowToHigh(LOW_RISK) shouldBe false
+        INCREASED_RISK.hasChangedFromLowToHigh(INCREASED_RISK) shouldBe false
+        INCREASED_RISK.hasChangedFromLowToHigh(LOW_RISK) shouldBe false
+        LOW_RISK.hasChangedFromLowToHigh(INCREASED_RISK) shouldBe true
+        CALCULATION_FAILED.hasChangedFromLowToHigh(INCREASED_RISK) shouldBe false
+        INCREASED_RISK.hasChangedFromLowToHigh(CALCULATION_FAILED) shouldBe false
+    }
+
+    @Test
+    fun `evaluate risk level change detection function high to low`() {
+        CALCULATION_FAILED.hasChangedFromHighToLow(CALCULATION_FAILED) shouldBe false
+        LOW_RISK.hasChangedFromHighToLow(LOW_RISK) shouldBe false
+        INCREASED_RISK.hasChangedFromHighToLow(INCREASED_RISK) shouldBe false
+        INCREASED_RISK.hasChangedFromHighToLow(LOW_RISK) shouldBe true
+        LOW_RISK.hasChangedFromHighToLow(INCREASED_RISK) shouldBe false
+        CALCULATION_FAILED.hasChangedFromHighToLow(INCREASED_RISK) shouldBe false
+        INCREASED_RISK.hasChangedFromHighToLow(CALCULATION_FAILED) shouldBe false
     }
 }
