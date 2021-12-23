@@ -81,22 +81,21 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         sharedElementReturnTransition = materialContainerTransform
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = binding.cameraPreview) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+        val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = cameraPreview) {
             viewModel.onNewImage(it)
         }
-        with(binding) {
-            qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> cameraHelper.enableTorch(enable = isChecked) }
-            qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
-            // qrCodeScanPreview.decoderFactory = DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-            buttonOpenFile.setOnClickListener {
-                filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
-            }
-            infoButton.setOnClickListener { viewModel.onInfoButtonPress() }
+
+        qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> cameraHelper.enableTorch(enable = isChecked) }
+        qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
+        buttonOpenFile.setOnClickListener {
+            filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
         }
+        infoButton.setOnClickListener { viewModel.onInfoButtonPress() }
+
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
-            binding.qrCodeProcessingView.isVisible = scannerResult == InProgress
+            qrCodeProcessingView.isVisible = scannerResult == InProgress
             cameraHelper.scanEnabled = scannerResult == Scanning
             when (scannerResult) {
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
@@ -114,12 +113,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                     )
                     else -> showScannerResultErrorDialog(scannerResult.error)
                 }
-
-                InProgress -> binding.qrCodeProcessingView.isVisible = true
                 InfoScreen -> doNavigate(
                     QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
                 )
-                Scanning -> {}
+                InProgress,
+                Scanning -> {
+                }
             }
         }
 
