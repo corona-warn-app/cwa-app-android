@@ -54,7 +54,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 1 of 2`() {
         testData.personAVac1Container.apply {
             certificate shouldBe testData.personAVac1Certificate
-            certificateId shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
         }
     }
 
@@ -62,7 +62,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 2 of 2`() {
         testData.personAVac2Container.apply {
             certificate shouldBe testData.personAVac2Certificate
-            certificateId shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
         }
     }
 
@@ -85,7 +85,9 @@ class VaccinationContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            certificateId shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            uniqueCertificateIdentifier shouldBe
+                testData.personAVac1Container.certificate.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
@@ -136,7 +138,9 @@ class VaccinationContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            certificateId shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            uniqueCertificateIdentifier shouldBe
+                testData.personAVac1Container.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",

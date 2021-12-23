@@ -283,7 +283,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             is DccResult.Onboarding -> {
                 qrcodeSharedViewModel.putDccQrCode(scannerResult.dccQrCode)
                 findNavController().navigate(
-                    CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.uniqueCertificateIdentifier),
+                    CovidCertificateOnboardingFragment.uri(scannerResult.dccQrCode.hash),
                     navOptions
                 )
             }

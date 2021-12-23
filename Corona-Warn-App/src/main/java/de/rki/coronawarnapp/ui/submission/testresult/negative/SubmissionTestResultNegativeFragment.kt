@@ -93,7 +93,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             when (it) {
                 is SubmissionTestResultNegativeNavigation.Back -> popBackStack()
                 is SubmissionTestResultNegativeNavigation.OpenTestCertificateDetails ->
-                    findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.identifier))
+                    findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.qrCodeHash))
             }
         }
 

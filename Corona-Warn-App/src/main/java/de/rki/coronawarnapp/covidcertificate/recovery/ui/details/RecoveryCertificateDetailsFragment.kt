@@ -115,7 +115,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificateIssuer.text = certificate.certificateIssuer
         certificationPeriodStart.text = certificate.validFromFormatted
         certificationPeriodEnd.text = certificate.validUntilFormatted
-        certificateId.text = certificate.certificateId
+        certificateId.text = certificate.uniqueCertificateIdentifier
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),

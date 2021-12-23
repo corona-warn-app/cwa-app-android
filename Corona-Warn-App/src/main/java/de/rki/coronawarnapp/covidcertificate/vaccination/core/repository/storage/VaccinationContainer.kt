@@ -58,8 +58,11 @@ data class VaccinationContainer internal constructor(
         }
     }
 
+    override val qrCodeHash: String
+        get() = vaccinationQrCode.toSHA256()
+
     override val containerId: VaccinationCertificateContainerId
-        get() = VaccinationCertificateContainerId(certificateId)
+        get() = VaccinationCertificateContainerId(qrCodeHash)
 
     val header: DccHeader
         get() = certificateData.header
@@ -69,9 +72,6 @@ data class VaccinationContainer internal constructor(
 
     val vaccination: DccV1.VaccinationData
         get() = certificate.vaccination
-
-    val certificateId: String
-        get() = vaccinationQrCode.toSHA256()
 
     val personIdentifier: CertificatePersonIdentifier
         get() = certificate.personIdentifier
@@ -162,8 +162,11 @@ data class VaccinationContainer internal constructor(
                 vaccination.certificateCountry.uppercase()
             ).getDisplayCountry(userLocale)
 
-        override val certificateId: String
-            get() = this@VaccinationContainer.certificateId
+        override val qrCodeHash: String
+            get() = this@VaccinationContainer.qrCodeHash
+
+        override val uniqueCertificateIdentifier: String
+            get() = vaccination.uniqueCertificateIdentifier
 
         override val headerIssuer: String
             get() = header.issuer

@@ -82,7 +82,10 @@ fun testCertificate(
     )
     override val certificateIssuer: String = "certificateIssuer"
     override val certificateCountry: String = "certificateCountry"
-    override val certificateId: String = "certificateId"
+    override val qrCodeHash: String = "certificateId"
+    override val uniqueCertificateIdentifier: String
+        get() = "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
+
     override val hasNotificationBadge: Boolean
         get() = false
     override val notifiedInvalidAt: Instant?
