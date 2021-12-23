@@ -63,7 +63,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                     }
                     is RATResultNegativeNavigation.Back -> popBackStack()
                     is RATResultNegativeNavigation.OpenTestCertificateDetails ->
-                        findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.identifier))
+                        findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.qrCodeHash))
                 }
             }
         }

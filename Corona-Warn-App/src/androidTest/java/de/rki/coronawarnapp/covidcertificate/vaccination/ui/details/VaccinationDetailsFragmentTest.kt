@@ -144,7 +144,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { vaccineManufacturer } returns "BioNTech"
             every { certificateIssuer } returns "Landratsamt Musterstadt"
             every { certificateCountry } returns "Deutschland"
-            every { certificateId } returns "05930482748454836478695764787841"
+            every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { headerExpiresAt } returns Instant.parse("2021-05-16T00:00:00.000Z")
             every { totalSeriesOfDoses } returns 2
             every { hasNotificationBadge } returns false

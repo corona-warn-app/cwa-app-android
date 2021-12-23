@@ -113,7 +113,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         testResult.text = certificate.testResult
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
-        certificateId.text = certificate.certificateId
+        certificateId.text = certificate.uniqueCertificateIdentifier
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),

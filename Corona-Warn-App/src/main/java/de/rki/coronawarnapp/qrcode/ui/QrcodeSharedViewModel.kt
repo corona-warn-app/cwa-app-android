@@ -32,7 +32,7 @@ class QrcodeSharedViewModel : ViewModel() {
     }
 
     fun putDccQrCode(dccQrCode: DccQrCode) {
-        dccQrCodeCache[dccQrCode.uniqueCertificateIdentifier] = dccQrCode
+        dccQrCodeCache[dccQrCode.hash] = dccQrCode
     }
 
     fun dccQrCode(certificateIdentifier: String): DccQrCode {
