@@ -19,7 +19,9 @@ class TestCertificateException(
     )
 
     private val errorMessage: LazyString = CachedString { context ->
-        context.getString(errorCode.stringRes)
+        context.getString(errorCode.stringRes) +
+            " ($errorCode)\n\n" +
+            context.getString(R.string.test_certificate_error_faq)
     }
 
     enum class ErrorCode(
@@ -99,7 +101,7 @@ class TestCertificateException(
             "Private key request failed due to no network connection.",
             ERROR_MESSAGE_NO_NETWORK
         ),
-        BUG_3638_KEYPAIR_LOST(
+        KEYPAIR_LOST(
             "Registered RSA key-pair was lost (GitHub #3638). Test certificate can't be obtained.",
             ERROR_MESSAGE_CERTIFICATE_LOST_SORRY
         )
