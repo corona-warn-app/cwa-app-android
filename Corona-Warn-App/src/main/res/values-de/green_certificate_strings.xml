@@ -88,4 +88,6 @@
     <string name="test_certificate_error_refreshing_status">"Ihr Zertifikat wird gerade angefragt, dies kann einige Minuten dauern…"</string>
     <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
     <string name="test_certificate_error_invalid_labid_faq">"FAQ zu Testzertifikaten"</string>
+    <!-- XTXT: Text for invalid test certificate error text -->
+    <string name="test_certificate_error_faq">Weitere Informationen zum Erhalt Ihres Testzertifikats finden Sie in den FAQ.</string>
 </resources>
