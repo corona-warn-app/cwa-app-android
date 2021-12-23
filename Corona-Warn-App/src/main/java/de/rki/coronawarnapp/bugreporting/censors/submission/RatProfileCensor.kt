@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidNa
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidZipCode
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -16,7 +16,7 @@ import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 class RatProfileCensor @Inject constructor(
-    private val ratProfileSettings: RATProfileSettings
+    private val ratProfileSettings: RATProfileSettingsDataStore
 ) : BugCensor {
 
     private val mutex = Mutex()
@@ -24,7 +24,7 @@ class RatProfileCensor @Inject constructor(
     private val ratProfileHistory = mutableSetOf<RATProfile>()
 
     override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
-        val ratProfile = ratProfileSettings.profile.flow.first()
+        val ratProfile = ratProfileSettings.profileFlow.first()
 
         // store the profile in a property so we still have a reference after it was deleted by the user
         if (ratProfile != null) {

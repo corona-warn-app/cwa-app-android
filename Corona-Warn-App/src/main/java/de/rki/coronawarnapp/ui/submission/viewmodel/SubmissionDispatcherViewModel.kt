@@ -5,21 +5,22 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionDispatcherViewModel @AssistedInject constructor(
-    private val ratProfileSettings: RATProfileSettings,
+    private val ratProfileSettings: RATProfileSettingsDataStore,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel(dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-    val profileCardId: LiveData<Int> = ratProfileSettings.profile.flow
+    val profileCardId: LiveData<Int> = ratProfileSettings.profileFlow
         .map { profile ->
             Timber.d("profile=$profile")
             if (profile == null)
@@ -44,11 +45,11 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
 
-    fun onClickProfileCard() {
-        val event = if (ratProfileSettings.profile.value != null) {
+    fun onClickProfileCard() = launch {
+        val event = if (ratProfileSettings.profileFlow.first() != null) {
             SubmissionNavigationEvents.NavigateToOpenProfile
         } else {
-            SubmissionNavigationEvents.NavigateToCreateProfile(ratProfileSettings.onboarded.value)
+            SubmissionNavigationEvents.NavigateToCreateProfile(ratProfileSettings.onboardedFlow.first())
         }
         routeToScreen.postValue(event)
     }
