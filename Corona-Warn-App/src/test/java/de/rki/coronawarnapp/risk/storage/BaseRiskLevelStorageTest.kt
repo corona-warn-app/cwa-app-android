@@ -228,7 +228,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest2(ignoreActive = true) {
             val instance = createInstance(scope = this)
 
-            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            val riskLevelResults = instance.allCombinedEwPtRiskLevelResults.first()
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe calculatedAt
@@ -260,7 +260,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest2(ignoreActive = true) {
             val instance = createInstance(scope = this)
 
-            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            val riskLevelResults = instance.allCombinedEwPtRiskLevelResults.first()
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe ewCalculatedAt
@@ -327,7 +327,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         runBlockingTest2(ignoreActive = true) {
             val instance = createInstance(scope = this)
 
-            val riskLevelResults = instance.latestCombinedEwPtRiskLevelResults.first()
+            val riskLevelResults = instance.allCombinedEwPtRiskLevelResults.first()
             riskLevelResults.size shouldBe 2
 
             riskLevelResults[0].calculatedAt shouldBe ewCalculatedAt
