@@ -14,7 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
@@ -60,7 +59,7 @@ class QrCodeScannerFragmentTest : BaseUITest() {
 
     @Test
     fun launch() {
-        launchFragment2<QrCodeScannerFragment>()
+        launchFragmentInContainer2<QrCodeScannerFragment>()
     }
 
     @After
