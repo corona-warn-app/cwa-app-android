@@ -92,7 +92,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
         }
         infoButton.setOnClickListener { viewModel.onInfoButtonPress() }
-        
+
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
             qrCodeProcessingView.isVisible = scannerResult == InProgress
             cameraHelper.scanEnabled = scannerResult == Scanning
