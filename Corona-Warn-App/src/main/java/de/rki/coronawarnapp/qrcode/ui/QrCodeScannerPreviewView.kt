@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.qrcode
+package de.rki.coronawarnapp.qrcode.ui
 
 import android.content.Context
 import android.util.AttributeSet
@@ -22,7 +22,10 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class QrCodeScannerPreviewView(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
+class QrCodeScannerPreviewView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null
+) : RelativeLayout(context, attrs) {
 
     private val cameraPreview: PreviewView
     private var cameraProvider: ProcessCameraProvider? = null

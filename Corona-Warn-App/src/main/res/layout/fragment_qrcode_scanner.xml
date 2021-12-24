@@ -8,7 +8,7 @@
     android:contentDescription="@string/qr_code_scan_body"
     android:transitionName="shared_element_container">
 
-    <de.rki.coronawarnapp.ui.qrcode.QrCodeScannerPreviewView
+    <de.rki.coronawarnapp.qrcode.ui.QrCodeScannerPreviewView
         android:id="@+id/scanner_preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
