@@ -47,7 +47,8 @@ class QrCodeScannerPreviewView(context: Context, attrs: AttributeSet) : Relative
             {
                 cameraProvider = cameraProviderFuture.get()
                 bindUseCases(lifecycleOwner, onImageCallback)
-            }, ContextCompat.getMainExecutor(context)
+            },
+            ContextCompat.getMainExecutor(context)
         )
     }
 

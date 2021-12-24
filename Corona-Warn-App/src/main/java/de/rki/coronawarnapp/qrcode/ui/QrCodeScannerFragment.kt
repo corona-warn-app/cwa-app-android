@@ -117,7 +117,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
                 InProgress,
                 Scanning -> {
-                    //NO-OP
+                    // NO-OP
                 }
             }
         }

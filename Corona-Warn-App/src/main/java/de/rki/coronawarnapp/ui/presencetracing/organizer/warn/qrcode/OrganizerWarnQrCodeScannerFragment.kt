@@ -84,7 +84,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                     navEvent.exception.toErrorDialogBuilder(requireContext()).show()
                 OrganizerWarnQrCodeNavigation.InProgress,
                 OrganizerWarnQrCodeNavigation.Scanning -> {
-                    //NO-OP
+                    // NO-OP
                 }
             }
         }
