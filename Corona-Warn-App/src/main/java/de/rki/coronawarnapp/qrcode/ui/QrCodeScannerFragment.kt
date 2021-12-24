@@ -82,11 +82,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = cameraPreview) {
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner) {
             viewModel.onNewImage(it)
         }
 
-        qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> cameraHelper.enableTorch(enable = isChecked) }
+        qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
         buttonOpenFile.setOnClickListener {
             filePickerLauncher.launch(arrayOf("image/*", "application/pdf"))
@@ -95,7 +95,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
             qrCodeProcessingView.isVisible = scannerResult == InProgress
-            cameraHelper.scanEnabled = scannerResult == Scanning
+            scannerPreview.scanEnabled = scannerResult == Scanning
             when (scannerResult) {
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
@@ -117,6 +117,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
                 InProgress,
                 Scanning -> {
+                    //NO-OP
                 }
             }
         }

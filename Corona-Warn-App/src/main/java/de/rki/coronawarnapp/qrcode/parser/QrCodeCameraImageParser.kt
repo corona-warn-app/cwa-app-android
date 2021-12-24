@@ -40,7 +40,7 @@ class QrCodeCameraImageParser @Inject constructor(
     }
 
     private suspend fun GrayU8.parse() = mutex.withLock {
-        Timber.tag(TAG).v("Paring image")
+        Timber.tag(TAG).v("Parsing image")
         val qrCodes = with(detector) {
             process(this@parse)
 

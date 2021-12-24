@@ -1,5 +1,8 @@
-package de.rki.coronawarnapp.qrcode.ui
+package de.rki.coronawarnapp.ui.qrcode
 
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
@@ -9,9 +12,9 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.window.WindowManager
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import java.util.concurrent.Executors
@@ -19,60 +22,39 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class CameraHelper(
-    lifecycleOwner: LifecycleOwner,
-    cameraPreview: PreviewView,
-    private val onImageCallback: (ImageProxy) -> Unit
-) {
+class QrCodeScannerPreviewView(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
+    private val cameraPreview: PreviewView
     private var cameraProvider: ProcessCameraProvider? = null
     private var camera: Camera? = null
     private val cameraExecutor = Executors.newSingleThreadExecutor()
 
-    private val hasBackCamera: Boolean
-        get() = hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)
-
-    private val hasFrontCamera: Boolean
-        get() = hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
-
     var scanEnabled = true
+
+    init {
+        inflate(context, R.layout.qr_code_scanner_preview_view, this)
+        cameraPreview = findViewById(R.id.camera_preview)
+    }
 
     fun enableTorch(enable: Boolean) {
         camera?.cameraControl?.enableTorch(enable)
     }
 
-    private val onDestroyListener = object : DefaultLifecycleObserver {
-        override fun onDestroy(owner: LifecycleOwner) {
-            super.onDestroy(owner)
-
-            Timber.tag(TAG).d("Shutting down camera executor")
-            cameraExecutor.shutdown()
-            owner.lifecycle.removeObserver(this)
-        }
-    }
-
-    init {
-        setupCamera(cameraPreview, lifecycleOwner)
-        addOnDestroyListener(lifecycleOwner)
-    }
-
-    private fun setupCamera(cameraPreviewView: PreviewView, lifecycleOwner: LifecycleOwner) {
+    fun setupCamera(lifecycleOwner: LifecycleOwner, onImageCallback: (ImageProxy) -> Unit) {
         Timber.tag(TAG).d("Setting up camera")
-        val context = cameraPreviewView.context
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
             {
                 cameraProvider = cameraProviderFuture.get()
-                bindUseCases(cameraPreviewView, lifecycleOwner)
-            },
-            ContextCompat.getMainExecutor(context)
+                bindUseCases(lifecycleOwner, onImageCallback)
+            }, ContextCompat.getMainExecutor(context)
         )
     }
 
-    private fun bindUseCases(cameraPreview: PreviewView, lifecycleOwner: LifecycleOwner) {
+    private fun bindUseCases(lifecycleOwner: LifecycleOwner, onImageCallback: (ImageProxy) -> Unit) {
         Timber.tag(TAG).d("Binding camera use cases")
         // Get screen metrics used to setup camera for full screen resolution
-        val windowManager = WindowManager(cameraPreview.context)
+        val windowManager = WindowManager(context)
         val metrics = windowManager.getCurrentWindowMetrics().bounds
         Timber.tag(TAG).d("Screen metrics: ${metrics.width()} x ${metrics.height()}")
 
@@ -97,10 +79,17 @@ class CameraHelper(
             .build()
 
         val analyzer = ImageAnalysis.Builder()
+            .setTargetAspectRatio(screenAspectRatio)
+            .setTargetRotation(rotation)
             .build()
             .also { imageAnalysis ->
-                imageAnalysis.setAnalyzer(cameraExecutor) {
-                    onImage(imageProxy = it)
+                imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
+                    if (scanEnabled) {
+                        onImageCallback(imageProxy)
+                    } else {
+                        // Close image safely
+                        imageProxy.use { }
+                    }
                 }
             }
 
@@ -114,18 +103,11 @@ class CameraHelper(
         }
     }
 
-    private fun onImage(imageProxy: ImageProxy) {
-        if (scanEnabled) {
-            onImageCallback(imageProxy)
-        } else {
-            imageProxy.use { }
-        }
-    }
+    private val hasBackCamera: Boolean
+        get() = hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)
 
-    private fun addOnDestroyListener(lifecycleOwner: LifecycleOwner) {
-        Timber.tag(TAG).d("Adding on destroy listener to lifecycle owner")
-        lifecycleOwner.lifecycle.addObserver(onDestroyListener)
-    }
+    private val hasFrontCamera: Boolean
+        get() = hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
 
     private fun hasCamera(selector: CameraSelector) = cameraProvider?.hasCamera(selector) ?: false
 
@@ -137,8 +119,14 @@ class CameraHelper(
         return AspectRatio.RATIO_16_9
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        Timber.tag(TAG).d("Shutting down camera executor")
+        cameraExecutor.shutdown()
+    }
+
     companion object {
-        private val TAG = tag<CameraHelper>()
+        private val TAG = tag<QrCodeScannerPreviewView>()
 
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0

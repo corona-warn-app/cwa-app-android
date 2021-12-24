@@ -12,7 +12,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
-import de.rki.coronawarnapp.qrcode.ui.CameraHelper
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -55,12 +54,10 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        val cameraHelper = CameraHelper(lifecycleOwner = viewLifecycleOwner, cameraPreview = cameraPreview) {
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner) {
             viewModel.onNewImage(image = it)
         }
-        qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-            cameraHelper.enableTorch(enable = isChecked)
-        }
+        qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
 
         qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
         qrCodeScanSubtitle.setText(R.string.qr_code_scan_body_subtitle_vertretung_warnen)
@@ -71,7 +68,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
 
         viewModel.events.observe2(this@OrganizerWarnQrCodeScannerFragment) { navEvent ->
             qrCodeProcessingView.isVisible = navEvent == OrganizerWarnQrCodeNavigation.InProgress
-            cameraHelper.scanEnabled = navEvent != OrganizerWarnQrCodeNavigation.Scanning
+            scannerPreview.scanEnabled = navEvent != OrganizerWarnQrCodeNavigation.Scanning
             when (navEvent) {
                 is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()
                 is OrganizerWarnQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
@@ -87,6 +84,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                     navEvent.exception.toErrorDialogBuilder(requireContext()).show()
                 OrganizerWarnQrCodeNavigation.InProgress,
                 OrganizerWarnQrCodeNavigation.Scanning -> {
+                    //NO-OP
                 }
             }
         }
