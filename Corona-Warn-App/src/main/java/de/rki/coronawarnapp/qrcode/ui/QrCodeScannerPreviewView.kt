@@ -77,12 +77,15 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
 
     private fun setupAutofocus(lifecycleOwner: LifecycleOwner) {
         if (BuildVersionWrap.lessThanAPILevel(Build.VERSION_CODES.O)) {
+            Timber.tag(TAG).d("setupAutofocus()")
             lifecycleOwner.lifecycleScope.launchWhenStarted {
                 while (true) {
-                    runCatching { autoFocus() }.onFailure { Timber.tag(TAG).e(it, "setupAutofocus") }
+                    runCatching { autoFocus() }.onFailure { Timber.tag(TAG).e(it, "setupAutofocus failed") }
                     delay(1_000)
                 }
             }
+        } else {
+            Timber.tag(TAG).d("setupAutofocus isn't required")
         }
     }
 
