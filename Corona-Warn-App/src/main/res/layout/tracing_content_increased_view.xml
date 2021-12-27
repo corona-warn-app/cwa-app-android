@@ -42,6 +42,7 @@
 
         <de.rki.coronawarnapp.ui.view.TracingCardInfoRow
             android:id="@+id/row_contact"
+            gone="@{state.getRiskContactBody(context) == null}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
