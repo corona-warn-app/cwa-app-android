@@ -198,9 +198,9 @@
 
     <!-- DCC Ticketing Sonsent Screen -->
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Title -->
-    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Rıza beyanız"</string>
+    <string name="dcc_ticketing_consent_one_legal_title" translatable="false">"Rıza beyanınız"</string>
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Body -->
-    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"“Anladım” üzerine tıklayarak aşağıdaki adımları onaylarsınız:"</string>
+    <string name="dcc_ticketing_consent_one_legal_body" translatable="false">"“Kabul et” üzerine tıklayarak aşağıdaki adımları onaylarsınız:"</string>
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 1 -->
     <string name="dcc_ticketing_consent_one_legal_point_1" translatable="false">"Uygulama, sağlayıcının sunduğu rezervasyonda belirtilen kişinin isim ve doğum tarihini, kontrolle ilgili rezervasyon ayrıntılarını (örn. hedef ülke ve seyahat tarihi) ve sağlayıcı tarafından rezervasyonunuza ilişkin belirlenen sertifika taleplerini açar."</string>
     <!-- XTXT: DCC Ticketing: Consent One: Legal: Point 2 -->
@@ -210,7 +210,7 @@
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Title -->
     <string name="dcc_ticketing_consent_two_legal_title" translatable="false">"Rıza beyanınız"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Body -->
-    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"“Kabul ediyorum” üzerine tıklayarak aşağıdaki bilgilerin kontrol ortağına aktarılmasına onay verirsiniz:"</string>
+    <string name="dcc_ticketing_consent_two_legal_body" translatable="false">"“Kabul et” üzerine tıklayarak aşağıdaki bilgilerin kontrol ortağına aktarılmasına onay verirsiniz:"</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 1 -->
     <string name="dcc_ticketing_consent_two_legal_point_1" translatable="false">"Seçilen sertifikanın (özellikle sertifika sahibinin adı ve doğum tarihi, geçerlilik süresi, düzenleyen ve düzenleme tarihi, aşı/test/iyileşme ile ilgili bilgiler) sertifika içeriği ve elektronik imza."</string>
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2 -->
