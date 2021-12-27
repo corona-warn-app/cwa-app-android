@@ -308,7 +308,7 @@ repositories {
     maven { url "../local-maven-repo" }
 }
 
-// conflicts with a Android stuff
+// Conflicts with Android
 configurations {
     all*.exclude group: "xmlpull", module: "xmlpull"
     all*.exclude group: "org.apache.commons", module: "commons-compress"
