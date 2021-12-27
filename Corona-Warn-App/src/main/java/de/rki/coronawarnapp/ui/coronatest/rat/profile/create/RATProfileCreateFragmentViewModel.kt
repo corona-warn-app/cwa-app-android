@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataSto
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.flow.take
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
@@ -25,8 +24,7 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     val profile: LiveData<RATProfileData> = profileData
     val events = SingleLiveEvent<CreateRATProfileNavigation>()
 
-    // TODO: is take(1) fine here?
-    val latestProfile = ratProfileSettings.profileFlow.take(1).asLiveData()
+    val latestProfile = ratProfileSettings.profileFlow.asLiveData()
 
     fun createProfile() {
         val ratProfileData = profileData.value
