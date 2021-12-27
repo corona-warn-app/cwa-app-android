@@ -46,10 +46,10 @@ data class IncreasedRisk(
         context.getString(R.string.risk_card_body_not_yet_fetched)
     }
 
-    fun getRiskContactBody(context: Context): String = if (daysWithEncounters == 0) {
+    fun getRiskContactBody(context: Context): String? = if (daysWithEncounters == 0) {
         // LEGACY MIGRATION CASE FROM 1.7.x -> 1.8.x ('days with encounter' doesn't exit in 1.7.x)
         // see RiskLevelResultMigrator.kt
-        ""
+        null
     } else {
         context.resources.getQuantityString(
             R.plurals.risk_card_high_risk_encounter_days_body,
