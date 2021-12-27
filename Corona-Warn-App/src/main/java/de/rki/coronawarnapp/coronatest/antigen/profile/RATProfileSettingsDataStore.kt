@@ -6,19 +6,23 @@ import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import dagger.Reusable
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 private const val LEGACY_SHARED_PREFS_NAME = "ratprofile_localdata"
@@ -39,15 +43,22 @@ class RATProfileSettingsDataStore @Inject constructor(
 
     private val dataStore = context.dataStore
 
-    // TODO: Handle IOException
     private val dataStoreFlow = context.dataStore.data
+        .catch { e ->
+            Timber.tag(TAG).e(e, "Failed to read RAT profile")
+            if (e is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw e
+            }
+        }
 
     val onboardedFlow: Flow<Boolean> = dataStoreFlow.map { preferences ->
-        preferences[onboardedKey] ?: false
+        preferences[ONBOARDED_KEY] ?: false
     }
 
     val profileFlow: Flow<RATProfile?> = dataStoreFlow.map { preferences ->
-        when (val rawProfile = preferences[profileKey]) {
+        when (val rawProfile = preferences[PROFILE_KEY]) {
             null -> null
             else -> gson.fromJson<RATProfile>(rawProfile)
         }
@@ -56,21 +67,21 @@ class RATProfileSettingsDataStore @Inject constructor(
     fun setOnboarded() = appScope.launch {
         Timber.d("Set Onboarded to true")
         dataStore.edit { preferences ->
-            preferences[onboardedKey] = true
+            preferences[ONBOARDED_KEY] = true
         }
     }
 
     fun updateProfile(profile: RATProfile) = appScope.launch {
         Timber.d("Updating RATProfile - new value: %s", profile)
         dataStore.edit { preferences ->
-            preferences[profileKey] = gson.toJson(profile)
+            preferences[PROFILE_KEY] = gson.toJson(profile)
         }
     }
 
     fun deleteProfile() = appScope.launch {
         Timber.d("Deleting RATProfile")
         dataStore.edit { preferences ->
-            preferences.remove(profileKey)
+            preferences.remove(PROFILE_KEY)
         }
     }
 
@@ -81,7 +92,9 @@ class RATProfileSettingsDataStore @Inject constructor(
     }
 
     companion object {
-        private val onboardedKey = booleanPreferencesKey("ratprofile.settings.onboarded")
-        private val profileKey = stringPreferencesKey("ratprofile.settings.profile")
+        private val ONBOARDED_KEY = booleanPreferencesKey("ratprofile.settings.onboarded")
+        private val PROFILE_KEY = stringPreferencesKey("ratprofile.settings.profile")
+
+        private val TAG = tag<RATProfileSettingsDataStore>()
     }
 }
