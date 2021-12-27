@@ -22,11 +22,8 @@ import androidx.window.WindowManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.BuildVersionWrap
-import de.rki.coronawarnapp.util.flow.intervalFlow
 import de.rki.coronawarnapp.util.lessThanAPILevel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
@@ -81,10 +78,10 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private fun setupAutofocus(lifecycleOwner: LifecycleOwner) {
         if (BuildVersionWrap.lessThanAPILevel(Build.VERSION_CODES.O)) {
             lifecycleOwner.lifecycleScope.launchWhenStarted {
-                intervalFlow(1_000)
-                    .onEach { autoFocus() }
-                    .catch { Timber.tag(TAG).e(it, "Autofocus failed") }
-                    .collect()
+                while (true) {
+                    runCatching { autoFocus() }.onFailure { Timber.tag(TAG).e(it, "setupAutofocus") }
+                    delay(1_000)
+                }
             }
         }
     }
