@@ -213,11 +213,15 @@ abstract class BaseRiskLevelStorage constructor(
             ewDayRiskStates
         ) { combinedResults, ewDayRiskStates ->
 
+            val lastCalculated = combinedResults.firstOrNull()
+            val deadline = fifteenDaysAgo.toLocalDateUtc()
+
             LastCombinedRiskResults(
-                lastCalculated = combinedResults.firstOrNull()?.copy(
+                lastCalculated = lastCalculated?.copy(
                     // need to provide the data here as they are null in EwAggregatedRiskResult
                     exposureWindowDayRisks = ewDayRiskStates.filter { ewDayRisk ->
-                        ewDayRisk.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc())
+                        ewDayRisk.localDateUtc.isAfter(deadline) ||
+                            ewDayRisk.localDateUtc == lastCalculated.lastRiskEncounterAt
                     }
                 ) ?: riskCombinator.latestCombinedResult,
                 lastSuccessfullyCalculated = combinedResults.find {
