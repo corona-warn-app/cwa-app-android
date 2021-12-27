@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
+import androidx.camera.core.ImageProxy
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
+import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
@@ -42,10 +44,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.verify
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -71,6 +75,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var recycledCertificatesProvider: RecycledCertificatesProvider
     @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
     @MockK lateinit var dccMaxPersonChecker: DccMaxPersonChecker
+    @RelaxedMockK lateinit var qrCodeCameraImageParser: QrCodeCameraImageParser
 
     private val recycledRAT = RACoronaTest(
         identifier = "rat-identifier",
@@ -124,6 +129,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
         every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
         coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
+        every { qrCodeCameraImageParser.rawResults } returns emptyFlow()
     }
 
     @Test
@@ -156,12 +162,12 @@ class QrCodeScannerViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onScanResult reports UnsupportedQrCodeException`() {
+    fun `unsupported qr code leads to UnsupportedQrCodeException`() {
         val error = UnsupportedQrCodeException()
         coEvery { qrCodeValidator.validate(rawString = any()) } throws error
+        every { qrCodeCameraImageParser.rawResults } returns flowOf(rawResult)
 
         viewModel().apply {
-            onScanResult(rawResult = rawResult)
             result.getOrAwaitValue().also {
                 it as Error
                 it.error shouldBe error
@@ -363,9 +369,9 @@ class QrCodeScannerViewModelTest : BaseTest() {
             errorCode = DccTicketingInvalidQrCodeException.ErrorCode.INIT_DATA_PROTOCOL_INVALID
         )
         coEvery { qrCodeValidator.validate(any()) } throws error
+        every { qrCodeCameraImageParser.rawResults } returns flowOf(rawResult)
 
         with(viewModel()) {
-            onScanResult(rawResult = rawResult)
             result.getOrAwaitValue().also {
                 it as Error
                 it.error shouldBe error
@@ -380,8 +386,9 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val error = DccTicketingAllowListException(DccTicketingAllowListException.ErrorCode.ALLOWLIST_NO_MATCH)
         coEvery { dccTicketingQrCodeHandler.handleQrCode(any()) } throws error
 
+        every { qrCodeCameraImageParser.rawResults } returns flowOf(rawResult)
+
         with(viewModel()) {
-            onScanResult(rawResult = rawResult)
             result.getOrAwaitValue().also {
                 it as Error
                 it.error shouldBe error
@@ -400,11 +407,31 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val error = DccTicketingException(errorCode = DccTicketingErrorCode.VD_ID_PARSE_ERR)
         coEvery { dccTicketingQrCodeHandler.handleQrCode(any()) } throws error
 
+        every { qrCodeCameraImageParser.rawResults } returns flowOf(rawResult)
+
         with(viewModel()) {
-            onScanResult(rawResult = rawResult)
             result.getOrAwaitValue().also {
                 it should beInstanceOf<DccTicketingError>()
             }
+        }
+    }
+
+    @Test
+    fun `onNewImage forwards image to qrCodeCameraImageParser`() {
+        val image: ImageProxy = mockk()
+
+        viewModel().onNewImage(imageProxy = image)
+
+        coVerify {
+            qrCodeCameraImageParser.parseQrCode(imageProxy = image)
+        }
+    }
+
+    @Test
+    fun `startDecode() reports Scanning`() {
+        with(viewModel()) {
+            startDecode()
+            result.getOrAwaitValue() shouldBe Scanning
         }
     }
 
@@ -421,6 +448,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         recycledCertificatesProvider = recycledCertificatesProvider,
         recycledCoronaTestsProvider = recycledCoronaTestsProvider,
         dccTicketingQrCodeHandler = dccTicketingQrCodeHandler,
-        dccMaxPersonChecker = dccMaxPersonChecker
+        dccMaxPersonChecker = dccMaxPersonChecker,
+        qrCodeCameraImageParser = qrCodeCameraImageParser
     )
 }

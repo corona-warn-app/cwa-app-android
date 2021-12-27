@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
+import androidx.camera.core.ImageProxy
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -17,6 +18,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
+import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
@@ -32,6 +34,7 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -48,10 +51,17 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
-    private val dccMaxPersonChecker: DccMaxPersonChecker
+    private val dccMaxPersonChecker: DccMaxPersonChecker,
+    private val qrCodeCameraImageParser: QrCodeCameraImageParser
 ) : CWAViewModel(dispatcherProvider) {
 
-    val result = SingleLiveEvent<ScannerResult>()
+    val result = SingleLiveEvent<ScannerResult>().also { it.postValue(Scanning) }
+
+    init {
+        qrCodeCameraImageParser.rawResults
+            .onEach { onScanResult(it) }
+            .launchInViewModel()
+    }
 
     fun onImportFile(fileUri: Uri) = launch {
         result.postValue(InProgress)
@@ -73,7 +83,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onScanResult(rawResult: String) = launch {
+    fun onNewImage(imageProxy: ImageProxy) = launch {
+        qrCodeCameraImageParser.parseQrCode(imageProxy = imageProxy)
+    }
+
+    fun startDecode() = result.postValue(Scanning)
+
+    private fun onScanResult(rawResult: String) = launch {
         result.postValue(InProgress)
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {
