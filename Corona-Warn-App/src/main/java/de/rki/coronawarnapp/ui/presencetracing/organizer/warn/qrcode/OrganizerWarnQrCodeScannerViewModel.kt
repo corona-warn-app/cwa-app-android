@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtract
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.toGrayU8
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
@@ -79,7 +80,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun onNewImage(image: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(imageProxy = image)
+        qrCodeCameraImageParser.parseQrCode(image = image.toGrayU8())
     }
 
     fun startDecode() = events.postValue(OrganizerWarnQrCodeNavigation.Scanning)

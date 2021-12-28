@@ -35,8 +35,8 @@ class QrCodeCameraImageParser @Inject constructor(
     private val mutex = Mutex()
     private val detector = FactoryFiducial.qrcode(null, GrayU8::class.java)
 
-    suspend fun parseQrCode(imageProxy: ImageProxy): Unit = withContext(dispatcherProvider.Default) {
-        imageProxy.use { it.toGrayU8().parse() }
+    suspend fun parseQrCode(image: GrayU8): Unit = withContext(dispatcherProvider.Default) {
+        image.parse()
     }
 
     private suspend fun GrayU8.parse() = mutex.withLock {
@@ -55,10 +55,7 @@ class QrCodeCameraImageParser @Inject constructor(
 
         Timber.tag(TAG).v("Found %d qr codes", qrCodes.size)
 
-        when (qrCodes.isEmpty()) {
-            true -> listOf("")
-            false -> qrCodes.map { it.message }
-        }.forEach { currentRawResults.tryEmit(it) }
+        qrCodes.map { it.message }.forEach { currentRawResults.tryEmit(it) }
     }
 
     private fun GrayU8.transpose(): GrayU8 {
@@ -71,12 +68,12 @@ class QrCodeCameraImageParser @Inject constructor(
         return transposed
     }
 
-    @SuppressLint("UnsafeOptInUsageError")
-    private fun ImageProxy.toGrayU8(): GrayU8 = ImageType.SB_U8.createImage(width, height).also {
-        ConvertCameraImage.imageToBoof(image, ColorFormat.RGB, it, null)
-    }
-
     companion object {
         private val TAG = tag<QrCodeCameraImageParser>()
     }
+}
+
+@SuppressLint("UnsafeOptInUsageError")
+fun ImageProxy.toGrayU8(): GrayU8 = ImageType.SB_U8.createImage(width, height).also {
+    ConvertCameraImage.imageToBoof(image, ColorFormat.RGB, it, null)
 }

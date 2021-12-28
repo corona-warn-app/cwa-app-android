@@ -423,7 +423,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         viewModel().onNewImage(imageProxy = image)
 
         coVerify {
-            qrCodeCameraImageParser.parseQrCode(imageProxy = image)
+            qrCodeCameraImageParser.parseQrCode(any())
         }
     }
 
