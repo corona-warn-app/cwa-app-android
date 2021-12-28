@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors.submission
 
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -17,7 +17,7 @@ import testhelpers.BaseTest
 @Suppress("MaxLineLength")
 internal class RatProfileCensorTest : BaseTest() {
 
-    @MockK lateinit var ratProfileSettings: RATProfileSettings
+    @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
 
     @BeforeEach
     fun setUp() {
@@ -30,7 +30,7 @@ internal class RatProfileCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return null if no RAT profile is stored`() = runBlocking {
-        every { ratProfileSettings.profile.flow } returns flowOf(null)
+        every { ratProfileSettings.profileFlow } returns flowOf(null)
 
         val censor = createInstance()
 
@@ -41,7 +41,7 @@ internal class RatProfileCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
-        every { ratProfileSettings.profile.flow } returns flowOf(profile)
+        every { ratProfileSettings.profileFlow } returns flowOf(profile)
 
         val censor = createInstance()
 
@@ -52,7 +52,7 @@ internal class RatProfileCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return censored LogLine`() = runBlocking {
-        every { ratProfileSettings.profile.flow } returns flowOf(profile)
+        every { ratProfileSettings.profileFlow } returns flowOf(profile)
 
         val censor = createInstance()
 
@@ -67,7 +67,7 @@ internal class RatProfileCensorTest : BaseTest() {
 
     @Test
     fun `censoring should still work after the user deletes his profile`() = runBlockingTest {
-        every { ratProfileSettings.profile.flow } returns flowOf(profile, null)
+        every { ratProfileSettings.profileFlow } returns flowOf(profile, null)
 
         val censor = createInstance()
 
@@ -86,7 +86,7 @@ internal class RatProfileCensorTest : BaseTest() {
             lastName = "Berlin",
             city = "Berlin Kreuzberg"
         )
-        every { ratProfileSettings.profile.flow } returns flowOf(selfOverlap, null)
+        every { ratProfileSettings.profileFlow } returns flowOf(selfOverlap, null)
 
         val censor = createInstance()
 

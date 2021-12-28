@@ -4,19 +4,20 @@ import android.content.Context
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 
 internal class RATProfileSettingsTest : BaseTest() {
     @MockK lateinit var context: Context
-    private val mockPreferences = MockSharedPreferences()
-    private lateinit var ratProfileSettings: RATProfileSettings
+    private val fakeDataStore = FakeDataStore()
+    private lateinit var ratProfileSettings: RATProfileSettingsDataStore
     private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
     private val profile = RATProfile(
         firstName = "First name",
@@ -33,20 +34,17 @@ internal class RATProfileSettingsTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every {
-            context.getSharedPreferences("ratprofile_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
-
-        ratProfileSettings = RATProfileSettings(
-            context,
-            SerializationModule().baseGson()
+        ratProfileSettings = RATProfileSettingsDataStore(
+            { fakeDataStore },
+            SerializationModule().baseGson(),
+            TestCoroutineScope()
         )
     }
 
     @Test
     fun `Profile has birth date`() {
-        ratProfileSettings.profile.update { profile }
-        val json = (mockPreferences.dataMapPeek["ratprofile.settings.profile"] as String)
+        ratProfileSettings.updateProfile(profile)
+        val json = (fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] as String)
         json.toComparableJsonPretty() shouldBe
             """
                 {
@@ -64,8 +62,8 @@ internal class RATProfileSettingsTest : BaseTest() {
 
     @Test
     fun `Profile hasn't birth date`() {
-        ratProfileSettings.profile.update { profile.copy(birthDate = null) }
-        val json = (mockPreferences.dataMapPeek["ratprofile.settings.profile"] as String)
+        ratProfileSettings.updateProfile(profile.copy(birthDate = null))
+        val json = (fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] as String)
         json.toComparableJsonPretty() shouldBe
             """
                 {
@@ -82,8 +80,8 @@ internal class RATProfileSettingsTest : BaseTest() {
 
     @Test
     fun `Profile has empty properties`() {
-        ratProfileSettings.profile.update { profile.copy(firstName = "", lastName = "") }
-        val json = (mockPreferences.dataMapPeek["ratprofile.settings.profile"] as String)
+        ratProfileSettings.updateProfile(profile.copy(firstName = "", lastName = ""))
+        val json = (fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] as String)
         json.toComparableJsonPretty() shouldBe
             """
                 {
@@ -97,5 +95,28 @@ internal class RATProfileSettingsTest : BaseTest() {
                   "email": "email@example.com"
                 }
             """.trimIndent()
+    }
+
+    @Test
+    fun `Profile deletion`() {
+        ratProfileSettings.updateProfile(profile)
+        ratProfileSettings.deleteProfile()
+        fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] shouldBe null
+    }
+
+    @Test
+    fun `User on-boarding`() {
+        fakeDataStore[RATProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
+        ratProfileSettings.setOnboarded()
+        fakeDataStore[RATProfileSettingsDataStore.ONBOARDED_KEY] shouldBe true
+    }
+
+    @Test
+    fun `Clear profile settings`() = runBlockingTest {
+        ratProfileSettings.updateProfile(profile)
+        ratProfileSettings.setOnboarded()
+        ratProfileSettings.clear()
+        fakeDataStore[RATProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
+        fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] shouldBe null
     }
 }
