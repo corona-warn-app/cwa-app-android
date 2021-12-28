@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -71,7 +71,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var ratProfileSettings: RATProfileSettings
+    @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
