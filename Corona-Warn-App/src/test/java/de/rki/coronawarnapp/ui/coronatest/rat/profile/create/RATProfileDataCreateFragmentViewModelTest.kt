@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
@@ -15,12 +17,11 @@ import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class)
 internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
 
-    @MockK lateinit var ratProfileSettings: RATProfileSettings
+    @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
 
     private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
     private val birthDate: LocalDate = formatter.parseDateTime("01.01.1980").toLocalDate()
@@ -28,7 +29,8 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { ratProfileSettings.profile } returns mockFlowPreference(null)
+        every { ratProfileSettings.profileFlow } returns flowOf(null)
+        every { ratProfileSettings.updateProfile(any()) } returns Job()
     }
 
     @Test
@@ -39,7 +41,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
 
         verify(exactly = 1) {
-            ratProfileSettings.profile
+            ratProfileSettings.profileFlow
         }
     }
 
@@ -55,7 +57,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             phone = "111111111",
             email = "email@example.com"
         )
-        every { ratProfileSettings.profile } returns mockFlowPreference(savedProfile)
+        every { ratProfileSettings.profileFlow } returns flowOf(savedProfile)
 
         viewModel().apply {
             // Fields updated
@@ -68,7 +70,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             phoneChanged(savedProfile.phone)
             emailChanged(savedProfile.email)
 
-            val input = latestProfile.getOrAwaitValue()
+            val input = latestProfile.getOrAwaitValue()!!
             val output = profile.getOrAwaitValue()
             input.firstName shouldBe output.firstName
             input.lastName shouldBe output.lastName
@@ -89,7 +91,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
 
         verify {
-            ratProfileSettings.profile
+            ratProfileSettings.profileFlow
         }
     }
 

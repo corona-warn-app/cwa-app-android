@@ -6,7 +6,7 @@ import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -112,7 +112,7 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun ratProfileSettings(): RATProfileSettings = mockk()
+    fun ratProfileSettings(): RATProfileSettingsDataStore = mockk()
 
     @Singleton
     @Provides
