@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
@@ -157,8 +156,6 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     }
 
     private suspend fun autoFocus() {
-        tapToFocus()
-
         val bounds = windowManager.getCurrentWindowMetrics().bounds
         val focusPoint = SurfaceOrientedMeteringPointFactory(
             bounds.width().toFloat(),
@@ -175,26 +172,6 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
                     { continuation.resume(Unit) },
                     ContextCompat.getMainExecutor(context),
                 )
-            }
-        }
-    }
-
-    private fun tapToFocus() {
-        cameraPreview.setOnTouchListener { view, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> true
-                MotionEvent.ACTION_UP -> {
-                    val focusPoint = SurfaceOrientedMeteringPointFactory(view.width.toFloat(), view.height.toFloat())
-                        .createPoint(event.x, event.y)
-
-                    camera?.cameraControl?.startFocusAndMetering(
-                        FocusMeteringAction.Builder(focusPoint, FocusMeteringAction.FLAG_AF)
-                            .disableAutoCancel()
-                            .build()
-                    )
-                    view.performClick()
-                }
-                else -> false
             }
         }
     }
