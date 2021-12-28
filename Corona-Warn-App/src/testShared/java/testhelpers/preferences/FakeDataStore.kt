@@ -27,7 +27,7 @@ class FakeDataStore : DataStore<Preferences> {
     private val preferences = mockk<Preferences>().apply {
         every { contains(any<Preferences.Key<*>>()) } answers { map.containsKey(arg(0)) }
         every { get(any<Preferences.Key<*>>()) } answers { map[arg(0)] }
-        every { toPreferences() } answers { this@apply }
+        every { toPreferences() } answers { mutablePreferences }
         every { toMutablePreferences() } answers { mutablePreferences }
     }
 
