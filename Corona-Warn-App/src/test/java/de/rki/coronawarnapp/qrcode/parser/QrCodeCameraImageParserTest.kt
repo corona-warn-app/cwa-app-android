@@ -114,4 +114,3 @@ private class Image(file: File) {
 }
 
 private const val TEST_DATA_DIRECTORY = "./src/test/dcc-test-data"
-
