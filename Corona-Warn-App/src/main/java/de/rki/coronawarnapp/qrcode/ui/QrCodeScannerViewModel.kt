@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.toGrayU8
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
@@ -84,7 +85,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun onNewImage(imageProxy: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(imageProxy = imageProxy)
+        qrCodeCameraImageParser.parseQrCode(image = imageProxy.toGrayU8())
     }
 
     fun startDecode() = result.postValue(Scanning)
