@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
 import androidx.camera.core.ImageProxy
+import boofcv.struct.image.GrayU8
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -20,6 +21,7 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.toGrayU8
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
@@ -123,6 +125,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         mockkStatic(Uri::class)
+        mockkStatic("de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParserKt")
 
         every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         every { Uri.parse(any()) } returns mockk()
@@ -419,6 +422,8 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @Test
     fun `onNewImage forwards image to qrCodeCameraImageParser`() {
         val image: ImageProxy = mockk()
+        val grayU8: GrayU8 = mockk()
+        every { image.toGrayU8() } returns grayU8
 
         viewModel().onNewImage(imageProxy = image)
 
