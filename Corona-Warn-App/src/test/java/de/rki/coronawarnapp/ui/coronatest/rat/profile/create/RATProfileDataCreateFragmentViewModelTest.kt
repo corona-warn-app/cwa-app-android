@@ -7,6 +7,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -29,6 +30,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { ratProfileSettings.profileFlow } returns flowOf(null)
+        every { ratProfileSettings.updateProfile(any()) } returns Job()
     }
 
     @Test
