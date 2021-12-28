@@ -1,23 +1,32 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
+import androidx.camera.core.SurfaceOrientedMeteringPointFactory
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.window.WindowManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.BuildVersionWrap
+import de.rki.coronawarnapp.util.lessThanAPILevel
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.util.concurrent.Executors
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -31,12 +40,14 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private var cameraProvider: ProcessCameraProvider? = null
     private var camera: Camera? = null
     private val cameraExecutor = Executors.newSingleThreadExecutor()
+    private val windowManager: WindowManager
 
     var scanEnabled = true
 
     init {
         inflate(context, R.layout.qr_code_scanner_preview_view, this)
         cameraPreview = findViewById(R.id.camera_preview)
+        windowManager = WindowManager(context)
     }
 
     fun enableTorch(enable: Boolean) {
@@ -53,12 +64,33 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
             },
             ContextCompat.getMainExecutor(context)
         )
+
+        setupAutofocus(lifecycleOwner)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        Timber.tag(TAG).d("Shutting down camera executor")
+        cameraExecutor.shutdown()
+    }
+
+    private fun setupAutofocus(lifecycleOwner: LifecycleOwner) {
+        if (BuildVersionWrap.lessThanAPILevel(Build.VERSION_CODES.O)) {
+            Timber.tag(TAG).d("setupAutofocus()")
+            lifecycleOwner.lifecycleScope.launchWhenStarted {
+                while (true) {
+                    runCatching { autoFocus() }.onFailure { Timber.tag(TAG).e(it, "setupAutofocus failed") }
+                    delay(1_000)
+                }
+            }
+        } else {
+            Timber.tag(TAG).d("setupAutofocus isn't required")
+        }
     }
 
     private fun bindUseCases(lifecycleOwner: LifecycleOwner, onImageCallback: (ImageProxy) -> Unit) {
         Timber.tag(TAG).d("Binding camera use cases")
         // Get screen metrics used to setup camera for full screen resolution
-        val windowManager = WindowManager(context)
         val metrics = windowManager.getCurrentWindowMetrics().bounds
         Timber.tag(TAG).d("Screen metrics: ${metrics.width()} x ${metrics.height()}")
 
@@ -123,10 +155,25 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         return AspectRatio.RATIO_16_9
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        Timber.tag(TAG).d("Shutting down camera executor")
-        cameraExecutor.shutdown()
+    private suspend fun autoFocus() {
+        val bounds = windowManager.getCurrentWindowMetrics().bounds
+        val focusPoint = SurfaceOrientedMeteringPointFactory(
+            bounds.width().toFloat(),
+            bounds.height().toFloat()
+        ).createPoint(
+            bounds.exactCenterX(),
+            bounds.exactCenterY()
+        )
+
+        val focusAction = FocusMeteringAction.Builder(focusPoint, FocusMeteringAction.FLAG_AF).build()
+        camera?.cameraControl?.startFocusAndMetering(focusAction)?.let { future ->
+            suspendCoroutine<Unit> { continuation ->
+                future.addListener(
+                    { continuation.resume(Unit) },
+                    ContextCompat.getMainExecutor(context),
+                )
+            }
+        }
     }
 
     companion object {

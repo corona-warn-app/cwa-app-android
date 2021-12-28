@@ -68,7 +68,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
 
         viewModel.events.observe2(this@OrganizerWarnQrCodeScannerFragment) { navEvent ->
             qrCodeProcessingView.isVisible = navEvent == OrganizerWarnQrCodeNavigation.InProgress
-            scannerPreview.scanEnabled = navEvent != OrganizerWarnQrCodeNavigation.Scanning
+            scannerPreview.scanEnabled = navEvent == OrganizerWarnQrCodeNavigation.Scanning
             when (navEvent) {
                 is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()
                 is OrganizerWarnQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
