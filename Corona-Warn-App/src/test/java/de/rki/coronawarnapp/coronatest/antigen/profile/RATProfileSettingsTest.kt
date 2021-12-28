@@ -6,6 +6,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeEach
@@ -94,5 +95,28 @@ internal class RATProfileSettingsTest : BaseTest() {
                   "email": "email@example.com"
                 }
             """.trimIndent()
+    }
+
+    @Test
+    fun `Profile deletion`() {
+        ratProfileSettings.updateProfile(profile)
+        ratProfileSettings.deleteProfile()
+        fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] shouldBe null
+    }
+
+    @Test
+    fun `User on-boarding`() {
+        fakeDataStore[RATProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
+        ratProfileSettings.setOnboarded()
+        fakeDataStore[RATProfileSettingsDataStore.ONBOARDED_KEY] shouldBe true
+    }
+
+    @Test
+    fun `Clear profile settings`() = runBlockingTest {
+        ratProfileSettings.updateProfile(profile)
+        ratProfileSettings.setOnboarded()
+        ratProfileSettings.clear()
+        fakeDataStore[RATProfileSettingsDataStore.ONBOARDED_KEY] shouldBe null
+        fakeDataStore[RATProfileSettingsDataStore.PROFILE_KEY] shouldBe null
     }
 }
