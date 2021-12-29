@@ -137,6 +137,7 @@
                         android:layout_width="276dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
+                        android:hyphenationFrequency="full"
                         tools:text="Jahrestreffen der deutschen SAP Anwendergruppe" />
 
                     <TextView

@@ -17,11 +17,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:orientation="vertical"
-        app:srcCompat="@drawable/ic_old_checkin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ic_old_checkin"
         tools:text="21.01.2021" />
 
     <TextView
@@ -32,6 +32,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:hyphenationFrequency="full"
         app:layout_constraintEnd_toStartOf="@+id/menu_action"
         app:layout_constraintStart_toEndOf="@+id/traceLocationCardHighlightView"
         app:layout_constraintTop_toTopOf="parent"

@@ -23,11 +23,11 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:importantForAccessibility="no"
-            app:srcCompat="@drawable/ic_qr_code_list_item_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_qr_code_list_item_icon" />
 
     </de.rki.coronawarnapp.ui.presencetracing.common.TraceLocationCardHighlightView>
 
@@ -39,6 +39,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:hyphenationFrequency="full"
         app:layout_constraintEnd_toStartOf="@id/menu_action"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
