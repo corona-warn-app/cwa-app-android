@@ -39,8 +39,6 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
                     }
                 }
             }
-        } else {
-            setNeutralButton(null, null) // Remove details
         }
     }
 }
