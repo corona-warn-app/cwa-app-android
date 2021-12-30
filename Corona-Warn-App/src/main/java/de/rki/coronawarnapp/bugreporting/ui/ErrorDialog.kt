@@ -48,13 +48,4 @@ fun Throwable.toErrorDialogBuilder(context: Context) =
         setMessageView(humanReadable.description, textHasLinks = true)
 
         setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
-
-        setNeutralButton(R.string.errors_generic_button_negative) { _, _ ->
-            MaterialAlertDialogBuilder(context).apply {
-                setMessageView(
-                    error.toString() + "\n\n" + error.stackTraceToString(),
-                    textHasLinks = false
-                )
-            }.show()
-        }
     }
