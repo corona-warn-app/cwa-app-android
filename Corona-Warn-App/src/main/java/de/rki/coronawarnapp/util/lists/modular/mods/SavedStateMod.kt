@@ -15,22 +15,36 @@ class SavedStateMod<T : ModularAdapter.VH> :
 
     private val savedStates = mutableMapOf<String, Parcelable>()
 
-    override fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {
-        if (vh !is StateSavingVH) return
-        val key = vh.savedStateKey ?: return
+    private var initial = true
 
-        vh.restoreState(savedStates.remove(key))
+    override fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {
+        (vh as? StateSavingVH)?.let { vh ->
+
+            if (initial) {
+                initial = vh.onInitialPostBind()
+            }
+
+            vh.savedStateKey?.let { key ->
+                Timber.d("Stats debug: not initial")
+                savedStates[key]?.let { savedState ->
+                    vh.restoreState(savedState)
+                }
+            }
+        }
         super.onPostBind(adapter, vh, pos)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.addLifecycleEventCallback(type = Lifecycle.Event.ON_STOP) {
+        Timber.d("Stats debug: onAttachedToRecyclerView")
+        recyclerView.addLifecycleEventCallback(type = Lifecycle.Event.ON_PAUSE) {
+            Timber.d("Stats debug: on pause")
             savedStates.clear()
 
             getAllViewHolders(recyclerView).filterIsInstance<StateSavingVH>().forEach { vh ->
                 val key = vh.savedStateKey
                 val state = vh.onSaveState()
                 if (key != null && state != null) {
+                    Timber.d("Stats debug: save state")
                     savedStates[key] = state
                 }
             }
@@ -56,5 +70,6 @@ class SavedStateMod<T : ModularAdapter.VH> :
         val savedStateKey: String?
         fun onSaveState(): Parcelable?
         fun restoreState(state: Parcelable?)
+        fun onInitialPostBind(): Boolean
     }
 }

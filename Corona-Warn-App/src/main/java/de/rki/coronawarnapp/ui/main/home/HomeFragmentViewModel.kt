@@ -149,7 +149,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val combinedStatistics = combine(
         statisticsProvider.current,
         localStatisticsProvider.current,
-        networkStateProvider.networkState.map { it.isInternetAvailable }.distinctUntilChanged()
+        networkStateProvider.networkState.map { it.isInternetAvailable }
     ) { statsData, localStatsData, isInternetAvailable ->
         statsData.copy(
             items = mutableListOf(
