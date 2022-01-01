@@ -76,8 +76,4 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
         MainActivity.start(this, intent)
         finish()
     }
-
-    fun goBack() {
-        onBackPressed()
-    }
 }
