@@ -165,8 +165,6 @@
     <string name="main_about_headline">"Häufige Fragen"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf die externe Website coronawarn.app weitergeleitet."</string>
-    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
-    <string name="main_about_link">"https://www.coronawarn.app/de/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Häufige Fragen, hier finden Sie Antworten auf häufig gestellte Fragen rund um die Corona-Warn-App. Sie werden auf eine externe Website weitergeleitet."</string>
 
@@ -286,15 +284,10 @@
     <string name="risk_details_behavior_increased_body_1">"Testmöglichkeiten finden Sie hier. Sie können sich auch an Ihre Hausarztpraxis oder Apotheke wenden."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
     <string name="risk_details_behavior_increased_body_1_label">"Testmöglichkeiten finden Sie hier."</string>
-    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Weitere Informationen in den FAQ zum Testablauf."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
     <string name="risk_details_behavior_increased_body_2_label">"Weitere Informationen in den FAQ zum Testablauf."</string>
-    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/de/faq/#red_card_how_to_test"</string>
-
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Infektionsrisiko"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -320,8 +313,6 @@
     <string name="risk_details_information_body_low_risk">"Sie haben ein niedriges Infektionsrisiko, da keine Begegnung mit nachweislich Corona-positiv getesteten Personen aufgezeichnet wurde oder sich Ihre Begegnung auf kurze Zeit und einen größeren Abstand beschränkt hat."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Das Infektionsrisiko wird anhand der Daten der Risiko-Ermittlung unter Berücksichtigung des Abstands und der Dauer von Begegnungen mit nachweislich Corona-positiv getesteten Personen sowie deren vermutlicher Infektiosität lokal auf Ihrem Smartphone berechnet. Ihr Infektionsrisiko ist für niemanden einsehbar und wird nicht weitergegeben."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Sie haben ein erhöhtes Infektionsrisiko, da Sie mindestens einer nachweislich Corona-positiv getesteten Person über einen längeren Zeitraum und mit einem geringeren Abstand begegnet sind."</string>
     <!-- YTXT: risk details - risk calculation explanation -->
@@ -617,8 +608,6 @@
     <string name="settings_tracing_status_location_headline">"Standort-Verwendung erlauben"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Aktivieren Sie die Standort-Dienste. Für die Abstandsberechnung benötigt Bluetooth Low Energy aktivierte Standort-Dienste, greift dabei aber nicht auf Ihren Standort zu. Weitere Informationen finden Sie in der FAQ."</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
-    <string name="settings_tracing_status_location_body_url">https://www.coronawarn.app/de/faq/#android_location</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Geräteeinstellungen öffnen"</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -800,8 +789,6 @@
     <string name="debugging_debuglog_intro_explanation_section_two">"Weitere Informationen finden Sie in den FAQ: FAQ zu den Fehlerberichten"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"FAQ zu den Fehlerberichten"</string>
-    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/de/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
     <string name="debugging_debuglog_id_history_title">"ID-Historie"</string>
     <!-- YTXT: Description of ID History -->
@@ -957,12 +944,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="qr_code_error_max_person_max_body">"Die Corona-Warn-App darf nicht zur Prüfung fremder Zertifikate verwendet werden. Nutzen Sie dafür die CovPassCheck-App.\n\nSie können maximal für %d Personen Zertifikate hinzufügen. Sie können keine neuen Zertifikate mehr für weitere Personen einscannen.\n\nWeitere Informationen zur Zertifikatsprüfung finden Sie in den FAQ."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Download CovPassCheck"</string>
-    <!-- XTXT: QR Code error message: covpasscheck app link  -->
-    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
     <!-- XBUT: QR Code error message: FAQ button  -->
     <string name="qr_code_error_max_person_faq_button">"FAQ zur Zertifikatsprüfung"</string>
-    <!-- XTXT: QR Code error message: FAQ link  -->
-    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/de/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -1162,8 +1145,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_dispatcher_card_test_center">"Testmöglichkeit finden"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
     <string name="submission_dispatcher_card_test_center_text">"Finden Sie Teststellen in Ihrer Nähe und falls Probleme auftreten, können Sie diese melden.\nSie werden auf eine externe Website des RKI weitergeleitet."</string>
-    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
-    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/de/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"TAN für PCR-Test eingeben"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1552,16 +1533,12 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="statistics_explanation_trend_stable_title">"Trend stabil, neutral"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Die Bewertung des Trends bei den warnenden Personen ändert sich je nach Infektionslage. Deshalb wird dieser Trend immer neutral dargestellt."</string>
-    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/de/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakte Darstellung eines Smartphones mit vier Platzhaltern für Informationen"</string>
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Mehr inhaltliche Details zu den einzelnen Kennzahlen finden Sie im Blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
-    <!-- XTXT: Statistics explanation blog text url -->
-    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/de/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalisierung"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
@@ -1689,8 +1666,6 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="errors_generic_text_unknown_error_cause">"Ein unbekannter Fehler ist aufgetreten."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Aufgrund eines technischen Problems wurde Ihre App zurückgesetzt. Dies hat keine Auswirkung auf die Risiko-Ermittlung und damit auf Ihren Risikostatus. Sie werden weiterhin über Risiko-Begegnungen benachrichtigt und können andere warnen, falls Sie positiv auf COVID-19 getestet wurden. Durch das Zurücksetzen der App gehen aber zuvor eingelesene QR-Codes für die elektronische Benachrichtigung über Ihre Testergebnisse verloren. Bitte wenden Sie sich an Ihren Hausarzt oder Labor, um Ihr Testergebnis zu erfahren."</string>
-    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/de/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
@@ -2051,19 +2026,12 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
         Warnungen, die im Rahmen von Check-ins erfolgen, können Sie sowohl empfangen als auch selbst
         versenden.
     </string>
-    <!-- XTXT: Incompitability faq link for partial incompatibility -->
-    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/de/faq/#part_incompat"</string>
-    <!-- XTXT: Incompitability faq link for full incompatibility -->
-    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/de/faq/#full_incompat"</string>
-
     <!-- XHED: App Root Detection dialog title -->
     <string name="root_dialog_title">"Sicherheitshinweis"</string>
     <!-- XTXT: App Root Detection dialog message -->
     <string name="root_dialog_message">"Wir haben auf Ihrem Gerät Anzeichen für Administrator-Berechtigungen (auch bekannt als Root-Berechtigungen) gefunden. Es besteht daher ein erhöhtes Risiko, dass andere Anwendungen auf Ihrem Smartphone auf Daten der Corona-Warn-App zugreifen können."</string>
     <!-- XTXT: App Root Detection link label -->
     <string name="root_dialog_faq_link_label">"FAQ zur Sicherheit der App"</string>
-    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
-    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/de/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"OK"</string>
     <!-- XTXT: App Root Detection text for checkbox -->
