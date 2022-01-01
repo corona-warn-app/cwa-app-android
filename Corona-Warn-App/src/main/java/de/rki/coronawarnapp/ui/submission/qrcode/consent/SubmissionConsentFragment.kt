@@ -62,6 +62,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                     ),
                     navOptions
                 )
+                else -> Unit
             }
         }
         viewModel.countries.observe2(this) {

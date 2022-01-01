@@ -78,6 +78,7 @@ class SubmissionTestResultConsentGivenFragment :
                         SubmissionTestResultConsentGivenFragmentDirections
                             .actionSubmissionTestResultConsentGivenFragmentToHomeFragment()
                     )
+                else -> Unit
             }
         }
 

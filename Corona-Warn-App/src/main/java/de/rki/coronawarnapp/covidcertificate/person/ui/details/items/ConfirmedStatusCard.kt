@@ -56,6 +56,7 @@ class ConfirmedStatusCard(parent: ViewGroup) :
                 badge.text = context.resources.getString(R.string.confirmed_status_3g_plus_badge)
                 body.text = context.resources.getString(R.string.confirmed_status_3g_plus_body)
             }
+            is AdmissionState.Other -> Unit
         }
 
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)

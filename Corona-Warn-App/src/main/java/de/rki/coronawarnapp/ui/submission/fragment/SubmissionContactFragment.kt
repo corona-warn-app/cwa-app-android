@@ -43,6 +43,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
                     doNavigate(
                         SubmissionContactFragmentDirections.actionSubmissionContactFragmentToSubmissionTanFragment()
                     )
+                else -> Unit
             }
         }
     }

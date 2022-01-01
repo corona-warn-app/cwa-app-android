@@ -59,6 +59,7 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
                         SubmissionDoneFragmentDirections.actionSubmissionDoneFragmentToMainFragment()
                     )
                 }
+                else -> Unit
             }
         }
     }
