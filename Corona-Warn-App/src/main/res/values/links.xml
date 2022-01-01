@@ -53,7 +53,7 @@
     <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XTXT: Statistics explanation blog text url -->
-    <string name="statistics_eplanation_blog_url" tools:ignore="TypographyDashes">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
+    <string name="statistics_explanation_blog_url" tools:ignore="TypographyDashes">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
     <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
     <!-- XTXT: Incompitability faq link for partial incompatibility -->
