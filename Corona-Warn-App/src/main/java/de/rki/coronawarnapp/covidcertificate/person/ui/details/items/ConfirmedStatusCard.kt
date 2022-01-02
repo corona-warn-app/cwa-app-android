@@ -28,7 +28,7 @@ class ConfirmedStatusCard(parent: ViewGroup) :
     override val onBindData: ConfirmedStatusCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { item, _ ->
 
         when (item.admissionState) {
             is TwoG -> {

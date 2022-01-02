@@ -66,6 +66,7 @@ class SubmissionTestFragment : Fragment(R.layout.fragment_test_submission), Auto
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (!vm.onActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data)

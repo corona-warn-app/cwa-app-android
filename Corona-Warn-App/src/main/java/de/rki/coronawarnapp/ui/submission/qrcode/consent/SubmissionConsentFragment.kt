@@ -110,6 +110,7 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
         binding.contentContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_USER_RESOLUTION) {

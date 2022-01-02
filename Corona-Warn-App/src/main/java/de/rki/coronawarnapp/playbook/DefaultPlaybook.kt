@@ -27,13 +27,13 @@ class DefaultPlaybook @Inject constructor(
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     override suspend fun initialRegistration(
-        request: RegistrationRequest
+        tokenRequest: RegistrationRequest
     ): RegistrationData {
         Timber.i("[$uid] New Initial Registration Playbook")
 
         // real registration
         val (registrationToken, registrationException) = executeCapturingExceptions {
-            verificationServer.retrieveRegistrationToken(request)
+            verificationServer.retrieveRegistrationToken(tokenRequest)
         }
 
         // if the registration succeeded continue with the real test result retrieval

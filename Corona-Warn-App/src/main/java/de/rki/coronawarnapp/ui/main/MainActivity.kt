@@ -338,6 +338,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         supportFragmentManager.currentNavigationFragment?.onActivityResult(
