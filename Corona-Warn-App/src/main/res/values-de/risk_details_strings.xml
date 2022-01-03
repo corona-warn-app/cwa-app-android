@@ -18,7 +18,7 @@
     <string name="risk_details_behavior_body_traveling">Reisen: Verzichten Sie auf Flug- und Zugreisen.</string>
     <!-- XTXT: risk details - health department info -->
     <string name="risk_details_behavior_body_health_department">Bei Fragen zu Quarantäne-Maßnahmen wenden Sie sich bitte an Ihr Gesundheitsamt. Mehr Informationen finden Sie in den FAQ zu Quarantäne-Maßnahmen.</string>
-    <!-- XTXT: risk details - health department info link label , please note that this terms has to be part of `risk_details_behavior_body_health_department` in all languages -->
+    <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
     <string name="risk_details_behavior_body_health_department_label">Mehr Informationen finden Sie in den FAQ zu Quarantäne-Maßnahmen.</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">Falls Sie sich unerkannt angesteckt haben, verringern Sie so das Risiko, andere zu infizieren:</string>

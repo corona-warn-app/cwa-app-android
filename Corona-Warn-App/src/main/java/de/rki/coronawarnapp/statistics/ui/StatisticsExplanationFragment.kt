@@ -40,7 +40,7 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
             blogLink.setTextWithUrl(
                 R.string.statistics_explanation_blog,
                 R.string.statistics_explanation_blog_label,
-                R.string.statistics_eplanation_blog_url
+                R.string.statistics_explanation_blog_url
             )
         }
     }
