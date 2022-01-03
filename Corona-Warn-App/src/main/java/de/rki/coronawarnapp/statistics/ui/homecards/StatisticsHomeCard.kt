@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.util.isPhone
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.lists.modular.mods.SavedStateMod
-import timber.log.Timber
 
 class StatisticsHomeCard(
     parent: ViewGroup,
@@ -81,22 +80,20 @@ class StatisticsHomeCard(
     override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()
 
     override fun restoreState(state: Parcelable?) {
-        Timber.d("Stats debug: restore")
         statisticsLayoutManager.onRestoreInstanceState(state)
     }
 
     override fun onInitialPostBind(): Boolean {
         return if (statisticsCardAdapter.itemCount > 1) {
             scrollToFirstCard()
-            false
-        } else true // still initial
+            true
+        } else false // still initial
     }
 
     private fun scrollToFirstCard() {
         with(viewBinding.value.root.context.resources) {
             val screenWidth = displayMetrics.widthPixels
             val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
-            Timber.d("Stats debug: Scroll to pos 1")
             statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
         }
     }

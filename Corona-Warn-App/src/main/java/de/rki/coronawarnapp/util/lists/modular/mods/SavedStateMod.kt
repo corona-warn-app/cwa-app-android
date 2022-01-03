@@ -18,16 +18,15 @@ class SavedStateMod<T : ModularAdapter.VH> :
     private var initial = true
 
     override fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {
-        (vh as? StateSavingVH)?.let { vh ->
+        (vh as? StateSavingVH)?.let { stateSavingVH ->
 
             if (initial) {
-                initial = vh.onInitialPostBind()
+                initial = !stateSavingVH.onInitialPostBind()
             }
 
-            vh.savedStateKey?.let { key ->
-                Timber.d("Stats debug: not initial")
+            stateSavingVH.savedStateKey?.let { key ->
                 savedStates[key]?.let { savedState ->
-                    vh.restoreState(savedState)
+                    stateSavingVH.restoreState(savedState)
                 }
             }
         }
@@ -35,16 +34,13 @@ class SavedStateMod<T : ModularAdapter.VH> :
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        Timber.d("Stats debug: onAttachedToRecyclerView")
         recyclerView.addLifecycleEventCallback(type = Lifecycle.Event.ON_PAUSE) {
-            Timber.d("Stats debug: on pause")
             savedStates.clear()
 
             getAllViewHolders(recyclerView).filterIsInstance<StateSavingVH>().forEach { vh ->
                 val key = vh.savedStateKey
                 val state = vh.onSaveState()
                 if (key != null && state != null) {
-                    Timber.d("Stats debug: save state")
                     savedStates[key] = state
                 }
             }
