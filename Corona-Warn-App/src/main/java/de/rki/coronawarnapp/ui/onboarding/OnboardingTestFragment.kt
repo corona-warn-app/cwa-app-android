@@ -38,6 +38,8 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
                             .actionOnboardingTestFragmentToOnboardingNotificationsFragment()
                     )
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing -> popBackStack()
+
+                else -> Unit
             }
         }
     }

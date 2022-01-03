@@ -38,6 +38,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
                             .actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
                     )
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment -> popBackStack()
+                else -> Unit
             }
         }
     }

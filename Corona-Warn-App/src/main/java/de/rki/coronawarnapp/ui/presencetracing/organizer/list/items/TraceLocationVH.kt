@@ -22,7 +22,7 @@ class TraceLocationVH(parent: ViewGroup) :
     private var latestItem: Item? = null
 
     override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
-        latestItem?.let { it.onSwipeItem(it.traceLocation, holder.adapterPosition) }
+        latestItem?.let { it.onSwipeItem(it.traceLocation, holder.bindingAdapterPosition) }
     }
 
     override val viewBinding: Lazy<TraceLocationOrganizerTraceLocationsItemBinding> = lazy {
@@ -79,7 +79,7 @@ class TraceLocationVH(parent: ViewGroup) :
         checkinAction.isVisible = item.canCheckIn
         checkinAction.setOnClickListener { item.onCheckIn(item.traceLocation) }
         itemView.apply {
-            setOnClickListener { item.onCardClicked(item.traceLocation, adapterPosition) }
+            setOnClickListener { item.onCardClicked(item.traceLocation, bindingAdapterPosition) }
             transitionName = item.traceLocation.id.toString()
         }
     }
