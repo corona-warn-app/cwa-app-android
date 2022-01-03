@@ -69,6 +69,8 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
                     )
                 }
+
+                else -> Unit
             }
         }
 

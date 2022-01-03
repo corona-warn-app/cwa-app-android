@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import com.google.zxing.qrcode.encoder.ByteMatrix
+import java.util.Locale
 
 fun Canvas.drawTextIntoRectangle(text: String, paint: Paint, area: TextArea) {
     val textList = getMultilineText(text, paint, area.width.toInt())
@@ -44,3 +45,16 @@ fun ByteMatrix.toBitmap(): Bitmap = Bitmap.createBitmap(
     }.toIntArray(),
     width, height, Bitmap.Config.RGB_565
 )
+
+/**
+ * Issuer country display name in German is user locale is German and in English otherwise
+ */
+fun issuerCountryDisplayName(
+    certificateCountry: String,
+    locale: Locale = Locale.getDefault()
+): String = when (locale.language) {
+    Locale.GERMAN.language -> Locale.GERMAN
+    else -> Locale.ENGLISH
+}.let {
+    Locale(it.language, certificateCountry.uppercase()).getDisplayCountry(it)
+}

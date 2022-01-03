@@ -328,16 +328,19 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             when (personEncounter.durationClassification) {
                 LESS_THAN_10_MINUTES -> add(R.string.contact_diary_person_encounter_duration_below_10_min)
                 MORE_THAN_10_MINUTES -> add(R.string.contact_diary_person_encounter_duration_above_10_min)
+                else -> Unit
             }
 
             when (personEncounter.withMask) {
                 true -> add(R.string.contact_diary_person_encounter_mask_with)
                 false -> add(R.string.contact_diary_person_encounter_mask_without)
+                else -> Unit
             }
 
             when (personEncounter.wasOutside) {
                 true -> add(R.string.contact_diary_person_encounter_environment_outside)
                 false -> add(R.string.contact_diary_person_encounter_environment_inside)
+                else -> Unit
             }
         }
 
