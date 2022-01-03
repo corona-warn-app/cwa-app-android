@@ -202,6 +202,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun processExtraParameters() {
         when (intent.getShortcutExtra()) {
             AppShortcuts.CONTACT_DIARY -> goToContactJournal()
+            else -> Unit
         }
 
         navigateByIntentUri(intent)
@@ -337,6 +338,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         supportFragmentManager.currentNavigationFragment?.onActivityResult(

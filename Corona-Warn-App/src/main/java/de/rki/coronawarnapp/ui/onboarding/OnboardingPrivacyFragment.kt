@@ -38,6 +38,7 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
                     )
                 is OnboardingNavigationEvents.NavigateToOnboardingFragment ->
                     (activity as OnboardingActivity).goBack()
+                else -> Unit
             }
         }
     }

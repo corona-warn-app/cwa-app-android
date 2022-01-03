@@ -19,7 +19,7 @@ class PastCheckInVH(parent: ViewGroup) :
     private var latestItem: Item? = null
 
     override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
-        latestItem?.let { it.onSwipeItem(it.checkin, holder.adapterPosition) }
+        latestItem?.let { it.onSwipeItem(it.checkin, holder.bindingAdapterPosition) }
     }
 
     override val viewBinding: Lazy<TraceLocationAttendeeCheckinsItemPastBinding> = lazy {
@@ -49,7 +49,7 @@ class PastCheckInVH(parent: ViewGroup) :
         }
 
         itemView.apply {
-            setOnClickListener { curItem.onCardClicked(curItem.checkin, adapterPosition) }
+            setOnClickListener { curItem.onCardClicked(curItem.checkin, bindingAdapterPosition) }
             transitionName = item.checkin.id.toString()
         }
     }
