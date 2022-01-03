@@ -58,6 +58,8 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                     )
                 is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
                     (requireActivity() as OnboardingActivity).goBack()
+
+                else -> Unit
             }
         }
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->

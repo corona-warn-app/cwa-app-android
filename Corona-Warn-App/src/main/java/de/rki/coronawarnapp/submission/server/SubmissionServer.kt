@@ -33,6 +33,7 @@ class SubmissionServer @Inject constructor(
         val submissionType: SubmissionPayload.SubmissionType
     )
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun submitPayload(
         data: SubmissionData
     ) = withContext(Dispatchers.IO) {
@@ -63,6 +64,7 @@ class SubmissionServer @Inject constructor(
             requestPadding
         )
 
+        @Suppress("DEPRECATION")
         val submissionPayload = SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .setRequestPadding(ByteString.copyFromUtf8(requestPadding))

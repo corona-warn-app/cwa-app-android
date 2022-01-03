@@ -39,6 +39,7 @@ class OrganizerSubmissionServer @Inject constructor(
             checkInListSize = checkInsReport.encryptedCheckIns.size
         )
 
+        @Suppress("DEPRECATION")
         val payload = SubmissionPayload.newBuilder()
             .addAllKeys(emptyList())
             .setRequestPadding(ByteString.copyFromUtf8(checkInPadding))

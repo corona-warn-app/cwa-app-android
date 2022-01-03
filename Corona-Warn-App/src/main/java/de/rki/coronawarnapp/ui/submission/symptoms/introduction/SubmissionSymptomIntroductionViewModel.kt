@@ -86,6 +86,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
                             .actionSubmissionSymptomIntroductionFragmentToSubmissionDoneFragment(testType)
                     )
                 }
+                else -> Unit
             }
         }
     }

@@ -18,6 +18,7 @@ data class TraceWarningPackageContainer(
         }
     }
 
+    @Suppress("DEPRECATION")
     override suspend fun extractUnencryptedWarnings(): List<TraceWarning.TraceTimeIntervalWarning> {
         return warningPackage.timeIntervalWarningsList
     }
