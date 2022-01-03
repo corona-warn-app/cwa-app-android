@@ -27,7 +27,7 @@ class ActiveCheckInVH(parent: ViewGroup) :
     private var latestItem: Item? = null
 
     override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
-        latestItem?.let { it.onSwipeItem(it.checkin, holder.adapterPosition) }
+        latestItem?.let { it.onSwipeItem(it.checkin, holder.bindingAdapterPosition) }
     }
 
     override val viewBinding: Lazy<TraceLocationAttendeeCheckinsItemActiveBinding> = lazy {

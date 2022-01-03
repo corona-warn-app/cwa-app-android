@@ -56,6 +56,8 @@ constructor(
                 CoronaTest.Type.RAPID_ANTIGEN ->
                     testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
                         .format(context.getString(R.string.submission_test_result_antigen_title))
+
+                else -> Unit
             }
 
             testResultSectionRegisteredAtText.text = formatTestResultTimestampText(coronaTest)

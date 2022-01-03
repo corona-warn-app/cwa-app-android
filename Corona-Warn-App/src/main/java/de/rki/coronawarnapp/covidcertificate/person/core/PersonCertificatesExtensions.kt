@@ -252,6 +252,7 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
                 is Valid, is ExpiringSoon -> valid.add(it)
                 is Expired -> expired.add(it)
                 is Invalid -> invalid.add(it)
+                else -> Unit
             }
         }
 

@@ -94,7 +94,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         }
 
         itemView.apply {
-            setOnClickListener { curItem.onClickAction(curItem, adapterPosition) }
+            setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
             transitionName = curItem.admissionState.primaryCertificate.personIdentifier.codeSHA256
         }
     }
@@ -107,6 +107,6 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long =
-            admissionState.primaryCertificate!!.personIdentifier.codeSHA256.hashCode().toLong()
+            admissionState.primaryCertificate.personIdentifier.codeSHA256.hashCode().toLong()
     }
 }

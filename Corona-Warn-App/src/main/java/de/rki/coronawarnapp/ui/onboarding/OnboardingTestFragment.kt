@@ -38,6 +38,8 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
                     )
                 is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
                     (activity as OnboardingActivity).goBack()
+
+                else -> Unit
             }
         }
     }

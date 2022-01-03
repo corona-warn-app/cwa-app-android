@@ -55,6 +55,7 @@ class OnboardingActivity : AppCompatActivity(), LifecycleObserver, HasAndroidInj
         setContentView(R.layout.activity_onboarding)
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // Delegate the onActivityResult to the permission page
