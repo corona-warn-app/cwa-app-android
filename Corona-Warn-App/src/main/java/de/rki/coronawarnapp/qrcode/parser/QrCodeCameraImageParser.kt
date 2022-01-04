@@ -8,35 +8,20 @@ import boofcv.factory.fiducial.FactoryFiducial
 import boofcv.struct.image.GrayU8
 import boofcv.struct.image.ImageType
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 import timber.log.Timber
-import javax.inject.Inject
 
-class QrCodeCameraImageParser @Inject constructor(
-    private val dispatcherProvider: DispatcherProvider
-) {
+class QrCodeCameraImageParser {
 
-    private val mutex = Mutex()
     private val detector = FactoryFiducial.qrcode(null, GrayU8::class.java)
 
-    suspend fun parseQrCode(
-        imageProxy: ImageProxy,
-        onResult: suspend (Set<String>) -> Unit
-    ): Unit = withContext(dispatcherProvider.Default)
-    {
-        imageProxy.use { image ->
-            val rawResults = image.toGrayU8().parse()
-            // Execute within 'use' because image analyzer gets blocked until the image proxy gets closed
-            onResult(rawResults)
-        }
-    }
+    fun parseQrCode(imageProxy: ImageProxy): ParseResult = imageProxy
+        .toGrayU8()
+        .parse()
+        .toParseResult()
 
-    private suspend fun GrayU8.parse(): Set<String> = mutex.withLock {
+    private fun GrayU8.parse(): Set<String> {
         Timber.tag(TAG).v("Parsing image")
-        with(detector) {
+        return with(detector) {
             process(this@parse)
 
             if (detections.isEmpty()) {
@@ -65,6 +50,12 @@ class QrCodeCameraImageParser @Inject constructor(
             }
         }
         return transposed
+    }
+
+    private fun Set<String>.toParseResult() = ParseResult(rawResults = this)
+
+    data class ParseResult(val rawResults: Set<String>) {
+        val isNotEmpty: Boolean get() = rawResults.isNotEmpty()
     }
 
     companion object {

@@ -50,13 +50,13 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                     showCameraPermissionDeniedDialog()
                     viewModel.setCameraDeniedPermanently(true)
                 }
+            } else {
+                startDecode()
             }
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner) {
-            viewModel.onNewImage(imageProxy = it)
-        }
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
 
         qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }
@@ -68,7 +68,6 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
 
         viewModel.events.observe2(this@OrganizerWarnQrCodeScannerFragment) { navEvent ->
             qrCodeProcessingView.isVisible = navEvent == OrganizerWarnQrCodeNavigation.InProgress
-            scannerPreview.scanEnabled = navEvent == OrganizerWarnQrCodeNavigation.Scanning
             when (navEvent) {
                 is OrganizerWarnQrCodeNavigation.BackNavigation -> popBackStack()
                 is OrganizerWarnQrCodeNavigation.InvalidQrCode -> showInvalidQrCodeInformation(navEvent.errorText)
@@ -82,12 +81,11 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                 }
                 is OrganizerWarnQrCodeNavigation.Error ->
                     navEvent.exception.toErrorDialogBuilder(requireContext()).show()
-                OrganizerWarnQrCodeNavigation.InProgress,
-                OrganizerWarnQrCodeNavigation.Scanning -> {
-                    // NO-OP
-                }
+                OrganizerWarnQrCodeNavigation.InProgress -> Unit
             }
         }
+
+        requestCameraPermission()
     }
 
     override fun onResume() {
@@ -98,7 +96,9 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
         requestCameraPermission()
     }
 
-    private fun startDecode() = viewModel.startDecode()
+    private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
+        viewModel.onParseResult(parseResult = parseResult)
+    }
 
     private fun showCameraPermissionDeniedDialog() {
         MaterialAlertDialogBuilder(requireContext())

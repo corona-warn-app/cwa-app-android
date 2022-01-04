@@ -21,7 +21,6 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
-import de.rki.coronawarnapp.qrcode.parser.toGrayU8
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
@@ -132,7 +131,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
         every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
         coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
-        every { qrCodeCameraImageParser.rawResults } returns emptyFlow()
+        every { qrCodeCameraImageParser.parseQrCode() } returns emptyFlow()
     }
 
     @Test

@@ -65,6 +65,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 showCameraPermissionDeniedDialog()
                 viewModel.setCameraDeniedPermanently(true)
             }
+        } else {
+            startDecode()
         }
     }
 
@@ -82,9 +84,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner) {
-            viewModel.onNewImage(it)
-        }
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
 
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
@@ -95,7 +95,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
             qrCodeProcessingView.isVisible = scannerResult == InProgress
-            scannerPreview.scanEnabled = scannerResult == Scanning
             when (scannerResult) {
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
@@ -115,14 +114,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 InfoScreen -> doNavigate(
                     QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
                 )
-                InProgress,
-                Scanning -> {
-                    // NO-OP
-                }
+                InProgress -> Unit
             }
         }
 
         setupTransition()
+        requestCameraPermission()
     }
 
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
@@ -148,8 +145,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         requestCameraPermission()
     }
 
-    private fun startDecode() {
-        viewModel.startDecode()
+    private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
+        viewModel.onParseResult(parseResult = parseResult)
     }
 
     private fun showCameraPermissionDeniedDialog() {

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
-import androidx.camera.core.ImageProxy
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
@@ -50,11 +49,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
-    private val dccMaxPersonChecker: DccMaxPersonChecker,
-    private val qrCodeCameraImageParser: QrCodeCameraImageParser
+    private val dccMaxPersonChecker: DccMaxPersonChecker
 ) : CWAViewModel(dispatcherProvider) {
 
-    val result = SingleLiveEvent<ScannerResult>().also { it.postValue(Scanning) }
+    val result = SingleLiveEvent<ScannerResult>()
 
     fun onImportFile(fileUri: Uri) = launch {
         result.postValue(InProgress)
@@ -76,17 +74,14 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onNewImage(imageProxy: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(imageProxy = imageProxy) { rawResults ->
-            if (rawResults.isNotEmpty()) {
-                onScanResult(rawResults.first())
-            }
+    fun onParseResult(parseResult: QrCodeCameraImageParser.ParseResult) {
+        Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
+        if (parseResult.isNotEmpty) {
+            onScanResult(parseResult.rawResults.first())
         }
     }
 
-    fun startDecode() = result.postValue(Scanning)
-
-    private suspend fun onScanResult(rawResult: String) {
+    private fun onScanResult(rawResult: String) = launch {
         result.postValue(InProgress)
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode
 
 import android.net.Uri
-import androidx.camera.core.ImageProxy
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
@@ -23,12 +22,10 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val cameraSettings: CameraSettings,
     private val checkInQrCodeHandler: CheckInQrCodeHandler,
-    private val qrCodeFileParser: QrCodeFileParser,
-    private val qrCodeCameraImageParser: QrCodeCameraImageParser
+    private val qrCodeFileParser: QrCodeFileParser
 ) : CWAViewModel() {
 
     val events = SingleLiveEvent<OrganizerWarnQrCodeNavigation>()
-        .also { it.postValue(OrganizerWarnQrCodeNavigation.Scanning) }
 
     fun onNavigateUp() {
         events.postValue(OrganizerWarnQrCodeNavigation.BackNavigation)
@@ -54,7 +51,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun onScanResult(rawResult: String) {
+    private fun onScanResult(rawResult: String) = launch {
         events.postValue(OrganizerWarnQrCodeNavigation.InProgress)
         try {
             Timber.i("rawResult: $rawResult")
@@ -79,15 +76,12 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    fun onNewImage(imageProxy: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(imageProxy = imageProxy) { rawResults ->
-            if (rawResults.isNotEmpty()) {
-                onScanResult(rawResults.first())
-            }
+    fun onParseResult(parseResult: QrCodeCameraImageParser.ParseResult) {
+        Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
+        if (parseResult.isNotEmpty) {
+            onScanResult(parseResult.rawResults.first())
         }
     }
-
-    fun startDecode() = events.postValue(OrganizerWarnQrCodeNavigation.Scanning)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<OrganizerWarnQrCodeScannerViewModel>
