@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingPrivacyBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -36,8 +37,8 @@ class OnboardingPrivacyFragment : Fragment(R.layout.fragment_onboarding_privacy)
                         OnboardingPrivacyFragmentDirections
                             .actionOnboardingPrivacyFragmentToOnboardingTracingFragment()
                     )
-                is OnboardingNavigationEvents.NavigateToOnboardingFragment ->
-                    (activity as OnboardingActivity).goBack()
+                is OnboardingNavigationEvents.NavigateToOnboardingFragment -> popBackStack()
+                else -> Unit
             }
         }
     }

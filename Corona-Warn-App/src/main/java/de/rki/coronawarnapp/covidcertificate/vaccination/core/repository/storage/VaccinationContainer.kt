@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -57,8 +58,11 @@ data class VaccinationContainer internal constructor(
         }
     }
 
+    override val qrCodeHash: String
+        get() = vaccinationQrCode.toSHA256()
+
     override val containerId: VaccinationCertificateContainerId
-        get() = VaccinationCertificateContainerId(certificateId)
+        get() = VaccinationCertificateContainerId(qrCodeHash)
 
     val header: DccHeader
         get() = certificateData.header
@@ -68,9 +72,6 @@ data class VaccinationContainer internal constructor(
 
     val vaccination: DccV1.VaccinationData
         get() = certificate.vaccination
-
-    val certificateId: String
-        get() = vaccination.uniqueCertificateIdentifier
 
     val personIdentifier: CertificatePersonIdentifier
         get() = certificate.personIdentifier
@@ -161,7 +162,10 @@ data class VaccinationContainer internal constructor(
                 vaccination.certificateCountry.uppercase()
             ).getDisplayCountry(userLocale)
 
-        override val certificateId: String
+        override val qrCodeHash: String
+            get() = this@VaccinationContainer.qrCodeHash
+
+        override val uniqueCertificateIdentifier: String
             get() = vaccination.uniqueCertificateIdentifier
 
         override val headerIssuer: String

@@ -118,8 +118,7 @@ class DccTicketingConsentOneFragment : Fragment(R.layout.fragment_dcc_ticketing_
     private fun showErrorDialog(lazyErrorMessage: LazyString) {
         val msg = lazyErrorMessage.get(requireContext())
         DccTicketingDialogType.ErrorDialog(msg = msg).show(
-            fragment = this,
-            positiveButtonAction = { viewModel.goBack() }
+            fragment = this
         )
     }
 

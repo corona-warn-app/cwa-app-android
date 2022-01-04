@@ -58,7 +58,7 @@
     <!-- XTXT: not in AllowList dialog title -->
     <string name="dcc_ticketing_not_in_allow_list_dialog_title">Sicherheitshinweis</string>
     <!-- XTXT: not in AllowList dialog message -->
-    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Aus Sicherheitsgründen ist die Überprüfung bei Ticketbuchung nur für bekannte Anbieter möglich. Bitte kontaktieren Sie den Anbieter, der Ihnen dieses QR-Code bereitgstellt hat und versuchen Sie Ihre App auf die neuste Version zu aktualisieren.</string>
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">Der Anbieter ist uns nicht bekannt. Aus Sicherheitsgründen ist die Überprüfung bei Ticketbuchung nur für bekannte Anbieter möglich. Bitte kontaktieren Sie den Anbieter, der Ihnen diesen QR-Code bereitgstellt hat und versuchen Sie Ihre App auf die neuste Version zu aktualisieren.</string>
 
     <!-- DCC Ticketing: Certificate Selection Screen -->
     <!-- XHED: Certificate Selection Screen Toolbar Title -->
@@ -73,10 +73,6 @@
     <string name="dcc_ticketing_certificate_selection_more_information_text">"Mehr Informationen finden Sie in den FAQ."</string>
     <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
     <string name="dcc_ticketing_faq_link_container">"FAQ"</string>
-    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
-    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
-    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
-    <string name="dcc_ticketing_faq_link_english">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
     <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Anforderungen des Anbieters:"</string>
     <!-- XTXT: Certificate Selection Screen: Person Birthday -->
@@ -126,8 +122,6 @@
     <string name="dcc_ticketing_result_faq_text">Mehr Informationen finden Sie in den FAQ.</string>
     <!-- XTXT: validation result FAQ label -->
     <string name="dcc_ticketing_result_faq_label">FAQ</string>
-    <!-- XTXT: validation result FAQ link -->
-    <string name="dcc_ticketing_result_faq_link">https://www.coronawarn.app/de/faq/#val_service_result</string>
     <!-- XTXT: validation result valid header  -->
     <string name="dcc_ticketing_result_valid_header">Ihr Zertifikat wurde erfolgreich überprüft</string>
     <!-- XTXT: validation result invalid header  -->

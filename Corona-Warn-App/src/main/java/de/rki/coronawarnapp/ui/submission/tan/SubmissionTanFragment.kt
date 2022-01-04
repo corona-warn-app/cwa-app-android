@@ -59,6 +59,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                             testRegistrationRequest = it.coronaTestTan
                         )
                     )
+                else -> Unit
             }
         }
 

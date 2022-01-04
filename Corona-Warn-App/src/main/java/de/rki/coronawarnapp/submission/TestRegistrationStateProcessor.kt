@@ -35,22 +35,32 @@ class TestRegistrationStateProcessor @Inject constructor(
         data class TestRegistered(val test: CoronaTest) : State()
 
         data class Error(val exception: Exception) : State() {
-            fun getDialogBuilder(context: Context): MaterialAlertDialogBuilder {
+            fun getDialogBuilder(context: Context, comingFromTan: Boolean = false): MaterialAlertDialogBuilder {
                 val builder = MaterialAlertDialogBuilder(context).apply {
                     setCancelable(true)
                 }
 
                 return when (exception) {
                     is AlreadyRedeemedException -> builder.apply {
-                        setTitle(R.string.submission_error_dialog_web_tan_redeemed_title)
-                        setMessage(R.string.submission_error_dialog_web_tan_redeemed_body)
+                        if (comingFromTan) {
+                            setTitle(R.string.submission_error_dialog_web_test_paired_title_tan)
+                            setMessage(R.string.submission_error_dialog_web_test_paired_body_tan)
+                        } else {
+                            setTitle(R.string.submission_error_dialog_web_tan_redeemed_title)
+                            setMessage(R.string.submission_error_dialog_web_tan_redeemed_body)
+                        }
                         setPositiveButton(android.R.string.ok) { _, _ ->
                             /* dismiss */
                         }
                     }
                     is BadRequestException -> builder.apply {
-                        setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
-                        setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
+                        if (comingFromTan) {
+                            setTitle(R.string.submission_error_dialog_web_test_paired_title_tan)
+                            setMessage(R.string.submission_error_dialog_web_test_paired_body_tan)
+                        } else {
+                            setTitle(R.string.submission_qr_code_scan_invalid_dialog_headline)
+                            setMessage(R.string.submission_qr_code_scan_invalid_dialog_body)
+                        }
                         setPositiveButton(android.R.string.ok) { _, _ ->
                             /* dismiss */
                         }

@@ -20,6 +20,12 @@
     <string name="person_overview_scan_button">"Сертификат"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Сертификат със символ за QR код."</string>
+    <!-- XTXT: Overview certificate status text -->
+    <string name="person_overview_status_text">"Доказателство за статус"</string>
+    <!-- XTXT: Overview certificate 2G selection button text -->
+    <string name="person_overview_two_g_certificate_text">"2G Сертификат"</string>
+    <!-- XTXT: Overview screen test certificate selection button text -->
+    <string name="person_overview_test_certificate_text">"Сертификат за тестване"</string>
     <!-- XTXT: Person card title-->
     <string name="person_card_title">"ЕС"</string>
     <!-- XTXT: Person card subtitle-->
@@ -392,5 +398,42 @@
     <string name="cov_pass_info_section_two">"Но имайте предвид, че визуалната проверка на сертификатите не е достатъчна за третите лица. В Германия те трябва да използват приложението CovPassCheck."</string>
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_section_three">"Имайте предвид също така, че трети лица в други държави може да използват различни приложения за проверка на сертификатите."</string>
+
+    <!-- #####################################################
+        CONFIRMED STATUS CARD
+        ##################################################### -->
+
+    <!-- XTXT: Confirmed status card title -->
+    <string name="confirmed_status_title">"Доказателство за статус"</string>
+
+    <!-- XTXT: Confirmed status card 2g+ PCR subtitle -->
+    <string name="confirmed_status_2g_pcr_subtitle">"2G+ PCR тест"</string>
+    <!-- XTXT: Confirmed status card 2g+ RAT subtitle -->
+    <string name="confirmed_status_2g_rat_subtitle">"2G+ бърз тест"</string>
+
+    <!-- XTXT: Confirmed status card 2G badge -->
+    <string name="confirmed_status_2g_badge">"2G"</string>
+    <!-- XTXT: Confirmed status card 2G+ badge -->
+    <string name="confirmed_status_2g_plus_badge">"2G+"</string>
+    <!-- XTXT: Confirmed status card 3G badge -->
+    <string name="confirmed_status_3g_badge">"3G"</string>
+    <!-- XTXT: Confirmed status card 3G+ badge -->
+    <string name="confirmed_status_3g_plus_badge">"3G+"</string>
+
+    <!-- XTXT: Confirmed status card 2G body -->
+    <string name="confirmed_status_2g_body">"Вашите сертификати отговарят на 2G правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
+    <!-- XTXT: Confirmed status card 2G+ body -->
+    <string name="confirmed_status_2g_plus_body">"Вашите сертификати отговарят на 2G plus правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
+    <!-- XTXT: Confirmed status card 3G body -->
+    <string name="confirmed_status_3g_body">"Вашите сертификати отговарят на 3G правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
+    <!-- XTXT: Confirmed status card 3G+ body -->
+    <string name="confirmed_status_3g_plus_body">"Вашите сертификати отговарят на 3G plus правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
+
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_text">"За повече информация вижте страницата „ЧЗВ“."</string>
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_label">"ЧЗВ"</string>
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_link">"https://www.coronawarn.app/en/faq/#admission_policy"</string>
 
 </resources>

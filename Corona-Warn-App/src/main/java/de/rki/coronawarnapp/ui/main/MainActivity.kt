@@ -99,12 +99,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             setupWithNavController2(
                 navController,
                 onItemSelected = { viewModel.onBottomNavSelected() },
-                onDestinationChanged = { isBarVisible ->
-                    if (isBarVisible) {
-                        resetCurrentFragmentTransition()
-                    }
-
-                    binding.fabTooltip.root.isVisible = isBarVisible && viewModel.isToolTipVisible.value == true
+                onDestinationChanged = { barVisible ->
+                    if (barVisible) resetCurrentFragmentTransition()
+                    binding.checkToolTipVisibility(viewModel.isToolTipVisible.value == true)
                 }
             )
 
@@ -123,8 +120,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             }
         }
 
-        viewModel.isToolTipVisible.observe(this) { visible ->
-            binding.fabTooltip.root.isVisible = visible
+        viewModel.isToolTipVisible.observe(this) { showTooltip ->
+            binding.checkToolTipVisibility(showTooltip)
         }
 
         viewModel.showBackgroundJobDisabledNotification.observe(this) {
@@ -181,6 +178,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    private fun ActivityMainBinding.checkToolTipVisibility(
+        showTooltip: Boolean
+    ) {
+        fabTooltip.root.isVisible = bottomAppBar.isVisible && showTooltip
+    }
+
     private fun openPermissionDialog() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.camera_permission_dialog_title)
@@ -202,6 +205,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             AppShortcuts.CERTIFICATES -> goToCovidCertificates()
             AppShortcuts.CHECK_INS -> goToCheckIns()
             AppShortcuts.CONTACT_DIARY -> goToContactJournal()
+            else -> Unit
         }
 
         navigateByIntentUri(intent)
@@ -355,6 +359,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         }
     }
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         supportFragmentManager.currentNavigationFragment?.onActivityResult(

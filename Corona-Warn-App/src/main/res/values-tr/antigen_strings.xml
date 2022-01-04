@@ -108,7 +108,7 @@
     <!-- XHED: submission result antigen fragment negative result proof title for anonymous tests-->
     <string name="submission_test_result_antigen_negative_proof_title_anonymous">"Doğrulama Özelliği Yok"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
-    <string name="submission_test_result_antigen_negative_proof_body">"Hızlı test sonucunun negatif olduğunun kanıtı olarak burada görüntülenen bulguyu da kullanabilirsiniz."</string>
+    <string name="submission_test_result_antigen_negative_proof_body">"Burada görüntülenen sonucunuzu doğrulanabilir şekilde kanıtlamak için AB Dijital Covid Sertifikası gereklidir. Testinizi kaydettiğinizde dijital test sertifikası talebinde bulunduysanız ve test noktası, dijital sertifika düzenlemeyi destekliyorsa yukarıda belirtilen bağlantıyı kullanarak dijital test sertifikanızı bulabilirsiniz. Sertifikayı \"Sertifikalar\" sekmesinde de bulabilirsiniz.\nKanıt gerektiren amaç bağlamında test sertifikalarının geçerliliği ve kabulüne ilişkin ölçütleri de bulabilirsiniz."</string>
     <!-- XHED: submission result antigen fragment negative result proof body anonymous -->
     <string name="submission_test_result_antigen_negative_proof_body_anonymous">"Buradaki bulgu anonimleştirildiğinden hızlı test sonucunun negatif olduğunun kanıtı olarak kullanılamaz."</string>
     <!-- XHED: submission result antigen fragment negative result proof additional information -->

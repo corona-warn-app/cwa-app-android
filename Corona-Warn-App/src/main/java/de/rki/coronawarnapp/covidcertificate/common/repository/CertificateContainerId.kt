@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
  * We can't use uniqueCertificateId because we also handle `TestCertificate`'s that have not been retrieved yet.
  */
 sealed class CertificateContainerId : Parcelable {
-    abstract val identifier: String
+    abstract val qrCodeHash: String
 
     val idType: KClass<out CertificateContainerId> = this::class
 
@@ -18,14 +18,14 @@ sealed class CertificateContainerId : Parcelable {
         if (this === other) return true
         if (other !is CertificateContainerId) return false
 
-        if (identifier != other.identifier) return false
+        if (qrCodeHash != other.qrCodeHash) return false
         if (idType != other.idType) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = identifier.hashCode()
+        var result = qrCodeHash.hashCode()
         result = 31 * result + idType.hashCode()
         return result
     }

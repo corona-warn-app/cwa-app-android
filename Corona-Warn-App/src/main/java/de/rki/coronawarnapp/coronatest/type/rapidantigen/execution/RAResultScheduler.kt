@@ -49,7 +49,7 @@ class RAResultScheduler @Inject constructor(
         coronaTestRepository.latestRAT
             .map { test: RACoronaTest? ->
                 if (test == null) return@map false
-                !test.isFinal
+                !test.isRedeemed
             }
             .distinctUntilChanged()
             .onEach { shouldBePolling ->

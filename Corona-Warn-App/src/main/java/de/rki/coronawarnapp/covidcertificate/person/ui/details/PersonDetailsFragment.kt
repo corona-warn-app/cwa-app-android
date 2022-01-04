@@ -95,15 +95,27 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         when (event) {
             is OpenRecoveryCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(event.containerId.identifier)
+                    .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(
+                        certIdentifier = event.containerId.qrCodeHash,
+                        fromScanner = false,
+                        colorShade = event.colorShade
+                    )
             )
             is OpenTestCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToTestCertificateDetailsFragment(event.containerId.identifier)
+                    .actionPersonDetailsFragmentToTestCertificateDetailsFragment(
+                        certIdentifier = event.containerId.qrCodeHash,
+                        fromScanner = false,
+                        colorShade = event.colorShade
+                    )
             )
             is OpenVaccinationCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToVaccinationDetailsFragment(event.containerId.identifier)
+                    .actionPersonDetailsFragmentToVaccinationDetailsFragment(
+                        certIdentifier = event.containerId.qrCodeHash,
+                        fromScanner = false,
+                        colorShade = event.colorShade
+                    )
             )
             is ValidationStart -> doNavigate(
                 PersonDetailsFragmentDirections

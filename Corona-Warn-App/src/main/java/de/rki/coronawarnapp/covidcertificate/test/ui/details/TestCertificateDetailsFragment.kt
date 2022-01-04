@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.ui.view.onOffsetChange
+import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -34,8 +35,8 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.bindValidityViews
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.europaStarsResource
 import de.rki.coronawarnapp.util.expendedImageResource
+import de.rki.coronawarnapp.util.getEuropaStarsTint
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
@@ -43,7 +44,6 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import java.net.URLEncoder
-import java.util.Locale
 import javax.inject.Inject
 
 class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certificate_details), AutoInject {
@@ -113,13 +113,19 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         testResult.text = certificate.testResult
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
-        certificateId.text = certificate.certificateId
-        expandedImage.setImageResource(certificate.expendedImageResource)
-        europaImage.setImageResource(certificate.europaStarsResource)
+        certificateId.text = certificate.uniqueCertificateIdentifier
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
+        )
+
+        expandedImage.setImageResource(certificate.expendedImageResource(args.colorShade))
+        europaImage.setImageDrawable(
+            resources.mutateDrawable(
+                R.drawable.ic_eu_stars_blue,
+                requireContext().getColorCompat(certificate.getEuropaStarsTint(args.colorShade))
+            )
         )
 
         if (certificate.testName.isNullOrBlank()) {
@@ -150,7 +156,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         }
 
         qrCodeCard.apply {
-            image.loadAny(certificate.getValidQrCode(Locale.getDefault().language, true)) {
+            image.loadAny(certificate.getValidQrCode(showBlocked = true)) {
                 crossfade(true)
                 loadingView(image, progressBar)
             }

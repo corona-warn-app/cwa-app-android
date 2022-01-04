@@ -49,11 +49,17 @@ class DccBoosterRulesValidator @Inject constructor(
             Timber.tag(TAG).d("No vaccination certificate found")
             return null
         }
-        Timber.tag(TAG).d("Most recent vaccination certificate=%s", vaccinationCertificate.certificateId)
+        Timber.tag(TAG).d(
+            "Most recent vaccination certificate=%s",
+            vaccinationCertificate.uniqueCertificateIdentifier
+        )
 
         // Find recent recovery certificate
         val recoveryCertificate = findRecentRecoveryCertificate(dccList)
-        Timber.tag(TAG).d("Most recent recovery certificate=%s", recoveryCertificate?.certificateId)
+        Timber.tag(TAG).d(
+            "Most recent recovery certificate=%s",
+            recoveryCertificate?.uniqueCertificateIdentifier
+        )
 
         val vacDccData = vaccinationCertificate.dccData
         val recDccData = recoveryCertificate?.dccData

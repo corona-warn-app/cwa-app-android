@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.qrcode.fullscreen
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 import android.view.animation.AccelerateInterpolator
 import androidx.core.view.WindowInsetsCompat.Type
 import androidx.core.view.WindowInsetsControllerCompat
@@ -67,6 +68,21 @@ class QrCodeFullScreenFragment : Fragment(R.layout.fragment_qr_code_full_screen)
         super.onStop()
 
         exitImmersiveMode()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        keepScreenOn(on = true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keepScreenOn(on = false)
+    }
+
+    private fun keepScreenOn(on: Boolean) = with(requireActivity().window) {
+        if (on) addFlags(FLAG_KEEP_SCREEN_ON) else clearFlags(FLAG_KEEP_SCREEN_ON)
+        attributes = attributes.apply { screenBrightness = if (on) 1f else -1f }
     }
 
     private fun exitImmersiveMode() {

@@ -8,7 +8,4 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 data class TestCertificateQRCode(
     override val qrCode: QrCodeString,
     override val data: DccData<TestDccV1>,
-) : DccQrCode {
-    override val uniqueCertificateIdentifier: String
-        get() = data.certificate.test.uniqueCertificateIdentifier
-}
+) : DccQrCode

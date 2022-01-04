@@ -29,8 +29,6 @@ interface CoronaTest : Recyclable {
     /**
      * Has this test reached it's final state, i.e. can polling be stopped?
      */
-    val isFinal: Boolean
-
     val isRedeemed: Boolean
 
     val testResultReceivedAt: Instant?
@@ -38,7 +36,6 @@ interface CoronaTest : Recyclable {
 
     val lastUpdatedAt: Instant
 
-    // TODO why do we need this PER test
     val isAdvancedConsentGiven: Boolean
 
     val isResultAvailableNotificationSent: Boolean

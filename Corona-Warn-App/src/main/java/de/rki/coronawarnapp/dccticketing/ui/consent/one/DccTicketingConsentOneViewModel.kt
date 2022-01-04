@@ -30,7 +30,7 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
 
     init {
         val ctx = qrcodeSharedViewModel.dccTicketingTransactionContext(transactionContextIdentifier)
-        dccTicketingSharedViewModel.updateTransactionContext(ctx)
+        dccTicketingSharedViewModel.initializeTransactionContext(ctx)
     }
 
     private val currentIsLoading = MutableStateFlow(false)
@@ -52,14 +52,12 @@ class DccTicketingConsentOneViewModel @AssistedInject constructor(
 
     fun showPrivacyInformation() = postEvent(NavigateToPrivacyInformation)
 
-    fun onUserConsent(): Unit = launch {
+    fun onUserConsent() = launch {
         Timber.d("onUserConsent()")
         currentIsLoading.compareAndSet(expect = false, update = true)
         val event = try {
-            dccTicketingSharedViewModel.apply {
-                val ctx = transactionContext.first()
+            dccTicketingSharedViewModel.updateTransactionContext { ctx ->
                 dccTicketingConsentOneProcessor.updateTransactionContext(ctx = ctx)
-                    .also { updateTransactionContext(ctx = it) }
             }
             NavigateToCertificateSelection
         } catch (e: Exception) {

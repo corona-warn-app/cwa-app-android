@@ -46,11 +46,11 @@ class CoronaTestCard(parent: ViewGroup) :
         )
         certificateInfoLine2.text = when (test) {
             is PCRCoronaTest -> context.getString(
-                R.string.test_result_card_registered_at_text,
+                R.string.reycle_bin_pcr_test_date,
                 test.registeredAt.toDate().toUIFormat(context)
             )
             is RACoronaTest -> context.getString(
-                R.string.ag_homescreen_card_rapid_body_result_date,
+                R.string.reycle_bin_rat_test_date,
                 test.testTakenAt.toDate().toUIFormat(context)
             )
             else -> throw IllegalStateException("Unknown test type ${test.type}")

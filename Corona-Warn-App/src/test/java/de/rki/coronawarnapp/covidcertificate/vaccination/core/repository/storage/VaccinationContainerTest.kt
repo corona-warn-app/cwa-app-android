@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestDat
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.DefaultValueSet
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.coEvery
@@ -53,7 +54,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 1 of 2`() {
         testData.personAVac1Container.apply {
             certificate shouldBe testData.personAVac1Certificate
-            certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
+            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
         }
     }
 
@@ -61,7 +62,7 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 2 of 2`() {
         testData.personAVac2Container.apply {
             certificate shouldBe testData.personAVac2Certificate
-            certificateId shouldBe "01DE/00001/1119305005/6IPYBAIDWEWRWW73QEP92FQSN#S"
+            qrCodeHash shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
         }
     }
 
@@ -84,7 +85,9 @@ class VaccinationContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
+            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            uniqueCertificateIdentifier shouldBe
+                testData.personAVac1Container.certificate.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
@@ -135,7 +138,9 @@ class VaccinationContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            certificateId shouldBe "01DE/00001/1119305005/7T1UG87G61Y7NRXIBQJDTYQ9#S"
+            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            uniqueCertificateIdentifier shouldBe
+                testData.personAVac1Container.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",

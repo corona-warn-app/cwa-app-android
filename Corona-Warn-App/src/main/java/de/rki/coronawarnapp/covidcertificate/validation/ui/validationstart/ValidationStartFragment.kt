@@ -108,6 +108,7 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
                 startValidationCheck.isLoading = false
                 DccValidationNoInternetErrorDialog(requireContext()).show()
             }
+            else -> Unit
         }
     }
 
