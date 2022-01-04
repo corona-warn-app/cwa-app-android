@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtract
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
-import de.rki.coronawarnapp.qrcode.parser.toGrayU8
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
@@ -28,12 +26,6 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     private val qrCodeFileParser: QrCodeFileParser,
     private val qrCodeCameraImageParser: QrCodeCameraImageParser
 ) : CWAViewModel() {
-
-    init {
-        qrCodeCameraImageParser.rawResults
-            .onEach { onScanResult(it) }
-            .launchInViewModel()
-    }
 
     val events = SingleLiveEvent<OrganizerWarnQrCodeNavigation>()
         .also { it.postValue(OrganizerWarnQrCodeNavigation.Scanning) }
@@ -62,7 +54,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    private fun onScanResult(rawResult: String) = launch {
+    private suspend fun onScanResult(rawResult: String) {
         events.postValue(OrganizerWarnQrCodeNavigation.InProgress)
         try {
             Timber.i("rawResult: $rawResult")
@@ -87,8 +79,12 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    fun onNewImage(image: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(image = image.toGrayU8())
+    fun onNewImage(imageProxy: ImageProxy) = launch {
+        qrCodeCameraImageParser.parseQrCode(imageProxy = imageProxy) { rawResults ->
+            if (rawResults.isNotEmpty()) {
+                onScanResult(rawResults.first())
+            }
+        }
     }
 
     fun startDecode() = events.postValue(OrganizerWarnQrCodeNavigation.Scanning)

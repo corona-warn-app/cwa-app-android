@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
-import de.rki.coronawarnapp.qrcode.parser.toGrayU8
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
@@ -35,7 +34,6 @@ import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -58,12 +56,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     val result = SingleLiveEvent<ScannerResult>().also { it.postValue(Scanning) }
 
-    init {
-        qrCodeCameraImageParser.rawResults
-            .onEach { onScanResult(it) }
-            .launchInViewModel()
-    }
-
     fun onImportFile(fileUri: Uri) = launch {
         result.postValue(InProgress)
         Timber.tag(TAG).d("onImportFile(fileUri=$fileUri)")
@@ -85,12 +77,16 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun onNewImage(imageProxy: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(image = imageProxy.toGrayU8())
+        qrCodeCameraImageParser.parseQrCode(imageProxy = imageProxy) { rawResults ->
+            if (rawResults.isNotEmpty()) {
+                onScanResult(rawResults.first())
+            }
+        }
     }
 
     fun startDecode() = result.postValue(Scanning)
 
-    private fun onScanResult(rawResult: String) = launch {
+    private suspend fun onScanResult(rawResult: String) {
         result.postValue(InProgress)
         Timber.tag(TAG).d("onScanResult(rawResult=$rawResult)")
         try {
