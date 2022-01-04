@@ -45,7 +45,7 @@ class QrCodeBoofCVParserTest : BaseTestInstrumentation() {
 
     @Test
     fun returns_failure_result() {
-        val imageProxy: ImageProxy = mockk{
+        val imageProxy: ImageProxy = mockk {
             every { height } returns 100
             every { width } returns 100
             every { image } returns null
@@ -53,7 +53,7 @@ class QrCodeBoofCVParserTest : BaseTestInstrumentation() {
 
         instance.parseQrCode(imageProxy = imageProxy) should beInstanceOf<QrCodeBoofCVParser.ParseResult.Failure>()
 
-        val bitmap: Bitmap = mockk{
+        val bitmap: Bitmap = mockk {
             every { height } returns 100
             every { width } returns 100
         }
