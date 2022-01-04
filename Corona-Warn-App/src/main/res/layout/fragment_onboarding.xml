@@ -152,12 +152,11 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:linksClickable="true"
-                    android:text="@string/onboarding_tracing_easy_language_explanation"
                     android:textColorLink="@color/colorTextTint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/onboarding_body_6"
-                    tools:text="@string/onboarding_tracing_easy_language_explanation" />
+                    tools:text="@string/easy_language_title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

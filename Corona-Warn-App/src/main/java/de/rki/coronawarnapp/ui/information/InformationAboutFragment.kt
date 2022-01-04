@@ -1,15 +1,16 @@
 package de.rki.coronawarnapp.ui.information
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentInformationAboutBinding
+import de.rki.coronawarnapp.ui.onboarding.showEasyLanguageLink
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import setTextWithUrl
 
 /**
  * Basic Fragment which only displays static content.
@@ -24,15 +25,13 @@ class InformationAboutFragment : Fragment(R.layout.fragment_information_about) {
         setLinks()
     }
 
-    private fun setLinks() {
-        binding.informationAboutEasyLanguage
-            .setOnClickListener {
-                val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url))
-                )
-                startActivity(browserIntent)
-            }
+    private fun setLinks() = with(binding.informationAboutEasyLanguage) {
+        isVisible = showEasyLanguageLink() // only show link for German
+        setTextWithUrl(
+            R.string.easy_language_title,
+            R.string.easy_language_title,
+            R.string.easy_language_url
+        )
     }
 
     override fun onResume() {

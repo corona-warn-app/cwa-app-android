@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_about_container"
@@ -23,9 +24,9 @@
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:fillViewport="true"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,8 +55,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
-                    android:text="@string/information_about_body_emphasized"
                     android:focusable="true"
+                    android:text="@string/information_about_body_emphasized"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_about_header_details" />
@@ -66,8 +67,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@string/information_about_body"
                     android:focusable="true"
+                    android:text="@string/information_about_body"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_about_body_emphasized" />
@@ -82,11 +83,11 @@
                     android:focusable="true"
                     android:linksClickable="true"
                     android:textColorLink="@color/colorTextTint"
-                    android:text="@string/onboarding_tracing_easy_language_explanation"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
-                    app:layout_constraintTop_toBottomOf="@id/information_about_body" />
+                    app:layout_constraintTop_toBottomOf="@id/information_about_body"
+                    tools:text="@string/easy_language_title" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline_start"

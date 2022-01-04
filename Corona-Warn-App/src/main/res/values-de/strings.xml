@@ -405,10 +405,6 @@
     <string name="onboarding_tracing_body">"Die Risiko-Ermittlung funktioniert, indem Ihr Android-Smartphone per Bluetooth verschlüsselte Zufalls-IDs anderer App nutzenden Personen empfängt und Ihre eigenen Zufalls-IDs an deren Smartphones weitergibt. Die Risiko-Ermittlung lässt sich jederzeit deaktivieren. "</string>
     <!-- YTXT: onboarding(tracing) - explain tracing -->
     <string name="onboarding_tracing_body_emphasized">"Die verschlüsselten Zufalls-IDs geben nur Auskunft über das Datum, die Dauer und die anhand der Signalstärke berechnete Entfernung zu Ihren Mitmenschen. Rückschlüsse auf einzelne Personen sind anhand der Zufalls-IDs nicht möglich."</string>
-    <!-- YTXT: onboarding(tracing) - easy language explain tracing link-->
-    <string name="onboarding_tracing_easy_language_explanation"><a href="https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache">Informationen zur App in leichter Sprache und Gebärdensprache</a></string>
-    <!-- NOTR: onboarding(tracing) - easy language explain tracing link URL-->
-    <string name="onboarding_tracing_easy_language_explanation_url">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
     <!-- XBUT: onboarding(tracing) - button enable tracing -->
     <string name="onboarding_tracing_button_next">"Risiko-Ermittlung aktivieren"</string>
     <!-- XTXT: onboarding(tracing) - dialog about tracing permission declined -->

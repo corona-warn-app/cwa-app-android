@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Easy language link title-->
+    <string name="easy_language_title" translatable="false">"Informationen zur App in leichter Sprache und Gebärdensprache"</string>
+    <!-- Easy language explain link URL-->
+    <string name="easy_language_url" translatable="false">"https://www.bundesregierung.de/breg-de/themen/corona-warn-app/corona-warn-app-leichte-sprache-gebaerdensprache"</string>
+</resources>
