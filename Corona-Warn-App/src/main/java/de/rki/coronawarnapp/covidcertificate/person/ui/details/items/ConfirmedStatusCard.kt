@@ -39,12 +39,12 @@ class ConfirmedStatusCard(parent: ViewGroup) :
             is TwoGPlusPCR -> {
                 subtitle.text = context.resources.getString(R.string.confirmed_status_2g_pcr_subtitle)
                 badge.text = context.resources.getString(R.string.confirmed_status_2g_plus_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_body)
+                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_pcr_body)
             }
             is TwoGPlusRAT -> {
                 subtitle.text = context.resources.getString(R.string.confirmed_status_2g_rat_subtitle)
                 badge.text = context.resources.getString(R.string.confirmed_status_2g_plus_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_body)
+                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_rat_body)
             }
             is ThreeGWithRAT -> {
                 subtitle.text = context.resources.getString(R.string.confirmed_status_3g_badge)
