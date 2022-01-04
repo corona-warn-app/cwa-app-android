@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
+import android.view.Surface
 import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
@@ -97,12 +98,13 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         Timber.tag(TAG).d("Binding camera use cases")
         // Get screen metrics used to setup camera for full screen resolution
         val metrics = windowManager.getCurrentWindowMetrics().bounds
-        Timber.tag(TAG).d("Screen metrics: ${metrics.width()} x ${metrics.height()}")
+        Timber.tag(TAG).d("Screen metrics: %d x %d", metrics.width(), metrics.height())
 
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
-        Timber.tag(TAG).d("Preview aspect ratio: $screenAspectRatio")
+        Timber.tag(TAG).d("Preview aspect ratio: %d", screenAspectRatio)
 
-        val rotation = cameraPreview.display.rotation
+        val rotation = cameraPreview.display?.rotation ?: Surface.ROTATION_0
+        Timber.tag(TAG).d("Preview orientation: %d", rotation)
 
         val preview = Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
@@ -126,7 +128,6 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
             .also { imageAnalysis ->
                 imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
                     handleImage(imageProxy = imageProxy)
-                    return@setAnalyzer
                 }
             }
 
@@ -134,6 +135,7 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
             val cameraProvider = cameraProvider ?: throw IllegalStateException("Camera not initialized")
             cameraProvider.unbindAll()
 
+            Timber.tag(TAG).d("Binding use cases")
             camera = cameraProvider.bindToLifecycle(lifecycleOwner, selector, preview, analyzer)
         } catch (e: Exception) {
             Timber.tag(TAG).e(e)
