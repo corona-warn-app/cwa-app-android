@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
-import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
@@ -74,7 +74,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    fun onParseResult(parseResult: QrCodeCameraImageParser.ParseResult) {
+    fun onParseResult(parseResult: QrCodeBoofCVParser.ParseResult) {
         Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
         parseResult.rawResults.firstOrNull()?.let { onScanResult(rawResult = it) }
     }

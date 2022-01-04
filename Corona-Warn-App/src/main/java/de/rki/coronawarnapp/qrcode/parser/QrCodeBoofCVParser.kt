@@ -1,8 +1,10 @@
 package de.rki.coronawarnapp.qrcode.parser
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import androidx.camera.core.ImageProxy
 import boofcv.alg.color.ColorFormat
+import boofcv.android.ConvertBitmap
 import boofcv.android.ConvertCameraImage
 import boofcv.factory.fiducial.FactoryFiducial
 import boofcv.struct.image.GrayU8
@@ -10,9 +12,14 @@ import boofcv.struct.image.ImageType
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
 
-class QrCodeCameraImageParser {
+class QrCodeBoofCVParser {
 
     private val detector = FactoryFiducial.qrcode(null, GrayU8::class.java)
+
+    fun parseQrCode(bitmap: Bitmap): ParseResult = bitmap
+        .toGrayU8()
+        .parse()
+        .toParseResult()
 
     fun parseQrCode(imageProxy: ImageProxy): ParseResult = imageProxy
         .toGrayU8()
@@ -42,6 +49,10 @@ class QrCodeCameraImageParser {
         ConvertCameraImage.imageToBoof(image, ColorFormat.RGB, it, null)
     }
 
+    private fun Bitmap.toGrayU8(): GrayU8 = ImageType.SB_U8.createImage(width, height).also {
+        ConvertBitmap.bitmapToBoof(this, it, null)
+    }
+
     private fun GrayU8.transpose(): GrayU8 {
         val transposed = ImageType.SB_U8.createImage(height, width)
         for (x in 0 until width) {
@@ -59,6 +70,6 @@ class QrCodeCameraImageParser {
     }
 
     companion object {
-        private val TAG = tag<QrCodeCameraImageParser>()
+        private val TAG = tag<QrCodeBoofCVParser>()
     }
 }

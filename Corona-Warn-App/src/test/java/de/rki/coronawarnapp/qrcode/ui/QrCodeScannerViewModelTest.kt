@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
-import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
@@ -117,7 +117,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     )
 
     private val rawResult = "rawResult"
-    private val parsedResult = QrCodeCameraImageParser.ParseResult(rawResults = setOf(rawResult))
+    private val parsedResult = QrCodeBoofCVParser.ParseResult(rawResults = setOf(rawResult))
 
     @BeforeEach
     fun setup() {
@@ -415,7 +415,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `onParseResult does nothing on empty parse result`() {
-        val emptyParseResult = QrCodeCameraImageParser.ParseResult(rawResults = emptySet())
+        val emptyParseResult = QrCodeBoofCVParser.ParseResult(rawResults = emptySet())
         with(viewModel()) {
             onParseResult(parseResult = emptyParseResult)
 

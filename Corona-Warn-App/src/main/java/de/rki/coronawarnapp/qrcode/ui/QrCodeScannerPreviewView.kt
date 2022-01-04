@@ -20,7 +20,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.window.WindowManager
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.lessThanAPILevel
@@ -43,7 +43,7 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private var camera: Camera? = null
     private val cameraExecutor by lazy { Executors.newSingleThreadExecutor() }
     private val windowManager: WindowManager
-    private val qrCodeCameraImageParser by lazy { QrCodeCameraImageParser() }
+    private val qrCodeBoofCVParser by lazy { QrCodeBoofCVParser() }
     private var parseResultCallback: ParseResultCallback? = null
 
     init {
@@ -144,7 +144,7 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
 
     private fun handleImage(imageProxy: ImageProxy) = imageProxy.use {
         if (parseResultCallback != null) {
-            val parseResult = qrCodeCameraImageParser.parseQrCode(it)
+            val parseResult = qrCodeBoofCVParser.parseQrCode(it)
             if (parseResult.isNotEmpty) {
                 parseResultCallback?.invoke(parseResult)
                 parseResultCallback = null
@@ -197,4 +197,4 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     }
 }
 
-private typealias ParseResultCallback = (QrCodeCameraImageParser.ParseResult) -> Unit
+private typealias ParseResultCallback = (QrCodeBoofCVParser.ParseResult) -> Unit

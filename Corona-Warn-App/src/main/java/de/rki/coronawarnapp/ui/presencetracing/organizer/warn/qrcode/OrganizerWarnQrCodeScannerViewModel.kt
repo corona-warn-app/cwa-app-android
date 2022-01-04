@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
-import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
@@ -76,7 +76,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    fun onParseResult(parseResult: QrCodeCameraImageParser.ParseResult) {
+    fun onParseResult(parseResult: QrCodeBoofCVParser.ParseResult) {
         Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
         parseResult.rawResults.firstOrNull()?.let { onScanResult(rawResult = it) }
     }
