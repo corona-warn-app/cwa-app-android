@@ -144,12 +144,18 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
 
     private fun handleImage(imageProxy: ImageProxy) = imageProxy.use {
         if (parseResultCallback != null) {
-            val parseResult = qrCodeBoofCVParser.parseQrCode(it)
-            if (parseResult.isNotEmpty) {
-                parseResultCallback?.invoke(parseResult)
-                parseResultCallback = null
+            when (val parseResult = qrCodeBoofCVParser.parseQrCode(it)) {
+                is QrCodeBoofCVParser.ParseResult.Failure -> sendResult(parseResult)
+                is QrCodeBoofCVParser.ParseResult.Success -> if (parseResult.isNotEmpty) {
+                    sendResult(parseResult)
+                }
             }
         }
+    }
+
+    private fun sendResult(result: QrCodeBoofCVParser.ParseResult) {
+        parseResultCallback?.invoke(result)
+        parseResultCallback = null
     }
 
     private val hasBackCamera: Boolean

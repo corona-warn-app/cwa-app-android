@@ -117,7 +117,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     )
 
     private val rawResult = "rawResult"
-    private val parsedResult = QrCodeBoofCVParser.ParseResult(rawResults = setOf(rawResult))
+    private val parsedResult = QrCodeBoofCVParser.ParseResult.Success(rawResults = setOf(rawResult))
 
     @BeforeEach
     fun setup() {
@@ -415,7 +415,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `onParseResult does nothing on empty parse result`() {
-        val emptyParseResult = QrCodeBoofCVParser.ParseResult(rawResults = emptySet())
+        val emptyParseResult = QrCodeBoofCVParser.ParseResult.Success(rawResults = emptySet())
         with(viewModel()) {
             onParseResult(parseResult = emptyParseResult)
 
@@ -423,6 +423,18 @@ class QrCodeScannerViewModelTest : BaseTest() {
             coVerify {
                 qrCodeValidator wasNot called
             }
+        }
+    }
+
+    @Test
+    fun `onParseResult reports error on parse result failure`() {
+        val error = Exception("Test error")
+        val failure = QrCodeBoofCVParser.ParseResult.Failure(exception = error)
+
+        with(viewModel()) {
+            onParseResult(parseResult = failure)
+
+            result.getOrAwaitValue() should beInstanceOf<Error>()
         }
     }
 

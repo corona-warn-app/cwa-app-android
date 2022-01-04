@@ -1,9 +1,15 @@
 package de.rki.coronawarnapp.qrcode.parser
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.camera.core.ImageProxy
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseTestInstrumentation
@@ -21,7 +27,7 @@ class QrCodeBoofCVParserTest : BaseTestInstrumentation() {
 
     @Test
     fun finds_qr() {
-        val parseResult = QrCodeBoofCVParser.ParseResult(setOf(rawResult))
+        val parseResult = QrCodeBoofCVParser.ParseResult.Success(setOf(rawResult))
         val stream = createInputStream(TEST_WORKING_QR_CODE)
         val bitmap = stream.use { BitmapFactory.decodeStream(it) }
 
@@ -30,11 +36,29 @@ class QrCodeBoofCVParserTest : BaseTestInstrumentation() {
 
     @Test
     fun finds_nothing() {
-        val parseResult = QrCodeBoofCVParser.ParseResult(emptySet())
+        val parseResult = QrCodeBoofCVParser.ParseResult.Success(emptySet())
         val stream = createInputStream(TEST_EMPTY_IMAGE)
         val bitmap = stream.use { BitmapFactory.decodeStream(it) }
 
         instance.parseQrCode(bitmap) shouldBe parseResult
+    }
+
+    @Test
+    fun returns_failure_result() {
+        val imageProxy: ImageProxy = mockk{
+            every { height } returns 100
+            every { width } returns 100
+            every { image } returns null
+        }
+
+        instance.parseQrCode(imageProxy = imageProxy) should beInstanceOf<QrCodeBoofCVParser.ParseResult.Failure>()
+
+        val bitmap: Bitmap = mockk{
+            every { height } returns 100
+            every { width } returns 100
+        }
+
+        instance.parseQrCode(bitmap = bitmap) should beInstanceOf<QrCodeBoofCVParser.ParseResult.Failure>()
     }
 
     private fun createInputStream(filename: String): InputStream {

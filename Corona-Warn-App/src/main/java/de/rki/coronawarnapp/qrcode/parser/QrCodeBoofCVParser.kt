@@ -11,20 +11,31 @@ import boofcv.struct.image.GrayU8
 import boofcv.struct.image.ImageType
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
+import kotlin.Exception
 
 class QrCodeBoofCVParser {
 
     private val detector = FactoryFiducial.qrcode(null, GrayU8::class.java)
 
-    fun parseQrCode(bitmap: Bitmap): ParseResult = bitmap
-        .toGrayU8()
-        .parse()
-        .toParseResult()
+    fun parseQrCode(bitmap: Bitmap): ParseResult = try {
+        bitmap
+            .toGrayU8()
+            .parse()
+            .toParseResultSuccess()
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Failed to parse bitmap=%s", bitmap)
+        e.toParseResultFailure()
+    }
 
-    fun parseQrCode(imageProxy: ImageProxy): ParseResult = imageProxy
-        .toGrayU8()
-        .parse()
-        .toParseResult()
+    fun parseQrCode(imageProxy: ImageProxy): ParseResult = try {
+        imageProxy
+            .toGrayU8()
+            .parse()
+            .toParseResultSuccess()
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Failed to parse image proxy=%s", imageProxy)
+        e.toParseResultFailure()
+    }
 
     private fun GrayU8.parse(): Set<String> {
         Timber.tag(TAG).v("Parsing image")
@@ -63,10 +74,15 @@ class QrCodeBoofCVParser {
         return transposed
     }
 
-    private fun Set<String>.toParseResult() = ParseResult(rawResults = this)
+    private fun Set<String>.toParseResultSuccess() = ParseResult.Success(rawResults = this)
+    private fun Exception.toParseResultFailure() = ParseResult.Failure(exception = this)
 
-    data class ParseResult(val rawResults: Set<String>) {
-        val isNotEmpty: Boolean get() = rawResults.isNotEmpty()
+    sealed class ParseResult {
+        data class Success(val rawResults: Set<String>) : ParseResult() {
+            val isNotEmpty: Boolean get() = rawResults.isNotEmpty()
+        }
+
+        data class Failure(val exception: Exception) : ParseResult()
     }
 
     companion object {
