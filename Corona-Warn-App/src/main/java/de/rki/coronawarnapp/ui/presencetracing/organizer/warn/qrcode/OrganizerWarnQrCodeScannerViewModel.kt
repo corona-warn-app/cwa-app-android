@@ -79,9 +79,11 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     fun onParseResult(parseResult: QrCodeBoofCVParser.ParseResult) {
         Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
         when (parseResult) {
-            is QrCodeBoofCVParser.ParseResult.Failure -> events.postValue(OrganizerWarnQrCodeNavigation.Error(exception = parseResult.exception))
-            is QrCodeBoofCVParser.ParseResult.Success -> parseResult.rawResults.firstOrNull()
-                ?.let { onScanResult(rawResult = it) }
+            is QrCodeBoofCVParser.ParseResult.Failure ->
+                events.postValue(OrganizerWarnQrCodeNavigation.Error(exception = parseResult.exception))
+            is QrCodeBoofCVParser.ParseResult.Success ->
+                parseResult.rawResults.firstOrNull()
+                    ?.let { onScanResult(rawResult = it) }
         }
     }
 
