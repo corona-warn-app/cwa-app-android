@@ -85,12 +85,12 @@ class StatisticsHomeCard(
 
     override fun onInitialPostBind(): Boolean {
         return if (statisticsCardAdapter.itemCount > 1) {
-            scrollToFirstCard()
+            scrollToSecondCard()
             true
         } else false // still initial
     }
 
-    private fun scrollToFirstCard() {
+    private fun scrollToSecondCard() {
         with(viewBinding.value.root.context.resources) {
             val screenWidth = displayMetrics.widthPixels
             val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
