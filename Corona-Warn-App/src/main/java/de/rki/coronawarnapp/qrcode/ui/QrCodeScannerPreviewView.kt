@@ -33,7 +33,6 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-@Suppress("NestedBlockDepth")
 class QrCodeScannerPreviewView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
@@ -144,12 +143,11 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     }
 
     private fun handleImage(imageProxy: ImageProxy) = imageProxy.use {
-        if (parseResultCallback != null) {
-            when (val parseResult = qrCodeBoofCVParser.parseQrCode(it)) {
-                is QrCodeBoofCVParser.ParseResult.Failure -> sendResult(parseResult)
-                is QrCodeBoofCVParser.ParseResult.Success -> if (parseResult.isNotEmpty) {
-                    sendResult(parseResult)
-                }
+        if (parseResultCallback == null) return@use
+        when (val parseResult = qrCodeBoofCVParser.parseQrCode(it)) {
+            is QrCodeBoofCVParser.ParseResult.Failure -> sendResult(parseResult)
+            is QrCodeBoofCVParser.ParseResult.Success -> if (parseResult.isNotEmpty) {
+                sendResult(parseResult)
             }
         }
     }
