@@ -46,14 +46,10 @@ class AppShortcutsHelper @Inject constructor(@AppContext private val context: Co
             .setIntent(createShortcutIntent(AppShortcuts.CONTACT_DIARY.toString()))
             .build()
 
-        ShortcutManagerCompat.pushDynamicShortcut(context, shortcutCheckIns)
-
         val shortcutList = listOf(shortcutScanner, shortcutCertificates, shortcutCheckIns, shortcutDiary)
 
-        if (ShortcutManagerCompat.getDynamicShortcuts(context).size == 0) {
-            ShortcutManagerCompat.addDynamicShortcuts(context, shortcutList)
-        } else {
-            ShortcutManagerCompat.updateShortcuts(context, shortcutList)
+        for (shortcut in shortcutList) {
+            ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         }
     }
 
