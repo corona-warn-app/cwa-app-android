@@ -22,10 +22,11 @@ class SavedStateMod<T : ModularAdapter.VH> :
 
             if (initial) {
                 initial = !stateSavingVH.onInitialPostBind()
+                if (!initial) return
             }
 
             stateSavingVH.savedStateKey?.let { key ->
-                savedStates[key]?.let { savedState ->
+                savedStates.remove(key)?.let { savedState ->
                     stateSavingVH.restoreState(savedState)
                 }
             }
@@ -35,22 +36,25 @@ class SavedStateMod<T : ModularAdapter.VH> :
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         recyclerView.addLifecycleEventCallback(type = Lifecycle.Event.ON_PAUSE) {
-            savedStates.clear()
-
-            getAllViewHolders(recyclerView).filterIsInstance<StateSavingVH>().forEach { vh ->
-                val key = vh.savedStateKey
-                val state = vh.onSaveState()
-                if (key != null && state != null) {
-                    savedStates[key] = state
-                }
-            }
-
+            recyclerView.saveState()
             true
         }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         // NOOP
+    }
+
+    private fun RecyclerView.saveState() {
+        savedStates.clear()
+
+        getAllViewHolders(this).filterIsInstance<StateSavingVH>().forEach { vh ->
+            val key = vh.savedStateKey
+            val state = vh.onSaveState()
+            if (key != null && state != null) {
+                savedStates[key] = state
+            }
+        }
     }
 
     private fun getAllViewHolders(recyclerView: RecyclerView): List<RecyclerView.ViewHolder> = try {
