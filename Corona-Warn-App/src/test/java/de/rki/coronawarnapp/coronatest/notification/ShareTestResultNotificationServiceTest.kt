@@ -78,7 +78,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     )
 
     @Test
-    fun `any test which allows submission triggers scheduling`() = runBlockingTest2(ignoreActive = true) {
+    fun `any test which allows submission and is viewed triggers scheduling`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
         coronaTestFlow.value = setOf(
@@ -87,12 +87,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
                 every { type } returns PCR
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
+                every { isViewed } returns true
             },
             mockk<CoronaTest>().apply {
                 every { identifier } returns "RAT-ID"
                 every { type } returns RAPID_ANTIGEN
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
+                every { isViewed } returns true
             }
         )
 
@@ -116,6 +118,46 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         verify { cwaSettings.idOfPositiveTestResultRemindersPcr = "PCR-ID" }
         verify { cwaSettings.idOfPositiveTestResultRemindersRat = "RAT-ID" }
     }
+
+    @Test
+    fun `no notification should be scheduled for tests that are not viewed yet`() =
+        runBlockingTest2(ignoreActive = true) {
+            val instance = createInstance(this)
+
+            coronaTestFlow.value = setOf(
+                mockk<CoronaTest>().apply {
+                    every { identifier } returns "PCR-ID"
+                    every { type } returns PCR
+                    every { isSubmissionAllowed } returns true
+                    every { isSubmitted } returns false
+                    every { isViewed } returns false
+                },
+                mockk<CoronaTest>().apply {
+                    every { identifier } returns "RAT-ID"
+                    every { type } returns RAPID_ANTIGEN
+                    every { isSubmissionAllowed } returns true
+                    every { isSubmitted } returns false
+                    every { isViewed } returns false
+                }
+            )
+
+            instance.setup()
+            verify(exactly = 0) {
+                shareTestResultNotification.scheduleSharePositiveTestResultReminder(
+                    PCR,
+                    POSITIVE_PCR_RESULT_NOTIFICATION_ID
+                )
+            }
+            verify(exactly = 0) {
+                shareTestResultNotification.scheduleSharePositiveTestResultReminder(
+                    RAPID_ANTIGEN,
+                    POSITIVE_RAT_RESULT_NOTIFICATION_ID
+                )
+            }
+
+            verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MIN_VALUE }
+            verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = Int.MIN_VALUE }
+        }
 
     @Test
     fun `showing a notification consumes a token`() = runBlockingTest2(ignoreActive = true) {
