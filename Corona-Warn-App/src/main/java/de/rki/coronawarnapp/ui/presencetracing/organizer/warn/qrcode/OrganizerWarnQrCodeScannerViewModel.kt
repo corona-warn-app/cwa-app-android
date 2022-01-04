@@ -78,9 +78,7 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
 
     fun onParseResult(parseResult: QrCodeCameraImageParser.ParseResult) {
         Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
-        if (parseResult.isNotEmpty) {
-            onScanResult(parseResult.rawResults.first())
-        }
+        parseResult.rawResults.firstOrNull()?.let { onScanResult(rawResult = it) }
     }
 
     @AssistedFactory
