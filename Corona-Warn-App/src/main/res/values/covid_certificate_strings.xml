@@ -406,6 +406,10 @@
 
     <!-- XTXT: Confirmed status card 2G body -->
     <string name="confirmed_status_2g_body">"Your certificates satisfy the 2G rule. If you need to prove your current status, close this view and show the QR code in the certificate overview."</string>
+    <!-- XTXT: Confirmed status card 2G+ RAT body -->
+    <string name="confirmed_status_2g_plus_rat_body">"Ihre Zertifikate erfüllen die 2G-Plus-Regel, es sei denn, es wird ein PCR-Test benötigt. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
+    <!-- XTXT: Confirmed status card 2G+ PCR body -->
+    <string name="confirmed_status_2g_plus_pcr_body">"Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
     <!-- XTXT: Confirmed status card 2G+ body -->
     <string name="confirmed_status_2g_plus_body">"Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview."</string>
     <!-- XTXT: Confirmed status card 3G body -->
