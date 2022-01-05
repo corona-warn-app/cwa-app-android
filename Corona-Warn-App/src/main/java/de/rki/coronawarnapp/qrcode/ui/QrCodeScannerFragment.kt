@@ -122,6 +122,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         requestCameraPermission()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.scannerPreview.shutdownCameraExecutor()
+    }
+
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
         when (scannerResult) {
             is DccTicketingResult.ConsentI -> {
