@@ -108,8 +108,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
 
             scannerFab.apply {
-                setShowMotionSpecResource(R.animator.fab_show)
-                setHideMotionSpecResource(R.animator.fab_hide)
+//                setShowMotionSpecResource(R.animator.fab_show)
+//                setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener {
                     val time = System.currentTimeMillis()
                     if (time - lastFabClickTime >= 1000) {
@@ -322,11 +322,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateToScanner() {
-        supportFragmentManager.currentNavigationFragment?.apply {
-            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
-            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
-            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
-        }
+//        supportFragmentManager.currentNavigationFragment?.apply {
+//            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
+//            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
+//            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
+//        }
         navController.navigate(R.id.universalScanner)
     }
 

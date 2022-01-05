@@ -75,13 +75,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         uri?.let { viewModel.onImportFile(uri) }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val materialContainerTransform = MaterialContainerTransform()
-        sharedElementEnterTransition = materialContainerTransform
-        sharedElementReturnTransition = materialContainerTransform
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//        val materialContainerTransform = MaterialContainerTransform()
+//        sharedElementEnterTransition = materialContainerTransform
+//        sharedElementReturnTransition = materialContainerTransform
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
@@ -118,7 +118,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
         }
 
-        setupTransition()
+//        setupTransition()
         requestCameraPermission()
     }
 
