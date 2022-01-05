@@ -99,7 +99,7 @@
     <!-- XTXT: submission result antigen fragment card patient name placeholder -->
     <string name="submission_test_result_antigen_patient_name_placeholder">"%1$s %2$s"</string>
     <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
-    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Geboren %1$s"</string>
+    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"geboren %1$s"</string>
     <!-- XTXT: coronatest negative antigen result time and date placeholder -->
     <string name="coronatest_negative_antigen_result_time_date_placeholder">"Ausgestellt: %1$s, %2$s Uhr"</string>
     <!-- XTXT: submission result antigen fragment card negative result message -->
