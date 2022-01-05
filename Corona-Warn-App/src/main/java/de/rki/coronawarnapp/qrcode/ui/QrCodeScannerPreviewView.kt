@@ -74,11 +74,12 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         this.parseResultCallback = parseResultCallback
     }
 
-    // Just for testing, revert or improve me
-    fun shutdownCameraExecutor() {
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
         Timber.tag(TAG).d("Shutting down camera executor")
         cameraExecutor.shutdown()
     }
+
     private fun setupAutofocus(lifecycleOwner: LifecycleOwner) {
         if (BuildVersionWrap.lessThanAPILevel(Build.VERSION_CODES.O)) {
             Timber.tag(TAG).d("setupAutofocus()")
