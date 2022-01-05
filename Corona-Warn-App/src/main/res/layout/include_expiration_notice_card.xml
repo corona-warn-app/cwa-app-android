@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/expiration_date_title"
-        style="@style/body2"
+        style="@style/subtitle"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
