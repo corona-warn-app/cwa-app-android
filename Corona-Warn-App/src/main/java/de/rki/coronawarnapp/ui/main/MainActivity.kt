@@ -321,11 +321,17 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateToScanner() {
-//        supportFragmentManager.currentNavigationFragment?.apply {
-//            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
-//            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
-//            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
-//        }
+
+        /*
+        TODO: Enable transition, Transition to scanner is disabled,
+         because it is causing a native crash in Camera PreviewView [CameraX]
+         see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
+
+        supportFragmentManager.currentNavigationFragment?.apply {
+            val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
+            exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
+            reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
+        }*/
         navController.navigate(R.id.universalScanner)
     }
 
