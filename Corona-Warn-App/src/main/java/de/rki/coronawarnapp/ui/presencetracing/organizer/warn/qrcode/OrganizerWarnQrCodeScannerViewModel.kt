@@ -1,14 +1,12 @@
 package de.rki.coronawarnapp.ui.presencetracing.organizer.warn.qrcode
 
 import android.net.Uri
-import androidx.camera.core.ImageProxy
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
-import de.rki.coronawarnapp.qrcode.parser.QrCodeCameraImageParser
-import de.rki.coronawarnapp.qrcode.parser.toGrayU8
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
@@ -18,25 +16,16 @@ import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
 class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
     private val cameraSettings: CameraSettings,
     private val checkInQrCodeHandler: CheckInQrCodeHandler,
-    private val qrCodeFileParser: QrCodeFileParser,
-    private val qrCodeCameraImageParser: QrCodeCameraImageParser
+    private val qrCodeFileParser: QrCodeFileParser
 ) : CWAViewModel() {
 
-    init {
-        qrCodeCameraImageParser.rawResults
-            .onEach { onScanResult(it) }
-            .launchInViewModel()
-    }
-
     val events = SingleLiveEvent<OrganizerWarnQrCodeNavigation>()
-        .also { it.postValue(OrganizerWarnQrCodeNavigation.Scanning) }
 
     fun onNavigateUp() {
         events.postValue(OrganizerWarnQrCodeNavigation.BackNavigation)
@@ -87,11 +76,16 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
         cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
-    fun onNewImage(image: ImageProxy) = launch {
-        qrCodeCameraImageParser.parseQrCode(image = image.toGrayU8())
+    fun onParseResult(parseResult: QrCodeBoofCVParser.ParseResult) {
+        Timber.tag(TAG).d("onParseResult(parseResult=%s)", parseResult)
+        when (parseResult) {
+            is QrCodeBoofCVParser.ParseResult.Failure ->
+                events.postValue(OrganizerWarnQrCodeNavigation.Error(exception = parseResult.exception))
+            is QrCodeBoofCVParser.ParseResult.Success ->
+                parseResult.rawResults.firstOrNull()
+                    ?.let { onScanResult(rawResult = it) }
+        }
     }
-
-    fun startDecode() = events.postValue(OrganizerWarnQrCodeNavigation.Scanning)
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<OrganizerWarnQrCodeScannerViewModel>

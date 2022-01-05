@@ -15,8 +15,6 @@ import de.rki.coronawarnapp.util.ui.LazyString
 
 sealed interface ScannerResult
 
-object Scanning : ScannerResult
-
 object InProgress : ScannerResult
 
 object InfoScreen : ScannerResult

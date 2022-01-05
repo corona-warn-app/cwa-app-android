@@ -65,6 +65,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 showCameraPermissionDeniedDialog()
                 viewModel.setCameraDeniedPermanently(true)
             }
+        } else {
+            startDecode()
         }
     }
 
@@ -73,18 +75,21 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         uri?.let { viewModel.onImportFile(uri) }
     }
 
+    /*
+
+    TODO: Enable transition, Transition to scanner is disabled,
+     because it is causing a native crash in Camera PreviewView [CameraX]
+     see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val materialContainerTransform = MaterialContainerTransform()
         sharedElementEnterTransition = materialContainerTransform
         sharedElementReturnTransition = materialContainerTransform
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner) {
-            viewModel.onNewImage(it)
-        }
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
 
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
@@ -95,7 +100,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
         viewModel.result.observe(viewLifecycleOwner) { scannerResult ->
             qrCodeProcessingView.isVisible = scannerResult == InProgress
-            scannerPreview.scanEnabled = scannerResult == Scanning
             when (scannerResult) {
                 is CoronaTestResult -> onCoronaTestResult(scannerResult)
                 is DccResult -> onDccResult(scannerResult)
@@ -115,14 +119,17 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 InfoScreen -> doNavigate(
                     QrCodeScannerFragmentDirections.actionUniversalScannerToUniversalScannerInformationFragment()
                 )
-                InProgress,
-                Scanning -> {
-                    // NO-OP
-                }
+                InProgress -> Unit
             }
         }
 
+        /*
+         TODO: Enable transition, Transition to scanner is disabled,
+          because it is causing a native crash in Camera PreviewView [CameraX]
+          see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
         setupTransition()
+        */
+        requestCameraPermission()
     }
 
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
@@ -148,8 +155,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         requestCameraPermission()
     }
 
-    private fun startDecode() {
-        viewModel.startDecode()
+    private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
+        viewModel.onParseResult(parseResult = parseResult)
     }
 
     private fun showCameraPermissionDeniedDialog() {

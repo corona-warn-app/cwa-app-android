@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
+import android.view.Surface
 import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
@@ -19,6 +20,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.window.WindowManager
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.lessThanAPILevel
@@ -39,10 +41,10 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private val cameraPreview: PreviewView
     private var cameraProvider: ProcessCameraProvider? = null
     private var camera: Camera? = null
-    private val cameraExecutor = Executors.newSingleThreadExecutor()
+    private val cameraExecutor by lazy { Executors.newSingleThreadExecutor() }
     private val windowManager: WindowManager
-
-    var scanEnabled = true
+    private val qrCodeBoofCVParser by lazy { QrCodeBoofCVParser() }
+    private var parseResultCallback: ParseResultCallback? = null
 
     init {
         inflate(context, R.layout.qr_code_scanner_preview_view, this)
@@ -54,18 +56,22 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         camera?.cameraControl?.enableTorch(enable)
     }
 
-    fun setupCamera(lifecycleOwner: LifecycleOwner, onImageCallback: (ImageProxy) -> Unit) {
+    fun setupCamera(lifecycleOwner: LifecycleOwner) {
         Timber.tag(TAG).d("Setting up camera")
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
             {
                 cameraProvider = cameraProviderFuture.get()
-                bindUseCases(lifecycleOwner, onImageCallback)
+                bindUseCases(lifecycleOwner)
             },
             ContextCompat.getMainExecutor(context)
         )
 
         setupAutofocus(lifecycleOwner)
+    }
+
+    fun decodeSingle(parseResultCallback: ParseResultCallback) {
+        this.parseResultCallback = parseResultCallback
     }
 
     override fun onDetachedFromWindow() {
@@ -88,16 +94,17 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         }
     }
 
-    private fun bindUseCases(lifecycleOwner: LifecycleOwner, onImageCallback: (ImageProxy) -> Unit) {
+    private fun bindUseCases(lifecycleOwner: LifecycleOwner) {
         Timber.tag(TAG).d("Binding camera use cases")
         // Get screen metrics used to setup camera for full screen resolution
         val metrics = windowManager.getCurrentWindowMetrics().bounds
-        Timber.tag(TAG).d("Screen metrics: ${metrics.width()} x ${metrics.height()}")
+        Timber.tag(TAG).d("Screen metrics: %d x %d", metrics.width(), metrics.height())
 
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
-        Timber.tag(TAG).d("Preview aspect ratio: $screenAspectRatio")
+        Timber.tag(TAG).d("Preview aspect ratio: %d", screenAspectRatio)
 
-        val rotation = cameraPreview.display.rotation
+        val rotation = cameraPreview.display?.rotation ?: Surface.ROTATION_0
+        Timber.tag(TAG).d("Preview orientation: %d", rotation)
 
         val preview = Preview.Builder()
             .setTargetAspectRatio(screenAspectRatio)
@@ -120,12 +127,7 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
             .build()
             .also { imageAnalysis ->
                 imageAnalysis.setAnalyzer(cameraExecutor) { imageProxy ->
-                    if (scanEnabled) {
-                        onImageCallback(imageProxy)
-                    } else {
-                        // Close image safely
-                        imageProxy.use { }
-                    }
+                    handleImage(imageProxy = imageProxy)
                 }
             }
 
@@ -133,10 +135,26 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
             val cameraProvider = cameraProvider ?: throw IllegalStateException("Camera not initialized")
             cameraProvider.unbindAll()
 
+            Timber.tag(TAG).d("Binding use cases")
             camera = cameraProvider.bindToLifecycle(lifecycleOwner, selector, preview, analyzer)
         } catch (e: Exception) {
             Timber.tag(TAG).e(e)
         }
+    }
+
+    private fun handleImage(imageProxy: ImageProxy) = imageProxy.use {
+        if (parseResultCallback == null) return@use
+        when (val parseResult = qrCodeBoofCVParser.parseQrCode(it)) {
+            is QrCodeBoofCVParser.ParseResult.Failure -> sendResult(parseResult)
+            is QrCodeBoofCVParser.ParseResult.Success -> if (parseResult.isNotEmpty) {
+                sendResult(parseResult)
+            }
+        }
+    }
+
+    private fun sendResult(result: QrCodeBoofCVParser.ParseResult) {
+        parseResultCallback?.invoke(result)
+        parseResultCallback = null
     }
 
     private val hasBackCamera: Boolean
@@ -183,3 +201,5 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
     }
 }
+
+private typealias ParseResultCallback = (QrCodeBoofCVParser.ParseResult) -> Unit
