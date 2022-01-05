@@ -33,7 +33,7 @@ class ValueSetsRepository @Inject constructor(
     private val valueSetsStorage: ValueSetsStorage,
     @AppScope private val scope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
-    @AppContext private val context: Context,
+    @AppContext val context: Context,
 ) {
 
     private val internalData: HotDataFlow<ValueSetsContainer> = HotDataFlow(

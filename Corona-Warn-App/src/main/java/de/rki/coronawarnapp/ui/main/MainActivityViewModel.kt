@@ -86,8 +86,9 @@ class MainActivityViewModel @AssistedInject constructor(
             }
         }
 
+        valueSetRepository.triggerUpdateValueSet()
+
         launch {
-            valueSetRepository.triggerUpdateValueSet()
             if (!onboardingSettings.isBackgroundCheckDone) {
                 onboardingSettings.isBackgroundCheckDone = true
                 if (backgroundModeStatus.isBackgroundRestricted.first()) {
