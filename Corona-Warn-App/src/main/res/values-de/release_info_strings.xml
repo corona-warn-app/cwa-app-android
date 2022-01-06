@@ -25,8 +25,8 @@
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
         <item>Wenn Sie ein gültiges Impf- oder Genesenenzertifikat haben und ein Testzertifikat in der App hinzufügen, so werden diese in der Zertifikatsübersicht in einer kombinierten Anzeige dargestellt. Sie können zwischen dem QR-Code des Impf-/Genesenenzertifikats und dem des Testzertifikats mit Hilfe eines Schalters wechseln. Beide QR-Codes müssen von der CovPassCheck-App geprüft werden, wenn ein 2G+-Nachweis erforderlich ist.</item>
-        <item>Im Falle eines negativen Testergebnis erhalten Sie jetzt weitere Handlungsempfehlungen für den Fall, daß Sie trotzdem akute gesundheitliche Beschwerden haben. </item>
-        <item>Mit Version 2.12 wurde die Anzeige eines Sicherheitshinweis eingeführt, falls auf Ihrem Smartphone Administratorrechte aktiv sind. Diesen Hinweis können Sie nun bis zum nächsten Update unterdrücken. </item>
+        <item>Im Falle eines negativen Testergebnis erhalten Sie jetzt weitere Handlungsempfehlungen für den Fall, dass Sie trotzdem akute gesundheitliche Beschwerden haben. </item>
+        <item>Mit Version 2.12 wurde die Anzeige eines Sicherheitshinweises eingeführt, falls auf Ihrem Smartphone Administratorrechte aktiv sind. Diesen Hinweis können Sie nun bis zum nächsten Update unterdrücken. </item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
