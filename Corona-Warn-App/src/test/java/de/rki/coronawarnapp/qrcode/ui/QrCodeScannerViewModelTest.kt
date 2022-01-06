@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
+import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
@@ -32,12 +33,14 @@ import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRe
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.permission.CameraSettings
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -56,6 +59,7 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
+import java.util.concurrent.TimeoutException
 
 @ExtendWith(InstantExecutorExtension::class)
 class QrCodeScannerViewModelTest : BaseTest() {
@@ -113,6 +117,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
     )
 
     private val rawResult = "rawResult"
+    private val parsedResult = QrCodeBoofCVParser.ParseResult.Success(rawResults = setOf(rawResult))
 
     @BeforeEach
     fun setup() {
@@ -156,12 +161,12 @@ class QrCodeScannerViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `onScanResult reports UnsupportedQrCodeException`() {
+    fun `unsupported qr code leads to UnsupportedQrCodeException`() {
         val error = UnsupportedQrCodeException()
         coEvery { qrCodeValidator.validate(rawString = any()) } throws error
 
         viewModel().apply {
-            onScanResult(rawResult = rawResult)
+            onParseResult(parseResult = parsedResult)
             result.getOrAwaitValue().also {
                 it as Error
                 it.error shouldBe error
@@ -365,7 +370,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         coEvery { qrCodeValidator.validate(any()) } throws error
 
         with(viewModel()) {
-            onScanResult(rawResult = rawResult)
+            onParseResult(parseResult = parsedResult)
             result.getOrAwaitValue().also {
                 it as Error
                 it.error shouldBe error
@@ -381,7 +386,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         coEvery { dccTicketingQrCodeHandler.handleQrCode(any()) } throws error
 
         with(viewModel()) {
-            onScanResult(rawResult = rawResult)
+            onParseResult(parseResult = parsedResult)
             result.getOrAwaitValue().also {
                 it as Error
                 it.error shouldBe error
@@ -401,10 +406,35 @@ class QrCodeScannerViewModelTest : BaseTest() {
         coEvery { dccTicketingQrCodeHandler.handleQrCode(any()) } throws error
 
         with(viewModel()) {
-            onScanResult(rawResult = rawResult)
+            onParseResult(parseResult = parsedResult)
             result.getOrAwaitValue().also {
                 it should beInstanceOf<DccTicketingError>()
             }
+        }
+    }
+
+    @Test
+    fun `onParseResult does nothing on empty parse result`() {
+        val emptyParseResult = QrCodeBoofCVParser.ParseResult.Success(rawResults = emptySet())
+        with(viewModel()) {
+            onParseResult(parseResult = emptyParseResult)
+
+            shouldThrow<TimeoutException> { result.getOrAwaitValue() }
+            coVerify {
+                qrCodeValidator wasNot called
+            }
+        }
+    }
+
+    @Test
+    fun `onParseResult reports error on parse result failure`() {
+        val error = Exception("Test error")
+        val failure = QrCodeBoofCVParser.ParseResult.Failure(exception = error)
+
+        with(viewModel()) {
+            onParseResult(parseResult = failure)
+
+            result.getOrAwaitValue() should beInstanceOf<Error>()
         }
     }
 
@@ -421,6 +451,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         recycledCertificatesProvider = recycledCertificatesProvider,
         recycledCoronaTestsProvider = recycledCoronaTestsProvider,
         dccTicketingQrCodeHandler = dccTicketingQrCodeHandler,
-        dccMaxPersonChecker = dccMaxPersonChecker
+        dccMaxPersonChecker = dccMaxPersonChecker,
     )
 }
