@@ -24,6 +24,8 @@
     <string name="menu_settings">"Settings"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Recycle Bin"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Social Media"</string>
 
     <!-- ####################################
                Notification
