@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.test.menu.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ class TestMenuFragment : Fragment(R.layout.fragment_test_menu), AutoInject {
 
     @Inject lateinit var menuAdapter: TestMenuAdapter
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -36,6 +38,10 @@ class TestMenuFragment : Fragment(R.layout.fragment_test_menu), AutoInject {
 
         vm.showTestScreenEvent.observe2(this) {
             findNavController().navigate(it.targetId)
+        }
+
+        vm.personsCount.observe2(this) {
+            binding.personsCount.text = "Persons count: $it"
         }
     }
 }
