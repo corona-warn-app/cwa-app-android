@@ -9,3 +9,4 @@ object BuildVersionWrap {
 }
 
 fun BuildVersionWrap.hasAPILevel(level: Int): Boolean = SDK_INT >= level
+fun BuildVersionWrap.lessThanAPILevel(level: Int): Boolean = SDK_INT < level

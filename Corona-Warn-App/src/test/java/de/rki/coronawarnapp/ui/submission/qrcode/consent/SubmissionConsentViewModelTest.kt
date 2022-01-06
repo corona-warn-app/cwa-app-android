@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.qrcode.consent
 
 import com.google.android.gms.common.api.ApiException
-import com.journeyapps.barcodescanner.BarcodeResult
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.nearby.modules.tekhistory.TEKHistoryProvider
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
@@ -44,14 +43,6 @@ class SubmissionConsentViewModelTest {
         MockKAnnotations.init(this)
         every { interoperabilityRepository.countryList } returns MutableStateFlow(countryList)
         coEvery { submissionRepository.giveConsentToSubmission(any()) } just Runs
-        val codeContent = "https://coronawarn.app/E1/SOME_PATH_GOES_HERE"
-        val mockedResult = mockk<BarcodeResult> {
-            every { result } returns mockk {
-                every { text } returns codeContent
-            }
-        }
-        every { mockedResult.text } returns ""
-
         testRegistrationStateProcessor.apply {
             every { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
             coEvery { startRegistration(any(), any(), any()) } returns mockk()

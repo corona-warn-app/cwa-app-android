@@ -33,14 +33,23 @@ Once a user is tested positive the Diagnosis Key Submission component can be use
 ### Google Exposure Notification
 [Link to Google's page](https://www.google.com/covid19/exposurenotifications/)
 
-### ZXing Embedded
-Barcode scanning library by https://journeyapps.com/ based on ZXing decoder.
+### ZXing
 
-This library is being used for embedded QR code scanning process during TAN submission to help end users of the application quickly submit their SARS-CoV-2 results without installing additional scanning software.
+Zxing is used for certificates QRCodes generation and recognition of QRCodes for certificates, Tests, and Check-Ins from
+Images and PDF files
 
-Licensing: [Apache License 2.0](https://github.com/journeyapps/zxing-android-embedded/blob/master/COPYING)
+Licensing: [Apache License 2.0](https://github.com/zxing/zxing/blob/master/LICENSE)
 
-[GitHub](https://github.com/journeyapps/zxing-android-embedded)
+[GitHub](https://github.com/zxing/zxing)
+
+### boofCV
+
+boofCV is used in combination with cameraX in the camera scanner to recognize QRCodes of certificates, Tests, and
+Check-Ins.
+
+Licensing: [Apache License 2.0](https://github.com/lessthanoptimal/BoofCV/blob/SNAPSHOT/LICENSE-2.0.txt)
+
+[GitHub](https://github.com/lessthanoptimal/BoofCV)
 
 ### Joda Time
 Easy to use standard date and time classes. Used for date calculations, calendar and timezone handling.
