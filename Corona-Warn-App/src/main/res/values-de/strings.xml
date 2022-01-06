@@ -458,9 +458,9 @@
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Warnungen erhalten, Risiken kennen"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
-    <string name="onboarding_notifications_subtitle">"Die App kann Sie automatisch über Ihren Risikostatus informieren und bei Neuinfektionen von Menschen, denen Sie begegnet sind, warnen. Erlauben Sie der App jetzt, Sie zu benachrichtigen."</string>
+    <string name="onboarding_notifications_subtitle">"Die App kann Ihnen automatisch Mitteilungen senden und Sie unter anderem über Ihren Risikostatus oder die Gültigkeit Ihrer Zertifikate informieren. Passen Sie dafür die Mitteilungseinstellungen an."</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
-    <string name="onboarding_notifications_body">"Auf diese Weise können Sie sich zum Schutz Ihrer Mitmenschen in Isolation begeben und sich nach entsprechender Abklärung testen lassen."</string>
+    <string name="onboarding_notifications_body">"Auf diese Weise können Sie sich und Ihre Mitmenschen schützen und die Gültigkeit Ihrer Zertifikate im Blick behalten."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Eine Frau erhält eine Mitteilung von ihrer Corona-Warn-App."</string>
 
