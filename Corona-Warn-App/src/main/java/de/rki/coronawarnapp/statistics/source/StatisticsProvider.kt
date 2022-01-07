@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.statistics.source
 
 import de.rki.coronawarnapp.statistics.StatisticsData
+import de.rki.coronawarnapp.util.HashExtensions.toHexString
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -65,8 +66,12 @@ class StatisticsProvider @Inject constructor(
 
     private fun fromCache(): StatisticsData? = try {
         Timber.tag(TAG).d("fromCache()")
-        localCache.load()?.let { parser.parse(it) }?.also {
+        val rawData = localCache.load()
+        rawData?.let { it -> parser.parse(it) }?.also {
             Timber.tag(TAG).d("Parsed from cache: %s", it)
+            if (!it.isDataAvailable) {
+                Timber.tag(TAG).w("RawData: %s", rawData.toHexString())
+            }
         }
     } catch (e: Exception) {
         Timber.tag(TAG).w(e, "Failed to parse cached data.")
@@ -78,6 +83,9 @@ class StatisticsProvider @Inject constructor(
         val rawData = server.getRawStatistics()
         return parser.parse(rawData).also {
             Timber.tag(TAG).d("Parsed from server: %s", it)
+            if (!it.isDataAvailable) {
+                Timber.tag(TAG).w("RawData: %s", rawData.toHexString())
+            }
             localCache.save(rawData)
         }
     }
