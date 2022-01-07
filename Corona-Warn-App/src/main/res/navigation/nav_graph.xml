@@ -363,9 +363,7 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_submissionResultFragment_to_submissionYourConsentFragment"
-            app:destination="@id/submissionYourConsentFragment"
-            app:popUpTo="@id/submissionTestResultPendingFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/submissionYourConsentFragment" />
         <action
             android:id="@+id/action_submissionTestResultPendingFragment_to_submissionTestResultNegativeFragment"
             app:destination="@id/submissionTestResultNegativeFragment"
