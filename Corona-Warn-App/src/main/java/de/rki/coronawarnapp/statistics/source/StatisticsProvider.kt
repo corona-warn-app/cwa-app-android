@@ -70,7 +70,7 @@ class StatisticsProvider @Inject constructor(
         rawData?.let { it -> parser.parse(it) }?.also {
             Timber.tag(TAG).d("Parsed from cache: %s", it)
             if (!it.isDataAvailable) {
-                Timber.tag(TAG).e("RawData: ${rawData.toHexString()}")
+                Timber.tag(TAG).w("RawData: %s", rawData.toHexString())
             }
         }
     } catch (e: Exception) {
@@ -84,7 +84,7 @@ class StatisticsProvider @Inject constructor(
         return parser.parse(rawData).also {
             Timber.tag(TAG).d("Parsed from server: %s", it)
             if (!it.isDataAvailable) {
-                Timber.tag(TAG).e("RawData: ${rawData.toHexString()}")
+                Timber.tag(TAG).w("RawData: %s", rawData.toHexString())
             }
             localCache.save(rawData)
         }
