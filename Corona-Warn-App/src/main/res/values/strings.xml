@@ -1565,6 +1565,10 @@
     <!-- XHED: Title for vaccinated completely statistics card -->
     <string name="statistics_vaccinated_completely_card_title">"People Who Are Fully Vaccinated"</string>
 
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Personen mit Auffrischimpfung"</string>
+
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Vaccine Doses Administered"</string>
