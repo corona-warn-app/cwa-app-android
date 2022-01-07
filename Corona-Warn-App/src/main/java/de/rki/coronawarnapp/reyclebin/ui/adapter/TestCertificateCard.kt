@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
+import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfo
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
@@ -50,6 +51,8 @@ class TestCertificateCard(parent: ViewGroup) :
 
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.test_certificate_name)
+
+        addDeletionInfo(item = certificate)
 
         root.setOnClickListener { item.onRestore(item.certificate) }
 
