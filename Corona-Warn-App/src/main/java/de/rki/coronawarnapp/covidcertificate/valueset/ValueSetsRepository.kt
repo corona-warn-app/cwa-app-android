@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import java.util.Locale
@@ -34,7 +33,7 @@ class ValueSetsRepository @Inject constructor(
     private val valueSetsStorage: ValueSetsStorage,
     @AppScope private val scope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
-    @AppContext context: Context,
+    @AppContext val context: Context,
 ) {
 
     private val internalData: HotDataFlow<ValueSetsContainer> = HotDataFlow(
@@ -48,10 +47,6 @@ class ValueSetsRepository @Inject constructor(
 
     init {
         internalData.data
-            .onStart {
-                triggerUpdateValueSet(languageCode = context.getLocale())
-                Timber.d("Observing value set")
-            }
             .drop(1) // Initial emission that ways restored from storage anyways.
             .onEach {
                 Timber.v("Storing new valueset data.")
@@ -76,7 +71,7 @@ class ValueSetsRepository @Inject constructor(
                 .map { it.testCertificateValueSets }
         }
 
-    fun triggerUpdateValueSet(languageCode: Locale) {
+    fun triggerUpdateValueSet(languageCode: Locale = context.getLocale()) {
         Timber.d("triggerUpdateValueSet(languageCode=%s)", languageCode)
         internalData.updateAsync(
             onUpdate = { getValueSetFromServer(languageCode = languageCode) ?: this },
