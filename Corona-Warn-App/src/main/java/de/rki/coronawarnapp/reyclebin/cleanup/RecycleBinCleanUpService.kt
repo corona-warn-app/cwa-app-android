@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.reyclebin.cleanup
 
-import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.reyclebin.common.Recyclable.Companion.RETENTION_DAYS
@@ -12,8 +11,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Days
-import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
