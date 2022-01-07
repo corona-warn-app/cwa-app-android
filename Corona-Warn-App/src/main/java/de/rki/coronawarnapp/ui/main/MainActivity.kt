@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -108,8 +107,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
 
             scannerFab.apply {
-                setShowMotionSpecResource(R.animator.fab_show)
-                setHideMotionSpecResource(R.animator.fab_hide)
+//                setShowMotionSpecResource(R.animator.fab_show)
+//                setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener {
                     val time = System.currentTimeMillis()
                     if (time - lastFabClickTime >= 1000) {
@@ -344,11 +343,17 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateToScanner() {
+
+        /*
+        TODO: Enable transition, Transition to scanner is disabled,
+         because it is causing a native crash in Camera PreviewView [CameraX]
+         see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
+
         supportFragmentManager.currentNavigationFragment?.apply {
             val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
             exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
             reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
-        }
+        }*/
         navController.navigate(R.id.universalScanner)
     }
 

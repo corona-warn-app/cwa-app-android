@@ -95,7 +95,7 @@ class ShareTestResultNotificationService @Inject constructor(
             .onEach { tests ->
                 // schedule reminder if test wasn't submitted
                 tests.filter { test ->
-                    test.isSubmissionAllowed && !test.isSubmitted
+                    test.isSubmissionAllowed && !test.isSubmitted && test.isViewed
                 }.forEach { test ->
                     maybeScheduleSharePositiveTestResultReminder(test.type, test.identifier)
                 }

@@ -28,16 +28,17 @@ class QrViewfinderView(context: Context, attrs: AttributeSet) : View(context, at
         }
     }
 
-    override fun onDraw(canvas: Canvas?) {
-        if (canvas == null) return
-
-        val frame = Rect(
+    private val frame by lazy {
+        Rect(
             (width / 2 - maskSize / 2).roundToInt(),
             (height * maskPosition - maskSize / 2).roundToInt(),
             (width / 2 + maskSize / 2).roundToInt(),
             (height * maskPosition + maskSize / 2).roundToInt()
         )
+    }
 
+    override fun onDraw(canvas: Canvas?) {
+        if (canvas == null) return
         canvas.drawRect(0f, 0f, width.toFloat(), frame.top.toFloat(), paint)
         canvas.drawRect(0f, frame.top.toFloat(), frame.left.toFloat(), (frame.bottom + 1).toFloat(), paint)
         canvas.drawRect(
