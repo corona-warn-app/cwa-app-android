@@ -737,7 +737,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Unser Kundenservice ist in den folgenden Sprachen für Sie da:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Deutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo – Sa: 07:00 – 20:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
+    <string name="information_contact_body_open">"Deutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo – Sa: 07:00 – 22:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
     <!-- XACT: describes illustration -->
@@ -1288,7 +1288,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Geben Sie die TAN in der App ein, um Ihren PCR-Test zu registrieren."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo-So: Täglich 24 Stunden"</string>
+    <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo–So: 07:00 – 20:00 Uhr"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 
