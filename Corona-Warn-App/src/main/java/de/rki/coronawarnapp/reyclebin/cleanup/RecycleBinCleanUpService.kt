@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.reyclebin.cleanup
 import androidx.annotation.VisibleForTesting
 import dagger.Reusable
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
+import de.rki.coronawarnapp.reyclebin.common.Recyclable.Companion.RETENTION_DAYS
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.common.retentionTimeInRecycleBin
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -80,8 +81,5 @@ class RecycleBinCleanUpService @Inject constructor(
 
     companion object {
         private val TAG = tag<RecycleBinCleanUpService>()
-
-        @VisibleForTesting
-        val RETENTION_DAYS: Duration = Days.days(30).toStandardDuration()
     }
 }
