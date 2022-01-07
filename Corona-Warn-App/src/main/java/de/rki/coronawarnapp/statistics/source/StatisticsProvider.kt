@@ -69,7 +69,7 @@ class StatisticsProvider @Inject constructor(
         val rawData = localCache.load()
         rawData?.let { it -> parser.parse(it) }?.also {
             Timber.tag(TAG).d("Parsed from cache: %s", it)
-            if (it.items.isEmpty()) {
+            if (!it.isDataAvailable) {
                 Timber.tag(TAG).e("RawData: ${rawData.toHexString()}")
             }
         }
@@ -83,7 +83,7 @@ class StatisticsProvider @Inject constructor(
         val rawData = server.getRawStatistics()
         return parser.parse(rawData).also {
             Timber.tag(TAG).d("Parsed from server: %s", it)
-            if (it.items.isEmpty()) {
+            if (!it.isDataAvailable) {
                 Timber.tag(TAG).e("RawData: ${rawData.toHexString()}")
             }
             localCache.save(rawData)
