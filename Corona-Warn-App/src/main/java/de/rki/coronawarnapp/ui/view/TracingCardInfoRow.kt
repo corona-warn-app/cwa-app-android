@@ -47,7 +47,8 @@ class TracingCardInfoRow @JvmOverloads constructor(
         }
     }
 
-    fun setText(text: String) {
+    // should expect nullable strings since IncreasedRisk.getRiskContactBody() can return null
+    fun setText(text: String?) {
         this.body.text = text
     }
 }
