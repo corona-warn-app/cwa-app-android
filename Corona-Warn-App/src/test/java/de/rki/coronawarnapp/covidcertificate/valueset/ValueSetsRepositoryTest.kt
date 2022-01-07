@@ -52,8 +52,6 @@ class ValueSetsRepositoryTest : BaseTest() {
             coEvery { save(any()) } just Runs
             coEvery { load() } returns emptyValueSetsContainer
         }
-
-        every { context.getLocale() } returns Locale.GERMAN
     }
 
     private fun createInstance(scope: CoroutineScope) = ValueSetsRepository(
@@ -82,6 +80,28 @@ class ValueSetsRepositoryTest : BaseTest() {
             valueSetsStorage.save(valueSetsContainerEn)
         }
     }
+
+    @Test
+    fun `getLocale() of context should be used as locale if no locale is passed to triggerUpdateValueSet()`() =
+        runBlockingTest2(ignoreActive = true) {
+            every { context.getLocale() } returns Locale.GERMAN
+
+            createInstance(this).run {
+                triggerUpdateValueSet()
+                latestVaccinationValueSets.first() shouldBe vaccinationValueSetsDe
+                latestTestCertificateValueSets.first() shouldBe testCertificateValueSetsDe
+            }
+
+            coVerify {
+                certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.GERMAN)
+                valueSetsStorage.save(valueSetsContainerDe)
+            }
+
+            coVerify(exactly = 0) {
+                certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
+                valueSetsStorage.save(valueSetsContainerEn)
+            }
+        }
 
     @Test
     fun `fallback to en`() = runBlockingTest2(ignoreActive = true) {
