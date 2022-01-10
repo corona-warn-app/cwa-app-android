@@ -55,19 +55,24 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private var showsPermissionDialog = false
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
-        Timber.d("Camera permission granted? %b", isGranted)
-        if (!isGranted) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+        Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
+        val permanentlyDenied = when {
+            isGranted -> {
+                startDecode()
+                false
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
                 showCameraPermissionRationaleDialog()
-                viewModel.setCameraDeniedPermanently(false)
-            } else {
+                false
+            }
+            else -> {
                 // User permanently denied access to the camera
                 showCameraPermissionDeniedDialog()
-                viewModel.setCameraDeniedPermanently(true)
+                true
             }
-        } else {
-            startDecode()
         }
+
+        viewModel.setCameraDeniedPermanently(denied = permanentlyDenied)
     }
 
     private val filePickerLauncher = registerForActivityResult(OpenDocument()) { uri ->
@@ -129,7 +134,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
           see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
         setupTransition()
         */
-        requestCameraPermission()
+        checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
+        true -> startDecode()
+        false -> requestCameraPermission()
     }
 
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
@@ -150,9 +160,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     override fun onResume() {
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        if (CameraPermissionHelper.hasCameraPermission(requireActivity()) || showsPermissionDialog) return
-
-        requestCameraPermission()
     }
 
     private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->

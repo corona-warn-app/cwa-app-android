@@ -41,18 +41,24 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (!isGranted) {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
+            val permanentlyDenied = when {
+                isGranted -> {
+                    startDecode()
+                    false
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
                     showCameraPermissionRationaleDialog()
-                    viewModel.setCameraDeniedPermanently(false)
-                } else {
+                    false
+                }
+                else -> {
                     // User permanently denied access to the camera
                     showCameraPermissionDeniedDialog()
-                    viewModel.setCameraDeniedPermanently(true)
+                    true
                 }
-            } else {
-                startDecode()
             }
+
+            viewModel.setCameraDeniedPermanently(denied = permanentlyDenied)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
@@ -85,15 +91,17 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
             }
         }
 
-        requestCameraPermission()
+        checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
+        true -> startDecode()
+        false -> requestCameraPermission()
     }
 
     override fun onResume() {
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        if (CameraPermissionHelper.hasCameraPermission(requireActivity()) || showsPermissionDialog) return
-
-        requestCameraPermission()
     }
 
     private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
