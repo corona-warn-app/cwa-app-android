@@ -10,7 +10,7 @@
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_normal"
         android:focusable="true"
-        android:text="@string/risk_details_find_details_in_journal"
+        android:text="@string/risk_details_find_details_in_journal_increased_risk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
