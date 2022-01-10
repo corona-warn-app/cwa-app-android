@@ -29,10 +29,6 @@
     <string name="detail_green_certificate_title">"Certificat de test COVID digital UE"</string>
     <!-- XTXT: Detail green certificate test type -->
     <string name="detail_green_certificate_test_type">"Test SARS-CoV-2"</string>
-    <!-- XTXT: Detail green certificate travel notice link en -->
-    <string name="green_certificate_travel_notice_link_en">"https://reopen.europa.eu/en"</string>
-    <!-- XTXT: Detail green certificate travel notice link de -->
-    <string name="green_certificate_travel_notice_link_de">"https://reopen.europa.eu/de"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
     <string name="green_certificate_details_menu_item_delete">"Ștergere certificat"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
@@ -91,6 +87,6 @@
     <string name="test_certificate_error_refreshing_status">"Certificatul dvs. este în curs de solicitare. Acest lucru poate dura câteva minute..."</string>
     <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
     <string name="test_certificate_error_invalid_labid_faq">"Întrebări frecvente privind certificatele de test"</string>
-    <!-- XTXT: Explains user about test certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="test_certificate_error_invalid_labid_faq_link">"https://www.coronawarn.app/en/faq/#test_cert"</string>
+    <!-- XTXT: Text for invalid test certificate error text -->
+    <string name="test_certificate_error_faq">"Pentru mai multe informații despre modul în care puteți primi certificatul dvs. de test, consultați pagina noastră de întrebări frecvente."</string>
 </resources>
