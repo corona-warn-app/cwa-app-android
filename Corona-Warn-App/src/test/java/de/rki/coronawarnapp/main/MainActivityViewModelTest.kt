@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
+import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -16,10 +18,15 @@ import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
+import io.mockk.mockk
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -31,6 +38,7 @@ import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.preferences.mockFlowPreference
+import java.util.Locale
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class MainActivityViewModelTest : BaseTest() {
@@ -46,12 +54,14 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var coronTestRepository: CoronaTestRepository
+    @MockK lateinit var valueSetsRepository: ValueSetsRepository
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         mockkObject(CWADebug)
 
@@ -65,6 +75,9 @@ class MainActivityViewModelTest : BaseTest() {
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
         every { submissionRepository.testForType(any()) } returns flowOf()
         every { coronTestRepository.coronaTests } returns flowOf()
+        every { valueSetsRepository.context } returns mockk()
+        every { valueSetsRepository.context.getLocale() } returns Locale.GERMAN
+        every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
 
         personCertificatesProvider.apply {
             every { personCertificates } returns emptyFlow()
@@ -86,6 +99,7 @@ class MainActivityViewModelTest : BaseTest() {
         raExtractor = raExtractor,
         submissionRepository = submissionRepository,
         coronaTestRepository = coronTestRepository,
+        valueSetRepository = valueSetsRepository
     )
 
     @Test
@@ -113,6 +127,12 @@ class MainActivityViewModelTest : BaseTest() {
 
         val vm = createInstance()
         vm.showEnvironmentHint.value shouldBe null
+    }
+
+    @Test
+    fun `value set update is triggered on initialisation`() {
+        createInstance()
+        verify(exactly = 1) { valueSetsRepository.triggerUpdateValueSet(Locale.GERMAN) }
     }
 
     @Test

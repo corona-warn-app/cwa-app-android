@@ -1220,7 +1220,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_done_further_info_title">"Weitere Infos:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Die Isolationszeit beträgt in der Regel 14 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
+        <item>"Die Isolationszeit beträgt in der Regel 10 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
         <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
         <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
@@ -1288,7 +1288,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Geben Sie die TAN in der App ein, um Ihren PCR-Test zu registrieren."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo-So: Täglich 24 Stunden"</string>
+    <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo–So: 07:00 – 20:00 Uhr"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
 
