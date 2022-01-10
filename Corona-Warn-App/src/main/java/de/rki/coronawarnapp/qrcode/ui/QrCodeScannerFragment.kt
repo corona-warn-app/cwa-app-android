@@ -56,23 +56,11 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
         Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
-        val permanentlyDenied = when {
-            isGranted -> {
-                startDecode()
-                false
-            }
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                showCameraPermissionRationaleDialog()
-                false
-            }
-            else -> {
-                // User permanently denied access to the camera
-                showCameraPermissionDeniedDialog()
-                true
-            }
+        when {
+            isGranted -> startDecode()
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> showCameraPermissionRationaleDialog()
+            else -> showCameraPermissionDeniedDialog() // User permanently denied access to the camera
         }
-
-        viewModel.setCameraDeniedPermanently(denied = permanentlyDenied)
     }
 
     private val filePickerLauncher = registerForActivityResult(OpenDocument()) { uri ->

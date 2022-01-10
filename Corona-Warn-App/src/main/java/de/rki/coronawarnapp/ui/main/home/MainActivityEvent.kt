@@ -8,5 +8,5 @@ sealed class MainActivityEvent {
     data class GoToDeletionScreen(val request: TestRegistrationRequest) : MainActivityEvent()
     data class GoToSubmissionConsentFragment(val request: CoronaTestQRCode) : MainActivityEvent()
     data class Error(val error: Throwable) : MainActivityEvent()
-    data class OpenScanner(val requiresPermission: Boolean) : MainActivityEvent()
+    object OpenScanner : MainActivityEvent()
 }
