@@ -45,6 +45,7 @@ class StatisticsProviderTest : BaseTest() {
 
         every { parser.parse(testData) } returns statisticsData
         every { foregroundState.isInForeground } returns testForegroundState
+        every { statisticsData.isDataAvailable } returns true
 
         localCache.apply {
             var testLocalCache: ByteArray? = null
@@ -91,7 +92,9 @@ class StatisticsProviderTest : BaseTest() {
 
         val newRawStatisticsData = "Bernd".encodeToByteArray()
         coEvery { server.getRawStatistics() } returns newRawStatisticsData
-        val newStatisticsData = mockk<StatisticsData>()
+        val newStatisticsData = mockk<StatisticsData>().apply {
+            every { isDataAvailable } returns false
+        }
         coEvery { parser.parse(any()) } returns newStatisticsData
 
         testForegroundState.value = false
