@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -46,12 +45,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
-    @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingSettings: TracingSettings
-
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
 
@@ -66,8 +63,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { coronaTestRepository.coronaTests } returns coronaTests
-        every { foregroundState.isInForeground } returns flowOf(false)
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
@@ -82,6 +79,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { builder.setContentText(any()) } returns builder
         every { builder.setStyle(any()) } returns builder
         every { notificationHelper.newBaseBuilder() } returns builder
+        every { notificationHelper.sendNotification(any(), any()) } just Runs
         every { context.getString(any()) } returns ""
     }
 
@@ -120,7 +118,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         appScope = scope,
         riskLevelStorage = riskLevelStorage,
         notificationManagerCompat = notificationManagerCompat,
-        foregroundState = foregroundState,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
         coronaTestRepository = coronaTestRepository,
@@ -185,10 +182,11 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
                 coronaTestRepository.coronaTests
-                foregroundState.isInForeground
                 notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())
+                tracingSettings.showRiskLevelBadge
             }
         }
     }
@@ -213,9 +211,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 coronaTestRepository.coronaTests
-                foregroundState.isInForeground
                 notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())
+                tracingSettings.showRiskLevelBadge
             }
         }
     }
@@ -234,6 +232,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 notificationManagerCompat wasNot Called
+                tracingSettings.showRiskLevelBadge wasNot Called
             }
         }
     }
@@ -259,6 +258,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 notificationManagerCompat wasNot Called
+                tracingSettings.showRiskLevelBadge wasNot Called
             }
         }
     }
