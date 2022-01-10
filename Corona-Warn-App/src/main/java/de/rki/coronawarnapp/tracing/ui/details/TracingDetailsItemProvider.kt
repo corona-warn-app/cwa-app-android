@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox
-import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBoxIncreasedRisk
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
@@ -50,13 +49,14 @@ class TracingDetailsItemProvider @Inject constructor(
             latestCalc.matchedRiskCount > 0
 
         mutableListOf<DetailsItem>().apply {
-            if (status != Status.TRACING_INACTIVE && lowRiskWithEncounters) {
-                add(FindDetailsInJournalBox.Item)
-                add(AdditionalInfoLowRiskBox.Item)
+            if (status != Status.TRACING_INACTIVE &&
+                (lowRiskWithEncounters || latestCalc.riskState == RiskState.INCREASED_RISK)
+            ) {
+                add(FindDetailsInJournalBox.Item(latestCalc.riskState))
             }
 
-            if (status != Status.TRACING_INACTIVE && latestCalc.riskState == RiskState.INCREASED_RISK) {
-                add(FindDetailsInJournalBoxIncreasedRisk.Item)
+            if (status != Status.TRACING_INACTIVE && lowRiskWithEncounters) {
+                add(AdditionalInfoLowRiskBox.Item)
             }
 
             when {
