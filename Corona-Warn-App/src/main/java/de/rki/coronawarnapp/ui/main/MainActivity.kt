@@ -107,8 +107,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
 
             scannerFab.apply {
-//                setShowMotionSpecResource(R.animator.fab_show)
-//                setHideMotionSpecResource(R.animator.fab_hide)
+                // TODO: Enable transition, Transition to scanner is disabled,
+                //  because it is causing a native crash in Camera PreviewView [CameraX]
+                //  see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
+                //  setShowMotionSpecResource(R.animator.fab_show)
+                //  setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener {
                     val time = System.currentTimeMillis()
                     if (time - lastFabClickTime >= 1000) {
@@ -150,8 +153,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 
-        viewModel.testsBadgeCount.observe(this) { count ->
-            Timber.tag(TAG).d("testsBadgeCount=$count")
+        viewModel.mainBadgeCount.observe(this) { count ->
+            Timber.tag(TAG).d("mainBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
