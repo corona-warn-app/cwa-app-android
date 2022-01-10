@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="state"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox.Item" />
+    </data>
 
     <TextView
         android:id="@+id/risk_details_find_details_in_journal"
@@ -10,7 +17,8 @@
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_normal"
         android:focusable="true"
-        android:text="@string/risk_details_find_details_in_journal"
+        android:text="@{state.getText(context)}"
+        tools:text="@string/risk_details_find_details_in_journal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

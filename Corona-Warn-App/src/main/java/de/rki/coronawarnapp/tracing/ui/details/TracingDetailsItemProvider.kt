@@ -52,7 +52,7 @@ class TracingDetailsItemProvider @Inject constructor(
             if (status != Status.TRACING_INACTIVE &&
                 (lowRiskWithEncounters || latestCalc.riskState == RiskState.INCREASED_RISK)
             ) {
-                add(FindDetailsInJournalBox.Item)
+                add(FindDetailsInJournalBox.Item(latestCalc.riskState))
             }
 
             if (status != Status.TRACING_INACTIVE && lowRiskWithEncounters) {
