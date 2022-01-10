@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
-import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfo
+import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.list.Swipeable
@@ -42,7 +42,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.recovery_certificate_name)
 
-        addDeletionInfo(item = certificate)
+        addDeletionInfoIfExists(item = certificate)
 
         root.setOnClickListener { item.onRestore(item.certificate) }
 

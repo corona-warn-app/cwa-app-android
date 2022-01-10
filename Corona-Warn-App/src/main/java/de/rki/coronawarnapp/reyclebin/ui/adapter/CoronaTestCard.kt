@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
-import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfo
+import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
 import de.rki.coronawarnapp.util.list.Swipeable
@@ -57,7 +57,7 @@ class CoronaTestCard(parent: ViewGroup) :
             else -> throw IllegalStateException("Unknown test type ${test.type}")
         }
 
-        addDeletionInfo(item = test)
+        addDeletionInfoIfExists(item = test)
 
         root.setOnClickListener { item.onRestore(item.test) }
 
