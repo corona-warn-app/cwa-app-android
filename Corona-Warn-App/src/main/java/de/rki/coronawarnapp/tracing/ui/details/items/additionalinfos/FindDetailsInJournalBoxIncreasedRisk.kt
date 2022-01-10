@@ -16,7 +16,11 @@ class FindDetailsInJournalBoxIncreasedRisk(
 ) {
 
     override val viewBinding = lazy {
-        TracingDetailsFindDetailsInJournalIncreasedRiskBinding.bind(itemView)
+        TracingDetailsFindDetailsInJournalIncreasedRiskBinding.inflate(
+            layoutInflater,
+            itemView.findViewById(R.id.box_container),
+            true
+        )
     }
 
     override val onBindData: TracingDetailsFindDetailsInJournalIncreasedRiskBinding.(
