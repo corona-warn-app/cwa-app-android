@@ -21,8 +21,6 @@
     <string name="nm_faq">"Pentru detalii despre setările pentru sistemul dvs. de operare, consultați pagina noastră de întrebări frecvente."</string>
     <!-- XTXT: notification management: delta onboarding: faq label -->
     <string name="nm_faq_label">"Întrebări frecvente"</string>
-    <!-- XTXT: notification management: delta onboarding: faq link -->
-    <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
 
     <!-- ####################################
                   Delta Onboarding
