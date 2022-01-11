@@ -80,14 +80,21 @@ class StatisticsHomeCard(
     override fun onSaveState(): Parcelable? = statisticsLayoutManager.onSaveInstanceState()
 
     override fun restoreState(state: Parcelable?) {
-        if (state != null) {
-            statisticsLayoutManager.onRestoreInstanceState(state)
-        } else {
-            with(viewBinding.value.root.context.resources) {
-                val screenWidth = displayMetrics.widthPixels
-                val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
-                statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
-            }
+        statisticsLayoutManager.onRestoreInstanceState(state)
+    }
+
+    override fun onInitialPostBind(): Boolean {
+        return if (statisticsCardAdapter.itemCount > 1) {
+            scrollToSecondCard()
+            true
+        } else false // still initial
+    }
+
+    private fun scrollToSecondCard() {
+        with(viewBinding.value.root.context.resources) {
+            val screenWidth = displayMetrics.widthPixels
+            val cardWidth = getDimensionPixelSize(R.dimen.statistics_card_width)
+            statisticsLayoutManager.scrollToPositionWithOffset(1, (screenWidth - cardWidth) / 2)
         }
     }
 

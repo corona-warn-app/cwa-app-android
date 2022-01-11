@@ -47,8 +47,14 @@
                     android:layout_height="?attr/actionBarSize"
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_close"
-                    app:title="@string/cov_pass_info_title" />
+                    app:navigationIcon="@drawable/ic_close">
+
+                    <TextView
+                        style="@style/headline6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cov_pass_info_title" />
+                </com.google.android.material.appbar.MaterialToolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

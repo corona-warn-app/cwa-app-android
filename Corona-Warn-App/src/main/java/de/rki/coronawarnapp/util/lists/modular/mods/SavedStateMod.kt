@@ -15,32 +15,46 @@ class SavedStateMod<T : ModularAdapter.VH> :
 
     private val savedStates = mutableMapOf<String, Parcelable>()
 
-    override fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {
-        if (vh !is StateSavingVH) return
-        val key = vh.savedStateKey ?: return
+    private var initial = true
 
-        vh.restoreState(savedStates.remove(key))
+    override fun onPostBind(adapter: ModularAdapter<T>, vh: T, pos: Int) {
+        (vh as? StateSavingVH)?.let { stateSavingVH ->
+
+            if (initial) {
+                initial = !stateSavingVH.onInitialPostBind()
+                if (!initial) return
+            }
+
+            stateSavingVH.savedStateKey?.let { key ->
+                savedStates.remove(key)?.let { savedState ->
+                    stateSavingVH.restoreState(savedState)
+                }
+            }
+        }
         super.onPostBind(adapter, vh, pos)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.addLifecycleEventCallback(type = Lifecycle.Event.ON_STOP) {
-            savedStates.clear()
-
-            getAllViewHolders(recyclerView).filterIsInstance<StateSavingVH>().forEach { vh ->
-                val key = vh.savedStateKey
-                val state = vh.onSaveState()
-                if (key != null && state != null) {
-                    savedStates[key] = state
-                }
-            }
-
+        recyclerView.addLifecycleEventCallback(type = Lifecycle.Event.ON_PAUSE) {
+            recyclerView.saveState()
             true
         }
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         // NOOP
+    }
+
+    private fun RecyclerView.saveState() {
+        savedStates.clear()
+
+        getAllViewHolders(this).filterIsInstance<StateSavingVH>().forEach { vh ->
+            val key = vh.savedStateKey
+            val state = vh.onSaveState()
+            if (key != null && state != null) {
+                savedStates[key] = state
+            }
+        }
     }
 
     private fun getAllViewHolders(recyclerView: RecyclerView): List<RecyclerView.ViewHolder> = try {
@@ -56,5 +70,6 @@ class SavedStateMod<T : ModularAdapter.VH> :
         val savedStateKey: String?
         fun onSaveState(): Parcelable?
         fun restoreState(state: Parcelable?)
+        fun onInitialPostBind(): Boolean
     }
 }

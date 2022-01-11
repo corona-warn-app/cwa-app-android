@@ -18,6 +18,8 @@ internal object HashExtensions {
 
     fun ByteArray.toMD5(format: Format = HEX) = this.hashByteArray("MD5", format)
 
+    fun ByteArray.toHexString() = this.formatHash(HEX)
+
     fun String.toSHA256(format: Format = HEX) = this.hashString("SHA-256", format)
 
     fun String.toSHA1(format: Format = HEX) = this.hashString("SHA-1", format)
