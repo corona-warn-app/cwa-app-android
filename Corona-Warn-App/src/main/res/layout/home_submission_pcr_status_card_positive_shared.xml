@@ -127,7 +127,6 @@
         android:importantForAccessibility="no"
         android:padding="10dp"
         android:src="@drawable/ic_risk_details_home"
-        app:layout_constraintEnd_toStartOf="@id/contact_subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/result_subtitle"
         app:tint="@color/colorStableLight" />
@@ -156,7 +155,6 @@
         android:importantForAccessibility="no"
         android:padding="10dp"
         android:src="@drawable/ic_risk_details_contact"
-        app:layout_constraintEnd_toStartOf="@id/contagious_subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contagious_subtitle"
         app:tint="@color/colorStableLight" />
@@ -184,7 +182,6 @@
         android:importantForAccessibility="no"
         android:padding="10dp"
         android:src="@drawable/ic_risk_details_cross"
-        app:layout_constraintEnd_toStartOf="@id/contact_subtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contact_subtitle"
         app:tint="@color/colorStableLight" />
