@@ -256,7 +256,7 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"This is what you should do, even if you have been vaccinated or have recovered, and even if you don’t have any symptoms:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household.."</string>
+    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"If you have any other questions, please contact the general medical emergency service on telephone number 116 117."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
