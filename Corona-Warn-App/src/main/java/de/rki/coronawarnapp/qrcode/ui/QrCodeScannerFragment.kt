@@ -122,12 +122,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
           see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
         setupTransition()
         */
-        checkCameraPermission()
-    }
-
-    private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
-        true -> startDecode()
-        false -> requestCameraPermission()
     }
 
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
@@ -148,6 +142,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     override fun onResume() {
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+
+        if (!showsPermissionDialog) checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
+        true -> startDecode()
+        false -> requestCameraPermission()
     }
 
     private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
