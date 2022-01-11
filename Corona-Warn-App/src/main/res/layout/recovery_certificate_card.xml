@@ -45,14 +45,12 @@
 
     <TextView
         android:id="@+id/recovery_certificate_name"
-        style="@style/subtitle"
+        style="@style/subtitleBoldSixteen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:hyphenationFrequency="normal"
         android:text="@string/recovery_certificate_name"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@id/arrow"
         app:layout_constraintStart_toEndOf="@id/certificate_bg"
