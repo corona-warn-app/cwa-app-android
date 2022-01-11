@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
@@ -41,7 +40,6 @@ class MainActivityViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     private val raExtractor: RapidAntigenQrCodeExtractor,
     private val submissionRepository: SubmissionRepository,
-    private val cameraPermissionProvider: CameraPermissionProvider,
     coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
@@ -146,7 +144,7 @@ class MainActivityViewModel @AssistedInject constructor(
     }
 
     fun openScanner() = launch {
-        event.postValue(MainActivityEvent.OpenScanner(cameraPermissionProvider.deniedPermanently.first()))
+        event.postValue(MainActivityEvent.OpenScanner)
     }
 
     fun dismissTooltip() {

@@ -41,17 +41,12 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (!isGranted) {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
+            when {
+                isGranted -> startDecode()
+                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ->
                     showCameraPermissionRationaleDialog()
-                    viewModel.setCameraDeniedPermanently(false)
-                } else {
-                    // User permanently denied access to the camera
-                    showCameraPermissionDeniedDialog()
-                    viewModel.setCameraDeniedPermanently(true)
-                }
-            } else {
-                startDecode()
+                else -> showCameraPermissionDeniedDialog() // User permanently denied access to the camera
             }
         }
 
@@ -84,16 +79,18 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
                 OrganizerWarnQrCodeNavigation.InProgress -> Unit
             }
         }
-
-        requestCameraPermission()
     }
 
     override fun onResume() {
         super.onResume()
         binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-        if (CameraPermissionHelper.hasCameraPermission(requireActivity()) || showsPermissionDialog) return
 
-        requestCameraPermission()
+        if (!showsPermissionDialog) checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
+        true -> startDecode()
+        false -> requestCameraPermission()
     }
 
     private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
