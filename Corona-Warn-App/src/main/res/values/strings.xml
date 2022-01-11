@@ -256,7 +256,7 @@
     <!-- XHED: risk details - multiline headline, bold, how to act correct -->
     <string name="risk_details_subtitle_behavior_increased_risk">"This is what you should do, even if you have been vaccinated or have recovered, and even if you don’t have any symptoms:"</string>
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
-    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household.."</string>
+    <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
     <string name="risk_details_behavior_body_contact_doctor">"If you have any other questions, please contact the general medical emergency service on telephone number 116 117."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
@@ -268,7 +268,7 @@
     <!-- XTXT: find details about exposures in the contact journal -->
     <string name="risk_details_find_details_in_journal">"You will find more information about your exposures in your contact journal."</string>
     <!-- XTXT: find details about exposures in the contact journal - increased risk -->
-    <string name="risk_details_find_details_in_journal_increased_risk">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.\n\nSie haben ein erhöhtes Risiko, sich angesteckt zu haben. Falls Sie infiziert sind, können Sie Ihrerseits andere Personen anstecken, auch wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben.</string>
+    <string name="risk_details_find_details_in_journal_increased_risk">"You will find more information about your exposures in your contact journal.\n\nThere is an increased risk that you have been infected. If you have been infected, you can infect other people, even if you have been vaccinated or have recovered and even if you don’t have any symptoms."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Please get tested, even if you don’t have any symptoms. If you get a warning of increased risk (“red tile”), you are entitled to a test free of charge. It does not necessarily have to be a PCR test."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
@@ -282,13 +282,13 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Sneeze or cough into your elbow or a tissue."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"You can find testing possibilities here or contact your family doctor or a pharmacy."</string>
+    <string name="risk_details_behavior_increased_body_1">"You can find testing possibilities here. You can also contact your family doctor or a pharmacy."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"You can find testing possibilities here"</string>
+    <string name="risk_details_behavior_increased_body_1_label">"You can find testing possibilities here."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"More information about the testing procedure is available on our FAQ page."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"FAQ"</string>
+    <string name="risk_details_behavior_increased_body_2_label">"More information about the testing procedure is available on our FAQ page."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Risk of Infection"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -319,7 +319,7 @@
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your smartphone. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Therefore, your risk of infection has been ranked as increased. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your smartphone. Your risk of infection cannot be seen by, or passed on to, anyone else. When you get home, please also avoid close contact with members of your family or household."</string>
+    <string name="risk_details_information_body_notice_increased">"Therefore, your risk of infection has been classified as increased. Your risk of infection is calculated from the exposure logging data (duration and proximity) locally on your device. Your risk of infection cannot be seen by, or passed on to, anyone else."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -463,9 +463,9 @@
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Receive warnings and identify risks"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
-    <string name="onboarding_notifications_subtitle">"The app can notify you automatically about your risk status and warn you about new infections of people you have been exposed to. Allow the app now to notify you."</string>
+    <string name="onboarding_notifications_subtitle">"The app can automatically send you notifications about your risk status and the validity of your certificates, among other information. To enable this, change your notification settings."</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
-    <string name="onboarding_notifications_body">"You can then self-isolate to protect others and find out where you can get tested."</string>
+    <string name="onboarding_notifications_body">"Doing so will help you protect yourself and others, as well as keep track of the validity of your certificates."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"A woman receives a notification from her Corona-Warn-App."</string>
 
@@ -936,15 +936,16 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Warning"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. Once this limit is reached, you cannot scan any more new certificates for additional people.\n\nYou’ll find more information about certificate verification on our FAQ page."</string>
+    <string name="qr_code_error_max_person_threshold_body">"The Corona-Warn-App cannot be used to verify third-party certificates. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. Once this limit is reached, you cannot scan any more new certificates for additional people.\n\nYou’ll find more information about certificate verification on our FAQ page."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Error"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"The Corona-Warn-App may not be used for third-party certificate verification. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. You cannot scan any more new certificates for additional people.\n\nYou’ll find more information about certificate verification on our FAQ page."</string>
+    <string name="qr_code_error_max_person_max_body">"The Corona-Warn-App may not be used to verify third-party certificates. Use the CovPassCheck app for this purpose.\n\nYou can add certificates for up to %d people. You cannot scan any more new certificates for additional people.\n\nYou’ll find more information about certificate verification on our FAQ page."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Download CovPassCheck"</string>
     <!-- XBUT: QR Code error message: FAQ button  -->
     <string name="qr_code_error_max_person_faq_button">"FAQ page on certificate verification"</string>
+
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
     <string name="qr_code_info_screen_title">"Information about QR codes"</string>
@@ -1218,7 +1219,7 @@
     <string name="submission_done_further_info_title">"Other information:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Your isolation period is usually 14 days. Please monitor how your symptoms develop closely."</item>
+        <item>"The isolation period is usually 10 days. Please monitor how your symptoms develop closely."</item>
         <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you became ill. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
         <item>"Please particularly consider people who will not be notified directly by the app since they don’t own a smartphone, or haven’t installed the app."</item>
         <item>"Even when you no longer have any symptoms and you feel well again, you could still be infectious, so please follow the designated isolation period."</item>
@@ -1286,14 +1287,14 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Register your PCR test by entering the TAN in the app."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Our customer service is available in the following languages: \nEnglish, German, Turkish\n\nBusiness hours:\n24/7"</string>
+    <string name="submission_contact_operating_hours_body">"Our customer service is available in the following languages: English, German, Turkish\n\nBusiness hours:\nDaily (including weekends) 7am – 8pm (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Call the hotline and request a TAN"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"In the first step, you call the nationwide hotline and request your TAN. You can reach the hotline on 0800 7540002. The business hours are Monday to Friday from 8 am to 10 pm and Saturday and Sunday from 10 am to 10 pm. The call is free of charge."</string>
+    <string name="submission_contact_step_1_content">"In the first step, you call the nationwide hotline and request your TAN. You can reach the hotline on 0800 7540002. The business hours are Monday to Friday from 8am to 10pm and Saturday and Sunday from 10am to 10pm (all times CET). The call is free of charge."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"In the second step, you register your test with your TAN in the app."</string>
 
@@ -1506,7 +1507,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
+    <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-Day Average"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1537,8 +1538,6 @@
     <string name="statistics_explanation_blog">"For more details about the individual key figures, read our blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
-    <!-- XTXT: Statistics explanation blog text url -->
-    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalization"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
