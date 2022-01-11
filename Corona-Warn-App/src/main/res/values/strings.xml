@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+
+                     Translation Comments
+
+    +============+============================================================================================================+
+    | Identifier |                                                Description                                                 |
+    +============+============================================================================================================+
+    | XACT       | Accessibility                                                                                              |
+    | XBUT       | Button Text                                                                                                |
+    | XHED       | Heading                                                                                                    |
+    | XLNK       | Hyperlink text                                                                                             |
+    | XMEN       | Menu header                                                                                                |
+    | XMIT       | Menu item                                                                                                  |
+    | XMSG       | Message text                                                                                               |
+    | XTXT       | General text                                                                                               |
+    | YDES       | Description                                                                                                |
+    | YMSE       | Error message                                                                                              |
+    | YMSG       | Message text long                                                                                          |
+    | YMSW       | Warning message                                                                                            |
+    | YTXT       | General text long                                                                                          |
+    | NOTR       | Not translatable, this won't be visible for the translators and will be copied over in all other languages |
+    +============================================================================================================+============|
+
+    ###################################### -->
+
     <!-- ####################################
                      Generics
     ###################################### -->

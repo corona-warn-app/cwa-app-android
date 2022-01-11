@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -44,6 +45,7 @@ class MainActivityViewModel @AssistedInject constructor(
     coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
+    valueSetRepository: ValueSetsRepository,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -83,6 +85,8 @@ class MainActivityViewModel @AssistedInject constructor(
                 }
             }
         }
+
+        valueSetRepository.triggerUpdateValueSet()
 
         launch {
             if (!onboardingSettings.isBackgroundCheckDone) {
