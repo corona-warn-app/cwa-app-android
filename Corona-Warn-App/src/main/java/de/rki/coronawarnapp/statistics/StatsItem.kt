@@ -13,7 +13,7 @@ data class StatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map { 
+        items.map {
             when (it) {
                 is AddStatsItem -> "AddCard(${it.isEnabled})"
                 is GlobalStatsItem -> it.cardType.name + " " + it.updatedAt
@@ -31,7 +31,7 @@ data class LocalStatisticsData(
 
     override fun toString(): String {
         return "StatisticsData(cards=${
-        items.map { 
+        items.map {
             it.cardType.name + " " + it.updatedAt
         }
         })"
