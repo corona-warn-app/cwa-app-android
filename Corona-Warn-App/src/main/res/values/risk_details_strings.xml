@@ -16,15 +16,15 @@
     <!-- XTXT: risk details - travelling info -->
     <string name="risk_details_behavior_body_traveling">"Travel: Do not travel by plane or train."</string>
     <!-- XTXT: risk details - health department info -->
-    <string name="risk_details_behavior_body_health_department">"If you have questions about quarantine measures, please contact your public health department."</string>
-    <!-- XTXT: risk details - health department info link label -->
-    <string name="risk_details_behavior_body_health_department_label">"questions about quarantine"</string>
+    <string name="risk_details_behavior_body_health_department">"If you have questions about quarantine measures, please contact your public health department. For more information, please see our FAQ page on quarantine measures."</string>
+    <!-- XTXT: risk details - health department info link label , please note that this term has to be part of `risk_details_behavior_body_health_department` in other languages as well -->
+    <string name="risk_details_behavior_body_health_department_label">"For more information, please see our FAQ page on quarantine measures."</string>
     <!-- XTXT: risk details - home rules body -->
     <string name="risk_details_minimize_risk_body">"If you have been infected unknowingly, here’s how you can reduce the risk of infecting others:"</string>
     <!-- XTXT: risk details - home rules faq -->
     <string name="risk_details_minimize_risk_faq">"Additional information is available on our FAQ page on voluntary self-quarantine."</string>
     <!-- XTXT: risk details - home rules faq link label -->
-    <string name="risk_details_minimize_risk_faq_label">"FAQ page on voluntary self-quarantine"</string>
+    <string name="risk_details_minimize_risk_faq_label">"Additional information is available on our FAQ page on voluntary self-quarantine."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
     <string name="risk_details_faq_symptoms_increase">"Be alert for typical symptoms. Even vaccinated people and those who have recovered can develop symptoms. If you feel sick or develop any symptoms, please contact your family doctor."</string>
     <!-- XTXT: risk details information (Accessibilty) -->

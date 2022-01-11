@@ -72,10 +72,6 @@
     <string name="dcc_ticketing_certificate_selection_more_information_text">"За повече информация вижте страницата „ЧЗВ“."</string>
     <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
     <string name="dcc_ticketing_faq_link_container">"ЧЗВ"</string>
-    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
-    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
-    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
-    <string name="dcc_ticketing_faq_link_english">"https://wwsw.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
     <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Изисквания на доставчик:"</string>
     <!-- XTXT: Certificate Selection Screen: Person Birthday -->
@@ -125,8 +121,6 @@
     <string name="dcc_ticketing_result_faq_text">"За повече информация вижте страницата „ЧЗВ“."</string>
     <!-- XTXT: validation result FAQ label -->
     <string name="dcc_ticketing_result_faq_label">"ЧЗВ"</string>
-    <!-- XTXT: validation result FAQ link -->
-    <string name="dcc_ticketing_result_faq_link">"https://www.coronawarn.app/en/faq/#val_service_result"</string>
     <!-- XTXT: validation result valid header  -->
     <string name="dcc_ticketing_result_valid_header">"Сертификатът Ви е успешно валидиран"</string>
     <!-- XTXT: validation result invalid header  -->
