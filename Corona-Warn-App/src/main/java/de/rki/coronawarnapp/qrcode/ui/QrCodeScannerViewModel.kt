@@ -28,7 +28,6 @@ import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -38,7 +37,6 @@ import timber.log.Timber
 @Suppress("LongParameterList")
 class QrCodeScannerViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val cameraSettings: CameraSettings,
     private val qrCodeValidator: QrCodeValidator,
     private val qrCodeFileParser: QrCodeFileParser,
     private val dccHandler: DccQrCodeHandler,
@@ -118,11 +116,6 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     fun onInfoButtonPress() {
         result.postValue(InfoScreen)
-    }
-
-    fun setCameraDeniedPermanently(denied: Boolean) {
-        Timber.tag(TAG).d("setCameraDeniedPermanently(denied=$denied)")
-        cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
     fun restoreCertificate(containerId: CertificateContainerId) = launch {
