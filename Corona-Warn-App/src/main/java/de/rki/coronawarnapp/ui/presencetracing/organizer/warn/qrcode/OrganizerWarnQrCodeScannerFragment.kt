@@ -44,7 +44,8 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
             Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
             when {
                 isGranted -> startDecode()
-                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> showCameraPermissionRationaleDialog()
+                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ->
+                    showCameraPermissionRationaleDialog()
                 else -> showCameraPermissionDeniedDialog() // User permanently denied access to the camera
             }
         }
