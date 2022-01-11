@@ -88,6 +88,5 @@
     <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
     <string name="test_certificate_error_invalid_labid_faq">"FAQ for Test Certificates"</string>
     <!-- XTXT: Text for invalid test certificate error text -->
-    <string name="test_certificate_error_faq">Weitere Informationen zum Erhalt Ihres Testzertifikats finden Sie in den FAQ.</string>
-
+    <string name="test_certificate_error_faq">"For more information about how to receive your test certificate, please see our FAQ page."</string>
 </resources>

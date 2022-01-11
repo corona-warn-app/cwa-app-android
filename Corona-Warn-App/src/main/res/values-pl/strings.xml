@@ -164,8 +164,6 @@
     <string name="main_about_headline">"Często zadawane pytania"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową coronawarn.app."</string>
-    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
-    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Tutaj możesz znaleźć odpowiedzi na często zadawane pytania dotyczące Corona-Warn-App. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową."</string>
 
@@ -268,7 +266,9 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Zachowuj odległość co najmniej 1,5 metra od innych osób."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów.\n\nIstnieje zwiększone ryzyko, że zostałeś zakażony(-a). Jeśli doszło do zakażenia, możesz zarazić inne osoby, nawet jeśli zostałeś(-aś) zaszczepiony(-a) lub jesteś ozdrowieńcem bądź jeśli nie masz żadnych objawów."</string>
+    <string name="risk_details_find_details_in_journal">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów."</string>
+    <!-- XTXT: find details about exposures in the contact journal - increased risk -->
+    <string name="risk_details_find_details_in_journal_increased_risk">"Więcej informacji na temat narażeń znajdziesz w swoim dzienniku kontaktów.\n\nIstnieje zwiększone ryzyko, że zostałeś zakażony(-a). Jeśli doszło do zakażenia, możesz zarazić inne osoby, nawet jeśli zostałeś(-aś) zaszczepiony(-a) lub jesteś ozdrowieńcem bądź jeśli nie masz żadnych objawów."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Przetestuj się, nawet jeśli nie masz żadnych objawów. Jeśli otrzymasz ostrzeżenie o zwiększonym ryzyku („czerwony kafelek”), będziesz mieć prawo do bezpłatnego testu. Nie musi to być test PCR."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
@@ -284,16 +284,11 @@
     <!-- XMSG: risk details - contact your doctor, bullet point -->
     <string name="risk_details_behavior_increased_body_1">"Możesz zapoznać się z możliwościami testowania w tym miejscu lub skontaktować się z lekarzem rodzinnym lub apteką."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"Możesz zapoznać się z możliwościami testowania w tym miejscu"</string>
-    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
+    <string name="risk_details_behavior_increased_body_1_label">"Możesz zapoznać się z możliwościami testowania w tym miejscu."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Więcej informacji na temat procedury testowania można znaleźć na naszej stronie „Często zadawane pytania”."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"Często zadawane pytania"</string>
-    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
-
+    <string name="risk_details_behavior_increased_body_2_label">"Więcej informacji na temat procedury testowania można znaleźć na naszej stronie „Często zadawane pytania”."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Ryzyko zakażenia"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -319,14 +314,12 @@
     <string name="risk_details_information_body_low_risk">"Masz niskie ryzyko zakażenia, ponieważ nie zarejestrowano narażenia na kontakt z osobami, u których później zdiagnozowano koronawirusa, lub ponieważ Twoje kontakty trwały krótko przy zachowaniu odpowiednio dużej odległości."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Ryzyko zakażenia jest obliczane lokalnie na Twoim smartfonie na podstawie danych rejestrowania narażenia. Ta kalkulacja uwzględnia również dystans i czas trwania narażenia na kontakt z osobami, u których zdiagnozowano koronawirusa, a także ich potencjalną zakaźność. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Masz podwyższone ryzyko zakażenia, ponieważ byłeś(-aś) narażony(-a) na dłuższy, bliski kontakt z co najmniej jedną osobą, u której zdiagnozowano koronawirusa."</string>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie na smartfonie. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane. Po powrocie do domu unikaj również bliskiego kontaktu z członkami rodziny lub gospodarstwa domowego."</string>
+    <string name="risk_details_information_body_notice_increased">"Dlatego Twoje ryzyko zakażenia zostało ocenione jako podwyższone. Ryzyko zakażenia jest obliczane na podstawie danych rejestrowania narażenia (czas trwania i bliskość kontaktu) lokalnie w urządzeniu. Twoje ryzyko zakażenia nie jest widoczne dla nikogo ani nikomu przekazywane."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -470,9 +463,9 @@
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Otrzymuj ostrzeżenia i ustal ryzyko"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
-    <string name="onboarding_notifications_subtitle">"Aplikacja może automatycznie powiadamiać Cię o statusie ryzyka i ostrzegać o nowych zakażeniach osób, z którymi miałeś(-aś) kontakt. Zezwól aplikacji teraz, aby Cię powiadamiała."</string>
+    <string name="onboarding_notifications_subtitle">"Aplikacja może automatycznie wysyłać Ci powiadomienia m.in. o statusie ryzyka i ważności Twoich certyfikatów. Aby włączyć tę opcję, zmień ustawienia powiadomień."</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
-    <string name="onboarding_notifications_body">"Możesz wówczas odizolować się, aby chronić innych, i dowiedzieć się, gdzie wykonać test."</string>
+    <string name="onboarding_notifications_body">"Pomoże Ci to chronić siebie i innych, a także kontrolować ważność Twoich certyfikatów."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Kobieta otrzymuje powiadomienie od swojej aplikacji Corona-Warn-App."</string>
 
@@ -616,8 +609,6 @@
     <string name="settings_tracing_status_location_headline">"Zezwól na dostęp do lokalizacji"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Aktywuj swoje usługi lokalizacji. Bluetooth Low Energy wymaga aktywowanych usług lokalizacji do obliczenia fizycznego dystansu, ale nie uzyskuje dostępu do Twojej lokalizacji. Więcej informacji znajduje się na stronie Często zadawane pytania."</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
-    <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Otwórz ustawienia urządzenia"</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -799,8 +790,6 @@
     <string name="debugging_debuglog_intro_explanation_section_two">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”: Często zadawane pytania dotyczące raportów o błędach"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"Często zadawane pytania dotyczące raportów o błędach"</string>
-    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
     <string name="debugging_debuglog_id_history_title">"Historia identyfikatorów"</string>
     <!-- YTXT: Description of ID History -->
@@ -954,12 +943,8 @@
     <string name="qr_code_error_max_person_max_body">"Aplikacja Corona-Warn-App nie może być używana do weryfikacji zewnętrznych certyfikatów. Do tego celu należy użyć aplikacji CovPassCheck.\n\nMożesz dodać certyfikaty dla maksymalnie %d osób. Nie możesz skanować nowych certyfikatów dla kolejnych osób.\n\nWięcej informacji na temat weryfikacji certyfikatów znajdziesz na naszej stronie „Często zadawane pytania”."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Pobierz CovPassCheck"</string>
-    <!-- XTXT: QR Code error message: covpasscheck app link  -->
-    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
     <!-- XBUT: QR Code error message: FAQ button  -->
     <string name="qr_code_error_max_person_faq_button">"Strona „Często zadawane pytania” dotyczące weryfikacji certyfikatów"</string>
-    <!-- XTXT: QR Code error message: FAQ link  -->
-    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -1159,8 +1144,6 @@
     <string name="submission_dispatcher_card_test_center">"Znajdź ośrodek testujący"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
     <string name="submission_dispatcher_card_test_center_text">"Znajdź ośrodki testujące w pobliżu. Jeśli wystąpią jakiekolwiek problemy, możesz je zgłosić.\nZostaniesz przekierowany(-a) na zewnętrzną stronę internetową RKI."</string>
-    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
-    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Wpisz TAN do testu PCR"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1236,7 +1219,7 @@
     <string name="submission_done_further_info_title">"Inne informacje:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Okres izolacji wynosi zazwyczaj 14 dni. Obserwuj swoje objawy i monitoruj ich rozwój."</item>
+        <item>"Okres izolacji wynosi zazwyczaj 10 dni. Obserwuj swoje objawy i monitoruj ich rozwój."</item>
         <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 15 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
         <item>"Zwróć szczególną uwagę na osoby, które nie zostaną powiadomione bezpośrednio przez aplikację, ponieważ nie posiadają smartfonów lub nie zainstalowały aplikacji."</item>
         <item>"Nawet jeśli nie masz już żadnych objawów i znów czujesz się dobrze, możesz nadal zarażać, dlatego prosimy o przestrzeganie wyznaczonego okresu izolacji."</item>
@@ -1304,14 +1287,14 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Zarejestruj swój test PCR poprzez wpisanie numeru TAN w aplikacji."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Zapewniamy obsługę klienta w następujących językach: \nangielskim, niemieckim, tureckim\n\nGodziny pracy:\n24/7"</string>
+    <string name="submission_contact_operating_hours_body">"Zapewniamy obsługę klienta w następujących językach: angielskim, niemieckim, tureckim\n\nGodziny pracy:\nCodziennie (wraz z weekendami) 7:00 – 20:00 (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"W razie jakichkolwiek pytań związanych ze zdrowiem skontaktuj się z lekarzem rodzinnym lub lekarzem dyżurnym pod numerem: 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Zadzwoń na infolinię i poproś o numer TAN"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"Najpierw zadzwoń na ogólnokrajową infolinię i poproś o numer TAN. Numer infolinii to 0800 7540002. Godziny pracy: od poniedziałku do piątku od 8:00 do 22:00 oraz w sobotę i niedzielę od 10:00 do 22:00. Połączenie jest bezpłatne."</string>
+    <string name="submission_contact_step_1_content">"Najpierw zadzwoń na ogólnokrajową infolinię i poproś o numer TAN. Numer infolinii to 0800 7540002. Godziny pracy: od poniedziałku do piątku od 8:00 do 22:00 oraz w sobotę i niedzielę od 10:00 do 22:00 (CET). Połączenie jest bezpłatne."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Następnie zarejestruj test przy użyciu numeru TAN w aplikacji."</string>
 
@@ -1524,7 +1507,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Wczoraj/do wczoraj"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców."</string>
+    <string name="statistics_explanation_period_yesterday_text">"W przypadku przedziału czasu „Wczoraj/do wczoraj” wyświetlana jest liczba dotycząca dnia poprzedniego/okresu do dnia poprzedniego. Jeśli dane liczbowe za poprzedni dzień nie są jeszcze dostępne, wyświetlana jest ostatnia data, dla której istnieją dane."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7-dniowa średnia"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1549,16 +1532,12 @@
     <string name="statistics_explanation_trend_stable_title">"Trend: stabilny (neutralny)"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Ocena trendu dotyczącego ostrzeżeń wysyłanych przez użytkowników aplikacji zmienia się w zależności od aktualnych poziomów zakażenia, dlatego trend ten jest zawsze wyświetlany jako neutralny."</string>
-    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Abstrakcyjne zdjęcie smartfona z czterema symbolami zastępczymi do celów informacyjnych"</string>
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Aby uzyskać więcej informacji dotyczących poszczególnych wskaźników, przeczytaj nasz blog."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
-    <!-- XTXT: Statistics explanation blog text url -->
-    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hospitalizacja"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
@@ -1686,8 +1665,6 @@
     <string name="errors_generic_text_unknown_error_cause">"Wystąpił nieznany błąd."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Twoja aplikacja została zresetowana z powodu problemu technicznego. Nie będzie to miało wpływu na rejestrowanie narażenia ani Twój status ryzyka. Nadal będziesz otrzymywać powiadomienia o narażeniach i będziesz w stanie ostrzegać innych w razie pozytywnego wyniku testu na COVID-19. Zresetowanie aplikacji oznacza jednak utratę wszystkich odczytanych kodów QR służących do elektronicznego powiadamiania o wynikach testu. Aby poznać wynik testu, skontaktuj się z lekarzem lub laboratorium, w którym go przeprowadzono."</string>
-    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
@@ -2039,19 +2016,12 @@
     <string name="incompatible_advertising_not_supported">"Twój smartfon może tylko odbierać powiadomienia dotyczące narażenia na zakażenie COVID-19 przez Bluetooth, ale nie może ich wysyłać. Oznacza to, że możesz otrzymywać ostrzeżenia o narażeniach za pośrednictwem tego interfejsu, ale nie możesz ostrzegać innych o narażeniach. Możesz wysyłać i odbierać ostrzeżenia, które wynikają z zameldowań."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Twój smartfon nie może wysyłać ani odbierać powiadomień dotyczących narażenia na zakażenie COVID-19 przez Bluetooth. Możesz wysyłać i odbierać ostrzeżenia wynikające z zameldowań."</string>
-    <!-- XTXT: Incompitability faq link for partial incompatibility -->
-    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
-    <!-- XTXT: Incompitability faq link for full incompatibility -->
-    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
-
     <!-- XHED: App Root Detection dialog title -->
     <string name="root_dialog_title">"Uwaga dotycząca bezpieczeństwa"</string>
     <!-- XTXT: App Root Detection dialog message -->
     <string name="root_dialog_message">"Na Twoim urządzeniu znaleźliśmy oznaki uprawnień administratora (znanych również jako uprawnienia roota). Oznacza to, że istnieje zwiększone ryzyko uzyskania dostępu do danych z aplikacji Corona-Warn-App przez inne aplikacje na Twoim smartfonie."</string>
     <!-- XTXT: App Root Detection link label -->
     <string name="root_dialog_faq_link_label">"Często zadawane pytania dotyczące bezpieczeństwa aplikacji"</string>
-    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
-    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"OK"</string>
     <!-- XTXT: App Root Detection text for checkbox -->
