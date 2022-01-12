@@ -46,7 +46,12 @@ class AppShortcutsHelper @Inject constructor(@AppContext private val context: Co
             .setIntent(createShortcutIntent(AppShortcuts.CONTACT_DIARY.toString()))
             .build()
 
-        val shortcutList = listOf(shortcutScanner, shortcutCertificates, shortcutCheckIns, shortcutDiary)
+        val shortcutList = listOf(
+            shortcutDiary,
+            shortcutCheckIns,
+            shortcutCertificates,
+            shortcutScanner
+        )
 
         for (shortcut in shortcutList) {
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
@@ -54,8 +59,14 @@ class AppShortcutsHelper @Inject constructor(@AppContext private val context: Co
     }
 
     fun removeAppShortcut() {
-        ShortcutManagerCompat.removeDynamicShortcuts(context, listOf(QR_CODE_SCANNER_SHORTCUT_ID,
-            COVID_CERTIFICATES_SHORTCUT_ID, CHECK_INS_SHORTCUT_ID, CONTACT_DIARY_SHORTCUT_ID))
+        ShortcutManagerCompat.removeDynamicShortcuts(
+            context, listOf(
+                QR_CODE_SCANNER_SHORTCUT_ID,
+                COVID_CERTIFICATES_SHORTCUT_ID,
+                CHECK_INS_SHORTCUT_ID,
+                CONTACT_DIARY_SHORTCUT_ID
+            )
+        )
     }
 
     private fun createShortcutIntent(shortcut: String) = Intent(context, LauncherActivity::class.java).apply {
