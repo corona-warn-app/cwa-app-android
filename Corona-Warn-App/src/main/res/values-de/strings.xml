@@ -269,7 +269,9 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Halten Sie mindestens 1,5 Meter Abstand zu anderen Personen."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.\n\nSie haben ein erhöhtes Risiko, sich angesteckt zu haben. Falls Sie infiziert sind, können Sie Ihrerseits andere Personen anstecken, auch wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben.</string>
+    <string name="risk_details_find_details_in_journal">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.</string>
+    <!-- XTXT: find details about exposures in the contact journal - increased risk -->
+    <string name="risk_details_find_details_in_journal_increased_risk">Weitere Informationen zu Ihren Risiko-Begegnungen finden Sie in Ihrem Kontakt-Tagebuch.\n\nSie haben ein erhöhtes Risiko, sich angesteckt zu haben. Falls Sie infiziert sind, können Sie Ihrerseits andere Personen anstecken, auch wenn Sie geimpft oder genesen sind, und auch, wenn Sie keine Symptome haben.</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Lassen Sie sich testen, auch wenn Sie keine Symptome haben. Bei einer Warnung über ein erhöhtes Risiko („Rote Kachel“) haben Sie Anspruch auf einen kostenlosen Test. Dies muss nicht notwendigerweise ein PCR-Test sein."</string>
     <!-- XTXT: risk details - symptoms bullet point -->

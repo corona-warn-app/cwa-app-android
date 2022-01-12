@@ -72,4 +72,10 @@
 
   <!-- XBUT: Recycle Bin - test item name -->
     <string name="recycle_bin_test_item_name">"Test"</string>
+
+    <!-- XTXT: Recycle Bin  - Restore Corona PCR Test date-->
+    <string name="reycle_bin_pcr_test_date">"Kayıt tarihi: %1$s"</string>
+    <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
+    <string name="reycle_bin_rat_test_date">"Gerçekleştirilme tarihi: %1$s"</string>
+
 </resources>
