@@ -60,7 +60,8 @@ class AppShortcutsHelper @Inject constructor(@AppContext private val context: Co
 
     fun removeAppShortcut() {
         ShortcutManagerCompat.removeDynamicShortcuts(
-            context, listOf(
+            context,
+            listOf(
                 QR_CODE_SCANNER_SHORTCUT_ID,
                 COVID_CERTIFICATES_SHORTCUT_ID,
                 CHECK_INS_SHORTCUT_ID,
