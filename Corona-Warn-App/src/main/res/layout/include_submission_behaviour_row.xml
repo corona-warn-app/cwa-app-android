@@ -29,10 +29,10 @@
             android:importantForAccessibility="no"
             android:padding="10dp"
             android:src="@{icon}"
-            tools:src="@drawable/ic_risk_details_home"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorStableLight" />
+            app:tint="@color/colorStableLight"
+            tools:src="@drawable/ic_risk_details_home" />
 
         <TextView
             style="@style/subtitle"
