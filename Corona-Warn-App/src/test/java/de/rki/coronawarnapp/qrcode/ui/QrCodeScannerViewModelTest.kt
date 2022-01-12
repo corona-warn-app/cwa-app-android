@@ -32,7 +32,6 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.util.permission.CameraSettings
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
@@ -48,7 +47,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -58,13 +56,11 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
-import testhelpers.preferences.mockFlowPreference
 import java.util.concurrent.TimeoutException
 
 @ExtendWith(InstantExecutorExtension::class)
 class QrCodeScannerViewModelTest : BaseTest() {
     @MockK lateinit var qrCodeValidator: QrCodeValidator
-    @MockK lateinit var cameraSettings: CameraSettings
     @MockK lateinit var qrCodeFileParser: QrCodeFileParser
     @MockK lateinit var dccHandler: DccQrCodeHandler
     @MockK lateinit var dccTicketingQrCodeHandler: DccTicketingQrCodeHandler
@@ -124,7 +120,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
         mockkStatic(Uri::class)
 
-        every { cameraSettings.isCameraDeniedPermanently } returns mockFlowPreference(false)
         every { Uri.parse(any()) } returns mockk()
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
         every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
@@ -172,12 +167,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
                 it.error shouldBe error
             }
         }
-    }
-
-    @Test
-    fun setCameraDeniedPermanently() {
-        viewModel().setCameraDeniedPermanently(true)
-        verify { cameraSettings.isCameraDeniedPermanently }
     }
 
     @Test
@@ -446,7 +435,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         dccSettings = dccSettings,
         traceLocationSettings = traceLocationSettings,
         dispatcherProvider = TestDispatcherProvider(),
-        cameraSettings = cameraSettings,
         qrCodeValidator = qrCodeValidator,
         recycledCertificatesProvider = recycledCertificatesProvider,
         recycledCoronaTestsProvider = recycledCoronaTestsProvider,
