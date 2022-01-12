@@ -44,6 +44,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
+@Suppress("TooManyFunctions")
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
         val TAG = tag<MainActivity>()
