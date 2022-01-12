@@ -42,6 +42,7 @@ import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
         val TAG = tag<MainActivity>()
