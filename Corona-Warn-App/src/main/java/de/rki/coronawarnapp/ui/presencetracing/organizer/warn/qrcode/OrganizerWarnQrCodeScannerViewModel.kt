@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.permission.CameraSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.ui.toLazyString
 import de.rki.coronawarnapp.util.ui.toResolvingString
@@ -20,7 +19,6 @@ import timber.log.Timber
 
 class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
     private val checkInQrCodeExtractor: CheckInQrCodeExtractor,
-    private val cameraSettings: CameraSettings,
     private val checkInQrCodeHandler: CheckInQrCodeHandler,
     private val qrCodeFileParser: QrCodeFileParser
 ) : CWAViewModel() {
@@ -69,11 +67,6 @@ class OrganizerWarnQrCodeScannerViewModel @AssistedInject constructor(
             val msg = e.message ?: "QR-Code was invalid"
             events.postValue(OrganizerWarnQrCodeNavigation.InvalidQrCode(msg.toLazyString()))
         }
-    }
-
-    fun setCameraDeniedPermanently(denied: Boolean) {
-        Timber.d("setCameraDeniedPermanently(denied=$denied)")
-        cameraSettings.isCameraDeniedPermanently.update { denied }
     }
 
     fun onParseResult(parseResult: QrCodeBoofCVParser.ParseResult) {
