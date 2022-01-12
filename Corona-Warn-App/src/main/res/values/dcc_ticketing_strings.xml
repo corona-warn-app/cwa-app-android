@@ -72,10 +72,6 @@
     <string name="dcc_ticketing_certificate_selection_more_information_text">"For further information, please see our FAQ page."</string>
     <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
     <string name="dcc_ticketing_faq_link_container">"FAQ"</string>
-    <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
-    <string name="dcc_ticketing_faq_link_german">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
-    <!--XTXT: Certificate Selection Screen: FAQ Link EN -->
-    <string name="dcc_ticketing_faq_link_english">"https://www.coronawarn.app/en/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
     <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Provider requirements:"</string>
     <!-- XTXT: Certificate Selection Screen: Person Birthday -->
