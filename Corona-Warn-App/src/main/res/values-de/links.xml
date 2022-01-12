@@ -62,4 +62,6 @@
     <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/de/faq/#encounter_but_green"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
     <string name="settings_tracing_status_location_body_url">https://www.coronawarn.app/de/faq/#android_location</string>
+    <!-- XTXT: Home Menu Button - URL to social media section of the community page -->
+    <string name="home_menu_social_media_url">"https://www.coronawarn.app/de/community/#socialmedia"</string>
 </resources>
