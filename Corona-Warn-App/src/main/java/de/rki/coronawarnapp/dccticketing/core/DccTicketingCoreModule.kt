@@ -84,6 +84,6 @@ class DccTicketingCoreModule {
 }
 
 // Dummy base url to satisfy Retrofit ¯\_(ツ)_/¯
-private const val BASE_URL = "https://localhost.de"
+private const val BASE_URL = "https://localhost"
 
 private const val TAG = "DccTicketingOkHttpClient"

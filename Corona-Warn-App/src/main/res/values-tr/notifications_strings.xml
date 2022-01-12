@@ -21,8 +21,6 @@
     <string name="nm_faq">"İşletim sisteminizin ayarlarına ilişkin ayrıntılı bilgi için lütfen SSS sayfamıza bakın."</string>
     <!-- XTXT: notification management: delta onboarding: faq label -->
     <string name="nm_faq_label">"SSS"</string>
-    <!-- XTXT: notification management: delta onboarding: faq link -->
-    <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
 
     <!-- ####################################
                   Delta Onboarding

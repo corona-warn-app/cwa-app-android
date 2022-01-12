@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.permission.CameraPermissionProvider
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
@@ -56,7 +55,6 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var coronTestRepository: CoronaTestRepository
-    @MockK lateinit var cameraPermissionProvider: CameraPermissionProvider
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var tracingSettings: TracingSettings
 
@@ -105,7 +103,6 @@ class MainActivityViewModelTest : BaseTest() {
         raExtractor = raExtractor,
         submissionRepository = submissionRepository,
         coronaTestRepository = coronTestRepository,
-        cameraPermissionProvider = cameraPermissionProvider,
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
     )

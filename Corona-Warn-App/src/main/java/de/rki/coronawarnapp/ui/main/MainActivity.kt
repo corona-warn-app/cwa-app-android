@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -31,7 +30,6 @@ import de.rki.coronawarnapp.ui.setupWithNavController2
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.DialogHelper
-import de.rki.coronawarnapp.util.ExternalActionHelper.openAppDetailsSettings
 import de.rki.coronawarnapp.util.device.PowerManagement
 import de.rki.coronawarnapp.util.di.AppInjector
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper.Companion.getShortcutExtra
@@ -170,8 +168,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                     NavGraphDirections.actionSubmissionConsentFragment(event.request)
                 )
                 is MainActivityEvent.Error -> event.error.toErrorDialogBuilder(this).show()
-                is MainActivityEvent.OpenScanner ->
-                    if (event.requiresPermission) openPermissionDialog() else navigateToScanner()
+                is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
         }
 
@@ -184,15 +181,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         showTooltip: Boolean
     ) {
         fabTooltip.root.isVisible = bottomAppBar.isVisible && showTooltip
-    }
-
-    private fun openPermissionDialog() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.camera_permission_dialog_title)
-            .setMessage(R.string.camera_permission_dialog_message)
-            .setNegativeButton(R.string.camera_permission_dialog_settings) { _, _ -> openAppDetailsSettings() }
-            .setPositiveButton(android.R.string.ok) { _, _ -> }
-            .show()
     }
 
     override fun onNewIntent(intent: Intent?) {
