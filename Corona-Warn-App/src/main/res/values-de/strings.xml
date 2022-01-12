@@ -1772,6 +1772,12 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">Abbrechen</string>
 
+    <!-- XHED: Title of scanner app shortcut -->
+    <string name="app_shortcut_scanner_title">"QR-Codes scannen"</string>
+    <!-- XHED: Title of certificates app shortcut -->
+    <string name="app_shortcut_certificates_title">"Zertifikate anzeigen"</string>
+    <!-- XHED: Title of check-ins app shortcut -->
+    <string name="app_shortcut_check_ins_title">"Check-ins anzeigen"</string>
     <!-- XHED: Title of contact diary app shortcut -->
     <string name="app_shortcut_contact_diary_title">"Eintrag hinzufügen"</string>
 

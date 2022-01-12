@@ -1769,6 +1769,12 @@
     <!-- XBUT: Abort button for test result positive no consent screen -->
     <string name="submission_test_result_positive_no_consent_button_abort">"Cancel"</string>
 
+    <!-- XHED: Title of scanner app shortcut -->
+    <string name="app_shortcut_scanner_title">"Scan QR codes"</string>
+    <!-- XHED: Title of certificates app shortcut -->
+    <string name="app_shortcut_certificates_title">"Show certificates"</string>
+    <!-- XHED: Title of check-ins app shortcut -->
+    <string name="app_shortcut_check_ins_title">"Show check-ins"</string>
     <!-- XHED: Title of contact diary app shortcut -->
     <string name="app_shortcut_contact_diary_title">"Add Entry"</string>
 

@@ -190,11 +190,32 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private fun processExtraParameters() {
         when (intent.getShortcutExtra()) {
+            AppShortcuts.QR_CODE_SCANNER -> goToQrCodeScanner()
+            AppShortcuts.CERTIFICATES -> goToCovidCertificates()
+            AppShortcuts.CHECK_INS -> goToCheckIns()
             AppShortcuts.CONTACT_DIARY -> goToContactJournal()
             else -> Unit
         }
 
         navigateByIntentUri(intent)
+    }
+
+    private fun goToQrCodeScanner() {
+        navController.navigate(R.id.universalScanner)
+    }
+
+    private fun goToCovidCertificates() {
+        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
+            R.id.covid_certificates_graph
+        val nestedGraph = navController.findNestedGraph(R.id.covid_certificates_graph)
+        nestedGraph.startDestination = R.id.personOverviewFragment
+    }
+
+    private fun goToCheckIns() {
+        findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
+            R.id.trace_location_attendee_nav_graph
+        val nestedGraph = navController.findNestedGraph(R.id.trace_location_attendee_nav_graph)
+        nestedGraph.startDestination = R.id.checkInsConsentFragment
     }
 
     private fun goToContactJournal() {
