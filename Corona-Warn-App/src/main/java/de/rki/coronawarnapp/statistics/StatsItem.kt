@@ -253,7 +253,7 @@ data class PersonsVaccinatedWithBoosterStats(
     override fun requireValidity() {
         require(keyFigures.size == 2)
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.PRIMARY }) {
-            Timber.w("PersonsVaccinatesWithBoostersStats is missing primary value")
+            Timber.w("PersonsVaccinatedWithBoostersStats is missing primary value")
         }
         requireNotNull(keyFigures.singleOrNull { it.rank == KeyFigure.Rank.TERTIARY }) {
             Timber.w("PersonsVaccinatedWithBoosterStats is missing tertiary value")
