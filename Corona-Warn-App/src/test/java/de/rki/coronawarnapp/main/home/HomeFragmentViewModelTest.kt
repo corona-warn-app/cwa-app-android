@@ -46,6 +46,7 @@ import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 import testhelpers.extensions.observeForTesting
+import testhelpers.preferences.mockFlowPreference
 
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class HomeFragmentViewModelTest : BaseTest() {
@@ -95,6 +96,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         }
 
         coEvery { networkStateProvider.networkState } returns emptyFlow()
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -178,6 +180,14 @@ class HomeFragmentViewModelTest : BaseTest() {
         with(createInstance()) {
             showPopUps()
             events.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowErrorResetDialog
+        }
+    }
+
+    @Test
+    fun `mark risk level badge as seen`() {
+        createInstance().markRiskBadgeAsSeen()
+        coVerify {
+            tracingSettings.showRiskLevelBadge
         }
     }
 }
