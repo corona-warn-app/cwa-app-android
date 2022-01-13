@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -27,7 +28,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.spyk
-import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
@@ -36,13 +36,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
-import testhelpers.extensions.CoroutinesTestExtension
 import testhelpers.extensions.InstantExecutorExtension
+import testhelpers.extensions.getOrAwaitValue
 import testhelpers.preferences.mockFlowPreference
 import java.util.Locale
 
-@ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
-class MainActivityViewModelTest : BaseTest() {
+@ExtendWith(InstantExecutorExtension::class)
+class MainActivityViewModelTest2 : BaseTest() {
 
     @MockK lateinit var environmentSetup: EnvironmentSetup
     @MockK lateinit var backgroundModeStatus: BackgroundModeStatus
@@ -108,71 +108,37 @@ class MainActivityViewModelTest : BaseTest() {
     )
 
     @Test
-    fun `environment toast is visible test environments`() {
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.DEV
+    fun `Home screen badge count shows tests badges only`() {
+        val coronaTest = mockk<CoronaTest>().apply { every { didShowBadge } returns false }
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
-        val vm = createInstance()
-        vm.showEnvironmentHint.value shouldBe EnvironmentSetup.Type.DEV.rawKey
+        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 1
     }
 
     @Test
-    fun `environment toast is only visible in deviceForTesters flavor`() {
-        every { CWADebug.isDeviceForTestersBuild } returns false
-        every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.DEV
+    fun `Home screen badge count shows risk badges only`() {
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(true)
+        every { coronTestRepository.coronaTests } returns flowOf(emptySet())
 
-        val vm = createInstance()
-        vm.showEnvironmentHint.value shouldBe null
+        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 1
     }
 
     @Test
-    fun `environment toast is not visible in production`() {
-        every { CWADebug.isDeviceForTestersBuild } returns true
-        every { environmentSetup.currentEnvironment } returns EnvironmentSetup.Type.PRODUCTION
+    fun `Home screen badge count shows risk + tests badges only`() {
+        val coronaTest = mockk<CoronaTest>().apply { every { didShowBadge } returns false }
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(true)
+        every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
-        val vm = createInstance()
-        vm.showEnvironmentHint.value shouldBe null
+        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 2
     }
 
     @Test
-    fun `value set update is triggered on initialisation`() {
-        createInstance()
-        verify(exactly = 1) { valueSetsRepository.triggerUpdateValueSet(Locale.GERMAN) }
-    }
+    fun `Home screen badge count shows risk + tests badges is ZERO`() {
+        val coronaTest = mockk<CoronaTest>().apply { every { didShowBadge } returns true }
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
-    @Test
-    fun `User is not onboarded when settings returns NOT_ONBOARDED `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.NOT_ONBOARDED
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
-        val vm = createInstance()
-        vm.onBottomNavSelected()
-        vm.isContactDiaryOnboardingDone.value shouldBe false
-    }
-
-    @Test
-    fun `User is onboarded when settings returns RISK_STATUS_1_12 `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
-        val vm = createInstance()
-        vm.onBottomNavSelected()
-        vm.isContactDiaryOnboardingDone.value shouldBe true
-    }
-
-    @Test
-    fun `Vaccination is not acknowledged when settings returns false `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
-        val vm = createInstance()
-        vm.onBottomNavSelected()
-        vm.isVaccinationConsentGiven.value shouldBe false
-    }
-
-    @Test
-    fun `Vaccination is acknowledged  when settings returns true `() {
-        every { diarySettings.onboardingStatus } returns ContactDiarySettings.OnboardingStatus.RISK_STATUS_1_12
-        every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
-        val vm = createInstance()
-        vm.onBottomNavSelected()
-        vm.isVaccinationConsentGiven.value shouldBe true
+        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 0
     }
 }

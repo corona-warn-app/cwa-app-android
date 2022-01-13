@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -44,6 +46,7 @@ class MainActivityViewModel @AssistedInject constructor(
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
+    tracingSettings: TracingSettings,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -69,10 +72,14 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
 
-    val testsBadgeCount: LiveData<Int> = coronaTestRepository.coronaTests
-        .map { coronaTests ->
-            coronaTests.filter { !it.didShowBadge }.count()
-        }.asLiveData2()
+    val mainBadgeCount: LiveData<Int> = combine(
+        coronaTestRepository.coronaTests,
+        tracingSettings.showRiskLevelBadge.flow
+    ) { coronaTests, showBadge ->
+        coronaTests.filter { !it.didShowBadge }
+            .count()
+            .plus(if (showBadge) 1 else 0)
+    }.asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
