@@ -54,14 +54,14 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
 
 /**
  * Rule 1
- * Series-completing Vaccination Certificate:
- * Find Vaccination Certificates where total number of doses == number of administered doses and
- * 3.1 For vaccines with dose 3/3, priority will be received right away
- * 3.2 For BioNTech/Moderna/AstraZeneca vaccines that are taken after a recovery, priority will be received right away
- * 3.3 For J&J vaccines with dose 2/2, priority will be received right away
- * 3.4 If none of the criteria above is met, priority will be received after a 14 day period
- * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
+ * find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn is >= than v[0].sd and one of
+ * the time difference between the time represented by v[0].dt and the current device time is > 14 days, or
+ * v[0].dn is > 1 and v[0].mp equals EU/1/20/1525 (Johnson & Johnson) (booster vaccination), or
+ * v[0].dn is > 2 (booster vaccination with other vaccine), or
+ * v[0].dn equals 1 and v[0].sd equals 1 and v[0].mp is one of EU/1/20/1528 (Biontech), EU/1/20/1507 (Moderna), or EU/1/21/1529 (Astra Zeneca)
+ * v[0].dn is > than v[0].sd
+ *
+ * sorted descending by v[0].dt (i.e. latest first) and descending by the iat claim of the CWT of the certificate (i.e. if there are two certificates with the same dt, they should be sorted by iat).
  */
 private fun Collection<CwaCovidCertificate>.rule1FindRecentLastShot(
     nowUtc: Instant
@@ -78,9 +78,10 @@ private fun Collection<CwaCovidCertificate>.rule1FindRecentLastShot(
         .filter {
             with(it.rawCertificate.vaccination) {
                 when {
-                    totalSeriesOfDoses > 2 && medicalProductId in TWO_SHOT_VACCINES -> true
-                    totalSeriesOfDoses == 2 && medicalProductId in ONE_SHOT_VACCINES -> true
-                    totalSeriesOfDoses == 1 && TWO_SHOT_VACCINES.contains(medicalProductId) -> true
+                    doseNumber > 1 && medicalProductId in ONE_SHOT_VACCINES -> true
+                    doseNumber > 2 -> true
+                    doseNumber == 1 && totalSeriesOfDoses == 1 && TWO_SHOT_VACCINES.contains(medicalProductId) -> true
+                    doseNumber > totalSeriesOfDoses -> true
                     else -> isOlderThanTwoWeeks(it)
                 }
             }
@@ -332,73 +333,73 @@ fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
 fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = Instant.now()):
     PersonCertificates.AdmissionState? {
 
-        Timber.v("Determining the admission state(nowUtc=%s): %s", nowUtc, this)
+    Timber.v("Determining the admission state(nowUtc=%s): %s", nowUtc, this)
 
-        if (isEmpty()) {
-            Timber.v("Admission state cannot be determined, there are no certificates")
-            return null
+    if (isEmpty()) {
+        Timber.v("Admission state cannot be determined, there are no certificates")
+        return null
+    }
+
+    // The operations from the tech spec are documented as comments here
+
+    // 1. validity state has to be VALID or EXPIRING_SOON
+    val validCerts =
+        filter {
+            when (it.getState()) {
+                is Valid, is ExpiringSoon -> true
+                else -> false
+            }
         }
 
-        // The operations from the tech spec are documented as comments here
+    // 2. determine has2G: at least one valid vaccination or recovery certificate
+    val recentVaccination = validCerts.rule1FindRecentLastShot(nowUtc)
+    val recentRecovery = validCerts.rule2findRecentRecovery(nowUtc)
 
-        // 1. validity state has to be VALID or EXPIRING_SOON
-        val validCerts =
-            filter {
-                when (it.getState()) {
-                    is Valid, is ExpiringSoon -> true
-                    else -> false
+    val hasVaccination = recentVaccination != null
+    val hasRecentRecovery = recentRecovery != null
+
+    val has2G = hasVaccination || hasRecentRecovery
+
+    // 3. determine hasPCR and 4. hasRAT
+    val recentPCR = validCerts.rule3FindRecentPcrCertificate(nowUtc)
+    val recentRAT = validCerts.rule4FindRecentRaCertificate(nowUtc)
+
+    val hasPCR = recentPCR != null
+    val hasRAT = recentRAT != null
+
+    // 5. determine admission state
+    return when {
+        has2G -> {
+            val twoGCertificate = recentVaccination ?: recentRecovery!!
+            return when {
+                hasPCR -> {
+                    Timber.v("Determined admission state = 2G+ PCR")
+                    TwoGPlusPCR(twoGCertificate, recentPCR!!)
+                }
+                hasRAT -> {
+                    Timber.v("Determined admission state = 2G+ RAT")
+                    TwoGPlusRAT(twoGCertificate, recentRAT!!)
+                }
+                else -> {
+                    Timber.v("Determined admission state = 2G")
+                    TwoG(twoGCertificate)
                 }
             }
-
-        // 2. determine has2G: at least one valid vaccination or recovery certificate
-        val recentVaccination = validCerts.rule1FindRecentLastShot(nowUtc)
-        val recentRecovery = validCerts.rule2findRecentRecovery(nowUtc)
-
-        val hasVaccination = recentVaccination != null
-        val hasRecentRecovery = recentRecovery != null
-
-        val has2G = hasVaccination || hasRecentRecovery
-
-        // 3. determine hasPCR and 4. hasRAT
-        val recentPCR = validCerts.rule3FindRecentPcrCertificate(nowUtc)
-        val recentRAT = validCerts.rule4FindRecentRaCertificate(nowUtc)
-
-        val hasPCR = recentPCR != null
-        val hasRAT = recentRAT != null
-
-        // 5. determine admission state
-        return when {
-            has2G -> {
-                val twoGCertificate = recentVaccination ?: recentRecovery!!
-                return when {
-                    hasPCR -> {
-                        Timber.v("Determined admission state = 2G+ PCR")
-                        TwoGPlusPCR(twoGCertificate, recentPCR!!)
-                    }
-                    hasRAT -> {
-                        Timber.v("Determined admission state = 2G+ RAT")
-                        TwoGPlusRAT(twoGCertificate, recentRAT!!)
-                    }
-                    else -> {
-                        Timber.v("Determined admission state = 2G")
-                        TwoG(twoGCertificate)
-                    }
-                }
-            }
-            hasPCR -> {
-                Timber.v("Determined admission state = 3G with PCR")
-                ThreeGWithPCR(recentPCR!!)
-            }
-            hasRAT -> {
-                Timber.v("Determined admission state = 3G with RAT")
-                ThreeGWithRAT(recentRAT!!)
-            }
-            else -> {
-                Timber.v("Determined admission state = other")
-                when (val certificate = findHighestPriorityCertificate(nowUtc)) {
-                    null -> null
-                    else -> Other(certificate)
-                }
+        }
+        hasPCR -> {
+            Timber.v("Determined admission state = 3G with PCR")
+            ThreeGWithPCR(recentPCR!!)
+        }
+        hasRAT -> {
+            Timber.v("Determined admission state = 3G with RAT")
+            ThreeGWithRAT(recentRAT!!)
+        }
+        else -> {
+            Timber.v("Determined admission state = other")
+            when (val certificate = findHighestPriorityCertificate(nowUtc)) {
+                null -> null
+                else -> Other(certificate)
             }
         }
     }
+}
