@@ -146,6 +146,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }.catch { Timber.tag(TAG).d(it, "Mark tests badges as seen failed") }
         .asLiveData2()
 
+    fun markRiskBadgeAsSeen() {
+        Timber.tag(TAG).d("Mark risk badge as seen")
+        tracingSettings.showRiskLevelBadge.update { false }
+    }
+
     private val combinedStatistics = combine(
         statisticsProvider.current,
         localStatisticsProvider.current,
