@@ -63,9 +63,6 @@ data class PCRCoronaTest(
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.PCR
 
-    override val isFinal: Boolean
-        get() = testResult == CoronaTestResult.PCR_OR_RAT_REDEEMED
-
     override val isRedeemed: Boolean
         get() = testResult == CoronaTestResult.PCR_OR_RAT_REDEEMED
 

@@ -164,8 +164,6 @@
     <string name="main_about_headline">"ЧЗВ"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Тук можете да намерите отговори на често задавани въпроси относно приложението Corona-Warn-App. Ще Ви пренасочим към външния уебсайт coronawarn.app."</string>
-    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
-    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Тук можете да намерите отговори на често задавани въпроси относно приложението Corona-Warn-App. Ще Ви пренасочим към външен уебсайт."</string>
 
@@ -268,7 +266,9 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Спазвайте дистанция от поне 1,5 м от околните."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Ще намерите още информация относно излаганията Ви на риск във Вашия дневник на контактите. Имате повишено ниво на риск от заразяване. Ако сте заразени Вие може да заразявате други хора, дори и да сте ваксинирани или да сте преболедували или да не проявявате никакви симптоми."</string>
+    <string name="risk_details_find_details_in_journal">"Ще намерите още информация относно излаганията ви на риск във вашия дневник на контактите."</string>
+    <!-- XTXT: find details about exposures in the contact journal - increased risk -->
+    <string name="risk_details_find_details_in_journal_increased_risk">"Ще намерите още информация относно излаганията Ви на риск във Вашия дневник на контактите. Имате повишено ниво на риск от заразяване. Ако сте заразени Вие може да заразявате други хора, дори и да сте ваксинирани или да сте преболедували или да не проявявате никакви симптоми."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Моля, направете си тест, дори и да не проявявате симптоми. Ако получите предупреждение за повишено ниво на риск от заразяване (“червена плочка”) Вие имате право на безплатен тест. Не е задължително да е PCR тест."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
@@ -282,18 +282,13 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Кихайте и кашляйте в кърпичка или в сгъвката на лакътя си."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Тук може да видите възможности за тестване или да се свържете с Вашия личен лекар или аптека."</string>
+    <string name="risk_details_behavior_increased_body_1">"Тук може да видите възможности за тестване. Също така, може да се свържете с Вашия личен лекар или аптека."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"Тук може да видите възможности за тестване"</string>
-    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
+    <string name="risk_details_behavior_increased_body_1_label">"Тук може да видите възможности за тестване."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"Повече информация относно процедурата  за тестване може да намерите на страницата ни за „ЧЗВ“."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"ЧЗВ"</string>
-    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
-
+    <string name="risk_details_behavior_increased_body_2_label">"Повече информация относно процедурата  за тестване може да намерите на страницата ни за „ЧЗВ“."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Риск от заразяване"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -319,14 +314,12 @@
     <string name="risk_details_information_body_low_risk">"Вашето ниво на риск от заразяване е ниско, защото нямате регистрирани контакти с лица, които впоследствие са били диагностицирани с коронавирус, или ако сте имали такива, те са били краткотрайни и от по-голямо разстояние."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Рискът от заразяване се изчислява локално на смартфона Ви въз основа на регистрираните данни за излагане. Изчислението включва също така разстоянието от и продължителността на всички контакти с лица, диагностицирани с коронавирус, както и възможността им да заразят околните. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Нивото на риска Ви от заразяване е повишено, защото сте имали продължителен и близък контакт с поне едно лице, диагностицирано с коронавирус."</string>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани във Вашия смартфон. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Това е причината да определим Вашия риск от заразяване като повишен. Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на Вашето локално устройство. Никой освен Вас не може да види или да получи данни за Вашето ниво на риск. Когато се приберете у дома, избягвайте близките контакти с членовете на домакинството си."</string>
+    <string name="risk_details_information_body_notice_increased">"Това е причината да класифицираме Вашия риск от заразяване като висок. Рискът от заразяване се изчислява въз основа на данните за излагане (продължителност и близост на контакта), регистрирани на вашето локално устройство. Никой освен Вас не може да види, да предаде или да получи данни за Вашето ниво на риск."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -470,9 +463,9 @@
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Предупреждения и рискове"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
-    <string name="onboarding_notifications_subtitle">"Приложението може да Ви уведомява автоматично за Вашия статус на риск от заразяване и да Ви предупреждава за нови заразявания на хора, с които сте били в контакт. Позволете на приложението да Ви изпраща известия."</string>
+    <string name="onboarding_notifications_subtitle">"Приложението може да Ви изпраща автоматично известия за Вашия статус на риск, както и за валидността на Вашите сертификати в допълнение към останалата информация. За да е възможно това, трябва да промените настройките си за известия."</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
-    <string name="onboarding_notifications_body">"След това може да се самоизолирате, за да защитите околните и да разберете къде може да се тествате."</string>
+    <string name="onboarding_notifications_body">"С това действие ще защитите себе си и околните. Освен това ще можете да следите валидността на Вашите сертификати."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Жена, която получава известие от приложението Corona-Warn-App."</string>
 
@@ -616,8 +609,6 @@
     <string name="settings_tracing_status_location_headline">"Разрешаване на достъп до данните за местоположение"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Активирайте услугите за споделяне на местоположение. Bluetooth с нисък разход на енергия изисква активирани услуги за споделяне на местоположението, за да може да изчисли физическото разстояние, но в момента няма достъп до Вашето местоположение. Повече информация може да намерите на страницата „Често задавани въпроси“."</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
-    <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Към настройките на устройството"</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -799,8 +790,6 @@
     <string name="debugging_debuglog_intro_explanation_section_two">"Повече информация може да намерите в страницата ЧЗВ: ЧЗВ за отчетите за грешки"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"ЧЗВ за отчетите за грешки"</string>
-    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
     <string name="debugging_debuglog_id_history_title">"Хронология на ИД"</string>
     <!-- YTXT: Description of ID History -->
@@ -947,19 +936,15 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Предупреждение"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Когато достигнете лимита Вие няма да може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за ваксинационни сертификати на нашата страница “ЧЗВ”."</string>
+    <string name="qr_code_error_max_person_threshold_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Когато достигнете лимита Вие няма да може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за валидиране на сертификат на нашата страница “ЧЗВ”."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Грешка"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Не може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за ваксинационни сертификати на нашата страница “ЧЗВ”."</string>
+    <string name="qr_code_error_max_person_max_body">"Приложението Corona-Warn-App не може да се използва за валидиране на сертификат от трети страни. За тази цел използвайте приложението  CovPassCheck.\n\nМоже да добавите сертификати за до %d човека. Не може да сканирате повече сертификати за допълнителни лица.\n\nЩе откриете повече информация за валидиране на сертификат на нашата страница “ЧЗВ”."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"Изтегляне на CovPassCheck"</string>
-    <!-- XTXT: QR Code error message: covpasscheck app link  -->
-    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
     <!-- XBUT: QR Code error message: FAQ button  -->
     <string name="qr_code_error_max_person_faq_button">"ЧЗВ относно валидирането на сертификат"</string>
-    <!-- XTXT: QR Code error message: FAQ link  -->
-    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -1159,8 +1144,6 @@
     <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
     <string name="submission_dispatcher_card_test_center_text">"Намерете центровете за тестване в близост до вас. Ако възникнат проблеми, можете да докладвате за тях.\nЩе бъдете препратени към външен уеб сайт на RKI."</string>
-    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
-    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"Въведете ТАН код за PCR тест"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1236,7 +1219,7 @@
     <string name="submission_done_further_info_title">"Още информация:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"Периодът, в който трябва да сте под карантина, обикновено е 14 дни. Наблюдавайте внимателно развитието на Вашите симптоми."</item>
+        <item>"Периодът, в който трябва да сте под карантина, обикновено е 10 дни. Наблюдавайте внимателно развитието на Вашите симптоми."</item>
         <item>"Службата за обществено здравеопазване ще изиска от Вас да съставите списък на хората, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 15 минути през последните два дни, преди да се разболеете. Може да използвате Вашия дневник на контактите – просто експортирайте записите и след това ги разпечатайте или ги изпратете по имейл."</item>
         <item>"Моля, обърнете особено внимание на хората, които няма да бъдат уведомени директно чрез приложението, тъй като нямат смартфон или не са инсталирали приложението."</item>
         <item>"Може все още да сте носител на заразата дори ако вече не проявявате симптоми и отново се чувствате добре. По тази причина, моля, не нарушавайте указания период на изолация."</item>
@@ -1304,14 +1287,14 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Регистрирайте PCR теста си, като въведете ТАН кода в приложението."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици: \nанглийски, немски, турски\n\nРаботно време:\n24/7"</string>
+    <string name="submission_contact_operating_hours_body">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици: английски, немски, турски\n\nРаботно време:\nВсеки ден (включително уикендите) от 07:00 до 20:00 ч. (СЕТ)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Ако имате въпроси, свързани със здравето, се обадете на личния си лекар или на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Обадете се на горещата линия и поискайте ТАН код"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"В първата стъпка се обаждате на горещата национална линия, за да заявите ТАН код. Телефонният номер е 0800 7540002. Работното време е от 8:00 до 22:00 ч. от понеделник до петък и от 10:00 до 22:00 ч в събота и неделя. Обаждането е безплатно."</string>
+    <string name="submission_contact_step_1_content">"В първата стъпка се обаждате на горещата национална линия, за да заявите ТАН код. Телефонният номер е 0800 7540002. Работното време е от 08:00 до 22:00 ч. от понеделник до петък и от 10:00 до 22:00 ч в събота и неделя. Обаждането е безплатно."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"Във втората стъпка регистрирате теста си, като въвеждате ТАН кода в приложението."</string>
 
@@ -1379,12 +1362,13 @@
     <string name="test_result_card_status_pending">"Все още няма резултат от теста Ви"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Още информация:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Проявявате ли някакви остри симптоми?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Все още ли не се чувствате добре? Обадете се на личния си лекар, ако се чувствате много зле и/или симптомите Ви са се влошили."</item>
-        <item>"Останете си вкъщи, докато се почувствате добре. Ако се заразите с коронавирус (SARS-CoV-2) в момент, когато организмът Ви е отслабен от друга инфекция, това може да доведе до сериозно заболяване."</item>
+        <item>"Останете си вкъщи възможно най-дълго, докато се почувствате добре. Намелете риска си от заразяване с корона вирус, както и с друга инфекция."</item>
         <item>"Не ходете на работа, ако не се чувствате добре, за да не излагате други хора на риск."</item>
-        <item>"Ако симптомите Ви се влошат, може да се наложи да направите нов тест за SARS-CoV-2."</item>
+        <item>"Ако се почувствате много зле или симптомите Ви се влошават моля, свържете се с личния си лекар. Той може да Ви посъветва дали трябва да си направите още един тест за SARS-CoV-2."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -1523,7 +1507,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Вчера/до вчера"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
+    <string name="statistics_explanation_period_yesterday_text">"За \"Вчера/до вчера\" се показва броят за предишния ден/до предишния ден. Ако все още няма данни за предишния ден, се показва последната дата, за която има данни."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7 дни средно"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1548,16 +1532,12 @@
     <string name="statistics_explanation_trend_stable_title">"Тенденция: Стабилна (неутрална)"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Оценката на тенденцията за броя предупреждения от потребители на приложението се променя в зависимост от текущите нива на заразяване, поради което тази тенденция винаги се показва като неутрална."</string>
-    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Абстрактно изображение на смартфон с 4 контейнера за данни"</string>
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"За повече подробности относно отделните показатели прочетете нашия блог."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Блог."</string>
-    <!-- XTXT: Statistics explanation blog text url -->
-    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Хоспитализация"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
@@ -1685,8 +1665,6 @@
     <string name="errors_generic_text_unknown_error_cause">"Възникна неочаквана грешка."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Приложението беше върнато към изходно състояние поради технически проблем. Това няма да се отрази на регистрирането на излаганията на риск и Вашия статус на риск. Ще продължите да получавате известия за излаганията и ще можете да предупредите околните в случай на положителен тест за COVID-19. Имайте предвид обаче, че всички прочетени QR кодове за електронното известие за резултатите от теста Ви са изгубени. Моля, свържете се с Вашия лекар или с лабораторията, за да разберете резултата."</string>
-    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
@@ -2038,21 +2016,16 @@
     <string name="incompatible_advertising_not_supported">"Вашето мобилно устройство може да поучава известия за излагане на COVID-19 чрез Bluetooth, но не може да изпраща такива. Това означава, че може да получавате предупреждения за такова излагане през този интерфейс, но няма да можете да известявате околните, че са били в контакт с вас. Можете както да получавате, така и да изпращате предупреждения вследствие на регистрации на дадена локация."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Вашият смартфон не може нито да изпраща, нито да получава известия за излагане на COVID-19 чрез Bluetooth. Можете както да получавате, така и да изпращате предупреждения вследствие на регистрации на дадена локация."</string>
-    <!-- XTXT: Incompitability faq link for partial incompatibility -->
-    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
-    <!-- XTXT: Incompitability faq link for full incompatibility -->
-    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
-
     <!-- XHED: App Root Detection dialog title -->
     <string name="root_dialog_title">"Бележка за сигурността"</string>
     <!-- XTXT: App Root Detection dialog message -->
     <string name="root_dialog_message">"Открихме признаци за администраторски правомощия (известни и като основни правомощия) на устройството ви. Това означава, че има увеличен риск други приложения на смартфона ви да осъществят достъп до данните в приложението Corona-Warn-App."</string>
     <!-- XTXT: App Root Detection link label -->
     <string name="root_dialog_faq_link_label">"ЧЗВ относно сигурността на приложението"</string>
-    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
-    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"ОК"</string>
+    <!-- XTXT: App Root Detection text for checkbox -->
+    <string name="root_dialog_suppress_checkbox">"Скриване на известието до следващата актуализация"</string>
 
     <!-- ####################################
         Incompatibility warning card

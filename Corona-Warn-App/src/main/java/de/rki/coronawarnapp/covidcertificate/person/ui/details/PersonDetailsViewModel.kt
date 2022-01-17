@@ -8,8 +8,10 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -34,7 +36,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.mapNotNull
 import timber.log.Timber
 
@@ -69,6 +71,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         createUiState(personSpecificCertificates, isLoading)
     }.asLiveData2()
 
+    @Suppress("NestedBlockDepth")
     private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
         val priorityCertificate = personCertificates.highestPriorityCertificate
         if (priorityCertificate == null) {
@@ -78,7 +81,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         val certificateItems = mutableListOf<CertificateItem>().apply {
             when {
-                priorityCertificate.isValid -> colorShade
+                priorityCertificate.isDisplayValid -> colorShade
                 else -> PersonColorShade.COLOR_INVALID
             }.also { colorShadeData.postValue(it) }
 
@@ -91,23 +94,37 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
+            val admissionState = personCertificates.admissionState
+            if (admissionState != null && admissionState !is Other) {
+                add(
+                    ConfirmedStatusCard.Item(
+                        admissionState = admissionState,
+                        colorShade = colorShade
+                    )
+                )
+            }
+
             // Find any vaccination certificate to determine the vaccination information
             personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
                 val vaccinatedPerson = vaccinatedPerson(certificate)
                 if (vaccinatedPerson != null) {
-                    val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                    val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
-                    val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
-                    val boosterRule = vaccinatedPerson.boosterRule
-                    add(
-                        VaccinationInfoCard.Item(
-                            vaccinationStatus = vaccinationStatus,
-                            daysUntilImmunity = daysUntilImmunity,
-                            boosterRule = boosterRule,
-                            daysSinceLastVaccination = daysSinceLastVaccination,
-                            hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
+                    try {
+                        val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
+                        val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
+                        val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
+                        val boosterRule = vaccinatedPerson.boosterRule
+                        add(
+                            VaccinationInfoCard.Item(
+                                vaccinationStatus = vaccinationStatus,
+                                daysUntilImmunity = daysUntilImmunity,
+                                boosterRule = boosterRule,
+                                daysSinceLastVaccination = daysSinceLastVaccination,
+                                hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        Timber.e(e, "creating VaccinationInfoCard.Item failed")
+                    }
                 }
             }
 
@@ -150,7 +167,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
         when (certificate) {
             is TestCertificate -> add(
                 TestCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
-                    events.postValue(OpenTestCertificateDetails(certificate.containerId))
+                    events.postValue(
+                        OpenTestCertificateDetails(
+                            containerId = certificate.containerId,
+                            colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                        )
+                    )
                 }
             )
             is VaccinationCertificate -> {
@@ -162,21 +184,36 @@ class PersonDetailsViewModel @AssistedInject constructor(
                         colorShade = colorShade,
                         status = status
                     ) {
-                        events.postValue(OpenVaccinationCertificateDetails(certificate.containerId))
+                        events.postValue(
+                            OpenVaccinationCertificateDetails(
+                                containerId = certificate.containerId,
+                                colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                            )
+                        )
                     }
                 )
             }
 
             is RecoveryCertificate -> add(
                 RecoveryCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
-                    events.postValue(OpenRecoveryCertificateDetails(certificate.containerId))
+                    events.postValue(
+                        OpenRecoveryCertificateDetails(
+                            containerId = certificate.containerId,
+                            colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                        )
+                    )
                 }
             )
         }
     }
 
+    private fun getItemColorShade(isValid: Boolean, isCurrentCertificate: Boolean): PersonColorShade = when {
+        isValid && isCurrentCertificate -> colorShade
+        else -> PersonColorShade.COLOR_INVALID
+    }
+
     private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
-        vaccinationRepository.vaccinationInfos.first().find { it.identifier == certificate.personIdentifier }
+        vaccinationRepository.vaccinationInfos.firstOrNull()?.find { it.identifier == certificate.personIdentifier }
 
     fun refreshBoosterRuleState() = launch(scope = appScope) {
         Timber.v("refreshBoosterRuleState personIdentifierCode=$personIdentifierCode")

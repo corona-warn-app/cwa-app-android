@@ -9,9 +9,11 @@ import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.beInstanceOf
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -62,7 +64,8 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
         every { qrcodeSharedViewModel.dccTicketingTransactionContext(any()) } returns transactionContext
         dccTicketingSharedViewModel.apply {
             every { transactionContext } returns mutableTransactionContextFlow.filterNotNull()
-            every { updateTransactionContext(any()) } answers { mutableTransactionContextFlow.value = arg(0) }
+            coEvery { updateTransactionContext(any()) } just Runs
+            every { initializeTransactionContext(any()) } answers { mutableTransactionContextFlow.value = arg(0) }
         }
     }
 
@@ -90,12 +93,14 @@ class DccTicketingConsentOneViewModelTest : BaseTest() {
             events.getOrAwaitValue() shouldBe NavigateToCertificateSelection
         }
 
-        mutableTransactionContextFlow.value shouldBe updatedTransactionContext
+        coEvery {
+            dccTicketingSharedViewModel.updateTransactionContext(any())
+        }
     }
 
     @Test
     fun `onConsent() - error path`() {
-        coEvery { dccTicketingConsentOneProcessor.updateTransactionContext(any()) } throws DccTicketingException(
+        coEvery { dccTicketingSharedViewModel.updateTransactionContext(any()) } throws DccTicketingException(
             errorCode = DccTicketingException.ErrorCode.VS_ID_CERT_PIN_HOST_MISMATCH
         )
 

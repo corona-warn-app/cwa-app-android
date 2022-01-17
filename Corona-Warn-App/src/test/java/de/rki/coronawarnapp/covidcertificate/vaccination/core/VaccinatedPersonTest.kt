@@ -529,7 +529,7 @@ class VaccinatedPersonTest : BaseTest() {
                 it.size shouldBe 1
 
                 val cert = it.first()
-                cert.containerId.identifier shouldBe "Recycled"
+                cert.containerId.qrCodeHash shouldBe "Recycled"
                 cert.isRecycled shouldBe true
             }
 
@@ -537,7 +537,7 @@ class VaccinatedPersonTest : BaseTest() {
                 it.size shouldBe 1
 
                 val cert = it.first()
-                cert.containerId.identifier shouldBe "NotRecycled"
+                cert.containerId.qrCodeHash shouldBe "NotRecycled"
                 cert.isNotRecycled shouldBe true
             }
         }

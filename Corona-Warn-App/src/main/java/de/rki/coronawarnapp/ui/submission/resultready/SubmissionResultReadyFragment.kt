@@ -56,6 +56,8 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
                     SubmissionResultReadyFragmentDirections
                         .actionSubmissionResultReadyFragmentToSubmissionSymptomIntroductionFragment(navArgs.testType)
                 )
+
+                else -> Unit
             }
         }
         viewModel.showUploadDialog.observe2(this) {

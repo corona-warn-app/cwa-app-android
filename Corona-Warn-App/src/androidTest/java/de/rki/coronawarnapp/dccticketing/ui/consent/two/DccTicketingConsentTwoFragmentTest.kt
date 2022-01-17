@@ -115,7 +115,7 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { fullName } returns "Andrea Schneider"
-            every { certificateId } returns "vaccinationCertificateId$number"
+            every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E4${number}3349AA5#K"
             every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number
@@ -138,7 +138,7 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false

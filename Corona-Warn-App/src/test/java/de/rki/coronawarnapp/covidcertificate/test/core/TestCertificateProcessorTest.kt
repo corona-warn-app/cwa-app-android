@@ -215,7 +215,7 @@ class TestCertificateProcessorTest : BaseTest() {
 
         shouldThrow<TestCertificateException> {
             instance.registerPublicKey(edgeCaseData)
-        }.errorCode shouldBe TestCertificateException.ErrorCode.BUG_3638_KEYPAIR_LOST
+        }.errorCode shouldBe TestCertificateException.ErrorCode.KEYPAIR_LOST
 
         coVerify(exactly = 1) {
             certificateServer.registerPublicKeyForTest(edgeCaseData.registrationToken, any())

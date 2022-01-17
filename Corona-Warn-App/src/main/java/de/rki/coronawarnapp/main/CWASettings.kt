@@ -75,6 +75,11 @@ class CWASettings @Inject constructor(
         defaultValue = 0L
     )
 
+    val lastSuppressRootInfoVersionCode = prefs.createFlowPreference(
+        key = PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE,
+        defaultValue = 0L
+    )
+
     fun clear() {
         prefs.clearAndNotify()
     }
@@ -99,5 +104,7 @@ class CWASettings @Inject constructor(
         private const val DEFAULT_APP_VERSION = 1L
 
         private const val PKEY_NOTIFICATIONS_ONBOARDED_VERSION_CODE = "notifications.onboarding.versionCode"
+
+        private const val PKEY_SUPPRESS_ROOT_INFO_FOR_VERSION_CODE = "suppress.root.info.versionCode"
     }
 }

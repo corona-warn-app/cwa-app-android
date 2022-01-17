@@ -39,8 +39,6 @@ fun Throwable.toQrCodeErrorDialogBuilder(context: Context): MaterialAlertDialogB
                     }
                 }
             }
-        } else {
-            setNeutralButton(null, null) // Remove details
         }
     }
 }
@@ -49,9 +47,9 @@ fun CertificateContainerId.toDccDetails(): DccResult = DccResult.Details(uri())
 fun CertificateContainerId.toMaxPersonsWarning(max: Int): DccResult = DccResult.MaxPersonsWarning(uri(), max)
 
 private fun CertificateContainerId.uri(): Uri = when (this) {
-    is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(identifier)
-    is TestCertificateContainerId -> TestCertificateDetailsFragment.uri(identifier)
-    is VaccinationCertificateContainerId -> VaccinationDetailsFragment.uri(identifier)
+    is RecoveryCertificateContainerId -> RecoveryCertificateDetailsFragment.uri(qrCodeHash)
+    is TestCertificateContainerId -> TestCertificateDetailsFragment.uri(qrCodeHash)
+    is VaccinationCertificateContainerId -> VaccinationDetailsFragment.uri(qrCodeHash)
 }
 
 fun CheckInQrCodeHandler.Result.toCheckInResult(requireOnboarding: Boolean): CheckInResult = when (this) {

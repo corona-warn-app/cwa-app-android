@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.databinding.FragmentOnboardingTestBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -36,8 +37,9 @@ class OnboardingTestFragment : Fragment(R.layout.fragment_onboarding_test), Auto
                         OnboardingTestFragmentDirections
                             .actionOnboardingTestFragmentToOnboardingNotificationsFragment()
                     )
-                is OnboardingNavigationEvents.NavigateToOnboardingTracing ->
-                    (activity as OnboardingActivity).goBack()
+                is OnboardingNavigationEvents.NavigateToOnboardingTracing -> popBackStack()
+
+                else -> Unit
             }
         }
     }

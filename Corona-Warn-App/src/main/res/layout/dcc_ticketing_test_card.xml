@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bg_certificate_blue_3" />
+        app:srcCompat="@drawable/bg_certificate_blue_1" />
 
     <ImageView
         android:id="@+id/certificate_icon"

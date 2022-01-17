@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.TestCertificateValueSets
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -39,7 +40,7 @@ data class TestCertificateContainer(
     }
 
     override val containerId: TestCertificateContainerId
-        get() = TestCertificateContainerId(data.identifier)
+        get() = TestCertificateContainerId(qrCodeHash)
 
     override val recycledAt: Instant?
         get() = data.recycledAt
@@ -62,11 +63,12 @@ data class TestCertificateContainer(
     val isCertificateRetrievalPending: Boolean
         get() = data.certificateReceivedAt == null
 
-    val certificateId: String?
-        get() {
-            if (isCertificateRetrievalPending) return null
-            return testCertificateQRCode?.uniqueCertificateIdentifier
-        }
+    /**
+     * Retrieved Test certificate container at beginning does not have QR Code. Until QR Code exist UUID is provided
+     * and in this is case it is not yet considered as certificate
+     */
+    override val qrCodeHash: String
+        get() = data.testCertificateQrCode?.toSHA256() ?: data.identifier
 
     fun toTestCertificate(
         valueSet: TestCertificateValueSets? = null,
@@ -131,7 +133,10 @@ data class TestCertificateContainer(
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
-            override val certificateId: String
+            override val qrCodeHash: String
+                get() = this@TestCertificateContainer.qrCodeHash
+
+            override val uniqueCertificateIdentifier: String
                 get() = testCertificate.uniqueCertificateIdentifier
 
             override val headerIssuer: String

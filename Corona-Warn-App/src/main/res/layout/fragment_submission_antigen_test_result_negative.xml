@@ -145,11 +145,11 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/test_certificate_card"
-                android:background="@drawable/card_with_outline_ripple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
+                android:background="@drawable/card_with_outline_ripple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rapid_test_card">
@@ -194,9 +194,9 @@
                     style="@style/body2Medium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
                     android:layout_marginHorizontal="16dp"
-                    android:text = "@string/test_certificate_rapid_test_type"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/test_certificate_rapid_test_type"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/certificate_bg"
                     app:layout_constraintTop_toBottomOf="@id/test_certificate_name"
@@ -227,9 +227,10 @@
                 style="@style/headline5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_small"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="28dp"
                 android:accessibilityHeading="true"
-                tools:text="@string/submission_test_result_antigen_negative_proof_title"
+                android:text="@string/submission_test_result_antigen_negative_proof_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/test_certificate_card" />
@@ -239,43 +240,34 @@
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                tools:text="@string/submission_test_result_antigen_negative_proof_body"
+                android:layout_marginTop="16dp"
+                android:text="@string/submission_test_result_antigen_negative_proof_body"
                 app:layout_constraintEnd_toEndOf="@id/negative_test_proof_title"
                 app:layout_constraintStart_toStartOf="@id/negative_test_proof_title"
                 app:layout_constraintTop_toBottomOf="@id/negative_test_proof_title" />
-
-            <TextView
-                android:id="@+id/negative_test_proof_additional_information"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_small"
-                android:text="@string/submission_test_result_antigen_negative_proof_additional_information"
-                app:layout_constraintEnd_toEndOf="@id/negative_test_proof_body"
-                app:layout_constraintStart_toStartOf="@id/negative_test_proof_body"
-                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_body" />
 
             <TextView
                 android:id="@+id/submission_test_result_subtitle"
                 style="@style/headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/spacing_small"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="40dp"
                 android:accessibilityHeading="true"
                 android:text="@string/submission_test_result_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_additional_information" />
+                app:layout_constraintTop_toBottomOf="@id/negative_test_proof_body" />
 
             <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                 android:id="@+id/test_result_negative_steps_added"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
                 app:simple_step_entry_text="@string/coronatest_negative_antigen_result_first_info_body"
                 app:simple_step_entry_title="@string/coronatest_negative_antigen_result_first_info_title"
@@ -286,7 +278,7 @@
                 android:id="@+id/test_result_negative_steps_negative_result"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/test_result_negative_steps_added"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_added"
@@ -299,7 +291,7 @@
                 android:id="@+id/coronatest_negative_antigen_result_third_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/test_result_negative_steps_negative_result"
                 app:layout_constraintTop_toBottomOf="@+id/test_result_negative_steps_negative_result"
@@ -312,7 +304,7 @@
                 android:id="@+id/coronatest_negative_antigen_result_fourth_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/coronatest_negative_antigen_result_third_info"
                 app:layout_constraintTop_toBottomOf="@+id/coronatest_negative_antigen_result_third_info"
@@ -337,6 +329,15 @@
                     android:layout_height="wrap_content"
                     android:accessibilityHeading="true"
                     android:text="@string/test_result_card_negative_further_info_title" />
+
+                <TextView
+                    android:id="@+id/further_info_body"
+                    style="@style/subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:accessibilityHeading="true"
+                    android:text="@string/test_result_card_negative_further_info_body" />
 
                 <de.rki.coronawarnapp.ui.view.BulletPointList
                     android:id="@+id/further_info_text"

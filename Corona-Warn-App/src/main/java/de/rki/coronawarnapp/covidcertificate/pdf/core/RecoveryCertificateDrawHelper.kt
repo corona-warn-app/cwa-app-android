@@ -22,7 +22,11 @@ class RecoveryCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: 
             rotate(180f, PdfGenerator.A4_WIDTH / 2f, PdfGenerator.A4_HEIGHT / 2f)
             drawTextIntoRectangle(certificate.targetDisease, paint, TextArea(453.41f, 489.40f, 129.55f))
             drawTextIntoRectangle(certificate.testedPositiveOnFormatted, paint, TextArea(453.41f, 560.17f, 129.55f))
-            drawTextIntoRectangle(certificate.certificateCountry, paint, TextArea(453.41f, 611.75f, 129.55f))
+            drawTextIntoRectangle(
+                issuerCountryDisplayName(certificate.rawCertificate.recovery.certificateCountry),
+                paint,
+                TextArea(453.41f, 611.75f, 129.55f)
+            )
             drawTextIntoRectangle(certificate.certificateIssuer, paint, TextArea(453.41f, 657.33f, 129.55f))
             drawTextIntoRectangle(certificate.validFromFormatted, paint, TextArea(453.41f, 701.71f, 129.55f))
             drawTextIntoRectangle(certificate.validUntilFormatted, paint, TextArea(453.41f, 741.29f, 129.55f))

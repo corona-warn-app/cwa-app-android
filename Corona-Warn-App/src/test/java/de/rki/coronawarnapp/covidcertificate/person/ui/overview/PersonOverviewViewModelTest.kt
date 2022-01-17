@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -51,6 +52,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
     }
 
+    // TODO: Update tests
     @Test
     fun `refreshCertificate causes an error dialog event`() {
         val error = mockk<Exception>()
@@ -75,7 +77,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             deleteTestCertificate(TestCertificateContainerId("Identifier"))
         }
 
-        coEvery { testCertificateRepository.deleteCertificate(any()) }
+        coVerify { testCertificateRepository.deleteCertificate(any()) }
     }
 
     @Test
@@ -88,6 +90,7 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
+                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -97,8 +100,12 @@ class PersonOverviewViewModelTest : BaseTest() {
                     "testCertificateContainerId"
                 )
             }
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
+            (get(1) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+            }
+            (get(2) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            }
         }
     }
 
@@ -112,6 +119,7 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
+                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -121,8 +129,12 @@ class PersonOverviewViewModelTest : BaseTest() {
                     "testCertificateContainerId"
                 )
             }
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
+            (get(1) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+            }
+            (get(2) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            }
         }
     }
 
@@ -134,13 +146,20 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
+                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
         instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
+            (get(0) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            }
+            (get(1) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+            }
+            (get(2) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+            }
         }
     }
 
@@ -151,15 +170,26 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
+                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
         instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee" } // CWA user
-            (get(1) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Andrea Schneider" }
-            (get(2) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Erika Musterfrau" }
-            (get(3) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Max Mustermann" }
-            (get(4) as PersonCertificateCard.Item).apply { certificate.fullName shouldBe "Zeebee A" }
+            (get(0) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+            } // CWA user
+            (get(1) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            }
+            (get(2) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+            }
+            (get(3) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+            }
+            (get(4) as PersonCertificateCard.Item).apply {
+                admissionState.primaryCertificate.fullName shouldBe "Zeebee A"
+            }
         }
     }
 

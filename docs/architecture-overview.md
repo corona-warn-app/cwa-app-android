@@ -33,14 +33,23 @@ Once a user is tested positive the Diagnosis Key Submission component can be use
 ### Google Exposure Notification
 [Link to Google's page](https://www.google.com/covid19/exposurenotifications/)
 
-### ZXing Embedded
-Barcode scanning library by https://journeyapps.com/ based on ZXing decoder.
+### ZXing
 
-This library is being used for embedded QR code scanning process during TAN submission to help end users of the application quickly submit their SARS-CoV-2 results without installing additional scanning software.
+Zxing is used for certificates QRCodes generation and recognition of QRCodes for certificates, Tests, and Check-Ins from
+Images and PDF files
 
-Licensing: [Apache License 2.0](https://github.com/journeyapps/zxing-android-embedded/blob/master/COPYING)
+Licensing: [Apache License 2.0](https://github.com/zxing/zxing/blob/master/LICENSE)
 
-[GitHub](https://github.com/journeyapps/zxing-android-embedded)
+[GitHub](https://github.com/zxing/zxing)
+
+### boofCV
+
+boofCV is used in combination with cameraX in the camera scanner to recognize QRCodes of certificates, Tests, and
+Check-Ins.
+
+Licensing: [Apache License 2.0](https://github.com/lessthanoptimal/BoofCV/blob/SNAPSHOT/LICENSE-2.0.txt)
+
+[GitHub](https://github.com/lessthanoptimal/BoofCV)
 
 ### Joda Time
 Easy to use standard date and time classes. Used for date calculations, calendar and timezone handling.
@@ -51,7 +60,7 @@ Licensing: [Apache License 2.0](https://github.com/JodaOrg/joda-time/blob/master
 
 
 ### Room
-Room is a persistence library that provides an abstraction layer over SQLite. In contrary against the EncryptedSharedPreferences Room is used for storing more complex data.
+Room is a persistence library that provides an abstraction layer over SQLite. As opposed to SharedPreferences, Room is used for storing more complex data.
 
 [Documentation](https://developer.android.com/topic/libraries/architecture/room)
 
@@ -83,7 +92,7 @@ Repositories are another abstraction layer below viewmodels to move actual data 
 
 Databinding is the final component to connect the various view types and viewmodels and to enable live updates based upon model data. Whenever pure databinding is insufficient and value change with n-conditions is needed, formatters are used to support this for separation of pure display logic of UI components and more sophisticated features that are done within the view controllers.
 
-## Storage and Encryption
+## Storage
 
 ### Database
 The [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room) is used to store Exposure Summaries retrieved from the Exposure Notification API. These are used to calculate risks levels in accordance to specifications provided by the Robert Koch-Institut. Also we use it as a local persistence library for various complex data structures, e.g. cached date intervals or a map to our downloaded key files. The Room Library uses SQLite by default.
@@ -115,9 +124,6 @@ Concrete Data Objects:
 * the last time tracing was deactivated
 * the first time tracing was activated
 * whether the user was onboarded already
-
-For encryption, the [EncryptedSharedPreferences](https://developer.android.com/reference/androidx/security/crypto/EncryptedSharedPreferences) implementation of SharedPreference is used. The EncryptedSharedPreferences encrypt Key-Value Pairs with AES256SIV(Keys) and AES256GCM(Values). The EncryptedSharedPreferences are accessed the same way as the normal Shared Preferences from Android.
-This way we make sure everything is accessible only by the android master chain and thus the application.
 
 ## Transactions
 

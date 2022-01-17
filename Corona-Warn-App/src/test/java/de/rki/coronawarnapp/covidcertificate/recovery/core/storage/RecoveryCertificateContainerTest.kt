@@ -32,7 +32,8 @@ class RecoveryCertificateContainerTest : BaseTest() {
             qrCodeExtractor = extractorSpy
         )
 
-        container.certificateId shouldNotBe null
+        container.qrCodeHash shouldNotBe null
+        container.personIdentifier shouldNotBe null
 
         coVerify {
             extractorSpy.extract(RecoveryQrCodeTestData.validRecovery, DccV1Parser.Mode.CERT_REC_LENIENT)

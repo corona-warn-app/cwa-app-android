@@ -25,7 +25,7 @@ class CertificateDrawHelper @Inject constructor(
         with(canvas) {
             drawTextIntoRectangle(certificate.fullNameFormatted, paint, TextArea(28.78f, 693.31f, 267.5f))
             drawTextIntoRectangle(certificate.dateOfBirthFormatted, paint, TextArea(28.78f, 738.89f, 267.5f))
-            drawTextIntoRectangle(certificate.certificateId, paint, TextArea(28.78f, 783.27f, 267.5f))
+            drawTextIntoRectangle(certificate.uniqueCertificateIdentifier, paint, TextArea(28.78f, 783.27f, 267.5f))
         }
     }
 

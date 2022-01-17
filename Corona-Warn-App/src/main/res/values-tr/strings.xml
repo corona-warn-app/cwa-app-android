@@ -164,8 +164,6 @@
     <string name="main_about_headline">"SSS"</string>
     <!-- XTXT: main, explains faq on card -->
     <string name="main_about_body">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. coronawarn.app harici web sitesine yönlendirileceksiniz."</string>
-    <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
-    <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
     <!-- XACT: Opens external webpage -->
     <string name="hint_external_webpage">"Bu bölümde, Corona-Warn-App hakkında sık sorulan soruların yanıtlarını bulabilirsiniz. Harici bir web sitesine yönlendirileceksiniz."</string>
 
@@ -268,7 +266,9 @@
     <!-- XMSG: risk details - stay 1,5 away, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_away">"Diğer insanlarla aranızda en az 1,5 metre mesafeyi koruyun."</string>
     <!-- XTXT: find details about exposures in the contact journal -->
-    <string name="risk_details_find_details_in_journal">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz.\n\nEnfekte olmuş olma riskiniz daha yüksek. Enfekte olduysanız aşı olmuş ya da iyileşmiş olsanız bile ve hiçbir belirtiniz olmasa bile başka kişilerin enfekte olmasına neden olabilirsiniz."</string>
+    <string name="risk_details_find_details_in_journal">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <!-- XTXT: find details about exposures in the contact journal - increased risk -->
+    <string name="risk_details_find_details_in_journal_increased_risk">"Temas güncenizde maruz kalmalarınız hakkında daha fazla bilgi bulabilirsiniz.\n\nEnfekte olmuş olma riskiniz daha yüksek. Enfekte olduysanız aşı olmuş ya da iyileşmiş olsanız bile ve hiçbir belirtiniz olmasa bile başka kişilerin enfekte olmasına neden olabilirsiniz."</string>
     <!-- XMSG: risk details - link to faq, something like a bullet point -->
     <string name="risk_details_increased_risk_faq_link_text">"Hiçbir belirtiniz olmasa bile lütfen test yaptırın. Daha yüksek risk uyarısı (\"kırmızı kutucuk\") alırsanız ücretsiz test yaptırma hakkınız olur. Bunun illa bir PCR testi olması gerekmez."</string>
     <!-- XTXT: risk details - symptoms bullet point -->
@@ -282,18 +282,13 @@
     <!-- XMSG: risk details - cough/sneeze, something like a bullet point -->
     <string name="risk_details_behavior_body_cough_sneeze">"Öksürürken ya da hapşırırken dirseğinizin iç kısmına dönün veya bir mendil kullanın."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point -->
-    <string name="risk_details_behavior_increased_body_1">"Test olanaklarını burada bulabilir ya da aile hekiminize veya bir eczaneye danışabilirsiniz."</string>
+    <string name="risk_details_behavior_increased_body_1">"Test olanaklarını burada bulabilirsiniz. Aile hekiminize veya bir eczaneye de danışabilirsiniz."</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_1_label">"Test olanaklarını burada bulabilir"</string>
-    <!-- XMSG: risk details - contact your doctor, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
+    <string name="risk_details_behavior_increased_body_1_label">"Test olanaklarını burada bulabilirsiniz."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point -->
     <string name="risk_details_behavior_increased_body_2">"SSS sayfamızda test prosedürü hakkında daha fazla bilgi bulunmaktadır."</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link label -->
-    <string name="risk_details_behavior_increased_body_2_label">"SSS"</string>
-    <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
-    <string name="risk_details_behavior_increased_body_2_link">"https://www.coronawarn.app/en/faq/#red_card_how_to_test"</string>
-
+    <string name="risk_details_behavior_increased_body_2_label">"SSS sayfamızda test prosedürü hakkında daha fazla bilgi bulunmaktadır."</string>
     <!-- XHED: risk details - infection risk headline, below behaviors -->
     <string name="risk_details_headline_infection_risk">"Enfeksiyon Riski"</string>
     <!-- XHED: risk details - infection period logged headling, below behaviors -->
@@ -319,14 +314,12 @@
     <string name="risk_details_information_body_low_risk">"Daha sonra koronavirüs tanısı konan kişilere maruz kaldığınıza dair bir günlük kaydı oluşturulmadığı veya bu kişilerle yalnızca kısa süreyle ve uzak mesafeden karşılaştığınız için enfeksiyon riskiniz düşüktür."</string>
     <!-- YTXT: risk details - low risk explanation text with encounter with low risk -->
     <string name="risk_details_information_body_low_risk_with_encounter">"Enfeksiyon riskiniz, maruz kalma günlüğünün verileri kullanılarak yerel olarak akıllı telefonunuzda hesaplanır. Hesaplamada koronavirüs tanısı konan kişilere maruz kalma mesafesi ve süresinin yanında potansiyel enfeksiyon bulaştırma durumu da göz önünde bulundurulur. Enfeksiyon riskiniz bir başkası tarafından görüntülenemez ya da bir başkasına aktarılamaz."</string>
-    <!-- XLNK: FAQ URL pointing to the faq page in german. Need to use the URL for english for all other languages-->
-    <string name="risk_details_explanation_faq_link">"https://www.coronawarn.app/en/faq/#encounter_but_green"</string>
     <!-- YTXT: risk details - increased risk explanation text with variable date since last contact -->
     <string name="risk_details_information_body_increased_risk_date">"Koronavirüs tanısı konan en az bir kişiyle daha uzun süreyle ve yakın mesafeden maruz kalma yaşadığınız için enfeksiyon riskiniz daha yüksektir."</string>
     <!-- YTXT: risk details - risk calculation explanation -->
     <string name="risk_details_information_body_notice">"Enfeksiyon riskiniz, akıllı telefonunuzda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
     <!-- YTXT: risk details - risk calculation explanation for increased risk -->
-    <string name="risk_details_information_body_notice_increased">"Bu nedenle enfeksiyon riskiniz artmış olarak derecelendirilmiştir. Enfeksiyon riskiniz, akıllı telefonunuzda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz. Eve gittiğinizde lütfen aile fertleriniz veya ev arkadaşlarınızla yakın temastan kaçının."</string>
+    <string name="risk_details_information_body_notice_increased">"Bu nedenle enfeksiyon riskiniz daha yüksek olarak sınıflandırılmıştır. Enfeksiyon riskiniz, cihazınızda yerel olarak bulunan maruz kalma günlüğü verileri (süre ve mesafe) kullanılarak hesaplanır. Enfeksiyon riskiniz başkaları tarafından görüntülenemez veya başkalarına aktarılmaz."</string>
     <!-- NOTR -->
     <string name="risk_details_button_update">@string/risk_card_button_update</string>
     <!-- NOTR -->
@@ -470,9 +463,9 @@
     <!-- XHED: onboarding(datashare) - about positive tests -->
     <string name="onboarding_notifications_headline">"Uyarıları alma ve riskleri belirleme"</string>
     <!-- XHED: onboarding(datashare) - two/three line headline under an illustration -->
-    <string name="onboarding_notifications_subtitle">"Uygulama, risk durumunuz hakkında otomatik olarak bildirimler verebilir ve maruz kalma yaşadığınız kişilerin yeni enfeksiyonları hakkında sizi uyarabilir. Uygulamanın size bildirim göndermesine izin verin."</string>
+    <string name="onboarding_notifications_subtitle">"Uygulama diğer bilgilerin yanında, risk durumunuz ve sertifikalarınızın geçerliliği hakkında otomatik olarak bildirimler verebilir. Bunu etkinleştirmek için bildirim ayarlarınızı değiştirin."</string>
     <!-- YTXT: onboarding(datashare) - explain test -->
-    <string name="onboarding_notifications_body">"Ardından diğer insanları korumak için bireysel izolasyon sağlayabilir ve nerede test yaptırabileceğinizi öğrenebilirsiniz."</string>
+    <string name="onboarding_notifications_body">"Bu işlem, hem kendinizi hem diğer kullanıcıları korumanıza ve sertifikalarınızın geçerliliğine dair güncel bilgi sahibi olmanıza yardımcı olacaktır."</string>
     <!-- XACT: onboarding(notifications) - illustraction description, header image -->
     <string name="onboarding_notifications_illustration_description">"Bir kadın Corona-Warn-App uygulamasından bildirim alıyor."</string>
 
@@ -616,8 +609,6 @@
     <string name="settings_tracing_status_location_headline">"Konum erişimine izin ver"</string>
     <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled -->
     <string name="settings_tracing_status_location_body">"Konum hizmetlerinizi etkinleştirin. Bluetooth Düşük Enerji işlevi ile fiziksel mesafeleri hesaplamak için konum hizmetlerinin etkinleştirilmesi gerekir ancak konumunuza erişmez. Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
-    <!-- XTXT: settings(tracing) - explains user what to do on card if location is disabled: URL -->
-    <string name="settings_tracing_status_location_body_url">"https://www.coronawarn.app/en/faq/#android_location"</string>
     <!-- XBUT: settings(tracing) - go to operating system settings button on card - location -->
     <string name="settings_tracing_status_location_button">"Cihaz Ayarlarını Aç"</string>
     <!-- XACT: settings(tracing) - describes illustration -->
@@ -799,8 +790,6 @@
     <string name="debugging_debuglog_intro_explanation_section_two">"Daha fazla bilgi için lütfen SSS sayfamıza bakın: Hata raporları için SSS"</string>
     <!-- XTXT: Debug Log screen increased risk level link label - HAS TO MATCH the link text above -->
     <string name="debugging_debuglog_intro_explanation_section_two_link_label">"Hata raporları için SSS"</string>
-    <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/en/faq/#error_log"</string>
     <!-- YTXT: Title of ID History -->
     <string name="debugging_debuglog_id_history_title">"Tanıtıcı Geçmişi"</string>
     <!-- YTXT: Description of ID History -->
@@ -947,19 +936,15 @@
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_threshold_title">"Uyarı"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Bu limite ulaşıldığında, başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda aşı sertifikaları hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <string name="qr_code_error_max_person_threshold_body">"Corona-Warn-App üçüncü taraf sertifikalarını doğrulamak için kullanılamaz. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Bu limite ulaşıldığında, başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda sertifika doğrulama hakkında daha fazla bilgi bulabilirsiniz."</string>
     <!-- XTXT: QR Code error message: halfway title (10+ people already scanned)  -->
     <string name="qr_code_error_max_person_max_title">"Hata"</string>
     <!-- XTXT: QR Code error message: halfway body (10+ people already scanned)  -->
-    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App üçüncü taraf sertifika doğrulaması için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda aşı sertifikaları hakkında daha fazla bilgi bulabilirsiniz."</string>
+    <string name="qr_code_error_max_person_max_body">"Corona-Warn-App üçüncü taraf sertifikalarını doğrulamak için kullanılamayabilir. Bunun için CovPassCheck uygulamasını kullanın.\n\nEn fazla %d kişi için sertifika ekleyebilirsiniz. Başka kişiler için daha fazla yeni sertifika ekleyemezsiniz.\n\nSSS sayfamızda sertifika doğrulama hakkında daha fazla bilgi bulabilirsiniz."</string>
     <!-- XBUT: QR Code error message: covpasscheck app button  -->
     <string name="qr_code_error_max_person_covpasscheck_button">"CovPassCheck\'i İndir"</string>
-    <!-- XTXT: QR Code error message: covpasscheck app link  -->
-    <string name="qr_code_error_max_person_covpasscheck_link">"https://play.google.com/store/apps/details?id=de.rki.covpass.checkapp"</string>
     <!-- XBUT: QR Code error message: FAQ button  -->
     <string name="qr_code_error_max_person_faq_button">"Sertifika doğrulama hakkında SSS sayfası"</string>
-    <!-- XTXT: QR Code error message: FAQ link  -->
-    <string name="qr_code_error_max_person_faq_link">"https://www.coronawarn.app/en/faq/#eu_dcc_check"</string>
 
     <!-- QR Code Info Screen -->
     <!-- XHED: Title for info screen -->
@@ -1159,8 +1144,6 @@
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
     <string name="submission_dispatcher_card_test_center_text">"Yakınınızdaki test merkezlerini bulun. Herhangi bir sorun olursa bunu bildirebilirsiniz.\nBir harici RKI web sitesine yönlendirileceksiniz."</string>
-    <!-- XTXT: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#where_can_i_get_tested -->
-    <string name="submission_dispatcher_card_test_center_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- YTXT: Dispatcher text for TAN code option -->
     <string name="submission_dispatcher_card_tan_code">"PCR Testi için TAN girin"</string>
     <!-- YTXT: Body text for TAN code dispatcher option -->
@@ -1236,7 +1219,7 @@
     <string name="submission_done_further_info_title">"Diğer bilgiler:"</string>
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
-        <item>"İzolasyon süreniz genellikle 14 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
+        <item>"İzolasyon süresi genellikle 10 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
         <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen izolasyon süresine uyun."</item>
@@ -1304,14 +1287,14 @@
     <!-- YTXT: Body text for step 2 of contact page-->
     <string name="submission_contact_step_2_body">"Uygulamaya TAN girerek PCR testinizi kaydedin."</string>
     <!-- YTXT: Body text for operating hours in contact page-->
-    <string name="submission_contact_operating_hours_body">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:\nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\n7 gün 24 saat"</string>
+    <string name="submission_contact_operating_hours_body">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:\nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\nGünlük (hafta sonları dahil) 7:00 - 20:00 (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="submission_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Yardım hattını arayın ve TAN talep edin"</string>
     <!-- XACT: Content Description for submission contact step 1, number has to sync with the display number -->
-    <string name="submission_contact_step_1_content">"İlk adımda ulusal yardım hattını arayıp TAN\'nizi talep edersiniz. 0800 7540002 numaralı telefondan yardım hattına ulaşabilirsiniz. Mesai saatleri, Pazartesi - Cuma 8.00 ile 22.00 ve Cumartesi ve Pazar günleri 10.00 ile 22.00 arasıdır. Arama ücretsizdir."</string>
+    <string name="submission_contact_step_1_content">"İlk adımda ulusal yardım hattını arayıp TAN\'nizi talep edersiniz. 0800 7540002 numaralı telefondan yardım hattına ulaşabilirsiniz. Mesai saatleri, Pazartesi - Cuma 8:00 ile 22:00 ve Cumartesi ve Pazar günleri 10:00 ile 22:00 arasıdır (tüm zamanlar CET). Arama ücretsizdir."</string>
     <!-- XACT: Content Description for submission contact step 2 -->
     <string name="submission_contact_step_2_content">"İkinci adımda, TAN\'nizi kullanarak testinizi uygulamaya kaydedersiniz."</string>
 
@@ -1379,12 +1362,13 @@
     <string name="test_result_card_status_pending">"Sonucunuz henüz çıkmadı"</string>
     <!-- XHED: Title for further info of test result negative -->
     <string name="test_result_card_negative_further_info_title">"Diğer bilgiler:"</string>
+    <!-- XHED: Title for further info of test result negative -->
+    <string name="test_result_card_negative_further_info_body">"Yine de akut belirtileriniz mi var?"</string>
     <!-- YTXT: Content for further info of test result negative -->
     <string-array name="test_result_card_negative_further_info_bullet_points">
-        <item>"Hâlâ kendinizi iyi hissetmiyor musunuz? Kendinizi kötü hissediyorsanız ve/veya belirtileriniz kötüleştiyse lütfen aile hekiminizle iletişime geçin."</item>
-        <item>"Kendinizi yeniden iyi hissedene dek evde kalın. Başka bir enfeksiyon nedeniyle bağışıklığınız zayıflamışken koronavirüse (SARS-CoV-2) yakalanırsanız ciddi bir hastalıkla karşılaşabilirsiniz."</item>
+        <item>"Yapabiliyorsanız kendinizi yeniden iyi hissedene dek evde kalın. Koronavirüsün yanında farklı bir enfeksiyonla enfekte olma riskinizi azaltın."</item>
         <item>"Kendinizi iyi hissetmiyorsanız diğer insanları riske atmamak için işe gitmeyin."</item>
-        <item>"Belirtileriniz kötüleşirse başka bir SARS-CoV-2 testinin yapılması gerekebilir."</item>
+        <item>"Çok hasta hissediyorsanız ya da belirtileriniz kötüleşirse lütfen aile hekiminizle iletişime geçin. Aile hekiminiz, başka bir SARS-CoV-2 testi yaptırmanızın gerekip gerekmediği konusunda da size tavsiyede bulunabilir."</item>
     </string-array>
 
     <!-- XBUT Symptoms exact date button -->
@@ -1523,7 +1507,7 @@
     <!-- XHED: Explanation screen period yesterday subtitle -->
     <string name="statistics_explanation_period_yesterday_subtitle">"Dün/Düne kadar"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
-    <string name="statistics_explanation_period_yesterday_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
+    <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
     <!-- XHED: Explanation screen period seven day subtitle -->
     <string name="statistics_explanation_period_seven_day_subtitle">"7 Günlük Ortalama"</string>
     <!-- XTXT: Explanation screen period seven day text -->
@@ -1548,16 +1532,12 @@
     <string name="statistics_explanation_trend_stable_title">"Trend: sabit (nötr)"</string>
     <!-- XHED: Explanation screen trend description -->
     <string name="statistics_explanation_trend_description">"Uygulama kullanıcıları tarafından yapılan uyarılara ilişkin trend değerlendirmesi geçerli enfeksiyon seviyesine göre değişiklik gösterir. Bu nedenle trend her zaman nötr olarak görüntülenir."</string>
-    <!-- XTXT: Explains user about statistics: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
-    <string name="statistics_explanation_faq_url">"https://www.coronawarn.app/en/faq/#further_details"</string>
     <!-- XACT: Statistics explanation illustration description -->
     <string name="statistics_explanation_illustration_description">"Bilgi için dört yer tutucu bulunan bir akıllı telefonun soyut resmi"</string>
     <!-- XTXT: Statistics explanation blog text -->
     <string name="statistics_explanation_blog">"Münferit önemli değerler hakkında daha ayrıntılı bilgi için blogumuzu okuyun."</string>
     <!-- XTXT: Statistics explanation blog text label -->
     <string name="statistics_explanation_blog_label">"Blog."</string>
-    <!-- XTXT: Statistics explanation blog text url -->
-    <string name="statistics_eplanation_blog_url">"https://www.coronawarn.app/en/blog/2021-08-05-statistictiles"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation title -->
     <string name="statistics_explanation_7_day_hospitalisation_title">"Hastaneye Yatış Sayısı"</string>
     <!-- XTXT: Explanation screen 7 days hospitalisation text -->
@@ -1685,8 +1665,6 @@
     <string name="errors_generic_text_unknown_error_cause">"Bilinmeyen bir hata oluştu."</string>
     <!-- XTXT: error dialog - text when a catastrophic error occured from which the app recovered automatically via data reset -->
     <string name="errors_generic_text_catastrophic_error_recovery_via_reset">"Uygulamanız teknik bir problem nedeniyle sıfırlandı. Bunun, maruz kalma günlüğü veya risk durumunuz üzerinde hiçbir etkisi yoktur. Maruz kalmalar hakkında bildirim almaya ve COVID-19 testiniz pozitif çıkarsa diğer kullanıcıları uyarmaya devam edebileceksiniz. Ancak lütfen unutmayın; uygulamanın sıfırlanması, test sonuçlarınıza ilişkin elektronik bildirimler için okunan tüm QR kodların kaybolduğu anlamına gelir. Bu durumda sonucunuzu öğrenmek için lütfen doktorunuzla veya testi yapan laboratuvarla iletişime geçin."</string>
-    <!-- XTXT: error dialog - link for the details button in the catastrophic error recovery dialog  -->
-    <string name="errors_generic_text_catastrophic_error_encryption_failure">"https://www.coronawarn.app/en/faq/#cause9002_recovery"</string>
 
     <!-- ####################################
            Just for Development
@@ -2038,21 +2016,16 @@
     <string name="incompatible_advertising_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 maruz kalma bildirimlerini yalnızca alabiliyor ancak gönderemiyor. Buna göre, bu arayüz ile maruz kalmalar konusunda uyarı alabilirsiniz ancak siz diğer kullanıcıları uyaramazsınız. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
     <!-- XTXT: Incompitability card content -->
     <string name="incompatible_scanning_not_supported">"Akıllı telefonunuz Bluetooth üzerinden COVID-19 maruz kalma bildirimleri gönderemiyor veya alamıyor. Check-in’lerden kaynaklanan uyarıları alabilir ve gönderebilirsiniz."</string>
-    <!-- XTXT: Incompitability faq link for partial incompatibility -->
-    <string name="incompatible_link_advertising_not_supported">"https://www.coronawarn.app/en/faq/#part_incompat"</string>
-    <!-- XTXT: Incompitability faq link for full incompatibility -->
-    <string name="incompatible_link_scanning_not_supported">"https://www.coronawarn.app/en/faq/#full_incompat"</string>
-
     <!-- XHED: App Root Detection dialog title -->
     <string name="root_dialog_title">"Güvenlik Notu"</string>
     <!-- XTXT: App Root Detection dialog message -->
     <string name="root_dialog_message">"Cihazınızda yönetim yetkisi işaretleri (aynı zamanda kök yetkiler olarak bilinir) bulduk. Bu, akıllı telefonunuzdaki diğer uygulamaların Corona-Warn-App\'teki verilere erişme riskinin daha yüksek olduğu anlamına geliyor."</string>
     <!-- XTXT: App Root Detection link label -->
     <string name="root_dialog_faq_link_label">"Uygulama Güvenliği ile ilgili SSS"</string>
-    <!-- XTXT: Informs user about root detection: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#root_detection_android -->
-    <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XBUT: App Root Detection button -->
     <string name="root_dialog_button">"Tamam"</string>
+    <!-- XTXT: App Root Detection text for checkbox -->
+    <string name="root_dialog_suppress_checkbox">"Sonraki güncellemeye dek bildirimi gizle"</string>
 
     <!-- ####################################
         Incompatibility warning card

@@ -43,6 +43,7 @@ class OnboardingNotificationsFragment :
                         OnboardingNotificationsFragmentDirections
                             .actionOnboardingNotificationsFragmentToOnboardingAnalyticsFragment()
                     )
+                else -> Unit
             }
         }
     }

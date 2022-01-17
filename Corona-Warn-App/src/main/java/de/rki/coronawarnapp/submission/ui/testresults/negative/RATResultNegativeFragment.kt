@@ -63,7 +63,7 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
                     }
                     is RATResultNegativeNavigation.Back -> popBackStack()
                     is RATResultNegativeNavigation.OpenTestCertificateDetails ->
-                        findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.identifier))
+                        findNavController().navigate(TestCertificateDetailsFragment.uri(it.containerId.qrCodeHash))
                 }
             }
         }
@@ -106,26 +106,6 @@ class RATResultNegativeFragment : Fragment(R.layout.fragment_submission_antigen_
             localTime.toDayFormat(),
             localTime.toShortTimeFormat()
         )
-
-        val isAnonymousTest = with(uiState.test) {
-            firstName == null && lastName == null && dateOfBirth == null
-        }
-
-        val titleString = if (isAnonymousTest) {
-            R.string.submission_test_result_antigen_negative_proof_title_anonymous
-        } else {
-            R.string.submission_test_result_antigen_negative_proof_title
-        }
-        negativeTestProofTitle.text = getString(titleString)
-
-        val proofBodyString = if (isAnonymousTest) {
-            R.string.submission_test_result_antigen_negative_proof_body_anonymous
-        } else {
-            R.string.submission_test_result_antigen_negative_proof_body
-        }
-        negativeTestProofBody.text = getString(proofBodyString)
-
-        negativeTestProofAdditionalInformation.isGone = isAnonymousTest
 
         when (uiState.certificateState) {
             RATResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {

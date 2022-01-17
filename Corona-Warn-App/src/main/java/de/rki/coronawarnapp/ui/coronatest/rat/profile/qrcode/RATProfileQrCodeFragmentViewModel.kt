@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettings
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.coronatest.antigen.profile.VCard
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -16,13 +16,13 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
-    private val ratProfileSettings: RATProfileSettings,
+    private val ratProfileSettings: RATProfileSettingsDataStore,
     private val vCard: VCard,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
     private var qrCodeString: String? = null
-    val profile: LiveData<PersonProfile> = ratProfileSettings.profile.flow
+    val profile: LiveData<PersonProfile> = ratProfileSettings.profileFlow
         .map { profile ->
             PersonProfile(
                 profile,

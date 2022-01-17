@@ -106,3 +106,6 @@
 -keep class org.bouncycastle.pqc.** { *; }
 -keep class org.bouncycastle.asn1.** { *; }
 -keep class org.bouncycastle.jcajce.provider.** { *; }
+
+## WindowManager lib used in QRCode scanner (Prevent crash on foldable devices)
+-keep class androidx.window.** { *; }

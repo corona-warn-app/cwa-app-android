@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -133,6 +134,16 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
             add(
+                ConfirmedStatusCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
+                        twoGCertificate = vaccinationCertificate2,
+                        testCertificate = testCertificate
+                    ),
+                    colorShade = PersonColorShade.COLOR_1
+                )
+            )
+
+            add(
                 VaccinationInfoCard.Item(
                     vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
                     daysUntilImmunity = null,
@@ -212,6 +223,13 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
 
             add(
+                ConfirmedStatusCard.Item(
+                    admissionState = PersonCertificates.AdmissionState.TwoG(vaccinationCertificate1),
+                    colorShade = PersonColorShade.COLOR_1
+                )
+            )
+
+            add(
                 VaccinationInfoCard.Item(
                     vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
                     daysUntilImmunity = null,
@@ -239,7 +257,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
     }
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
-        every { certificateId } returns "testCertificateId"
+        every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { fullName } returns "Andrea Schneider"
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { test } returns mockk<DccV1.TestCertificateData>().apply {
@@ -260,7 +278,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             lastNameStandardized = "lastNameStandardized",
             dateOfBirthFormatted = "1943-04-18"
         )
-        every { isValid } returns true
+        every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
@@ -276,7 +294,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
             every { fullName } returns "Andrea Schneider"
-            every { certificateId } returns "vaccinationCertificateId$number"
+            every { uniqueCertificateIdentifier } returns
+                "RN:UVCI:01:AT:858CC${number}8CFCF5965EF82F60E493349AA5#K"
             every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
                     every { doseNumber } returns number
@@ -299,7 +318,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
@@ -309,13 +328,13 @@ class PersonDetailsFragmentTest : BaseUITest() {
     private fun mockRecoveryCertificate(): RecoveryCertificate =
         mockk<RecoveryCertificate>().apply {
             every { fullName } returns "Andrea Schneider"
-            every { certificateId } returns "recoveryCertificateId"
+            every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { dateOfBirthFormatted } returns "1981-03-20"
             every { validUntil } returns Instant.parse("2021-03-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false

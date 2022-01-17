@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
@@ -127,30 +128,44 @@ class PersonDetailsViewModelTest : BaseTest() {
                     it.certificateItems.run {
                         get(0) as PersonDetailsQrCard.Item
 
-                        get(1) as VaccinationInfoCard.Item
+                        get(1) as ConfirmedStatusCard.Item
 
-                        (get(2) as CwaUserCard.Item).apply {
+                        get(2) as VaccinationInfoCard.Item
+
+                        (get(3) as CwaUserCard.Item).apply {
                             onSwitch(true)
                             coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }
                         }
-                        (get(3) as RecoveryCertificateCard.Item).apply {
+                        (get(4) as RecoveryCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(rcContainerId)
+                            events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
+                                rcContainerId,
+                                colorShade
+                            )
                         }
 
-                        (get(4) as TestCertificateCard.Item).apply {
+                        (get(5) as TestCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(tcsContainerId)
-                        }
-
-                        (get(5) as VaccinationCertificateCard.Item).apply {
-                            onClick()
-                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                            events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(
+                                tcsContainerId,
+                                PersonColorShade.COLOR_INVALID
+                            )
                         }
 
                         (get(6) as VaccinationCertificateCard.Item).apply {
                             onClick()
-                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(vcContainerId)
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
+                                vcContainerId,
+                                PersonColorShade.COLOR_INVALID
+                            )
+                        }
+
+                        (get(7) as VaccinationCertificateCard.Item).apply {
+                            onClick()
+                            events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
+                                vcContainerId,
+                                PersonColorShade.COLOR_INVALID
+                            )
                         }
                     }
                 }
@@ -169,7 +184,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
-        every { certificateId } returns "testCertificateId"
+        every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { fullName } returns "Andrea Schneider"
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { test } returns mockk<DccV1.TestCertificateData>().apply {
@@ -184,7 +199,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
-        every { isValid } returns true
+        every { isDisplayValid } returns true
         every { getState() } returns State.Valid(headerExpiresAt)
         every { qrCodeToDisplay } returns CoilQrCode("qrCode")
     }
@@ -192,7 +207,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
         mockk<VaccinationCertificate>().apply {
             val localDate = Instant.parse("2021-06-01T11:35:00.000Z").toLocalDateUserTz()
-            every { certificateId } returns "vaccinationCertificateId$number"
+            every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { fullName } returns "Andrea Schneider"
             every { rawCertificate } returns mockk<VaccinationDccV1>().apply {
                 every { vaccination } returns mockk<DccV1.VaccinationData>().apply {
@@ -209,20 +224,20 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isSeriesCompletingShot } returns final
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
         mockk<RecoveryCertificate>().apply {
-            every { certificateId } returns "recoveryCertificateId"
+            every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { validUntil } returns Instant.parse("2021-05-31T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { containerId } returns rcContainerId
             every { fullName } returns "Andrea Schneider"
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
                 every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {
                     every { validFrom } returns LocalDate.now()

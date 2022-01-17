@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
+import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -56,8 +57,9 @@ class OnboardingTracingFragment : Fragment(R.layout.fragment_onboarding_tracing)
                             }
                         )
                     )
-                is OnboardingNavigationEvents.NavigateToOnboardingPrivacy ->
-                    (requireActivity() as OnboardingActivity).goBack()
+                is OnboardingNavigationEvents.NavigateToOnboardingPrivacy -> popBackStack()
+
+                else -> Unit
             }
         }
         vm.permissionRequestEvent.observe2(this) { permissionRequest ->

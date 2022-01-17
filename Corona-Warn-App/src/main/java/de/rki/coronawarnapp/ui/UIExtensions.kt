@@ -1,9 +1,7 @@
 package de.rki.coronawarnapp.ui
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.view.View
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -68,31 +66,26 @@ fun ActivityMainBinding.setupWithNavController2(
                 val hasShowArgument = arguments?.getBoolean("showBottomNav") ?: false
 
                 val isVisible = inShowList || hasShowArgument
-                if (isVisible) showBottomBar() else hideBottomAppBar()
-                onDestinationChanged(isVisible)
+                if (isVisible) {
+                    showBottomBar { onDestinationChanged(isVisible) }
+                } else {
+                    hideBottomAppBar { onDestinationChanged(isVisible) }
+                }
             }
         }
     )
 }
 
-private fun ActivityMainBinding.showBottomBar() {
+private fun ActivityMainBinding.showBottomBar(afterShow: () -> Unit) {
     bottomAppBar.isVisible = true
     bottomAppBar.performShow()
     scannerFab.show()
+    afterShow()
 }
 
-private fun ActivityMainBinding.hideBottomAppBar() {
+private fun ActivityMainBinding.hideBottomAppBar(afterHide: () -> Unit) {
     bottomAppBar.performHide()
-    bottomAppBar.animate().setListener(object : AnimatorListenerAdapter() {
-        var isCanceled = false
-        override fun onAnimationEnd(animation: Animator?) {
-            if (isCanceled) return
-            bottomAppBar.visibility = View.GONE
-            scannerFab.visibility = View.INVISIBLE
-        }
-
-        override fun onAnimationCancel(animation: Animator?) {
-            isCanceled = true
-        }
-    })
+    bottomAppBar.isVisible = false
+    scannerFab.isInvisible = true
+    afterHide()
 }

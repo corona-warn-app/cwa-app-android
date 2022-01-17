@@ -214,7 +214,7 @@ class TestCertificateRepository @Inject constructor(
 
         val updatedData = internalData.updateBlocking {
 
-            if (values.any { it.certificateId == qrCode.uniqueCertificateIdentifier }) {
+            if (values.any { it.qrCodeHash == qrCode.hash }) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
                 throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
             }
@@ -237,8 +237,7 @@ class TestCertificateRepository @Inject constructor(
         }
 
         // We just registered it, it MUST be available.
-        return updatedData.values
-            .single { it.certificateId == qrCode.uniqueCertificateIdentifier }
+        return updatedData.values.single { it.qrCodeHash == qrCode.hash }
     }
 
     /**
@@ -345,7 +344,10 @@ class TestCertificateRepository @Inject constructor(
                 refreshedCerts
                     .filter { it.error == null }
                     .map { it.certificateContainer }
-                    .forEach { this[it.containerId] = it }
+                    .forEach {
+                        remove(TestCertificateContainerId(it.data.identifier))
+                        this[it.containerId] = it
+                    }
             }
         }
 

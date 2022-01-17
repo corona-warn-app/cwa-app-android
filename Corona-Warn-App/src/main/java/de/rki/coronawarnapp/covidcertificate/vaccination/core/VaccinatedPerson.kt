@@ -39,6 +39,10 @@ data class VaccinatedPerson(
             .mapToVaccinationCertificateSet(state = CwaCovidCertificate.State.Recycled)
     }
 
+    private val allVaccinationCertificates: Set<VaccinationCertificate> by lazy {
+        vaccinationContainers.mapToVaccinationCertificateSet()
+    }
+
     private fun Collection<VaccinationContainer>.mapToVaccinationCertificateSet(
         state: CwaCovidCertificate.State? = null
     ): Set<VaccinationCertificate> = map {
@@ -51,6 +55,7 @@ data class VaccinatedPerson(
     val hasBoosterNotification: Boolean
         get() = data.boosterRule?.identifier != data.lastSeenBoosterRuleIdentifier
 
+    @Throws(NoSuchElementException::class)
     fun getDaysSinceLastVaccination(): Int {
         val today = Instant.now().toLocalDateUserTz()
         return Days.daysBetween(getNewestDoseVaccinatedOn(), today).days
@@ -63,11 +68,8 @@ data class VaccinatedPerson(
         it.containerId == containerId
     }
 
-    val fullName: String
-        get() = vaccinationCertificates.first().fullName
-
-    val dateOfBirthFormatted: String
-        get() = vaccinationCertificates.first().dateOfBirthFormatted
+    val fullName: String?
+        get() = allVaccinationCertificates.firstOrNull()?.fullName
 
     fun getVaccinationStatus(nowUTC: Instant = Instant.now()): Status {
         if (boosterRule != null) return Status.BOOSTER_ELIGIBLE
@@ -88,6 +90,7 @@ data class VaccinatedPerson(
         else IMMUNITY_WAITING_DAYS - Days.daysBetween(newestFullDose.vaccinatedOn, today).days
     }
 
+    @Throws(NoSuchElementException::class)
     private fun getNewestDoseVaccinatedOn(): LocalDate =
         vaccinationCertificates.maxOf { it.vaccinatedOn }
 

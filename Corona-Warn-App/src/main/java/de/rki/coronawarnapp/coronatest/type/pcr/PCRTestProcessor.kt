@@ -7,8 +7,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_PENDING
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
@@ -150,7 +150,7 @@ class PCRTestProcessor @Inject constructor(
             val isOlderThan21Days = test.isOlderThan21Days(nowUTC)
 
             if (isOlderThan21Days && test.testResult == PCR_OR_RAT_REDEEMED) {
-                Timber.tag(TAG).w("Not polling, test is older than 21 days.")
+                Timber.tag(TAG).w("No polling, test is older than 21 days and redeemed.")
                 return test
             }
 

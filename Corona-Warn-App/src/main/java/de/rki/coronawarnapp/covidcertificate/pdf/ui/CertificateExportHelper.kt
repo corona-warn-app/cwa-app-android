@@ -6,4 +6,4 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
 /**
  * Certificate could be exported only if DCC country is Germany (DE)
  */
-fun CwaCovidCertificate.canBeExported() = certificateCountry == DccCountry("DE").displayName()
+fun CwaCovidCertificate.canBeExported() = headerIssuer == DccCountry.DE

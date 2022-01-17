@@ -95,7 +95,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
     private fun validMockCertificate() = MutableLiveData(
         mockCertificate().apply {
-            every { isValid } returns true
+            every { isDisplayValid } returns true
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
         }
@@ -103,7 +103,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
     private fun invalidMockCertificate() = MutableLiveData(
         mockCertificate().apply {
-            every { isValid } returns false
+            every { isDisplayValid } returns false
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Invalid()
         }
@@ -111,7 +111,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
     private fun expiredMockCertificate() = MutableLiveData(
         mockCertificate().apply {
-            every { isValid } returns false
+            every { isDisplayValid } returns false
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
@@ -128,7 +128,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { validFromFormatted } returns "2021-06-07"
         every { validUntilFormatted } returns "2021-11-10"
         every { hasNotificationBadge } returns false
-        every { certificateId } returns "05930482748454836478695764787841"
+        every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
         every { validUntil } returns
             LocalDate.parse("2021-11-10", DateTimeFormat.forPattern("yyyy-MM-dd"))

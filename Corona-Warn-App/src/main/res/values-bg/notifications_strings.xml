@@ -21,8 +21,6 @@
     <string name="nm_faq">"За подробности относно настройките за Вашата операционна система, вижте нашата страница за ЧЗВ."</string>
     <!-- XTXT: notification management: delta onboarding: faq label -->
     <string name="nm_faq_label">"ЧЗВ"</string>
-    <!-- XTXT: notification management: delta onboarding: faq link -->
-    <string name="nm_faq_link">"https://www.coronawarn.app/en/faq/#notification_settings"</string>
 
     <!-- ####################################
                   Delta Onboarding

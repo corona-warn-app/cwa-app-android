@@ -110,7 +110,7 @@ class TestCertificateProcessor @Inject constructor(
             when {
                 e.errorCode == ErrorCode.PKR_409 && isMissingKeyPairEdgeCase -> {
                     // User was affected by bug #3638
-                    throw TestCertificateException(ErrorCode.BUG_3638_KEYPAIR_LOST)
+                    throw TestCertificateException(ErrorCode.KEYPAIR_LOST)
                 }
                 e.errorCode == ErrorCode.PKR_409 && !isMissingKeyPairEdgeCase -> {
                     Timber.tag(TAG).w("PublicKey already registered, assuming we can go ahead.")

@@ -205,7 +205,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
             )
         )
 
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(
                 listOf(
                     createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(1)),
@@ -242,7 +242,7 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
                 createEwRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
             )
         )
-        every { riskLevelStorage.latestCombinedEwPtRiskLevelResults } returns
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
             flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
 
         runBlockingTest {
