@@ -362,6 +362,28 @@
                     android:layout_marginStart="@dimen/guideline_start"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_fully_vaccinated_people_title"
+                    android:focusable="true"
+                    android:text="@string/statistics_people_with_booster_title" />
+
+                <TextView
+                    style="@style/body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
+                    android:contentDescription="@string/statistics_fully_vaccinated_people_text"
+                    android:focusable="true"
+                    android:text="@string/statistics_people_with_booster_text" />
+
+                <TextView
+                    style="@style/headline5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_start"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="@dimen/guideline_end"
                     android:contentDescription="@string/statistics_number_of_vaccine_doses_title"
                     android:focusable="true"
                     android:text="@string/statistics_number_of_vaccine_doses_title" />
