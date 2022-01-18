@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.StatisticsData
 import org.joda.time.Instant
@@ -61,6 +62,10 @@ class StatisticsParser @Inject constructor() {
                         keyFigures = keyFigures
                     )
                     GlobalStatsItem.Type.OCCUPIED_INTENSIVE_CARE_BEDS -> OccupiedIntensiveCareStats(
+                        updatedAt = updatedAt,
+                        keyFigures = keyFigures
+                    )
+                    GlobalStatsItem.Type.PERSONS_VACCINATED_WITH_BOOSTER -> PersonsVaccinatedWithBoosterStats(
                         updatedAt = updatedAt,
                         keyFigures = keyFigures
                     )
