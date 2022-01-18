@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvi
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
 import io.mockk.every
@@ -58,11 +57,6 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     private fun createTest(recycleTime: Instant): CoronaTest = mockk {
         every { recycledAt } returns recycleTime
         every { identifier } returns recycleTime.toString()
-    }
-
-    @Test
-    fun `Check days of retention for recycle bin`() {
-        RecycleBinCleanUpService.RETENTION_DAYS.standardDays shouldBe 30
     }
 
     @Test
