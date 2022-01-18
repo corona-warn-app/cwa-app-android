@@ -228,7 +228,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
         // Vaccination certificate of type Pfizer/Moderna/AZ with dose 3/3 < 14 days old
         val tooRecentVaccinationDose3Of3 = mockk<VaccinationCertificate>().apply {
-            every { headerIssuedAt } returns time
+            every { headerIssuedAt } returns time.minus(Duration.standardHours(23))
             every { rawCertificate.vaccination.doseNumber } returns 3
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
             every {
@@ -243,6 +243,18 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { headerIssuedAt } returns time.minus(Duration.standardDays(1))
             every { rawCertificate.vaccination.doseNumber } returns 3
             every { rawCertificate.vaccination.totalSeriesOfDoses } returns 3
+            every {
+                rawCertificate.vaccination.vaccinatedOn
+            } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
+            every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
+            every { isSeriesCompletingShot } returns true
+            every { getState() } returns mockk<State.Valid>()
+        }
+        // Vaccination certificate of type Pfizer/Moderna/AZ with dose 3/2 < 14 days old issue at a different time
+        val tooRecentVaccinationDose3Of2DifferentTime = mockk<VaccinationCertificate>().apply {
+            every { headerIssuedAt } returns time.minus(Duration.standardHours(22))
+            every { rawCertificate.vaccination.doseNumber } returns 3
+            every { rawCertificate.vaccination.totalSeriesOfDoses } returns 2
             every {
                 rawCertificate.vaccination.vaccinatedOn
             } returns time.minus(Duration.standardDays(1)).toLocalDateUtc()
@@ -408,21 +420,29 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
             determineAdmissionState() shouldBe TwoG(tooRecentVaccinationDose3Of3)
 
+            // Add Pfizer/Moderna/AZ 3/3 < 14 days after Pfizer/Moderna/AZ 3/3 < 14 days, issued at 1 day in sooner
+            add(tooRecentVaccinationDose3Of2DifferentTime)
+            // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
+            // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3,
+            // tooRecentVaccinationDose3Of3DifferentTime, tooRecentVaccinationDose3Of2DifferentTime
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of2DifferentTime
+            determineAdmissionState() shouldBe TwoG(tooRecentVaccinationDose3Of2DifferentTime)
+
             // Add RAT test < 48 hours old, vaccination certificate has priority over the rat test
             add(recentRat)
             // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
             // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3,
-            // tooRecentVaccinationDose3Of3DifferentTime, recentRat
-            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
-            determineAdmissionState() shouldBe TwoGPlusRAT(tooRecentVaccinationDose3Of3, recentRat)
+            // tooRecentVaccinationDose3Of3DifferentTime, tooRecentVaccinationDose3Of2DifferentTime, recentRat
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of2DifferentTime
+            determineAdmissionState() shouldBe TwoGPlusRAT(tooRecentVaccinationDose3Of2DifferentTime, recentRat)
 
             // Add PCR test < 72 hours old, vaccination certificate has priority over the pcr test
             add(recentPcr)
             // certificates = expiredRat, invalidRat, expiredPcr, invalidPcr, oldRecovery, incompleteVaccination,
             // incompleteTooRecentVaccination, vaccinationDose1Of1, vaccinationDose2Of2, tooRecentVaccinationDose3Of3,
-            // tooRecentVaccinationDose3Of3DifferentTime, recentRat, recentPcr
-            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of3
-            determineAdmissionState() shouldBe TwoGPlusPCR(tooRecentVaccinationDose3Of3, recentPcr)
+            // tooRecentVaccinationDose3Of3DifferentTime, tooRecentVaccinationDose3Of2DifferentTime, recentRat, recentPcr
+            findHighestPriorityCertificate() shouldBe tooRecentVaccinationDose3Of2DifferentTime
+            determineAdmissionState() shouldBe TwoGPlusPCR(tooRecentVaccinationDose3Of2DifferentTime, recentPcr)
 
             // Remove all Certificates
             clear()
