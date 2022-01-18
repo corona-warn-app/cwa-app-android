@@ -50,6 +50,7 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         inflate(context, R.layout.qr_code_scanner_preview_view, this)
         cameraPreview = findViewById(R.id.camera_preview)
         windowManager = WindowManager(context)
+        cameraPreview.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
     }
 
     fun enableTorch(enable: Boolean) {
