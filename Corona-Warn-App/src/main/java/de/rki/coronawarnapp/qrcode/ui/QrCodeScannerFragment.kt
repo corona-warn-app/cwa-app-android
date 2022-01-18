@@ -68,18 +68,13 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         uri?.let { viewModel.onImportFile(uri) }
     }
 
-    /*
-
-    TODO: Enable transition, Transition to scanner is disabled,
-     because it is causing a native crash in Camera PreviewView [CameraX]
-     see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val materialContainerTransform = MaterialContainerTransform()
         sharedElementEnterTransition = materialContainerTransform
         sharedElementReturnTransition = materialContainerTransform
-    }*/
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
@@ -116,12 +111,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
         }
 
-        /*
-         TODO: Enable transition, Transition to scanner is disabled,
-          because it is causing a native crash in Camera PreviewView [CameraX]
-          see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
         setupTransition()
-        */
     }
 
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
