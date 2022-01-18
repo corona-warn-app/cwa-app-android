@@ -37,4 +37,9 @@ class RecyclableTest : BaseTest() {
             isNotRecycled shouldBe true
         }
     }
+
+    @Test
+    fun `Check days of retention for recycle bin`() {
+        Recyclable.RETENTION_DAYS.standardDays shouldBe 30
+    }
 }
