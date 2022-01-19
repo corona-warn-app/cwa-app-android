@@ -16,18 +16,20 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Proof of 2G+ Status"</item>
-        <item>"Information in Case of a Negative Test Result"</item>
-        <item>"Hide Security Notification"</item>
-        <item>"Scanning Feature Improved"</item>
+        <item>"Notes in Case of a Positive Test Result"</item>
+        <item>"Statistics for Booster Vaccinations"</item>
+        <item>"Link to Social Media"</item>
+        <item>"Deletion Date for Recycle Bin Contents"</item>
+        <item>"Notification of Increased Risk"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"If you have a valid vaccination certificate or certificate of recovery and add a test certificate in the app, they are shown in a combined display in the certificate overview. You can switch between the QR code of the vaccination certificate or certificate of recovery and the test certificate by using the appropriate control. Both QR codes must be verified by the CovPassCheck app if proof of 2G+ is required."</item>
-        <item>"If you receive a negative test result, you will now receive additional recommendations if you still have acute symptoms."</item>
-        <item>"Since Version 2.12, a security notification is displayed if administrator rights are active on your smartphone. You can hide this notification until the next update."</item>
-        <item>"The scanning feature has been revised to enable even more reliable recognition and scanning of QR codes."</item>
+       <item>"The notes and recommended procedure in the case of a positive test result have been revised."</item>
+       <item>"In addition to the statistics for people who have received at least one vaccine dose and people who are fully vaccinated, you will now also find the number of people who have received a booster vaccination."</item>
+       <item>"If you want to keep up with the latest developments in the Corona-Warn-App and discuss them with others, you can follow our social media channels. You will now find a social media link on the home screen, under “More”."</item>
+       <item>"Every element that is moved to the recycle bin is permanently deleted after 30 days. This deletion date is now displayed for every element."</item>
+       <item>"You will now receive a notification if you have an increased risk of infection even if the app is open. This is intended to prevent you from overlooking a risk warning on the status tab if you are currently using a different tab. In addition, a red dot will appear on the status tab until you open this tab again."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -36,10 +38,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>
