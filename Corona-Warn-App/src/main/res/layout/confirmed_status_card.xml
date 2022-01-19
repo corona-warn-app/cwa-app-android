@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/badge"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:background="@drawable/ic_admission_badge_1"
         android:gravity="center"
@@ -43,7 +43,8 @@
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2G + Test" />
 
     <TextView
         android:id="@+id/body"
