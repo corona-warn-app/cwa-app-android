@@ -39,6 +39,7 @@
         android:gravity="center"
         android:paddingBottom="2dp"
         android:text="@string/confirmed_status_2g_badge"
+        tools:text="2G + Test"
         android:textColor="@color/colorTextEmphasizedButton"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@id/title"
