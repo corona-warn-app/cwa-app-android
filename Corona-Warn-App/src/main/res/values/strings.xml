@@ -731,6 +731,8 @@
     <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
     <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
     <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Falls Sie Risikofaktoren für eine schwere COVID-19-Erkrankung haben, lassen Sie sich ärztlich beraten. Bekannte Risikofaktoren sind z.B. Alter über 60 Jahre, Immunschwäche, Diabetes und hohes Übergewicht."</string>
     <!-- XLNK: Description for national technical contact and hotline information page -->
     <string name="information_contact_button_phone_description">"For calls from within Germany. The call is free of charge."</string>
     <!-- XLNK: Description for international technical contact and hotline information page -->
