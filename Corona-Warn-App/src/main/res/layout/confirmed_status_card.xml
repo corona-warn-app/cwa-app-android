@@ -39,13 +39,12 @@
         android:gravity="center"
         android:paddingBottom="2dp"
         android:text="@string/confirmed_status_2g_badge"
-        tools:text="2G + Test"
         android:textColor="@color/colorTextEmphasizedButton"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="2G + Test" />
+        tools:text="2G+ PCR Test" />
 
     <TextView
         android:id="@+id/body"

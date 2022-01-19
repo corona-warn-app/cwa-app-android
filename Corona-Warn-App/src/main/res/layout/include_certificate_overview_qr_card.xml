@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="@id/status_text"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="@id/status_text"
-        tools:text="2G + Test" />
+        tools:text="2G+ PCR Test" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
