@@ -1,30 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
-
-    <!-- ####################################
-
-                     Translation Comments
-
-    +============+============================================================================================================+
-    | Identifier |                                                Description                                                 |
-    +============+============================================================================================================+
-    | XACT       | Accessibility                                                                                              |
-    | XBUT       | Button Text                                                                                                |
-    | XHED       | Heading                                                                                                    |
-    | XLNK       | Hyperlink text                                                                                             |
-    | XMEN       | Menu header                                                                                                |
-    | XMIT       | Menu item                                                                                                  |
-    | XMSG       | Message text                                                                                               |
-    | XTXT       | General text                                                                                               |
-    | YDES       | Description                                                                                                |
-    | YMSE       | Error message                                                                                              |
-    | YMSG       | Message text long                                                                                          |
-    | YMSW       | Warning message                                                                                            |
-    | YTXT       | General text long                                                                                          |
-    | NOTR       | Not translatable, this won't be visible for the translators and will be copied over in all other languages |
-    +============================================================================================================+============|
-
-    ###################################### -->
-
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -757,6 +731,8 @@
     <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
     <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
     <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Falls Sie Risikofaktoren für eine schwere COVID-19-Erkrankung haben, lassen Sie sich ärztlich beraten. Bekannte Risikofaktoren sind z.B. Alter über 60 Jahre, Immunschwäche, Diabetes und hohes Übergewicht."</string>
     <!-- XLNK: Description for national technical contact and hotline information page -->
     <string name="information_contact_button_phone_description">"For calls from within Germany. The call is free of charge."</string>
     <!-- XLNK: Description for international technical contact and hotline information page -->
@@ -1454,13 +1430,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"New Infections"</string>
+    <string name="statistics_card_local_incidence_value_description">"new infections"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Information"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Delete"</string>
     <!-- XTXT: Local hospitalization statistics text -->
-    <string name="statistics_card_local_hospitalization_text">"Hospitalizations in %s"</string>
+    <string name="statistics_card_local_hospitalization_text">"hospitalizations in %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1491,7 +1467,7 @@
     <!-- XTXT: Statistics primary value description -->
     <string name="statistics_primary_value_description">"New Infections"</string>
     <!-- XTXT: Statistics secondary value description -->
-    <string name="statistics_secondary_value_description">"Hospitalizations"</string>
+    <string name="statistics_secondary_value_description">"hospitalizations"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1596,7 +1572,7 @@
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
-    <string name="statistics_vaccinated_with_booster_card_title">"Personen mit Auffrischimpfung"</string>
+    <string name="statistics_vaccinated_with_booster_card_title">"People Who Have Received a Booster Vaccination"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
@@ -1612,11 +1588,11 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"People who are fully vaccinated"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Number of persons reported to the RKI who have received all the necessary vaccine doses."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Number of persons reported to the RKI who have received all the vaccine doses necessary for basic immunization."</string>
     <!-- XTXT: Statistics number of people with booster title -->
-    <string name="statistics_people_with_booster_title">"Personen mit Auffrischimpfung"</string>
+    <string name="statistics_people_with_booster_title">"People Who Have Received a Booster Vaccination"</string>
     <!-- XTXT: Statistics number of people with booster text -->
-    <string name="statistics_people_with_booster_text">"Anzahl der an das RKI übermittelten Personen, die eine Auffrischimpfung erhalten haben."</string>
+    <string name="statistics_people_with_booster_text">"Number of persons reported to the RKI who have received a booster vaccination."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"People who have received at least one vaccine dose"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
@@ -1638,7 +1614,7 @@
     <!-- XHED: Title for occupied intensive care card -->
     <string name="statistics_occupied_intensive_care_card_title">"COVID-19 Patients in Intensive Care Units"</string>
     <!-- XTXT: Ocupation of all intensive care beds -->
-    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 Occupancy Rate of All Intensive Care Beds"</string>
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 occupancy rate of all intensive care beds"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
