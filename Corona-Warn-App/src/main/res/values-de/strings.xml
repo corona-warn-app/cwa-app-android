@@ -918,6 +918,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="qr_code_scan_body_subtitle">"Tests, Ihre Zertifikate, Check-ins und Nachweise bei Ticketbuchungen"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">Taschenlampe</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Datei öffnen"</string>
     <!-- XTXT: QR Code processing message  -->
