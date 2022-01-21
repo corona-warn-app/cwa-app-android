@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 class DccWalletInfoProvider @Inject constructor() {
 
-    val dccWalletInfos: Flow<DccWalletInfoWrapper> = emptyFlow()
+    val dccWalletInfos: Flow<Set<DccWalletInfoWrapper>> = emptyFlow()
 }

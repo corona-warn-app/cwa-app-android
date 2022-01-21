@@ -21,6 +21,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -100,6 +101,8 @@ class PersonCertificatesProviderTest : BaseTest() {
         personCertificatesSettings.apply {
             every { currentCwaUser } returns mockFlowPreference(identifierA)
         }
+
+        every { dccWalletInfoProvider.dccWalletInfos } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = PersonCertificatesProvider(
