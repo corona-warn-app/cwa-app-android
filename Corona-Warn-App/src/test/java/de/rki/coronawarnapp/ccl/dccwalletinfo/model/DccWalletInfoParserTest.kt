@@ -3,11 +3,9 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
-import timber.log.Timber
 
 @Suppress("MaxLineLength")
 internal class DccWalletInfoParserTest : BaseTest() {
