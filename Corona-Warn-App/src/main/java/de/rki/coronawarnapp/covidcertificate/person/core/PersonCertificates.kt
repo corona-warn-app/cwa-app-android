@@ -1,12 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoWrapper
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
 data class PersonCertificates(
+    @Deprecated("Please use DccWalletInfoWrapper")
     val certificates: List<CwaCovidCertificate>,
+    @Deprecated("Please use DccWalletInfoWrapper")
     val isCwaUser: Boolean = false,
-    val badgeCount: Int = 0
+    @Deprecated("Please use DccWalletInfoWrapper")
+    val badgeCount: Int = 0,
+    val dccWalletInfoWrapper: DccWalletInfoWrapper
 ) {
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier

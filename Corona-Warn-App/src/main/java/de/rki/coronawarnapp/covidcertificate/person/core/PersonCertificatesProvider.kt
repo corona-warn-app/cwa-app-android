@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoProvider
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoWrapper
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -23,6 +26,7 @@ class PersonCertificatesProvider @Inject constructor(
     vaccinationRepository: VaccinationRepository,
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
+    dccWalletInfoProvider: DccWalletInfoProvider,
     @AppScope private val appScope: CoroutineScope,
 ) {
     init {
@@ -38,7 +42,8 @@ class PersonCertificatesProvider @Inject constructor(
             recoveryWrappers.map { it.recoveryCertificate }
         },
         personCertificatesSettings.currentCwaUser.flow,
-    ) { vaccPersons, tests, recoveries, cwaUser ->
+        dccWalletInfoProvider.dccWalletInfos
+    ) { vaccPersons, tests, recoveries, cwaUser, dccWalletInfos ->
         Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recoveries, cwaUser)
 
         val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
@@ -62,7 +67,11 @@ class PersonCertificatesProvider @Inject constructor(
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
-                badgeCount = badgeCount
+                badgeCount = badgeCount,
+                dccWalletInfoWrapper = object : DccWalletInfoWrapper {
+                    override val dccWalletInfo: DccWalletInfo?
+                        get() = null // TODO provide dummy data
+                }
             )
         }.toSet()
     }.shareLatest(scope = appScope)
