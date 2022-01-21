@@ -1,5 +1,5 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
-interface DccWalletInfoWrapper {
-    val dccWalletInfo: DccWalletInfo?
-}
+data class DccWalletInfoWrapper(
+    val dccWalletInfo: DccWalletInfo = dummyDccWalletInfo
+)
