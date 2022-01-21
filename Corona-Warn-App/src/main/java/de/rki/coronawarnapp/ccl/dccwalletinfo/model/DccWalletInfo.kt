@@ -23,11 +23,22 @@ data class DccWalletInfo(
 )
 
 data class AdmissionState(
+    @JsonProperty("visible")
     val visible: Boolean,
+
+    @JsonProperty("badgeText")
     val badgeText: SingleText,
+
+    @JsonProperty("titleText")
     val titleText: SingleText,
+
+    @JsonProperty("subtitleText")
     val subtitleText: SingleText,
+
+    @JsonProperty("longText")
     val longText: SingleText,
+
+    @JsonProperty("faqAnchor")
     val faqAnchor: String
 )
 
@@ -35,67 +46,114 @@ data class AdmissionState(
  * Text
  */
 data class SingleText(
+    @JsonProperty("type")
     val type: String,
+
+    @JsonProperty("localizedText")
     val localizedText: LocalizedText,
+
+    @JsonProperty("parameters")
     val parameters: List<String>
 )
 
 data class QuantityText(
+    @JsonProperty("zero")
     val zero: String,
+
+    @JsonProperty("one")
     val one: String,
+
+    @JsonProperty("two")
     val two: String,
+
+    @JsonProperty("few")
     val few: String,
+
+    @JsonProperty("many")
     val many: String,
+
+    @JsonProperty("other")
     val other: String
 )
 
-data class LocalizedText(
-    val map: Map<String, String>
-)
+/**
+ * [LocalizedText], [QuantityLocalizedText] have dynamic json, i.e the keys change based on user locale
+ * "de" : "Hallo"
+ * language key should be used to get the required string
+ */
+typealias LocalizedText = Map<String, String>
 
-data class QuantityLocalizedText(
-    val map: Map<String, QuantityText>
-)
+typealias QuantityLocalizedText = Map<String, QuantityText>
 
 data class PluralText(
+    @JsonProperty("type")
     val type: String,
+
+    @JsonProperty("quantity")
     val quantity: Int,
+
+    @JsonProperty("localizedText")
     val localizedText: QuantityLocalizedText,
+
+    @JsonProperty("parameters")
     val parameters: List<Parameters>
 )
 
 data class BoosterNotification(
+    @JsonProperty("visible")
     val visible: Boolean
 )
 
 data class CertificateRef(
+    @JsonProperty("barcodeData")
     val barcodeData: String
 )
 
 data class Certificates(
+    @JsonProperty("buttonText")
     val buttonText: SingleText,
+
+    @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
 
 data class MostRelevantCertificate(
+    @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
 
 data class Parameters(
+    @JsonProperty("type")
     val type: String,
+
+    @JsonProperty("value")
     val value: String,
+
+    @JsonProperty("format")
     val format: String,
+
+    @JsonProperty("unit")
     val unit: String
 )
 
 data class VaccinationState(
+    @JsonProperty("visible")
     val visible: Boolean,
+
+    @JsonProperty("titleText")
     val titleText: SingleText,
+
+    @JsonProperty("subtitleText")
     val subtitleText: PluralText,
+
+    @JsonProperty("longText")
     val longText: SingleText,
+
+    @JsonProperty("faqAnchor")
     val faqAnchor: String
 )
 
 data class Verification(
+    @JsonProperty("certificates")
     val certificates: List<Certificates>
 )
