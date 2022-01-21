@@ -19,7 +19,7 @@ data class DccWalletInfo(
     val verification: Verification,
 
     @JsonProperty("validUntil")
-    val validUntil: String
+    val validUntil: String // TODO use Instant
 )
 
 data class AdmissionState(
