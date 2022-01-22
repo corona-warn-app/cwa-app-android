@@ -11,7 +11,7 @@ data class PersonCertificates(
     val isCwaUser: Boolean = false,
     @Deprecated("Please use DccWalletInfoWrapper")
     val badgeCount: Int = 0,
-    val dccWalletInfoWrapper: DccWalletInfoWrapper? = null
+    val dccWalletInfoWrapper: DccWalletInfoWrapper
 ) {
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier
@@ -20,6 +20,10 @@ data class PersonCertificates(
         certificates.findHighestPriorityCertificate()
     }
 
+    @Deprecated(
+        "Please use DccWalletInfoWrapper",
+        ReplaceWith("dccWalletInfoWrapper.admissionState)")
+    )
     val admissionState: AdmissionState?
         get() = certificates.determineAdmissionState()
 

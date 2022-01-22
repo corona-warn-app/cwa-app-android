@@ -42,6 +42,8 @@ data class AdmissionState(
     val faqAnchor: String
 )
 
+sealed interface CCLText
+
 /**
  * Text
  */
@@ -54,7 +56,7 @@ data class SingleText(
 
     @JsonProperty("parameters")
     val parameters: List<String>
-)
+) : CCLText
 
 data class QuantityText(
     @JsonProperty("zero")
@@ -97,7 +99,7 @@ data class PluralText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-)
+) : CCLText
 
 data class BoosterNotification(
     @JsonProperty("visible")
