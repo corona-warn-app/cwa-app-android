@@ -5,6 +5,9 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import java.util.Locale
 
+/**
+ * Formats [CCLText] lazily when accessed
+ */
 fun textResource(
     cclText: CCLText,
     locale: Locale = Locale.getDefault()
