@@ -5,11 +5,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
 data class PersonCertificates(
-    @Deprecated("Please use DccWalletInfoWrapper")
     val certificates: List<CwaCovidCertificate>,
-    @Deprecated("Please use DccWalletInfoWrapper")
     val isCwaUser: Boolean = false,
-    @Deprecated("Please use DccWalletInfoWrapper")
     val badgeCount: Int = 0,
     val dccWalletInfoWrapper: DccWalletInfoWrapper = DccWalletInfoWrapper()
 ) {
@@ -19,11 +16,6 @@ data class PersonCertificates(
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
         certificates.findHighestPriorityCertificate()
     }
-
-    @Deprecated(
-        "Please use DccWalletInfoWrapper",
-        ReplaceWith("dccWalletInfoWrapper.admissionState)")
-    )
     val admissionState: AdmissionState?
         get() = certificates.determineAdmissionState()
 
