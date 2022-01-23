@@ -16,7 +16,7 @@ private fun formatCCLText(cclText: CCLText, lang: String): String = when (cclTex
         val text = cclText.localizedText[lang]
             ?: cclText.localizedText[EN] // Default for other languages
             ?: cclText.localizedText[DE] // Default for EN
-        text!!.format(cclText.parameters) + lang
+        text!!.format(cclText.parameters) // TODO: provide fallback
     }
 }
 
