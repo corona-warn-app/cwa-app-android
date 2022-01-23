@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculation
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
@@ -12,7 +14,10 @@ import org.joda.time.Duration
 import javax.inject.Inject
 import javax.inject.Provider
 
-class DccWalletInfoUpdateTask @Inject constructor() : Task<DefaultProgress, Task.Result> {
+class DccWalletInfoUpdateTask @Inject constructor(
+    private val dccWalletInfoCalculation: DccWalletInfoCalculation,
+    private val dccWalletInfoRepository: DccWalletInfoRepository
+) : Task<DefaultProgress, Task.Result> {
     private val taskProgress = MutableStateFlow<DefaultProgress>(Started)
     override val progress: Flow<DefaultProgress> = taskProgress
 
