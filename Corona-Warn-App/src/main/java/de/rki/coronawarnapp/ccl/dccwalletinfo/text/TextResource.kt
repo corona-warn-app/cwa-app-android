@@ -12,5 +12,13 @@ fun textResource(
 
 private fun formatCCLText(cclText: CCLText, lang: String): String = when (cclText) {
     is PluralText -> "TODO: Format plural text"
-    is SingleText -> cclText.localizedText[lang]!!.format(cclText.parameters)
+    is SingleText -> {
+        val text = cclText.localizedText[lang]
+            ?: cclText.localizedText[EN] // Default for other languages
+            ?: cclText.localizedText[DE] // Default for EN
+        text!!.format(cclText.parameters) + lang
+    }
 }
+
+private const val EN = "en"
+private const val DE = "en"
