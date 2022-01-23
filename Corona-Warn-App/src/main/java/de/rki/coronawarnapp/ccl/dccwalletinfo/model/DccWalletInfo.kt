@@ -55,7 +55,7 @@ data class SingleText(
     val localizedText: LocalizedText,
 
     @JsonProperty("parameters")
-    val parameters: List<String>
+    val parameters: List<Parameters>
 ) : CCLText
 
 data class QuantityText(
