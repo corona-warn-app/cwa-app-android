@@ -101,7 +101,7 @@ class PersonCertificateCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val dccWalletInfoWrapper: DccWalletInfoWrapper,
+        val dccWalletInfoWrapper: DccWalletInfoWrapper = DccWalletInfoWrapper(),
         val admissionState: AdmissionState,
         val colorShade: PersonColorShade,
         val badgeCount: Int,

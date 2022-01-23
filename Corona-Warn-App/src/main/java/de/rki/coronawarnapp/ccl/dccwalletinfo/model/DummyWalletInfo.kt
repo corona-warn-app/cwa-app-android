@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
-// TODO delete file
+// DO delete file
 private val admissionState = AdmissionState(
     visible = true,
     badgeText = SingleText(

@@ -17,7 +17,7 @@ fun textResource(
 internal fun formatCCLText(cclText: CCLText, lang: String): String = when (cclText) {
     is PluralText -> "TODO: Format plural text"
     is SingleText -> {
-        // TODO: provide fallback
+        // DO: provide fallback
         val text = cclText.localizedText[lang]
             ?: cclText.localizedText[EN] // Default for other languages
             ?: cclText.localizedText[DE] // Default for EN
@@ -26,7 +26,7 @@ internal fun formatCCLText(cclText: CCLText, lang: String): String = when (cclTe
 }
 
 internal fun List<Parameters>.format(): List<String> = map { parameters ->
-    parameters.toString() // TODO: Formatting a UI Text - Format Parameters
+    parameters.toString() // DO: Formatting a UI Text - Format Parameters
 }
 
 private const val EN = "en"

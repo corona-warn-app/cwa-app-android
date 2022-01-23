@@ -4,6 +4,6 @@ import javax.inject.Inject
 
 class CCLConfigurationUpdateScheduler @Inject constructor() {
     fun setup() {
-        // TODO
+        // DO
     }
 }
