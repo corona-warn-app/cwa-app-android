@@ -915,6 +915,8 @@
     <string name="qr_code_scan_body_subtitle">"Testy, Twoje certyfikaty, zameldowania i weryfikacja podczas rezerwacji biletów"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"Lampa błyskowa"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Otwórz plik"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1222,7 +1224,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Okres izolacji wynosi zazwyczaj 10 dni. Obserwuj swoje objawy i monitoruj ich rozwój."</item>
-        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 15 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
+        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 10 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
         <item>"Zwróć szczególną uwagę na osoby, które nie zostaną powiadomione bezpośrednio przez aplikację, ponieważ nie posiadają smartfonów lub nie zainstalowały aplikacji."</item>
         <item>"Nawet jeśli nie masz już żadnych objawów i znów czujesz się dobrze, możesz nadal zarażać, dlatego prosimy o przestrzeganie wyznaczonego okresu izolacji."</item>
     </string-array>
@@ -1347,6 +1349,8 @@
     <string name="submission_status_card_positive_result_contact">"Organ ds. zdrowia publicznego może skontaktować się z Tobą w ciągu kilku najbliższych dni."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Udostępnij swoje losowe identyfikatory, aby umożliwić ostrzeganie innych osób."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Jeśli występują u Ciebie czynniki ryzyka rozwinięcia ciężkiej choroby spowodowanej COVID-19, zasięgnij porady lekarza. Znane czynniki ryzyka obejmują wiek powyżej 60 lat, immunosupresję, cukrzycę i otyłość."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Twoja %s diagnoza:"</string>
