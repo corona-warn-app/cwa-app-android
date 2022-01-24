@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 data class DccWalletInfo(
     @JsonProperty("admissionState")
@@ -129,17 +130,27 @@ data class MostRelevantCertificate(
 
 data class Parameters(
     @JsonProperty("type")
-    val type: String, // Required
+    val type: Type, // Required
 
     @JsonProperty("value")
     val value: Any, // Required, it could be a Number, String, or Boolean
 
     @JsonProperty("format")
-    val format: String?, // Optional
+    val format: String? = null, // Optional
 
     @JsonProperty("unit")
-    val unit: String? // Optional
-)
+    val unit: String? = null // Optional
+) {
+    enum class Type(private val type: String) {
+        STRING("string"),
+        NUMBER("number"),
+        BOOLEAN("boolean"),
+        DATE("date");
+
+        @JsonValue
+        fun paramType() = type
+    }
+}
 
 data class VaccinationState(
     @JsonProperty("visible")

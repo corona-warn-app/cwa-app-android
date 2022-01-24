@@ -69,7 +69,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
             ),
             parameters = listOf(
                 Parameters(
-                    type = "date",
+                    type = Parameters.Type.DATE,
                     value = "2021-12-01",
                     format = "date-diff-now",
                     unit = "day"
@@ -149,7 +149,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
         ),
         parameters = listOf(
             Parameters(
-                type = "number",
+                type = Parameters.Type.NUMBER,
                 value = 5.5,
                 format = null,
                 unit = null
