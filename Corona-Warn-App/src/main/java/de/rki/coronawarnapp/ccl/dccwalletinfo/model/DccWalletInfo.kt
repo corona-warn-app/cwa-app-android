@@ -92,7 +92,10 @@ data class PluralText(
     val type: String,
 
     @JsonProperty("quantity")
-    val quantity: Int,
+    val quantity: Int? = null,
+
+    @JsonProperty("quantityParameterIndex")
+    val quantityParameterIndex: Int? = null,
 
     @JsonProperty("localizedText")
     val localizedText: QuantityLocalizedText,
