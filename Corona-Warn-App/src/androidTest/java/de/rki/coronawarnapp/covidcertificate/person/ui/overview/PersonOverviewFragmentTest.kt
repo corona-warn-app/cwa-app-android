@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -54,7 +55,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel.apply {
             every { events } returns SingleLiveEvent()
-            every { personCertificates } returns MutableLiveData()
+            every { uiState } returns MutableLiveData()
         }
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
@@ -78,49 +79,49 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_pending() {
-        every { viewModel.personCertificates } returns MutableLiveData(listItemWithPendingItem())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(listItemWithPendingItem()))
         takeSelfie("pending")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_updating() {
-        every { viewModel.personCertificates } returns MutableLiveData(listItemWithUpdatingItem())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(listItemWithUpdatingItem()))
         takeSelfie("updating")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_one_person() {
-        every { viewModel.personCertificates } returns MutableLiveData(onePersonItem())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(onePersonItem()))
         takeSelfie("one_person")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_two_g_plus_certificate() {
-        every { viewModel.personCertificates } returns MutableLiveData(twoGPlusCertificate())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificate()))
         takeSelfie("two_g_plus")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_two_g_plus_certificate_with_badge() {
-        every { viewModel.personCertificates } returns MutableLiveData(twoGPlusCertificateWithBadge())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificateWithBadge()))
         takeSelfie("two_g_plus_with_badge")
     }
 
     @Test
     @Screenshot
     fun capture_fragment_one_person_with_badge() {
-        every { viewModel.personCertificates } returns MutableLiveData(onePersonItemWithBadgeCount())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(onePersonItemWithBadgeCount()))
         takeSelfieWithBottomNavBadge("one_person_with_badge", R.id.covid_certificates_graph, 1)
     }
 
     @Test
     @Screenshot
     fun capture_fragment_many_persons() {
-        every { viewModel.personCertificates } returns MutableLiveData(personsItems())
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(personsItems()))
         takeSelfie("many_persons")
 
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(1))

@@ -94,17 +94,23 @@ class PersonOverviewViewModelTest : BaseTest() {
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as CovidTestCertificatePendingCard.Item).apply {
-                certificate.containerId shouldBe TestCertificateContainerId(
-                    "testCertificateContainerId"
-                )
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
-            }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as CovidTestCertificatePendingCard.Item).apply {
+                    certificate.containerId shouldBe TestCertificateContainerId(
+                        "testCertificateContainerId"
+                    )
+                }
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                }
             }
         }
     }
@@ -123,17 +129,23 @@ class PersonOverviewViewModelTest : BaseTest() {
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as CovidTestCertificatePendingCard.Item).apply {
-                certificate.containerId shouldBe TestCertificateContainerId(
-                    "testCertificateContainerId"
-                )
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
-            }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as CovidTestCertificatePendingCard.Item).apply {
+                    certificate.containerId shouldBe TestCertificateContainerId(
+                        "testCertificateContainerId"
+                    )
+                }
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                }
             }
         }
     }
@@ -150,15 +162,21 @@ class PersonOverviewViewModelTest : BaseTest() {
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
-            }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                }
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+                }
             }
         }
     }
@@ -174,21 +192,27 @@ class PersonOverviewViewModelTest : BaseTest() {
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
-            } // CWA user
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
-            }
-            (get(3) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
-            }
-            (get(4) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee A"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                } // CWA user
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+                }
+                (personCertificates[3] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+                }
+                (personCertificates[4] as PersonCertificateCard.Item).apply {
+                    admissionState.primaryCertificate.fullName shouldBe "Zeebee A"
+                }
             }
         }
     }
