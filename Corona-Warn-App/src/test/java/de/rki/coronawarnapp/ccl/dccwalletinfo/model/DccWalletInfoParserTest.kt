@@ -119,14 +119,14 @@ internal class DccWalletInfoParserTest : BaseTest() {
     )
 
     @Test
-    fun `Serialize DCCWalletInfo`() {
+    fun `Deserialize DCCWalletInfo`() {
         javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").use {
             mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfo
         }
     }
 
     @Test
-    fun `Deserialize DCCWalletInfo`() {
+    fun `Serialize DCCWalletInfo`() {
         javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").bufferedReader().use {
             mapper.writeValueAsString(dccWalletInfo).toComparableJsonPretty() shouldBe
                 it.readText().toComparableJsonPretty()
