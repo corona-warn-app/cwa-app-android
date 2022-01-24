@@ -132,4 +132,19 @@ internal class DccWalletInfoParserTest : BaseTest() {
                 it.readText().toComparableJsonPretty()
         }
     }
+
+    @Test
+    fun `Deserialize DCCWalletInfo - Plural Indexed`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfo
+        }
+    }
+
+    @Test
+    fun `Serialize DCCWalletInfo - Plural Indexed`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").bufferedReader().use {
+            mapper.writeValueAsString(dccWalletInfo).toComparableJsonPretty() shouldBe
+                it.readText().toComparableJsonPretty()
+        }
+    }
 }
