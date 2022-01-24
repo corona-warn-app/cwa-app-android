@@ -131,6 +131,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             Back -> popBackStack()
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
+            OpenBoosterInfoDetails ->
+                doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToBoosterInfoDetailsFragment())
         }
     }
 

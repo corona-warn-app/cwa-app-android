@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContai
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
@@ -91,6 +92,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     isLoading,
                     validateCertificate = { onValidateCertificate(it) },
                     onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
+                )
+            )
+
+            add(
+                BoosterCard.Item(
+                    onClick = { events.postValue(OpenBoosterInfoDetails) }
                 )
             )
 

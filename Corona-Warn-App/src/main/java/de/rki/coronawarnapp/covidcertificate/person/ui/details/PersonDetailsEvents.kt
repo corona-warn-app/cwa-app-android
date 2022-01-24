@@ -27,3 +27,4 @@ data class ValidationStart(val containerId: CertificateContainerId) : PersonDeta
 data class ShowErrorDialog(val error: Throwable) : PersonDetailsEvents()
 object Back : PersonDetailsEvents()
 object OpenCovPassInfo : PersonDetailsEvents()
+object OpenBoosterInfoDetails: PersonDetailsEvents()
