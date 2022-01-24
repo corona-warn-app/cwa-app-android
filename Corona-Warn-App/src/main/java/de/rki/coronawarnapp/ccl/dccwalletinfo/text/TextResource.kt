@@ -30,4 +30,4 @@ internal fun List<Parameters>.format(): List<String> = map { parameters ->
 }
 
 private const val EN = "en"
-private const val DE = "en"
+private const val DE = "de"
