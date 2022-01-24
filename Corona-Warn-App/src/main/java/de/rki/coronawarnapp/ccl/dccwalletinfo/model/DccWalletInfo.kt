@@ -132,13 +132,13 @@ data class Parameters(
     val type: String, // Required
 
     @JsonProperty("value")
-    val value: String,// Required
+    val value: Any, // Required, it could be a Number, String, or Boolean
 
     @JsonProperty("format")
-    val format: String?,// Optional
+    val format: String?, // Optional
 
     @JsonProperty("unit")
-    val unit: String?// Optional
+    val unit: String? // Optional
 )
 
 data class VaccinationState(

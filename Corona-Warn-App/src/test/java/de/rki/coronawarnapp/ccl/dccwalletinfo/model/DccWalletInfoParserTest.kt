@@ -133,18 +133,48 @@ internal class DccWalletInfoParserTest : BaseTest() {
         }
     }
 
+    private val pluralTextIndexed = PluralText(
+        type = "plural",
+        quantity = null,
+        quantityParameterIndex = 0,
+        localizedText = mapOf(
+            "en" to QuantityText(
+                zero = "No time left",
+                one = "%u minute left",
+                two = "%u minutes left",
+                few = "%u minutes left",
+                many = "%u minutes left",
+                other = "%u minutes left"
+            )
+        ),
+        parameters = listOf(
+            Parameters(
+                type = "number",
+                value = 5.5,
+                format = null,
+                unit = null
+            )
+        )
+    )
+    private val dccWalletInfoPluralIndexed = dccWalletInfo.copy(
+        vaccinationState = dccWalletInfo.vaccinationState.copy(
+            subtitleText = pluralTextIndexed
+        )
+    )
+
     @Test
     fun `Deserialize DCCWalletInfo - Plural Indexed`() {
-        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").use {
-            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfo
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_plural_indexed.json").use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfoPluralIndexed
         }
     }
 
     @Test
     fun `Serialize DCCWalletInfo - Plural Indexed`() {
-        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").bufferedReader().use {
-            mapper.writeValueAsString(dccWalletInfo).toComparableJsonPretty() shouldBe
-                it.readText().toComparableJsonPretty()
-        }
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_plural_indexed.json")
+            .bufferedReader().use {
+                mapper.writeValueAsString(dccWalletInfoPluralIndexed).toComparableJsonPretty() shouldBe
+                    it.readText().toComparableJsonPretty()
+            }
     }
 }
