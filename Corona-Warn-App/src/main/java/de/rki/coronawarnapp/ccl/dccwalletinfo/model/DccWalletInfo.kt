@@ -129,16 +129,16 @@ data class MostRelevantCertificate(
 
 data class Parameters(
     @JsonProperty("type")
-    val type: String,
+    val type: String, // Required
 
     @JsonProperty("value")
-    val value: String,
+    val value: String,// Required
 
     @JsonProperty("format")
-    val format: String,
+    val format: String?,// Optional
 
     @JsonProperty("unit")
-    val unit: String
+    val unit: String?// Optional
 )
 
 data class VaccinationState(
