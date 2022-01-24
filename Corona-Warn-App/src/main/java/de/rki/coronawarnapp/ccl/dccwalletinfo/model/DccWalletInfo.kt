@@ -133,7 +133,7 @@ data class Parameters(
     val type: Type, // Required
 
     @JsonProperty("value")
-    val value: Any, // Required, it could be a Number, String, or Boolean
+    val value: Any, // Required, it could be a Number, String, Date(String), or Boolean
 
     @JsonProperty("format")
     val format: String? = null, // Optional
