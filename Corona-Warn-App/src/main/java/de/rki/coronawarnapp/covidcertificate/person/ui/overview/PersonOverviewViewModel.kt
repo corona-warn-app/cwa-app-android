@@ -68,6 +68,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 if (admissionState != null) {
                     add(
                         PersonCertificateCard.Item(
+                            dccWalletInfoWrapper = person.dccWalletInfoWrapper,
                             admissionState = admissionState,
                             colorShade = color,
                             badgeCount = person.badgeCount,

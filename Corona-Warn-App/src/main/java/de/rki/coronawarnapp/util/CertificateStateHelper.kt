@@ -144,7 +144,7 @@ fun PersonOverviewItemBinding.setUIState(
     primaryCertificate: CwaCovidCertificate,
     secondaryCertificate: CwaCovidCertificate? = null,
     colorShade: PersonColorShade,
-    statusBadgeText: Int = 0,
+    statusBadgeText: String = "",
     badgeCount: Int = 0,
     onCovPassInfoAction: () -> Unit
 ) {
@@ -163,10 +163,10 @@ fun PersonOverviewItemBinding.setUIState(
     certificateBadgeText.isVisible = badgeCount != 0
     qrCodeCard.apply {
         loadQrImage(primaryCertificate)
-        statusText.isVisible = statusBadgeText != 0
-        statusBadge.isVisible = statusBadgeText != 0
-        if (statusBadgeText != 0) {
-            statusBadge.text = context.getString(statusBadgeText)
+        statusText.isVisible = statusBadgeText.isNotEmpty()
+        statusBadge.isVisible = statusBadgeText.isNotEmpty()
+        if (statusBadgeText.isNotEmpty()) {
+            statusBadge.text = statusBadgeText
         }
         covpassInfoTitle.isVisible = valid
         covpassInfoButton.isVisible = valid
