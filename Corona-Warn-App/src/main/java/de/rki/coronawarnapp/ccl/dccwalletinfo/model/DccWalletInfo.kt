@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 
 data class DccWalletInfo(
@@ -23,34 +25,46 @@ data class DccWalletInfo(
     val validUntil: String // TODO use Instant
 )
 
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "type",
+    visible = true
+)
+@JsonSubTypes(
+    JsonSubTypes.Type(SingleText::class, name = "string"),
+    JsonSubTypes.Type(PluralText::class, name = "plural")
+)
+sealed interface CCLText {
+    val type: String
+}
+
 data class AdmissionState(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("badgeText")
-    val badgeText: SingleText,
+    val badgeText: CCLText,
 
     @JsonProperty("titleText")
-    val titleText: SingleText,
+    val titleText: CCLText,
 
     @JsonProperty("subtitleText")
-    val subtitleText: SingleText,
+    val subtitleText: CCLText,
 
     @JsonProperty("longText")
-    val longText: SingleText,
+    val longText: CCLText,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String
 )
-
-sealed interface CCLText
 
 /**
  * Text
  */
 data class SingleText(
     @JsonProperty("type")
-    val type: String,
+    override val type: String,
 
     @JsonProperty("localizedText")
     val localizedText: LocalizedText,
@@ -90,7 +104,7 @@ typealias QuantityLocalizedText = Map<String, QuantityText>
 
 data class PluralText(
     @JsonProperty("type")
-    val type: String,
+    override val type: String,
 
     @JsonProperty("quantity")
     val quantity: Int? = null,
@@ -117,7 +131,7 @@ data class CertificateRef(
 
 data class Certificates(
     @JsonProperty("buttonText")
-    val buttonText: SingleText,
+    val buttonText: CCLText,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
@@ -155,14 +169,14 @@ data class Parameters(
         DATE_DIFF_NOW("date-diff-now");
 
         @JsonValue
-        fun formatType() = type
+        fun paramFormatType() = type
     }
 
     enum class UnitType(private val type: String) {
         DAY("day");
 
         @JsonValue
-        fun unitType() = type
+        fun paramUnitType() = type
     }
 }
 
@@ -171,13 +185,13 @@ data class VaccinationState(
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: SingleText,
+    val titleText: CCLText,
 
     @JsonProperty("subtitleText")
-    val subtitleText: PluralText,
+    val subtitleText: CCLText,
 
     @JsonProperty("longText")
-    val longText: SingleText,
+    val longText: CCLText,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String
