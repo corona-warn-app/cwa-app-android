@@ -49,8 +49,8 @@ private val vaccinationState = VaccinationState(
             Parameters(
                 type = Parameters.Type.DATE,
                 value = "2021-12-01",
-                format = "date-diff-now",
-                unit = "day"
+                format = Parameters.FormatType.DATE_DIFF_NOW,
+                unit = Parameters.UnitType.DAY
             )
         )
     ),
@@ -88,6 +88,7 @@ private val verification = Verification(
         )
     )
 )
+
 @Suppress("MaxLineLength")
 private val mostRelevantCertificate = MostRelevantCertificate(
     certificateRef = CertificateRef(

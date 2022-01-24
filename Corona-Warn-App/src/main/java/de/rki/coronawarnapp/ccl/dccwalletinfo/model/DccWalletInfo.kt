@@ -136,10 +136,10 @@ data class Parameters(
     val value: Any, // Required, it could be a Number, String, Date(String), or Boolean
 
     @JsonProperty("format")
-    val format: String? = null, // Optional
+    val format: FormatType? = null, // Optional
 
     @JsonProperty("unit")
-    val unit: String? = null // Optional
+    val unit: UnitType? = null // Optional
 ) {
     enum class Type(private val type: String) {
         STRING("string"),
@@ -149,6 +149,20 @@ data class Parameters(
 
         @JsonValue
         fun paramType() = type
+    }
+
+    enum class FormatType(private val type: String) {
+        DATE_DIFF_NOW("date-diff-now");
+
+        @JsonValue
+        fun formatType() = type
+    }
+
+    enum class UnitType(private val type: String) {
+        DAY("day");
+
+        @JsonValue
+        fun unitType() = type
     }
 }
 

@@ -18,8 +18,8 @@ internal class ParametersParserTest : BaseTest() {
         Parameters(
             type = Parameters.Type.DATE,
             value = "2021-12-01",
-            format = "date-diff-now",
-            unit = "day"
+            format = Parameters.FormatType.DATE_DIFF_NOW,
+            unit = Parameters.UnitType.DAY
         ),
         Parameters(
             type = Parameters.Type.BOOLEAN,
