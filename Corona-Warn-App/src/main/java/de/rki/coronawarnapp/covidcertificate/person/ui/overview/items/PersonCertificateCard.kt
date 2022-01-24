@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoWrapper
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
@@ -30,13 +31,13 @@ class PersonCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-
+        val walletInfo = curItem.dccWalletInfoWrapper
         when (curItem.admissionState) {
             is TwoG -> {
                 setUIState(
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = R.string.confirmed_status_2g_badge,
+                    statusBadgeText = walletInfo.admissionBadgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -46,7 +47,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = R.string.confirmed_status_2g_plus_badge,
+                    statusBadgeText = walletInfo.admissionBadgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -57,7 +58,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = R.string.confirmed_status_2g_plus_badge,
+                    statusBadgeText = walletInfo.admissionBadgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -67,7 +68,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = R.string.confirmed_status_3g_plus_badge,
+                    statusBadgeText = walletInfo.admissionBadgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -77,7 +78,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = R.string.confirmed_status_3g_badge,
+                    statusBadgeText = walletInfo.admissionBadgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -100,6 +101,7 @@ class PersonCertificateCard(parent: ViewGroup) :
     }
 
     data class Item(
+        val dccWalletInfoWrapper: DccWalletInfoWrapper = DccWalletInfoWrapper(),
         val admissionState: AdmissionState,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
@@ -107,6 +109,6 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long =
-            admissionState.primaryCertificate.personIdentifier.codeSHA256.hashCode().toLong()
+            dccWalletInfoWrapper.hashCode().toLong()
     }
 }
