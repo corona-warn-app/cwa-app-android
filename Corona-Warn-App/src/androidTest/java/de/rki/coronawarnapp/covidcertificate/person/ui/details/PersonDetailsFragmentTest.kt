@@ -208,7 +208,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             val ruleDescriptionDE = mockk<DccValidationRule.Description> {
                 Locale.GERMAN.also {
-                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da sie for mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
+                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
                     every { languageCode } returns it.language
                 }
             }

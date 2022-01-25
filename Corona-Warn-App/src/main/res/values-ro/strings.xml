@@ -24,6 +24,8 @@
     <string name="menu_settings">"Setări"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Coș de reciclare"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Social media"</string>
 
     <!-- ####################################
                Notification
@@ -913,6 +915,8 @@
     <string name="qr_code_scan_body_subtitle">"Testele, certificatele dvs., check-inurile și verificarea la emiterea biletului"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Puteți scana check-inurile pentru a restaura evenimentele pe care le-ați șters."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"Lanternă"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Deschidere fișier"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1220,7 +1224,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Perioada de izolare este de obicei de 10 zile. Monitorizați cu atenție modul în care evoluează simptomele dvs."</item>
-        <item>"Autoritatea dvs. de sănătate publică vă va solicita să întocmiți o listă a persoanelor cu care ați intrat în contact. Aceasta trebuie să cuprindă toate persoanele cu care ați avut contact strâns (mai puțin de 2 metri, conversații față în față) timp de peste 15 minute începând cu două zile înainte de a vă îmbolnăvi. Puteți utiliza jurnalul de contacte în acest scop: trebuie doar să exportați intrările și apoi să le tipăriți sau să le expediați pe e-mail."</item>
+        <item>"Autoritatea dvs. de sănătate publică vă va solicita să întocmiți o listă a persoanelor cu care ați intrat în contact. Aceasta trebuie să cuprindă toate persoanele cu care ați avut contact strâns (mai puțin de 2 metri, conversații față în față) timp de peste 10 minute începând cu două zile înainte de a vă îmbolnăvi. Puteți utiliza jurnalul de contacte în acest scop: trebuie doar să exportați intrările și apoi să le tipăriți sau să le expediați pe e-mail."</item>
         <item>"Luați în considerare în special persoanele care nu vor fi notificate direct de aplicație dacă nu au un smartphone sau dacă nu și-au instalat aplicația."</item>
         <item>"Chiar și când nu mai aveți simptome și vă simțiți din nou bine, tot puteți să fiți contagios. Vă rugăm să respectați perioada de izolare indicată."</item>
     </string-array>
@@ -1345,6 +1349,8 @@
     <string name="submission_status_card_positive_result_contact">"Autoritatea de sănătate publică vă poate contacta în următoarele zile."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Trimiteți ID-ul dvs. aleatoriu pentru a-i avertiza și pe alții."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Dacă aveți factori de risc de boală gravă în urma infectării cu COVID-19, adresați-vă medicului pentru un consult. Factorii de risc cunoscuți includ vârsta de peste 60 de ani, imunodepresia, diabetul și obezitatea."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Diagnosticul dvs. pentru %s:"</string>
@@ -1426,13 +1432,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"Infectări noi"</string>
+    <string name="statistics_card_local_incidence_value_description">"infectări noi"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Informații"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Ștergere"</string>
     <!-- XTXT: Local hospitalization statistics text -->
-    <string name="statistics_card_local_hospitalization_text">"Spitalizări în %s"</string>
+    <string name="statistics_card_local_hospitalization_text">"spitalizări în %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1463,7 +1469,7 @@
     <!-- XTXT: Statistics primary value description -->
     <string name="statistics_primary_value_description">"Infectări noi"</string>
     <!-- XTXT: Statistics secondary value description -->
-    <string name="statistics_secondary_value_description">"Spitalizări"</string>
+    <string name="statistics_secondary_value_description">"spitalizări"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1566,6 +1572,10 @@
     <!-- XHED: Title for vaccinated completely statistics card -->
     <string name="statistics_vaccinated_completely_card_title">"Persoane care sunt complet vaccinate"</string>
 
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Persoane care au primit o doză booster"</string>
+
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Doze de vaccin administrate"</string>
@@ -1580,7 +1590,11 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"Persoane care sunt complet vaccinate"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Numărul de persoane raportat la RKI care au primit toate dozele de vaccin necesare."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Numărul de persoane raportat la RKI care au primit toate dozele de vaccin necesare pentru imunizarea de bază."</string>
+    <!-- XTXT: Statistics number of people with booster title -->
+    <string name="statistics_people_with_booster_title">"Persoane care au primit doza booster"</string>
+    <!-- XTXT: Statistics number of people with booster text -->
+    <string name="statistics_people_with_booster_text">"Numărul de persoane raportat la RKI care au primit o doză booster."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"Persoane care au primit cel puțin o doză de vaccin"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->

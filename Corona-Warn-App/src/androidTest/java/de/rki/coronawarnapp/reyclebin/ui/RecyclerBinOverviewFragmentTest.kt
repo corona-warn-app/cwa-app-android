@@ -121,6 +121,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             }
         }
         every { sampleCollectedAt } returns Instant.parse("2021-06-30T11:35:00.000Z")
+        every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }
 
     private fun mockVaccinationCertificate(): VaccinationCertificate =
@@ -131,6 +132,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { doseNumber } returns 1
             every { totalSeriesOfDoses } returns 2
             every { vaccinatedOn } returns localDate
+            every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -138,15 +140,18 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { containerId } returns RecoveryCertificateContainerId("3")
             every { fullName } returns "Thomas Schneider"
             every { validUntil } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTz()
+            every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockRATest(): CoronaTest =
         mockk<RACoronaTest> {
             every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+            every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockPCRTest() = mockk<PCRCoronaTest> {
         every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+        every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }
 }
 

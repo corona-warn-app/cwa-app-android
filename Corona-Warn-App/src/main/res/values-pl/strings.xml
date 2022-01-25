@@ -24,6 +24,8 @@
     <string name="menu_settings">"Ustawienia"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Kosz"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Media społecznościowe"</string>
 
     <!-- ####################################
                Notification
@@ -913,6 +915,8 @@
     <string name="qr_code_scan_body_subtitle">"Testy, Twoje certyfikaty, zameldowania i weryfikacja podczas rezerwacji biletów"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Możesz zeskanować zameldowania, aby przywrócić usunięte wydarzenia."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"Lampa błyskowa"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Otwórz plik"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1220,7 +1224,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Okres izolacji wynosi zazwyczaj 10 dni. Obserwuj swoje objawy i monitoruj ich rozwój."</item>
-        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 15 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
+        <item>"Zostaniesz poproszony(-a) przez organ ds. zdrowia publicznego o stworzenie listy osób, z którymi miałeś(-aś) kontakt. Powinna ona obejmować wszystkie osoby, z którymi miałeś(-aś) bliski kontakt (w odległości mniejszej niż 2 metry, rozmowa twarzą w twarz) przez ponad 10 minut w ciągu dwóch dni poprzedzających zachorowanie. Możesz do tego celu wykorzystać swój dziennik kontaktów: po prostu wyeksportuj wpisy, a następnie wydrukuj je lub wyślij pocztą e-mail."</item>
         <item>"Zwróć szczególną uwagę na osoby, które nie zostaną powiadomione bezpośrednio przez aplikację, ponieważ nie posiadają smartfonów lub nie zainstalowały aplikacji."</item>
         <item>"Nawet jeśli nie masz już żadnych objawów i znów czujesz się dobrze, możesz nadal zarażać, dlatego prosimy o przestrzeganie wyznaczonego okresu izolacji."</item>
     </string-array>
@@ -1345,6 +1349,8 @@
     <string name="submission_status_card_positive_result_contact">"Organ ds. zdrowia publicznego może skontaktować się z Tobą w ciągu kilku najbliższych dni."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Udostępnij swoje losowe identyfikatory, aby umożliwić ostrzeganie innych osób."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Jeśli występują u Ciebie czynniki ryzyka rozwinięcia ciężkiej choroby spowodowanej COVID-19, zasięgnij porady lekarza. Znane czynniki ryzyka obejmują wiek powyżej 60 lat, immunosupresję, cukrzycę i otyłość."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Twoja %s diagnoza:"</string>
@@ -1426,13 +1432,13 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Lokalna 7-dniowa zapadalność"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"Nowe zakażenia"</string>
+    <string name="statistics_card_local_incidence_value_description">"nowe zakażenia"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Informacje"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
     <string name="statistics_card_local_incidence_menu_delete">"Usuń"</string>
     <!-- XTXT: Local hospitalization statistics text -->
-    <string name="statistics_card_local_hospitalization_text">"Hospitalizacje w %s"</string>
+    <string name="statistics_card_local_hospitalization_text">"hospitalizacje w %s"</string>
 
     <!-- Infections statistics card -->
     <!-- XHED: Title for infections statistics card -->
@@ -1463,7 +1469,7 @@
     <!-- XTXT: Statistics primary value description -->
     <string name="statistics_primary_value_description">"Nowe zakażenia"</string>
     <!-- XTXT: Statistics secondary value description -->
-    <string name="statistics_secondary_value_description">"Hospitalizacje"</string>
+    <string name="statistics_secondary_value_description">"hospitalizacje"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1566,6 +1572,10 @@
     <!-- XHED: Title for vaccinated completely statistics card -->
     <string name="statistics_vaccinated_completely_card_title">"Osoby w pełni zaszczepione"</string>
 
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Osoby, które otrzymały szczepienie przypominające"</string>
+
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Podane dawki szczepionki"</string>
@@ -1580,7 +1590,11 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"Osoby w pełni zaszczepione"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Liczba osób zgłoszonych w RKI, które otrzymały wszystkie niezbędne dawki szczepionki."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Liczba osób zgłoszonych w RKI, które otrzymały wszystkie dawki szczepionki niezbędne do podstawowego uodpornienia."</string>
+    <!-- XTXT: Statistics number of people with booster title -->
+    <string name="statistics_people_with_booster_title">"Osoby, które otrzymały szczepienie przypominające"</string>
+    <!-- XTXT: Statistics number of people with booster text -->
+    <string name="statistics_people_with_booster_text">"Liczba osób zgłoszonych w RKI, które otrzymały szczepienie przypominające."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"Osoby, które otrzymały co najmniej jedną dawkę szczepionki"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
@@ -1602,7 +1616,7 @@
     <!-- XHED: Title for occupied intensive care card -->
     <string name="statistics_occupied_intensive_care_card_title">"Pacjenci z COVID-19 na oddziałach intensywnej terapii"</string>
     <!-- XTXT: Ocupation of all intensive care beds -->
-    <string name="statistics_occupied_intensive_care_beds_text">"Wskaźnik obłożenia wszystkich łóżek intensywnej terapii z powodu COVID-19"</string>
+    <string name="statistics_occupied_intensive_care_beds_text">"Wskaźnik obłożenia wszystkich łóżek na intensywnej terapii z powodu COVID-19"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->
