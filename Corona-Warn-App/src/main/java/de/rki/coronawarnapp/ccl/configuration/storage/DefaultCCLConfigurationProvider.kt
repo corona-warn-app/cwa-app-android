@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ccl.configuration.storage
 import android.content.Context
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.di.AppContext
+import okio.buffer
+import okio.source
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -11,8 +13,9 @@ class DefaultCCLConfigurationProvider @Inject constructor(
 ) {
 
     fun loadDefaultCCLConfigurationJson(): String = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
-        .bufferedReader()
-        .use { it.readText() }
+        .source()
+        .buffer()
+        .use { it.readUtf8() }
         .also { Timber.tag(TAG).d("Loaded default ccl config=%s", it) }
 }
 
