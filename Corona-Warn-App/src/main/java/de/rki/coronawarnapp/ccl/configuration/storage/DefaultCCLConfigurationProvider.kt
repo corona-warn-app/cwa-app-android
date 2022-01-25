@@ -10,7 +10,7 @@ class DefaultCCLConfigurationProvider @Inject constructor(
     @AppContext private val context: Context
 ) {
 
-    fun loadDefaultCCLConfiguration(): String = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
+    fun loadDefaultCCLConfigurationJson(): String = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
         .bufferedReader()
         .use { it.readText() }
         .also { Timber.tag(TAG).d("Loaded default ccl config=%s", it) }
@@ -18,5 +18,5 @@ class DefaultCCLConfigurationProvider @Inject constructor(
 
 private val TAG = tag<DefaultCCLConfigurationProvider>()
 
-//TODO: Add file name after adding it to assets
+//TODO: Add file name after adding default ccl config to assets
 private const val ASSET_DEFAULT_CCL_CONFIGURATION = ""
