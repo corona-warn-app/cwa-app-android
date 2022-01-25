@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.databind.JsonNode
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 
@@ -85,8 +86,19 @@ data class InputCertificates(
     val hcert: Hcert,
 
     @JsonProperty("validityState")
-    val validityState: String
-)
+    val validityState: Validity
+) {
+    enum class Validity(private val state: String) {
+        VALID("VALID"),
+        EXPIRING_SOON("EXPIRING_SOON"),
+        EXPIRED("EXPIRED"),
+        INVALID("INVALID"),
+        BLOCKED("BLOCKED");
+
+        @JsonValue
+        fun validityState() = state
+    }
+}
 
 data class DccWalletInfoInput(
     @JsonProperty("os")
