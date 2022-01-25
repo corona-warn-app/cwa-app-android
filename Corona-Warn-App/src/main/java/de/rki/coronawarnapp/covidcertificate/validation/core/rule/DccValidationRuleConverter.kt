@@ -1,15 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
 import dagger.Reusable
-import de.rki.coronawarnapp.util.serialization.BaseJackson
+import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.fromJson
 import javax.inject.Inject
 
 @Reusable
 class DccValidationRuleConverter @Inject constructor(
-    @BaseJackson private val objectMapper: ObjectMapper
+    @BaseGson private val gson: Gson
 ) {
-    fun jsonToRuleSet(rawJson: String?): List<DccValidationRule> =
-        rawJson?.let { objectMapper.readValue(it) } ?: emptyList()
+    fun jsonToRuleSet(rawJson: String?): List<DccValidationRule> = rawJson?.let { gson.fromJson(it) } ?: emptyList()
 }

@@ -117,14 +117,14 @@ class DccValidationRepositoryTest : BaseTest() {
     }
 
     private val serializationModule = SerializationModule()
-    private val baseJackson = serializationModule.jacksonObjectMapper()
+    private val baseGson = serializationModule.baseGson()
     private val objectMapper = serializationModule.jacksonObjectMapper()
-    private val converter = DccValidationRuleConverter(baseJackson)
+    private val converter = DccValidationRuleConverter(baseGson)
 
     private fun createInstance(scope: CoroutineScope) = DccValidationRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
-        baseMapper = baseJackson,
+        gson = baseGson,
         server = server,
         localCache = localCache,
         converter = converter
