@@ -3,12 +3,13 @@ package de.rki.coronawarnapp.ccl
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.ccl.configuration.CCLConfigurationModule
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 
-@Module
+@Module(includes = [CCLConfigurationModule::class])
 abstract class CCLModule {
 
     @Binds

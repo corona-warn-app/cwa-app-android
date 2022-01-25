@@ -19,7 +19,7 @@ import javax.inject.Inject
 class CCLConfigurationServer @Inject constructor(
     private val cclConfigurationApiLazy: Lazy<CCLConfigurationApiV1>,
     private val dispatcherProvider: DispatcherProvider,
-    private val signatureValidation: SignatureValidation
+    private val signatureValidation: SignatureValidation,
 ) {
 
     private val cclConfigurationApi
