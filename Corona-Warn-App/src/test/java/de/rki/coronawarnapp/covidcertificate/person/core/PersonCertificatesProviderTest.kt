@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -20,6 +21,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,6 +34,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var testRepo: TestCertificateRepository
     @MockK lateinit var recoveryRepo: RecoveryCertificateRepository
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+    @MockK lateinit var dccWalletInfoProvider: DccWalletInfoProvider
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
     private val identifierB = mockk<CertificatePersonIdentifier>()
@@ -98,6 +101,8 @@ class PersonCertificatesProviderTest : BaseTest() {
         personCertificatesSettings.apply {
             every { currentCwaUser } returns mockFlowPreference(identifierA)
         }
+
+        every { dccWalletInfoProvider.dccWalletInfos } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = PersonCertificatesProvider(
@@ -106,6 +111,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         vaccinationRepository = vaccinationRepo,
         personCertificatesSettings = personCertificatesSettings,
         appScope = scope,
+        dccWalletInfoProvider = dccWalletInfoProvider
     )
 
     @Test

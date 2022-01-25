@@ -1,12 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoWrapper
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
 data class PersonCertificates(
     val certificates: List<CwaCovidCertificate>,
     val isCwaUser: Boolean = false,
-    val badgeCount: Int = 0
+    val badgeCount: Int = 0,
+    val dccWalletInfoWrapper: DccWalletInfoWrapper = DccWalletInfoWrapper()
 ) {
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier
@@ -14,7 +16,6 @@ data class PersonCertificates(
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
         certificates.findHighestPriorityCertificate()
     }
-
     val admissionState: AdmissionState?
         get() = certificates.determineAdmissionState()
 
