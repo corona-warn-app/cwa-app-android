@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.storage
 
-import de.rki.coronawarnapp.ccl.configuration.CCLConfigurationParser
+import de.rki.coronawarnapp.ccl.configuration.common.CCLConfigurationParser
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
