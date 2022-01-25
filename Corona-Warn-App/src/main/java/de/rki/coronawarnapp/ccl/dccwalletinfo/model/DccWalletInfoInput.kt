@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.ArrayNode
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 
 data class SystemTime(
@@ -114,5 +115,5 @@ data class DccWalletInfoInput(
     val certificates: List<InputCertificates>,
 
     @JsonProperty("boosterNotificationRules")
-    val boosterNotificationRules: List<DccValidationRule>
+    val boosterNotificationRules: JsonNode
 )

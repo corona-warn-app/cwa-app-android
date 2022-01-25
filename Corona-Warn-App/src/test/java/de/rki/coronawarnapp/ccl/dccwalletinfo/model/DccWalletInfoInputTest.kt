@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -82,10 +82,10 @@ internal class DccWalletInfoInputTest : BaseTest() {
         }
     }
 
-    private fun readBoosterRules(): List<DccValidationRule> {
+    private fun readBoosterRules(): JsonNode {
         return javaClass.classLoader!!.getResourceAsStream("ccl/dcc_booster_rules.json").bufferedReader()
             .use {
-                mapper.readValue(it)
+                mapper.readTree(it)
             }
     }
 }
