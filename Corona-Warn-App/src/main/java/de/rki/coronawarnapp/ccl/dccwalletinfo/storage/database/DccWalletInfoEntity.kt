@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 data class DccWalletInfoEntity(
     @PrimaryKey
     @ColumnInfo(name = "person_identifier")
-    val personIdCodeSHA256: String,
+    val groupKey: String,
 
     @ColumnInfo(name = "dcc_wallet_info")
     val dccWalletInfo: DccWalletInfo

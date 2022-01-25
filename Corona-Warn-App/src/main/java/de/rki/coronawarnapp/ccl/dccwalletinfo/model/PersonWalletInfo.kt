@@ -2,6 +2,6 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 
 data class PersonWalletInfo(
-    val personIdentifier: String,
+    val personGroupKey: String,
     val dccWalletInfo: DccWalletInfo
 )

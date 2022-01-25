@@ -16,7 +16,7 @@ class DccWalletInfoRepository @Inject constructor(
         .map { personWallets ->
             personWallets.map { personWallet ->
                 PersonWalletInfo(
-                    personWallet.personIdCodeSHA256,
+                    personWallet.groupKey,
                     personWallet.dccWalletInfo
                 )
             }.toSet()
@@ -28,7 +28,7 @@ class DccWalletInfoRepository @Inject constructor(
     ) {
         dccWalletInfoDao.insert(
             DccWalletInfoEntity(
-                personIdCodeSHA256 = personIdentifier.codeSHA256,
+                groupKey = personIdentifier.groupingKey,
                 dccWalletInfo = dccWalletInfo
             )
         )
