@@ -68,7 +68,13 @@ data class Hcert(
     val dob: String,
 
     @JsonProperty("v")
-    val v: JsonNode
+    val v: JsonNode? = null,
+
+    @JsonProperty("r")
+    val r: JsonNode? = null,
+
+    @JsonProperty("t")
+    val t: JsonNode? = null
 )
 
 data class InputCertificates(
