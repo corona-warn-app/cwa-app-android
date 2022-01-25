@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.validation.core.country.DccCountry
@@ -11,8 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidatio
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,7 +36,7 @@ import javax.inject.Singleton
 class DccValidationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
-    @BaseGson private val gson: Gson,
+    @BaseJackson private val baseMapper: ObjectMapper,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache,
     private val converter: DccValidationRuleConverter
@@ -115,7 +115,7 @@ class DccValidationRepository @Inject constructor(
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> = try {
-        val countryCodes = gson.fromJson<List<String>>(rawJson)
+        val countryCodes = baseMapper.readValue<List<String>>(rawJson)
 
         countryCodes.map { cc -> DccCountry(countryCode = cc) }
     } catch (e: Exception) {

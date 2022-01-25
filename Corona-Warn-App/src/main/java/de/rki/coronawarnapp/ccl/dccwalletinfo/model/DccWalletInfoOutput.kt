@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
+import org.joda.time.Instant
 
 data class DccWalletInfo(
     @JsonProperty("admissionState")
@@ -22,7 +23,7 @@ data class DccWalletInfo(
     val verification: Verification,
 
     @JsonProperty("validUntil")
-    val validUntil: String // TODO use Instant
+    val validUntil: Instant
 )
 
 @JsonTypeInfo(
@@ -129,7 +130,7 @@ data class CertificateRef(
     val barcodeData: String
 )
 
-data class Certificates(
+data class OutputCertificates(
     @JsonProperty("buttonText")
     val buttonText: CCLText,
 
@@ -199,5 +200,5 @@ data class VaccinationState(
 
 data class Verification(
     @JsonProperty("certificates")
-    val certificates: List<Certificates>
+    val certificates: List<OutputCertificates>
 )

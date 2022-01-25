@@ -1,0 +1,106 @@
+package de.rki.coronawarnapp.ccl.dccwalletinfo.model
+
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
+import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+
+data class SystemTime(
+    @JsonProperty("timestamp")
+    val timestamp: Long,
+
+    @JsonProperty("localDate")
+    val localDate: String,
+
+    @JsonProperty("localDateTime")
+    val localDateTime: String,
+
+    @JsonProperty("localDateTimeMidnight")
+    val localDateTimeMidnight: String,
+
+    @JsonProperty("utcDate")
+    val utcDate: String,
+
+    @JsonProperty("utcDateTime")
+    val utcDateTime: String,
+
+    @JsonProperty("utcDateTimeMidnight")
+    val utcDateTimeMidnight: String
+)
+
+data class Cose(
+    @JsonProperty("kid")
+    val kid: String
+)
+
+data class Cwt(
+    @JsonProperty("iss")
+    val iss: String,
+
+    @JsonProperty("iat")
+    val iat: Long,
+
+    @JsonProperty("exp")
+    val exp: Long
+)
+
+data class Nam(
+    @JsonProperty("fn")
+    val fn: String,
+
+    @JsonProperty("gn")
+    val gn: String,
+
+    @JsonProperty("fnt")
+    val fnt: String,
+
+    @JsonProperty("gnt")
+    val gnt: String
+)
+
+data class Hcert(
+    @JsonProperty("ver")
+    val ver: String,
+
+    @JsonProperty("nam")
+    val nam: Nam,
+
+    @JsonProperty("dob")
+    val dob: String,
+
+    @JsonProperty("v")
+    val v: JsonNode
+)
+
+data class InputCertificates(
+    @JsonProperty("barcodeData")
+    val barcodeData: String,
+
+    @JsonProperty("cose")
+    val cose: Cose,
+
+    @JsonProperty("cwt")
+    val cwt: Cwt,
+
+    @JsonProperty("hcert")
+    val hcert: Hcert,
+
+    @JsonProperty("validityState")
+    val validityState: String
+)
+
+data class DccWalletInfoInput(
+    @JsonProperty("os")
+    val os: String,
+
+    @JsonProperty("language")
+    val language: String,
+
+    @JsonProperty("now")
+    val now: SystemTime,
+
+    @JsonProperty("certificates")
+    val certificates: List<InputCertificates>,
+
+    @JsonProperty("boosterNotificationRules")
+    val boosterNotificationRules: List<DccValidationRule>
+)

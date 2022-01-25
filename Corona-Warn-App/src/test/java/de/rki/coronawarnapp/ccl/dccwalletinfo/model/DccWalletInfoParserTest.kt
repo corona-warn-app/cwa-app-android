@@ -1,10 +1,11 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters.FormatType
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters.UnitType
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
@@ -13,7 +14,7 @@ import testhelpers.extensions.toComparableJsonPretty
 @Suppress("MaxLineLength")
 internal class DccWalletInfoParserTest : BaseTest() {
 
-    private val mapper = ObjectMapper()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     private val boosterNotification = BoosterNotification(visible = false)
 
@@ -25,7 +26,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
 
     private val verification = Verification(
         certificates = listOf(
-            Certificates(
+            OutputCertificates(
                 buttonText = SingleText(
                     type = "string",
                     localizedText = mapOf("de" to "2G-Zertifikat"),
@@ -36,7 +37,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
                 )
             ),
 
-            Certificates(
+            OutputCertificates(
                 buttonText = SingleText(
                     type = "string",
                     localizedText = mapOf("de" to "Testzertifikat"),
@@ -117,7 +118,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
         verification = verification,
         boosterNotification = boosterNotification,
         mostRelevantCertificate = mostRelevantCertificate,
-        validUntil = "2022-01-14T18:43:00Z"
+        validUntil = Instant.parse("2022-01-14T18:43:00Z")
     )
 
     @Test

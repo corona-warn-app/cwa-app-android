@@ -78,9 +78,8 @@ class BoosterRulesRepositoryTest : BaseTest() {
     }
 
     private val serializationModule = SerializationModule()
-    private val baseGson = serializationModule.baseGson()
     private val objectMapper = serializationModule.jacksonObjectMapper()
-    private val converter = DccValidationRuleConverter(baseGson)
+    private val converter = DccValidationRuleConverter(objectMapper)
 
     private val testBoosterNotificationRule = DccValidationRule(
         identifier = "IR-DE-0000",

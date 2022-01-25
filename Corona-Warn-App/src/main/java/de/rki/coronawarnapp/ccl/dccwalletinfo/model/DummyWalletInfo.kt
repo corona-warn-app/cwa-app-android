@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
+import org.joda.time.Instant
+
 // DO delete file
 private val admissionState = AdmissionState(
     visible = true,
@@ -65,7 +67,7 @@ private val vaccinationState = VaccinationState(
 @Suppress("MaxLineLength")
 private val verification = Verification(
     certificates = listOf(
-        Certificates(
+        OutputCertificates(
             buttonText = SingleText(
                 type = "string",
                 localizedText = mapOf("de" to "2G-Zertifikat"),
@@ -76,7 +78,7 @@ private val verification = Verification(
             )
         ),
 
-        Certificates(
+        OutputCertificates(
             buttonText = SingleText(
                 type = "string",
                 localizedText = mapOf("de" to "Testzertifikat"),
@@ -102,5 +104,5 @@ val dummyDccWalletInfo = DccWalletInfo(
     verification = verification,
     boosterNotification = BoosterNotification(visible = false),
     mostRelevantCertificate = mostRelevantCertificate,
-    validUntil = "2022-01-14T18:43:00Z"
+    validUntil = Instant.parse("2022-01-14T18:43:00Z")
 )
