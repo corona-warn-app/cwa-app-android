@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
 import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
 import de.rki.coronawarnapp.test.booster.ui.BoosterTestModule
+import de.rki.coronawarnapp.test.ccl.CCLTestFragment
+import de.rki.coronawarnapp.test.ccl.CCLTestModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
@@ -95,4 +97,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [DccTicketingTestModule::class])
     abstract fun dccTicketingTestFragment(): DccTicketingTestFragment
+
+    @ContributesAndroidInjector(modules = [CCLTestModule::class])
+    abstract fun cclTestFragment(): CCLTestFragment
 }

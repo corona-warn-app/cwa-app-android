@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
+import de.rki.coronawarnapp.test.ccl.CCLTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
@@ -53,6 +54,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
             DscTestFragment.MENU_ITEM,
             BoosterTestFragment.MENU_ITEM,
             DccTicketingTestFragment.MENU_ITEM,
+            CCLTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()
