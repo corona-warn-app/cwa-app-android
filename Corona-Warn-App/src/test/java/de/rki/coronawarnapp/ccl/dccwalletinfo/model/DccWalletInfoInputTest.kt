@@ -58,7 +58,7 @@ internal class DccWalletInfoInputTest : BaseTest() {
                                         "vp": "1119349007"
                                       }
                             ]
-                    """.trimIndent()
+                        """.trimIndent()
                     )
                 ),
                 validityState = InputCertificates.Validity.VALID
