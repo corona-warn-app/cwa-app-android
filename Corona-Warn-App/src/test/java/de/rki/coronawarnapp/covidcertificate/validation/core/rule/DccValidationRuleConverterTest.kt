@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.rule
 
-import com.fasterxml.jackson.core.JsonParseException
-import com.fasterxml.jackson.databind.JsonMappingException
+import com.google.gson.JsonSyntaxException
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -167,8 +166,8 @@ class DccValidationRuleConverterTest : BaseTest() {
         """.trimIndent()
 
         converter.run {
-            assertThrows<JsonMappingException> { jsonToRuleSet(missingAttributes) }
-            assertThrows<JsonParseException> { jsonToRuleSet("abc123") }
+            assertThrows<JsonSyntaxException> { jsonToRuleSet(missingAttributes) }
+            assertThrows<JsonSyntaxException> { jsonToRuleSet("abc123") }
         }
     }
 }

@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.gson.Gson
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
@@ -18,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValue
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyValueSetsContainer
 import de.rki.coronawarnapp.server.protocols.internal.dgc.ValueSetsOuterClass
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import dgca.verifier.app.engine.DefaultCertLogicEngine
 import dgca.verifier.app.engine.data.RuleCertificateType
@@ -55,7 +52,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
 
     @Inject lateinit var extractor: DccQrCodeExtractor
     @Inject lateinit var engine: Lazy<DefaultCertLogicEngine>
-    @Inject @BaseJackson lateinit var objectMapper: ObjectMapper
+    @Inject @BaseGson lateinit var gson: Gson
 
     // Json file (located in /test/resources/dcc-validation-rules-common-test-cases.json)
     private val fileName = "dcc-validation-rules-common-test-cases.json"
@@ -185,7 +182,7 @@ class CertLogicEngineWrapperTest : BaseTest() {
         jsonFile shouldNotBe null
         val jsonString = FileReader(jsonFile).readText()
         jsonString.length shouldBeGreaterThan 0
-        val json = objectMapper.readValue<CertLogicTestCases>(jsonString)
+        val json = gson.fromJson<CertLogicTestCases>(jsonString)
         json shouldNotBe null
 
         val valueSets =
