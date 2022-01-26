@@ -24,6 +24,7 @@ object CCLConfigurationModule {
     fun provideCCLDir(@AppContext context: Context): File = File(context.filesDir, CCL_DIR)
 
     @Singleton
+    @Provides
     fun provideApi(
         @DownloadCDNHttpClient client: OkHttpClient,
         @DownloadCDNServerUrl url: String,
