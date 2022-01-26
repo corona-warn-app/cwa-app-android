@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
+import androidx.annotation.VisibleForTesting
 import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -19,10 +21,11 @@ class CCLConfigurationUpdater @Inject constructor(
         return true
     }
 
-    private suspend fun isUpdateRequired(): Boolean {
-        val lastExecution = cclSettings.getLastExecutionTime() ?: return false
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun isUpdateRequired(now: Instant = Instant.now()): Boolean {
+        val lastExecution = cclSettings.getLastExecutionTime() ?: return true
         val minTimeOfNextUpdate = lastExecution.plus(updateInterval)
-        return minTimeOfNextUpdate.isBeforeNow
+        return now.isAfter(minTimeOfNextUpdate)
     }
 
     companion object {
