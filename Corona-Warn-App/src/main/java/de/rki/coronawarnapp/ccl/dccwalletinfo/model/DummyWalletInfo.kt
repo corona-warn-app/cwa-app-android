@@ -25,6 +25,25 @@ private val admissionState = AdmissionState(
     ),
     faqAnchor = "dcc_admission_state"
 )
+private val boosterNotification = BoosterNotification(
+    visible = true,
+    titleText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Booster"),
+        parameters = listOf()
+    ),
+    subtitleText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Empfehlung einer Booster-Impfung"),
+        parameters = listOf()
+    ),
+    longText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"),
+        parameters = listOf()
+    ),
+    faqAnchor = "dcc_admission_state"
+)
 private val vaccinationState = VaccinationState(
     visible = true,
     titleText = SingleText(
@@ -99,7 +118,7 @@ val dummyDccWalletInfo = DccWalletInfo(
     admissionState = admissionState,
     vaccinationState = vaccinationState,
     verification = verification,
-    boosterNotification = BoosterNotification(visible = false),
+    boosterNotification = boosterNotification,
     mostRelevantCertificate = mostRelevantCertificate,
     validUntil = "2022-01-14T18:43:00Z"
 )

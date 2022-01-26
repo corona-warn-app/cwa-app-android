@@ -30,7 +30,6 @@ class BoosterCard(parent: ViewGroup) :
 //        val boosterNotification = curItem.boosterNotificationData
 //        title.text = boosterNotification.titleText
 //        subtitle.text = boosterNotification.subtitleText
-
     }
 
     data class Item(

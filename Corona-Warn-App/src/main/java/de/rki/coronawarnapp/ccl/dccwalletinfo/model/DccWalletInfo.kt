@@ -106,7 +106,19 @@ data class PluralText(
 
 data class BoosterNotification(
     @JsonProperty("visible")
-    val visible: Boolean
+    val visible: Boolean,
+
+    @JsonProperty("titleText")
+    val titleText: CCLText,
+
+    @JsonProperty("subtitleText")
+    val subtitleText: CCLText,
+
+    @JsonProperty("longText")
+    val longText: CCLText,
+
+    @JsonProperty("faqAnchor")
+    val faqAnchor: String
 )
 
 data class CertificateRef(

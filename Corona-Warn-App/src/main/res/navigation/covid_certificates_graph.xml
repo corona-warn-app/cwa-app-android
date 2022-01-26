@@ -281,5 +281,9 @@
     <fragment
         android:id="@+id/boosterInfoDetailsFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragment"
-        android:label="BoosterInfoDetailsFragment" />
+        android:label="BoosterInfoDetailsFragment" >
+        <argument
+            android:name="personCode"
+            app:argType="string" />
+    </fragment>
 </navigation>

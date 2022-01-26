@@ -95,11 +95,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            add(
-                BoosterCard.Item(
-                    onClick = { events.postValue(OpenBoosterInfoDetails) }
+            // TODO: the path should be remade
+            val boosterNotification = personCertificates.dccWalletInfoWrapper.dccWalletInfo.boosterNotification
+            if (boosterNotification.visible) {
+                add(
+                    BoosterCard.Item(
+                        onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
+                    )
                 )
-            )
+            }
 
             val admissionState = personCertificates.admissionState
             if (admissionState != null && admissionState !is Other) {

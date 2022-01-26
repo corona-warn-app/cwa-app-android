@@ -25,6 +25,7 @@ data class OpenRecoveryCertificateDetails(
 
 data class ValidationStart(val containerId: CertificateContainerId) : PersonDetailsEvents()
 data class ShowErrorDialog(val error: Throwable) : PersonDetailsEvents()
+data class OpenBoosterInfoDetails(val personCode: String) : PersonDetailsEvents()
+
 object Back : PersonDetailsEvents()
 object OpenCovPassInfo : PersonDetailsEvents()
-object OpenBoosterInfoDetails: PersonDetailsEvents()
