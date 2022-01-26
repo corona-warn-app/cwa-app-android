@@ -26,17 +26,22 @@ class CCLConfigurationServer @Inject constructor(
 
     suspend fun getCCLConfiguration(): ByteArray? = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).d("getCCLConfiguration()")
-        val response = cclConfigurationApi.getCCLConfiguration()
-        when (response.wasModified) {
-            true -> response.parseAndValidate()
-            false -> {
-                Timber.tag(TAG).d("CCL Configuration was not modified")
-                null
+        try {
+            val response = cclConfigurationApi.getCCLConfiguration()
+            when (response.wasModified) {
+                true -> response.parseAndValidate()
+                false -> {
+                    Timber.tag(TAG).d("CCL Configuration was not modified")
+                    null
+                }
             }
-        }.also { Timber.tag(TAG).d("Returning %s", it) }
-    }
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to get ccl configuration")
+            null
+        }
+    }.also { Timber.tag(TAG).d("Returning %s", it) }
 
-    private fun Response<ResponseBody>.parseAndValidate(): ByteArray? = try {
+    private fun Response<ResponseBody>.parseAndValidate(): ByteArray {
         if (!isSuccessful) throw HttpException(this)
 
         val body = requireNotNull(body()) { "Body of response was null" }
@@ -56,10 +61,7 @@ class CCLConfigurationServer @Inject constructor(
         if (!hasValidSignature)
             throw CCLConfigurationInvalidSignatureException(msg = "Signature of ccl configuration did not match")
 
-        exportBinary
-    } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to get ccl configuration")
-        null
+        return exportBinary
     }
 
     private val Response<ResponseBody>.wasModified: Boolean
