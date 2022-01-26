@@ -8,12 +8,12 @@ data class JsonFunctionsDescriptor(
     val name: String,
 
     @JsonProperty("definition")
-    val definition: String
+    val definition: FunctionDefinition
 )
 
 data class FunctionDefinition(
     @JsonProperty("parameters")
-    val parameters: List<Any>,
+    val parameters: List<FunctionParameter>,
 
     @JsonProperty("logic")
     val logic: List<JsonNode>
