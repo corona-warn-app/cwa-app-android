@@ -1,0 +1,20 @@
+[
+  {
+    "type": "number",
+    "value": 5.5
+  },
+  {
+    "type": "date",
+    "value": "2021-12-01",
+    "format": "date-diff-now",
+    "unit": "day"
+  },
+  {
+    "type": "boolean",
+    "value": true
+  },
+  {
+    "type": "string",
+    "value": "2G"
+  }
+]
