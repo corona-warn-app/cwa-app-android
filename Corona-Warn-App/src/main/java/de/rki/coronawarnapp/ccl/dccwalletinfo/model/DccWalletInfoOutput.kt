@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.fasterxml.jackson.annotation.JsonValue
+import org.joda.time.Instant
 
 data class DccWalletInfo(
     @JsonProperty("admissionState")
@@ -19,37 +23,49 @@ data class DccWalletInfo(
     val verification: Verification,
 
     @JsonProperty("validUntil")
-    val validUntil: String // TODO use Instant
+    val validUntil: Instant
 )
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "type",
+    visible = true
+)
+@JsonSubTypes(
+    JsonSubTypes.Type(SingleText::class, name = "string"),
+    JsonSubTypes.Type(PluralText::class, name = "plural")
+)
+sealed interface CCLText {
+    val type: String
+}
 
 data class AdmissionState(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("badgeText")
-    val badgeText: SingleText,
+    val badgeText: CCLText,
 
     @JsonProperty("titleText")
-    val titleText: SingleText,
+    val titleText: CCLText,
 
     @JsonProperty("subtitleText")
-    val subtitleText: SingleText,
+    val subtitleText: CCLText,
 
     @JsonProperty("longText")
-    val longText: SingleText,
+    val longText: CCLText,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String
 )
-
-sealed interface CCLText
 
 /**
  * Text
  */
 data class SingleText(
     @JsonProperty("type")
-    val type: String,
+    override val type: String,
 
     @JsonProperty("localizedText")
     val localizedText: LocalizedText,
@@ -89,7 +105,7 @@ typealias QuantityLocalizedText = Map<String, QuantityText>
 
 data class PluralText(
     @JsonProperty("type")
-    val type: String,
+    override val type: String,
 
     @JsonProperty("quantity")
     val quantity: Int? = null,
@@ -114,9 +130,9 @@ data class CertificateRef(
     val barcodeData: String
 )
 
-data class Certificates(
+data class OutputCertificates(
     @JsonProperty("buttonText")
-    val buttonText: SingleText,
+    val buttonText: CCLText,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
@@ -129,30 +145,54 @@ data class MostRelevantCertificate(
 
 data class Parameters(
     @JsonProperty("type")
-    val type: String,
+    val type: Type, // Required
 
     @JsonProperty("value")
-    val value: String,
+    val value: Any, // Required, it could be a Number, String, Date(String), or Boolean
 
     @JsonProperty("format")
-    val format: String,
+    val format: FormatType? = null, // Optional
 
     @JsonProperty("unit")
-    val unit: String
-)
+    val unit: UnitType? = null // Optional
+) {
+    enum class Type(private val type: String) {
+        STRING("string"),
+        NUMBER("number"),
+        BOOLEAN("boolean"),
+        DATE("date");
+
+        @JsonValue
+        fun paramType() = type
+    }
+
+    enum class FormatType(private val type: String) {
+        DATE_DIFF_NOW("date-diff-now");
+
+        @JsonValue
+        fun paramFormatType() = type
+    }
+
+    enum class UnitType(private val type: String) {
+        DAY("day");
+
+        @JsonValue
+        fun paramUnitType() = type
+    }
+}
 
 data class VaccinationState(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: SingleText,
+    val titleText: CCLText,
 
     @JsonProperty("subtitleText")
-    val subtitleText: PluralText,
+    val subtitleText: CCLText,
 
     @JsonProperty("longText")
-    val longText: SingleText,
+    val longText: CCLText,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String
@@ -160,5 +200,5 @@ data class VaccinationState(
 
 data class Verification(
     @JsonProperty("certificates")
-    val certificates: List<Certificates>
+    val certificates: List<OutputCertificates>
 )
