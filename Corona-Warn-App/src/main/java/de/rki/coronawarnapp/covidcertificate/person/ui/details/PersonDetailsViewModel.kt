@@ -98,7 +98,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
             if (admissionState != null && admissionState !is Other) {
                 add(
                     ConfirmedStatusCard.Item(
-                        admissionState = admissionState,
+                        personCertificates.dccWalletInfoWrapper.admissionTitleText,
+                        personCertificates.dccWalletInfoWrapper.admissionSubtitleText,
+                        personCertificates.dccWalletInfoWrapper.admissionBadgeText,
+                        personCertificates.dccWalletInfoWrapper.admissionLongText,
+                        personCertificates.dccWalletInfoWrapper.admissionFaqAnchor,
                         colorShade = colorShade
                     )
                 )
