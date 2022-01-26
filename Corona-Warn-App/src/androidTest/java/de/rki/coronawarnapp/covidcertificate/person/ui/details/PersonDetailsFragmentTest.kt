@@ -135,21 +135,21 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             add(
                 ConfirmedStatusCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
-                        twoGCertificate = vaccinationCertificate2,
-                        testCertificate = testCertificate
-                    ),
-                    colorShade = PersonColorShade.COLOR_1
+                    colorShade = PersonColorShade.COLOR_1,
+                    titleText = "Status-Nachweis",
+                    subtitleText = "2G+ PCR-Test",
+                    badgeText = "2G+",
+                    longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                    faqAnchor = "FAQ"
                 )
             )
 
             add(
                 VaccinationInfoCard.Item(
-                    vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
-                    daysUntilImmunity = null,
-                    boosterRule = null,
-                    daysSinceLastVaccination = 86,
-                    hasBoosterNotification = false
+                    titleText = "Impfstatus",
+                    subtitleText = "Letzte Impfung noch XX Tage gültig",
+                    longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
+                    faqAnchor = "FAQ"
                 )
             )
 
@@ -224,21 +224,21 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             add(
                 ConfirmedStatusCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(vaccinationCertificate1),
-                    colorShade = PersonColorShade.COLOR_1
+                    colorShade = PersonColorShade.COLOR_1,
+                    titleText = "Status-Nachweis",
+                    subtitleText = "2G+ PCR-Test",
+                    badgeText = "2G+",
+                    longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                    faqAnchor = "FAQ"
                 )
             )
 
             add(
                 VaccinationInfoCard.Item(
-                    vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
-                    daysUntilImmunity = null,
-                    boosterRule = mockk<DccValidationRule>().apply {
-                        every { identifier } returns "BNR-DE-4161"
-                        every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
-                    },
-                    daysSinceLastVaccination = 147,
-                    hasBoosterNotification = true
+                    titleText = "Impfstatus",
+                    subtitleText = "Letzte Impfung noch XX Tage gültig",
+                    longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
+                    faqAnchor = "FAQ"
                 )
             )
 
@@ -284,6 +284,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { isNew } returns false
         every { hasNotificationBadge } returns false
         every { isNotBlocked } returns true
+        every { qrCodeHash } returns "TC"
     }
 
     private fun mockVaccinationCertificate(
@@ -323,6 +324,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotBlocked } returns true
+            every { qrCodeHash } returns "VC$number"
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -339,6 +341,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotBlocked } returns true
+            every { qrCodeHash } returns "RC"
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
