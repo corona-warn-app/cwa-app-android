@@ -185,12 +185,6 @@ android {
         }
     }
 
-    lintOptions {
-        checkAllWarnings = true
-        // this rule is broken on 2.3.0
-        // see the following issue: https://issuetracker.google.com/issues/169249668
-        disable 'NullSafeMutableLiveData'
-    }
 
     testOptions {
         unitTests.all {
@@ -258,6 +252,12 @@ android {
             java.srcDirs += "$projectDir/src/testShared/java"
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
+    }
+    lint {
+        checkAllWarnings true
+        // this rule is broken on 2.3.0
+        // see the following issue: https://issuetracker.google.com/issues/169249668
+        disable 'NullSafeMutableLiveData'
     }
 }
 
