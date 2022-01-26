@@ -79,6 +79,6 @@
     <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
     <string name="reycle_bin_rat_test_date">"durchgeführt am %1$s"</string>
     <!-- XTXT: Recycle Bin  - Information when the item gets finally deleted-->
-    <string name="recycle_bin_item_deletion_date_info">wird am %1$s um %2$s endgültig gelöscht</string>
+    <string name="recycle_bin_item_deletion_date_info">wird am %1$s um %2$s Uhr endgültig gelöscht</string>
 
 </resources>
