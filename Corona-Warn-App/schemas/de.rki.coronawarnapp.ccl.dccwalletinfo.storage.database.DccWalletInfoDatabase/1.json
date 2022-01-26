@@ -9,7 +9,7 @@
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`person_identifier` TEXT NOT NULL, `dcc_wallet_info` TEXT NOT NULL, PRIMARY KEY(`person_identifier`))",
         "fields": [
           {
-            "fieldPath": "personIdCodeSHA256",
+            "fieldPath": "groupKey",
             "columnName": "person_identifier",
             "affinity": "TEXT",
             "notNull": true
