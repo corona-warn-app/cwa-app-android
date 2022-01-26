@@ -29,13 +29,18 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
         updater.isUpdateRequired() shouldBe true
 
         coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
-        val after23h59m = Instant.parse("2000-01-01T23:59:59Z")
 
-        updater.isUpdateRequired(after23h59m) shouldBe false
+        // no update required on the same day
+        val sameDay = Instant.parse("2000-01-01T23:59:59Z")
+        updater.isUpdateRequired(sameDay) shouldBe false
 
-        val after24h = Instant.parse("2000-01-02T00:00:01Z")
+        // update required on next day
+        val nextDay = Instant.parse("2000-01-02T00:00:00Z")
+        updater.isUpdateRequired(nextDay) shouldBe true
 
-        updater.isUpdateRequired(after24h) shouldBe true
+        // update should also happen on previous day (can happen when user fumbles with the device date)
+        val previousDay = Instant.parse("1999-12-31T00:00:00Z")
+        updater.isUpdateRequired(previousDay)
     }
 
     private fun getInstance(): CCLConfigurationUpdater {
