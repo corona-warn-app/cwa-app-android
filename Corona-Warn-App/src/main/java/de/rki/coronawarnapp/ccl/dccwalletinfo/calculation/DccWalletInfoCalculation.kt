@@ -11,6 +11,7 @@ class DccWalletInfoCalculation @Inject constructor() {
         cclConfiguration: CCLConfiguration,
         dccList: List<DccData<*>>
     ): DccWalletInfo {
+        val defaultInputParameters = getDefaultInputParameters()
         return dummyDccWalletInfo
     }
 }
