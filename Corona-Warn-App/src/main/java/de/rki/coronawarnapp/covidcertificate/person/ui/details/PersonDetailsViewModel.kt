@@ -94,42 +94,30 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            val admissionState = personCertificates.admissionState
-            if (admissionState != null && admissionState !is Other) {
-                add(
+            add(
+                with(personCertificates.dccWalletInfoWrapper) {
                     ConfirmedStatusCard.Item(
-                        personCertificates.dccWalletInfoWrapper.admissionTitleText,
-                        personCertificates.dccWalletInfoWrapper.admissionSubtitleText,
-                        personCertificates.dccWalletInfoWrapper.admissionBadgeText,
-                        personCertificates.dccWalletInfoWrapper.admissionLongText,
-                        personCertificates.dccWalletInfoWrapper.admissionFaqAnchor,
+                        titleText = admissionTitleText,
+                        subtitleText = admissionSubtitleText,
+                        badgeText =  admissionBadgeText,
+                        longText =  admissionLongText,
+                        faqAnchor = admissionFaqAnchor,
                         colorShade = colorShade
                     )
-                )
-            }
-
-            // Find any vaccination certificate to determine the vaccination information
-            personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
-                val vaccinatedPerson = vaccinatedPerson(certificate)
-                if (vaccinatedPerson != null) {
-                    try {
-                        val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                        val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
-                        val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
-                        val boosterRule = vaccinatedPerson.boosterRule
-                        add(
-                            VaccinationInfoCard.Item(
-                                vaccinationStatus = vaccinationStatus,
-                                daysUntilImmunity = daysUntilImmunity,
-                                boosterRule = boosterRule,
-                                daysSinceLastVaccination = daysSinceLastVaccination,
-                                hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
-                            )
-                        )
-                    } catch (e: Exception) {
-                        Timber.e(e, "creating VaccinationInfoCard.Item failed")
-                    }
                 }
+            )
+
+            if (personCertificates.dccWalletInfoWrapper.isVaccinationStateVisible) {
+                add(
+                    with(personCertificates.dccWalletInfoWrapper) {
+                        VaccinationInfoCard.Item(
+                            titleText = vaccinationTitleText,
+                            subtitleText = vaccinationSubtitleText,
+                            longText = vaccinationLongText,
+                            faqAnchor = vaccinationFaqAnchor,
+                        )
+                    }
+                )
             }
 
             add(cwaUserCard(personCertificates))

@@ -49,7 +49,7 @@
         tools:text="@string/vaccination_certificate_incomplete_vaccination" />
 
     <TextView
-        android:id="@+id/body_2_faq"
+        android:id="@+id/faq"
         style="@style/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

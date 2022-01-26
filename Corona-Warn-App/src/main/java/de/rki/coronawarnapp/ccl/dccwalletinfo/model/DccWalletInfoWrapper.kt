@@ -7,9 +7,18 @@ data class DccWalletInfoWrapper(
     val dccWalletInfo: DccWalletInfo = dummyDccWalletInfo
 ) {
     val admissionState = dccWalletInfo.admissionState
+    val vaccinationState = dccWalletInfo.vaccinationState
+    val mostRelevantCertificateId = dccWalletInfo.mostRelevantCertificate.certificateRef.barcodeData
+
     val admissionBadgeText by textResource(admissionState.badgeText)
     val admissionTitleText by textResource(admissionState.titleText)
     val admissionSubtitleText by textResource(admissionState.subtitleText)
     val admissionLongText by textResource(admissionState.longText)
     val admissionFaqAnchor by urlResource(admissionState.faqAnchor)
+
+    val isVaccinationStateVisible =  vaccinationState.visible
+    val vaccinationTitleText by textResource(vaccinationState.titleText)
+    val vaccinationSubtitleText by textResource(vaccinationState.subtitleText)
+    val vaccinationLongText by textResource(vaccinationState.longText)
+    val vaccinationFaqAnchor by urlResource(vaccinationState.faqAnchor)
 }
