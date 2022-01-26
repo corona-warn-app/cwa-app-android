@@ -139,6 +139,12 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         validUntil = Instant.parse("2022-01-14T18:43:00Z")
     )
 
+    private val personIdentifier = CertificatePersonIdentifier(
+        firstNameStandardized = "Erika",
+        lastNameStandardized = "MusterFrau",
+        dateOfBirthFormatted = "1980-01-01"
+    )
+
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -157,47 +163,32 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
     @Test
     @Throws(Exception::class)
     fun writeDccWalletInfoAndReadInList() = runBlocking {
-        val personId = CertificatePersonIdentifier(
-            firstNameStandardized = "Erika",
-            lastNameStandardized = "MusterFrau",
-            dateOfBirthFormatted = "1980-01-01"
-        ).groupingKey
+        val personId = personIdentifier.groupingKey
         val personWallet = DccWalletInfoEntity(personId, dccWalletInfo)
-        dao.insert(personWallet)
 
-        val allWallets = dao.getAll().first()
-        allWallets[0] shouldBe personWallet
+        dao.insert(personWallet)
+        dao.getAll().first()[0] shouldBe personWallet
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteAll() = runBlocking {
-        val personId = CertificatePersonIdentifier(
-            firstNameStandardized = "Erika",
-            lastNameStandardized = "MusterFrau",
-            dateOfBirthFormatted = "1980-01-01"
-        ).groupingKey
+        val personId = personIdentifier.groupingKey
         val personWallet = DccWalletInfoEntity(personId, dccWalletInfo)
+
         dao.insert(personWallet)
         dao.deleteAll()
-
-        val allWallets = dao.getAll().first()
-        allWallets shouldBe listOf()
+        dao.getAll().first() shouldBe listOf()
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteEntity() = runBlocking {
-        val personId = CertificatePersonIdentifier(
-            firstNameStandardized = "Erika",
-            lastNameStandardized = "MusterFrau",
-            dateOfBirthFormatted = "1980-01-01"
-        ).groupingKey
+        val personId = personIdentifier.groupingKey
         val personWallet = DccWalletInfoEntity(personId, dccWalletInfo)
+
         dao.insert(personWallet)
         dao.delete(personWallet)
-
-        val allWallets = dao.getAll().first()
-        allWallets shouldBe listOf()
+        dao.getAll().first() shouldBe listOf()
     }
 }
