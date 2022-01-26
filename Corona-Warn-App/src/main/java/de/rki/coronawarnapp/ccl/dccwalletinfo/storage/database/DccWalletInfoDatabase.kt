@@ -16,7 +16,7 @@ import javax.inject.Inject
 @TypeConverters(DccWalletInfoConverter::class)
 abstract class DccWalletInfoDatabase : RoomDatabase() {
 
-    abstract fun defaultBugDao(): DccWalletInfoDao
+    abstract fun dccWalletInfoDao(): DccWalletInfoDao
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
         fun create(): DccWalletInfoDatabase = Room

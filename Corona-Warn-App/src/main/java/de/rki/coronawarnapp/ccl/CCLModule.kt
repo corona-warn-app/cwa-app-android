@@ -27,6 +27,6 @@ abstract class CCLModule {
         @Provides
         fun bugEventDao(
             dccWalletInfoDatabaseFactory: DccWalletInfoDatabase.Factory
-        ): DccWalletInfoDao = dccWalletInfoDatabaseFactory.create().defaultBugDao()
+        ): DccWalletInfoDao = dccWalletInfoDatabaseFactory.create().dccWalletInfoDao()
     }
 }
