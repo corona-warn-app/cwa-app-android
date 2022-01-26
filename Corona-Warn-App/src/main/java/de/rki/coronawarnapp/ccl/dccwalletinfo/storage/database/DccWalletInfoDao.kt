@@ -18,4 +18,7 @@ interface DccWalletInfoDao {
 
     @Query("SELECT * FROM person_wallet_info")
     fun getAll(): Flow<List<DccWalletInfoEntity>>
+
+    @Query("DELETE FROM person_wallet_info")
+    suspend fun deleteAll()
 }
