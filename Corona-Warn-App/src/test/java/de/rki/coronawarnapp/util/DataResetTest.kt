@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
+import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -84,6 +85,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
     @MockK lateinit var dccTicketingAllowListRepository: DccTicketingAllowListRepository
     @MockK lateinit var dccTicketingQrCodeSettings: DccTicketingQrCodeSettings
+    @MockK lateinit var cclSettings: CCLSettings
 
     @BeforeEach
     fun setUp() {
@@ -127,7 +129,8 @@ internal class DataResetTest : BaseTest() {
         boosterRulesRepository = boosterRulesRepository,
         exposureWindowsSettings = exposureWindowsSettings,
         dccTicketingAllowListRepository = dccTicketingAllowListRepository,
-        dccTicketingQrCodeSettings = dccTicketingQrCodeSettings
+        dccTicketingQrCodeSettings = dccTicketingQrCodeSettings,
+        cclSettings = cclSettings
     )
 
     @Test
