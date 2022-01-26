@@ -185,12 +185,6 @@ android {
         }
     }
 
-    lintOptions {
-        checkAllWarnings = true
-        // this rule is broken on 2.3.0
-        // see the following issue: https://issuetracker.google.com/issues/169249668
-        disable 'NullSafeMutableLiveData'
-    }
 
     testOptions {
         unitTests.all {
@@ -258,6 +252,12 @@ android {
             java.srcDirs += "$projectDir/src/testShared/java"
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
+    }
+    lint {
+        checkAllWarnings true
+        // this rule is broken on 2.3.0
+        // see the following issue: https://issuetracker.google.com/issues/169249668
+        disable 'NullSafeMutableLiveData'
     }
 }
 
@@ -467,7 +467,8 @@ dependencies {
     implementation project(":Server-Protocol-Buffer")
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.guava:guava:30.0-android'
-    implementation 'joda-time:joda-time:2.10.6'
+    implementation "joda-time:joda-time:2.10.13"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1"
 
     implementation 'com.networknt:json-schema-validator:1.0.58'
     implementation 'net.swiftzer.semver:semver:1.1.1'
