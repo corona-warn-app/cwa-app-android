@@ -72,7 +72,7 @@
     "faqAnchor": "dcc_admission_state"
   },
   "boosterNotification": {
-    "visible": false,
+    "visible": true,
     "titleText": {
       "type": "string",
       "localizedText": {
