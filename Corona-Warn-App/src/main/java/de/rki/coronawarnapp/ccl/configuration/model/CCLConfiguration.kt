@@ -48,8 +48,7 @@ data class CCLConfiguration(
 
     data class Logic(
         @JsonProperty("JfnDescriptors")
-        //TODO: Change to JfnDescriptors
-        val jfnDescriptors: List<Any>
+        val jfnDescriptors: List<JsonFunctionsDescriptor>
     )
 }
 
