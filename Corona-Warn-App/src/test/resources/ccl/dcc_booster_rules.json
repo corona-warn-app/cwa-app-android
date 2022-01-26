@@ -1,0 +1,77 @@
+[
+  {
+    "Identifier": "BNR-DE-1000",
+    "Type": "BoosterNotification",
+    "Country": "DE",
+    "Version": "1.0.0",
+    "SchemaVersion": "1.0.0",
+    "Engine": "CERTLOGIC",
+    "EngineVersion": "1.0.0",
+    "CertificateType": "General",
+    "Description": [
+      {
+        "desc": "For security reasons, all certificates from the pharmacy you have visited must be reissued.\n\nYour certificate will be blocked on November 15, 2021. You can arrange for a new vaccination certificate to be issued free of charge in your pharmacy by showing your yellow vaccination passport and a valid photo ID.",
+        "lang": "en"
+      },
+      {
+        "desc": "Aus Sicherheitsgründen müssen alle Zertifikate der von Ihnen besuchten Apotheke neu ausgestellt werden.\n\nIhr Zertifikat wird am 15.11.2021 gesperrt. Sie können sich unter Vorlage Ihres gelben Impfpasses und eines Lichtbildausweises in Ihrer Apotheke kostenfrei ein neues Impfzertifikat ausstellen lassen.",
+        "lang": "de"
+      }
+    ],
+    "ValidFrom": "2021-11-05T00:00:00Z",
+    "ValidTo": "2030-06-01T00:00:00Z",
+    "AffectedFields": [],
+    "Logic": {
+      "and": [
+        {
+          "in": [
+            {
+              "extractFromUVCI": [
+                {
+                  "var": "payload.v.0.ci"
+                },
+                1
+              ]
+            },
+            [
+              "A80013335"
+            ]
+          ]
+        },
+        {
+          "===": [
+            {
+              "extractFromUVCI": [
+                {
+                  "var": "payload.v.0.ci"
+                },
+                0
+              ]
+            },
+            "01DE"
+          ]
+        },
+        {
+          "before": [
+            {
+              "plusTime": [
+                {
+                  "var": "external.validationClock"
+                },
+                0,
+                "day"
+              ]
+            },
+            {
+              "plusTime": [
+                "2021-11-23",
+                0,
+                "day"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
