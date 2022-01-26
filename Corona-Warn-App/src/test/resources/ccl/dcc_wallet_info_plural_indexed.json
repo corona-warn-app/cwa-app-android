@@ -40,25 +40,23 @@
       },
       "parameters": []
     },
-    "subtitleText": {
+    "subtitleText":{
       "type": "plural",
-      "quantity": 25,
+      "quantityParameterIndex": 0,
       "localizedText": {
-        "de": {
-          "zero": "Letzte Impfung heute",
-          "one": "Letzte Impfung vor %u Tag",
-          "two": "Letzte Impfung vor %u Tagen",
-          "few": "Letzte Impfung vor %u Tagen",
-          "many": "Letzte Impfung vor %u Tagen",
-          "other": "Letzte Impfung vor %u Tagen"
+        "en": {
+          "zero": "No time left",
+          "one": "%u minute left",
+          "two": "%u minutes left",
+          "few": "%u minutes left",
+          "many": "%u minutes left",
+          "other": "%u minutes left"
         }
       },
       "parameters": [
         {
-          "type": "date",
-          "value": "2021-12-01",
-          "format": "date-diff-now",
-          "unit": "day"
+          "type": "number",
+          "value": 5.5
         }
       ]
     },
