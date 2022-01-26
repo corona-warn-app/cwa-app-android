@@ -14,8 +14,11 @@ data class PersonCertificates(
         get() = certificates.firstOrNull()?.personIdentifier
 
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
-        certificates.findHighestPriorityCertificate()
+        certificates.firstOrNull { certificate ->
+            certificate.qrCodeHash == dccWalletInfoWrapper.mostRelevantCertificateHash
+        } ?: certificates.findHighestPriorityCertificate() // TODO: remove fallback in the final version
     }
+
     val admissionState: AdmissionState?
         get() = certificates.determineAdmissionState()
 

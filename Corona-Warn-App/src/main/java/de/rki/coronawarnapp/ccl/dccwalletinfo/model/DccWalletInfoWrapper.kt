@@ -2,13 +2,14 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
 import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 
 data class DccWalletInfoWrapper(
     val dccWalletInfo: DccWalletInfo = dummyDccWalletInfo
 ) {
     val admissionState = dccWalletInfo.admissionState
     val vaccinationState = dccWalletInfo.vaccinationState
-    val mostRelevantCertificateId = dccWalletInfo.mostRelevantCertificate.certificateRef.barcodeData
+    val mostRelevantCertificateHash = dccWalletInfo.mostRelevantCertificate.certificateRef.barcodeData.toSHA256()
 
     val admissionBadgeText by textResource(admissionState.badgeText)
     val admissionTitleText by textResource(admissionState.titleText)
