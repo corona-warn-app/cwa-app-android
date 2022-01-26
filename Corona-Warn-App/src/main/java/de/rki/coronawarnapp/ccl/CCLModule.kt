@@ -25,7 +25,7 @@ abstract class CCLModule {
     companion object {
         @Singleton
         @Provides
-        fun bugEventDao(
+        fun dccWalletInfoDao(
             dccWalletInfoDatabaseFactory: DccWalletInfoDatabase.Factory
         ): DccWalletInfoDao = dccWalletInfoDatabaseFactory.create().dccWalletInfoDao()
     }
