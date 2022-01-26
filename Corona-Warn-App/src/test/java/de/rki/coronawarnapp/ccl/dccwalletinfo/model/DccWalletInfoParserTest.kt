@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters.FormatType
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters.UnitType
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
@@ -11,7 +14,7 @@ import testhelpers.extensions.toComparableJsonPretty
 @Suppress("MaxLineLength")
 internal class DccWalletInfoParserTest : BaseTest() {
 
-    private val mapper = ObjectMapper()
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     private val boosterNotification = BoosterNotification(visible = false)
 
@@ -23,7 +26,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
 
     private val verification = Verification(
         certificates = listOf(
-            Certificates(
+            OutputCertificates(
                 buttonText = SingleText(
                     type = "string",
                     localizedText = mapOf("de" to "2G-Zertifikat"),
@@ -34,7 +37,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
                 )
             ),
 
-            Certificates(
+            OutputCertificates(
                 buttonText = SingleText(
                     type = "string",
                     localizedText = mapOf("de" to "Testzertifikat"),
@@ -69,10 +72,10 @@ internal class DccWalletInfoParserTest : BaseTest() {
             ),
             parameters = listOf(
                 Parameters(
-                    type = "date",
+                    type = Parameters.Type.DATE,
                     value = "2021-12-01",
-                    format = "date-diff-now",
-                    unit = "day"
+                    format = FormatType.DATE_DIFF_NOW,
+                    unit = UnitType.DAY
                 )
             )
         ),
@@ -115,7 +118,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
         verification = verification,
         boosterNotification = boosterNotification,
         mostRelevantCertificate = mostRelevantCertificate,
-        validUntil = "2022-01-14T18:43:00Z"
+        validUntil = Instant.parse("2022-01-14T18:43:00Z")
     )
 
     @Test
@@ -131,5 +134,50 @@ internal class DccWalletInfoParserTest : BaseTest() {
             mapper.writeValueAsString(dccWalletInfo).toComparableJsonPretty() shouldBe
                 it.readText().toComparableJsonPretty()
         }
+    }
+
+    private val pluralTextIndexed = PluralText(
+        type = "plural",
+        quantity = null,
+        quantityParameterIndex = 0,
+        localizedText = mapOf(
+            "en" to QuantityText(
+                zero = "No time left",
+                one = "%u minute left",
+                two = "%u minutes left",
+                few = "%u minutes left",
+                many = "%u minutes left",
+                other = "%u minutes left"
+            )
+        ),
+        parameters = listOf(
+            Parameters(
+                type = Parameters.Type.NUMBER,
+                value = 5.5,
+                format = null,
+                unit = null
+            )
+        )
+    )
+    private val dccWalletInfoPluralIndexed = dccWalletInfo.copy(
+        vaccinationState = dccWalletInfo.vaccinationState.copy(
+            subtitleText = pluralTextIndexed
+        )
+    )
+
+    @Test
+    fun `Deserialize DCCWalletInfo - Plural Indexed`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_plural_indexed.json").use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfoPluralIndexed
+        }
+    }
+
+    @Test
+    fun `Serialize DCCWalletInfo - Plural Indexed`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_plural_indexed.json")
+            .bufferedReader().use {
+                mapper.writeValueAsString(dccWalletInfoPluralIndexed).toComparableJsonPretty() shouldBe
+                    it.readText().toComparableJsonPretty()
+            }
     }
 }
