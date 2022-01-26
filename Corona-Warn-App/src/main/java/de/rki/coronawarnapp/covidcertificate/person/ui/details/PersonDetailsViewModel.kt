@@ -8,7 +8,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
@@ -99,8 +98,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     ConfirmedStatusCard.Item(
                         titleText = admissionTitleText,
                         subtitleText = admissionSubtitleText,
-                        badgeText =  admissionBadgeText,
-                        longText =  admissionLongText,
+                        badgeText = admissionBadgeText,
+                        longText = admissionLongText,
                         faqAnchor = admissionFaqAnchor,
                         colorShade = colorShade
                     )

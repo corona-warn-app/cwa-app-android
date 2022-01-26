@@ -17,7 +17,7 @@ data class DccWalletInfoWrapper(
     val admissionLongText by textResource(admissionState.longText)
     val admissionFaqAnchor by urlResource(admissionState.faqAnchor)
 
-    val isVaccinationStateVisible =  vaccinationState.visible
+    val isVaccinationStateVisible = vaccinationState.visible
     val vaccinationTitleText by textResource(vaccinationState.titleText)
     val vaccinationSubtitleText by textResource(vaccinationState.subtitleText)
     val vaccinationLongText by textResource(vaccinationState.longText)
