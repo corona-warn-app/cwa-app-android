@@ -70,7 +70,29 @@
     "faqAnchor": "dcc_admission_state"
   },
   "boosterNotification": {
-    "visible": false
+    "visible": false,
+    "titleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Booster"
+      },
+      "parameters": []
+    },
+    "subtitleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Empfehlung einer Booster-Impfung"
+      },
+      "parameters": []
+    },
+    "longText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"
+      },
+      "parameters": []
+    },
+    "faqAnchor": "dcc_admission_state"
   },
   "mostRelevantCertificate": {
     "certificateRef": {
