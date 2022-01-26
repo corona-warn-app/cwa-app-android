@@ -8,7 +8,7 @@ data class CCLConfiguration(
     val identifier: String,
 
     @JsonProperty("Type")
-    val type: String,
+    val type: Type,
 
     @JsonProperty("Country")
     val country: String,
