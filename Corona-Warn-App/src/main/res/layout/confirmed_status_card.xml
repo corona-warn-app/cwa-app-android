@@ -34,16 +34,16 @@
     <TextView
         android:id="@+id/badge"
         android:layout_width="wrap_content"
-        android:layout_height="22dp"
+        android:layout_height="0dp"
         android:background="@drawable/ic_admission_badge_1"
         android:gravity="center"
-        android:paddingBottom="2dp"
+        android:paddingVertical="2dp"
         android:text="@string/confirmed_status_2g_badge"
         android:textColor="@color/colorTextEmphasizedButton"
         android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/title"
         tools:text="2G+ PCR Test" />
 
     <TextView
