@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.configuration.storage
 
 import de.rki.coronawarnapp.ccl.configuration.common.CCLConfigurationParser
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
+import de.rki.coronawarnapp.ccl.configuration.server.CCLConfigurationServer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -21,55 +22,61 @@ class CCLConfigurationRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val cclConfigurationStorage: CCLConfigurationStorage,
     private val defaultCCLConfigurationProvider: DefaultCCLConfigurationProvider,
-    private val cclConfigurationParser: CCLConfigurationParser
+    private val cclConfigurationParser: CCLConfigurationParser,
+    private val cclConfigurationServer: CCLConfigurationServer
 ) {
-    private val internalData: HotDataFlow<CCLConfiguration> = HotDataFlow(
+    private val internalData: HotDataFlow<List<CCLConfiguration>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Eagerly,
-        startValueProvider = { loadInitialConfig() }
+        startValueProvider = { loadInitialConfigs() }
     )
 
-    val cclConfiguration: Flow<CCLConfiguration> = internalData.data
+    val cclConfigurations: Flow<List<CCLConfiguration>> = internalData.data
 
-    suspend fun getCCLConfiguration(): CCLConfiguration = internalData.data.first()
+    suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
 
-    suspend fun updateCCLConfiguration(rawData: ByteArray) = internalData.updateBlocking {
-        Timber.tag(TAG).d("Updating ccl configuration")
-        val newConfig = rawData.tryParseCCLConfiguration()
-        when (newConfig != null) {
-            true -> {
-                Timber.tag(TAG).d("Saving new config json")
-                cclConfigurationStorage.save(rawData = rawData)
-                newConfig
-            }
-            false -> this
-        }
+    /** @return True if the ccl configuration was actually updated, false otherwise */
+    suspend fun updateCCLConfiguration(): Boolean = true
+
+    /**
+     * internalData.updateBlocking {
+    Timber.tag(TAG).d("Updating ccl configuration")
+    val newConfig = rawData.tryParseCCLConfiguration()
+    when (newConfig != null) {
+    true -> {
+    Timber.tag(TAG).d("Saving new config json")
+    cclConfigurationStorage.save(rawData = rawData)
+    newConfig
     }
+    false -> this
+    }
+    }
+     */
 
     suspend fun clear() {
         Timber.tag(TAG).d("Clearing")
         cclConfigurationStorage.clear()
-        updateCCLConfiguration(rawData = defaultCCLConfiguration)
+        //updateCCLConfiguration(rawData = defaultCCLConfiguration)
     }
 
-    private val defaultCCLConfiguration: ByteArray
-        get() = defaultCCLConfigurationProvider.loadDefaultCCLConfiguration()
+    private val defaultCCLConfigurationsRawData: ByteArray
+        get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
 
-    private fun ByteArray.tryParseCCLConfiguration(): CCLConfiguration? = try {
+    private fun ByteArray.tryParseCCLConfigurations(): List<CCLConfiguration>? = try {
         Timber.tag(TAG).d("Trying to parse %s", this)
-        cclConfigurationParser.parseCClConfiguration(rawData = this)
+        cclConfigurationParser.parseCClConfigurations(rawData = this)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Failed to parse %s", this)
         null
     }.also { Timber.d("Returning %s", it) }
 
-    private suspend fun loadInitialConfig(): CCLConfiguration {
+    private suspend fun loadInitialConfigs(): List<CCLConfiguration> {
         Timber.tag(TAG).d("loadInitialConfig()")
-        val config = cclConfigurationStorage.load()?.tryParseCCLConfiguration()
+        val config = cclConfigurationStorage.load()?.tryParseCCLConfigurations()
         return when (config != null) {
             true -> config
-            false -> cclConfigurationParser.parseCClConfiguration(rawData = defaultCCLConfiguration)
+            false -> cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigurationsRawData)
         }.also { Timber.tag(TAG).d("Returning %s", it) }
     }
 }

@@ -11,9 +11,9 @@ class CCLConfigurationParser @Inject constructor(
     @BaseJackson private val objectMapper: ObjectMapper
 ) {
 
-    fun parseCClConfigurationJson(json: String): CCLConfiguration = objectMapper.readValue(json)
+    fun parseCClConfigurationsJson(json: String): List<CCLConfiguration> = objectMapper.readValue(json)
 
-    fun parseCClConfiguration(rawData: ByteArray): CCLConfiguration = CBORObject.DecodeFromBytes(rawData)
+    fun parseCClConfigurations(rawData: ByteArray): List<CCLConfiguration> = CBORObject.DecodeFromBytes(rawData)
         .ToJSONString()
-        .let { parseCClConfigurationJson(json = it) }
+        .let { parseCClConfigurationsJson(json = it) }
 }

@@ -10,7 +10,7 @@ class DefaultCCLConfigurationProvider @Inject constructor(
     @AppContext private val context: Context
 ) {
 
-    fun loadDefaultCCLConfiguration(): ByteArray = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
+    fun loadDefaultCCLConfigurationsRawData(): ByteArray = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
         .use { it.readBytes() }
         .also { Timber.tag(TAG).d("Loaded default ccl config") }
 }

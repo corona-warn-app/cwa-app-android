@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.ccl.configuration.model.FunctionDefinition
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionParameter
 import de.rki.coronawarnapp.ccl.configuration.model.JsonFunctionsDescriptor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -106,7 +105,7 @@ class CCLConfigurationParserTest : BaseTest() {
             )
         )
 
-        with(parser.parseCClConfigurationJson(json = json)) {
+        with(parser.parseCClConfigurationsJson(json = json)) {
             identifier shouldBe "CCL-DE-0001"
             type shouldBe CCLConfiguration.Type.CCLConfiguration
             country shouldBe "DE"
