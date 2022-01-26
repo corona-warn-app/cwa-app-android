@@ -24,5 +24,5 @@ data class FunctionParameter(
     val name: String,
 
     @JsonProperty("default")
-    val default: String?
+    val default: JsonNode
 )
