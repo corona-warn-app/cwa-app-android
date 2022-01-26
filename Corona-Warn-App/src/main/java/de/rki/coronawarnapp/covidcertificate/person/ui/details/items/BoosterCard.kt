@@ -2,7 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.PersonDetailsBoosterCardBinding
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
@@ -24,17 +27,16 @@ class BoosterCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         root.setOnClickListener { curItem.onClick() }
 
-        // TODO: replace with correct booster data
-        title.text = "Booster"
-        subtitle.text = "Empfehlung einer Booster Impfung"
-//        val boosterNotification = curItem.boosterNotificationData
-//        title.text = boosterNotification.titleText
-//        subtitle.text = boosterNotification.subtitleText
+        val boosterNotification = curItem.boosterNotification
+        title.text = textResource(boosterNotification.titleText).value
+        subtitle.text = textResource(boosterNotification.subtitleText).value
+
+        boosterBadge.isVisible = curItem.isNew
     }
 
     data class Item(
-        // TODO: replace with correct booster data
-//        val boosterNotificationData: BoosterNotificationData,
+        val boosterNotification: BoosterNotification,
+        val isNew: Boolean = true,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
 

@@ -95,11 +95,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            // TODO: the path should be remade
             val boosterNotification = personCertificates.dccWalletInfoWrapper.dccWalletInfo.boosterNotification
             if (boosterNotification.visible) {
                 add(
                     BoosterCard.Item(
+                        boosterNotification = boosterNotification,
+                        isNew = true, // TODO: replace with correct call of notification BOOSTER
                         onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
                     )
                 )

@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -38,7 +39,11 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
         val titleText by textResource(boosterNotification.titleText)
         val subtitleText by textResource(boosterNotification.subtitleText)
         val longText by textResource(boosterNotification.longText)
-        val faqAnchor = boosterNotification.faqAnchor
+        val faqUrl by urlResource(boosterNotification.faqAnchor)
+    }
+
+    fun onViewed() {
+        // TODO: add correct call to change notification status to read/viewed
     }
 
     @AssistedFactory

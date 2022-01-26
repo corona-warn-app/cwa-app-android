@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.boosterinfodetails
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -41,7 +40,6 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -58,8 +56,10 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
                 title.text = it.titleText
                 subtitle.text = it.subtitleText
                 body.text = it.longText
-                faq.convertToHyperlink("")
+                faq.convertToHyperlink(it.faqUrl)
             }
         }
+
+        viewModel.onViewed()
     }
 }
