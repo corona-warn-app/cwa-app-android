@@ -15,11 +15,11 @@ class CCLConfigurationStorage @Inject constructor(
     private val mutex = Mutex()
     private val cclConfigurationRawFile = File(cclFile, "ccl_config_raw")
 
-    suspend fun load(): String? = mutex.withLock {
+    suspend fun load(): ByteArray? = mutex.withLock {
         cclConfigurationRawFile.load()
     }
 
-    suspend fun save(rawData: String) = mutex.withLock {
+    suspend fun save(rawData: ByteArray) = mutex.withLock {
         cclConfigurationRawFile.save(rawData = rawData)
     }
 
@@ -28,9 +28,9 @@ class CCLConfigurationStorage @Inject constructor(
         cclFile.deleteRecursively()
     }
 
-    private fun File.load(): String? = try {
+    private fun File.load(): ByteArray? = try {
         when (exists()) {
-            true -> readText()
+            true -> readBytes()
             false -> null
         }
     } catch (e: Exception) {
@@ -38,12 +38,12 @@ class CCLConfigurationStorage @Inject constructor(
         null
     }
 
-    private fun File.save(rawData: String) {
+    private fun File.save(rawData: ByteArray) {
         if (exists()) {
             Timber.tag(TAG).d("Overwriting %s with new data", name)
         }
         parentFile?.mkdirs()
-        writeText(text = rawData)
+        writeBytes(array = rawData)
     }
 }
 

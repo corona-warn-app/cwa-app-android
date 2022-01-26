@@ -106,7 +106,7 @@ class CCLConfigurationParserTest : BaseTest() {
             )
         )
 
-        with(parser.parseCClConfiguration(rawData = json)) {
+        with(parser.parseCClConfigurationJson(json = json)) {
             identifier shouldBe "CCL-DE-0001"
             type shouldBe CCLConfiguration.Type.CCLConfiguration
             country shouldBe "DE"

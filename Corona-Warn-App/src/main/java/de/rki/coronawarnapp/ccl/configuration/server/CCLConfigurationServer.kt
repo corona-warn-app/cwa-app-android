@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ccl.configuration.server
 
-import com.upokecenter.cbor.CBORObject
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.tag
@@ -25,7 +24,7 @@ class CCLConfigurationServer @Inject constructor(
     private val cclConfigurationApi
         get() = cclConfigurationApiLazy.get()
 
-    suspend fun getCCLConfiguration(): String? = withContext(dispatcherProvider.IO) {
+    suspend fun getCCLConfiguration(): ByteArray? = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).d("getCCLConfiguration()")
         val response = cclConfigurationApi.getCCLConfiguration()
         when (response.wasModified) {
@@ -37,7 +36,7 @@ class CCLConfigurationServer @Inject constructor(
         }.also { Timber.tag(TAG).d("Returning %s", it) }
     }
 
-    private fun Response<ResponseBody>.parseAndValidate(): String? = try {
+    private fun Response<ResponseBody>.parseAndValidate(): ByteArray? = try {
         if (!isSuccessful) throw HttpException(this)
 
         val body = requireNotNull(body()) { "Body of response was null" }
@@ -57,7 +56,7 @@ class CCLConfigurationServer @Inject constructor(
         if (!hasValidSignature)
             throw CCLConfigurationInvalidSignatureException(msg = "Signature of ccl configuration did not match")
 
-        CBORObject.DecodeFromBytes(exportBinary).ToJSONString()
+        exportBinary
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Failed to get ccl configuration")
         null

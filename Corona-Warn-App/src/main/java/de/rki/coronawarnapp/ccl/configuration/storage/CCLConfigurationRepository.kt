@@ -34,13 +34,13 @@ class CCLConfigurationRepository @Inject constructor(
 
     suspend fun getCCLConfiguration(): CCLConfiguration = internalData.data.first()
 
-    suspend fun updateCCLConfiguration(cclConfigurationJson: String) = internalData.updateBlocking {
-        Timber.tag(TAG).d("updateCCLConfiguration(cclConfigurationJson=%s)", cclConfigurationJson)
-        val newConfig = cclConfigurationJson.tryParseCCLConfiguration()
+    suspend fun updateCCLConfiguration(rawData: ByteArray) = internalData.updateBlocking {
+        Timber.tag(TAG).d("Updating ccl configuration")
+        val newConfig = rawData.tryParseCCLConfiguration()
         when (newConfig != null) {
             true -> {
-                Timber.tag(TAG).d("Saving new config json=%s", cclConfigurationJson)
-                cclConfigurationStorage.save(rawData = cclConfigurationJson)
+                Timber.tag(TAG).d("Saving new config json")
+                cclConfigurationStorage.save(rawData = rawData)
                 newConfig
             }
             false -> this
@@ -50,13 +50,13 @@ class CCLConfigurationRepository @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).d("Clearing")
         cclConfigurationStorage.clear()
-        updateCCLConfiguration(cclConfigurationJson = defaultCCLConfigurationJson)
+        updateCCLConfiguration(rawData = defaultCCLConfiguration)
     }
 
-    private val defaultCCLConfigurationJson: String
-        get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationJson()
+    private val defaultCCLConfiguration: ByteArray
+        get() = defaultCCLConfigurationProvider.loadDefaultCCLConfiguration()
 
-    private fun String.tryParseCCLConfiguration(): CCLConfiguration? = try {
+    private fun ByteArray.tryParseCCLConfiguration(): CCLConfiguration? = try {
         Timber.tag(TAG).d("Trying to parse %s", this)
         cclConfigurationParser.parseCClConfiguration(rawData = this)
     } catch (e: Exception) {
@@ -69,7 +69,7 @@ class CCLConfigurationRepository @Inject constructor(
         val config = cclConfigurationStorage.load()?.tryParseCCLConfiguration()
         return when (config != null) {
             true -> config
-            false -> cclConfigurationParser.parseCClConfiguration(rawData = defaultCCLConfigurationJson)
+            false -> cclConfigurationParser.parseCClConfiguration(rawData = defaultCCLConfiguration)
         }.also { Timber.tag(TAG).d("Returning %s", it) }
     }
 }
