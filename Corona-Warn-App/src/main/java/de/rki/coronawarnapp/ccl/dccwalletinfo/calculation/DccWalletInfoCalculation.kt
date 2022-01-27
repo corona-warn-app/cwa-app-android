@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.Gson
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
@@ -12,10 +13,13 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dummyDccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.jfn.JsonFunctions
 import javax.inject.Inject
 
-class DccWalletInfoCalculation @Inject constructor() {
+class DccWalletInfoCalculation @Inject constructor(
+    @BaseGson val gson: Gson
+) {
 
     private lateinit var jsonFunctions: JsonFunctions
     private lateinit var boosterRulesNode: JsonNode
@@ -25,7 +29,7 @@ class DccWalletInfoCalculation @Inject constructor() {
         boosterRules: List<DccValidationRule>
     ) {
         jsonFunctions = JsonFunctions()
-        boosterRulesNode = boosterRules.toJsonNode()
+        boosterRulesNode = Gson().toJson(boosterRules).toJsonNode()
         cclConfiguration.logic.jfnDescriptors.forEach {
             jsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
         }
@@ -35,10 +39,10 @@ class DccWalletInfoCalculation @Inject constructor() {
         dccList: List<CwaCovidCertificate>
     ): DccWalletInfo {
 
-        val input = getDccWalletInfoInput(dccList)
+        val input = getDccWalletInfoInput(dccList).toJsonNode()
         val output = jsonFunctions.evaluateFunction(
             FUNCTION_NAME,
-            input.toJsonNode()
+            input
         )
 
         // TODO convert output
@@ -78,7 +82,7 @@ class DccWalletInfoCalculation @Inject constructor() {
                     iat = it.headerIssuedAt.millis / 1000,
                     exp = it.headerExpiresAt.millis / 1000
                 ),
-                hcert = it.dccData.certificateJson,
+                hcert = it.dccData.certificateJson.toJsonNode(),
                 validityState = it.getState().toCclState()
             )
         }
@@ -94,6 +98,8 @@ class DccWalletInfoCalculation @Inject constructor() {
     }
 
     private fun Any.toJsonNode(): JsonNode = ObjectMapper().valueToTree(this)
+
+    private fun String.toJsonNode(): JsonNode = ObjectMapper().readTree(this)
 }
 
-private const val FUNCTION_NAME = "getDCCWalletInfo"
+private const val FUNCTION_NAME = "getDccWalletInfo"

@@ -43,40 +43,6 @@ data class Cwt(
     val exp: Long
 )
 
-data class Nam(
-    @JsonProperty("fn")
-    val fn: String,
-
-    @JsonProperty("gn")
-    val gn: String,
-
-    @JsonProperty("fnt")
-    val fnt: String,
-
-    @JsonProperty("gnt")
-    val gnt: String
-)
-
-data class Hcert(
-    @JsonProperty("ver")
-    val ver: String,
-
-    @JsonProperty("nam")
-    val nam: Nam,
-
-    @JsonProperty("dob")
-    val dob: String,
-
-    @JsonProperty("v")
-    val v: JsonNode? = null,
-
-    @JsonProperty("r")
-    val r: JsonNode? = null,
-
-    @JsonProperty("t")
-    val t: JsonNode? = null
-)
-
 data class CclCertificate(
     @JsonProperty("barcodeData")
     val barcodeData: String,
@@ -88,7 +54,7 @@ data class CclCertificate(
     val cwt: Cwt,
 
     @JsonProperty("hcert")
-    val hcert: String,
+    val hcert: JsonNode,
 
     @JsonProperty("validityState")
     val validityState: Validity
@@ -101,7 +67,7 @@ data class CclCertificate(
         BLOCKED("BLOCKED");
 
         @JsonValue
-        fun validityState() = state
+        fun value() = state
     }
 }
 

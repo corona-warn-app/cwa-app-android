@@ -1,27 +1,41 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
-import de.rki.coronawarnapp.ccl.configuration.storage.CClConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 import javax.inject.Inject
 
 class DccWalletInfoCalculationManager @Inject constructor(
-    private val cclConfigurationRepository: CClConfigurationRepository,
+    private val cclConfigurationRepository: CCLConfigurationRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val calculation: DccWalletInfoCalculation,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    @AppScope private val appScope: CoroutineScope,
 ) {
+
+    fun setup() {
+        Timber.d("setup()")
+        boosterRulesRepository.rules.onEach {
+            triggerCalculation()
+        }.launchIn(appScope)
+    }
 
     suspend fun triggerCalculation(
         configurationChanged: Boolean = true
     ) {
+        Timber.e("triggerCalculation()")
         val now = timeStamper.nowUTC
         initCalculation()
         personCertificatesProvider.personCertificates.first().forEach {
@@ -45,7 +59,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun initCalculation() {
         calculation.init(
-            cclConfigurationRepository.dccConfiguration.first(),
+            cclConfigurationRepository.cclConfigurations.first().first(),
             boosterRulesRepository.rules.first()
         )
     }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -33,17 +34,18 @@ internal class DccWalletInfoInputTest : BaseTest() {
                     iat = 1640691110,
                     exp = 1672227110
                 ),
-                hcert = Hcert(
-                    ver = "1.3.0",
-                    nam = Nam(
-                        fn = "Baxter",
-                        gn = "Henrietta",
-                        fnt = "BAXTER",
-                        gnt = "HENRIETTA"
-                    ),
-                    dob = "1985-10-14",
-                    v = mapper.readTree(
-                        """
+                hcert = mapper.valueToTree(
+                    Hcert(
+                        ver = "1.3.0",
+                        nam = Nam(
+                            fn = "Baxter",
+                            gn = "Henrietta",
+                            fnt = "BAXTER",
+                            gnt = "HENRIETTA"
+                        ),
+                        dob = "1985-10-14",
+                        v = mapper.readTree(
+                            """
                             [
                                       {
                                         "ci": "URN:UVCI:01DE/IZSAP00A/3Y3DWEIPGJYQVFUXNQ2OWN#B",
@@ -59,6 +61,7 @@ internal class DccWalletInfoInputTest : BaseTest() {
                                       }
                             ]
                         """.trimIndent()
+                        )
                     )
                 ),
                 validityState = CclCertificate.Validity.VALID
@@ -89,3 +92,37 @@ internal class DccWalletInfoInputTest : BaseTest() {
             }
     }
 }
+
+data class Nam(
+    @JsonProperty("fn")
+    val fn: String,
+
+    @JsonProperty("gn")
+    val gn: String,
+
+    @JsonProperty("fnt")
+    val fnt: String,
+
+    @JsonProperty("gnt")
+    val gnt: String
+)
+
+data class Hcert(
+    @JsonProperty("ver")
+    val ver: String,
+
+    @JsonProperty("nam")
+    val nam: Nam,
+
+    @JsonProperty("dob")
+    val dob: String,
+
+    @JsonProperty("v")
+    val v: JsonNode? = null,
+
+    @JsonProperty("r")
+    val r: JsonNode? = null,
+
+    @JsonProperty("t")
+    val t: JsonNode? = null
+)
