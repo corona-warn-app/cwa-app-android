@@ -179,4 +179,9 @@
         android:name="de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment"
         android:label="DccTicketingTestFragment" />
 
+    <fragment
+        android:id="@+id/cclTestFragment"
+        android:name="de.rki.coronawarnapp.test.ccl.CCLTestFragment"
+        android:label="CCLTestFragment" />
+
 </navigation>

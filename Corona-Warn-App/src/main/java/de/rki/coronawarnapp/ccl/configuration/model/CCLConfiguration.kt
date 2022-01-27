@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.ccl.configuration.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.JsonNode
 import org.joda.time.Instant
 
+@Suppress("ConstructorParameterNaming")
 data class CCLConfiguration(
     @JsonProperty("Identifier")
     val identifier: String,
 
     @JsonProperty("Type")
-    val type: String,
+    val type: Type,
 
     @JsonProperty("Country")
     val country: String,
@@ -54,27 +54,3 @@ data class CCLConfiguration(
 }
 
 private fun String.toInstant(): Instant = Instant.parse(this)
-
-data class JsonFunctionsDescriptor(
-    @JsonProperty("name")
-    val name: String,
-
-    @JsonProperty("definition")
-    val definition: FunctionDefinition
-)
-
-data class FunctionDefinition(
-    @JsonProperty("parameters")
-    val parameters: List<FunctionParameter>,
-
-    @JsonProperty("logic")
-    val logic: List<JsonNode>
-)
-
-data class FunctionParameter(
-    @JsonProperty("name")
-    val name: String,
-
-    @JsonProperty("default")
-    val default: JsonNode
-)

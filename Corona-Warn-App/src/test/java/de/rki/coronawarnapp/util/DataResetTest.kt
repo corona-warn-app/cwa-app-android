@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
+import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -84,6 +86,8 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
     @MockK lateinit var dccTicketingAllowListRepository: DccTicketingAllowListRepository
     @MockK lateinit var dccTicketingQrCodeSettings: DccTicketingQrCodeSettings
+    @MockK lateinit var cclConfigurationRepository: CCLConfigurationRepository
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     @BeforeEach
     fun setUp() {
@@ -127,7 +131,9 @@ internal class DataResetTest : BaseTest() {
         boosterRulesRepository = boosterRulesRepository,
         exposureWindowsSettings = exposureWindowsSettings,
         dccTicketingAllowListRepository = dccTicketingAllowListRepository,
-        dccTicketingQrCodeSettings = dccTicketingQrCodeSettings
+        dccTicketingQrCodeSettings = dccTicketingQrCodeSettings,
+        cclConfigurationRepository = cclConfigurationRepository,
+        dccWalletInfoRepository = dccWalletInfoRepository,
     )
 
     @Test
@@ -171,6 +177,8 @@ internal class DataResetTest : BaseTest() {
             boosterRulesRepository.clear()
             dccTicketingAllowListRepository.clear()
             dccTicketingQrCodeSettings.clear()
+            cclConfigurationRepository.clear()
+            dccWalletInfoRepository.clear()
         }
     }
 }
