@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ccl.configuration.common
 
-import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.TextNode
 import com.upokecenter.cbor.CBORObject
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
@@ -77,8 +76,7 @@ class CCLConfigurationParserTest : BaseTest() {
         )
 
         val param2 = FunctionParameter(
-            name = "name",
-            default = NullNode.instance
+            name = "name"
         )
 
         val jfnLogic = mapper.readTree(
