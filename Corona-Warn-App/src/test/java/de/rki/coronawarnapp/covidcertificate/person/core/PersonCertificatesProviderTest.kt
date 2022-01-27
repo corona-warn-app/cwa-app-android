@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
