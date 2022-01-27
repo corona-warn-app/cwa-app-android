@@ -78,6 +78,6 @@
     <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
     <string name="reycle_bin_rat_test_date">"Performed on %1$s"</string>
     <!-- XTXT: Recycle Bin  - Information when the item gets finally deleted-->
-    <string name="recycle_bin_item_deletion_date_info">"Will be permanently deleted on %1$s at %2$s"</string>
+    <string name="recycle_bin_item_deletion_date_info">"will be permanently deleted on %1$s at %2$s"</string>
 
 </resources>
