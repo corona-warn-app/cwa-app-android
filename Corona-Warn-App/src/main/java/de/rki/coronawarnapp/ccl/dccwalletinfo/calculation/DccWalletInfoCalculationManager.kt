@@ -13,13 +13,13 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val calculation: DccWalletInfoCalculation,
 ) {
 
-    fun triggerRecalculation(
+    fun triggerCalculation(
         configurationChanged: Boolean = true
     ) {
         // TODO
     }
 
-    fun triggerRecalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
+    fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
         // TODO
     }
 }
