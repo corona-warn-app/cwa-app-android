@@ -31,7 +31,7 @@
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Rejestruj swoje kontakty."</string>
     <!-- XTXT: Contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_body">"Utwórz przegląd swoich kontaktów z ostatnich 14 dni, aby w razie potrzeby mieć szybki dostęp do kompletnej listy."</string>
+    <string name="contact_diary_onboarding_body">"Utwórz przegląd swoich kontaktów z ostatnich 15 dni, aby w razie potrzeby mieć szybki dostęp do kompletnej listy."</string>
     <!-- XTXT: Contact diary onboarding screen first functionality -->
     <string name="contact_diary_onboarding_functionality_first_section">"Wpisz dane spotkanych osób."</string>
     <!-- XTXT: Contact diary onboarding screen second functionality -->
