@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoInput
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dummyDccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -23,6 +22,8 @@ class DccWalletInfoCalculation @Inject constructor(
 
     private lateinit var jsonFunctions: JsonFunctions
     private lateinit var boosterRulesNode: JsonNode
+
+    private val mapper by lazy { ObjectMapper() }
 
     fun init(
         cclConfiguration: CCLConfiguration,
@@ -45,8 +46,7 @@ class DccWalletInfoCalculation @Inject constructor(
             input
         )
 
-        // TODO convert output
-        return dummyDccWalletInfo
+        return mapper.treeToValue(output, DccWalletInfo::class.java)
     }
 
     private fun getDccWalletInfoInput(
@@ -97,9 +97,9 @@ class DccWalletInfoCalculation @Inject constructor(
         else -> throw IllegalStateException("State not supported")
     }
 
-    private fun Any.toJsonNode(): JsonNode = ObjectMapper().valueToTree(this)
+    private fun Any.toJsonNode(): JsonNode = mapper.valueToTree(this)
 
-    private fun String.toJsonNode(): JsonNode = ObjectMapper().readTree(this)
+    private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
 }
 
 private const val FUNCTION_NAME = "getDccWalletInfo"

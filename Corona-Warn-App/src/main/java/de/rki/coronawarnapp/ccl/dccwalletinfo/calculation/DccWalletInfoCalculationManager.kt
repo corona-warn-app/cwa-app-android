@@ -58,8 +58,9 @@ class DccWalletInfoCalculationManager @Inject constructor(
     }
 
     private suspend fun initCalculation() {
+        val configs = cclConfigurationRepository.cclConfigurations.first()
         calculation.init(
-            cclConfigurationRepository.cclConfigurations.first().first(),
+            configs.first(),
             boosterRulesRepository.rules.first()
         )
     }

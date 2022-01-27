@@ -1,11 +1,13 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 import org.joda.time.Instant
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class DccWalletInfo(
     @JsonProperty("admissionState")
     val admissionState: AdmissionState,
@@ -23,8 +25,11 @@ data class DccWalletInfo(
     val verification: Verification,
 
     @JsonProperty("validUntil")
+    val _validUntil: String,
+) {
     val validUntil: Instant
-)
+        get() = Instant.parse(_validUntil)
+}
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -34,12 +39,14 @@ data class DccWalletInfo(
 )
 @JsonSubTypes(
     JsonSubTypes.Type(SingleText::class, name = "string"),
-    JsonSubTypes.Type(PluralText::class, name = "plural")
+    JsonSubTypes.Type(PluralText::class, name = "plural"),
+    JsonSubTypes.Type(SystemTimeDependentText::class, name = "system-time-dependent"),
 )
 sealed interface CCLText {
     val type: String
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class AdmissionState(
     @JsonProperty("visible")
     val visible: Boolean,
@@ -57,12 +64,13 @@ data class AdmissionState(
     val longText: CCLText,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String
+    val faqAnchor: String,
 )
 
 /**
  * Text
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class SingleText(
     @JsonProperty("type")
     override val type: String,
@@ -74,6 +82,28 @@ data class SingleText(
     val parameters: List<Parameters>
 ) : CCLText
 
+/**
+ * Text
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class SystemTimeDependentText(
+    @JsonProperty("type")
+    override val type: String,
+
+    @JsonProperty("functionName")
+    val functionName: String,
+
+    @JsonProperty("parameters")
+    val parameters: SystemTimeParameter
+) : CCLText
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class SystemTimeParameter(
+    @JsonProperty("dt")
+    val dt: String
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class QuantityText(
     @JsonProperty("zero")
     val zero: String,
@@ -103,6 +133,7 @@ typealias LocalizedText = Map<String, String>
 
 typealias QuantityLocalizedText = Map<String, QuantityText>
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class PluralText(
     @JsonProperty("type")
     override val type: String,
@@ -120,16 +151,19 @@ data class PluralText(
     val parameters: List<Parameters>
 ) : CCLText
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class BoosterNotification(
     @JsonProperty("visible")
     val visible: Boolean
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class CertificateRef(
     @JsonProperty("barcodeData")
     val barcodeData: String
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class OutputCertificates(
     @JsonProperty("buttonText")
     val buttonText: CCLText,
@@ -138,11 +172,13 @@ data class OutputCertificates(
     val certificateRef: CertificateRef
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class MostRelevantCertificate(
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Parameters(
     @JsonProperty("type")
     val type: Type, // Required
@@ -181,6 +217,7 @@ data class Parameters(
     }
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class VaccinationState(
     @JsonProperty("visible")
     val visible: Boolean,
@@ -198,6 +235,7 @@ data class VaccinationState(
     val faqAnchor: String
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Verification(
     @JsonProperty("certificates")
     val certificates: List<OutputCertificates>

@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
-import org.joda.time.Instant
-
 // DO delete file
 private val admissionState = AdmissionState(
     visible = true,
@@ -104,5 +102,5 @@ val dummyDccWalletInfo = DccWalletInfo(
     verification = verification,
     boosterNotification = BoosterNotification(visible = false),
     mostRelevantCertificate = mostRelevantCertificate,
-    validUntil = Instant.parse("2022-01-14T18:43:00Z")
+    _validUntil = "2022-01-14T18:43:00Z"
 )

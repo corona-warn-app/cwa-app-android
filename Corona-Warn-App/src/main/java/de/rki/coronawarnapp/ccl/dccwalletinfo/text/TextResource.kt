@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTimeDependentText
 import java.util.Locale
 
 /**
@@ -23,6 +24,7 @@ internal fun formatCCLText(cclText: CCLText, lang: String): String = when (cclTe
             ?: cclText.localizedText[DE] // Default for EN
         text!!.format(cclText.parameters.format())
     }
+    is SystemTimeDependentText -> "TODO: Format system time dependent text"
 }
 
 internal fun List<Parameters>.format(): List<String> = map { parameters ->
