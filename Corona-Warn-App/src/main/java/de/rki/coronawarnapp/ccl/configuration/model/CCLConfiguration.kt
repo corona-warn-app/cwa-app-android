@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ccl.configuration.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.joda.time.Instant
 
+@Suppress("ConstructorParameterNaming")
 data class CCLConfiguration(
     @JsonProperty("Identifier")
     val identifier: String,
