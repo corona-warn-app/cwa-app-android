@@ -96,7 +96,7 @@ class CCLConfigurationParserTest : BaseTest() {
                 }
               ]
             }
-        """.trimIndent()
+            """.trimIndent()
         )
 
         val jfnDescriptor = JsonFunctionsDescriptor(
