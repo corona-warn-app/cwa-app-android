@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -33,7 +34,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var testRepo: TestCertificateRepository
     @MockK lateinit var recoveryRepo: RecoveryCertificateRepository
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
-    @MockK lateinit var dccWalletInfoProvider: DccWalletInfoProvider
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
     private val identifierB = mockk<CertificatePersonIdentifier>()
@@ -101,7 +102,7 @@ class PersonCertificatesProviderTest : BaseTest() {
             every { currentCwaUser } returns mockFlowPreference(identifierA)
         }
 
-        every { dccWalletInfoProvider.dccWalletInfos } returns flowOf(emptySet())
+        every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = PersonCertificatesProvider(
@@ -110,7 +111,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         vaccinationRepository = vaccinationRepo,
         personCertificatesSettings = personCertificatesSettings,
         appScope = scope,
-        dccWalletInfoProvider = dccWalletInfoProvider
+        dccWalletInfoRepository = dccWalletInfoRepository
     )
 
     @Test
