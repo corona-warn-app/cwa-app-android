@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DccWalletInfoRepository @Inject constructor(
     private val dccWalletInfoDao: DccWalletInfoDao,
     @AppScope private val appScope: CoroutineScope
