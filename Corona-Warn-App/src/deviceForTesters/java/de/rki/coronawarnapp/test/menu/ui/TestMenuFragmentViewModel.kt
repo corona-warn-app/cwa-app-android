@@ -36,6 +36,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
 
     val testMenuData by lazy {
         listOf(
+            CCLTestFragment.MENU_ITEM,
             DebugOptionsFragment.MENU_ITEM,
             SettingsCrashReportFragment.MENU_ITEM,
             AppConfigTestFragment.MENU_ITEM,
@@ -54,7 +55,6 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
             DscTestFragment.MENU_ITEM,
             BoosterTestFragment.MENU_ITEM,
             DccTicketingTestFragment.MENU_ITEM,
-            CCLTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }
     val showTestScreenEvent = SingleLiveEvent<TestMenuItem>()
