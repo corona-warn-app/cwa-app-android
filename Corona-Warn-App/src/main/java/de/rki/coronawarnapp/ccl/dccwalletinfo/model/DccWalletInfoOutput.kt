@@ -160,7 +160,11 @@ data class Parameters(
         STRING("string"),
         NUMBER("number"),
         BOOLEAN("boolean"),
-        DATE("date");
+        DATE("date"),
+        LOCAL_DATE("localDate"),
+        LOCAL_DATE_TIME("localDateTime"),
+        UTC_DATE("utcDate"),
+        UTC_DATE_TIME("utcDateTime");
 
         @JsonValue
         fun paramType() = type
