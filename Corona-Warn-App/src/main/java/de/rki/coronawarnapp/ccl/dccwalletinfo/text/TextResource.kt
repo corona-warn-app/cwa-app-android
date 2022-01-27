@@ -21,7 +21,8 @@ internal fun formatCCLText(cclText: CCLText?, lang: String): String? = when (ccl
         val text = cclText.localizedText[lang]
             ?: cclText.localizedText[EN] // Default for other languages
             ?: cclText.localizedText[DE] // Default for EN
-        text?.format(cclText.parameters.format())
+        text?.replace("%@", "%s")
+            ?.format(cclText.parameters.format())
     }
     else -> null
 }
