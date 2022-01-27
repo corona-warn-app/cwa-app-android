@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.ccl.configuration.model.FunctionDefinition
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionParameter
 import de.rki.coronawarnapp.ccl.configuration.model.JsonFunctionsDescriptor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
+import io.kotest.matchers.shouldBe
 import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -17,52 +18,54 @@ class CCLConfigurationParserTest : BaseTest() {
     private val parser = CCLConfigurationParser(objectMapper = mapper)
 
     private val json = """
-        {
-          "Identifier": "CCL-DE-0001",
-          "Type": "CCLConfiguration",
-          "Country": "DE",
-          "Version": "1.0.0",
-          "SchemaVersion": "1.0.0",
-          "Engine": "JsonFunctions",
-          "EngineVersion": "1.0.0",
-          "ValidFrom": "2021-10-07T00:00:00Z",
-          "ValidTo": "2030-06-01T00:00:00Z",
-          "Logic": {
-            "JfnDescriptors": [
-              {
-                "name": "greet",
-                "definition": {
-                  "parameters": [
-                    {
-                      "name": "greeting",
-                      "default": "Hello"
-                    },
-                    {
-                      "name": "name"
-                    }
-                  ],
-                  "logic": [
-                    {
-                      "return": [
-                        {
-                          "concatenate": [
-                            {
-                              "var": "greeting"
-                            },
-                            " ",
-                            {
-                              "var": "name"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
+        [
+          {
+            "Identifier": "CCL-DE-0001",
+            "Type": "CCLConfiguration",
+            "Country": "DE",
+            "Version": "1.0.0",
+            "SchemaVersion": "1.0.0",
+            "Engine": "JsonFunctions",
+            "EngineVersion": "1.0.0",
+            "ValidFrom": "2021-10-07T00:00:00Z",
+            "ValidTo": "2030-06-01T00:00:00Z",
+            "Logic": {
+              "JfnDescriptors": [
+                {
+                  "name": "greet",
+                  "definition": {
+                    "parameters": [
+                      {
+                        "name": "greeting",
+                        "default": "Hello"
+                      },
+                      {
+                        "name": "name"
+                      }
+                    ],
+                    "logic": [
+                      {
+                        "return": [
+                          {
+                            "concatenate": [
+                              {
+                                "var": "greeting"
+                              },
+                              " ",
+                              {
+                                "var": "name"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
                 }
-              }
-            ]
+              ]
+            }
           }
-        }
+        ]
     """.trimIndent()
 
     @Test
@@ -105,7 +108,7 @@ class CCLConfigurationParserTest : BaseTest() {
             )
         )
 
-        with(parser.parseCClConfigurationsJson(json = json)) {
+        with(parser.parseCClConfigurationsJson(json = json).first()) {
             identifier shouldBe "CCL-DE-0001"
             type shouldBe CCLConfiguration.Type.CCLConfiguration
             country shouldBe "DE"
