@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor() {
 
-    lateinit var jsonFunctions: JsonFunctions
-    lateinit var boosterRulesNode: JsonNode
+    private lateinit var jsonFunctions: JsonFunctions
+    private lateinit var boosterRulesNode: JsonNode
 
     fun init(
         cclConfiguration: CCLConfiguration,
@@ -79,12 +79,12 @@ class DccWalletInfoCalculation @Inject constructor() {
                     exp = it.headerExpiresAt.millis / 1000
                 ),
                 hcert = it.dccData.certificateJson,
-                validityState = it.getState().toCllState()
+                validityState = it.getState().toCclState()
             )
         }
     }
 
-    private fun CwaCovidCertificate.State.toCllState(): CclCertificate.Validity = when (this) {
+    private fun CwaCovidCertificate.State.toCclState(): CclCertificate.Validity = when (this) {
         CwaCovidCertificate.State.Blocked -> CclCertificate.Validity.BLOCKED
         is CwaCovidCertificate.State.Expired -> CclCertificate.Validity.EXPIRED
         is CwaCovidCertificate.State.ExpiringSoon -> CclCertificate.Validity.EXPIRING_SOON

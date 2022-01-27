@@ -25,7 +25,10 @@ class DccWalletInfoCalculationManager @Inject constructor(
         val now = timeStamper.nowUTC
         initCalculation()
         personCertificatesProvider.personCertificates.first().forEach {
-            if (configurationChanged || it.dccWalletInfoWrapper.dccWalletInfo.validUntil.isBefore(now)) {
+            if (configurationChanged ||
+                it.dccWalletInfoWrapper == null ||
+                it.dccWalletInfoWrapper.dccWalletInfo.validUntil.isBefore(now)
+            ) {
                 updateWalletInfoForPerson(it)
             }
         }
