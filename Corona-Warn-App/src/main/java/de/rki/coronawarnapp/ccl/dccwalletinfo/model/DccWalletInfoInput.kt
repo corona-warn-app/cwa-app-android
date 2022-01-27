@@ -77,7 +77,7 @@ data class Hcert(
     val t: JsonNode? = null
 )
 
-data class InputCertificates(
+data class CclCertificate(
     @JsonProperty("barcodeData")
     val barcodeData: String,
 
@@ -88,7 +88,7 @@ data class InputCertificates(
     val cwt: Cwt,
 
     @JsonProperty("hcert")
-    val hcert: Hcert,
+    val hcert: String,
 
     @JsonProperty("validityState")
     val validityState: Validity
@@ -116,7 +116,7 @@ data class DccWalletInfoInput(
     val now: SystemTime,
 
     @JsonProperty("certificates")
-    val certificates: List<InputCertificates>,
+    val certificates: List<CclCertificate>,
 
     @JsonProperty("boosterNotificationRules")
     val boosterNotificationRules: JsonNode

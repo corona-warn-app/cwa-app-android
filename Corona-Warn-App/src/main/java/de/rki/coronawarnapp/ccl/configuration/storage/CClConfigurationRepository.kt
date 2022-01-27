@@ -8,10 +8,4 @@ import javax.inject.Inject
 class CClConfigurationRepository @Inject constructor() {
     val dccConfiguration: Flow<CCLConfiguration> = emptyFlow()
 
-    fun getCCLConfiguration(): CCLConfiguration {
-        // DO
-
-        return object : CCLConfiguration {
-        }
-    }
 }

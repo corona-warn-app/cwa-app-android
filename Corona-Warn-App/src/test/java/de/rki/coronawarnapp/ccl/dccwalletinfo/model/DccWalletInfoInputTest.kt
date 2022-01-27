@@ -25,7 +25,7 @@ internal class DccWalletInfoInputTest : BaseTest() {
             utcDateTimeMidnight = "2021-12-30T00:00:00Z"
         ),
         certificates = listOf(
-            InputCertificates(
+            CclCertificate(
                 barcodeData = "HC1:...",
                 cose = Cose(kid = "IyG53x+1zj0="),
                 cwt = Cwt(
@@ -61,7 +61,7 @@ internal class DccWalletInfoInputTest : BaseTest() {
                         """.trimIndent()
                     )
                 ),
-                validityState = InputCertificates.Validity.VALID
+                validityState = CclCertificate.Validity.VALID
             )
         ),
         boosterNotificationRules = readBoosterRules()
