@@ -14,19 +14,29 @@ fun textResource(
     locale: Locale = Locale.getDefault()
 ) = lazy { formatCCLText(cclText, locale.language) }
 
-internal fun formatCCLText(cclText: CCLText, lang: String): String = when (cclText) {
+internal fun formatCCLText(cclText: CCLText?, lang: String): String? = when (cclText) {
     is PluralText -> "TODO: Format plural text"
     is SingleText -> {
         // DO: provide fallback
         val text = cclText.localizedText[lang]
             ?: cclText.localizedText[EN] // Default for other languages
             ?: cclText.localizedText[DE] // Default for EN
-        text!!.format(cclText.parameters.format())
+        text?.format(cclText.parameters.format())
     }
+    else -> null
 }
 
-internal fun List<Parameters>.format(): List<String> = map { parameters ->
-    parameters.toString() // DO: Formatting a UI Text - Format Parameters
+internal fun List<Parameters>.format(): List<Any> = map { parameter ->
+    when (parameter.type) {
+        Parameters.Type.STRING -> parameter.toString()
+        Parameters.Type.NUMBER -> TODO()
+        Parameters.Type.BOOLEAN -> TODO()
+        Parameters.Type.DATE -> TODO()
+        Parameters.Type.LOCAL_DATE -> TODO()
+        Parameters.Type.LOCAL_DATE_TIME -> TODO()
+        Parameters.Type.UTC_DATE -> TODO()
+        Parameters.Type.UTC_DATE_TIME -> TODO()
+    }
 }
 
 private const val EN = "en"
