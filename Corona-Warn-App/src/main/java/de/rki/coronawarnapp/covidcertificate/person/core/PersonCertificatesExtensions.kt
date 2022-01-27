@@ -246,9 +246,9 @@ fun List<CwaCovidCertificate>.findFallbackDcc(): CwaCovidCertificate? {
         }
     }.toCertificateSortOrder()
 
-    return validCerts.firstOrNull { it is VaccinationCertificate || it is RecoveryCertificate }
-        ?: validCerts.firstOrNull() //
-        ?: firstOrNull() // First from the original
+    return validCerts.firstOrNull { it is VaccinationCertificate || it is RecoveryCertificate } // First VC or RC
+        ?: validCerts.firstOrNull() // First from filtered valid list
+        ?: firstOrNull() // First from the original certificates list
 }
 
 @Suppress("ReturnCount", "ComplexMethod")
