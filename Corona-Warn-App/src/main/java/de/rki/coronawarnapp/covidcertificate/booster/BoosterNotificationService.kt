@@ -6,9 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSe
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
@@ -20,14 +18,13 @@ class BoosterNotificationService @Inject constructor(
     private val boosterNotification: BoosterNotification,
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val covidCertificateSettings: CovidCertificateSettings,
-    private val dccBoosterRulesValidator: DccBoosterRulesValidator,
     private val vaccinationRepository: VaccinationRepository,
     private val timeStamper: TimeStamper,
 ) {
     private val mutex = Mutex()
 
     suspend fun checkBoosterNotification(forceCheck: Boolean = false) = mutex.withLock {
-        Timber.tag(TAG).v("checkBoosterNotification() - Started")
+        /*Timber.tag(TAG).v("checkBoosterNotification() - Started")
 
         val lastCheck = covidCertificateSettings.lastDccBoosterCheck.value
 
@@ -67,7 +64,7 @@ class BoosterNotificationService @Inject constructor(
         }
 
         covidCertificateSettings.lastDccBoosterCheck.update { timeStamper.nowUTC }
-        Timber.tag(TAG).v("checkBoosterNotification() - Finished")
+        Timber.tag(TAG).v("checkBoosterNotification() - Finished") */
     }
 
     private suspend fun notifyIfBoosterChanged(

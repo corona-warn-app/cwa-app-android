@@ -74,6 +74,15 @@ class DccValidationServer @Inject constructor(
         }
     }
 
+    data class RuleSetResult(
+        val ruleSetJson: String,
+        val source: RuleSetSource
+    )
+
+    enum class RuleSetSource {
+        SERVER, CACHE
+    }
+
     suspend fun dccCountryJson(): String = withContext(dispatcherProvider.IO) {
         try {
             Timber.tag(TAG).v("Fetching dcc countries...")

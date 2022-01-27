@@ -45,7 +45,7 @@ class BoosterRulesRepository @Inject constructor(
      * Falls back to previous cached rules in case of an error.
      * Worst case is an empty list.
      */
-    suspend fun updateBoosterNotificationRules(): List<DccValidationRule> {
+    suspend fun update(): List<DccValidationRule> {
         Timber.tag(TAG).d("updateBoosterNotificationRules()")
         return internalData.updateBlocking {
             return@updateBlocking try {
@@ -57,6 +57,22 @@ class BoosterRulesRepository @Inject constructor(
             }
         }.let { boosterNotificationRules ->
             boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
+        }
+    }
+
+    suspend fun updateNew(): Boolean {
+        Timber.tag(TAG).d("updateBoosterNotificationRules()")
+        return internalData.updateBlocking {
+            return@updateBlocking try {
+                val rawJson = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
+                rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
+            } catch (e: Exception) {
+                Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
+                localCache.loadBoosterNotificationRulesJson().toRuleSet()
+            }
+        }.let { boosterNotificationRules ->
+            boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
+            true
         }
     }
 

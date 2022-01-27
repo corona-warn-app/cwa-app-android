@@ -17,7 +17,7 @@ class BoosterTestViewModel @AssistedInject constructor(
     vaccinationRepository: VaccinationRepository,
 ) : CWAViewModel() {
     fun refreshBoosterRules() = launch {
-        boosterRulesRepository.updateBoosterNotificationRules()
+        boosterRulesRepository.update()
     }
 
     val rules = boosterRulesRepository.rules.asLiveData2()

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -13,6 +14,7 @@ import testhelpers.BaseTest
 internal class CCLConfigurationUpdaterTest : BaseTest() {
 
     @MockK private lateinit var cclSettings: CCLSettings
+    @MockK private lateinit var boosterRulesRepository: BoosterRulesRepository
 
     @BeforeEach
     fun setup() {
@@ -44,6 +46,6 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
     }
 
     private fun getInstance(): CCLConfigurationUpdater {
-        return CCLConfigurationUpdater(cclSettings)
+        return CCLConfigurationUpdater(cclSettings, boosterRulesRepository)
     }
 }

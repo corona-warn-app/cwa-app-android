@@ -35,7 +35,6 @@ class BoosterNotificationServiceTest : BaseTest() {
     @MockK lateinit var boosterNotification: BoosterNotification
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
-    @MockK lateinit var dccBoosterRulesValidator: DccBoosterRulesValidator
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -48,7 +47,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { boosterNotification.showBoosterNotification(any()) } just Runs
 
         coEvery { vaccinationRepository.updateBoosterNotifiedAt(any(), any()) } just Runs
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns null
         coEvery { vaccinationRepository.updateBoosterRule(any(), any()) } just Runs
     }
 
@@ -81,10 +79,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf())
 
         service().checkBoosterNotification()
-
-        coVerify(exactly = 0) {
-            dccBoosterRulesValidator.validateBoosterRules(any())
-        }
     }
 
     @Test
@@ -111,7 +105,6 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         coVerifySequence {
             vaccinationRepository.vaccinationInfos
-            dccBoosterRulesValidator.validateBoosterRules(any())
             vaccinationRepository.updateBoosterRule(any(), any())
         }
     }
@@ -138,10 +131,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
-            .apply {
-                every { identifier } returns "BNR-DE-416"
-            }
 
         service().checkBoosterNotification()
         coVerify(exactly = 0) {
@@ -184,10 +173,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         // First check user is not notified and new rule is not saved yet
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
-            .apply {
-                every { identifier } returns "BNR-DE-418"
-            }
 
         service().checkBoosterNotification()
         coVerify(exactly = 1) {
@@ -200,10 +185,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { covidCertificateSettings.lastDccBoosterCheck } returns mockFlowPreference(Instant.EPOCH)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPersonAfterUpdate))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
-            .apply {
-                every { identifier } returns "BNR-DE-418"
-            }
 
         service().checkBoosterNotification()
         coVerify(exactly = 1) {
@@ -246,10 +227,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         // First check user is not notified and new rule is not saved yet
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
-            .apply {
-                every { identifier } returns "BNR-DE-418"
-            }
 
         service().checkBoosterNotification()
         coVerify(exactly = 1) {
@@ -262,10 +239,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { covidCertificateSettings.lastDccBoosterCheck } returns mockFlowPreference(Instant.EPOCH)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPersonAfterUpdate))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns mockk<DccValidationRule>()
-            .apply {
-                every { identifier } returns "BNR-DE-500"
-            }
 
         service().checkBoosterNotification()
         coVerify(exactly = 2) {
@@ -321,8 +294,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
-            mockk<DccValidationRule>().apply { every { identifier } returns "" }
 
         service().checkBoosterNotification()
 
@@ -351,7 +322,7 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } throws Exception("Crash")
+
         shouldNotThrowAny {
             service().checkBoosterNotification()
         }
@@ -378,8 +349,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
-            mockk<DccValidationRule>().apply { every { identifier } returns "BNR-DE-410" }
 
         service().checkBoosterNotification()
         coVerify {
@@ -409,8 +378,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         }
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf(personCertificate))
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
-            mockk<DccValidationRule>().apply { every { identifier } returns "" }
 
         service().checkBoosterNotification()
         coVerify(exactly = 0) {
@@ -468,8 +435,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { vaccinationRepository.vaccinationInfos } returns flowOf(
             setOf(vaccinatedPerson1, vaccinatedPerson2)
         )
-        coEvery { dccBoosterRulesValidator.validateBoosterRules(any()) } returns
-            mockk<DccValidationRule>().apply { every { identifier } returns "BNR-DE-500" }
 
         service().checkBoosterNotification()
         coVerify(exactly = 2) {
@@ -482,7 +447,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         boosterNotification = boosterNotification,
         personCertificatesProvider = personCertificatesProvider,
         covidCertificateSettings = covidCertificateSettings,
-        dccBoosterRulesValidator = dccBoosterRulesValidator,
         vaccinationRepository = vaccinationRepository,
         timeStamper = timeStamper
     )

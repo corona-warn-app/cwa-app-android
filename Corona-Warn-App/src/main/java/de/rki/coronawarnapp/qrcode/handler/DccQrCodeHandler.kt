@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.qrcode.handler
 
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -19,7 +18,6 @@ class DccQrCodeHandler @Inject constructor(
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dscSignatureValidator: DscSignatureValidator,
-    private val boosterCheckScheduler: BoosterCheckScheduler,
 ) {
 
     /**
@@ -33,8 +31,6 @@ class DccQrCodeHandler @Inject constructor(
             is VaccinationCertificateQRCode -> vaccinationRepository.registerCertificate(dccQrCode).containerId
             is TestCertificateQRCode -> testCertificateRepository.registerCertificate(dccQrCode).containerId
             else -> throw UnsupportedQrCodeException()
-        }.also {
-            boosterCheckScheduler.scheduleNow()
         }
     }
 }

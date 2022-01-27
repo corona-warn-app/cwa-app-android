@@ -113,7 +113,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
 
         with(createInstance(this)) {
-            updateBoosterNotificationRules() shouldBe emptyList()
+            update() shouldBe emptyList()
             rules.first() shouldBe emptyList()
         }
 
@@ -133,7 +133,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesData
 
         with(createInstance(this)) {
-            updateBoosterNotificationRules() shouldBe boosterRuleList
+            update() shouldBe boosterRuleList
             rules.first() shouldBe boosterRuleList
         }
 
@@ -165,7 +165,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
         with(createInstance(this)) {
-            updateBoosterNotificationRules() shouldBe boosterRuleList
+            update() shouldBe boosterRuleList
             rules.first() shouldBe boosterRuleList
         }
 
@@ -182,7 +182,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `clear clears server, cache and flow`() = runBlockingTest2(ignoreActive = true) {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
-            updateBoosterNotificationRules() shouldBe bnrs
+            update() shouldBe bnrs
             rules.first() shouldBe bnrs
 
             clear()

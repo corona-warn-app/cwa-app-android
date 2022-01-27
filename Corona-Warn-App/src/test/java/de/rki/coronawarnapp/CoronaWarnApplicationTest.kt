@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -86,7 +85,6 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
     @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
     @MockK lateinit var securityProvider: SecurityProvider
-    @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
 
@@ -151,7 +149,6 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.environmentSetup = environmentSetup
                 app.imageLoaderFactory = imageLoaderFactory
                 app.dccStateCheckScheduler = dscCheckScheduler
-                app.boosterCheckScheduler = boosterCheckScheduler
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
             }
@@ -191,7 +188,6 @@ class CoronaWarnApplicationTest : BaseTest() {
             traceLocationDbCleanupScheduler.scheduleDaily()
             shareTestResultNotificationService.setup()
             dscCheckScheduler.setup()
-            boosterCheckScheduler.setup()
             recycleBinCleanUpScheduler.setup()
         }
     }
