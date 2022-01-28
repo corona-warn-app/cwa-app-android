@@ -27,6 +27,7 @@ class CCLConfigurationUpdater @Inject constructor(
         // Also note that this mechanism shall cause the app to update its configuration when its opened for the
         // first time after an update to a release that supports CCL.
 
+        cclSettings.setExecutionTime()
         return updateConfiguration()
     }
 

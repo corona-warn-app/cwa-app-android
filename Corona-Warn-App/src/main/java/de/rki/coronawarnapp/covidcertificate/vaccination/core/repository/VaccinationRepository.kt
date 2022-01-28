@@ -339,6 +339,7 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
+    // TODO: Remove?
     suspend fun updateBoosterRule(
         personIdentifier: CertificatePersonIdentifier,
         rule: DccValidationRule?

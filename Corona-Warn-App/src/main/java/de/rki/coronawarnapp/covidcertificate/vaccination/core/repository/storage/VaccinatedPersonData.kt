@@ -11,6 +11,7 @@ data class VaccinatedPersonData(
 
     @Transient val boosterRule: DccValidationRule? = null,
     @SerializedName("boosterRuleIdentifier")
+    @Deprecated("the boosterRuleIdentifier is stored in DccWalletInfo from 2.18 onwards")
     val boosterRuleIdentifier: String? = null,
 
     @SerializedName("lastSeenBoosterRuleIdentifier")

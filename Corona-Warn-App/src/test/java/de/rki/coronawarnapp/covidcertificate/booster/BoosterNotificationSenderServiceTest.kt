@@ -30,9 +30,9 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class BoosterNotificationServiceTest : BaseTest() {
+class BoosterNotificationSenderServiceTest : BaseTest() {
 
-    @MockK lateinit var boosterNotification: BoosterNotification
+    @MockK lateinit var boosterNotificationSender: BoosterNotificationSender
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var vaccinationRepository: VaccinationRepository
@@ -44,7 +44,7 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { covidCertificateSettings.lastDccBoosterCheck } returns mockFlowPreference(Instant.EPOCH)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
         every { personCertificatesProvider.personCertificates } returns flowOf(emptySet())
-        every { boosterNotification.showBoosterNotification(any()) } just Runs
+        every { boosterNotificationSender.showBoosterNotification(any()) } just Runs
 
         coEvery { vaccinationRepository.updateBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { vaccinationRepository.updateBoosterRule(any(), any()) } just Runs
@@ -134,7 +134,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 0) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -176,7 +176,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 1) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
 
@@ -188,7 +188,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 1) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -230,7 +230,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 1) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
 
@@ -242,7 +242,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 2) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -270,7 +270,7 @@ class BoosterNotificationServiceTest : BaseTest() {
         service().checkBoosterNotification()
 
         coVerify(exactly = 0) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -298,7 +298,7 @@ class BoosterNotificationServiceTest : BaseTest() {
         service().checkBoosterNotification()
 
         coVerify(exactly = 0) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -352,7 +352,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -381,7 +381,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 0) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
@@ -438,13 +438,13 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().checkBoosterNotification()
         coVerify(exactly = 2) {
-            boosterNotification.showBoosterNotification(any())
+            boosterNotificationSender.showBoosterNotification(any())
             vaccinationRepository.updateBoosterNotifiedAt(any(), any())
         }
     }
 
     private fun service() = BoosterNotificationService(
-        boosterNotification = boosterNotification,
+        boosterNotification = boosterNotificationSender,
         personCertificatesProvider = personCertificatesProvider,
         covidCertificateSettings = covidCertificateSettings,
         vaccinationRepository = vaccinationRepository,
