@@ -14,7 +14,7 @@ fun textResource(
     locale: Locale = Locale.getDefault()
 ) = lazy { formatCCLText(cclText, locale.language) }
 
-internal fun formatCCLText(cclText: CCLText, lang: String): String = when (cclText) {
+internal fun formatCCLText(cclText: CCLText?, lang: String): String = when (cclText) {
     is PluralText -> "TODO: Format plural text"
     is SingleText -> {
         // DO: provide fallback
@@ -23,6 +23,7 @@ internal fun formatCCLText(cclText: CCLText, lang: String): String = when (cclTe
             ?: cclText.localizedText[DE] // Default for EN
         text!!.format(cclText.parameters.format())
     }
+    else -> ""
 }
 
 internal fun List<Parameters>.format(): List<String> = map { parameters ->
