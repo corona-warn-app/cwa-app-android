@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
+import androidx.annotation.VisibleForTesting
 import com.upokecenter.cbor.CBORObject
 import dagger.Lazy
 import dagger.Reusable
@@ -150,7 +151,8 @@ class DccValidationServer @Inject constructor(
         }
     }
 
-    private fun getSource(response: Response<ResponseBody>) = if (response.notModified()) {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getSource(response: Response<ResponseBody>) = if (response.notModified()) {
         RuleSetSource.CACHE
     } else {
         RuleSetSource.SERVER

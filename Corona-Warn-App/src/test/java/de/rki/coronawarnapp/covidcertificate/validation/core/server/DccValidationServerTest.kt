@@ -14,6 +14,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.Cache
@@ -44,12 +45,14 @@ class DccValidationServerTest : BaseIOTest() {
         coEvery { countryApi.onboardedCountries() } returns Response.success(COUNTRY_ARCHIVE.toResponseBody())
     }
 
-    private fun createInstance() = DccValidationServer(
-        countryApiLazy = { countryApi },
-        rulesApiLazy = { rulesApi },
-        signatureValidation = signatureValidation,
-        cache = cache,
-        dispatcherProvider = TestDispatcherProvider()
+    private fun createInstance() = spyk(
+        DccValidationServer(
+            countryApiLazy = { countryApi },
+            rulesApiLazy = { rulesApi },
+            signatureValidation = signatureValidation,
+            cache = cache,
+            dispatcherProvider = TestDispatcherProvider()
+        )
     )
 
     @Test
@@ -68,23 +71,23 @@ class DccValidationServerTest : BaseIOTest() {
 
         val server = createInstance()
 
+        // first we get a new rule set from the server
         coEvery { rulesApi.boosterNotificationRules() } returns Response.success(BOOSTER_RULESET_ARCHIVE.toResponseBody())
+        server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION).apply {
+            ruleSetJson.startsWith("[{\"Type\":\"BoosterNotification\",\"Logic\":{\"and\":[{\"not-before") shouldBe true
+            source shouldBe DccValidationServer.RuleSetSource.SERVER
+        }
 
-        val ruleSet = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
-        ruleSet.startsWith("[{\"Type\":\"BoosterNotification\",\"Logic\":{\"and\":[{\"not-before") shouldBe true
+        // next we get a 304 response from the server, so RuleSetSource.CACHE should be returned
+        // Unfortunately, I haven't found a way to create a 304 Response, that's why we mock the server.getSource() function
+        coEvery { rulesApi.boosterNotificationRules() } returns Response.success(BOOSTER_RULESET_ARCHIVE.toResponseBody())
+        every { server.getSource(any()) } returns DccValidationServer.RuleSetSource.CACHE
+        server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION).apply {
+            ruleSetJson.startsWith("[{\"Type\":\"BoosterNotification\",\"Logic\":{\"and\":[{\"not-before") shouldBe true
+            source shouldBe DccValidationServer.RuleSetSource.CACHE
+        }
 
-        verify(exactly = 1) { signatureValidation.hasValidSignature(any(), any()) }
-    }
-
-    @Test
-    fun `server should return cache as source when the rule set was loaded from the cache`() {
-
-        val server = createInstance()
-
-        coEvery { rulesApi.boosterNotificationRules() } returns Response.success(
-            304,
-            BOOSTER_RULESET_ARCHIVE.toResponseBody()
-        )
+        verify(exactly = 2) { signatureValidation.hasValidSignature(any(), any()) }
     }
 
     @Test
