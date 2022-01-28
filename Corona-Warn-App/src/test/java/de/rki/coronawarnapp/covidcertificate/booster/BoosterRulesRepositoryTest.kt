@@ -62,7 +62,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
-    val testBoosterNotificationRulesResult = DccValidationServer.RuleSetResult(
+    private val testBoosterNotificationRulesResult = DccValidationServer.RuleSetResult(
         ruleSetJson = testBoosterNotificationRulesData,
         source = DccValidationServer.RuleSetSource.SERVER
     )
@@ -138,7 +138,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesResult
 
         with(createInstance(this)) {
-            update() shouldBe boosterRuleList
+            update() shouldBe true
             rules.first() shouldBe boosterRuleList
         }
 
@@ -173,7 +173,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
         with(createInstance(this)) {
-            update() shouldBe boosterRuleList
+            update() shouldBe true
             rules.first() shouldBe boosterRuleList
         }
 
@@ -190,7 +190,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `clear clears server, cache and flow`() = runBlockingTest2(ignoreActive = true) {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
-            update() shouldBe bnrs
+            update() shouldBe true
             rules.first() shouldBe bnrs
 
             clear()
