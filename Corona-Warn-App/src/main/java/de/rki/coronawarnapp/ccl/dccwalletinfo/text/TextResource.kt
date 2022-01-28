@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.text
 
+import android.content.Context
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -13,15 +16,17 @@ import java.util.Locale
  * Formats [CCLText] lazily when accessed
  */
 fun textResource(
+    context: Context,
     cclText: CCLText,
     locale: Locale = Locale.getDefault()
-) = lazy { formatCCLText(cclText, locale) }
+) = lazy { formatCCLText(context, cclText, locale) }
 
 internal fun formatCCLText(
+    context: Context,
     cclText: CCLText?,
     locale: Locale
 ): String? = when (cclText) {
-    is PluralText -> cclText.formatPlural(locale)
+    is PluralText -> cclText.formatPlural(context, locale)
     is SingleText -> cclText.formatSingle(locale)
     else -> null
 }
@@ -39,40 +44,35 @@ private fun SingleText.formatSingle(
 }
 
 private fun PluralText.formatPlural(
+    context: Context,
     locale: Locale
 ): String? {
-    val quantity = quantity(locale)
+    val quantity = quantity()
     val quantityText = localizedText[locale.language]
         ?: localizedText[EN]
         ?: localizedText[DE]
 
-    val text = when (quantity) {
-        0 -> quantityText?.zero
-        1 -> quantityText?.one
-        2 -> quantityText?.two
-        in 3..4 -> quantityText?.few
-        in 5..7 -> quantityText?.many
-        else -> quantityText?.other
-    }
+    val pluralKey = context.resources.getQuantityString(R.plurals.plural_keys, quantity)
+    val text = quantityText?.get(pluralKey)
 
     return text
         ?.replace("%@", "%s")
         ?.format(*parameters.convertValues(locale))
 }
 
-private fun PluralText.quantity(locale: Locale): Any {
+private fun PluralText.quantity(): Int {
     return quantity ?: run {
         val param = parameters[quantityParameterIndex ?: 0]
         when (param.format) {
             Parameters.FormatType.DATE_DIFF_NOW -> when (param.unit) {
                 Parameters.UnitType.DAY ->
                     Days.daysBetween(
-                        Instant.parse(param.covertValue(locale).toString()),
+                        Instant.parse(param.value.toString()),
                         Instant.now()
                     ).days
-                else -> param.covertValue(locale)
+                else -> param.toNumber()
             }
-            else -> param.covertValue(locale)
+            else -> param.toNumber()
         }
     }
 }
@@ -89,33 +89,29 @@ private fun Parameters.covertValue(
     Parameters.Type.BOOLEAN -> toBoolean()
     Parameters.Type.DATE,
     Parameters.Type.LOCAL_DATE -> toLocalDate(locale)
-    Parameters.Type.LOCAL_DATE_TIME -> toLocalDateTime()
-    Parameters.Type.UTC_DATE -> toUTCDate()
-    Parameters.Type.UTC_DATE_TIME -> toUTCDateTime()
+    Parameters.Type.LOCAL_DATE_TIME -> toLocalDateTime(locale)
+    Parameters.Type.UTC_DATE -> toUTCDate(locale)
+    Parameters.Type.UTC_DATE_TIME -> toUTCDateTime(locale)
 }
 
-private fun Parameters.toUTCDateTime(): String {
-    return Instant.parse(value.toString()).toString(
-        DateTimeFormat.shortDate()
-    )
+private fun Parameters.toUTCDateTime(locale: Locale): String {
+    return Instant.parse(value.toString()).toDateTime()
+        .toString(DateTimeFormat.shortDateTime().withLocale(locale))
 }
 
-private fun Parameters.toUTCDate(): String {
-    return Instant.parse(value.toString()).toString(
-        DateTimeFormat.shortDate()
-    )
+private fun Parameters.toUTCDate(locale: Locale): String {
+    return Instant.parse(value.toString()).toDateTime()
+        .toString(DateTimeFormat.shortDate().withLocale(locale))
 }
 
-private fun Parameters.toLocalDateTime(): String {
-    return Instant.parse(value.toString()).toString(
-        DateTimeFormat.shortDate()
-    )
+private fun Parameters.toLocalDateTime(locale: Locale): String {
+    return Instant.parse(value.toString()).toLocalDateTimeUserTz()
+        .toString(DateTimeFormat.shortDateTime().withLocale(locale))
 }
 
 private fun Parameters.toLocalDate(locale: Locale): String {
-    return Instant.parse(value.toString()).toString(
-        DateTimeFormat.shortDate()
-    )
+    return Instant.parse(value.toString()).toLocalDateTimeUserTz()
+        .toString(DateTimeFormat.shortDate().withLocale(locale))
 }
 
 private fun Parameters.toNumber(): Int = (value as Number).toInt()
