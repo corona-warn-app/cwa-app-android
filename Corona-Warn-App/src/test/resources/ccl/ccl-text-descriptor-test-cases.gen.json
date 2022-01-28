@@ -1,5 +1,5 @@
 {
-  "$comment": "Generated at Thu Jan 27 2022 11:33:14 GMT+0100 (Central European Standard Time)",
+  "$comment": "Generated at Thu Jan 27 2022 18:00:50 GMT+0100 (Central European Standard Time)",
   "testCases": [
     {
       "description": "simple hello world",
@@ -39,11 +39,11 @@
       ]
     },
     {
-      "description": "placeholder %u",
+      "description": "placeholder %d",
       "textDescriptor": {
         "type": "string",
         "localizedText": {
-          "de": "Hallo %u"
+          "de": "Hallo %d"
         },
         "parameters": [
           {
@@ -265,9 +265,10 @@
       ]
     },
     {
-      "description": "plural simple hello world",
+      "description": "plural simple hello world (quantity 0)",
       "textDescriptor": {
         "type": "plural",
+        "quantity": 0,
         "localizedText": {
           "de": {
             "zero": "Jetzt",
@@ -283,38 +284,95 @@
       "assertions": [
         {
           "languageCode": "de",
-          "quantity": 0,
           "text": "Jetzt"
+        }
+      ]
+    },
+    {
+      "description": "plural simple hello world (quantity 1)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 1,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
         },
+        "parameters": []
+      },
+      "assertions": [
         {
           "languageCode": "de",
-          "quantity": 1,
           "text": "vor einer Minute"
+        }
+      ]
+    },
+    {
+      "description": "plural simple hello world (quantity 2)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 2,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
         },
+        "parameters": []
+      },
+      "assertions": [
         {
           "languageCode": "de",
-          "quantity": 2,
-          "text": "vor wenigen Minuten"
-        },
-        {
-          "languageCode": "de",
-          "quantity": 20,
           "text": "vor wenigen Minuten"
         }
       ]
     },
     {
-      "description": "plural hello world with placeholders",
+      "description": "plural simple hello world (quantity 20)",
       "textDescriptor": {
         "type": "plural",
+        "quantity": 20,
         "localizedText": {
           "de": {
             "zero": "Jetzt",
-            "one": "vor %u Minute",
-            "two": "vor %u Minuten",
-            "few": "vor %u Minuten",
-            "many": "vor %u Minuten",
-            "other": "vor %u Minuten"
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor wenigen Minuten"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders (quantity 0)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 0,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
           }
         },
         "parameters": [
@@ -327,22 +385,64 @@
       "assertions": [
         {
           "languageCode": "de",
-          "quantity": 0,
           "text": "Jetzt"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders (quantity 1)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 1,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
         },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 42
+          }
+        ]
+      },
+      "assertions": [
         {
           "languageCode": "de",
-          "quantity": 1,
           "text": "vor 42 Minute"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders (quantity 2)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 2,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
         },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 42
+          }
+        ]
+      },
+      "assertions": [
         {
           "languageCode": "de",
-          "quantity": 2,
-          "text": "vor 42 Minuten"
-        },
-        {
-          "languageCode": "de",
-          "quantity": 20,
           "text": "vor 42 Minuten"
         }
       ]
@@ -351,14 +451,15 @@
       "description": "plural hello world with placeholders and quantityParameterIndex (#1)",
       "textDescriptor": {
         "type": "plural",
+        "quantityParameterIndex": 0,
         "localizedText": {
           "de": {
             "zero": "Jetzt",
-            "one": "vor %u Minute",
-            "two": "vor %u Minuten",
-            "few": "vor %u Minuten",
-            "many": "vor %u Minuten",
-            "other": "vor %u Minuten"
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
           }
         },
         "parameters": [
@@ -371,7 +472,6 @@
       "assertions": [
         {
           "languageCode": "de",
-          "quantityParameterIndex": 0,
           "text": "Jetzt"
         }
       ]
@@ -380,14 +480,15 @@
       "description": "plural hello world with placeholders and quantityParameterIndex (#2)",
       "textDescriptor": {
         "type": "plural",
+        "quantityParameterIndex": 0,
         "localizedText": {
           "de": {
             "zero": "Jetzt",
-            "one": "vor %u Minute",
-            "two": "vor %u Minuten",
-            "few": "vor %u Minuten",
-            "many": "vor %u Minuten",
-            "other": "vor %u Minuten"
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
           }
         },
         "parameters": [
@@ -400,7 +501,6 @@
       "assertions": [
         {
           "languageCode": "de",
-          "quantityParameterIndex": 0,
           "text": "vor 1 Minute"
         }
       ]
@@ -409,14 +509,15 @@
       "description": "plural hello world with placeholders and quantityParameterIndex (#3)",
       "textDescriptor": {
         "type": "plural",
+        "quantityParameterIndex": 0,
         "localizedText": {
           "de": {
             "zero": "Jetzt",
-            "one": "vor %u Minute",
-            "two": "vor %u Minuten",
-            "few": "vor %u Minuten",
-            "many": "vor %u Minuten",
-            "other": "vor %u Minuten"
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
           }
         },
         "parameters": [
@@ -429,7 +530,6 @@
       "assertions": [
         {
           "languageCode": "de",
-          "quantityParameterIndex": 0,
           "text": "vor 2 Minuten"
         }
       ]

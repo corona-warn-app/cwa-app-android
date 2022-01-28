@@ -410,9 +410,10 @@ dependencies {
 
 
     // Testing - jUnit5
-    def jupiter_version = "5.7.0"
+    def jupiter_version = "5.8.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiter_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
     def kotest_version = "4.3.2"

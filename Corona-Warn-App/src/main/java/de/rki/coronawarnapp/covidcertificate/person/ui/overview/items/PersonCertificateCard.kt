@@ -37,7 +37,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = walletInfo.admissionBadgeText.orEmpty(),
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -47,7 +47,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = walletInfo.admissionBadgeText.orEmpty(),
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -58,7 +58,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = walletInfo.admissionBadgeText.orEmpty(),
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -68,7 +68,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = walletInfo.admissionBadgeText.orEmpty(),
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -78,7 +78,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = walletInfo.admissionBadgeText.orEmpty(),
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
