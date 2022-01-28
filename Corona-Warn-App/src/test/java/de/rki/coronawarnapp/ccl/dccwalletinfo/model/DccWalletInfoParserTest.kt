@@ -61,13 +61,13 @@ internal class DccWalletInfoParserTest : BaseTest() {
             type = "plural",
             quantity = 25,
             localizedText = mapOf(
-                "de" to QuantityText(
-                    zero = "Letzte Impfung heute",
-                    one = "Letzte Impfung vor %u Tag",
-                    two = "Letzte Impfung vor %u Tagen",
-                    few = "Letzte Impfung vor %u Tagen",
-                    many = "Letzte Impfung vor %u Tagen",
-                    other = "Letzte Impfung vor %u Tagen"
+                "de" to mapOf(
+                    "zero" to "Letzte Impfung heute",
+                    "one" to "Letzte Impfung vor %u Tag",
+                    "two" to "Letzte Impfung vor %u Tagen",
+                    "few" to "Letzte Impfung vor %u Tagen",
+                    "many" to "Letzte Impfung vor %u Tagen",
+                    "other" to "Letzte Impfung vor %u Tagen"
                 )
             ),
             parameters = listOf(
@@ -141,13 +141,13 @@ internal class DccWalletInfoParserTest : BaseTest() {
         quantity = null,
         quantityParameterIndex = 0,
         localizedText = mapOf(
-            "en" to QuantityText(
-                zero = "No time left",
-                one = "%u minute left",
-                two = "%u minutes left",
-                few = "%u minutes left",
-                many = "%u minutes left",
-                other = "%u minutes left"
+            "en" to mapOf(
+                "zero" to "No time left",
+                "one" to "%u minute left",
+                "two" to "%u minutes left",
+                "few" to "%u minutes left",
+                "many" to "%u minutes left",
+                "other" to "%u minutes left"
             )
         ),
         parameters = listOf(

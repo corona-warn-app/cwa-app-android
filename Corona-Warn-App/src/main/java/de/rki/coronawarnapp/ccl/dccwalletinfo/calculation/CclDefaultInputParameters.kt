@@ -50,11 +50,11 @@ private fun getLanguage(): String {
     }
 }
 
-private fun DateTime.toLocalDateString() = toLocalDate().toString()
+fun DateTime.toLocalDateString() = toLocalDate().toString()
 
-private fun DateTime.toLocalDateTimeString() = toString(ISODateTimeFormat.dateTimeNoMillis())
+fun DateTime.toLocalDateTimeString() = toString(ISODateTimeFormat.dateTimeNoMillis())
 
-private fun DateTime.toLocalDateTimeMidnightString() = withTime(
+fun DateTime.toLocalDateTimeMidnightString() = withTime(
     0,
     0,
     0,

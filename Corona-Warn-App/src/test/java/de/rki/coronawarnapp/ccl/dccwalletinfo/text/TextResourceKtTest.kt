@@ -22,35 +22,35 @@ internal class TextResourceKtTest : BaseTest() {
         println(message)
         println("Expected: " + testCase.assertions[0].text)
 
-        formatCCLText(
-            testCase.textDescriptor,
-            Locale.GERMAN
-        ) shouldBe testCase.assertions[0].text
+//        formatCCLText(
+//            testCase.textDescriptor,
+//            Locale.GERMAN
+//        ) shouldBe testCase.assertions[0].text
     }
 }
 
-data class TestCase(
-    @JsonProperty("description")
-    val description: String,
-
-    @JsonProperty("textDescriptor")
-    val textDescriptor: CCLText,
-
-    @JsonProperty("assertions")
-    val assertions: List<Assertions>
-)
-
-data class Assertions(
-    @JsonProperty("languageCode")
-    val languageCode: String,
-
-    @JsonProperty("text")
-    val text: String
-)
-
-data class TestCases(
-    @JsonProperty("\$comment")
-    val comment: String,
-    @JsonProperty("testCases")
-    val testCases: List<TestCase>
-)
+//data class TestCase(
+//    @JsonProperty("description")
+//    val description: String,
+//
+//    @JsonProperty("textDescriptor")
+//    val textDescriptor: CCLText,
+//
+//    @JsonProperty("assertions")
+//    val assertions: List<Assertions>
+//)
+//
+//data class Assertions(
+//    @JsonProperty("languageCode")
+//    val languageCode: String,
+//
+//    @JsonProperty("text")
+//    val text: String
+//)
+//
+//data class TestCases(
+//    @JsonProperty("\$comment")
+//    val comment: String,
+//    @JsonProperty("testCases")
+//    val testCases: List<TestCase>
+//)

@@ -15,7 +15,7 @@ class FormatTestCasesProvider : ArgumentsProvider {
         val testsFile = File("src/test/resources/ccl/ccl-text-descriptor-test-cases.gen.json")
         val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(testsFile)
         return testCases.testCases
-            // .filter { it.description == "placeholder %d" }
+             .filter { it.description == "placeholder of type localDate" }
             .map { Arguments.of(Named.of(it.description, it)) }.stream()
     }
 }
