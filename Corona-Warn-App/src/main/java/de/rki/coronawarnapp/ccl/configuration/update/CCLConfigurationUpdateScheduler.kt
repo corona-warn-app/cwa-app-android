@@ -45,7 +45,6 @@ class CCLConfigurationUpdateScheduler @Inject constructor(
     }
 
     private fun buildWorkRequest(): PeriodicWorkRequest {
-
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
