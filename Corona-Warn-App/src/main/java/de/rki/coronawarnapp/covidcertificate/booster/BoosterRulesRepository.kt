@@ -41,39 +41,32 @@ class BoosterRulesRepository @Inject constructor(
     val rules: Flow<List<DccValidationRule>> = internalData.data
 
     /**
-     * This updates the booster notification rules and returns them.
+     * This updates the booster notification rules and returns true if new rules were fetched from the server.
      * Falls back to previous cached rules in case of an error.
      * Worst case is an empty list.
      */
-    suspend fun update(): List<DccValidationRule> {
+    suspend fun update(): Boolean {
         Timber.tag(TAG).d("updateBoosterNotificationRules()")
-        return internalData.updateBlocking {
-            return@updateBlocking try {
-                val rawJson = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
-                rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
-            } catch (e: Exception) {
-                Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
-                localCache.loadBoosterNotificationRulesJson().toRuleSet()
-            }
-        }.let { boosterNotificationRules ->
-            boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
-        }
-    }
 
-    suspend fun updateNew(): Boolean {
-        Timber.tag(TAG).d("updateBoosterNotificationRules()")
-        return internalData.updateBlocking {
+        var updated = false
+
+        internalData.updateBlocking {
             return@updateBlocking try {
-                val rawJson = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
-                rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
+                val ruleSetResult = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
+                if (ruleSetResult.source == DccValidationServer.RuleSetSource.SERVER) {
+                    updated = true
+                }
+                ruleSetResult.ruleSetJson.toRuleSet()
+                    .also { localCache.saveBoosterNotificationRulesJson(ruleSetResult.ruleSetJson) }
             } catch (e: Exception) {
                 Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
                 localCache.loadBoosterNotificationRulesJson().toRuleSet()
             }
         }.let { boosterNotificationRules ->
             boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
-            true
         }
+
+        return updated
     }
 
     private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)

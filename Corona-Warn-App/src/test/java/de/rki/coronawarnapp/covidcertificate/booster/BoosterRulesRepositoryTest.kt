@@ -62,6 +62,11 @@ class BoosterRulesRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
+    val testBoosterNotificationRulesResult = DccValidationServer.RuleSetResult(
+        ruleSetJson = testBoosterNotificationRulesData,
+        source = DccValidationServer.RuleSetSource.SERVER
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -72,7 +77,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         }
 
         server.apply {
-            coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesData
+            coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesResult
             every { clear() } just runs
         }
     }
@@ -113,7 +118,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
 
         with(createInstance(this)) {
-            update() shouldBe emptyList()
+            update() shouldBe false
             rules.first() shouldBe emptyList()
         }
 
@@ -130,7 +135,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `update booster notification rules success`() = runBlockingTest2(ignoreActive = true) {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
-        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesData
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesResult
 
         with(createInstance(this)) {
             update() shouldBe boosterRuleList
@@ -146,7 +151,8 @@ class BoosterRulesRepositoryTest : BaseTest() {
     @Test
     fun `bad booster notification rules do not wreck cache`() = runBlockingTest2(ignoreActive = true) {
         // Missing attributes
-        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns """
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns DccValidationServer.RuleSetResult(
+            ruleSetJson = """
             [
                 {
                     "Type": "BoosterNotification",
@@ -158,7 +164,9 @@ class BoosterRulesRepositoryTest : BaseTest() {
                     "SchemaVersion": "1.0.0",
                 }
             ]
-        """.trimIndent()
+            """.trimIndent(),
+            source = DccValidationServer.RuleSetSource.SERVER
+        )
 
         coEvery { localCache.loadBoosterNotificationRulesJson() } returns testBoosterNotificationRulesData
 

@@ -37,25 +37,50 @@ class DccValidationServer @Inject constructor(
     private val rulesApi: DccValidationRuleApi
         get() = rulesApiLazy.get()
 
-    suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): String = withContext(dispatcherProvider.IO) {
+    suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): RuleSetResult = withContext(dispatcherProvider.IO) {
         try {
             Timber.tag(TAG).v("Fetching $ruleTypeDcc rule set...")
             when (ruleTypeDcc) {
-                DccValidationRule.Type.ACCEPTANCE -> rulesApi.acceptanceRules().parseAndValidate(
-                    ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                    ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
-                )
-                DccValidationRule.Type.INVALIDATION -> rulesApi.invalidationRules().parseAndValidate(
-                    ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                    ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
-                )
-                DccValidationRule.Type.BOOSTER_NOTIFICATION -> rulesApi.boosterNotificationRules().parseAndValidate(
-                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_EXTRACTION_FAILED
-                )
+                DccValidationRule.Type.ACCEPTANCE -> {
+                    val response = rulesApi.acceptanceRules()
+                    val source = getSource(response)
+                    Timber.tag(TAG).v("Source of rule set: %s", source)
+
+                    val ruleSet = response.parseAndValidate(
+                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
+                    )
+                    RuleSetResult(ruleSet, source)
+                }
+                DccValidationRule.Type.INVALIDATION -> {
+
+                    val response = rulesApi.invalidationRules()
+                    val source = getSource(response)
+                    Timber.tag(TAG).v("Source of rule set: %s", source)
+
+                    val ruleSet = response.parseAndValidate(
+                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
+                    )
+
+                    RuleSetResult(ruleSet, source)
+                }
+                DccValidationRule.Type.BOOSTER_NOTIFICATION -> {
+
+                    val response = rulesApi.boosterNotificationRules()
+                    val source = getSource(response)
+                    Timber.tag(TAG).v("Source of rule set: %s", source)
+
+                    val ruleSet = response.parseAndValidate(
+                        ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_EXTRACTION_FAILED
+                    )
+
+                    RuleSetResult(ruleSet, source)
+                }
             }
         } catch (e: Exception) {
             Timber.e(e, "Getting $ruleTypeDcc rule set failed.")
@@ -74,15 +99,6 @@ class DccValidationServer @Inject constructor(
         }
     }
 
-    data class RuleSetResult(
-        val ruleSetJson: String,
-        val source: RuleSetSource
-    )
-
-    enum class RuleSetSource {
-        SERVER, CACHE
-    }
-
     suspend fun dccCountryJson(): String = withContext(dispatcherProvider.IO) {
         try {
             Timber.tag(TAG).v("Fetching dcc countries...")
@@ -99,6 +115,11 @@ class DccValidationServer @Inject constructor(
                 else -> DccValidationException(ErrorCode.ONBOARDED_COUNTRIES_SERVER_ERROR, e)
             }
         }
+    }
+
+    fun clear() {
+        Timber.d("clear()")
+        cache.evictAll()
     }
 
     private fun Response<ResponseBody>.parseAndValidate(
@@ -129,10 +150,22 @@ class DccValidationServer @Inject constructor(
         }
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        cache.evictAll()
+    private fun getSource(response: Response<ResponseBody>) = if (response.notModified()) {
+        RuleSetSource.CACHE
+    } else {
+        RuleSetSource.SERVER
     }
+
+    data class RuleSetResult(
+        val ruleSetJson: String,
+        val source: RuleSetSource
+    )
+
+    enum class RuleSetSource {
+        SERVER, CACHE
+    }
+
+    private fun Response<ResponseBody>.notModified() = this.raw().networkResponse?.code == 304
 
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"

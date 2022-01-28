@@ -1,6 +1,9 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -41,9 +44,17 @@ class CCLConfigurationUpdateScheduler @Inject constructor(
         workManager.enqueueUniquePeriodicWork(WORKER_NAME, ExistingPeriodicWorkPolicy.KEEP, buildWorkRequest())
     }
 
-    private fun buildWorkRequest() =
-        PeriodicWorkRequestBuilder<CCLConfigurationUpdateWorker>(repeatInterval = 24, TimeUnit.HOURS).build()
-    // TODO: Set Backoff Criteria? Do we need to retry?
+    private fun buildWorkRequest(): PeriodicWorkRequest {
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        return PeriodicWorkRequestBuilder<CCLConfigurationUpdateWorker>(
+            repeatInterval = 24,
+            repeatIntervalTimeUnit = TimeUnit.HOURS
+        ).setConstraints(constraints).build()
+    }
 }
 
 private const val WORKER_NAME = "CCLConfigurationUpdateWorker"
