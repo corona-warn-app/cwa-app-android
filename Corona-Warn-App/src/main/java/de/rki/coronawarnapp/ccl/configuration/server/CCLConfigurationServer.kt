@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.server
 
+import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.tag
@@ -65,10 +66,13 @@ class CCLConfigurationServer @Inject constructor(
     }
 
     private val Response<ResponseBody>.wasModified: Boolean
-        get() = raw().networkResponse?.code != 304
+        get() {
+            val code = raw().networkResponse?.code
+            return code != null && code != 304
+        }
 
     companion object {
-        private const val EXPORT_BINARY_FILE_NAME = "export.bin"
+        @VisibleForTesting const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
         private val TAG = tag<CCLConfigurationServer>()
     }
