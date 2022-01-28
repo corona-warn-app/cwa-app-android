@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 
 data class DccWalletInfoWrapper(
-    val dccWalletInfo: DccWalletInfo = dummyDccWalletInfo
+    val dccWalletInfo: DccWalletInfo
 ) {
     val admissionState = dccWalletInfo.admissionState
     val vaccinationState = dccWalletInfo.vaccinationState
