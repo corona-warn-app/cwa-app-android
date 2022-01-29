@@ -25,6 +25,8 @@ data class PersonCertificates(
         data class TwoGPlusRAT(val twoGCertificate: CwaCovidCertificate, val testCertificate: CwaCovidCertificate) :
             AdmissionState(twoGCertificate)
 
+        data class TwoGPlus(val twoGCertificate: CwaCovidCertificate) : AdmissionState(twoGCertificate)
+
         data class TwoG(val twoGCertificate: CwaCovidCertificate) : AdmissionState(twoGCertificate)
 
         data class ThreeGWithPCR(val testCertificate: CwaCovidCertificate) : AdmissionState(testCertificate)

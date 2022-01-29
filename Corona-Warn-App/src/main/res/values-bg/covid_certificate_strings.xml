@@ -404,6 +404,8 @@
 
     <!-- XTXT: Confirmed status card 2G body -->
     <string name="confirmed_status_2g_body">"Вашите сертификати отговарят на 2G правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
+    <!-- XTXT: Confirmed status card 2G+ body -->
+    <string name="confirmed_status_2g_plus_body">"Вашите сертификати отговарят на 2G+ правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
     <!-- XTXT: Confirmed status card 2G+ RAT body -->
     <string name="confirmed_status_2g_plus_rat_body">"Вашите сертификати отговарят на 2G plus правилото, освен ако не Ви се изисква PCR тест. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
     <!-- XTXT: Confirmed status card 2G+ PCR body -->

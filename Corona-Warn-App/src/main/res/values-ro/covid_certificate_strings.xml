@@ -404,6 +404,8 @@
 
     <!-- XTXT: Confirmed status card 2G body -->
     <string name="confirmed_status_2g_body">"Certificatele dvs. respectă regula 2G. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
+    <!-- XTXT: Confirmed status card 2G+ body -->
+    <string name="confirmed_status_2g_plus_body">"Certificatele dvs. respectă regula 2G+. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
     <!-- XTXT: Confirmed status card 2G+ RAT body -->
     <string name="confirmed_status_2g_plus_rat_body">"Certificatele dvs. respectă regula 2G plus, cu excepția cazului în care este necesar un test PCR. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
     <!-- XTXT: Confirmed status card 2G+ PCR body -->

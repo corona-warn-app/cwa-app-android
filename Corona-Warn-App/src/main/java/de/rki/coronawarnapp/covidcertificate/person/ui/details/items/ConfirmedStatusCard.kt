@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.Admi
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoG
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlus
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusPCR
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusRAT
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
@@ -35,6 +36,11 @@ class ConfirmedStatusCard(parent: ViewGroup) :
                 subtitle.text = context.resources.getString(R.string.confirmed_status_2g_badge)
                 badge.text = context.resources.getString(R.string.confirmed_status_2g_badge)
                 body.text = context.resources.getString(R.string.confirmed_status_2g_body)
+            }
+            is TwoGPlus -> {
+                subtitle.text = context.resources.getString(R.string.confirmed_status_2g_plus_badge)
+                badge.text = context.resources.getString(R.string.confirmed_status_2g_plus_badge)
+                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_body)
             }
             is TwoGPlusPCR -> {
                 subtitle.text = context.resources.getString(R.string.confirmed_status_2g_pcr_subtitle)

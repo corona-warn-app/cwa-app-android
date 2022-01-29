@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.Admi
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoG
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlus
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusPCR
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusRAT
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -354,6 +355,10 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
         val recentVaccination = validCerts.rule1FindRecentLastShot(nowUtc)
         val recentRecovery = validCerts.rule2findRecentRecovery(nowUtc)
 
+        val has3Shots = recentVaccination is VaccinationCertificate
+            && recentVaccination.totalSeriesOfDoses == 3
+            && recentVaccination.isSeriesCompletingShot
+
         val hasVaccination = recentVaccination != null
         val hasRecentRecovery = recentRecovery != null
 
@@ -378,6 +383,10 @@ fun Collection<CwaCovidCertificate>.determineAdmissionState(nowUtc: Instant = In
                     hasRAT -> {
                         Timber.v("Determined admission state = 2G+ RAT")
                         TwoGPlusRAT(twoGCertificate, recentRAT!!)
+                    }
+                    has3Shots -> {
+                        Timber.v("Determined admission state = 2G+ RAT")
+                        TwoGPlus(twoGCertificate)
                     }
                     else -> {
                         Timber.v("Determined admission state = 2G")

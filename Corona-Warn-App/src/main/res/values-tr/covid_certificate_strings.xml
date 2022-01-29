@@ -404,6 +404,8 @@
 
     <!-- XTXT: Confirmed status card 2G body -->
     <string name="confirmed_status_2g_body">"Sertifikalarınız 2G kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
+    <!-- XTXT: Confirmed status card 2G+ body -->
+    <string name="confirmed_status_2g_plus_body">"Sertifikalarınız 2G+ kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
     <!-- XTXT: Confirmed status card 2G+ RAT body -->
     <string name="confirmed_status_2g_plus_rat_body">"PCR testi gerekmiyorsa sertifikalarınız 2G plus kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
     <!-- XTXT: Confirmed status card 2G+ PCR body -->
