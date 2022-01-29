@@ -7,9 +7,9 @@ data class DccWalletInfoWrapper(
     val dccWalletInfo: DccWalletInfo
 ) {
     val admissionState = dccWalletInfo.admissionState
-    val admissionBadgeText by textResource(admissionState.badgeText)
-    val admissionTitleText by textResource(admissionState.titleText)
-    val admissionSubtitleText by textResource(admissionState.subtitleText)
-    val admissionLongText by textResource(admissionState.longText)
-    val admissionFaqAnchor by urlResource(admissionState.faqAnchor)
+    val admissionBadgeText = ""// by textResource(admissionState.badgeText)
+    val admissionTitleText = ""// textResource(admissionState.titleText)
+    val admissionSubtitleText = ""// textResource(admissionState.subtitleText)
+    val admissionLongText = ""// textResource(admissionState.longText)
+    val admissionFaqAnchor = ""// urlResource(admissionState.faqAnchor)
 }
