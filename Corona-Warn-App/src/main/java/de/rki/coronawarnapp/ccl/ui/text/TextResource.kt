@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ccl.ui
+package de.rki.coronawarnapp.ccl.ui.text
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters

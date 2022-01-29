@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ccl.ui
+package de.rki.coronawarnapp.ccl.ui.text
 
 import android.annotation.SuppressLint
 import android.icu.text.MessageFormat

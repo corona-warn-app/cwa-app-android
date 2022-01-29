@@ -1,10 +1,9 @@
-package de.rki.coronawarnapp.ccl.dccwalletinfo.text
+package de.rki.coronawarnapp.ccl.ui.text
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
-import de.rki.coronawarnapp.ccl.ui.formatCCLText
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe

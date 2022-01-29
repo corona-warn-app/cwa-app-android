@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ccl.dccwalletinfo.text
+package de.rki.coronawarnapp.ccl.ui.text
 
 import java.util.Locale
 
