@@ -79,13 +79,13 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
             type = "plural",
             quantity = 25,
             localizedText = mapOf(
-                "de" to QuantityText(
-                    zero = "Letzte Impfung heute",
-                    one = "Letzte Impfung vor %u Tag",
-                    two = "Letzte Impfung vor %u Tagen",
-                    few = "Letzte Impfung vor %u Tagen",
-                    many = "Letzte Impfung vor %u Tagen",
-                    other = "Letzte Impfung vor %u Tagen"
+                "de" to mapOf(
+                    "zero" to "Letzte Impfung heute",
+                    "one" to "Letzte Impfung vor %u Tag",
+                    "two" to "Letzte Impfung vor %u Tagen",
+                    "few" to "Letzte Impfung vor %u Tagen",
+                    "many" to "Letzte Impfung vor %u Tagen",
+                    "other" to "Letzte Impfung vor %u Tagen"
                 )
             ),
             parameters = listOf(
