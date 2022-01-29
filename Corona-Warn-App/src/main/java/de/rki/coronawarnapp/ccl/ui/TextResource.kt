@@ -1,7 +1,5 @@
-package de.rki.coronawarnapp.ccl.dccwalletinfo.text
+package de.rki.coronawarnapp.ccl.ui
 
-import android.content.Context
-import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
@@ -16,17 +14,15 @@ import java.util.Locale
  * Formats [CCLText] lazily when accessed
  */
 fun textResource(
-    context: Context,
     cclText: CCLText,
     locale: Locale = Locale.getDefault()
-) = lazy { formatCCLText(context, cclText, locale) }
+) = lazy { formatCCLText(cclText, locale) }
 
 internal fun formatCCLText(
-    context: Context,
     cclText: CCLText?,
     locale: Locale
 ): String? = when (cclText) {
-    is PluralText -> cclText.formatPlural(context, locale)
+    is PluralText -> cclText.formatPlural(locale)
     is SingleText -> cclText.formatSingle(locale)
     else -> null
 }
@@ -43,21 +39,17 @@ private fun SingleText.formatSingle(
         ?.format(*parameters.convertValues(locale))
 }
 
-private fun PluralText.formatPlural(
-    context: Context,
-    locale: Locale
-): String? {
+private fun PluralText.formatPlural(locale: Locale): String? {
     val quantity = quantity()
     val quantityText = localizedText[locale.language]
         ?: localizedText[EN]
         ?: localizedText[DE]
+        ?: return null
 
-    val pluralKey = context.resources.getQuantityString(R.plurals.plural_keys, quantity)
-    val text = quantityText?.get(pluralKey)
-
+    val text = pluralText(quantity, quantityText, locale)
     return text
-        ?.replace("%@", "%s")
-        ?.format(*parameters.convertValues(locale))
+        .replace("%@", "%s")
+        .format(*parameters.convertValues(locale))
 }
 
 private fun PluralText.quantity(): Int {
@@ -95,18 +87,24 @@ private fun Parameters.covertValue(
 }
 
 private fun Parameters.toUTCDateTime(locale: Locale): String {
-    return Instant.parse(value.toString()).toDateTime()
-        .toString(DateTimeFormat.shortDateTime().withLocale(locale))
+    return Instant.parse(value.toString()).run {
+        val date = toString(DateTimeFormat.shortDate().withLocale(locale))
+        val time = toString(DateTimeFormat.shortTime().withLocale(locale))
+        "$date, $time"
+    }
 }
 
 private fun Parameters.toUTCDate(locale: Locale): String {
-    return Instant.parse(value.toString()).toDateTime()
+    return Instant.parse(value.toString())
         .toString(DateTimeFormat.shortDate().withLocale(locale))
 }
 
 private fun Parameters.toLocalDateTime(locale: Locale): String {
-    return Instant.parse(value.toString()).toLocalDateTimeUserTz()
-        .toString(DateTimeFormat.shortDateTime().withLocale(locale))
+    return Instant.parse(value.toString()).toLocalDateTimeUserTz().run {
+        val date = toString(DateTimeFormat.shortDate().withLocale(locale))
+        val time = toString(DateTimeFormat.shortTime().withLocale(locale))
+        "$date, $time"
+    }
 }
 
 private fun Parameters.toLocalDate(locale: Locale): String {

@@ -1,12 +1,16 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.text
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
+import de.rki.coronawarnapp.ccl.ui.formatCCLText
+import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.mockk.every
+import io.mockk.mockkObject
+import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTestInstrumentation
 import java.nio.file.Paths
@@ -14,9 +18,24 @@ import java.util.Locale
 
 class TextResourceTest : BaseTestInstrumentation() {
 
-    @Test
-    fun runFormat() {
+    @Before
+    fun setup() {
+        mockkObject(BuildVersionWrap)
+    }
 
+    @Test
+    fun runFormat24() {
+        every { BuildVersionWrap.SDK_INT } returns 24
+        testCases()
+    }
+
+    @Test
+    fun runFormat23() {
+        every { BuildVersionWrap.SDK_INT } returns 23
+        testCases()
+    }
+
+    private fun testCases() {
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val context = InstrumentationRegistry.getInstrumentation().context
         val stream = context.assets.open(path)
@@ -24,7 +43,6 @@ class TextResourceTest : BaseTestInstrumentation() {
 
         testCases.testCases.forEach { testCase ->
             formatCCLText(
-                ApplicationProvider.getApplicationContext(),
                 testCase.textDescriptor,
                 Locale.GERMAN
             ) shouldBe testCase.assertions[0].text
@@ -57,5 +75,3 @@ data class TestCases(
     @JsonProperty("testCases")
     val testCases: List<TestCase>
 )
-
-
