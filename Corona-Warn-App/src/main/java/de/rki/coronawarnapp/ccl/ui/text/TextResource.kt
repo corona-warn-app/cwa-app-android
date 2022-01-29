@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
+import timber.log.Timber
 import java.util.Locale
 
 /**
@@ -20,7 +21,7 @@ fun textResource(
 
 internal fun formatCCLText(
     cclText: CCLText?,
-    locale: Locale
+    locale: Locale = Locale.getDefault()
 ): String? = when (cclText) {
     is PluralText -> cclText.formatPlural(locale)
     is SingleText -> cclText.formatSingle(locale)
@@ -42,8 +43,8 @@ private fun SingleText.formatSingle(
 private fun PluralText.formatPlural(locale: Locale): String? {
     val quantity = quantity()
     val quantityText = localizedText[locale.language]
-        ?: localizedText[EN]
-        ?: localizedText[DE]
+        ?: localizedText[EN] // Default for other languages
+        ?: localizedText[DE] // Default for EN
         ?: return null
 
     val text = pluralText(quantity, quantityText, locale)
@@ -69,13 +70,10 @@ private fun PluralText.quantity(): Int {
     }
 }
 
-private fun List<Parameters>.convertValues(locale: Locale): Array<Any> = map { parameter ->
-    parameter.covertValue(locale)
-}.toTypedArray()
+private fun List<Parameters>.convertValues(locale: Locale): Array<Any> =
+    map { parameter -> parameter.covertValue(locale) }.toTypedArray()
 
-private fun Parameters.covertValue(
-    locale: Locale
-) = when (type) {
+private fun Parameters.covertValue(locale: Locale) = when (type) {
     Parameters.Type.STRING -> value.toString()
     Parameters.Type.NUMBER -> toNumber()
     Parameters.Type.BOOLEAN -> toBoolean()
@@ -87,33 +85,64 @@ private fun Parameters.covertValue(
 }
 
 private fun Parameters.toUTCDateTime(locale: Locale): String {
-    return Instant.parse(value.toString()).run {
-        val date = toString(DateTimeFormat.shortDate().withLocale(locale))
-        val time = toString(DateTimeFormat.shortTime().withLocale(locale))
-        "$date, $time"
+    return runCatching {
+        Instant.parse(value.toString()).run {
+            val date = toString(DateTimeFormat.shortDate().withLocale(locale))
+            val time = toString(DateTimeFormat.shortTime().withLocale(locale))
+            "$date, $time"
+        }
+    }.getOrElse {
+        Timber.e(it, "Parameters.toUTCDateTime() failed")
+        ""
     }
 }
 
 private fun Parameters.toUTCDate(locale: Locale): String {
-    return Instant.parse(value.toString())
-        .toString(DateTimeFormat.shortDate().withLocale(locale))
+    return runCatching {
+        Instant.parse(value.toString())
+            .toString(DateTimeFormat.shortDate().withLocale(locale))
+    }.getOrElse {
+        Timber.e(it, "Parameters.toUTCDate() failed")
+        ""
+    }
 }
 
 private fun Parameters.toLocalDateTime(locale: Locale): String {
-    return Instant.parse(value.toString()).toLocalDateTimeUserTz().run {
-        val date = toString(DateTimeFormat.shortDate().withLocale(locale))
-        val time = toString(DateTimeFormat.shortTime().withLocale(locale))
-        "$date, $time"
+    return runCatching {
+        Instant.parse(value.toString()).toLocalDateTimeUserTz().run {
+            val date = toString(DateTimeFormat.shortDate().withLocale(locale))
+            val time = toString(DateTimeFormat.shortTime().withLocale(locale))
+            "$date, $time"
+        }
+    }.getOrElse {
+        Timber.e(it, "Parameters.toLocalDateTime() failed")
+        ""
     }
 }
 
 private fun Parameters.toLocalDate(locale: Locale): String {
-    return Instant.parse(value.toString()).toLocalDateTimeUserTz()
-        .toString(DateTimeFormat.shortDate().withLocale(locale))
+    return runCatching {
+        Instant.parse(value.toString()).toLocalDateTimeUserTz()
+            .toString(DateTimeFormat.shortDate().withLocale(locale))
+    }.getOrElse {
+        Timber.e(it, "Parameters.toLocalDate() failed")
+        ""
+    }
 }
 
-private fun Parameters.toNumber(): Int = (value as Number).toInt()
-private fun Parameters.toBoolean(): Boolean = value as Boolean
+private fun Parameters.toNumber(): Int = runCatching {
+    (value as Number).toInt()
+}.getOrElse {
+    Timber.e(it, "Parameters.toNumber() failed")
+    0
+}
+
+private fun Parameters.toBoolean(): Boolean = runCatching {
+    value as Boolean
+}.getOrElse {
+    Timber.e(it, " Parameters.toBoolean() failed")
+    false
+}
 
 private const val EN = "en"
 private const val DE = "de"
