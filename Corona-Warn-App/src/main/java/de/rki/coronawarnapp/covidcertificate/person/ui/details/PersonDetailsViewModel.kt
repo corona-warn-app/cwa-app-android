@@ -97,29 +97,37 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
             personCertificates.dccWalletInfo?.admissionState?.let { admissionState ->
                 if (admissionState.visible) {
-                    add(
-                        ConfirmedStatusCard.Item(
-                            titleText = textResource(admissionState.titleText).value,
-                            subtitleText = textResource(admissionState.subtitleText).value,
-                            badgeText = textResource(admissionState.badgeText).value,
-                            longText = textResource(admissionState.longText).value,
-                            faqAnchor = urlResource(admissionState.faqAnchor).value,
-                            colorShade = colorShade
+                    try {
+                        add(
+                            ConfirmedStatusCard.Item(
+                                titleText = textResource(admissionState.titleText).value,
+                                subtitleText = textResource(admissionState.subtitleText).value,
+                                badgeText = textResource(admissionState.badgeText).value,
+                                longText = textResource(admissionState.longText).value,
+                                faqAnchor = urlResource(admissionState.faqAnchor).value,
+                                colorShade = colorShade
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        Timber.e(e, "creating ConfirmedStatusCard.Item failed")
+                    }
                 }
             }
 
             personCertificates.dccWalletInfo?.vaccinationState?.let { vaccinationState ->
                 if (vaccinationState.visible) {
-                    add(
-                        VaccinationInfoCard.Item(
-                            titleText = textResource(vaccinationState.titleText).value,
-                            subtitleText = textResource(vaccinationState.subtitleText).value,
-                            longText = textResource(vaccinationState.longText).value,
-                            faqAnchor = urlResource(vaccinationState.faqAnchor).value,
+                    try {
+                        add(
+                            VaccinationInfoCard.Item(
+                                titleText = textResource(vaccinationState.titleText).value,
+                                subtitleText = textResource(vaccinationState.subtitleText).value,
+                                longText = textResource(vaccinationState.longText).value,
+                                faqAnchor = urlResource(vaccinationState.faqAnchor).value,
+                            )
                         )
-                    )
+                    } catch (e: Exception) {
+                        Timber.e(e, "creating VaccinationInfoCard.Item failed")
+                    }
                 }
             }
 
