@@ -134,23 +134,42 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
             add(
-                ConfirmedStatusCard.Item(
-                    colorShade = PersonColorShade.COLOR_1,
-                    titleText = "Status-Nachweis",
-                    subtitleText = "2G+ PCR-Test",
-                    badgeText = "2G+",
-                    longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
-                    faqAnchor = "FAQ"
-                )
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Status-Nachweis",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                        faqAnchor = "FAQ"
+                    )
+                    else -> ConfirmedStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Proof of Status",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
+                        faqAnchor = "FAQ"
+                    )
+                }
             )
 
             add(
-                VaccinationInfoCard.Item(
-                    titleText = "Impfstatus",
-                    subtitleText = "Letzte Impfung noch XX Tage gültig",
-                    longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
-                    faqAnchor = "FAQ"
-                )
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN ->
+                        VaccinationInfoCard.Item(
+                            titleText = "Impfstatus",
+                            subtitleText = "Letzte Impfung vor 14 Tagen",
+                            longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
+                            faqAnchor = "FAQ"
+                        )
+                    else -> VaccinationInfoCard.Item(
+                        titleText = "Vaccination Status",
+                        subtitleText = "Last vaccination 14 days ago",
+                        longText = "You have received all currently planned vaccinations. Your vaccination protection is complete.",
+                        faqAnchor = "FAQ"
+                    )
+                }
             )
 
             add(CwaUserCard.Item(personCertificates) {})
@@ -223,23 +242,42 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
 
             add(
-                ConfirmedStatusCard.Item(
-                    colorShade = PersonColorShade.COLOR_1,
-                    titleText = "Status-Nachweis",
-                    subtitleText = "2G+ PCR-Test",
-                    badgeText = "2G+",
-                    longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
-                    faqAnchor = "FAQ"
-                )
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Status-Nachweis",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                        faqAnchor = "FAQ"
+                    )
+                    else -> ConfirmedStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Proof of Status",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
+                        faqAnchor = "FAQ"
+                    )
+                }
             )
 
             add(
-                VaccinationInfoCard.Item(
-                    titleText = "Impfstatus",
-                    subtitleText = "Letzte Impfung noch XX Tage gültig",
-                    longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
-                    faqAnchor = "FAQ"
-                )
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN ->
+                        VaccinationInfoCard.Item(
+                            titleText = "Impfstatus",
+                            subtitleText = "Letzte Impfung vor 14 Tagen",
+                            longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
+                            faqAnchor = "FAQ"
+                        )
+                    else -> VaccinationInfoCard.Item(
+                        titleText = "Vaccination Status",
+                        subtitleText = "Last vaccination 14 days ago",
+                        longText = "You have received all currently planned vaccinations. Your vaccination protection is complete.",
+                        faqAnchor = "FAQ"
+                    )
+                }
             )
 
             add(CwaUserCard.Item(personCertificates) {})
@@ -325,6 +363,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isNew } returns false
             every { isNotBlocked } returns true
             every { qrCodeHash } returns "VC$number"
+            every { headerIssuedAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
