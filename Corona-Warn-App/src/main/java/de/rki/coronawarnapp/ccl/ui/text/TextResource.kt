@@ -15,11 +15,11 @@ import java.util.Locale
  * Formats [CCLText] lazily when accessed
  */
 fun textResource(
-    cclText: CCLText,
+    cclText: CCLText?,
     locale: Locale = Locale.getDefault()
 ) = lazy { formatCCLText(cclText, locale) }
 
-internal fun formatCCLText(
+fun formatCCLText(
     cclText: CCLText?,
     locale: Locale = Locale.getDefault()
 ): String? = when (cclText) {
