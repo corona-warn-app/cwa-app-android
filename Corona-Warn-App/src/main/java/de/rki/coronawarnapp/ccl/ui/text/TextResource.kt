@@ -17,14 +17,13 @@ import java.util.Locale
 fun textResource(
     cclText: CCLText?,
     locale: Locale = Locale.getDefault()
-) = lazy { formatCCLText(cclText, locale) }
+) = lazy { cclText.format(locale) }
 
-fun formatCCLText(
-    cclText: CCLText?,
+fun CCLText?.format(
     locale: Locale = Locale.getDefault()
-): String? = when (cclText) {
-    is PluralText -> cclText.formatPlural(locale)
-    is SingleText -> cclText.formatSingle(locale)
+): String? = when (this) {
+    is PluralText -> formatPlural(locale)
+    is SingleText -> formatSingle(locale)
     else -> null
 }
 

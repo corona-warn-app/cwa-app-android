@@ -44,10 +44,7 @@ class TextResourceTest : BaseTestInstrumentation() {
         testCases.testCases.forEach { testCase ->
             println(testCase.description)
             println(jacksonObjectMapper().writeValueAsString(testCase.textDescriptor))
-            formatCCLText(
-                testCase.textDescriptor,
-                Locale.GERMAN
-            ) shouldBe testCase.assertions[0].text
+            testCase.textDescriptor.format(Locale.GERMAN) shouldBe testCase.assertions[0].text
         }
     }
 }
