@@ -22,15 +22,6 @@
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="Impfstatus" />
-        <ImageView
-            android:id="@+id/booster_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_booster_badge"
-            android:visibility="gone"
-            tools:visibility="visible" />
     </LinearLayout>
 
     <TextView
@@ -54,9 +45,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="@string/vaccination_card_booster_eligible_faq"
         android:textSize="14sp"
         android:visibility="gone"
-        tools:text="@string/vaccination_card_booster_eligible_faq"
         tools:visibility="visible" />
 
 </LinearLayout>
