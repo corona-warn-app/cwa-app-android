@@ -74,7 +74,25 @@ data class SingleText(
     val parameters: List<Parameters>
 ) : CCLText
 
-typealias QuantityText = Map<String, String>
+data class QuantityText(
+    @JsonProperty("zero")
+    val zero: String,
+
+    @JsonProperty("one")
+    val one: String,
+
+    @JsonProperty("two")
+    val two: String,
+
+    @JsonProperty("few")
+    val few: String,
+
+    @JsonProperty("many")
+    val many: String,
+
+    @JsonProperty("other")
+    val other: String
+)
 
 /**
  * [LocalizedText], [QuantityLocalizedText] have dynamic json, i.e the keys change based on user locale

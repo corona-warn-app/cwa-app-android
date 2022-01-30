@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MostRelevantCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.OutputCertificates
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.QuantityText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.VaccinationState
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Verification
@@ -78,13 +79,13 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
             type = "plural",
             quantity = 25,
             localizedText = mapOf(
-                "de" to mapOf(
-                    "zero" to "Letzte Impfung heute",
-                    "one" to "Letzte Impfung vor %u Tag",
-                    "two" to "Letzte Impfung vor %u Tagen",
-                    "few" to "Letzte Impfung vor %u Tagen",
-                    "many" to "Letzte Impfung vor %u Tagen",
-                    "other" to "Letzte Impfung vor %u Tagen"
+                "de" to QuantityText(
+                    zero = "Letzte Impfung heute",
+                    one = "Letzte Impfung vor %u Tag",
+                    two = "Letzte Impfung vor %u Tagen",
+                    few = "Letzte Impfung vor %u Tagen",
+                    many = "Letzte Impfung vor %u Tagen",
+                    other = "Letzte Impfung vor %u Tagen"
                 )
             ),
             parameters = listOf(

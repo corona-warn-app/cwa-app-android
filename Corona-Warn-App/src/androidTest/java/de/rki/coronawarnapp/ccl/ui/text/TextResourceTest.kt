@@ -9,17 +9,24 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
+import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTestInstrumentation
 import java.nio.file.Paths
 import java.util.Locale
+import java.util.TimeZone
 
 class TextResourceTest : BaseTestInstrumentation() {
 
     @Before
     fun setup() {
         mockkObject(BuildVersionWrap)
+        Locale.setDefault(Locale.GERMAN)
+
+        val timeZone = TimeZone.getTimeZone("Europe/Berlin")
+        TimeZone.setDefault(timeZone)
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone))
     }
 
     @Test

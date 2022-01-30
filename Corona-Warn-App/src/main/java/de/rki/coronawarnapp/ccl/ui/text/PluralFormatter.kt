@@ -28,12 +28,12 @@ fun pluralText(
  */
 private fun pluralTextApi23(
     quantity: Int,
-    quantityText: QuantityText
+    text: QuantityText
 ): String {
-    val pattern = "0#${quantityText["zero"]}" +
-        "|1#${quantityText["one"]}" +
-        "|2#${quantityText["two"]}" +
-        "|2<${quantityText["other"]}"
+    val pattern = "0#${text.zero}" +
+        "|1#${text.one}" +
+        "|2#${text.two}" +
+        "|2<${text.other}"
     return ChoiceFormat(pattern).format(quantity)
 }
 
@@ -47,18 +47,17 @@ private fun pluralTextApi23(
 @RequiresApi(Build.VERSION_CODES.N)
 private fun pluralTextApi24(
     quantity: Int,
-    quantityText: QuantityText,
+    text: QuantityText,
     locale: Locale
 ): String {
     val pattern = """
             {quantity, plural,
-            =0{${quantityText["zero"]}}
-            =1{${quantityText["one"]}}
-            =2{${quantityText["two"]}}
-            few{${quantityText["few"]}}
-            many{${quantityText["many"]}}
-            other{${quantityText["other"]}}
-            }
+            =0{${text.zero}}
+            =1{${text.one}}
+            =2{${text.two}}
+            few{${text.few}}
+            many{${text.many}}
+            other{${text.other}}}
     """.trimIndent()
     return MessageFormat(pattern, locale).format(mapOf("quantity" to quantity))
 }
