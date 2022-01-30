@@ -51,7 +51,7 @@ private fun pluralTextApi24(
     locale: Locale
 ): String {
     val pattern = """
-            {quantity, plural,
+            {0, plural,
             =0{${text.zero}}
             =1{${text.one}}
             =2{${text.two}}
@@ -59,5 +59,5 @@ private fun pluralTextApi24(
             many{${text.many}}
             other{${text.other}}}
     """.trimIndent()
-    return MessageFormat(pattern, locale).format(mapOf("quantity" to quantity))
+    return MessageFormat(pattern, locale).format(arrayOf(quantity))
 }
