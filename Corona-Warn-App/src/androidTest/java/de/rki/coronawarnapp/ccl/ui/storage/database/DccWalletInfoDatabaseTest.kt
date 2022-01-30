@@ -12,7 +12,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MostRelevantCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.OutputCertificates
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.QuantityText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.VaccinationState
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Verification
