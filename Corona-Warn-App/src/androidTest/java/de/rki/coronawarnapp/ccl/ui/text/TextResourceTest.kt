@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ccl.ui.text
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.util.BuildVersionWrap
@@ -42,8 +41,6 @@ class TextResourceTest : BaseTestInstrumentation() {
         val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
 
         testCases.testCases.forEach { testCase ->
-            println(testCase.description)
-            println(jacksonObjectMapper().writeValueAsString(testCase.textDescriptor))
             testCase.textDescriptor.format(Locale.GERMAN) shouldBe testCase.assertions[0].text
         }
     }
