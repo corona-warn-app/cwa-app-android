@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -93,30 +95,32 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            add(
-                with(personCertificates.dccWalletInfoWrapper) {
-                    ConfirmedStatusCard.Item(
-                        titleText = admissionTitleText,
-                        subtitleText = admissionSubtitleText,
-                        badgeText = admissionBadgeText,
-                        longText = admissionLongText,
-                        faqAnchor = admissionFaqAnchor,
-                        colorShade = colorShade
+            personCertificates.dccWalletInfo?.admissionState?.let { admissionState ->
+                if (admissionState.visible) {
+                    add(
+                        ConfirmedStatusCard.Item(
+                            titleText = textResource(admissionState.titleText).value,
+                            subtitleText = textResource(admissionState.subtitleText).value,
+                            badgeText = textResource(admissionState.badgeText).value,
+                            longText = textResource(admissionState.longText).value,
+                            faqAnchor = urlResource(admissionState.faqAnchor).value,
+                            colorShade = colorShade
+                        )
                     )
                 }
-            )
+            }
 
-            if (personCertificates.dccWalletInfoWrapper.isVaccinationStateVisible) {
-                add(
-                    with(personCertificates.dccWalletInfoWrapper) {
+            personCertificates.dccWalletInfo?.vaccinationState?.let { vaccinationState ->
+                if (vaccinationState.visible) {
+                    add(
                         VaccinationInfoCard.Item(
-                            titleText = vaccinationTitleText,
-                            subtitleText = vaccinationSubtitleText,
-                            longText = vaccinationLongText,
-                            faqAnchor = vaccinationFaqAnchor,
+                            titleText = textResource(vaccinationState.titleText).value,
+                            subtitleText = textResource(vaccinationState.subtitleText).value,
+                            longText = textResource(vaccinationState.longText).value,
+                            faqAnchor = urlResource(vaccinationState.faqAnchor).value,
                         )
-                    }
-                )
+                    )
+                }
             }
 
             add(cwaUserCard(personCertificates))
