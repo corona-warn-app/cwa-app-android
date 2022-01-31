@@ -54,12 +54,14 @@ class DccWalletInfoCalculationManager @Inject constructor(
     }
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
-        val walletInfo = calculation.getDccWalletInfo(person.certificates)
-        // TODO compare booster notification?
-
-        dccWalletInfoRepository.save(
-            person.personIdentifier ?: return,
-            walletInfo
-        )
+        try {
+            val walletInfo = calculation.getDccWalletInfo(person.certificates)
+            dccWalletInfoRepository.save(
+                person.personIdentifier ?: return,
+                walletInfo
+            )
+        } catch (e: Exception) {
+            Timber.e("Failed to calculate DccWalletInfo for ${person.personIdentifier}", e)
+        }
     }
 }
