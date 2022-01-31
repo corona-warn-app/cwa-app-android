@@ -12,9 +12,10 @@ import java.io.File
 
 class CCLConfigurationStorageTest : BaseIOTest() {
 
-    private val cclFile = File(IO_TEST_BASEDIR, "ccl")
+    private val cclFile = File(IO_TEST_BASEDIR, CCLConfigurationStorageTest::class.java.simpleName)
 
-    private fun createInstance(file: File = cclFile) = CCLConfigurationStorage(cclFile = file)
+    private val instance: CCLConfigurationStorage
+        get() = CCLConfigurationStorage(cclFile = cclFile)
 
     @AfterEach
     fun cleanup() {
@@ -25,7 +26,7 @@ class CCLConfigurationStorageTest : BaseIOTest() {
     fun `write and read data`() = runBlockingTest {
         val data = "Some test data".toByteArray()
 
-        with(createInstance()) {
+        with(instance) {
             load() shouldBe null
             save(rawData = data)
             load() shouldBe data
@@ -33,7 +34,7 @@ class CCLConfigurationStorageTest : BaseIOTest() {
 
         val data2 = "Some test data which overrides existing data".toByteArray()
 
-        with(createInstance()) {
+        with(instance) {
             load() shouldBe data
             save(rawData = data2)
             load() shouldNotBe data
@@ -49,7 +50,7 @@ class CCLConfigurationStorageTest : BaseIOTest() {
         val data = "Some random test data".toByteArray()
         cacheFile.writeBytes(data)
 
-        with(createInstance()) {
+        with(instance) {
             cacheDir.shouldExist()
             cacheFile.shouldExist()
             clear()
