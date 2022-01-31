@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 class PersonOverviewViewModel @AssistedInject constructor(
@@ -32,16 +33,18 @@ class PersonOverviewViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
-    val personCertificates: LiveData<List<PersonCertificatesItem>> = combine(
+    val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
     ) { persons, tcWrappers ->
         Timber.tag(TAG).d("persons=%s, tcWrappers=%s", persons, tcWrappers)
-
-        mutableListOf<PersonCertificatesItem>().apply {
-            addPersonItems(persons, tcWrappers)
-        }
-    }.asLiveData(dispatcherProvider.Default)
+        UiState.Done(
+            mutableListOf<PersonCertificatesItem>().apply {
+                addPersonItems(persons, tcWrappers)
+            }
+        )
+    }.onStart { emit(UiState.Loading) }
+        .asLiveData(dispatcherProvider.Default)
 
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
         testCertificateRepository.deleteCertificate(containerId)
@@ -65,7 +68,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 if (admissionState != null) {
                     add(
                         PersonCertificateCard.Item(
-                            dccWalletInfoWrapper = person.dccWalletInfoWrapper,
+                            admissionBadgeText = "TODO",
                             admissionState = admissionState,
                             colorShade = color,
                             badgeCount = person.badgeCount,
@@ -115,6 +118,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
     fun checkExpiration() = launch(scope = appScope) {
         Timber.d("checkExpiration()")
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+    }
+
+    sealed class UiState {
+        object Loading : UiState()
+        data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState()
     }
 
     @AssistedFactory

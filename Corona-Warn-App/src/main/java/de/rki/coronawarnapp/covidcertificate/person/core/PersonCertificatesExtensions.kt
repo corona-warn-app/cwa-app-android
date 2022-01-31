@@ -238,6 +238,19 @@ private fun Collection<CwaCovidCertificate>.rule9FindOldRaTest(
     .filter { Duration(it.rawCertificate.test.sampleCollectedAt, nowUtc) > Duration.standardHours(48) }
     .maxByOrNull { it.rawCertificate.test.sampleCollectedAt }
 
+fun List<CwaCovidCertificate>.findFallbackDcc(): CwaCovidCertificate? {
+    val validCerts = filter {
+        when (it.getState()) {
+            is Valid, is ExpiringSoon -> true
+            else -> false
+        }
+    }.toCertificateSortOrder()
+
+    return validCerts.firstOrNull { it is VaccinationCertificate || it is RecoveryCertificate } // First VC or RC
+        ?: validCerts.firstOrNull() // First from filtered valid list
+        ?: firstOrNull() // First from the original certificates list
+}
+
 @Suppress("ReturnCount", "ComplexMethod")
 fun Collection<CwaCovidCertificate>.findHighestPriorityCertificate(
     nowUtc: Instant = Instant.now()
