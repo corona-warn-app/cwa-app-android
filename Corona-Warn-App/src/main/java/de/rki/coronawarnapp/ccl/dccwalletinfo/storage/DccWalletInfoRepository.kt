@@ -19,7 +19,7 @@ class DccWalletInfoRepository @Inject constructor(
     private val dccWalletInfoDao: DccWalletInfoDao,
     @AppScope private val appScope: CoroutineScope
 ) {
-    val dccWalletInfo: Flow<Set<PersonWalletInfo>> = dccWalletInfoDao.getAll()
+    val personWallets: Flow<Set<PersonWalletInfo>> = dccWalletInfoDao.getAll()
         .map { personWallets ->
             personWallets.map { personWallet ->
                 PersonWalletInfo(

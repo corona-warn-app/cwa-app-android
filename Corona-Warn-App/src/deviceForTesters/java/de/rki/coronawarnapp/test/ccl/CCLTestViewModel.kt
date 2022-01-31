@@ -22,7 +22,7 @@ class CCLTestViewModel @AssistedInject constructor(
         "2020-09-10", "2021-08-10", "2020-01-10", "2020-02-10"
     )
 
-    val dccWalletInfoList = dccWalletInfoRepository.dccWalletInfo.asLiveData2()
+    val dccWalletInfoList = dccWalletInfoRepository.personWallets.asLiveData2()
     val forceUpdateUiState = MutableLiveData<ForceUpdateUiState>()
 
     fun addDccWallet() = launch {

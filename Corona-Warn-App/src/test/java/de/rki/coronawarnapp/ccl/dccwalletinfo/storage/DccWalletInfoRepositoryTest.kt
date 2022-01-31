@@ -36,7 +36,7 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
 
     @Test
     fun getDccWalletInfo() = runBlockingTest {
-        repo(this).dccWalletInfo.first() shouldBe listOf()
+        repo(this).personWallets.first() shouldBe listOf()
     }
 
     @Test

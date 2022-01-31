@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoWrapper
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
@@ -31,13 +30,13 @@ class PersonCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val walletInfo = curItem.dccWalletInfoWrapper
+        val badgeText = curItem.admissionBadgeText
         when (curItem.admissionState) {
             is TwoG -> {
                 setUIState(
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = badgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -47,7 +46,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = badgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -58,7 +57,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                     primaryCertificate = curItem.admissionState.twoGCertificate,
                     secondaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = badgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -68,7 +67,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = badgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -78,7 +77,7 @@ class PersonCertificateCard(parent: ViewGroup) :
                 setUIState(
                     primaryCertificate = curItem.admissionState.testCertificate,
                     colorShade = curItem.colorShade,
-                    statusBadgeText = walletInfo.admissionBadgeText,
+                    statusBadgeText = badgeText,
                     badgeCount = curItem.badgeCount,
                     onCovPassInfoAction = curItem.onCovPassInfoAction
                 )
@@ -101,14 +100,13 @@ class PersonCertificateCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val dccWalletInfoWrapper: DccWalletInfoWrapper = DccWalletInfoWrapper(),
+        val admissionBadgeText: String = "",
         val admissionState: AdmissionState,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
         val onClickAction: (Item, Int) -> Unit,
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
-        override val stableId: Long =
-            dccWalletInfoWrapper.hashCode().toLong()
+        override val stableId: Long = hashCode().toLong()
     }
 }
