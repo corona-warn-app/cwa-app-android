@@ -96,8 +96,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            val boosterNotification = personCertificates.dccWalletInfoWrapper.dccWalletInfo.boosterNotification
-            if (boosterNotification.visible) {
+            val boosterNotification = personCertificates.dccWalletInfo?.boosterNotification
+            if (boosterNotification != null && boosterNotification.visible) {
                 add(
                     BoosterCard.Item(
                         boosterNotification = boosterNotification,

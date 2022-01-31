@@ -28,7 +28,7 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
     private val uiStateFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
         UiState(
             certificateSet.first { it.personIdentifier?.codeSHA256 == personIdentifierCode }
-                .dccWalletInfoWrapper.dccWalletInfo.boosterNotification.also {
+                .dccWalletInfo!!.boosterNotification.also {
                     it.identifier?.let { id ->
                         vaccinationRepository.acknowledgeBoosterRule(
                             personIdentifierCode = personIdentifierCode,
@@ -38,6 +38,7 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
                 }
         )
     }.catch { error ->
+        // This should never happen due to checks on previous screen
         Timber.d(error, "No person found for $personIdentifierCode")
     }
     val uiState = uiStateFlow.asLiveData2()
