@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
@@ -94,32 +95,34 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            val admissionState = personCertificates.admissionState
-            if (admissionState != null && admissionState !is Other) {
-                add(
-                    ConfirmedStatusCard.Item(
-                        admissionState = admissionState,
-                        colorShade = colorShade
-                    )
-                )
+            personCertificates.dccWalletInfo?.admissionState?.let { admissionState ->
+                if (admissionState.visible) {
+                    try {
+                        add(
+                            ConfirmedStatusCard.Item(
+                                titleText = textResource(admissionState.titleText).value,
+                                subtitleText = textResource(admissionState.subtitleText).value,
+                                badgeText = textResource(admissionState.badgeText).value,
+                                longText = textResource(admissionState.longText).value,
+                                faqAnchor = urlResource(admissionState.faqAnchor).value,
+                                colorShade = colorShade
+                            )
+                        )
+                    } catch (e: Exception) {
+                        Timber.e(e, "creating ConfirmedStatusCard.Item failed")
+                    }
+                }
             }
 
-            // Find any vaccination certificate to determine the vaccination information
-            personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
-                val vaccinatedPerson = vaccinatedPerson(certificate)
-                if (vaccinatedPerson != null) {
+            personCertificates.dccWalletInfo?.vaccinationState?.let { vaccinationState ->
+                if (vaccinationState.visible) {
                     try {
-                        val daysUntilImmunity = vaccinatedPerson.getDaysUntilImmunity()
-                        val vaccinationStatus = vaccinatedPerson.getVaccinationStatus()
-                        val daysSinceLastVaccination = vaccinatedPerson.getDaysSinceLastVaccination()
-                        val boosterRule = vaccinatedPerson.boosterRule
                         add(
                             VaccinationInfoCard.Item(
-                                vaccinationStatus = vaccinationStatus,
-                                daysUntilImmunity = daysUntilImmunity,
-                                boosterRule = boosterRule,
-                                daysSinceLastVaccination = daysSinceLastVaccination,
-                                hasBoosterNotification = vaccinatedPerson.hasBoosterNotification
+                                titleText = textResource(vaccinationState.titleText).value,
+                                subtitleText = textResource(vaccinationState.subtitleText).value,
+                                longText = textResource(vaccinationState.longText).value,
+                                faqAnchor = urlResource(vaccinationState.faqAnchor).value,
                             )
                         )
                     } catch (e: Exception) {
