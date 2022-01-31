@@ -25,15 +25,8 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
-        binding.calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
-        viewModel.dccWalletInfoList.observe(viewLifecycleOwner) { infoList ->
-            binding.dccWalletInfoList.text = buildSpannedString {
-                infoList.forEachIndexed { index, info ->
-                    append("$index: ")
-                    append(info.toString())
-                    appendLine()
         with(binding) {
+            calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
             viewModel.personIdentifiers.observe2(this@CCLTestFragment) { personIdentifier ->

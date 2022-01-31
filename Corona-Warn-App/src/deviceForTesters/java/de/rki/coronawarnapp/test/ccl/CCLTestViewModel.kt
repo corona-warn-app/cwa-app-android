@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 
 class CCLTestViewModel @AssistedInject constructor(
-    private val dccWalletInfoRepository: DccWalletInfoRepository,
     vaccinationRepository: VaccinationRepository,
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
