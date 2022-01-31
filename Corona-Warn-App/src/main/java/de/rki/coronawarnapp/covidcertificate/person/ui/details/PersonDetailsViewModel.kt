@@ -97,15 +97,16 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
 
-            val boosterNotification = personCertificates.dccWalletInfo?.boosterNotification
-            if (boosterNotification != null && boosterNotification.visible) {
-                add(
-                    BoosterCard.Item(
-                        boosterNotification = boosterNotification,
-                        isNew = checkBoosterNotificationBadge(personCertificates, boosterNotification),
-                        onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
+            personCertificates.dccWalletInfo?.boosterNotification?.let { boosterNotification ->
+                if (boosterNotification.visible) {
+                    add(
+                        BoosterCard.Item(
+                            boosterNotification = boosterNotification,
+                            isNew = checkBoosterNotificationBadge(personCertificates, boosterNotification),
+                            onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
+                        )
                     )
-                )
+                }
             }
 
             personCertificates.dccWalletInfo?.admissionState?.let { admissionState ->

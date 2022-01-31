@@ -26,7 +26,7 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/covid_certificate_validation_gradient"
+                android:background="@color/colorSurface"
                 android:nestedScrollingEnabled="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
