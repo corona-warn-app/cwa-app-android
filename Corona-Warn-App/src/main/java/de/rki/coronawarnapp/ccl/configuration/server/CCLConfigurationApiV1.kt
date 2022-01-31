@@ -1,3 +1,5 @@
 package de.rki.coronawarnapp.ccl.configuration.server
 
-interface CCLConfigurationApiV1
+interface CCLConfigurationApiV1 {
+    // DO
+}
