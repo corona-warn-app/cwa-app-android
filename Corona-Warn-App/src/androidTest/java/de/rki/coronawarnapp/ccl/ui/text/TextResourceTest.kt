@@ -10,7 +10,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
 import org.joda.time.DateTimeZone
-import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTestInstrumentation

@@ -150,7 +150,6 @@ data class Parameters(
     @JsonProperty("value")
     val value: Any, // Required, it could be a Number, String, Date(String), or Boolean
 
-
 ) {
     enum class Type(private val type: String) {
         STRING("string"),
