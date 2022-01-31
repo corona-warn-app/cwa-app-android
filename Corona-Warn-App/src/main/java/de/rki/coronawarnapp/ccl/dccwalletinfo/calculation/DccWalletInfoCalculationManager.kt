@@ -28,8 +28,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
         initCalculation()
         personCertificatesProvider.personCertificates.first().forEach {
             if (configurationChanged ||
-                it.dccWalletInfoWrapper == null ||
-                it.dccWalletInfoWrapper.dccWalletInfo.validUntilInstant.isBefore(now)
+                it.dccWalletInfo == null ||
+                it.dccWalletInfo.validUntilInstant.isBefore(now)
             ) {
                 updateWalletInfoForPerson(it)
             }

@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,8 +32,6 @@ class CCLConfigurationRepository @Inject constructor(
     )
 
     val cclConfigurations: Flow<List<CCLConfiguration>> = internalData.data
-
-    suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
 
     suspend fun clear() {
         Timber.tag(TAG).d("Clearing")
