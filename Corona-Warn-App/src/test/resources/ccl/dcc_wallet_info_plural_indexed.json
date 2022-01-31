@@ -92,7 +92,8 @@
       },
       "parameters": []
     },
-    "faqAnchor": "dcc_admission_state"
+    "faqAnchor": "dcc_admission_state",
+    "identifier": "booster_rule_identifier"
   },
   "mostRelevantCertificate": {
     "certificateRef": {
