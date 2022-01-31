@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -14,6 +15,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     // TODO add when merged
     // private val cclConfigurationRepository: CCLConfigurationRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
+    private val boosterNotificationService: BoosterNotificationService,
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val calculation: DccWalletInfoCalculation,
@@ -61,6 +63,12 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 person.personIdentifier ?: return,
                 walletInfo
             )
+            // TODO add when merged
+//            boosterNotificationService.notifyIfNecessary(
+//                personIdentifier = person.personIdentifier,
+//                oldWalletInfo = person.dccWalletInfo,
+//                newWalletInfo = walletInfo,
+//            )
         } catch (e: Exception) {
             Timber.e("Failed to calculate DccWalletInfo for ${person.personIdentifier}", e)
         }

@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import androidx.annotation.VisibleForTesting
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.NullNode
 import com.google.gson.Gson
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
@@ -13,17 +15,17 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
-    @BaseGson val gson: Gson
+    @BaseGson val gson: Gson,
+    @BaseJackson val mapper: ObjectMapper
 ) {
 
     private lateinit var jsonFunctions: JsonFunctions
-    private lateinit var boosterRulesNode: JsonNode
-
-    private val mapper by lazy { ObjectMapper() }
+    private var boosterRulesNode: JsonNode = NullNode.instance
 
     fun init(
         cclConfiguration: CCLConfiguration,
@@ -40,7 +42,7 @@ class DccWalletInfoCalculation @Inject constructor(
         dccList: List<CwaCovidCertificate>
     ): DccWalletInfo {
 
-        val input = getDccWalletInfoInput(dccList).toJsonNode()
+        val input = getDccWalletInfoInput(dccList = dccList).toJsonNode()
         val output = jsonFunctions.evaluateFunction(
             FUNCTION_NAME,
             input
@@ -49,10 +51,12 @@ class DccWalletInfoCalculation @Inject constructor(
         return mapper.treeToValue(output, DccWalletInfo::class.java)
     }
 
-    private fun getDccWalletInfoInput(
-        dccList: List<CwaCovidCertificate>
+    @VisibleForTesting
+    internal fun getDccWalletInfoInput(
+        dccList: List<CwaCovidCertificate>,
+        boosterNotificationRules: JsonNode = boosterRulesNode,
+        defaultInputParameters: CclInputParameters = getDefaultInputParameters(),
     ): DccWalletInfoInput {
-        val defaultInputParameters = getDefaultInputParameters()
         return DccWalletInfoInput(
             os = defaultInputParameters.os,
             language = defaultInputParameters.language,
@@ -66,7 +70,7 @@ class DccWalletInfoCalculation @Inject constructor(
                 utcDateTimeMidnight = defaultInputParameters.now.utcDateTimeMidnight,
             ),
             certificates = dccList.toCclCertificateList(),
-            boosterNotificationRules = boosterRulesNode
+            boosterNotificationRules = boosterNotificationRules
         )
     }
 
@@ -86,15 +90,6 @@ class DccWalletInfoCalculation @Inject constructor(
                 validityState = it.getState().toCclState()
             )
         }
-    }
-
-    private fun CwaCovidCertificate.State.toCclState(): CclCertificate.Validity = when (this) {
-        CwaCovidCertificate.State.Blocked -> CclCertificate.Validity.BLOCKED
-        is CwaCovidCertificate.State.Expired -> CclCertificate.Validity.EXPIRED
-        is CwaCovidCertificate.State.ExpiringSoon -> CclCertificate.Validity.EXPIRING_SOON
-        is CwaCovidCertificate.State.Invalid -> CclCertificate.Validity.INVALID
-        is CwaCovidCertificate.State.Valid -> CclCertificate.Validity.VALID
-        else -> throw IllegalStateException("State not supported")
     }
 
     private fun Any.toJsonNode(): JsonNode = mapper.valueToTree(this)
