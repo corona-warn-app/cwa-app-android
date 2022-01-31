@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.boosterinfodetails
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
@@ -56,7 +57,8 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
                 title.text = it.titleText
                 subtitle.text = it.subtitleText
                 body.text = it.longText
-                faq.convertToHyperlink(it.faqUrl)
+                faq.isVisible = it.faqUrl != null
+                it.faqUrl?.let { url -> faq.convertToHyperlink(url) }
             }
         }
     }
