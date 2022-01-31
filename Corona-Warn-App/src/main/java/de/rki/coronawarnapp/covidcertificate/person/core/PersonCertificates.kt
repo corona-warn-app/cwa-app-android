@@ -33,7 +33,7 @@ data class PersonCertificates(
                     buttonText = formatCCLText(certRef.buttonText, Locale.getDefault().language)
                 )
             }
-        }?.take(2) ?: when(val cert = certificates.findFallbackDcc()) {
+        }?.take(2) ?: when (val cert = certificates.findFallbackDcc()) {
             null -> emptyList()
             else -> listOf(VerificationCertificate(cert))
         }
