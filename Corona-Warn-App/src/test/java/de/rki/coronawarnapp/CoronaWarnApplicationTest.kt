@@ -5,6 +5,7 @@ import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
+import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdateScheduler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
@@ -87,6 +88,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var securityProvider: SecurityProvider
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
+    @MockK lateinit var cclConfigurationUpdateScheduler: CCLConfigurationUpdateScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -151,6 +153,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.dccStateCheckScheduler = dscCheckScheduler
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
+                app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
             }
         }
     }
@@ -189,6 +192,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             shareTestResultNotificationService.setup()
             dscCheckScheduler.setup()
             recycleBinCleanUpScheduler.setup()
+            cclConfigurationUpdateScheduler.setup()
         }
     }
 }
