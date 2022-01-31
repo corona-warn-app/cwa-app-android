@@ -33,7 +33,8 @@ internal class DccWalletInfoParserTest : BaseTest() {
             localizedText = mapOf("de" to "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"),
             parameters = listOf()
         ),
-        faqAnchor = "dcc_admission_state"
+        faqAnchor = "dcc_admission_state",
+        identifier = "booster_rule_identifier"
     )
 
     private val mostRelevantCertificate = MostRelevantCertificate(

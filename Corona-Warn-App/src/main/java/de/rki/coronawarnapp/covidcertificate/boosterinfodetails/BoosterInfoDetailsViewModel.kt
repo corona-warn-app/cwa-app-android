@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
 import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -18,7 +19,8 @@ import timber.log.Timber
 
 class BoosterInfoDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val personCertificatesProvider: PersonCertificatesProvider,
+    personCertificatesProvider: PersonCertificatesProvider,
+    private val vaccinationRepository: VaccinationRepository,
     @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCode: String
 ) : CWAViewModel(dispatcherProvider) {
@@ -26,7 +28,14 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
     private val uiStateFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
         UiState(
             certificateSet.first { it.personIdentifier?.codeSHA256 == personIdentifierCode }
-                .dccWalletInfoWrapper.dccWalletInfo.boosterNotification
+                .dccWalletInfoWrapper.dccWalletInfo.boosterNotification.also {
+                    it.identifier?.let { id ->
+                        vaccinationRepository.acknowledgeBoosterRule(
+                            personIdentifierCode = personIdentifierCode,
+                            boosterIdentifier = id
+                        )
+                    }
+                }
         )
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
@@ -40,10 +49,6 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
         val subtitleText by textResource(boosterNotification.subtitleText)
         val longText by textResource(boosterNotification.longText)
         val faqUrl by urlResource(boosterNotification.faqAnchor)
-    }
-
-    fun onViewed() {
-        // TODO: add correct call to change notification status to read/viewed
     }
 
     @AssistedFactory

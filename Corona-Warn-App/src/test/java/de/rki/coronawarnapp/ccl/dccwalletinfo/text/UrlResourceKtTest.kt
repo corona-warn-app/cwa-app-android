@@ -18,5 +18,8 @@ internal class UrlResourceKtTest : BaseTest() {
 
         val url by urlResource("dcc_admission_state", Locale.ENGLISH)
         url shouldBe "https://www.coronawarn.app/en/faq/#dcc_admission_state"
+
+        val nullUrl by urlResource(null, Locale.ENGLISH)
+        nullUrl shouldBe "https://www.coronawarn.app/en/faq/#"
     }
 }

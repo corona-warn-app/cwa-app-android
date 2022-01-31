@@ -44,7 +44,8 @@ private val boosterNotification = BoosterNotification(
         localizedText = mapOf("de" to "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"),
         parameters = listOf()
     ),
-    faqAnchor = "dcc_admission_state"
+    faqAnchor = "dcc_admission_state",
+    identifier = "booster_rule_identifier"
 )
 private val vaccinationState = VaccinationState(
     visible = true,

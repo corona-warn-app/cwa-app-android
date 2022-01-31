@@ -134,7 +134,10 @@ data class BoosterNotification(
     val longText: CCLText,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String
+    val faqAnchor: String?,
+
+    @JsonProperty("identifier")
+    val identifier: String?
 )
 
 data class CertificateRef(

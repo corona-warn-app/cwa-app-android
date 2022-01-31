@@ -59,7 +59,5 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
                 faq.convertToHyperlink(it.faqUrl)
             }
         }
-
-        viewModel.onViewed()
     }
 }

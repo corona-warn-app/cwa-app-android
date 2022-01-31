@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -100,7 +101,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 add(
                     BoosterCard.Item(
                         boosterNotification = boosterNotification,
-                        isNew = true, // TODO: replace with correct call of notification BOOSTER
+                        isNew = checkBoosterNotificationBadge(personCertificates, boosterNotification),
                         onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
                     )
                 )
@@ -146,6 +147,19 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
 
         return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)
+    }
+
+    private suspend fun checkBoosterNotificationBadge(
+        personCertificates: PersonCertificates,
+        boosterNotification: BoosterNotification
+    ): Boolean {
+        personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
+            val vaccinatedPerson = vaccinatedPerson(certificate)
+            if (vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun onValidateCertificate(containerId: CertificateContainerId) =
@@ -226,11 +240,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
         vaccinationRepository.vaccinationInfos.firstOrNull()?.find { it.identifier == certificate.personIdentifier }
-
-    fun refreshBoosterRuleState() = launch(scope = appScope) {
-        Timber.v("refreshBoosterRuleState personIdentifierCode=$personIdentifierCode")
-        vaccinationRepository.acknowledgeBoosterRule(personIdentifierCode = personIdentifierCode)
-    }
 
     data class UiState(
         val name: String,
