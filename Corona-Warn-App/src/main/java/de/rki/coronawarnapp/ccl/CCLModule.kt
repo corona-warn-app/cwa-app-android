@@ -4,7 +4,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.ccl.configuration.CCLConfigurationModule
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDao
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDatabase
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask
@@ -13,7 +12,7 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 import javax.inject.Singleton
 
-@Module(includes = [CCLConfigurationModule::class])
+@Module()
 abstract class CCLModule {
 
     @Binds
