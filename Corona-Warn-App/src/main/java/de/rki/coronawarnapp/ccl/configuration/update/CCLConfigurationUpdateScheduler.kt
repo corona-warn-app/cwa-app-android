@@ -23,7 +23,6 @@ class CCLConfigurationUpdateScheduler @Inject constructor(
     private val foregroundState: ForegroundState,
     private val cclConfigurationUpdater: CCLConfigurationUpdater,
     private val workManager: WorkManager
-    // private val dccWalletManager: DccWalletInfoCalculationManager
 ) {
 
     fun setup() {
@@ -39,9 +38,7 @@ class CCLConfigurationUpdateScheduler @Inject constructor(
             .distinctUntilChanged()
             .filter { it } // Only when app comes to the foreground
             .onEach {
-                val updated = cclConfigurationUpdater.updateIfRequired()
-                Timber.d("Configuration was updated = %s", updated)
-                // dccWalletManager.triggerCalculation(updated)
+                cclConfigurationUpdater.updateIfRequired()
             }
             .launchIn(appScope)
     }

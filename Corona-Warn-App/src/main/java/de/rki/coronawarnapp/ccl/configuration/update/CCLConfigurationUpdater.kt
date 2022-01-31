@@ -14,30 +14,29 @@ import javax.inject.Singleton
 @Singleton
 class CCLConfigurationUpdater @Inject constructor(
     private val cclSettings: CCLSettings,
-    private val boosterRulesRepository: BoosterRulesRepository
+    private val boosterRulesRepository: BoosterRulesRepository,
+    // private val dccWalletManager: DccWalletInfoCalculationManager
 ) {
 
-    /**
-     * updates the CLL configuration if required
-     * @return true if either new booster rules or a new ccl configuration was downloaded, otherwise false
-     */
-    suspend fun updateIfRequired(): Boolean {
+    suspend fun updateIfRequired() {
         Timber.d("update()")
 
         if (!isUpdateRequired()) {
             Timber.d("No CCLConfig update required!")
-            return false
+            return
         }
 
         cclSettings.setExecutionTimeToNow()
-        return updateConfiguration()
+        val updated = updateConfiguration()
+        // dccWalletManager.triggerCalculation(updated)
     }
 
     /**
      * updates the configuration irrespectively of whether it was recently updated
      */
     suspend fun forceUpdate() {
-        updateConfiguration()
+        val updated = updateConfiguration()
+        // dccWalletManager.triggerCalculation(updated)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

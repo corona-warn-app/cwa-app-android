@@ -4,11 +4,13 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +31,7 @@ internal class CCLConfigurationUpdateSchedulerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { foregroundState.isInForeground } returns isForeground
-        coEvery { cclConfigurationUpdater.updateIfRequired() } returns true
+        coEvery { cclConfigurationUpdater.updateIfRequired() } just Runs
     }
 
     @Test
@@ -66,7 +68,7 @@ internal class CCLConfigurationUpdateSchedulerTest : BaseTest() {
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify(exactly = 1) { cclConfigurationUpdater }
+            coVerify(exactly = 1) { cclConfigurationUpdater.updateIfRequired() }
         }
     }
 

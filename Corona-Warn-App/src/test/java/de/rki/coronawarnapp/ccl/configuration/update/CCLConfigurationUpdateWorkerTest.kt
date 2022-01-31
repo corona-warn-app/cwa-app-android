@@ -5,11 +5,13 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -25,7 +27,7 @@ class CCLConfigurationUpdateWorkerTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclConfigurationUpdater.updateIfRequired() } returns true
+        coEvery { cclConfigurationUpdater.updateIfRequired() } just Runs
     }
 
     @Test
