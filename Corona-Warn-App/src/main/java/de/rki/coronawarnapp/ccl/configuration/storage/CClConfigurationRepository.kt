@@ -36,6 +36,12 @@ class CCLConfigurationRepository @Inject constructor(
 
     suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
 
+    suspend fun clear() {
+        Timber.tag(TAG).d("Clearing")
+        cclConfigurationStorage.clear()
+        internalData.updateBlocking { loadInitialConfigs() }
+    }
+
     private val defaultCCLConfigurationsRawData: ByteArray
         get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
 
