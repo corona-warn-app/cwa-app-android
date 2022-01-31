@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkObject
 import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import org.junit.Before
 import org.junit.Test
 import testhelpers.BaseTestInstrumentation
@@ -42,13 +43,20 @@ class TextResourceTest : BaseTestInstrumentation() {
     }
 
     private fun testCases() {
-        val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
-        val context = InstrumentationRegistry.getInstrumentation().context
-        val stream = context.assets.open(path)
-        val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
-
-        testCases.testCases.forEach { testCase ->
-            testCase.textDescriptor.format(Locale.GERMAN) shouldBe testCase.assertions[0].text
+        val files = listOf(
+            "ccl-text-descriptor-test-cases.gen.json",
+            "ccl-text-descriptor-test-cases.gen2.json",
+        )
+        for (file in files) {
+            val path = Paths.get("ccl", file).toString()
+            val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)
+            val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
+            testCases.testCases.forEach { testCase ->
+                testCase.textDescriptor.format(
+                    Locale.GERMAN,
+                    Instant.parse("2022-01-31T00:00:00.000Z")
+                ) shouldBe testCase.assertions[0].text
+            }
         }
     }
 }
