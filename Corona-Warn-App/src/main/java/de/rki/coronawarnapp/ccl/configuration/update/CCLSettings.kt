@@ -42,7 +42,7 @@ class CCLSettings @Inject constructor(
     /**
      * Stores the execution time of the CCL update in the data store
      */
-    fun setExecutionTime(executionTime: Instant = Instant.now()) = appScope.launch {
+    fun setExecutionTimeToNow(executionTime: Instant = Instant.now()) = appScope.launch {
         Timber.d("Storing executionTime to CCL settings data store: %s", executionTime)
         dataStore.edit { prefs ->
             prefs[LAST_EXECUTION_TIME_KEY] = executionTime.seconds

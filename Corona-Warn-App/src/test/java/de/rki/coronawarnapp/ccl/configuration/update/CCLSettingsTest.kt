@@ -25,7 +25,7 @@ internal class CCLSettingsTest : BaseTest() {
         cclSettings.getLastExecutionTime() shouldBe null
 
         val now = Instant.parse("2022-04-02T00:00:00.000Z")
-        cclSettings.setExecutionTime(now)
+        cclSettings.setExecutionTimeToNow(now)
 
         fakeDataStore[CCLSettings.LAST_EXECUTION_TIME_KEY] shouldBe now.seconds
         cclSettings.getLastExecutionTime() shouldBe now

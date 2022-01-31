@@ -17,6 +17,10 @@ class CCLConfigurationUpdater @Inject constructor(
     private val boosterRulesRepository: BoosterRulesRepository
 ) {
 
+    /**
+     * updates the CLL configuration if required
+     * @return true if either new booster rules or a new ccl configuration was downloaded, otherwise false
+     */
     suspend fun updateIfRequired(): Boolean {
         Timber.d("update()")
 
@@ -25,11 +29,7 @@ class CCLConfigurationUpdater @Inject constructor(
             return false
         }
 
-        // TODO
-        // Also note that this mechanism shall cause the app to update its configuration when its opened for the
-        // first time after an update to a release that supports CCL.
-
-        cclSettings.setExecutionTime()
+        cclSettings.setExecutionTimeToNow()
         return updateConfiguration()
     }
 

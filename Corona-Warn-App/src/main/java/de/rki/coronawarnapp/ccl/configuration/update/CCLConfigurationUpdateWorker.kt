@@ -17,10 +17,8 @@ class CCLConfigurationUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         Timber.d("Start updating the ccl configuration.")
-        cclConfigurationUpdater.updateIfRequired()
-
-        TODO("Should we retry if updateIfRequired() fails?")
-
+        val updated = cclConfigurationUpdater.updateIfRequired()
+        Timber.d("Finished updating the ccl configuration. Updated: %s", updated)
         return Result.success()
     }
 
