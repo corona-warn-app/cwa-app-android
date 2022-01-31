@@ -52,19 +52,40 @@ private fun PluralText.formatPlural(locale: Locale): String? {
         .format(*parameters.convertValues(locale))
 }
 
-private fun PluralText.quantity(): Int {
-    return quantity ?: run {
-        val param = parameters[quantityParameterIndex ?: 0]
-        when (param.format) {
-            Parameters.FormatType.DATE_DIFF_NOW -> when (param.unit) {
-                Parameters.UnitType.DAY ->
-                    Days.daysBetween(
-                        Instant.parse(param.value.toString()),
-                        Instant.now()
-                    ).days
-                else -> param.toNumber()
+private fun PluralText.quantity(): Int = quantity ?: quantityFromIndex()
+
+private fun PluralText.quantityFromIndex(): Int {
+    val param = parameters[quantityParameterIndex ?: 0]
+    return when (param.type) {
+        Parameters.Type.STRING -> runCatching {
+            param.value.toString().toDouble().toInt()
+        }.getOrElse {
+            Timber.d("Quantity param is malformed param=$param")
+            0
+        }
+        Parameters.Type.NUMBER -> param.toNumber()
+        Parameters.Type.BOOLEAN -> 0
+        Parameters.Type.DATE,
+        Parameters.Type.LOCAL_DATE,
+        Parameters.Type.LOCAL_DATE_TIME,
+        Parameters.Type.UTC_DATE,
+        Parameters.Type.UTC_DATE_TIME -> {
+            when (param.format) {
+                Parameters.FormatType.DATE_DIFF_NOW -> when (param.unit) {
+                    Parameters.UnitType.DAY ->
+                        Days.daysBetween(Instant.parse(param.value.toString()), Instant.now()).days
+                    else -> {
+                        Timber.w("Date ,but no unit defined param=$param")
+                        // Date, but unit isn't supported yet, Consider it days
+                        Days.daysBetween(Instant.parse(param.value.toString()), Instant.now()).days
+                    }
+                }
+                else -> {
+                    Timber.w("Date, but no format defined param=$param")
+                    // Date, but format isn't supported yet, Consider it days
+                    Days.daysBetween(Instant.parse(param.value.toString()), Instant.now()).days
+                }
             }
-            else -> param.toNumber()
         }
     }
 }
