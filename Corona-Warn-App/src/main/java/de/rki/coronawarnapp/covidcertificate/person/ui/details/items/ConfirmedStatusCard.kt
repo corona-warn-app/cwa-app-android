@@ -1,19 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoG
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusPCR
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusRAT
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.databinding.ConfirmedStatusCardBinding
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
+import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import setTextWithUrl
 
 class ConfirmedStatusCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<ConfirmedStatusCard.Item, ConfirmedStatusCardBinding>(
@@ -28,48 +23,27 @@ class ConfirmedStatusCard(parent: ViewGroup) :
     override val onBindData: ConfirmedStatusCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, _ ->
+    ) -> Unit = { item, payloads ->
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        when (item.admissionState) {
-            is TwoG -> {
-                subtitle.text = context.resources.getString(R.string.confirmed_status_2g_badge)
-                badge.text = context.resources.getString(R.string.confirmed_status_2g_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_2g_body)
-            }
-            is TwoGPlusPCR -> {
-                subtitle.text = context.resources.getString(R.string.confirmed_status_2g_pcr_subtitle)
-                badge.text = context.resources.getString(R.string.confirmed_status_2g_plus_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_pcr_body)
-            }
-            is TwoGPlusRAT -> {
-                subtitle.text = context.resources.getString(R.string.confirmed_status_2g_rat_subtitle)
-                badge.text = context.resources.getString(R.string.confirmed_status_2g_plus_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_2g_plus_rat_body)
-            }
-            is ThreeGWithRAT -> {
-                subtitle.text = context.resources.getString(R.string.confirmed_status_3g_badge)
-                badge.text = context.resources.getString(R.string.confirmed_status_3g_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_3g_body)
-            }
-            is ThreeGWithPCR -> {
-                subtitle.text = context.resources.getString(R.string.confirmed_status_3g_plus_badge)
-                badge.text = context.resources.getString(R.string.confirmed_status_3g_plus_badge)
-                body.text = context.resources.getString(R.string.confirmed_status_3g_plus_body)
-            }
-            is AdmissionState.Other -> Unit
-        }
-
+        title.text = curItem.titleText
+        subtitle.text = curItem.subtitleText
+        badge.isVisible = curItem.badgeText.isNotBlank()
+        badge.text = curItem.badgeText
+        body.text = curItem.longText
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)
-
-        faq.setTextWithUrl(
-            R.string.confirmed_status_faq_text,
-            R.string.confirmed_status_faq_label,
-            R.string.confirmed_status_faq_link
-        )
+        faq.isVisible = curItem.faqAnchor != null
+        curItem.faqAnchor?.let { url ->
+            faq.convertToHyperlink(url)
+        }
     }
 
     data class Item(
-        val admissionState: AdmissionState,
+        val titleText: String,
+        val subtitleText: String,
+        val badgeText: String,
+        val longText: String,
+        val faqAnchor: String?,
         val colorShade: PersonColorShade,
     ) : CertificateItem, HasPayloadDiffer {
         override fun diffPayload(old: Any, new: Any): Any? = if (old::class == new::class) new else null
