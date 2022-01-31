@@ -11,7 +11,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class DccWalletInfoCalculationManager @Inject constructor(
-    //private val cclConfigurationRepository: CCLConfigurationRepository,
+    // TODO add when merged
+    // private val cclConfigurationRepository: CCLConfigurationRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
@@ -45,6 +46,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     }
 
     private suspend fun initCalculation() {
+        // TODO add when merged
 //        val configs = cclConfigurationRepository.cclConfigurations.first()
 //        calculation.init(
 //            configs.first(),
