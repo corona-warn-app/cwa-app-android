@@ -57,7 +57,7 @@ data class AdmissionState(
     val longText: CCLText,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String
+    val faqAnchor: String?
 )
 
 /**
@@ -210,7 +210,7 @@ data class VaccinationState(
     val longText: CCLText,
 
     @JsonProperty("faqAnchor")
-    val faqAnchor: String
+    val faqAnchor: String?
 )
 
 data class Verification(
