@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
 import javax.inject.Singleton
 
-@Module()
+@Module
 abstract class CCLModule {
 
     @Binds
