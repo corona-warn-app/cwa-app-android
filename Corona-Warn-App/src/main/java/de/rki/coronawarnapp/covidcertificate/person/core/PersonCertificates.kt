@@ -26,16 +26,18 @@ data class PersonCertificates(
 
     // PersonOverview
     val certificatesForOverviewScreen: List<VerificationCertificate> by lazy {
-        dccWalletInfo?.verification?.certificates?.mapNotNull { certRef ->
+        dccWalletInfo?.verification?.certificates.orEmpty().mapNotNull { certRef ->
             certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.barcodeData.toSHA256() }?.let {
                 VerificationCertificate(
                     certificate = it,
                     buttonText = formatCCLText(certRef.buttonText, Locale.getDefault().language)
                 )
             }
-        }?.take(2) ?: when (val cert = certificates.findFallbackDcc()) {
-            null -> emptyList()
-            else -> listOf(VerificationCertificate(cert))
+        }.take(2).ifEmpty {
+            when (val cert = certificates.findFallbackDcc()) {
+                null -> emptyList()
+                else -> listOf(VerificationCertificate(cert))
+            }
         }
     }
 
