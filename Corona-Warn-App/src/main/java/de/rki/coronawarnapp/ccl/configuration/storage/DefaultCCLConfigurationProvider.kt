@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.configuration.storage
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
@@ -17,4 +18,4 @@ class DefaultCCLConfigurationProvider @Inject constructor(
 
 private val TAG = tag<DefaultCCLConfigurationProvider>()
 
-private const val ASSET_DEFAULT_CCL_CONFIGURATION = "ccl/ccl-configuration.bin"
+@VisibleForTesting const val ASSET_DEFAULT_CCL_CONFIGURATION = "ccl/ccl-configuration.bin"
