@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.test.ccl
 
+import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdater
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dummyDccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -9,7 +11,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class CCLTestViewModel @AssistedInject constructor(
-    private val dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccWalletInfoRepository: DccWalletInfoRepository,
+    private val cclConfigurationUpdater: CCLConfigurationUpdater
 ) : CWAViewModel() {
 
     private val firstNames = listOf("Aa", "Bb", "Cc", "Dd", "Rr", "Ff", "Xx", "Hh")
@@ -20,6 +23,7 @@ class CCLTestViewModel @AssistedInject constructor(
     )
 
     val dccWalletInfoList = dccWalletInfoRepository.dccWalletInfo.asLiveData2()
+    val forceUpdateUiState = MutableLiveData<ForceUpdateUiState>()
 
     fun addDccWallet() = launch {
         val personIdentifier = CertificatePersonIdentifier(
@@ -28,6 +32,17 @@ class CCLTestViewModel @AssistedInject constructor(
             dateOfBirthFormatted = birthDates.random()
         )
         dccWalletInfoRepository.save(personIdentifier, dummyDccWalletInfo)
+    }
+
+    fun forceUpdateCclConfiguration() = launch {
+        forceUpdateUiState.postValue(ForceUpdateUiState.Loading)
+        cclConfigurationUpdater.forceUpdate()
+        forceUpdateUiState.postValue(ForceUpdateUiState.Success)
+    }
+
+    sealed class ForceUpdateUiState {
+        object Loading : ForceUpdateUiState()
+        object Success : ForceUpdateUiState()
     }
 
     @AssistedFactory

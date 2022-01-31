@@ -45,5 +45,44 @@
 
             </HorizontalScrollView>
         </LinearLayout>
+
+        <LinearLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CCL Configuration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/force_update_ccl_configuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Force-update CCL Configuration" />
+
+            <ProgressBar
+                android:id="@+id/force_update_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/force_update_ccl_configuration_info"
+                android:text="CCL Configuration Updated"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

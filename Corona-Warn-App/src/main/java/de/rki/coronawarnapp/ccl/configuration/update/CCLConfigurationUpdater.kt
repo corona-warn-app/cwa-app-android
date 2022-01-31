@@ -9,7 +9,9 @@ import kotlinx.coroutines.coroutineScope
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CCLConfigurationUpdater @Inject constructor(
     private val cclSettings: CCLSettings,
     private val boosterRulesRepository: BoosterRulesRepository
@@ -38,6 +40,14 @@ class CCLConfigurationUpdater @Inject constructor(
         updateConfiguration()
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun isUpdateRequired(now: Instant = Instant.now()): Boolean {
+        val lastExecution = cclSettings.getLastExecutionTime() ?: return true
+
+        // update is needed if the last update was on a different day
+        return lastExecution.toLocalDateUtc() != now.toLocalDateUtc()
+    }
+
     private suspend fun updateConfiguration(): Boolean {
         return coroutineScope {
             val newBoosterRulesDownloaded = async { boosterRulesRepository.update() }
@@ -48,13 +58,5 @@ class CCLConfigurationUpdater @Inject constructor(
                 // newCclConfigDownloaded
             ).awaitAll().any { true }
         }
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun isUpdateRequired(now: Instant = Instant.now()): Boolean {
-        val lastExecution = cclSettings.getLastExecutionTime() ?: return true
-
-        // update is needed if the last update was on a different day
-        return lastExecution.toLocalDateUtc() != now.toLocalDateUtc()
     }
 }

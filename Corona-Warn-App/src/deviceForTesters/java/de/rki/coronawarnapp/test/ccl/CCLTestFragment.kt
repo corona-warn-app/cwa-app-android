@@ -6,6 +6,8 @@ import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
+import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Loading
+import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Success
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -24,12 +26,27 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
         super.onViewCreated(view, savedInstanceState)
 
         binding.addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
+        binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
+
         viewModel.dccWalletInfoList.observe(viewLifecycleOwner) { infoList ->
             binding.dccWalletInfoList.text = buildSpannedString {
                 infoList.forEachIndexed { index, info ->
                     append("$index: ")
                     append(info.toString())
                     appendLine()
+                }
+            }
+        }
+
+        viewModel.forceUpdateUiState.observe(viewLifecycleOwner) { uiState ->
+            when (uiState) {
+                Loading -> {
+                    binding.forceUpdateProgressBar.visibility = View.VISIBLE
+                    binding.forceUpdateCclConfigurationInfo.visibility = View.INVISIBLE
+                }
+                Success -> {
+                    binding.forceUpdateProgressBar.visibility = View.INVISIBLE
+                    binding.forceUpdateCclConfigurationInfo.visibility = View.VISIBLE
                 }
             }
         }
