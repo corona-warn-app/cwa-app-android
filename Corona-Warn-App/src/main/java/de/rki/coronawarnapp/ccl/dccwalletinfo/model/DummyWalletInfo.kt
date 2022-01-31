@@ -102,5 +102,5 @@ val dummyDccWalletInfo = DccWalletInfo(
     verification = verification,
     boosterNotification = BoosterNotification(visible = false),
     mostRelevantCertificate = mostRelevantCertificate,
-    _validUntil = "2022-01-14T18:43:00Z"
+    validUntil = "2022-01-14T18:43:00Z"
 )

@@ -154,8 +154,6 @@ class DataReset @Inject constructor(
 
         dccTicketingQrCodeSettings.clear()
 
-        cclConfigurationRepository.clear()
-
         dccWalletInfoRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")

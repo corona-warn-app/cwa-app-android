@@ -36,40 +36,6 @@ class CCLConfigurationRepository @Inject constructor(
 
     suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
 
-    /** @return True if the ccl configuration was actually updated, false otherwise */
-    suspend fun updateCCLConfiguration(): Boolean = try {
-        var updated = false
-        internalData.updateBlocking {
-            Timber.tag(TAG).d("Updating ccl configuration")
-            val rawData = cclConfigurationServer.getCCLConfiguration()
-            val newConfig = rawData?.tryParseCCLConfigurations()
-            when (newConfig != null) {
-                true -> {
-                    Timber.tag(TAG).d("Saving new config data")
-                    cclConfigurationStorage.save(rawData = rawData)
-                    updated = true
-                    newConfig
-                }
-
-                false -> {
-                    Timber.tag(TAG).d("Nothing to update. Keeping old ccl config list")
-                    this
-                }
-            }
-        }
-
-        updated
-    } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Error while updating ccl config list")
-        false
-    }
-
-    suspend fun clear() {
-        Timber.tag(TAG).d("Clearing")
-        cclConfigurationStorage.clear()
-        internalData.updateBlocking { loadInitialConfigs() }
-    }
-
     private val defaultCCLConfigurationsRawData: ByteArray
         get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
 

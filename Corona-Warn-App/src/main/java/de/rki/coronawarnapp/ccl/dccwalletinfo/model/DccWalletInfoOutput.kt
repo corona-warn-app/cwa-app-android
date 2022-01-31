@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
@@ -25,10 +26,11 @@ data class DccWalletInfo(
     val verification: Verification,
 
     @JsonProperty("validUntil")
-    val _validUntil: String,
+    val validUntil: String,
 ) {
-    val validUntil: Instant
-        get() = Instant.parse(_validUntil)
+    @get:JsonIgnore
+    val validUntilInstant: Instant
+        get() = Instant.parse(validUntil)
 }
 
 @JsonTypeInfo(
@@ -199,21 +201,21 @@ data class Parameters(
         DATE("date");
 
         @JsonValue
-        fun paramType() = type
+        fun value() = type
     }
 
     enum class FormatType(private val type: String) {
         DATE_DIFF_NOW("date-diff-now");
 
         @JsonValue
-        fun paramFormatType() = type
+        fun value() = type
     }
 
     enum class UnitType(private val type: String) {
         DAY("day");
 
         @JsonValue
-        fun paramUnitType() = type
+        fun value() = type
     }
 }
 

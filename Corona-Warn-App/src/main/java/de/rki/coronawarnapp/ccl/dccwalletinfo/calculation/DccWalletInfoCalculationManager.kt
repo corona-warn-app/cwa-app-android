@@ -7,11 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,26 +18,18 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val calculation: DccWalletInfoCalculation,
     private val timeStamper: TimeStamper,
-    @AppScope private val appScope: CoroutineScope,
 ) {
-
-    fun setup() {
-        Timber.d("setup()")
-        boosterRulesRepository.rules.onEach {
-            triggerCalculation()
-        }.launchIn(appScope)
-    }
 
     suspend fun triggerCalculation(
         configurationChanged: Boolean = true
     ) {
-        Timber.e("triggerCalculation()")
+        Timber.d("triggerCalculation()")
         val now = timeStamper.nowUTC
         initCalculation()
         personCertificatesProvider.personCertificates.first().forEach {
             if (configurationChanged ||
                 it.dccWalletInfoWrapper == null ||
-                it.dccWalletInfoWrapper.dccWalletInfo.validUntil.isBefore(now)
+                it.dccWalletInfoWrapper.dccWalletInfo.validUntilInstant.isBefore(now)
             ) {
                 updateWalletInfoForPerson(it)
             }
