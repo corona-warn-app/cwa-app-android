@@ -204,6 +204,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { isDisplayValid } returns true
         every { getState() } returns State.Valid(headerExpiresAt)
         every { qrCodeToDisplay } returns CoilQrCode("qrCode")
+        every { qrCodeHash } returns "TC"
     }
 
     private fun mockVaccinationCertificate(number: Int = 1, final: Boolean = false): VaccinationCertificate =
@@ -229,6 +230,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { isDisplayValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
+            every { qrCodeHash } returns "VC$number"
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -246,6 +248,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                 }
             }
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+            every { qrCodeHash } returns "RC"
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(
