@@ -177,7 +177,6 @@ internal class DataResetTest : BaseTest() {
             boosterRulesRepository.clear()
             dccTicketingAllowListRepository.clear()
             dccTicketingQrCodeSettings.clear()
-            cclConfigurationRepository.clear()
             dccWalletInfoRepository.clear()
         }
     }
