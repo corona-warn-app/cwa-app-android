@@ -126,7 +126,7 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns  false
+                            every { isBooster } returns false
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                     every { isNotRecycled } returns true
