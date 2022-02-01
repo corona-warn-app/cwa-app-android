@@ -4,17 +4,27 @@
     "value": 5.5
   },
   {
-    "type": "date",
-    "value": "2021-12-01",
-    "format": "date-diff-now",
-    "unit": "day"
-  },
-  {
     "type": "boolean",
     "value": true
   },
   {
     "type": "string",
     "value": "2G"
+  },
+  {
+    "type": "localDate",
+    "value": "2022-01-01T23:30:00.000Z"
+  },
+  {
+    "type": "localDateTime",
+    "value": "2022-01-01T23:30:00.000Z"
+  },
+  {
+    "type": "utcDate",
+    "value": "2022-01-01T23:30:00.000Z"
+  },
+  {
+    "type": "utcDateTime",
+    "value": "2022-01-01T23:30:00.000Z"
   }
 ]
