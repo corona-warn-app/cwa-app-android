@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -89,6 +90,7 @@ class DataReset @Inject constructor(
     private val exposureWindowsSettings: AnalyticsExposureWindowsSettings,
     private val dccTicketingAllowListRepository: DccTicketingAllowListRepository,
     private val dccTicketingQrCodeSettings: DccTicketingQrCodeSettings,
+    private val cclConfigurationRepository: CCLConfigurationRepository,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CCLSettings,
 ) {
@@ -155,6 +157,8 @@ class DataReset @Inject constructor(
         dccTicketingQrCodeSettings.clear()
 
         cclSettings.clear()
+        cclConfigurationRepository.clear()
+
         dccWalletInfoRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
