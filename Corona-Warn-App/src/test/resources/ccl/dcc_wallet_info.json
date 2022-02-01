@@ -55,10 +55,8 @@
       },
       "parameters": [
         {
-          "type": "date",
-          "value": "2021-12-01",
-          "format": "date-diff-now",
-          "unit": "day"
+          "type": "localDate",
+          "value": "2022-01-01T23:30:00.000Z"
         }
       ]
     },

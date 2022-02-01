@@ -918,6 +918,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="qr_code_scan_body_subtitle">"Tests, Ihre Zertifikate, Check-ins und Nachweise bei Ticketbuchungen"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">Taschenlampe</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Datei öffnen"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1571,7 +1573,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Vollständig geimpfte Personen"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Grundimmunisiert"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1589,7 +1591,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Anzahl der Impfdosen, die bisher bundesweit verabreicht wurden."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Vollständig geimpfte Personen"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Grundimmunisiert"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die alle notwendigen Impfdosen der Grundimmunisierung erhalten haben."</string>
     <!-- XTXT: Statistics number of people with booster title -->
