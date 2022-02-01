@@ -27,7 +27,6 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
 
         with(binding) {
             calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
-            addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
             viewModel.personIdentifiers.observe2(this@CCLTestFragment) { personIdentifier ->
                 radioGroup.removeAllViews()

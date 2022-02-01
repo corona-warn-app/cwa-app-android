@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.test.ccl
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dummyDccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -35,12 +34,6 @@ class CCLTestViewModel @AssistedInject constructor(
             .map { PersonIdentifierSelection.Selected(it) } +
             PersonIdentifierSelection.All
     }.asLiveData2()
-
-    fun addDccWallet() = launch {
-        selectedPersonIdentifier.getCertificatePersonIdentifier()?.let {
-            dccWalletInfoRepository.save(it, dummyDccWalletInfo)
-        }
-    }
 
     fun clearDccWallet() = launch {
         dccWalletInfoRepository.clear()
