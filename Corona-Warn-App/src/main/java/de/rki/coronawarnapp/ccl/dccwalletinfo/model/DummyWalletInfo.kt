@@ -49,10 +49,8 @@ private val vaccinationState = VaccinationState(
         ),
         parameters = listOf(
             Parameters(
-                type = Parameters.Type.DATE,
-                value = "2021-12-01",
-                format = Parameters.FormatType.DATE_DIFF_NOW,
-                unit = Parameters.UnitType.DAY
+                type = Parameters.Type.LOCAL_DATE,
+                value = "2022-01-01T23:30:00.000Z"
             )
         )
     ),
