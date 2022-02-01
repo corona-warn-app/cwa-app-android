@@ -6,8 +6,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
-import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
-import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
+import de.rki.coronawarnapp.ccl.ui.text.format
+import de.rki.coronawarnapp.ccl.ui.text.formatFaqAnchor
+import de.rki.coronawarnapp.ccl.ui.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -114,11 +115,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             ConfirmedStatusCard.Item(
-                                titleText = textResource(admissionState.titleText).value,
-                                subtitleText = textResource(admissionState.subtitleText).value,
-                                badgeText = textResource(admissionState.badgeText).value,
-                                longText = textResource(admissionState.longText).value,
-                                faqAnchor = urlResource(admissionState.faqAnchor).value,
+                                titleText = admissionState.titleText.format().orEmpty(),
+                                subtitleText = admissionState.subtitleText.format().orEmpty(),
+                                badgeText = admissionState.badgeText.format().orEmpty(),
+                                longText = admissionState.longText.format().orEmpty(),
+                                faqAnchor = formatFaqAnchor(admissionState.faqAnchor),
                                 colorShade = colorShade
                             )
                         )
@@ -133,9 +134,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             VaccinationInfoCard.Item(
-                                titleText = textResource(vaccinationState.titleText).value,
-                                subtitleText = textResource(vaccinationState.subtitleText).value,
-                                longText = textResource(vaccinationState.longText).value,
+                                titleText = vaccinationState.titleText.format().orEmpty(),
+                                subtitleText = vaccinationState.subtitleText.format().orEmpty(),
+                                longText = vaccinationState.longText.format().orEmpty(),
                                 faqAnchor = urlResource(vaccinationState.faqAnchor).value,
                             )
                         )

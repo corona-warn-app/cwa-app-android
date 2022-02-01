@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
-import de.rki.coronawarnapp.ccl.dccwalletinfo.text.formatCCLText
+import de.rki.coronawarnapp.ccl.ui.text.format
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
-import java.util.Locale
 
 data class PersonCertificates(
     val certificates: List<CwaCovidCertificate>,
@@ -30,7 +29,7 @@ data class PersonCertificates(
             certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.barcodeData.toSHA256() }?.let {
                 VerificationCertificate(
                     certificate = it,
-                    buttonText = formatCCLText(certRef.buttonText, Locale.getDefault().language)
+                    buttonText = certRef.buttonText.format()
                 )
             }
         }.take(2).ifEmpty {
