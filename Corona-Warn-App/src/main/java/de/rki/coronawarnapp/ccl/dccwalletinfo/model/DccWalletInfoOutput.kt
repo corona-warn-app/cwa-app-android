@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.Instant
 
 data class DccWalletInfo(
@@ -128,7 +129,9 @@ data class BoosterNotification(
 data class CertificateRef(
     @JsonProperty("barcodeData")
     val barcodeData: String
-)
+) {
+    fun qrCodeHash() = barcodeData.toSHA256()
+}
 
 data class OutputCertificates(
     @JsonProperty("buttonText")
