@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.formatCCLText
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -23,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
+import java.util.Locale
 
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -63,13 +65,15 @@ class PersonOverviewViewModel @AssistedInject constructor(
     ) {
         persons.filterNotPending()
             .forEachIndexed { index, person ->
-                val admissionState = person.admissionState
+                val admissionState = person.dccWalletInfo?.admissionState
+                val certificatesForOverviewScreen = person.certificatesForOverviewScreen
+                Timber.d("VerificationCertificates ${person.certificatesForOverviewScreen}")
                 val color = PersonColorShade.shadeFor(index)
-                if (admissionState != null) {
+                if (certificatesForOverviewScreen.isNotEmpty()) {
                     add(
                         PersonCertificateCard.Item(
-                            admissionBadgeText = "TODO",
-                            admissionState = admissionState,
+                            certificatesForOverviewScreen = certificatesForOverviewScreen,
+                            admissionBadgeText = formatCCLText(admissionState?.badgeText, Locale.getDefault().language),
                             colorShade = color,
                             badgeCount = person.badgeCount,
                             onClickAction = { _, position ->
