@@ -731,8 +731,6 @@
     <string name="information_contact_button_international_phone">"+49 30 498 75401"</string>
     <!-- XLNK: Button / hyperlink to international phone call for technical contact and hotline TAN info page -->
     <string name="submission_contact_button_international_phone">"+49 30 498 75402"</string>
-    <!-- YTXT: text for share result card-->
-    <string name="submission_status_card_positive_result_illness">"Falls Sie Risikofaktoren für eine schwere COVID-19-Erkrankung haben, lassen Sie sich ärztlich beraten. Bekannte Risikofaktoren sind z.B. Alter über 60 Jahre, Immunschwäche, Diabetes und hohes Übergewicht."</string>
     <!-- XLNK: Description for national technical contact and hotline information page -->
     <string name="information_contact_button_phone_description">"For calls from within Germany. The call is free of charge."</string>
     <!-- XLNK: Description for international technical contact and hotline information page -->
@@ -917,6 +915,8 @@
     <string name="qr_code_scan_body_subtitle">"Tests, Your Certificates, Check-ins, and Verification during Ticketing"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"You can scan check-ins to restore events that you deleted."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"Flashlight"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Open File"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1224,7 +1224,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"The isolation period is usually 10 days. Please monitor how your symptoms develop closely."</item>
-        <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 15 minutes in the two days before you became ill. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
+        <item>"You will be asked by your public health authority to create a list of people you have had contact with. This should include all people with whom you have had close contact with (less than 2 meters, face-to-face conversation) for over 10 minutes in the two days before you became ill. You can use your contact journal for this: simply export the entries and then print them out or send them via e-mail."</item>
         <item>"Please particularly consider people who will not be notified directly by the app since they don’t own a smartphone, or haven’t installed the app."</item>
         <item>"Even when you no longer have any symptoms and you feel well again, you could still be infectious, so please follow the designated isolation period."</item>
     </string-array>
@@ -1349,6 +1349,8 @@
     <string name="submission_status_card_positive_result_contact">"The public health authority may contact you within the next few days."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Share your random IDs so that others can be warned."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"If you have risk factors for severe illness from COVID-19, obtain medical advice. Known risk factors include being over 60 years of age, immunosuppression, diabetes, and obesity."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Your %s diagnosis:"</string>
