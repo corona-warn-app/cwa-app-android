@@ -20,7 +20,6 @@ import retrofit2.Response
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 
-@Suppress("MaxLineLength")
 class CCLConfigurationServerTest : BaseTest() {
 
     @MockK lateinit var cclConfigurationApiV1: CCLConfigurationApiV1
@@ -46,7 +45,20 @@ class CCLConfigurationServerTest : BaseTest() {
     @Test
     fun `happy download`() = runBlockingTest {
         val data = cclConfigDataBase64.decodeBase64()
-        val response = Response.success(data?.toResponseBody())
+        val responseBody = data?.toResponseBody()
+
+        val netResponse: okhttp3.Response = mockk {
+            every { code } returns 200
+            every { body } returns responseBody
+        }
+
+        val rawResponse: okhttp3.Response = mockk {
+            every { isSuccessful } returns true
+            every { cacheResponse } returns null
+            every { networkResponse } returns netResponse
+        }
+
+        val response = Response.success(responseBody, rawResponse)
         val fileMap = data!!.toByteArray().inputStream().unzip().readIntoMap()
         val exportBinary = fileMap[CCLConfigurationServer.EXPORT_BINARY_FILE_NAME]!!
 
@@ -113,6 +125,10 @@ class CCLConfigurationServerTest : BaseTest() {
             data?.toResponseBody(),
             cachedResponse
         )
+
+        instance.getCCLConfiguration() shouldBe null
+
+        every { cachedResponse.networkResponse } returns null
 
         instance.getCCLConfiguration() shouldBe null
     }
