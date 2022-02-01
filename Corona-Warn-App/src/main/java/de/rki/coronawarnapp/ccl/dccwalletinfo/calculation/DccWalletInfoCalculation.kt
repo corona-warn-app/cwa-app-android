@@ -32,7 +32,7 @@ class DccWalletInfoCalculation @Inject constructor(
         boosterRules: List<DccValidationRule>
     ) {
         jsonFunctions = JsonFunctions()
-        boosterRulesNode = Gson().toJson(boosterRules).toJsonNode()
+        boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
         cclConfiguration.logic.jfnDescriptors.forEach {
             jsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
         }
@@ -56,23 +56,21 @@ class DccWalletInfoCalculation @Inject constructor(
         dccList: List<CwaCovidCertificate>,
         boosterNotificationRules: JsonNode = boosterRulesNode,
         defaultInputParameters: CclInputParameters = getDefaultInputParameters(),
-    ): DccWalletInfoInput {
-        return DccWalletInfoInput(
-            os = defaultInputParameters.os,
-            language = defaultInputParameters.language,
-            now = SystemTime(
-                timestamp = defaultInputParameters.now.timestamp,
-                localDate = defaultInputParameters.now.localDate,
-                localDateTime = defaultInputParameters.now.localDateTime,
-                localDateTimeMidnight = defaultInputParameters.now.localDateTimeMidnight,
-                utcDate = defaultInputParameters.now.utcDate,
-                utcDateTime = defaultInputParameters.now.utcDateTime,
-                utcDateTimeMidnight = defaultInputParameters.now.utcDateTimeMidnight,
-            ),
-            certificates = dccList.toCclCertificateList(),
-            boosterNotificationRules = boosterNotificationRules
-        )
-    }
+    ) = DccWalletInfoInput(
+        os = defaultInputParameters.os,
+        language = defaultInputParameters.language,
+        now = SystemTime(
+            timestamp = defaultInputParameters.now.timestamp,
+            localDate = defaultInputParameters.now.localDate,
+            localDateTime = defaultInputParameters.now.localDateTime,
+            localDateTimeMidnight = defaultInputParameters.now.localDateTimeMidnight,
+            utcDate = defaultInputParameters.now.utcDate,
+            utcDateTime = defaultInputParameters.now.utcDateTime,
+            utcDateTimeMidnight = defaultInputParameters.now.utcDateTimeMidnight,
+        ),
+        certificates = dccList.toCclCertificateList(),
+        boosterNotificationRules = boosterNotificationRules
+    )
 
     private fun List<CwaCovidCertificate>.toCclCertificateList(): List<CclCertificate> {
         return filter {

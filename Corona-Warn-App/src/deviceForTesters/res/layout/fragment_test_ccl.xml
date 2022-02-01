@@ -43,21 +43,24 @@
                 android:text="Add DccWalletInfo" />
 
             <Button
-                android:id="@+id/clear_dcc_wallet_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Clear DccWalletInfo" />
-
-            <Button
                 android:id="@+id/calc_dcc_wallet_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Calculate DccWalletInfo" />
 
+            <Button
+                android:id="@+id/clear_dcc_wallet_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="Clear DccWalletInfo" />
+
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small">
                 <TextView
                     android:id="@+id/dccWalletInfoList"
                     android:layout_width="0dp"
