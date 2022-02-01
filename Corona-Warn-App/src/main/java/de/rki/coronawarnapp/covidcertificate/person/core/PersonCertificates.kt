@@ -41,7 +41,7 @@ data class PersonCertificates(
         }
     }
 
-    // Obsolete, remove in cleanup PR
+    // TODO Obsolete, remove in cleanup PR
     val admissionState: AdmissionState? get() = certificates.determineAdmissionState()
 
     sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
