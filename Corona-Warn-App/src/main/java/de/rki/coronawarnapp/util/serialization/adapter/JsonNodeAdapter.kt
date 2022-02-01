@@ -25,7 +25,7 @@ class JsonNodeAdapter @Inject constructor(
 
     override fun write(out: JsonWriter, value: JsonNode?) {
         if (value == null) out.nullValue()
-        else out.value(jackson.writeValueAsString(value))
+        else out.value(value.textValue())
     }
 
     override fun read(reader: JsonReader): JsonNode? = when (reader.peek()) {
