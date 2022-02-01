@@ -373,7 +373,7 @@
     <!-- XHED: Cov Pass Info Fragment title -->
     <string name="cov_pass_info_title">"Zertifikatsprüfung durch Dritte"</string>
     <!-- XHED: Cov Pass Info Fragment title -->
-    <string name="cov_pass_info_subtitle">"Dritte können über die CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen- oder Testzertifikat handelt."</string>
+    <string name="cov_pass_info_subtitle">"Dritte können mit der CovPassCheck-App verlässlich überprüfen, ob es sich um ein valides Impf-, Genesenen- oder Testzertifikat handelt."</string>
     <!-- XTXT: Cov Pass Info Fragment link label -->
     <string name="cov_pass_info_faq_link_label">"FAQ zur Zertifikatsprüfung durch Dritte"</string>
 
