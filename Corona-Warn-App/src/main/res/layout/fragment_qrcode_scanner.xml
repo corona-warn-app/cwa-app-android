@@ -128,6 +128,7 @@
         android:layout_marginBottom="@dimen/spacing_medium"
         android:background="@drawable/ic_torch_toggle"
         android:backgroundTint="@color/colorQrCodeScanToolbar"
+        android:contentDescription="@string/qr_code_torch_accessibility_description"
         android:textOff=""
         android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"

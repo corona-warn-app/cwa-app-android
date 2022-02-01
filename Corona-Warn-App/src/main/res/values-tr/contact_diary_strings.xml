@@ -31,7 +31,7 @@
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Temas kaydınızı tutun."</string>
     <!-- XTXT: Contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_body">"İhtiyaç duyduğunuzda elinizin altında eksiksiz bir liste olması için son 14 güne ait temaslarınıza ilişkin bir genel bakış oluşturun. Maruz kalma bilgileriniz de burada görüntülenir."</string>
+    <string name="contact_diary_onboarding_body">"İhtiyaç duyduğunuzda elinizin altında eksiksiz bir liste olması için son 15 güne ait temaslarınıza ilişkin bir genel bakış oluşturun. Maruz kalma bilgileriniz de burada görüntülenir."</string>
     <!-- XTXT: Contact diary onboarding screen first functionality -->
     <string name="contact_diary_onboarding_functionality_first_section">"Karşılaştığınız kişileri girin."</string>
     <!-- XTXT: Contact diary onboarding screen second functionality -->
