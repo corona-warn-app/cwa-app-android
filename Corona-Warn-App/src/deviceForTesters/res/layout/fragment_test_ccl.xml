@@ -29,11 +29,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/add_dcc_wallet_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add DccWalletInfo" />
+
+            <Button
+                android:id="@+id/clear_dcc_wallet_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear DccWalletInfo" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

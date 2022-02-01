@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.test.ccl
 
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
@@ -10,6 +11,7 @@ import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Loading
 import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Success
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
@@ -25,15 +27,37 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
-        binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
+        with(binding) {
+            addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
+            binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
+            clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
+            viewModel.personIdentifiers.observe2(this@CCLTestFragment) { personIdentifier ->
+                radioGroup.removeAllViews()
+                personIdentifier.forEach { item ->
+                    radioGroup.addView(
+                        RadioButton(requireContext()).apply {
+                            text = when (item) {
+                                CCLTestViewModel.PersonIdentifierSelection.Random -> "Random"
+                                is CCLTestViewModel.PersonIdentifierSelection.Selected -> item.personIdentifier.groupingKey
+                            }
+                            setOnCheckedChangeListener { _, isChecked ->
+                                if (isChecked) {
+                                    viewModel.selectedPersonIdentifier = item
+                                }
+                            }
+                        }
+                    )
+                }
+                radioGroup.check(radioGroup.getChildAt(0).id)
+            }
 
-        viewModel.dccWalletInfoList.observe(viewLifecycleOwner) { infoList ->
-            binding.dccWalletInfoList.text = buildSpannedString {
-                infoList.forEachIndexed { index, info ->
-                    append("$index: ")
-                    append(info.toString())
-                    appendLine()
+            viewModel.dccWalletInfoList.observe2(this@CCLTestFragment) { infoList ->
+                dccWalletInfoList.text = buildSpannedString {
+                    infoList.forEachIndexed { index, info ->
+                        append("$index: ")
+                        append(info.toString())
+                        appendLine()
+                    }
                 }
             }
         }
