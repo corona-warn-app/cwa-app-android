@@ -25,6 +25,7 @@ internal fun formatCCLText(cclText: CCLText?, lang: String): String = when (cclT
         text!!.format(cclText.parameters.format())
     }
     is SystemTimeDependentText -> "TODO: Format system time dependent text"
+    else -> ""
 }
 
 internal fun List<Parameters>.format(): List<String> = map { parameters ->
