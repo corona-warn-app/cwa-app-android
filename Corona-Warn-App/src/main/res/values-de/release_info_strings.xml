@@ -27,7 +27,7 @@
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
        <item>Die Hinweise und Vorgehensweise bei einem positiven Testergebnis wurden überarbeitet.</item>
-       <item>Neben den Statistiken für mindestens einmal geimpfte und vollständig geimpfte Personen, finden Sie jetzt auch die Anzahl der Personen, die eine Auffrischimpfung erhalten haben.</item>
+       <item>Neben den Statistiken für mindestens einmal geimpfte und grundimmunisierte Personen, finden Sie jetzt auch die Anzahl der Personen, die eine Auffrischimpfung erhalten haben.</item>
        <item>Wenn Sie über die Corona-Warn-App auf dem Laufenden bleiben und sich mit anderen austauschen wollen, können Sie unseren Social-Media-Kanälen folgen. Sie finden jetzt auf der Startseite unter \""Mehr\"" einen Social-Media-Link.</item>
        <item>Jedes Element, dass in den Papierkorb verschoben wird, wird nach 30 Tagen endgültig gelöscht. Dieses Löschdatum wird jetzt für jedes Element angezeigt.</item>
        <item>Sie erhalten trotz geöffneter App eine Benachrichtigung, wenn ein erhöhtes Infektionsrisikio für Sie ermittelt wird. Damit soll vermieden werden, dass Sie die Risiko-Warnung auf der Status-Registerkarte übersehen, falls Sie sich gerade auf einer anderen Registerkarte befinden. Zusätzlich wird auf der Status-Registerkarte ein roter Punkt erscheinen, solange Sie diese noch nicht angeschaut haben.</item>
