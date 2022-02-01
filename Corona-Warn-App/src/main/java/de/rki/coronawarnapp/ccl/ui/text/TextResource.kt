@@ -20,7 +20,7 @@ fun textResource(
 
 fun CCLText?.format(
     locale: Locale = Locale.getDefault()
-): String? = runCatching {
+): String = runCatching {
     when (this) {
         is PluralText -> formatPlural(locale)
         is SingleText -> formatSingle(locale)
@@ -29,7 +29,7 @@ fun CCLText?.format(
 }.getOrElse {
     Timber.w(it, "CCLText.format() failed")
     null
-}
+}.orEmpty()
 
 private fun SingleText.formatSingle(
     locale: Locale
