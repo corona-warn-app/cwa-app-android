@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.text.formatCCLText
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import java.util.Locale
 
 data class PersonCertificates(
     val certificates: List<CwaCovidCertificate>,
@@ -23,16 +25,23 @@ data class PersonCertificates(
     }
 
     // PersonOverview
-    val overviewCertificates: List<VerificationCertificate> by lazy {
-        // TODO .take(2)
-        dccWalletInfo?.verification?.certificates?.mapNotNull { certRef ->
-            certRef.buttonText
-            certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.barcodeData.toSHA256() }
+    val certificatesForOverviewScreen: List<VerificationCertificate> by lazy {
+        dccWalletInfo?.verification?.certificates.orEmpty().mapNotNull { certRef ->
+            certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.barcodeData.toSHA256() }?.let {
+                VerificationCertificate(
+                    certificate = it,
+                    buttonText = formatCCLText(certRef.buttonText, Locale.getDefault().language)
+                )
+            }
+        }.take(2).ifEmpty {
+            when (val cert = certificates.findFallbackDcc()) {
+                null -> emptyList()
+                else -> listOf(VerificationCertificate(cert))
+            }
         }
-
-        listOf(VerificationCertificate(certificate = certificates.findFallbackDcc()))
     }
 
+    // TODO Obsolete, remove in cleanup PR
     val admissionState: AdmissionState? get() = certificates.determineAdmissionState()
 
     sealed class AdmissionState(val primaryCertificate: CwaCovidCertificate) {
@@ -52,6 +61,6 @@ data class PersonCertificates(
 }
 
 data class VerificationCertificate(
-    val certificate: CwaCovidCertificate?,
+    val certificate: CwaCovidCertificate,
     val buttonText: String = ""
 )

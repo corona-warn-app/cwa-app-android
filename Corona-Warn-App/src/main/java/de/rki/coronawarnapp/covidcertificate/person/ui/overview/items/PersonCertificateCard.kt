@@ -2,13 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithPCR
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.ThreeGWithRAT
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoG
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusPCR
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.TwoGPlusRAT
+import de.rki.coronawarnapp.covidcertificate.person.core.VerificationCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
@@ -30,78 +24,29 @@ class PersonCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val badgeText = curItem.admissionBadgeText
-        when (curItem.admissionState) {
-            is TwoG -> {
-                setUIState(
-                    primaryCertificate = curItem.admissionState.twoGCertificate,
-                    colorShade = curItem.colorShade,
-                    statusBadgeText = badgeText,
-                    badgeCount = curItem.badgeCount,
-                    onCovPassInfoAction = curItem.onCovPassInfoAction
-                )
-            }
-            is TwoGPlusPCR -> {
-                setUIState(
-                    primaryCertificate = curItem.admissionState.twoGCertificate,
-                    secondaryCertificate = curItem.admissionState.testCertificate,
-                    colorShade = curItem.colorShade,
-                    statusBadgeText = badgeText,
-                    badgeCount = curItem.badgeCount,
-                    onCovPassInfoAction = curItem.onCovPassInfoAction
-                )
-            }
 
-            is TwoGPlusRAT -> {
-                setUIState(
-                    primaryCertificate = curItem.admissionState.twoGCertificate,
-                    secondaryCertificate = curItem.admissionState.testCertificate,
-                    colorShade = curItem.colorShade,
-                    statusBadgeText = badgeText,
-                    badgeCount = curItem.badgeCount,
-                    onCovPassInfoAction = curItem.onCovPassInfoAction
-                )
-            }
-
-            is ThreeGWithPCR -> {
-                setUIState(
-                    primaryCertificate = curItem.admissionState.testCertificate,
-                    colorShade = curItem.colorShade,
-                    statusBadgeText = badgeText,
-                    badgeCount = curItem.badgeCount,
-                    onCovPassInfoAction = curItem.onCovPassInfoAction
-                )
-            }
-
-            is ThreeGWithRAT -> {
-                setUIState(
-                    primaryCertificate = curItem.admissionState.testCertificate,
-                    colorShade = curItem.colorShade,
-                    statusBadgeText = badgeText,
-                    badgeCount = curItem.badgeCount,
-                    onCovPassInfoAction = curItem.onCovPassInfoAction
-                )
-            }
-
-            is Other -> {
-                setUIState(
-                    primaryCertificate = curItem.admissionState.otherCertificate,
-                    colorShade = curItem.colorShade,
-                    badgeCount = curItem.badgeCount,
-                    onCovPassInfoAction = curItem.onCovPassInfoAction
-                )
-            }
-        }
+        setUIState(
+            primaryCertificate = curItem.certificatesForOverviewScreen[0].certificate,
+            secondaryCertificate = curItem.certificatesForOverviewScreen.getOrNull(1)?.certificate,
+            primaryCertificateButtonText = curItem.certificatesForOverviewScreen[0].buttonText,
+            secondaryCertificateButtonText = curItem.certificatesForOverviewScreen.getOrNull(1)?.buttonText,
+            colorShade = curItem.colorShade,
+            statusBadgeText = curItem.admissionBadgeText,
+            badgeCount = curItem.badgeCount,
+            onCovPassInfoAction = curItem.onCovPassInfoAction
+        )
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
-            transitionName = curItem.admissionState.primaryCertificate.personIdentifier.codeSHA256
+            transitionName = curItem.certificatesForOverviewScreen[0].certificate.personIdentifier.codeSHA256
         }
     }
 
     data class Item(
+        val certificatesForOverviewScreen: List<VerificationCertificate>,
+        val primaryCertificateText: String = "",
+        val secondaryCertificateText: String = "",
         val admissionBadgeText: String = "",
-        val admissionState: AdmissionState,
         val colorShade: PersonColorShade,
         val badgeCount: Int,
         val onClickAction: (Item, Int) -> Unit,
