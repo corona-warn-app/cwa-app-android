@@ -16,18 +16,28 @@ internal class ParametersParserTest : BaseTest() {
             value = 5.5
         ),
         Parameters(
-            type = Parameters.Type.DATE,
-            value = "2021-12-01",
-            format = Parameters.FormatType.DATE_DIFF_NOW,
-            unit = Parameters.UnitType.DAY
-        ),
-        Parameters(
             type = Parameters.Type.BOOLEAN,
             value = true
         ),
         Parameters(
             type = Parameters.Type.STRING,
             value = "2G"
+        ),
+        Parameters(
+            type = Parameters.Type.LOCAL_DATE,
+            value = "2022-01-01T23:30:00.000Z"
+        ),
+        Parameters(
+            type = Parameters.Type.LOCAL_DATE_TIME,
+            value = "2022-01-01T23:30:00.000Z"
+        ),
+        Parameters(
+            type = Parameters.Type.UTC_DATE,
+            value = "2022-01-01T23:30:00.000Z"
+        ),
+        Parameters(
+            type = Parameters.Type.UTC_DATE_TIME,
+            value = "2022-01-01T23:30:00.000Z"
         )
     )
 

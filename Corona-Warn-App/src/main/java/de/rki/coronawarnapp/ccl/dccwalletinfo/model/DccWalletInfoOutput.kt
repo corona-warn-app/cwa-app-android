@@ -188,17 +188,15 @@ data class Parameters(
     @JsonProperty("value")
     val value: Any, // Required, it could be a Number, String, Date(String), or Boolean
 
-    @JsonProperty("format")
-    val format: FormatType? = null, // Optional
-
-    @JsonProperty("unit")
-    val unit: UnitType? = null // Optional
 ) {
     enum class Type(private val type: String) {
         STRING("string"),
         NUMBER("number"),
         BOOLEAN("boolean"),
-        DATE("date");
+        LOCAL_DATE("localDate"),
+        LOCAL_DATE_TIME("localDateTime"),
+        UTC_DATE("utcDate"),
+        UTC_DATE_TIME("utcDateTime");
 
         @JsonValue
         fun value() = type

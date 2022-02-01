@@ -1,8 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters.FormatType
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters.UnitType
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -70,10 +68,8 @@ internal class DccWalletInfoParserTest : BaseTest() {
             ),
             parameters = listOf(
                 Parameters(
-                    type = Parameters.Type.DATE,
-                    value = "2021-12-01",
-                    format = FormatType.DATE_DIFF_NOW,
-                    unit = UnitType.DAY
+                    type = Parameters.Type.LOCAL_DATE,
+                    value = "2022-01-01T23:30:00.000Z"
                 )
             )
         ),
@@ -151,9 +147,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
         parameters = listOf(
             Parameters(
                 type = Parameters.Type.NUMBER,
-                value = 5.5,
-                format = null,
-                unit = null
+                value = 5.5
             )
         )
     )
