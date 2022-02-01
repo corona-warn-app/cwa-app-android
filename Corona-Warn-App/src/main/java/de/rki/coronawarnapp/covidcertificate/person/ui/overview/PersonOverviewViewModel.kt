@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.dccwalletinfo.text.formatCCLText
+import de.rki.coronawarnapp.ccl.ui.text.format
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -73,7 +73,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     add(
                         PersonCertificateCard.Item(
                             certificatesForOverviewScreen = certificatesForOverviewScreen,
-                            admissionBadgeText = formatCCLText(admissionState?.badgeText, Locale.getDefault().language),
+                            admissionBadgeText = admissionState?.badgeText?.format().orEmpty(),
                             colorShade = color,
                             badgeCount = person.badgeCount,
                             onClickAction = { _, position ->
