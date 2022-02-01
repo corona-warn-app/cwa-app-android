@@ -32,7 +32,7 @@ class DccWalletInfoCalculation @Inject constructor(
         boosterRules: List<DccValidationRule>
     ) {
         jsonFunctions = JsonFunctions()
-        boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
+        //boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
         cclConfiguration.logic.jfnDescriptors.forEach {
             jsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
         }

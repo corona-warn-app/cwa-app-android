@@ -75,6 +75,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
 //                newWalletInfo = walletInfo,
 //            )
         } catch (e: Exception) {
+            Timber.e(e)
             Timber.e("Failed to calculate DccWalletInfo for ${person.personIdentifier}", e)
         }
     }

@@ -52,7 +52,7 @@ class CCLTestViewModel @AssistedInject constructor(
     fun triggerCalculation() = launch {
         selectedPersonIdentifier.getCertificatePersonIdentifier()?.let {
             dccWalletInfoCalculationManager.triggerCalculationForPerson(it)
-        }?.run {
+        } ?: run {
             dccWalletInfoCalculationManager.triggerCalculation()
         }
     }
