@@ -8,11 +8,9 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.text.textResource
 import de.rki.coronawarnapp.ccl.dccwalletinfo.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.mapNotNull
 import timber.log.Timber
@@ -21,7 +19,6 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
     private val vaccinationRepository: VaccinationRepository,
-    @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCode: String
 ) : CWAViewModel(dispatcherProvider) {
 
