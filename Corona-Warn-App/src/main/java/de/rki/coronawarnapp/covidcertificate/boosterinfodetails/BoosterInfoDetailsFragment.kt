@@ -61,5 +61,9 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
                 it.faqUrl?.let { url -> faq.convertToHyperlink(url) }
             }
         }
+
+        viewModel.shouldClose.observe2(this) {
+            popBackStack()
+        }
     }
 }
