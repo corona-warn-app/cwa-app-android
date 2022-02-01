@@ -9,13 +9,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.core.VerificationCertificate
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
@@ -151,7 +151,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
         takeScreenshot<PersonOverviewFragment>(suffix)
     }
 
-    // TODO: update items with the right admission state certificates
     private fun listItemWithPendingItem() = mutableListOf<PersonCertificatesItem>()
         .apply {
             add(
@@ -164,12 +163,16 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "",
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
@@ -187,12 +190,16 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "",
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
@@ -202,36 +209,48 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockTestCertificate("Andrea Schneider"),
+                            "Testzertifikat"
+                        ),
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "3G",
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 5,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockTestCertificate("Andrea Schneider"),
+                            "Testzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "3G",
                     colorShade = PersonColorShade.COLOR_2,
                     badgeCount = 3,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
 
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "2G",
                     colorShade = PersonColorShade.COLOR_3,
                     badgeCount = 0,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
@@ -241,12 +260,16 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "2G",
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
@@ -256,12 +279,16 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(
-                        mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "2G",
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 1,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
@@ -271,12 +298,20 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
-                        mockVaccinationCertificate("Andrea Schneider"), mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        ),
+                        VerificationCertificate(
+                            mockTestCertificate("Andrea Schneider"),
+                            buttonText = "Testzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "2G+",
                     colorShade = PersonColorShade.COLOR_1,
                     badgeCount = 0,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )
@@ -286,12 +321,20 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
-                        mockVaccinationCertificate("Andrea Schneider"), mockTestCertificate("Andrea Schneider")
+                    certificatesForOverviewScreen = listOf(
+                        VerificationCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            "Impfzertifikat"
+                        ),
+                        VerificationCertificate(
+                            mockTestCertificate("Andrea Schneider"),
+                            buttonText = "Testzertifikat"
+                        )
                     ),
-                    onClickAction = { _, _ -> },
+                    admissionBadgeText = "2G+",
                     colorShade = PersonColorShade.COLOR_1,
-                    badgeCount = 2,
+                    badgeCount = 1,
+                    onClickAction = { _, _ -> },
                     onCovPassInfoAction = {}
                 )
             )

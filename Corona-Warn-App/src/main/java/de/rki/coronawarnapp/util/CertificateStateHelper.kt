@@ -10,8 +10,8 @@ import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
@@ -143,6 +143,8 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 fun PersonOverviewItemBinding.setUIState(
     primaryCertificate: CwaCovidCertificate,
     secondaryCertificate: CwaCovidCertificate? = null,
+    primaryCertificateButtonText: String = "",
+    secondaryCertificateButtonText: String?,
     colorShade: PersonColorShade,
     statusBadgeText: String = "",
     badgeCount: Int = 0,
@@ -174,6 +176,10 @@ fun PersonOverviewItemBinding.setUIState(
         invalidOverlay.isGone = valid
         image.isEnabled = valid
         certificateToggleGroup.isVisible = secondaryCertificate != null
+        if (primaryCertificateButtonText.isNotEmpty()) primaryCertificateButton.text = primaryCertificateButtonText
+        if (secondaryCertificateButtonText != null && secondaryCertificateButtonText.isNotEmpty()) {
+            secondaryCertificateButton.text = secondaryCertificateButtonText
+        }
         primaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
         secondaryCertificateButton.typeface = Typeface.DEFAULT
         certificateToggleGroup.setOnCheckedChangeListener { checkedId ->
