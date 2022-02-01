@@ -25,7 +25,6 @@ interface VaccinationCertificate : CwaCovidCertificate {
     override val rawCertificate: VaccinationDccV1
 
     val isSeriesCompletingShot get() = doseNumber >= totalSeriesOfDoses
-    val isBooster get() = doseNumber > totalSeriesOfDoses
 
     companion object {
         const val BIONTECH = "EU/1/20/1528"

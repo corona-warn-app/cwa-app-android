@@ -97,7 +97,7 @@ data class VaccinatedPerson(
     private fun isSeriesCompletingOverTwoWeeks(today: LocalDate): Boolean {
         return when {
             vaccinationCertificates.isEmpty() -> false
-            vaccinationCertificates.any { it.isBooster } -> true
+            vaccinationCertificates.any { it.doseNumber > it.totalSeriesOfDoses } -> true
             else -> vaccinationCertificates.any {
                 it.isSeriesCompletingShot && Days.daysBetween(
                     it.rawCertificate.vaccination.vaccinatedOn,

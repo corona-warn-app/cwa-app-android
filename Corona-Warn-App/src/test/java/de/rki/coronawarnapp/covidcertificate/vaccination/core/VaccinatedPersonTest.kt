@@ -94,7 +94,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                     every { isNotRecycled } returns true
@@ -126,7 +125,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                     every { isNotRecycled } returns true
@@ -179,7 +177,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-04-27")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                     every { isNotRecycled } returns true
@@ -235,7 +232,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-06-13")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
                     every { isNotRecycled } returns true
@@ -282,7 +278,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528"
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
@@ -341,7 +336,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1528" // BIONTECH
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
@@ -382,7 +376,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/20/1507" // MODERNA
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
@@ -423,7 +416,6 @@ class VaccinatedPersonTest : BaseTest() {
                             every { rawCertificate.vaccination.medicalProductId } returns "EU/1/21/1529" // ASTRA
                             every { rawCertificate.vaccination.vaccinatedOn } returns LocalDate.parse("2021-01-01")
                             every { isSeriesCompletingShot } returns true
-                            every { isBooster } returns false
                         }
 
                     every { containerId } returns VaccinationCertificateContainerId("VaccinationCertificateContainerId")
