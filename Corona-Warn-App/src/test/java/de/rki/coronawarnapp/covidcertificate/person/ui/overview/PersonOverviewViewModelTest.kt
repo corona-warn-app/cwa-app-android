@@ -106,10 +106,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                     )
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
                 }
             }
         }
@@ -141,10 +141,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                     )
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
                 }
             }
         }
@@ -169,13 +169,13 @@ class PersonOverviewViewModelTest : BaseTest() {
             getOrAwaitValue().apply {
                 this as PersonOverviewViewModel.UiState.Done
                 (personCertificates[0] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Erika Musterfrau"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Max Mustermann"
                 }
             }
         }
@@ -199,19 +199,19 @@ class PersonOverviewViewModelTest : BaseTest() {
             getOrAwaitValue().apply {
                 this as PersonOverviewViewModel.UiState.Done
                 (personCertificates[0] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Zeebee"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee"
                 } // CWA user
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Erika Musterfrau"
                 }
                 (personCertificates[3] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Max Mustermann"
                 }
                 (personCertificates[4] as PersonCertificateCard.Item).apply {
-                    admissionState.primaryCertificate.fullName shouldBe "Zeebee A"
+                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee A"
                 }
             }
         }
