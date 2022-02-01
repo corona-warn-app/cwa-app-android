@@ -20,6 +20,7 @@ import retrofit2.Response
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 
+@Suppress("MaxLineLength")
 class CCLConfigurationServerTest : BaseTest() {
 
     @MockK lateinit var cclConfigurationApiV1: CCLConfigurationApiV1
