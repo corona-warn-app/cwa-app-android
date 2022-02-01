@@ -47,7 +47,7 @@ object CCLConfigurationModule {
 
 private const val CCL_DIR = "ccl"
 private const val CCL_CACHE_DIR = "ccl_config_http_cache"
-private const val CACHE_SIZE = 5 * 1024 * 1024L // 5MB
+private const val CACHE_SIZE = 50 * 1024 * 1024L // 50MB
 
 @Qualifier
 @MustBeDocumented
