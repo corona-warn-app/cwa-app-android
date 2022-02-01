@@ -14,13 +14,11 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoInput
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
-    @BaseGson val gson: Gson,
     @BaseJackson val mapper: ObjectMapper
 ) {
 
@@ -32,7 +30,7 @@ class DccWalletInfoCalculation @Inject constructor(
         boosterRules: List<DccValidationRule>
     ) {
         jsonFunctions = JsonFunctions()
-        //boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
+        boosterRulesNode = Gson().toJson(boosterRules).toJsonNode()
         cclConfiguration.logic.jfnDescriptors.forEach {
             jsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
         }
