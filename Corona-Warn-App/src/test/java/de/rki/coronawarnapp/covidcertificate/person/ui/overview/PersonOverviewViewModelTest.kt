@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -52,7 +51,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
     }
 
-    // TODO: Update tests
     @Test
     fun `refreshCertificate causes an error dialog event`() {
         val error = mockk<Exception>()
@@ -90,7 +88,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -125,7 +122,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -158,7 +154,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -188,7 +183,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
