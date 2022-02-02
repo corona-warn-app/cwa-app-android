@@ -171,7 +171,7 @@ data class CertificateRef(
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class OutputCertificates(
     @JsonProperty("buttonText")
-    val buttonText: CCLText,
+    val buttonText: CCLText?,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
@@ -212,13 +212,13 @@ data class VaccinationState(
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText,
+    val titleText: CCLText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText,
+    val subtitleText: CCLText?,
 
     @JsonProperty("longText")
-    val longText: CCLText,
+    val longText: CCLText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?

@@ -7,7 +7,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.ui.text.format
 import de.rki.coronawarnapp.ccl.ui.text.formatFaqAnchor
-import de.rki.coronawarnapp.ccl.ui.text.urlResource
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -101,10 +100,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             ConfirmedStatusCard.Item(
-                                titleText = admissionState.titleText.format().orEmpty(),
-                                subtitleText = admissionState.subtitleText.format().orEmpty(),
-                                badgeText = admissionState.badgeText.format().orEmpty(),
-                                longText = admissionState.longText.format().orEmpty(),
+                                titleText = admissionState.titleText.format(),
+                                subtitleText = admissionState.subtitleText.format(),
+                                badgeText = admissionState.badgeText.format(),
+                                longText = admissionState.longText.format(),
                                 faqAnchor = formatFaqAnchor(admissionState.faqAnchor),
                                 colorShade = colorShade
                             )
@@ -120,10 +119,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             VaccinationInfoCard.Item(
-                                titleText = vaccinationState.titleText.format().orEmpty(),
-                                subtitleText = vaccinationState.subtitleText.format().orEmpty(),
-                                longText = vaccinationState.longText.format().orEmpty(),
-                                faqAnchor = urlResource(vaccinationState.faqAnchor).value,
+                                titleText = vaccinationState.titleText.format(),
+                                subtitleText = vaccinationState.subtitleText.format(),
+                                longText = vaccinationState.longText.format(),
+                                faqAnchor = formatFaqAnchor(vaccinationState.faqAnchor),
                             )
                         )
                     } catch (e: Exception) {
