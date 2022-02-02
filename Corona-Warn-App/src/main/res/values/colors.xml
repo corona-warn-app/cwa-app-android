@@ -88,7 +88,7 @@
 
     <!-- Bottom Nav bar-->
     <color name="navItemColorSelected">@color/colorSecondary</color>
-    <color name="navItemColorNormal">#979797</color>
+    <color name="navItemColorNormal">#76767B</color>
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>

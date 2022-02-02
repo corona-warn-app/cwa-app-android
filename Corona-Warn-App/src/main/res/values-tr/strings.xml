@@ -24,6 +24,8 @@
     <string name="menu_settings">"Ayarlar"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Sosyal Medya"</string>
 
     <!-- ####################################
                Notification
@@ -913,6 +915,8 @@
     <string name="qr_code_scan_body_subtitle">"Testler, Sertifikalarınız, Check-in\'ler ve Biletleme Sırasında Doğrulama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sildiğiniz etkinlikleri geri yüklemek için check-in\'leri tarayabilirsiniz."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"El feneri"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Dosya Aç"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1220,7 +1224,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"İzolasyon süresi genellikle 10 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
-        <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
+        <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 10 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen izolasyon süresine uyun."</item>
     </string-array>
@@ -1345,6 +1349,8 @@
     <string name="submission_status_card_positive_result_contact">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşabilir."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"COVID-19 nedeniyle şiddetli hastalıklar konusunda risk faktörleriniz varsa doktora başvurun. Bilinen risk faktörleri arasında 60 yaşın üzerinde olmak, immünsupresyon, diyabet ve obezite bulunmaktadır."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"%s tanınız:"</string>
@@ -1426,7 +1432,7 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Yerel 7 Günlük Olay"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"Yeni Enfeksiyon Sayısı"</string>
+    <string name="statistics_card_local_incidence_value_description">"yeni enfeksiyon sayısı"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Bilgi"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
@@ -1463,7 +1469,7 @@
     <!-- XTXT: Statistics primary value description -->
     <string name="statistics_primary_value_description">"Yeni Enfeksiyon Sayısı"</string>
     <!-- XTXT: Statistics secondary value description -->
-    <string name="statistics_secondary_value_description">"Hastaneye Yatış Sayısı"</string>
+    <string name="statistics_secondary_value_description">"hastaneye yatış sayısı"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1566,6 +1572,10 @@
     <!-- XHED: Title for vaccinated completely statistics card -->
     <string name="statistics_vaccinated_completely_card_title">"Tüm Aşıları Olan Kişiler"</string>
 
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Hatırlatma Aşısı Olan Kişiler"</string>
+
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Uygulanan Aşı Dozları"</string>
@@ -1580,7 +1590,11 @@
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"Tüm aşıları olan kişiler"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"RKI\'ye gereken tüm aşı dozlarını aldıkları bildirilen kişilerin sayısı."</string>
+    <string name="statistics_fully_vaccinated_people_text">"RKI\'ye temel bağışıklık için gereken tüm aşı dozlarını aldıkları bildirilen kişilerin sayısı."</string>
+    <!-- XTXT: Statistics number of people with booster title -->
+    <string name="statistics_people_with_booster_title">"Hatırlatma Aşısı Olan Kişiler"</string>
+    <!-- XTXT: Statistics number of people with booster text -->
+    <string name="statistics_people_with_booster_text">"RKI\'ye hatırlatma aşısı oldukları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"En az bir doz aşı olan kişiler"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
@@ -1602,7 +1616,7 @@
     <!-- XHED: Title for occupied intensive care card -->
     <string name="statistics_occupied_intensive_care_card_title">"Yoğun Bakım Ünitelerindeki COVID-19 Hastaları"</string>
     <!-- XTXT: Ocupation of all intensive care beds -->
-    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 Nedeniyle Yatak Kullanımının Tüm Yoğun Bakım Yatakları Sayısına Oranı"</string>
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 nedeniyle yatak kullanımının tüm yoğun bakım yatakları sayısına oranı"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->

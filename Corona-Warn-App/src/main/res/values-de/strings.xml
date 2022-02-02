@@ -25,6 +25,8 @@
     <string name="menu_settings">"Einstellungen"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Papierkorb"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Social Media"</string>
 
     <!-- ####################################
                Notification
@@ -916,6 +918,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="qr_code_scan_body_subtitle">"Tests, Ihre Zertifikate, Check-ins und Nachweise bei Ticketbuchungen"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sie können Check-ins scannen, um gelöschte Events wiederherzustellen."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">Taschenlampe</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Datei öffnen"</string>
     <!-- XTXT: QR Code processing message  -->
@@ -1223,7 +1227,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Die Isolationszeit beträgt in der Regel 10 Tage. Bitte beobachten Sie genau, wie sich Ihre Symptome entwickeln."</item>
-        <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 15 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
+        <item>"Sie werden von Ihrem Gesundheitsamt gebeten, eine Liste Ihrer Kontaktpersonen zu erstellen. Erfassen Sie dabei alle Personen, zu denen Sie in den zwei Tagen vor Erkrankungsbeginn engen Kontakt (unter 2 Meter, direktes Gespräch) über insgesamt 10 Minuten hatten. Nutzen Sie hierfür Ihr Kontakt-Tagebuch. Sie können die Einträge einfach exportieren und ausdrucken oder als E-Mail verschicken."</item>
         <item>"Bitte denken Sie hier auch besonders an Personen, die nicht automatisch durch die App informiert werden, da sie kein Smartphone besitzen oder die App nicht installiert haben."</item>
         <item>"Auch wenn Sie keine Symptome (mehr) haben, können Sie ansteckend sein. Bitte halten Sie die angeordnete Isolationszeit in jedem Fall ein."</item>
     </string-array>
@@ -1348,6 +1352,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_status_card_positive_result_contact">"Das Gesundheitsamt wird sich möglicherweise in den nächsten Tagen bei Ihnen melden."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Teilen Sie Ihre Zufalls-IDs, damit andere gewarnt werden können."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Falls Sie Risikofaktoren für eine schwere COVID-19-Erkrankung haben, lassen Sie sich ärztlich beraten. Bekannte Risikofaktoren sind z.B. Alter über 60 Jahre, Immunschwäche, Diabetes und hohes Übergewicht."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr %s-Befund:"</string>
@@ -1569,6 +1575,10 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Title for vaccinated completely statistics card -->
     <string name="statistics_vaccinated_completely_card_title">"Vollständig geimpfte Personen"</string>
 
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Personen mit Auffrischimpfung"</string>
+
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
     <string name="statistics_applied_vaccination_dose_rates_card_title">"Verabreichte Impfdosen"</string>
@@ -1583,7 +1593,11 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XTXT: Statistics number of fully vaccinated people title -->
     <string name="statistics_fully_vaccinated_people_title">"Vollständig geimpfte Personen"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die alle notwendigen Impfdosen erhalten haben."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Anzahl der an das RKI übermittelten Personen, die alle notwendigen Impfdosen der Grundimmunisierung erhalten haben."</string>
+    <!-- XTXT: Statistics number of people with booster title -->
+    <string name="statistics_people_with_booster_title">"Personen mit Auffrischimpfung"</string>
+    <!-- XTXT: Statistics number of people with booster text -->
+    <string name="statistics_people_with_booster_text">"Anzahl der an das RKI übermittelten Personen, die eine Auffrischimpfung erhalten haben."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"Mindestens einmal geimpfte Personen"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->

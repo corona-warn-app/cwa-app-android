@@ -17,18 +17,20 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Status-Nachweis 2G+</item>
-        <item>Hinweise bei negativem Testergebnis</item>
-        <item>Sicherheitshinweis unterdrücken</item>
-        <item>Verbesserte Scanfunktion</item>
+        <item>Hinweise bei positivem Test</item>
+        <item>Statistik zu Auffrischimpfungen</item>
+        <item>Link zu Social Media</item>
+        <item>Löschdatum für Papierkorbinhalte</item>
+        <item>Nachricht bei erhöhtem Risiko</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Wenn Sie ein gültiges Impf- oder Genesenenzertifikat haben und ein Testzertifikat in der App hinzufügen, so werden diese in der Zertifikatsübersicht in einer kombinierten Anzeige dargestellt. Sie können zwischen dem QR-Code des Impf-/Genesenenzertifikats und dem des Testzertifikats mit Hilfe eines Schalters wechseln. Beide QR-Codes müssen von der CovPassCheck-App geprüft werden, wenn ein 2G+-Nachweis erforderlich ist.</item>
-        <item>Im Falle eines negativen Testergebnis erhalten Sie jetzt weitere Handlungsempfehlungen für den Fall, dass Sie trotzdem akute gesundheitliche Beschwerden haben. </item>
-        <item>Mit Version 2.12 wurde die Anzeige eines Sicherheitshinweises eingeführt, falls auf Ihrem Smartphone Administratorrechte aktiv sind. Diesen Hinweis können Sie nun bis zum nächsten Update unterdrücken. </item>
-        <item>Die Scanfunktion wurde überarbeitet, sodass QR-Codes jetzt verlässlicher erkannt und eingescannt werden.</item>
+       <item>Die Hinweise und Vorgehensweise bei einem positiven Testergebnis wurden überarbeitet.</item>
+       <item>Neben den Statistiken für mindestens einmal geimpfte und vollständig geimpfte Personen, finden Sie jetzt auch die Anzahl der Personen, die eine Auffrischimpfung erhalten haben.</item>
+       <item>Wenn Sie über die Corona-Warn-App auf dem Laufenden bleiben und sich mit anderen austauschen wollen, können Sie unseren Social-Media-Kanälen folgen. Sie finden jetzt auf der Startseite unter \""Mehr\"" einen Social-Media-Link.</item>
+       <item>Jedes Element, dass in den Papierkorb verschoben wird, wird nach 30 Tagen endgültig gelöscht. Dieses Löschdatum wird jetzt für jedes Element angezeigt.</item>
+       <item>Sie erhalten trotz geöffneter App eine Benachrichtigung, wenn ein erhöhtes Infektionsrisikio für Sie ermittelt wird. Damit soll vermieden werden, dass Sie die Risiko-Warnung auf der Status-Registerkarte übersehen, falls Sie sich gerade auf einer anderen Registerkarte befinden. Zusätzlich wird auf der Status-Registerkarte ein roter Punkt erscheinen, solange Sie diese noch nicht angeschaut haben.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -37,10 +39,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>

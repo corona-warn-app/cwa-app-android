@@ -54,14 +54,14 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
 
 /**
  * Rule 1
- * Series-completing Vaccination Certificate:
- * Find Vaccination Certificates where total number of doses == number of administered doses and
- * 3.1 For vaccines with dose 3/3, priority will be received right away
- * 3.2 For BioNTech/Moderna/AstraZeneca vaccines that are taken after a recovery, priority will be received right away
- * 3.3 For J&J vaccines with dose 2/2, priority will be received right away
- * 3.4 If none of the criteria above is met, priority will be received after a 14 day period
- * If there is one or more certificates matching these requirements,
- * the first one is returned as a result of the operation.
+ * find Vaccination Certificates (i.e. DGC with v[0]) where v[0].dn is >= than v[0].sd and one of
+ * the time difference between the time represented by v[0].dt and the current device time is > 14 days, or
+ * v[0].dn is > 1 and v[0].mp equals EU/1/20/1525 (Johnson & Johnson) (booster vaccination), or
+ * v[0].dn is > 2 (booster vaccination with other vaccine), or
+ * v[0].dn equals 1 and v[0].sd equals 1 and v[0].mp is one of EU/1/20/1528 (Biontech), EU/1/20/1507 (Moderna), or EU/1/21/1529 (Astra Zeneca)
+ * v[0].dn is > than v[0].sd
+ *
+ * sorted descending by v[0].dt (i.e. latest first) and descending by the iat claim of the CWT of the certificate (i.e. if there are two certificates with the same dt, they should be sorted by iat).
  */
 private fun Collection<CwaCovidCertificate>.rule1FindRecentLastShot(
     nowUtc: Instant
@@ -78,9 +78,10 @@ private fun Collection<CwaCovidCertificate>.rule1FindRecentLastShot(
         .filter {
             with(it.rawCertificate.vaccination) {
                 when {
-                    totalSeriesOfDoses > 2 && medicalProductId in TWO_SHOT_VACCINES -> true
-                    totalSeriesOfDoses == 2 && medicalProductId in ONE_SHOT_VACCINES -> true
-                    totalSeriesOfDoses == 1 && TWO_SHOT_VACCINES.contains(medicalProductId) -> true
+                    doseNumber > 1 && medicalProductId in ONE_SHOT_VACCINES -> true
+                    doseNumber > 2 -> true
+                    doseNumber == 1 && totalSeriesOfDoses == 1 && TWO_SHOT_VACCINES.contains(medicalProductId) -> true
+                    doseNumber > totalSeriesOfDoses -> true
                     else -> isOlderThanTwoWeeks(it)
                 }
             }

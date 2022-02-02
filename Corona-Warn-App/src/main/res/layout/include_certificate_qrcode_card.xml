@@ -100,7 +100,7 @@
 
     <TextView
         android:id="@+id/qr_title"
-        style="@style/body2"
+        style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"

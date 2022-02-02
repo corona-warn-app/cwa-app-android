@@ -24,6 +24,7 @@
             style="@style/CWAToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:touchscreenBlocksFocus="false"
             app:menu="@menu/menu_main">
             <ImageView
                 android:id="@+id/main_header_logo"
@@ -44,7 +45,8 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/CWAToolbar">
+                android:theme="@style/CWAToolbar"
+                android:touchscreenBlocksFocus="false">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/main_tracing"
@@ -55,6 +57,7 @@
                     android:elevation="8dp"
                     android:focusable="true"
                     android:foreground="?selectableItemBackground"
+                    android:touchscreenBlocksFocus="false"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
 
                     <TextView

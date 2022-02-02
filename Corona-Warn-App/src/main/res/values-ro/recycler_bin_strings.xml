@@ -70,12 +70,14 @@
     <!-- XTXT: Recycle Bin  - Restore Corona Test dialog message -->
     <string name="recycle_bin_restore_corona_test_dialog_message">"Codul QR a fost deja înregistrat pe smartphone-ul dvs. Testul va fi restaurat din coșul de reciclare."</string>
 
-  <!-- XBUT: Recycle Bin - test item name -->
+    <!-- Recycle bin item-->
+    <!-- XTXT: Recycle Bin - test item name -->
     <string name="recycle_bin_test_item_name">"Test"</string>
-
     <!-- XTXT: Recycle Bin  - Restore Corona PCR Test date-->
     <string name="reycle_bin_pcr_test_date">"Înregistrat la %1$s"</string>
     <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
     <string name="reycle_bin_rat_test_date">"Efectuat pe %1$s"</string>
+    <!-- XTXT: Recycle Bin  - Information when the item gets finally deleted-->
+    <string name="recycle_bin_item_deletion_date_info">"se va șterge definitiv pe %1$s la %2$s"</string>
 
 </resources>

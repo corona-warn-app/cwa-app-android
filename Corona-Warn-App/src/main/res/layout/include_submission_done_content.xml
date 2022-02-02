@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -19,8 +18,8 @@
             style="@style/subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/submission_done_body"
             android:focusable="true"
+            android:text="@string/submission_done_body"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,15 +27,27 @@
         <TextView
             android:id="@+id/submission_done_subtitle"
             style="@style/headline5"
-            android:accessibilityHeading="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/submission_done_subtitle"
+            android:accessibilityHeading="true"
             android:focusable="true"
+            android:text="@string/submission_done_subtitle"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/submission_done_text" />
+
+        <include
+            android:id="@+id/submission_done_isolate"
+            layout="@layout/include_submission_behaviour_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            app:body="@{@string/submission_done_isolate}"
+            app:icon="@{@drawable/ic_risk_details_home}"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/submission_done_subtitle" />
 
         <include
             android:id="@+id/submission_done_pcr_validation"
@@ -48,7 +59,7 @@
             app:icon="@{@drawable/ic_faq_information}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/submission_done_subtitle" />
+            app:layout_constraintTop_toBottomOf="@id/submission_done_isolate" />
 
         <include
             android:id="@+id/submission_done_contagious"
@@ -63,13 +74,13 @@
             app:layout_constraintTop_toBottomOf="@id/submission_done_pcr_validation" />
 
         <include
-            android:id="@+id/submission_done_isolate"
+            android:id="@+id/submission_done_illness"
             layout="@layout/include_submission_behaviour_row"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            app:body="@{@string/submission_done_isolate}"
-            app:icon="@{@drawable/ic_risk_details_home}"
+            app:body="@{@string/submission_status_card_positive_result_illness}"
+            app:icon="@{@drawable/ic_risk_details_cross}"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/submission_done_contagious" />
@@ -81,7 +92,7 @@
             android:layout_marginTop="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/submission_done_isolate" />
+            app:layout_constraintTop_toBottomOf="@id/submission_done_illness" />
 
         <include layout="@layout/merge_guidelines_side" />
 

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface">
@@ -21,11 +23,13 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/spacing_fab_padding"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/empty_layout"
@@ -34,16 +38,17 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:gravity="center"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_fab_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:paddingBottom="@dimen/spacing_fab_padding">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/person_overview_no_certificates_image_description"
+            android:focusable="true"
             app:srcCompat="@drawable/ic_person_overview_illustration" />
 
         <TextView

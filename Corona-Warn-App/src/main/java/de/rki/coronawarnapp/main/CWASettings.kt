@@ -91,8 +91,6 @@ class CWASettings @Inject constructor(
         private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"
-        private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "notifications.risk.enabled"
-        private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "notifications.test.enabled"
 
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = "testresults.count"
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT = "testresults.count.rat"

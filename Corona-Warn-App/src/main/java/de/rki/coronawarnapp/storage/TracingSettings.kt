@@ -41,29 +41,20 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
         defaultValue = false
     )
 
+    /**
+     * A flag to show a badge in home screen when risk level changes from Low to High or vice versa
+     */
+    val showRiskLevelBadge = prefs.createFlowPreference(
+        key = PKEY_SHOW_RISK_LEVEL_BADGE,
+        defaultValue = false
+    )
+
     fun deleteLegacyTestData() {
-// Sourced from the behavior of SubmissionRepository.removeTestFromDevice()
-//        fun removeTestFromDevice() {
-//            submissionSettings.hasViewedTestResult.update { false }
-//            submissionSettings.hasGivenConsent.update { false }
-//            revokeConsentToSubmission()
-//            submissionSettings.registrationToken.update { null }
-//            submissionSettings.devicePairingSuccessfulAt = null
-//            tracingSettings.initialPollingForTestResultTimeStamp = 0L
-//            submissionSettings.initialTestResultReceivedAt = null
-//            submissionSettings.isAllowedToSubmitKeys = false
-//            tracingSettings.isTestResultAvailableNotificationSent = false
-//            submissionSettings.isSubmissionSuccessful = false
-//            testResultDataCollector.clear()
-//        }
         Timber.d("deleteLegacyTestData()")
         prefs.edit {
             remove(TEST_RESULT_NOTIFICATION_SENT)
             remove(TRACING_POOLING_TIMESTAMP)
         }
-
-        // TODO No longer needed, was for worker control?
-        // tracingSettings.initialPollingForTestResultTimeStamp = 0L
     }
 
     fun clear() = prefs.clearAndNotify()
@@ -73,5 +64,6 @@ class TracingSettings @Inject constructor(@AppContext private val context: Conte
         const val TRACING_ACTIVATION_TIMESTAMP = "tracing.activation.timestamp"
         const val TEST_RESULT_NOTIFICATION_SENT = "test.notification.sent"
         const val LOWERED_RISK_LEVEL = "notification.risk.lowered"
+        private const val PKEY_SHOW_RISK_LEVEL_BADGE = "notifications.risk.level.change.badge"
     }
 }

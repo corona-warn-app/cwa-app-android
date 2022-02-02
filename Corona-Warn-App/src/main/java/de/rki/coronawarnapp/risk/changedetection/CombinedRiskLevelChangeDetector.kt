@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +34,6 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
     private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
-    private val foregroundState: ForegroundState,
     private val notificationHelper: GeneralNotifications,
     private val coronaTestRepository: CoronaTestRepository,
     private val tracingSettings: TracingSettings,
@@ -85,27 +83,25 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         // Check sending a notification when risk level changes
         val isSubmissionSuccessful = coronaTestRepository.coronaTests.first().any { it.isSubmitted }
-        if (
-            !isSubmissionSuccessful && (
-                oldRiskState.hasChangedFromLowToHigh(newRiskState) || oldRiskState.hasChangedFromHighToLow(newRiskState)
-                )
-        ) {
+        val riskChanged = oldRiskState.hasChangedFromLowToHigh(newRiskState) ||
+            oldRiskState.hasChangedFromHighToLow(newRiskState)
+
+        Timber.d("Risk changed=%s from=%s to=%s", riskChanged, oldRiskState, newRiskState)
+        if (!isSubmissionSuccessful && riskChanged) {
             Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
-            if (!foregroundState.isInForeground.first()) {
-                val notification = notificationHelper.newBaseBuilder().apply {
-                    setContentTitle(context.getString(R.string.notification_headline))
-                    setContentTextExpandable(context.getString(R.string.notification_body))
-                }.build()
+            val notification = notificationHelper.newBaseBuilder()
+                .setContentTitle(context.getString(R.string.notification_headline))
+                .setContentTextExpandable(context.getString(R.string.notification_body))
+                .build()
 
-                notificationHelper.sendNotification(
-                    notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
-                    notification = notification,
-                )
-            } else {
-                Timber.d("App is in foreground, not sending notifications")
-            }
-            Timber.d("Risk level changed and notification sent. Current Risk level is $newRiskState")
+            notificationHelper.sendNotification(
+                notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
+                notification = notification,
+            )
+            tracingSettings.showRiskLevelBadge.update { true }
+
+            Timber.d("Risk level changed and notification/badge sent. Current Risk level is $newRiskState")
         }
     }
 }

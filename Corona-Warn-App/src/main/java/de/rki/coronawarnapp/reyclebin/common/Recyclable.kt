@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.common
 
+import org.joda.time.Days
+import org.joda.time.Duration
 import org.joda.time.Instant
 
 interface Recyclable {
@@ -20,6 +22,10 @@ interface Recyclable {
      */
     val isNotRecycled: Boolean
         get() = !isRecycled(recycledAt)
+
+    companion object {
+        val RETENTION_DAYS: Duration = Days.days(30).toStandardDuration()
+    }
 }
 
 private fun isRecycled(recycledAt: Instant?): Boolean = recycledAt != null

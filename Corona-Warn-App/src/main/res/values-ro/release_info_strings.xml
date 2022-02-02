@@ -16,18 +16,20 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Dovada stării 2G+"</item>
-        <item>"Informații în caz de rezultat de test negativ"</item>
-        <item>"Mascare notificare de securitate"</item>
-        <item>"Caracteristica de scanare îmbunătățită"</item>
+        <item>"Note în cazul unui rezultat de test pozitiv"</item>
+        <item>"Statistica pentru vaccinările cu doza booster"</item>
+        <item>"Legătură către rețeaua de social media"</item>
+        <item>"Data de ștergere pentru conținutul coșului de reciclare"</item>
+        <item>"Notificare de risc crescut"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Dacă aveți un certificat de vaccinare valabil sau un certificat de recuperare valabil și adăugați un certificat de test în aplicație, acestea sunt afișate într-un afișaj combinat în sumarul certificatului. Puteți schimba între codurile QR al certificatului de vaccinare sau al certificatului de recuperare și cel al certificatul de test utilizând controlul corespunzător. Ambele coduri QR trebuie verificate cu aplicația CovPassCheck dacă este nevoie de dovada 2G+."</item>
-        <item>"Dacă primiți un rezultat de test negativ, nu veți primi recomandări suplimentare dacă aveți în continuare simptome acute."</item>
-        <item>"Începând cu versiunea 2.12, o notificare de securitate este afișată dacă drepturile de administrator sunt active pe smartphone-ul dvs. Puteți masca această notificare până la următoarea actualizare."</item>
-        <item>"Caracteristica de scanare a fost revizuită pentru a permite recunoașterea și scanarea codurilor QR cu mai multă acuratețe."</item>
+       <item>"Notele și procedura recomandată în cazul unui rezultat de test pozitiv au fost revizuite."</item>
+       <item>"Pe lângă statistica pentru persoanele care au primit cel puțin o doză de vaccin și persoanele care s-au vaccinat complet, acum veți găsi și numărul de persoane care au primit doza booster."</item>
+       <item>"Dacă doriți să rămâneți la curent cu cele mai noi funcții ale aplicației Corona-Warn și să le discutați cu alte persoane, puteți urmări canalele noastre de social media. Acum veți găsi legătura către canalul de social media pe ecranul inițial, în secțiunea „Mai mult”."</item>
+       <item>"Fiecare element mutat în coșul de reciclare este șters definitiv după 30 de zile. Această dată de ștergere este afișată acum pentru fiecare element."</item>
+       <item>"Acum veți primi o notificare dacă aveți risc crescut de infectare, chiar dacă aplicația este deschisă. Scopul acesteia este de a vă împiedica să ignorați o avertizare de risc de pe tabul de stare dacă, în mod curent, utilizați un tab diferit. În plus, va apărea un punct roșu pe tabul de stare, până când deschideți din nou acest tab."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -36,10 +38,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>

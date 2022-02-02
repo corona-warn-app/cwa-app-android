@@ -16,18 +16,20 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Dowód 2G+ status"</item>
-        <item>"Informacje w przypadku negatywnego wyniku testu"</item>
-        <item>"Ukryj powiadomienie dotyczące bezpieczeństwa"</item>
-        <item>"Zoptymalizowana funkcja skanowania"</item>
+        <item>"Uwagi w przypadku pozytywnego wyniku testu"</item>
+        <item>"Statystyka szczepień przypominających"</item>
+        <item>"Link do mediów społecznościowych"</item>
+        <item>"Data usunięcia zawartości kosza"</item>
+        <item>"Powiadomienie o podwyższonym ryzyku"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Jeśli posiadasz ważny certyfikat szczepienia lub certyfikat statusu ozdrowieńca i dodasz w aplikacji certyfikat testu, zostaną one wyświetlone razem w przeglądzie certyfikatów. Możesz przełączać się między kodem QR certyfikatu szczepienia lub certyfikatem statusu ozdrowieńca a certyfikatem testu za pomocą odpowiedniego elementu sterującego. Oba kody QR muszą być zweryfikowane przez aplikację CovPassCheck, jeśli wymagany jest dowód 2G+."</item>
-        <item>"Jeśli wynik testu będzie negatywny, otrzymasz teraz dodatkowe zalecenia w przypadku nieustąpienia ostrych objawów."</item>
-        <item>"Od wersji 2.12 wyświetlane jest powiadomienie dotyczące bezpieczeństwa, jeśli na smartfonie są aktywne prawa administratora. Możesz ukryć to powiadomienie do czasu następnej aktualizacji."</item>
-        <item>"Funkcja skanowania została udoskonalona, aby zwiększyć dokładność rozpoznawania i skanowania kodów QR."</item>
+       <item>"Zmieniono uwagi i zalecane postępowanie w przypadku pozytywnego wyniku testu."</item>
+       <item>"Oprócz danych statystycznych dotyczących osób, które otrzymały co najmniej jedną dawkę szczepionki i osób w pełni zaszczepionych, znajdziesz teraz również informacje o liczbie osób, które otrzymały szczepienie przypominające."</item>
+       <item>"Jeśli chcesz na bieżąco zapoznawać się ze zmianami w aplikacji Corona-Warn-App i omawiać je z innymi, możesz śledzić nasze kanały w mediach społecznościowych. Na ekranie głównym w sekcji „Więcej” znajdziesz teraz link do mediów społecznościowych."</item>
+       <item>"Każdy element przeniesiony do kosza jest trwale usuwany po 30 dniach. Taki termin usunięcia jest teraz wyświetlany dla każdego elementu."</item>
+       <item>"Teraz otrzymasz powiadomienie, jeśli będziesz mieć podwyższone ryzyko zakażenia, nawet jeśli aplikacja będzie otwarta. Ma to na celu zapobieżenie przeoczeniu ostrzeżenia o ryzyku na karcie statusu, jeśli w danej chwili korzystasz z innej karty. Ponadto na karcie statusu będzie wyświetlać się czerwona kropka, dopóki nie otworzysz tej karty ponownie."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -36,10 +38,12 @@
         <item/>
         <item/>
         <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
         <item/>
         <item/>
         <item/>

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.MaterialToolbar
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -64,10 +65,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         with(binding.toolbar) {
             setupMenuIcons(menu)
             setupDebugMenu(menu)
-            setOnMenuItemClickListener {
-                resetTransitions()
-                it.onNavDestinationSelected(findNavController())
-            }
+            setupMenuItemClickListener()
         }
 
         binding.recyclerView.apply {
@@ -106,6 +104,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.markTestBadgesAsSeen.observe2(this) {
             Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
+
+        viewModel.markRiskBadgeAsSeen()
     }
 
     override fun onResume() {
@@ -128,6 +128,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             R.id.settingsFragment,
             R.id.recyclerBinOverviewFragment,
             R.id.informationFragment,
+            R.id.socialMediaMenuItem,
             R.id.mainOverviewFragment
         ).forEach { id ->
             menu.findItem(id).apply {
@@ -141,6 +142,20 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     private fun setupDebugMenu(menu: Menu) {
         menu.findItem(R.id.test_nav_graph).isVisible = CWADebug.isDeviceForTestersBuild
+    }
+
+    private fun MaterialToolbar.setupMenuItemClickListener() {
+        setOnMenuItemClickListener { menuItem ->
+            resetTransitions()
+
+            when (menuItem.itemId) {
+                R.id.socialMediaMenuItem -> {
+                    openUrl(R.string.home_menu_social_media_url)
+                    true
+                }
+                else -> menuItem.onNavDestinationSelected(findNavController())
+            }
+        }
     }
 
     private fun showMoveToRecycleBinDialog(identifier: TestIdentifier) {

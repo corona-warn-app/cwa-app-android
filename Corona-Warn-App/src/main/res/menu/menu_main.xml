@@ -27,6 +27,11 @@
         android:title="@string/menu_information" />
 
     <item
+        android:id="@+id/socialMediaMenuItem"
+        android:icon="@drawable/ic_menu_social_media"
+        android:title="@string/menu_social_media" />
+
+    <item
         android:id="@+id/mainOverviewFragment"
         android:icon="@drawable/ic_menu_overview"
         android:title="@string/menu_help" />

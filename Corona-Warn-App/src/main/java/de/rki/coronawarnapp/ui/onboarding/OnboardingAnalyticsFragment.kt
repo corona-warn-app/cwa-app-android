@@ -62,6 +62,8 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
         }
         viewModel.ageGroup.observe2(this) {
             binding.ageGroupRowBody.text = getString(it.labelStringRes)
+            binding.ageGroupRow.contentDescription =
+                getString(R.string.onboarding_ppa_age_title) + getString(it.labelStringRes)
         }
         viewModel.federalState.observe2(this) {
             binding.districtRow.visibility = if (it != PpaData.PPAFederalState.FEDERAL_STATE_UNSPECIFIED) {
@@ -70,10 +72,14 @@ class OnboardingAnalyticsFragment : Fragment(R.layout.fragment_onboarding_ppa), 
                 View.GONE
             }
             binding.federalStateRowBody.text = getString(it.labelStringRes)
+            binding.federalStateRow.contentDescription =
+                getString(R.string.onboarding_ppa_state_title) + getString(it.labelStringRes)
         }
         viewModel.district.observe2(this) {
             binding.districtRowBody.text = it?.districtName
                 ?: getString(R.string.analytics_userinput_district_unspecified)
+            binding.districtRow.contentDescription =
+                getString(R.string.onboarding_ppa_district_title) + binding.districtRowBody.text
         }
     }
 

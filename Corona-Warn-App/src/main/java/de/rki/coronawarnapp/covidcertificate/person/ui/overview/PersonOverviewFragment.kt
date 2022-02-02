@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -121,6 +122,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     private fun PersonOverviewFragmentBinding.bindViews(items: List<PersonCertificatesItem>) {
         Timber.tag(TAG).d("bindViews(items=%s)", items)
         emptyLayout.isVisible = items.isEmpty()
+        recyclerView.isGone = items.isEmpty()
         personOverviewAdapter.update(items)
 
         Timber.tag(TAG).d("recyclerViewVisibility=%s", recyclerView.visibility)
