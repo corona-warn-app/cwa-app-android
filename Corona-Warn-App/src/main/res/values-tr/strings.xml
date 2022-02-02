@@ -1570,7 +1570,7 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Tüm Aşıları Olan Kişiler"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Temel Bağışıklığı Olan Kişiler"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1588,7 +1588,7 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Bugüne dek ülke genelinde uygulanan aşı dozlarının sayısı."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Tüm aşıları olan kişiler"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Temel bağışıklığı olan kişiler"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"RKI\'ye temel bağışıklık için gereken tüm aşı dozlarını aldıkları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics number of people with booster title -->

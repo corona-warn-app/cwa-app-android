@@ -40,6 +40,8 @@
     <string name="certificate_qr_invalid_signature">"Сертификатът (подписът) е невалиден"</string>
     <!-- XTXT: Certificate badge text -->
     <string name="certificate_badge_text">"Има новини относно сертификатите В"</string>
+    <!-- XTXT: Certificate loading text -->
+    <string name="certificate_loading_text">"Зареждане на Вашите сертификати..."</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Добавете сертификати"</string>
