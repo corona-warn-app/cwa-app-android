@@ -204,20 +204,6 @@ data class Parameters(
         @JsonValue
         fun value() = type
     }
-
-    enum class FormatType(private val type: String) {
-        DATE_DIFF_NOW("date-diff-now");
-
-        @JsonValue
-        fun value() = type
-    }
-
-    enum class UnitType(private val type: String) {
-        DAY("day");
-
-        @JsonValue
-        fun value() = type
-    }
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)
