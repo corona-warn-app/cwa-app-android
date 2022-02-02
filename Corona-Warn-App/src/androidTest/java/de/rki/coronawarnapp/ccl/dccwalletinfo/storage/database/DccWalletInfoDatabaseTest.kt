@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -153,7 +152,7 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         verification = verification,
         boosterNotification = boosterNotification,
         mostRelevantCertificate = mostRelevantCertificate,
-        validUntil = Instant.parse("2022-01-14T18:43:00Z")
+        validUntil = "2022-01-14T18:43:00Z"
     )
 
     private val personIdentifier = CertificatePersonIdentifier(
