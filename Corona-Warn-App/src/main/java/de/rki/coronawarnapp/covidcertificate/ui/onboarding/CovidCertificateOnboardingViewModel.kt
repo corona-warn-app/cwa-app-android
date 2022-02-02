@@ -45,11 +45,7 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
                 Timber.d("Last DSC data refresh was recent: %s", currentDscData.updatedAt)
                 return@launch
             }
-            try {
-                dscRepository.refresh()
-            } catch (e: Exception) {
-                Timber.e(e, "Refreshing DSC data failed.")
-            }
+            dscRepository.refresh()
         }
     }
 
