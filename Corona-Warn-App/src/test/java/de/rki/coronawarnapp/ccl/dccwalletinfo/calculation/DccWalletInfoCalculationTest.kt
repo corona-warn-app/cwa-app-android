@@ -20,8 +20,8 @@ import testhelpers.BaseTest
 class DccWalletInfoCalculationTest : BaseTest() {
 
     private val instance = DccWalletInfoCalculation(
-        SerializationModule().baseGson(),
-        SerializationModule().jacksonObjectMapper()
+        gson = SerializationModule().baseGson(),
+        mapper = SerializationModule().jacksonObjectMapper()
     )
 
     @Test

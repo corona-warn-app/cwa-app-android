@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @Reusable
 class JsonNodeAdapter @Inject constructor(
-    @BaseJackson val jackson: ObjectMapper,
+    @BaseJackson val mapper: ObjectMapper,
 ) : TypeAdapter<JsonNode>() {
 
     private val gson by lazy {
@@ -25,7 +25,10 @@ class JsonNodeAdapter @Inject constructor(
 
     override fun write(out: JsonWriter, value: JsonNode?) {
         if (value == null) out.nullValue()
-        else out.value(value.textValue())
+        else {
+            val text = value.toString()
+            out.jsonValue(text)
+        }
     }
 
     override fun read(reader: JsonReader): JsonNode? = when (reader.peek()) {
@@ -33,7 +36,7 @@ class JsonNodeAdapter @Inject constructor(
         else -> {
             // We take a JSON object, parse it a Gson object and parse that as a Jackson object ᕦ(ò_óˇ)
             val gsonJson: JsonElement = gson.fromJson(reader, JsonElement::class.java)
-            jackson.readTree(gsonJson.toString())
+            mapper.readTree(gsonJson.toString())
         }
     }
 }
