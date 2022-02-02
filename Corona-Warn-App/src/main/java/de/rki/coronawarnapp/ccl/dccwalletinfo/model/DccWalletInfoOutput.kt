@@ -54,16 +54,16 @@ data class AdmissionState(
     val visible: Boolean,
 
     @JsonProperty("badgeText")
-    val badgeText: CCLText,
+    val badgeText: CCLText?,
 
     @JsonProperty("titleText")
-    val titleText: CCLText,
+    val titleText: CCLText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText,
+    val subtitleText: CCLText?,
 
     @JsonProperty("longText")
-    val longText: CCLText,
+    val longText: CCLText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
