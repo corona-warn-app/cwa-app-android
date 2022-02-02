@@ -12,8 +12,8 @@ class DccWalletInfoConverter {
     @TypeConverter
     fun toDccWalletInfo(value: String): DccWalletInfo? = try {
         objectMapper.readValue(value)
-    } catch (e:Exception) {
-        Timber.e(e,"Can't create DccWalletInfo")
+    } catch (e: Exception) {
+        Timber.e(e, "Can't create DccWalletInfo")
         null
     }
 
