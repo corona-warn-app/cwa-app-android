@@ -1570,7 +1570,7 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Persoane care sunt complet vaccinate"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Persoane care au imunizarea de bază"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1588,7 +1588,7 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Numărul de doze de vaccin care au fost administrate la nivel național până în prezent."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Persoane care sunt complet vaccinate"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Persoane care au imunizarea de bază"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"Numărul de persoane raportat la RKI care au primit toate dozele de vaccin necesare pentru imunizarea de bază."</string>
     <!-- XTXT: Statistics number of people with booster title -->
