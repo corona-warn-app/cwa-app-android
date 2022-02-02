@@ -40,6 +40,8 @@
     <string name="certificate_qr_invalid_signature">"Certyfikat (podpis) jest nieprawidłowy"</string>
     <!-- XTXT: Certificate badge text -->
     <string name="certificate_badge_text">"Dostępne są nowe informacje na temat Twoich certyfikatów"</string>
+    <!-- XTXT: Certificate loading text -->
+    <string name="certificate_loading_text">"Ładowanie Twoich certyfikatów..."</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Dodaj certyfikaty"</string>

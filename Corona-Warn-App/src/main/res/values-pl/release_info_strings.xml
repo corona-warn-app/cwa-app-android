@@ -16,37 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Uwagi w przypadku pozytywnego wyniku testu"</item>
-        <item>"Statystyka szczepień przypominających"</item>
-        <item>"Link do mediów społecznościowych"</item>
-        <item>"Data usunięcia zawartości kosza"</item>
-        <item>"Powiadomienie o podwyższonym ryzyku"</item>
+        <item>"Centralna administracja reguł"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-       <item>"Zmieniono uwagi i zalecane postępowanie w przypadku pozytywnego wyniku testu."</item>
-       <item>"Oprócz danych statystycznych dotyczących osób, które otrzymały co najmniej jedną dawkę szczepionki i osób w pełni zaszczepionych, znajdziesz teraz również informacje o liczbie osób, które otrzymały szczepienie przypominające."</item>
-       <item>"Jeśli chcesz na bieżąco zapoznawać się ze zmianami w aplikacji Corona-Warn-App i omawiać je z innymi, możesz śledzić nasze kanały w mediach społecznościowych. Na ekranie głównym w sekcji „Więcej” znajdziesz teraz link do mediów społecznościowych."</item>
-       <item>"Każdy element przeniesiony do kosza jest trwale usuwany po 30 dniach. Taki termin usunięcia jest teraz wyświetlany dla każdego elementu."</item>
-       <item>"Teraz otrzymasz powiadomienie, jeśli będziesz mieć podwyższone ryzyko zakażenia, nawet jeśli aplikacja będzie otwarta. Ma to na celu zapobieżenie przeoczeniu ostrzeżenia o ryzyku na karcie statusu, jeśli w danej chwili korzystasz z innej karty. Ponadto na karcie statusu będzie wyświetlać się czerwona kropka, dopóki nie otworzysz tej karty ponownie."</item>
+        <item>"Reguły certyfikatów (odnoszące się na przykład do ich ważności lub priorytetów w przypadku dostępności kilku certyfikatów) i ustalania statusu „G” (zaszczepiony, ozdrowieniec, przetestowany) zostały oddzielone od aplikacji Corona-Warn-App. Te reguły są teraz przechowywane centralnie i dlatego można je dostosowywać niezależnie od wersji aplikacji, co umożliwia szybszą reakcję na zmiany reguł. Po zmianie zaktualizowane reguły zostaną przeniesione do aplikacji automatycznie. Ta centralna administracja reguł nie zmienia sposobu korzystania z aplikacji Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

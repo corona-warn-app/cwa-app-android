@@ -40,6 +40,8 @@
     <string name="certificate_qr_invalid_signature">"Sertifika (İmza) Geçersiz"</string>
     <!-- XTXT: Certificate badge text -->
     <string name="certificate_badge_text">"Sertifikalarınızla ilgili gelişme var"</string>
+    <!-- XTXT: Certificate loading text -->
+    <string name="certificate_loading_text">"Sertifikalarınız yükleniyor..."</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Sertifikalar Ekle"</string>
