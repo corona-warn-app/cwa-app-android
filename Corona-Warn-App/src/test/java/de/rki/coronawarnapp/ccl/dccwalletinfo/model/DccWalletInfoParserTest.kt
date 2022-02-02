@@ -3,9 +3,7 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
-import org.joda.time.Instant
 import org.junit.jupiter.api.Test
-
 import testhelpers.BaseTest
 import testhelpers.extensions.toComparableJsonPretty
 
@@ -114,7 +112,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
         verification = verification,
         boosterNotification = boosterNotification,
         mostRelevantCertificate = mostRelevantCertificate,
-        validUntil = Instant.parse("2022-01-14T18:43:00Z")
+        validUntil = "2022-01-14T18:43:00Z"
     )
 
     @Test
