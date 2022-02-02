@@ -19,14 +19,13 @@ class DscServer @Inject constructor(
     private val dscApi: DscApiV1
 ) {
 
-    suspend fun getDscList(): ByteArray {
+    suspend fun getDscList(): ByteArray? {
         return try {
             Timber.d("getDscList()")
             dscApi.dscList().parseAndValidate()
         } catch (e: Exception) {
-            if (e is DscValidationException) throw e
             Timber.e(e, "Getting List of DSCs from server failed cause: ${e.message}")
-            throw DscValidationException(ErrorCode.SERVER_ERROR)
+            null
         }
     }
 
