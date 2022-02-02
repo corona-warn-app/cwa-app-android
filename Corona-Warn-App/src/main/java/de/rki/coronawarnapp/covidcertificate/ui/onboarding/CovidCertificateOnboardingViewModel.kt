@@ -7,12 +7,18 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.exception.ExceptionCategory
+import de.rki.coronawarnapp.exception.reporting.report
+import kotlinx.coroutines.launch
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import org.joda.time.Duration
 import timber.log.Timber
@@ -20,6 +26,7 @@ import timber.log.Timber
 class CovidCertificateOnboardingViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     @Assisted private val dccQrCode: DccQrCode?,
+    @AppScope val appScope: CoroutineScope,
     private val dccQrCodeHandler: DccQrCodeHandler,
     dispatcherProvider: DispatcherProvider,
     private val dscRepository: DscRepository,
@@ -27,9 +34,12 @@ class CovidCertificateOnboardingViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<Event>()
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
+        Timber.e(e, "Refreshing DSC data failed.")
+    }
 
     init {
-        launch {
+        appScope.launch(coroutineExceptionHandler) {
             val currentDscData = dscRepository.dscData.first()
             if (Duration(currentDscData.updatedAt, timeStamper.nowUTC) < Duration.standardHours(12)) {
                 Timber.d("Last DSC data refresh was recent: %s", currentDscData.updatedAt)
