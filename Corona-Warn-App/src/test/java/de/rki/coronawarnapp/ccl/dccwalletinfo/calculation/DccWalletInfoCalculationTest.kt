@@ -21,7 +21,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
 
     private val instance = DccWalletInfoCalculation(
         gson = SerializationModule().baseGson(),
-        mapper = SerializationModule().jacksonObjectMapper(),
+        mapper = SerializationModule.jacksonBaseMapper,
         jsonFunctionsWrapper = JsonFunctionsWrapper(SerializationModule.jacksonBaseMapper)
     )
 
