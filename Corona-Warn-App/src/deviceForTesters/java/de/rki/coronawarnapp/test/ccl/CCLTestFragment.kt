@@ -28,7 +28,7 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            addDccWalletInfo.setOnClickListener { viewModel.addDccWallet() }
+            calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
             viewModel.personIdentifiers.observe2(this@CCLTestFragment) { personIdentifier ->
@@ -37,7 +37,7 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
                     radioGroup.addView(
                         RadioButton(requireContext()).apply {
                             text = when (item) {
-                                CCLTestViewModel.PersonIdentifierSelection.Random -> "Random"
+                                CCLTestViewModel.PersonIdentifierSelection.All -> "All"
                                 is CCLTestViewModel.PersonIdentifierSelection.Selected -> item.personIdentifier.groupingKey
                             }
                             setOnCheckedChangeListener { _, isChecked ->

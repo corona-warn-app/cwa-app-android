@@ -58,6 +58,7 @@ data class DccValidationRule(
     //  { "and":[{ ">":[{ "var":"hcert.v.0.dn" }, 0] },{ ">=":[{ "var":"hcert.v.0.dn" },{ "var":"hcert.v.0.sd" }] }]}
     @SerializedName("Logic") val logic: JsonNode
 ) : Parcelable {
+
     val validFromDateTime: DateTime
         get() = DateTime.parse(validFrom)
 

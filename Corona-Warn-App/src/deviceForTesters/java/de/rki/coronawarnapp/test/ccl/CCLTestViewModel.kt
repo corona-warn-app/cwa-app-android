@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdater
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.dummyDccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -16,15 +16,15 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 
 class CCLTestViewModel @AssistedInject constructor(
-    private val dccWalletInfoRepository: DccWalletInfoRepository,
     vaccinationRepository: VaccinationRepository,
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val dccWalletInfoRepository: DccWalletInfoRepository,
+    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
     private val cclConfigurationUpdater: CCLConfigurationUpdater
 ) : CWAViewModel() {
 
-    var selectedPersonIdentifier: PersonIdentifierSelection = PersonIdentifierSelection.Random
-
+    var selectedPersonIdentifier: PersonIdentifierSelection = PersonIdentifierSelection.All
     val dccWalletInfoList = dccWalletInfoRepository.personWallets.asLiveData2()
 
     val personIdentifiers = combine(
@@ -36,14 +36,11 @@ class CCLTestViewModel @AssistedInject constructor(
         val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
         allCerts.map { it.personIdentifier }
             .distinct()
-            .map { PersonIdentifierSelection.Selected(it) } + PersonIdentifierSelection.Random
+            .map { PersonIdentifierSelection.Selected(it) } +
+            PersonIdentifierSelection.All
     }.asLiveData2()
 
     val forceUpdateUiState = MutableLiveData<ForceUpdateUiState>()
-
-    fun addDccWallet() = launch {
-        dccWalletInfoRepository.save(selectedPersonIdentifier.getCertificatePersonIdentifier(), dummyDccWalletInfo)
-    }
 
     fun clearDccWallet() = launch {
         dccWalletInfoRepository.clear()
@@ -51,24 +48,19 @@ class CCLTestViewModel @AssistedInject constructor(
 
     sealed class PersonIdentifierSelection {
         data class Selected(val personIdentifier: CertificatePersonIdentifier) : PersonIdentifierSelection()
-        object Random : PersonIdentifierSelection()
+        object All : PersonIdentifierSelection()
 
         fun getCertificatePersonIdentifier() = when (this) {
-            Random -> CertificatePersonIdentifier(
-                firstNameStandardized = firstNames.random(),
-                lastNameStandardized = lastNames.random(),
-                dateOfBirthFormatted = birthDates.random()
-            )
             is Selected -> personIdentifier
+            else -> null
         }
+    }
 
-        companion object {
-            private val firstNames = listOf("Aa", "Bb", "Cc", "Dd", "Rr", "Ff", "Xx", "Hh")
-            private val lastNames = listOf("Jj", "Kk", "Ll", "Vv", "Qq", "Pp", "Oo", "Ss")
-            private val birthDates = listOf(
-                "2020-10-10", "2021-10-10", "2020-12-10", "2020-11-10",
-                "2020-09-10", "2021-08-10", "2020-01-10", "2020-02-10"
-            )
+    fun triggerCalculation() = launch {
+        selectedPersonIdentifier.getCertificatePersonIdentifier()?.let {
+            dccWalletInfoCalculationManager.triggerCalculationForPerson(it)
+        } ?: run {
+            dccWalletInfoCalculationManager.triggerCalculation()
         }
     }
 
