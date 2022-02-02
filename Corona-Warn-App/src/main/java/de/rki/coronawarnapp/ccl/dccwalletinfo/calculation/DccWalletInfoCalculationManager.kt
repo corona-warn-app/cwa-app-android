@@ -14,7 +14,6 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class DccWalletInfoCalculationManager @Inject constructor(
-    // TODO add when merged
     private val cclConfigurationRepository: CCLConfigurationRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val boosterNotificationService: BoosterNotificationService,
@@ -57,7 +56,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     }
 
     private suspend fun getConfig(): CCLConfiguration {
-        val configs = cclConfigurationRepository.cclConfigurations.first()
+        val configs = cclConfigurationRepository.getCCLConfigurations()
         return configs.first()
     }
 
