@@ -20,17 +20,17 @@ import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
-    @BaseGson private val gson: Gson
+    @BaseGson private val gson: Gson,
+    private val jsonFunctionsWrapper: JsonFunctionsWrapper
 ) {
 
-    private lateinit var jsonFunctionsWrapper: JsonFunctionsWrapper
     private var boosterRulesNode: JsonNode = NullNode.instance
 
     fun init(
         cclConfiguration: CCLConfiguration,
         boosterRules: List<DccValidationRule>
     ) {
-        jsonFunctionsWrapper = JsonFunctionsWrapper(cclConfiguration)
+        jsonFunctionsWrapper.init(cclConfiguration)
         boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
     }
 

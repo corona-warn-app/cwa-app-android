@@ -3,16 +3,18 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
+import javax.inject.Inject
 
-class JsonFunctionsWrapper(
-    cclConfiguration: CCLConfiguration
+class JsonFunctionsWrapper @Inject constructor(
+    @BaseJackson val mapper: ObjectMapper
 ) {
 
-    private val jsonFunctions = JsonFunctions()
-    private val mapper = ObjectMapper()
+    private lateinit var jsonFunctions: JsonFunctions
 
-    init {
+    fun init(cclConfiguration: CCLConfiguration) {
+        jsonFunctions = JsonFunctions()
         cclConfiguration.logic.jfnDescriptors.forEach {
             jsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
         }
