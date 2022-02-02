@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.databind.JsonNode
 import org.joda.time.Instant
 
 data class DccWalletInfo(
@@ -34,7 +35,8 @@ data class DccWalletInfo(
 )
 @JsonSubTypes(
     JsonSubTypes.Type(SingleText::class, name = "string"),
-    JsonSubTypes.Type(PluralText::class, name = "plural")
+    JsonSubTypes.Type(PluralText::class, name = "plural"),
+    JsonSubTypes.Type(PluralText::class, name = "system-time-dependent"),
 )
 sealed interface CCLText {
     val type: String
@@ -118,6 +120,19 @@ data class PluralText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
+) : CCLText
+
+data class SystemTimeDependentText(
+
+    @JsonProperty("type")
+    override val type: String,
+
+    @JsonProperty("functionName")
+    val functionName: String,
+
+    @JsonProperty("parameters")
+    val parameters: JsonNode
+
 ) : CCLText
 
 data class BoosterNotification(
