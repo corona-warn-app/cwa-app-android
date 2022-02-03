@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -36,7 +35,7 @@ class DccWalletInfoCalculation @Inject constructor(
     ): DccWalletInfo {
 
         val output: JsonNode
-        runBlocking(Dispatchers.IO) {
+        runBlocking {
             output = jsonFunctionsWrapper.evaluateFunction(
                 FUNCTION_NAME,
                 getDccWalletInfoInput(dccList = dccList).toJsonNode()
