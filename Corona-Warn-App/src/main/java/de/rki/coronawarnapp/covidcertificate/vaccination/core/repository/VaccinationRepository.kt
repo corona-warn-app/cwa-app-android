@@ -317,7 +317,7 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    suspend fun acknowledgeBoosterRule(personIdentifierCode: String) {
+    suspend fun acknowledgeBoosterRule(personIdentifierCode: String, boosterIdentifier: String) {
         Timber.tag(TAG).d("acknowledgeBoosterRule(personIdentifierCode=%s)", personIdentifierCode)
         internalData.updateBlocking {
             val vaccinatedPerson = singleOrNull { it.identifier.codeSHA256 == personIdentifierCode }
@@ -329,7 +329,7 @@ class VaccinationRepository @Inject constructor(
 
             val updatedPerson = vaccinatedPerson.copy(
                 data = vaccinatedPerson.data.copy(
-                    lastSeenBoosterRuleIdentifier = vaccinatedPerson.data.boosterRuleIdentifier
+                    lastSeenBoosterRuleIdentifier = boosterIdentifier
                 )
             )
 

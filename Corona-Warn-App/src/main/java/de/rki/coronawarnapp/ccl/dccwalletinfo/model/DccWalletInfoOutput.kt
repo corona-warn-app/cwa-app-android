@@ -157,7 +157,22 @@ data class PluralText(
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class BoosterNotification(
     @JsonProperty("visible")
-    val visible: Boolean
+    val visible: Boolean,
+
+    @JsonProperty("titleText")
+    val titleText: CCLText?,
+
+    @JsonProperty("subtitleText")
+    val subtitleText: CCLText?,
+
+    @JsonProperty("longText")
+    val longText: CCLText?,
+
+    @JsonProperty("faqAnchor")
+    val faqAnchor: String?,
+
+    @JsonProperty("identifier")
+    val identifier: String?
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -212,13 +227,13 @@ data class VaccinationState(
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText,
+    val titleText: CCLText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText,
+    val subtitleText: CCLText?,
 
     @JsonProperty("longText")
-    val longText: CCLText,
+    val longText: CCLText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?

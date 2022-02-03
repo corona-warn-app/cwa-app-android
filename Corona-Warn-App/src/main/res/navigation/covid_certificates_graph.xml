@@ -122,6 +122,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_covPassInfoFragment"
             app:destination="@id/covPassInfoFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_boosterInfoDetailsFragment"
+            app:destination="@id/boosterInfoDetailsFragment" />
     </fragment>
 
     <fragment
@@ -275,4 +278,12 @@
         android:name="de.rki.coronawarnapp.covidcertificate.covpass.CovPassInfoFragment"
         android:label="fragment_cov_pass_info"
         tools:layout="@layout/fragment_cov_pass_info" />
+    <fragment
+        android:id="@+id/boosterInfoDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragment"
+        android:label="BoosterInfoDetailsFragment" >
+        <argument
+            android:name="personCode"
+            app:argType="string" />
+    </fragment>
 </navigation>
