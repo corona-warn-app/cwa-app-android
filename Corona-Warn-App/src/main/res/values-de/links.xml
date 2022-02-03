@@ -2,8 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- XTXT: validation result FAQ link -->
     <string name="dcc_ticketing_result_faq_link">https://www.coronawarn.app/de/faq/#val_service_result</string>
-    <!-- XTXT: Explains user about vaccination certificate: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#vac_cert_invalid -->
-    <string name="error_button_vc_faq_link">https://www.coronawarn.app/de/faq/#vac_cert_invalid</string>
     <!-- XTXT: risk details - health department info link url -->
     <string name="risk_details_behavior_body_health_department_link">https://www.coronawarn.app/de/faq/#quarantine_measures</string>
     <!-- XTXT: risk details - home rules faq link url -->
@@ -29,11 +27,9 @@
     <!-- XTXT: Explains user about cov pass: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#eu_dcc_check -->
     <string name="cov_pass_info_faq_link">"https://www.coronawarn.app/de/faq/#eu_dcc_check"</string>
     <!-- XTXT: Confirmed status card FAQ link -->
-    <string name="confirmed_status_faq_link">"https://www.coronawarn.app/de/faq/#admission_policy"</string>
     <!--XTXT: Certificate Selection Screen: FAQ Link DE -->
     <string name="dcc_ticketing_faq_link">"https://www.coronawarn.app/de/faq/#val_service_no_valid_dcc"</string>
     <!-- XTXT: Vaccination card booster eligible FAQ Link German-->
-    <string name="vaccination_card_booster_eligible_faq_link">"https://www.coronawarn.app/de/faq/#vac_booster"</string>
     <!-- XTXT: Explains user about about debug log: URL, has to be "translated" into english (relevant for all languages except german) - https://www.coronawarn.app/en/faq/#further_details -->
     <string name="debugging_debuglog_intro_explanation_section_two_faq_link">"https://www.coronawarn.app/de/faq/#error_log"</string>
     <!-- XTXT: QR Code error message: FAQ link  -->
