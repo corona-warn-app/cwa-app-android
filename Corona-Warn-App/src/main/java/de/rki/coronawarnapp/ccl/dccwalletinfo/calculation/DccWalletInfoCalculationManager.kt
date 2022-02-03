@@ -62,17 +62,26 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
         try {
-            val walletInfo = calculation.getDccWalletInfo(person.certificates)
-            dccWalletInfoRepository.save(
-                person.personIdentifier ?: return,
-                walletInfo
+
+            val personIdentifier = person.personIdentifier ?: run {
+                // Should never happen
+                Timber.d("Person identifier is null. Cannot proceed.")
+                return
+            }
+
+            val oldWalletInfo = dccWalletInfoRepository.getWalletInfoForPerson(personIdentifier)
+            val newWalletInfo = calculation.getDccWalletInfo(person.certificates)
+
+            boosterNotificationService.notifyIfNecessary(
+                personIdentifier,
+                oldWalletInfo,
+                newWalletInfo
             )
-            // TODO add when merged
-//            boosterNotificationService.notifyIfNecessary(
-//                personIdentifier = person.personIdentifier,
-//                oldWalletInfo = person.dccWalletInfo,
-//                newWalletInfo = walletInfo,
-//            )
+
+            dccWalletInfoRepository.save(
+                personIdentifier,
+                newWalletInfo
+            )
         } catch (e: Exception) {
             Timber.e(e, "Failed to calculate DccWalletInfo for ${person.personIdentifier}")
         }

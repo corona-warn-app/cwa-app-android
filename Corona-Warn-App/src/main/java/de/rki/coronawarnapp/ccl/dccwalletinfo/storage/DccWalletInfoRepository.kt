@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,6 +29,11 @@ class DccWalletInfoRepository @Inject constructor(
                 )
             }.toSet()
         }
+
+    suspend fun getWalletInfoForPerson(personIdentifier: CertificatePersonIdentifier): DccWalletInfo? {
+        val walletMap = personWallets.first().associateBy { it.personGroupKey }
+        return walletMap[personIdentifier.groupingKey]?.dccWalletInfo
+    }
 
     suspend fun save(
         personIdentifier: CertificatePersonIdentifier,

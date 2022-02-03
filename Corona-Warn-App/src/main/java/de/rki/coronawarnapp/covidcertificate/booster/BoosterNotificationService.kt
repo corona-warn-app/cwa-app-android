@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PersonWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.tag
@@ -18,8 +18,8 @@ class BoosterNotificationService @Inject constructor(
 ) {
     suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
-        oldWalletInfo: PersonWalletInfo,
-        newWalletInfo: PersonWalletInfo
+        oldWalletInfo: DccWalletInfo?,
+        newWalletInfo: DccWalletInfo
     ) {
 
         Timber.tag(TAG).v("notifyIfNecessary() - Started")
