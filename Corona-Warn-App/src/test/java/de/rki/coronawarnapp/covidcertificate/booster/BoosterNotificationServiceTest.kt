@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
+@Suppress("MaxLineLength")
 class BoosterNotificationServiceTest : BaseTest() {
 
     @MockK lateinit var boosterNotificationSender: BoosterNotificationSender
