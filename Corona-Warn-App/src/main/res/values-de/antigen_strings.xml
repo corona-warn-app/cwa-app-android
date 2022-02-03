@@ -106,14 +106,8 @@
     <string name="submission_test_result_negative_message">"Das Virus SARS-CoV-2 wurde bei Ihnen nicht nachgewiesen."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Nachweis-Funktion"</string>
-    <!-- XHED: submission result antigen fragment negative result proof title for anonymous tests-->
-    <string name="submission_test_result_antigen_negative_proof_title_anonymous">"Keine Nachweis-Funktion"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Um den hier angezeigten Befund überprüfbar nachzuweisen, ist ein Digitales Testzertifikat der EU notwendig. Wenn Sie bei der Registrierung des Tests ein Digitales Testzertifikat angefordert haben und die Teststelle deren Ausstellung unterstützt, können Sie Ihr Digitales Testzertifikat anhand des oben angegebenen Links anzeigen. Sie finden das Zertifikat außerdem im Bereich „Zertifikate“. \nInformieren Sie sich diesbezüglich bitte auch über die Kriterien zur Anerkennung und Gültigkeit von Test-Zertifikaten in Bezug auf den Zweck für den Sie den Nachweis benötigen."</string>
-    <!-- XHED: submission result antigen fragment negative result proof body anonymous -->
-    <string name="submission_test_result_antigen_negative_proof_body_anonymous">"Da der hier angezeigte Befund anonymisiert ist, kann er nicht als Nachweis für das Vorliegen eines negativen Schnelltest-Ergebnisses verwendet werden."</string>
-    <!-- XHED: submission result antigen fragment negative result proof additional information -->
-    <string name="submission_test_result_antigen_negative_proof_additional_information">"Bitte beachten Sie, dass Sie nur dann einen Nachweis über Ihr Schnelltest-Ergebnis erbringen müssen, wenn dies gesetzlich festgelegt ist. Sie können den Nachweis über die App oder auch auf andere Weise erbringen. Informieren Sie sich hierzu bitte auch über die Kriterien für die Anerkennung von Test-Nachweisen in Ihrem Bundesland."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Ergebnis liegt vor seit"</string>
     <!-- XHED: coronatest negative antigen result first info title -->

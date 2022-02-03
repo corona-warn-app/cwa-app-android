@@ -57,8 +57,6 @@
     <string name="recovery_certificate_attribute_recovered_from" translatable="false">"Genesen von / Recovered from"</string>
     <!-- XTXT: Recovery Certificate Detail Screen Attribute: First Positive Test Result -->
     <string name="recovery_certificate_attribute_first_positive_test_result" translatable="false">"Datum des ersten positiven Testergebnisses / Date of first positive test result (YYYY-MM-DD)"</string>
-    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Member State of Test -->
-    <string name="recovery_certificate_attribute_state_of_testing" translatable="false">"Land der Testung / Member State of Test"</string>
     <!-- XTXT: Recovery Certificate Detail Screen Attribute: Start of Certification Period -->
     <string name="recovery_certificate_attribute_certificate_certification_period_start" translatable="false">"Zertifikat gültig ab / Certificate valid from (YYYY-MM-DD)"</string>
     <!-- XTXT: Recovery Certificate Detail Screen Attribute: End of Certification Period -->
@@ -117,8 +115,6 @@
     <string name="rule_test_country" translatable="false">"Land der Testung / Member State of Test"</string>
     <!-- XTXT: Rule /  Date of first positive test result (YYYY-MM-DD) -->
     <string name="rule_date_of_frist_positive_test_result" translatable="false">"Datum des ersten positiven Testergebnisses / Date of first positive test result (YYYY-MM-DD)"</string>
-    <!-- XTXT: Rule / Member State of Test -->
-    <string name="rule_member_state_of_test" translatable="false">"Land der Testung / Member State of Test"</string>
     <!-- XTXT: Rule / Certificate Issuer -->
     <string name="rule_certificate_issuer" translatable="false">"Zertifikataussteller / Certificate Issuer"</string>
     <!-- XTXT: Rule / Certificate valid from (YYYY-MM-DD) -->
