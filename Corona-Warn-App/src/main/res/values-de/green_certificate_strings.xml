@@ -9,7 +9,6 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">Das Testzertifikat gilt innerhalb der EU als gültiger Nachweis eines negativen Testergebnisses (z.B. für Reisen).</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">Das Testzertifikat enthält Daten, die der Prüf-App die Validierung Ihres Zertifikats erlauben.</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">Testzertifikat Anfordern</string>
     <!-- XBUT: Request green certificate disagree button -->
@@ -27,9 +26,7 @@
     <!-- XBUT: Request green certificate exit dialog negative button -->
     <string name="request_gc_dialog_negative_button">Registrierung fortsetzen</string>
     <!-- XTXT: Detail green certificate title -->
-    <string name="detail_green_certificate_title">Digitales COVID-Testzertifikat der EU</string>
     <!-- XTXT: Detail green certificate test type -->
-    <string name="detail_green_certificate_test_type">SARS-CoV-2-Test</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
     <string name="green_certificate_details_menu_item_delete">"Zertifikat löschen"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
@@ -40,16 +37,11 @@
     <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">Informationen</string>
     <!-- XTXT: Green certificate main screen header text -->
-    <string name="green_certification_header_info">Hier werden Ihre digitalen Impfzertifikate und Testzertifikate angezeigt.</string>
     <!-- XTXT: Green certificate info card title 1st line -->
-    <string name="info_banner_title_1">Digitales</string>
     <!-- XTXT: Green certificate info card title 2nd line  -->
-    <string name="info_banner_title_2">COVID-Testzertifikat der EU</string>
     <!-- XTXT: Green certificate info card body  -->
-    <string name="info_banner_body">Registrieren Sie einen Test auf der Startseite und stimmen Sie zu, ein digitales Testzertifikat zu erhalten. Sobald das Zertifikat vorliegt, wird es hier angezeigt.</string>
 
     <!-- XTXT: Test certificate time -->
-    <string name="test_certificate_time">Test durchgeführt am %1$s, %2$s Uhr</string>
     <!-- XTXT: Test certificate registration time -->
     <string name="test_certificate_registration_time">"Registriert am %1$s, %2$s"</string>
     <!-- XTXT: Test error label -->
