@@ -29,13 +29,13 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
         UiState(
             certificateSet.first { it.personIdentifier?.codeSHA256 == personIdentifierCode }
                 .dccWalletInfo!!.boosterNotification.also {
-                    it.identifier?.let { id ->
-                        vaccinationRepository.acknowledgeBoosterRule(
-                            personIdentifierCode = personIdentifierCode,
-                            boosterIdentifier = id
-                        )
-                    }
+                it.identifier?.let { id ->
+                    vaccinationRepository.acknowledgeBoosterRule(
+                        personIdentifierCode = personIdentifierCode,
+                        boosterIdentifier = id
+                    )
                 }
+            }
         )
     }.catch { error ->
         // This should never happen due to checks on previous screen
