@@ -15,9 +15,6 @@
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">Gebäude mit QR-Code-Symbol im Hintergrund.</string>
 
-    <!-- XBUT: My check-ins: Scan QR Code button -->
-    <string name="trace_location_checkins_action_scan_qrcode">QR-Code scannen</string>
-
     <!-- XBUT: My check-ins: menu entry to remove all -->
     <string name="trace_location_checkins_menu_remove_all">Alle löschen</string>
     <!-- XBUT: My check-ins: menu entry to show information -->
