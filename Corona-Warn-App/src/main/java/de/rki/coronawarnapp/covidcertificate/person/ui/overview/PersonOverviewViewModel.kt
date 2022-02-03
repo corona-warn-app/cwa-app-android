@@ -67,14 +67,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons.filterNotPending()
             .forEachIndexed { index, person ->
                 val admissionState = person.dccWalletInfo?.admissionState
-                val certificatesForOverviewScreen = person.overviewCertificates
+                val certificates = person.overviewCertificates
                 Timber.d("VerificationCertificates ${person.overviewCertificates}")
                 val color = PersonColorShade.shadeFor(index)
-                if (certificatesForOverviewScreen.isNotEmpty()) {
+                if (certificates.isNotEmpty()) {
                     add(
                         PersonCertificateCard.Item(
-                            certificatesForOverviewScreen = certificatesForOverviewScreen,
-                            admissionBadgeText = admissionState?.badgeText?.format().orEmpty(),
+                            verificationCertificates = certificates,
+                            admissionBadgeText = admissionState?.badgeText.format(),
                             colorShade = color,
                             badgeCount = person.badgeCount,
                             onClickAction = { _, position ->
