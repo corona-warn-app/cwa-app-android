@@ -33,8 +33,6 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
     private lateinit var dao: DccWalletInfoDao
     private lateinit var db: DccWalletInfoDatabase
 
-    private val boosterNotification = BoosterNotification(visible = false)
-
     private val mostRelevantCertificate = MostRelevantCertificate(
         certificateRef = CertificateRef(
             barcodeData = "HC1:6..."
@@ -125,6 +123,27 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
             parameters = listOf()
         ),
         faqAnchor = "dcc_admission_state"
+    )
+
+    private val boosterNotification = BoosterNotification(
+        visible = true,
+        titleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Booster"),
+            parameters = listOf()
+        ),
+        subtitleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Empfehlung einer Booster-Impfung"),
+            parameters = listOf()
+        ),
+        longText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"),
+            parameters = listOf()
+        ),
+        faqAnchor = "dcc_admission_state",
+        identifier = "booster_rule_identifier"
     )
 
     private val dccWalletInfo = DccWalletInfo(
