@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CclJsonFunctions @Inject constructor(
-    @BaseJackson val mapper: ObjectMapper,
+    @BaseJackson private val mapper: ObjectMapper,
     private val cclConfigurationRepository: CCLConfigurationRepository,
 ) {
 

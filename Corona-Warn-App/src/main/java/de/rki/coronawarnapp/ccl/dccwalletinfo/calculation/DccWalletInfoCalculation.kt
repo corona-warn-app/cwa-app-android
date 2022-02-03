@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.runBlocking
+import org.joda.time.DateTime
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
@@ -31,14 +32,19 @@ class DccWalletInfoCalculation @Inject constructor(
     }
 
     fun getDccWalletInfo(
-        dccList: List<CwaCovidCertificate>
+        dccList: List<CwaCovidCertificate>,
+        dateTime: DateTime = DateTime.now()
     ): DccWalletInfo {
 
         val output: JsonNode
         runBlocking {
             output = cclJsonFunctions.evaluateFunction(
                 FUNCTION_NAME,
-                getDccWalletInfoInput(dccList = dccList).toJsonNode()
+                getDccWalletInfoInput(
+                    dccList = dccList,
+                    boosterNotificationRules = boosterRulesNode,
+                    defaultInputParameters = getDefaultInputParameters(dateTime)
+                ).toJsonNode()
             )
         }
         return mapper.treeToValue(output, DccWalletInfo::class.java)
@@ -47,8 +53,8 @@ class DccWalletInfoCalculation @Inject constructor(
     @VisibleForTesting
     internal fun getDccWalletInfoInput(
         dccList: List<CwaCovidCertificate>,
-        boosterNotificationRules: JsonNode = boosterRulesNode,
-        defaultInputParameters: CclInputParameters = getDefaultInputParameters(),
+        boosterNotificationRules: JsonNode,
+        defaultInputParameters: CclInputParameters,
     ) = DccWalletInfoInput(
         os = defaultInputParameters.os,
         language = defaultInputParameters.language,
@@ -83,7 +89,7 @@ class DccWalletInfoCalculation @Inject constructor(
         }
     }
 
-    private fun Any.toJsonNode(): JsonNode = mapper.valueToTree(this)
+    private fun DccWalletInfoInput.toJsonNode(): JsonNode = mapper.valueToTree(this)
 
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
 }

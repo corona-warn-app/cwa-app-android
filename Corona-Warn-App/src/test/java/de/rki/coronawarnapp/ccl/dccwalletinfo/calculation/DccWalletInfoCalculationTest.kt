@@ -1,6 +1,10 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
+import com.fasterxml.jackson.databind.node.NullNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionDefinition
@@ -10,6 +14,7 @@ import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
@@ -30,6 +35,9 @@ import testhelpers.BaseTest
 class DccWalletInfoCalculationTest : BaseTest() {
 
     @MockK lateinit var cclConfigurationRepository: CCLConfigurationRepository
+    @MockK lateinit var walletInfo: DccWalletInfo
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var mapper: ObjectMapper
 
     val param1 = FunctionParameter(
         name = "greeting",
@@ -95,22 +103,25 @@ class DccWalletInfoCalculationTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         coEvery { cclConfigurationRepository.getCCLConfigurations() } returns listOf(config)
+        coEvery { cclJsonFunctions.evaluateFunction("getDccWalletInfo", any()) } returns NullNode.instance
+        every { mapper.treeToValue(any(), DccWalletInfo::class.java) } returns walletInfo
+        every { mapper.readTree(any<String>()) } returns ObjectNode(JsonNodeFactory.instance)
+        every { mapper.valueToTree<JsonNode>(any()) } returns NullNode.instance
+
         instance = DccWalletInfoCalculation(
             gson = SerializationModule().baseGson(),
-            mapper = SerializationModule.jacksonBaseMapper,
-            cclJsonFunctions = CclJsonFunctions(
-                SerializationModule.jacksonBaseMapper,
-                cclConfigurationRepository
-            ),
+            mapper = mapper,
+            cclJsonFunctions = cclJsonFunctions,
         )
     }
 
     @Test
-    fun `getDccWalletInfoInput mapping works`() {
+    fun `getDccWalletInfoInput works`() {
 
         val dccWalletInfoInput = instance.getDccWalletInfoInput(
             defaultInputParameters = defaultInputParameters,
-            dccList = listOf(certificate)
+            dccList = listOf(certificate),
+            boosterNotificationRules = NullNode.instance
         )
         dccWalletInfoInput.language shouldBe "de"
         dccWalletInfoInput.os shouldBe "android"
@@ -135,5 +146,13 @@ class DccWalletInfoCalculationTest : BaseTest() {
             hcert = ObjectMapper().readTree(json),
             validityState = CclCertificate.Validity.BLOCKED
         )
+    }
+
+    @Test
+    fun `execution works`() {
+        instance.getDccWalletInfo(
+            dccList = listOf(certificate),
+            dateTime = dateTime
+        ) shouldBe walletInfo
     }
 }
