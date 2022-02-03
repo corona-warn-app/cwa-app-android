@@ -68,7 +68,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
 
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
 
-        verify(exactly = 0) {  dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()  }
+        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
 
         result shouldBe ListenableWorker.Result.retry()
     }

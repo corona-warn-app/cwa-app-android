@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCert
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import io.kotest.matchers.shouldBe
-import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
