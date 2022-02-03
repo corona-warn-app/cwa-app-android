@@ -19,7 +19,6 @@ class CclJsonFunctions @Inject constructor(
 ) {
 
     private var jsonFunctions: JsonFunctions
-
     private val mutex = Mutex()
 
     init {

@@ -98,7 +98,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
         instance = DccWalletInfoCalculation(
             gson = SerializationModule().baseGson(),
             mapper = SerializationModule.jacksonBaseMapper,
-            jsonFunctionsWrapper = CclJsonFunctions(
+            cclJsonFunctions = CclJsonFunctions(
                 SerializationModule.jacksonBaseMapper,
                 cclConfigurationRepository
             ),
