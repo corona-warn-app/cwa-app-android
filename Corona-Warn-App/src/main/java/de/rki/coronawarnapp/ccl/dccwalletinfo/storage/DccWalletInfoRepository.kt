@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,6 +21,7 @@ class DccWalletInfoRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope
 ) {
     val personWallets: Flow<Set<PersonWalletInfo>> = dccWalletInfoDao.getAll()
+        .distinctUntilChanged()
         .map { personWallets ->
             personWallets.map { personWallet ->
                 PersonWalletInfo(

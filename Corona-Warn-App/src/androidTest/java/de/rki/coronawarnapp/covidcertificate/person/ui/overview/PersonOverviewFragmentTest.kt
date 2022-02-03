@@ -163,7 +163,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
@@ -190,7 +190,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
@@ -209,7 +209,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockTestCertificate("Andrea Schneider"),
                             "Testzertifikat"
@@ -225,7 +225,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockTestCertificate("Andrea Schneider"),
                             "Testzertifikat"
@@ -241,7 +241,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
@@ -260,7 +260,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
@@ -279,7 +279,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
@@ -298,7 +298,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
@@ -321,7 +321,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         .apply {
             add(
                 PersonCertificateCard.Item(
-                    certificatesForOverviewScreen = listOf(
+                    verificationCertificates = listOf(
                         VerificationCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             "Impfzertifikat"
