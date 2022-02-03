@@ -62,7 +62,6 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
         try {
-
             val personIdentifier = person.personIdentifier ?: run {
                 // Should never happen
                 Timber.d("Person identifier is null. Cannot proceed.")

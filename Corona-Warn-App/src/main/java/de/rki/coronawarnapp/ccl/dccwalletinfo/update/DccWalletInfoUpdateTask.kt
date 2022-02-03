@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculation
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
@@ -15,20 +14,24 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class DccWalletInfoUpdateTask @Inject constructor(
-    private val dccWalletInfoCalculation: DccWalletInfoCalculation,
-    private val dccWalletInfoRepository: DccWalletInfoRepository
+    private val manager: DccWalletInfoCalculationManager
 ) : Task<DefaultProgress, Task.Result> {
     private val taskProgress = MutableStateFlow<DefaultProgress>(Started)
     override val progress: Flow<DefaultProgress> = taskProgress
 
     override suspend fun run(arguments: Task.Arguments): Task.Result {
-        // Calculate and update DccWalletInfo
+        val configurationChanged = (arguments as Arguments).configurationChanged
+        manager.triggerCalculation(configurationChanged = configurationChanged)
         return object : Task.Result {}
     }
 
     override suspend fun cancel() {
         // No-Op
     }
+
+    class Arguments(
+        val configurationChanged: Boolean
+    ) : Task.Arguments
 
     class Config : TaskFactory.Config {
         override val executionTimeout: Duration = Duration.standardMinutes(9)

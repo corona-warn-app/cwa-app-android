@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.configuration.update
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -19,7 +20,7 @@ class CCLConfigurationUpdater @Inject constructor(
     private val cclSettings: CCLSettings,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val cclConfigurationRepository: CCLConfigurationRepository,
-    // private val dccWalletManager: DccWalletInfoCalculationManager
+    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 ) {
 
     suspend fun updateIfRequired() {
@@ -30,17 +31,20 @@ class CCLConfigurationUpdater @Inject constructor(
             return
         }
 
+        updateAndTriggerRecalculation()
         cclSettings.setExecutionTimeToNow()
-        val updated = updateConfiguration()
-        // dccWalletManager.triggerCalculation(updated)
     }
 
     /**
      * updates the configuration irrespectively of whether it was recently updated
      */
     suspend fun forceUpdate() {
+        updateAndTriggerRecalculation()
+    }
+
+    private suspend fun updateAndTriggerRecalculation() {
         val updated = updateConfiguration()
-        // dccWalletManager.triggerCalculation(updated)
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate(updated)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

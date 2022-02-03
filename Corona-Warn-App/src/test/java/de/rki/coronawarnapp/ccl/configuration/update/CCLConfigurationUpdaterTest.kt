@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
 import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
@@ -24,6 +25,7 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
     @RelaxedMockK private lateinit var cclSettings: CCLSettings
     @MockK private lateinit var boosterRulesRepository: BoosterRulesRepository
     @MockK private lateinit var cclConfigurationRepository: CCLConfigurationRepository
+    @RelaxedMockK private lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @BeforeEach
     fun setup() {
@@ -45,7 +47,13 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
 
         verify(exactly = 1) { cclSettings.setExecutionTimeToNow(any()) }
 
-        // verify(exactly = 1) { dccWalletManager.triggerCalculation(true)}
+        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate(true) }
+
+        // false should be passed to the trigger when there are no updates
+        coEvery { boosterRulesRepository.update() } returns false
+        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns false
+        getInstance().updateIfRequired()
+        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate(false) }
     }
 
     @Test
@@ -58,7 +66,7 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
         verify { boosterRulesRepository wasNot Called }
         verify { cclConfigurationRepository wasNot Called }
 
-        // verify { dccWalletManager wasNot Called }
+        verify { dccWalletInfoUpdateTrigger wasNot Called }
     }
 
     @Test
@@ -111,6 +119,12 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
     }
 
     private fun getInstance(): CCLConfigurationUpdater {
-        return CCLConfigurationUpdater(timeStamper, cclSettings, boosterRulesRepository, cclConfigurationRepository)
+        return CCLConfigurationUpdater(
+            timeStamper,
+            cclSettings,
+            boosterRulesRepository,
+            cclConfigurationRepository,
+            dccWalletInfoUpdateTrigger
+        )
     }
 }

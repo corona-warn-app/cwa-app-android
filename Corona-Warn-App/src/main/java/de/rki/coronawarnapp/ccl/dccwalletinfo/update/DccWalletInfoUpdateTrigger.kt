@@ -9,10 +9,11 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     private val taskController: TaskController
 ) {
 
-    fun triggerDccWalletInfoUpdate() {
+    fun triggerDccWalletInfoUpdate(configurationChanged: Boolean = false) {
         taskController.submit(
             DefaultTaskRequest(
                 DccWalletInfoUpdateTask::class,
+                arguments = DccWalletInfoUpdateTask.Arguments(configurationChanged),
                 originTag = TAG
             )
         )
