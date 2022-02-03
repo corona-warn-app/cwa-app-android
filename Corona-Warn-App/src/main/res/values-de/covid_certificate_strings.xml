@@ -17,8 +17,6 @@
     <string name="person_overview_no_certificates_subtitle">Hier werden die gespeicherten digitalen Impfzertifikate, Genesenenzertifikate und Testzertifikate angezeigt.</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Scannen Sie den QR-Code des Zertifikats mit Hilfe des „Scannen“ Buttons in der unteren Navigationsleiste."</string>
-    <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">Zertifikat</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">A certificate with a QR code symbol on it.</string>
     <!-- XTXT: Overview certificate status text -->
@@ -61,29 +59,8 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Weiter"</string>
 
-    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Letzte Impfung vor %1$d Tag"</item>
-        <item quantity="other">"Letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="zero">"Letzte Impfung heute"</item>
-        <item quantity="two">"Letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="few">"Letzte Impfung vor %1$d Tagen"</item>
-        <item quantity="many">"Letzte Impfung vor %1$d Tagen"</item>
-    </plurals>
-    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
-    <string name="vaccination_days_since_last_shot_today">"Letzte Impfung heute"</string>
-    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
-    <string name="vaccination_list_immunity_card_body">"Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig."</string>
-    <!-- XTXT: Vaccination card title -->
-    <string name="vaccination_state_title">"Impfstatus"</string>
-    <!-- XTXT: Vaccination card booster eligible description -->
-    <string name="vaccination_card_booster_eligible_description">"%1$s (Regel-ID: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
     <string name="vaccination_card_booster_eligible_faq">"Mehr Informationen finden Sie in den FAQ."</string>
-    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
-    <string name="vaccination_card_booster_eligible_faq_link_container">"FAQ"</string>
-
-
     <!-- XTXT: Current priority certificate info -->
     <string name="certificate_card_bookmark_info">Aktuell verwendetes Zertifikat</string>
     <!-- XHED: Person certificate details title -->
@@ -103,17 +80,6 @@
     <string name="vaccination_certificate_doses">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">Impfzertifikat</string>
-
-    <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
-        <item quantity="one">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tag vollständig.</item>
-        <item quantity="other">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="zero">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="two">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="few">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-        <item quantity="many">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst in %1$d Tagen vollständig.</item>
-    </plurals>
-
     <!-- XTXT: Vaccination only one shot required -->
     <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
     <!-- XTXT: Vaccination is not complete information card body-->
@@ -184,8 +150,6 @@
     <string name="dcc_validation_error_no_network">"Ihre Internetverbindung wurde unterbrochen. Um die Gültigkeitsprüfung des Zertifikats abzuschließen, prüfen Sie die Verbindung und versuchen Sie es erneut."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Ein Fehler ist aufgetreten. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline."</string>
-    <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Reisegültigkeit prüfen"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -280,23 +244,12 @@
     <string name="validation_open_title">Zertifikat nicht prüfbar</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XTXT: validation start for the validation open card  -->
-    <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme / Date and Time of Sample Collection (YYYY-MM-DD hh:mm Z)"</string>
-    <!-- XTXT: title for the validation open card  -->
-    <string name="validation_rules_open_vh_title">"Ein Antigentest ist maximal 48h gültig."</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Testing Center"</string>
-    <!-- XHED: title for the validation failed card  -->
-    <string name="validation_rules_failed_vh_title_wrong_test_type">"Art des Tests muss Antigen-Test oder Nukleinsäureamplifikations-Test sein."</string>
-    <!-- XHED: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Ein Testzertifikat muss von einem zertifizierten Testzentrum ausgestellt werden."</string>
-    <!-- XTXT: rule id for the validation failed card  -->
-    <string name="validation_rules_failed_vh_test_type">"Art des Tests / Type of Test"</string>
-
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Dies ist eine Regel des Reiselandes %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
@@ -327,12 +280,6 @@
     <!-- XBUT: Signature validation dialog FAQ button-->
     <string name="dcc_signature_validation_dialog_faq_button">FAQ zur Signaturprüfung</string>
 
-    <!-- Expiration notification -->
-    <!-- XTXT: expiring soon notification -->
-    <string name="dcc_notification_expires_soon_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
-    <!-- XTXT: expired notification -->
-    <string name="dcc_notification_expired_text">Überprüfen Sie die Gültigkeit Ihrer Zertifikate.</string>
-
     <!-- DCC notification channel-->
     <!-- XTXT: certificate notification channel title -->
     <string name="dcc_notification_channel_title">Zertifikate</string>
@@ -353,8 +300,6 @@
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">Druckversion anzeigen</string>
-    <!-- XACT: PDF Export: Info screen illustration description-->
-    <string name="pdf_export_info_illustration_description">Die Druckversion eines Zertifikats wird zur Erstellung eines EU-Ausdrucks von einem Smartphone an einen Drucker gesendet.</string>
     <!-- XTXT: PDF Export: Info screen subtitle-->
     <string name="pdf_export_info_subtitle">Erstellung des EU-Ausdrucks</string>
     <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
@@ -391,34 +336,12 @@
     <!-- XTXT: Confirmed status card title -->
     <string name="confirmed_status_title">"Status-Nachweis"</string>
 
-    <!-- XTXT: Confirmed status card 2g+ PCR subtitle -->
-    <string name="confirmed_status_2g_pcr_subtitle">"2G+ PCR-Test"</string>
-    <!-- XTXT: Confirmed status card 2g+ RAT subtitle -->
-    <string name="confirmed_status_2g_rat_subtitle">"2G+ Schnelltest"</string>
-
     <!-- XTXT: Confirmed status card 2G badge -->
     <string name="confirmed_status_2g_badge">"2G"</string>
-    <!-- XTXT: Confirmed status card 2G+ badge -->
-    <string name="confirmed_status_2g_plus_badge">"2G+"</string>
-    <!-- XTXT: Confirmed status card 3G badge -->
-    <string name="confirmed_status_3g_badge">"3G"</string>
-    <!-- XTXT: Confirmed status card 3G+ badge -->
-    <string name="confirmed_status_3g_plus_badge">"3G+"</string>
-
     <!-- XTXT: Confirmed status card 2G body -->
     <string name="confirmed_status_2g_body">"Ihre Zertifikate erfüllen die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
-    <!-- XTXT: Confirmed status card 2G+ RAT body -->
-    <string name="confirmed_status_2g_plus_rat_body">"Ihre Zertifikate erfüllen die 2G-Plus-Regel, es sei denn, es wird ein PCR-Test benötigt. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
-    <!-- XTXT: Confirmed status card 2G+ PCR body -->
-    <string name="confirmed_status_2g_plus_pcr_body">"Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
-    <!-- XTXT: Confirmed status card 3G body -->
-    <string name="confirmed_status_3g_body">"Ihre Zertifikate erfüllen die 3G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
-    <!-- XTXT: Confirmed status card 3G+ body -->
-    <string name="confirmed_status_3g_plus_body">"Ihre Zertifikate erfüllen die 3G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
-
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Mehr Informationen finden Sie in den FAQ."</string>
     <!-- XTXT: Confirmed status card FAQ link -->
-    <string name="confirmed_status_faq_label">"FAQ"</string>
 
 </resources>
