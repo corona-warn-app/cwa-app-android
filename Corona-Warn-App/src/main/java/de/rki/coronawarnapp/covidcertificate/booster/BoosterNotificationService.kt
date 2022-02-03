@@ -18,7 +18,7 @@ class BoosterNotificationService @Inject constructor(
 ) {
     suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
-        oldWalletInfo: DccWalletInfo,
+        oldWalletInfo: DccWalletInfo?,
         newWalletInfo: DccWalletInfo
     ) {
 
@@ -29,7 +29,7 @@ class BoosterNotificationService @Inject constructor(
             vaccinationRepository.clearBoosterRuleInfo(personIdentifier)
             return
         }
-        val oldRuleId = oldWalletInfo.boosterNotification.identifier
+        val oldRuleId = oldWalletInfo?.boosterNotification?.identifier
 
         // In versions prior to 2.18, the booster rule identifier was stored in VaccinatedPerson.data. From 2.18 onwards,
         // storing this identifier there is not necessary anymore, since this information is kept in the DccWalletInfo.

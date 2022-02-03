@@ -68,8 +68,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
             }
 
             val oldWalletInfo = dccWalletInfoRepository.getWalletInfoForPerson(personIdentifier) ?: run {
-                // Should never happen
-                throw IllegalStateException("WalletInfo cannot be loaded for person $personIdentifier. Cannot proceed.")
+                Timber.d("No oldWalletInfo found.")
+                null
             }
 
             val newWalletInfo = calculation.getDccWalletInfo(person.certificates)

@@ -76,6 +76,19 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     @Test
+    fun `notifyIfNecessary() should send notification if there is a new booster rule id and no old wallet info`() =
+        runBlockingTest {
+            every { newBoosterNotification.identifier } returns "1"
+            every { oldBoosterNotification.identifier } returns null
+
+            service().notifyIfNecessary(personIdentifier, oldWalletInfo = null, newWalletInfo)
+
+            verifyThatLegacyBoosterRuleIsNotCleared()
+            verifyThatBoosterNotificationIsShown()
+            verifyThatBoosterNotificationTimeIsUpdated()
+        }
+
+    @Test
     fun `notifyIfNecessary() should send notification if the new booster rule id is different to the old one`() =
         runBlockingTest {
             every { newBoosterNotification.identifier } returns "2"
