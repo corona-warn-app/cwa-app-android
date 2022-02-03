@@ -26,7 +26,7 @@ data class PersonCertificates(
         dccWalletInfo?.verification?.certificates.orEmpty().mapNotNull { certRef ->
             certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.qrCodeHash() }?.let {
                 VerificationCertificate(
-                    certificate = it,
+                    cwaCertificate = it,
                     buttonText = certRef.buttonText.format()
                 )
             }
@@ -40,6 +40,6 @@ data class PersonCertificates(
 }
 
 data class VerificationCertificate(
-    val certificate: CwaCovidCertificate,
+    val cwaCertificate: CwaCovidCertificate,
     val buttonText: String = ""
 )

@@ -186,7 +186,7 @@ data class CertificateRef(
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class OutputCertificates(
     @JsonProperty("buttonText")
-    val buttonText: CCLText,
+    val buttonText: CCLText?,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
