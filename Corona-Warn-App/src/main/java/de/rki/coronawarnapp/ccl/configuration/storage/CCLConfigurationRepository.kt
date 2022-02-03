@@ -43,7 +43,7 @@ class CCLConfigurationRepository @Inject constructor(
             Timber.tag(TAG).d("Updating ccl configuration")
             val rawData = cclConfigurationServer.getCCLConfiguration()
             val newConfig = rawData?.tryParseCCLConfigurations()
-            when (newConfig != null) {
+            when (newConfig != null && newConfig != this) {
                 true -> {
                     Timber.tag(TAG).d("Saving new config data")
                     cclConfigurationStorage.save(rawData = rawData)

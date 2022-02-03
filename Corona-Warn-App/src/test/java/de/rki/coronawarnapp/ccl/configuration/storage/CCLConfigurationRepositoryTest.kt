@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.storage
 
+import com.upokecenter.cbor.CBORException
 import de.rki.coronawarnapp.ccl.configuration.common.CCLConfigurationParser
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.configuration.server.CCLConfigurationServer
@@ -62,7 +63,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
     fun `loads default ccl config if storage is empty`() = runBlockingTest2(ignoreActive = true) {
         coEvery { cclConfigurationStorage.load() } returns null
 
-        createInstance(scope = this).cclConfigurations.first().first() shouldBe defaultCCLConfig
+        createInstance(scope = this).getCCLConfigurations().first() shouldBe defaultCCLConfig
 
         coVerify {
             cclConfigurationStorage.load()
@@ -73,7 +74,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
 
     @Test
     fun `loads ccl config from storage`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(scope = this).cclConfigurations.first().first() shouldBe storageCCLConfig
+        createInstance(scope = this).getCCLConfigurations().first() shouldBe storageCCLConfig
 
         coVerify {
             defaultCCLConfigurationProvider wasNot called
@@ -96,15 +97,105 @@ class CCLConfigurationRepositoryTest : BaseTest() {
         coEvery { cclConfigurationStorage.load() } returns storageCCLConfigRaw andThen null
 
         with(createInstance(scope = this)) {
-            cclConfigurations.first().first() shouldBe storageCCLConfig
+            getCCLConfigurations().first() shouldBe storageCCLConfig
             clear()
-            cclConfigurations.first().first() shouldBe defaultCCLConfig
+            getCCLConfigurations().first() shouldBe defaultCCLConfig
         }
 
         coVerifyOrder {
             cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
             cclConfigurationStorage.clear()
             cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigRaw)
+        }
+    }
+
+    @Test
+    fun `getCCLConfigurations returns the actual item of cclConfigurations`() = runBlockingTest2(ignoreActive = true) {
+        createInstance(scope = this).run {
+            getCCLConfigurations() shouldBe cclConfigurations.first()
+            clear()
+            getCCLConfigurations() shouldBe cclConfigurations.first()
+            updateCCLConfiguration() shouldBe true
+            getCCLConfigurations() shouldBe cclConfigurations.first()
+        }
+    }
+
+    @Test
+    fun `update returns true only if ccl config was updated`() = runBlockingTest2(ignoreActive = true) {
+        val serverCCLConfig2: CCLConfiguration = mockk { every { identifier } returns "serverCCLConfig2" }
+        val serverCCLConfig2Raw = serverCCLConfig2.identifier.toByteArray()
+
+        every { cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfig2Raw) } returns listOf(
+            serverCCLConfig2
+        )
+        coEvery {
+            cclConfigurationServer.getCCLConfiguration()
+        } returns serverCCLConfigRaw andThen serverCCLConfigRaw andThen serverCCLConfig2Raw
+
+        createInstance(scope = this).run {
+            getCCLConfigurations().first() shouldBe storageCCLConfig
+            updateCCLConfiguration() shouldBe true
+            getCCLConfigurations().first() shouldBe serverCCLConfig
+            updateCCLConfiguration() shouldBe false
+            getCCLConfigurations().first() shouldBe serverCCLConfig
+            updateCCLConfiguration() shouldBe true
+            getCCLConfigurations().first() shouldBe serverCCLConfig2
+        }
+
+        coVerifyOrder {
+            cclConfigurationStorage.load()
+            cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
+            cclConfigurationServer.getCCLConfiguration()
+            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
+            cclConfigurationStorage.save(rawData = serverCCLConfigRaw)
+            cclConfigurationServer.getCCLConfiguration()
+            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
+            cclConfigurationServer.getCCLConfiguration()
+            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfig2Raw)
+            cclConfigurationStorage.save(rawData = serverCCLConfig2Raw)
+        }
+    }
+
+    @Test
+    fun `update returns false if ccl config was not updated`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { cclConfigurationServer.getCCLConfiguration() } returns null
+
+        createInstance(scope = this).run {
+            getCCLConfigurations().first() shouldBe storageCCLConfig
+            updateCCLConfiguration() shouldBe false
+            getCCLConfigurations().first() shouldBe storageCCLConfig
+        }
+
+        coVerifyOrder {
+            cclConfigurationStorage.load()
+            cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
+            cclConfigurationServer.getCCLConfiguration()
+        }
+
+        coVerify(exactly = 0) {
+            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
+            cclConfigurationStorage.save(rawData = serverCCLConfigRaw)
+        }
+    }
+
+    @Test
+    fun `faulty server data will not ruin existing data`() = runBlockingTest2(ignoreActive = true) {
+        val error = CBORException("Test error")
+        every { cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw) } throws error
+
+        createInstance(scope = this).run {
+            getCCLConfigurations().first() shouldBe storageCCLConfig
+            updateCCLConfiguration() shouldBe false
+            getCCLConfigurations().first() shouldBe storageCCLConfig
+        }
+
+        coVerify {
+            cclConfigurationServer.getCCLConfiguration()
+            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
+        }
+
+        coVerify(exactly = 0) {
+            cclConfigurationStorage.save(rawData = any())
         }
     }
 }
