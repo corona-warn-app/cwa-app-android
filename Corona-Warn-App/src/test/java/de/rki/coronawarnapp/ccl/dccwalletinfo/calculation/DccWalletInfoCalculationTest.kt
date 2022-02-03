@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
@@ -10,20 +11,31 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import org.joda.time.DateTime
 import org.joda.time.Instant
+import org.junit.Before
 import org.junit.jupiter.api.Test
+import org.mockito.Mock
 import testhelpers.BaseTest
 
 class DccWalletInfoCalculationTest : BaseTest() {
 
+    @Mock lateinit var cclConfigurationRepository: CCLConfigurationRepository
+
     private val instance = DccWalletInfoCalculation(
         gson = SerializationModule().baseGson(),
         mapper = SerializationModule.jacksonBaseMapper,
-        jsonFunctionsWrapper = JsonFunctionsWrapper(SerializationModule.jacksonBaseMapper)
-    )
+        jsonFunctionsWrapper = JsonFunctionsWrapper(SerializationModule.jacksonBaseMapper),
+
+        )
+
+    @Before
+    fun setup() {
+        MockKAnnotations.init(this)
+    }
 
     @Test
     fun `getDccWalletInfoInput mapping works`() {

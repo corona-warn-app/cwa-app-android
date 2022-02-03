@@ -3,30 +3,54 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
+import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class JsonFunctionsWrapper @Inject constructor(
-    @BaseJackson val mapper: ObjectMapper
+    @BaseJackson val mapper: ObjectMapper,
+    private val cclConfigurationRepository: CCLConfigurationRepository,
 ) {
 
-    private lateinit var jsonFunctions: JsonFunctions
+    private var jsonFunctions: JsonFunctions
 
-    fun init(cclConfiguration: CCLConfiguration) {
-        jsonFunctions = JsonFunctions()
-        cclConfiguration.logic.jfnDescriptors.forEach {
-            jsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
+    private val mutex = Mutex()
+
+    init {
+        runBlocking {
+            jsonFunctions = create(cclConfigurationRepository.getCCLConfigurations())
         }
     }
 
-    fun evaluateFunction(
+    private fun create(cclConfigurations: List<CCLConfiguration>): JsonFunctions {
+        val newJsonFunctions = JsonFunctions()
+        cclConfigurations.map {
+            it.logic.jfnDescriptors
+        }.flatten().forEach {
+            newJsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
+        }
+        return newJsonFunctions
+    }
+
+    suspend fun update(cclConfigurations: List<CCLConfiguration>) = mutex.withLock {
+        jsonFunctions = create(cclConfigurations)
+    }
+
+    suspend fun evaluateFunction(
         functionName: String,
         parameters: JsonNode
-    ) = jsonFunctions.evaluateFunction(
-        functionName,
-        parameters
-    )
+    ) = mutex.withLock {
+        jsonFunctions.evaluateFunction(
+            functionName,
+            parameters
+        )
+    }
 
     private fun Any.toJsonNode(): JsonNode = mapper.valueToTree(this)
 }

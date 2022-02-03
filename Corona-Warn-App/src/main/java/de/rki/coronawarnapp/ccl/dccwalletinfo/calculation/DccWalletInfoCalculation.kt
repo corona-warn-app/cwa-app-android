@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.NullNode
 import com.google.gson.Gson
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
@@ -16,21 +15,19 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @BaseGson private val gson: Gson,
-    private val jsonFunctionsWrapper: JsonFunctionsWrapper
+    private val jsonFunctionsWrapper: JsonFunctionsWrapper,
 ) {
 
     private var boosterRulesNode: JsonNode = NullNode.instance
 
-    fun init(
-        cclConfiguration: CCLConfiguration,
-        boosterRules: List<DccValidationRule>
-    ) {
-        jsonFunctionsWrapper.init(cclConfiguration)
+    fun init(boosterRules: List<DccValidationRule>) {
         boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
     }
 
@@ -38,12 +35,13 @@ class DccWalletInfoCalculation @Inject constructor(
         dccList: List<CwaCovidCertificate>
     ): DccWalletInfo {
 
-        val input = getDccWalletInfoInput(dccList = dccList).toJsonNode()
-        val output = jsonFunctionsWrapper.evaluateFunction(
-            FUNCTION_NAME,
-            input
-        )
-
+        val output: JsonNode
+        runBlocking(Dispatchers.IO) {
+            output = jsonFunctionsWrapper.evaluateFunction(
+                FUNCTION_NAME,
+                getDccWalletInfoInput(dccList = dccList).toJsonNode()
+            )
+        }
         return mapper.treeToValue(output, DccWalletInfo::class.java)
     }
 
