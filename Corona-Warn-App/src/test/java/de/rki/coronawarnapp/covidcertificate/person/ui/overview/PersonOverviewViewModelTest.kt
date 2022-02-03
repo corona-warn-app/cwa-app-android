@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
@@ -37,6 +38,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
+    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @BeforeEach
     fun setup() {
@@ -49,6 +51,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
+        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() } just Runs
     }
 
     @Test
@@ -228,6 +231,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
-            expirationNotificationService = expirationNotificationService
+            expirationNotificationService = expirationNotificationService,
+            dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
         )
 }
