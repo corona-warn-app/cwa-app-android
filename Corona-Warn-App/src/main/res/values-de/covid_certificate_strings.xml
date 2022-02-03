@@ -82,8 +82,6 @@
     <string name="vaccination_certificate_name">Impfzertifikat</string>
     <!-- XTXT: Vaccination only one shot required -->
     <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
-    <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Sie haben noch nicht alle derzeit geplanten Impfungen erhalten. Daher ist Ihr Impfschutz noch nicht vollständig."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
@@ -333,15 +331,7 @@
         CONFIRMED STATUS CARD
         ##################################################### -->
 
-    <!-- XTXT: Confirmed status card title -->
-    <string name="confirmed_status_title">"Status-Nachweis"</string>
-
-    <!-- XTXT: Confirmed status card 2G badge -->
-    <string name="confirmed_status_2g_badge">"2G"</string>
-    <!-- XTXT: Confirmed status card 2G body -->
-    <string name="confirmed_status_2g_body">"Ihre Zertifikate erfüllen die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."</string>
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Mehr Informationen finden Sie in den FAQ."</string>
-    <!-- XTXT: Confirmed status card FAQ link -->
 
 </resources>
