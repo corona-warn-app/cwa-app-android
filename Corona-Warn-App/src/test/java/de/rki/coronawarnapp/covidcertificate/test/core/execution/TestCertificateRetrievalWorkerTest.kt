@@ -15,6 +15,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
+import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -55,6 +56,8 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
 
         result shouldBe ListenableWorker.Result.success()
+
+        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
     }
 
     @Test
@@ -64,6 +67,8 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
+
+        verify(exactly = 0) {  dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()  }
 
         result shouldBe ListenableWorker.Result.retry()
     }

@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCert
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -20,6 +21,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -63,6 +65,16 @@ class PersonOverviewViewModelTest : BaseTest() {
             refreshCertificate(TestCertificateContainerId("Identifier"))
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
+
+        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
+    }
+
+    @Test
+    fun `refreshCertificate with no errors trigger DccWalletInfo calculation`() {
+        instance.apply {
+            refreshCertificate(TestCertificateContainerId("Identifier"))
+        }
+        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
     }
 
     @Test
