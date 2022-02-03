@@ -21,7 +21,7 @@ import javax.inject.Inject
 class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @BaseGson private val gson: Gson,
-    private val jsonFunctionsWrapper: JsonFunctionsWrapper,
+    private val cclJsonFunctions: CclJsonFunctions,
 ) {
 
     private var boosterRulesNode: JsonNode = NullNode.instance
@@ -36,7 +36,7 @@ class DccWalletInfoCalculation @Inject constructor(
 
         val output: JsonNode
         runBlocking {
-            output = jsonFunctionsWrapper.evaluateFunction(
+            output = cclJsonFunctions.evaluateFunction(
                 FUNCTION_NAME,
                 getDccWalletInfoInput(dccList = dccList).toJsonNode()
             )

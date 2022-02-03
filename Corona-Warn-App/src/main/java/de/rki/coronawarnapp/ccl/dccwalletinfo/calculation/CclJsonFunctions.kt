@@ -13,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class JsonFunctionsWrapper @Inject constructor(
+class CclJsonFunctions @Inject constructor(
     @BaseJackson val mapper: ObjectMapper,
     private val cclConfigurationRepository: CCLConfigurationRepository,
 ) {
@@ -29,13 +29,13 @@ class JsonFunctionsWrapper @Inject constructor(
     }
 
     private fun create(cclConfigurations: List<CCLConfiguration>): JsonFunctions {
-        val newJsonFunctions = JsonFunctions()
-        cclConfigurations.map {
-            it.logic.jfnDescriptors
-        }.flatten().forEach {
-            newJsonFunctions.registerFunction(it.name, it.definition.toJsonNode())
+        return JsonFunctions().apply {
+            cclConfigurations.map {
+                it.logic.jfnDescriptors
+            }.flatten().forEach {
+                registerFunction(it.name, it.definition.toJsonNode())
+            }
         }
-        return newJsonFunctions
     }
 
     suspend fun update(cclConfigurations: List<CCLConfiguration>) = mutex.withLock {
