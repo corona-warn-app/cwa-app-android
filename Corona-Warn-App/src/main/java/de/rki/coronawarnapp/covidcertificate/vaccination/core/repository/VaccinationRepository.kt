@@ -340,23 +340,18 @@ class VaccinationRepository @Inject constructor(
     }
 
     // removes booster rule information if newRuleId is null
-    suspend fun clearBoosterRuleInfoIfNecessary(
-        personIdentifier: CertificatePersonIdentifier,
-        newRuleId: String?
+    suspend fun clearBoosterRuleInfo(
+        personIdentifier: CertificatePersonIdentifier
     ) {
         Timber.tag(TAG)
-            .d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", personIdentifier, newRuleId)
-
-        if (newRuleId != null) {
-            return
-        }
+            .d("clearBoosterRuleInfo(personIdentifier=%s)", personIdentifier)
 
         internalData.updateBlocking {
 
             val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("updateBoosterRule couldn't find person %s", personIdentifier.codeSHA256)
+                Timber.tag(TAG).w("clearBoosterRuleInfo couldn't find person %s", personIdentifier.codeSHA256)
                 return@updateBlocking this
             }
 
@@ -364,7 +359,7 @@ class VaccinationRepository @Inject constructor(
                 vaccinatedPerson.data.copy(boosterRuleIdentifier = null, lastSeenBoosterRuleIdentifier = null)
             val updatedPerson = vaccinatedPerson.copy(data = data)
 
-            Timber.tag(TAG).d("updateBoosterRule updatedPerson=%s", data)
+            Timber.tag(TAG).d("clearBoosterRuleInfo updatedPerson=%s", data)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }

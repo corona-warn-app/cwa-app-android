@@ -64,11 +64,14 @@ class DccWalletInfoCalculationManager @Inject constructor(
         try {
             val personIdentifier = person.personIdentifier ?: run {
                 // Should never happen
-                Timber.d("Person identifier is null. Cannot proceed.")
-                return
+                throw IllegalStateException("Person identifier is null. Cannot proceed.")
             }
 
-            val oldWalletInfo = dccWalletInfoRepository.getWalletInfoForPerson(personIdentifier)
+            val oldWalletInfo = dccWalletInfoRepository.getWalletInfoForPerson(personIdentifier) ?: run {
+                // Should never happen
+                throw IllegalStateException("WalletInfo cannot be loaded for person $personIdentifier. Cannot proceed.")
+            }
+
             val newWalletInfo = calculation.getDccWalletInfo(person.certificates)
 
             boosterNotificationService.notifyIfNecessary(

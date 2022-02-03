@@ -18,54 +18,49 @@ class BoosterNotificationService @Inject constructor(
 ) {
     suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
-        oldWalletInfo: DccWalletInfo?,
+        oldWalletInfo: DccWalletInfo,
         newWalletInfo: DccWalletInfo
     ) {
 
         Timber.tag(TAG).v("notifyIfNecessary() - Started")
 
-        // val oldRuleId = oldPersonWalletInfo.dccWalletInfo.boosterNotification.ruleId
-        // val newRuleId = newPersonWalletInfo.dccWalletInfo.boosterNotification.ruleId ?: return
+        val newRuleId = newWalletInfo.boosterNotification.identifier ?: run {
+            Timber.d("Showing no notification since the ruleId of the walletInfo is null.")
+            vaccinationRepository.clearBoosterRuleInfo(personIdentifier)
+            return
+        }
+        val oldRuleId = oldWalletInfo.boosterNotification.identifier
 
         // In versions prior to 2.18, the booster rule identifier was stored in VaccinatedPerson.data. From 2.18 onwards,
         // storing this identifier there is not necessary anymore, since this information is kept in the DccWalletInfo.
         // However, we need to check if the user already saw the booster notification in a version prior to 2.18
-        val legacyBoosterRuleId = try {
-            getLegacyRuleId(personIdentifier)
-        } catch (exception: IllegalStateException) {
-            Timber.tag(TAG).d(exception)
-            return
-        }
+        val legacyBoosterRuleId = getLegacyRuleId(personIdentifier)
 
         val codeSHA256 = personIdentifier.codeSHA256
-        /*Timber.tag(TAG)
+        Timber.tag(TAG)
             .d(
                 "BoosterRule of person=%s  ruleIdOldWalletInfo=%s, ruleIdNewWalletInfo=%s, legacyBoosterRuleId=%s",
                 codeSHA256,
-                oldWalletInfo.dccWalletInfo.boosterNotification.ruleId,
-                newWalletInfo.dccWalletInfo.boosterNotification.ruleId,
+                oldRuleId,
+                newRuleId,
                 legacyBoosterRuleId
-            )*/
+            )
 
-        // if(newRuleId != oldRuleId && newRuleId != legacyBoosterRuleId){
-        // Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
-        boosterNotificationSender.showBoosterNotification(personIdentifier)
-        // vaccinationRepository.updateBoosterRuleInfoIfNecessary(personIdentifier, newRuleId)
-        vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
-        // Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
-        // } else {
-        //    Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)
-        // }
+        if (newRuleId != oldRuleId && newRuleId != legacyBoosterRuleId) {
+            Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
+            boosterNotificationSender.showBoosterNotification(personIdentifier)
+            vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
+            Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
+        } else {
+            Timber.tag(TAG).d("Person %s shouldn't be notified about booster rule=%s", codeSHA256, newRuleId)
+        }
 
         Timber.tag(TAG).v("notifyIfNecessary() - Finished")
     }
 
     private suspend fun getLegacyRuleId(personIdentifier: CertificatePersonIdentifier): String? {
         val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first().associateBy { it.identifier }
-        val vaccinatedPerson = vaccinatedPersonsMap[personIdentifier]
-            ?: throw IllegalStateException("No vaccinated person ${personIdentifier.codeSHA256} can be found!")
-
-        return vaccinatedPerson.data.boosterRuleIdentifier
+        return vaccinatedPersonsMap[personIdentifier]?.data?.boosterRuleIdentifier
     }
 
     companion object {
