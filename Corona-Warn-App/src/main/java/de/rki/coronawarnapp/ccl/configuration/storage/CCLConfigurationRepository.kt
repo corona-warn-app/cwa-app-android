@@ -23,7 +23,8 @@ class CCLConfigurationRepository @Inject constructor(
     private val cclConfigurationStorage: CCLConfigurationStorage,
     private val defaultCCLConfigurationProvider: DefaultCCLConfigurationProvider,
     private val cclConfigurationParser: CCLConfigurationParser,
-    private val cclConfigurationServer: CCLConfigurationServer
+    private val cclConfigurationServer: CCLConfigurationServer,
+    // private val jsonFunctionsWrapper: JsonFunctionsWrapper
 ) {
     private val internalData: HotDataFlow<List<CCLConfiguration>> = HotDataFlow(
         loggingTag = TAG,
@@ -47,6 +48,7 @@ class CCLConfigurationRepository @Inject constructor(
                 true -> {
                     Timber.tag(TAG).d("Saving new config data")
                     cclConfigurationStorage.save(rawData = rawData)
+                    // jsonFunctionsWrapper.update()
                     updated = true
                     newConfig
                 }
