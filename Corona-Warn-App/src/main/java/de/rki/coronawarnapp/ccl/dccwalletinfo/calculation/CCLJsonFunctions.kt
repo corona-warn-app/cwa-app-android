@@ -9,7 +9,8 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -21,19 +22,21 @@ import javax.inject.Singleton
 class CCLJsonFunctions @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @AppScope private val appScope: CoroutineScope,
-    private val configurationRepository: CCLConfigurationRepository,
+    configurationRepository: CCLConfigurationRepository,
     private val dispatcher: DispatcherProvider,
 ) {
     private lateinit var jsonFunctions: JsonFunctions
     private val mutex = Mutex()
-    private var jsonFunctionsConfigHash: Int = 0
 
     init {
-        appScope.launch {
-            val latestConfig = configurationRepository.getCCLConfigurations()
-            jsonFunctionsConfigHash = latestConfig.hashCode()
-            jsonFunctions = create(latestConfig)
-        }
+        configurationRepository
+            .cclConfigurations
+            .onEach { cclConfigList ->
+                mutex.withLock {
+                    jsonFunctions = create(cclConfigList)
+                }
+            }
+            .launchIn(appScope)
     }
 
     suspend fun evaluateFunction(
@@ -41,16 +44,12 @@ class CCLJsonFunctions @Inject constructor(
         parameters: JsonNode
     ) = withContext(dispatcher.Default) {
         mutex.withLock {
-            val latestConfig = configurationRepository.getCCLConfigurations()
-            if (latestConfig.hashCode() != jsonFunctionsConfigHash) {
-                jsonFunctions = create(latestConfig)
-            }
             jsonFunctions.evaluateFunction(functionName, parameters)
         }
     }
 
-    private suspend fun create(cclConfigurations: List<CCLConfiguration>) = mutex.withLock {
-        JsonFunctions().apply {
+    private fun create(cclConfigurations: List<CCLConfiguration>): JsonFunctions {
+        return JsonFunctions().apply {
             cclConfigurations
                 .map { it.logic.jfnDescriptors }
                 .flatten()
