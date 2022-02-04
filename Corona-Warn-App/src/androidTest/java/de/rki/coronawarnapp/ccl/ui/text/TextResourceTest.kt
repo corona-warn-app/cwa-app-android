@@ -12,6 +12,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
@@ -48,7 +49,7 @@ class TextResourceTest : BaseTestInstrumentation() {
         testCases()
     }
 
-    private fun testCases() {
+    private fun testCases() = runBlockingTest {
         val cclTextFormatter = CCLTextFormatter(cclJsonFunctions, mapper)
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)

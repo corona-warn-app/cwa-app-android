@@ -98,7 +98,7 @@ class CCLTextFormatter @Inject constructor(
         val output = cclJsonFunctions.evaluateFunction(functionName, parameters)
         mapper.treeToValue(output, CCLText::class.java)
 
-        return TODO()
+        return null
     }
 
     private fun List<Parameters>.convertValues(locale: Locale): Array<Any> =
