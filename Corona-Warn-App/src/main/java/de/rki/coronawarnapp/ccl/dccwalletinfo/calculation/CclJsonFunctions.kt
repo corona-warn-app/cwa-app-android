@@ -9,6 +9,8 @@ import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,8 +21,8 @@ class CclJsonFunctions @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val configurationRepository: CCLConfigurationRepository,
 ) {
-
     private lateinit var jsonFunctions: JsonFunctions
+    private val mutex = Mutex()
 
     init {
         appScope.launch {
@@ -28,16 +30,18 @@ class CclJsonFunctions @Inject constructor(
         }
     }
 
-    fun update(cclConfigurations: List<CCLConfiguration>) {
+    suspend fun update(cclConfigurations: List<CCLConfiguration>) {
         jsonFunctions = create(cclConfigurations)
     }
 
-    fun evaluateFunction(
+    suspend fun evaluateFunction(
         functionName: String,
         parameters: JsonNode
-    ) = jsonFunctions.evaluateFunction(functionName, parameters)
+    ) = mutex.withLock {
+        jsonFunctions.evaluateFunction(functionName, parameters)
+    }
 
-    private fun create(cclConfigurations: List<CCLConfiguration>) =
+    private suspend fun create(cclConfigurations: List<CCLConfiguration>) = mutex.withLock {
         JsonFunctions().apply {
             cclConfigurations
                 .map { it.logic.jfnDescriptors }
@@ -48,6 +52,7 @@ class CclJsonFunctions @Inject constructor(
                     }
                 }
         }
+    }
 
     private fun Any.toJsonNode(): JsonNode = mapper.valueToTree(this)
 }
