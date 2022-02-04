@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
-import com.fasterxml.jackson.databind.JsonNode
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.Instant
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class DccWalletInfo(
     @JsonProperty("admissionState")
     val admissionState: AdmissionState,
@@ -24,8 +27,12 @@ data class DccWalletInfo(
     val verification: Verification,
 
     @JsonProperty("validUntil")
-    val validUntil: Instant
-)
+    val validUntil: String,
+) {
+    @get:JsonIgnore
+    val validUntilInstant: Instant
+        get() = Instant.parse(validUntil)
+}
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -36,27 +43,28 @@ data class DccWalletInfo(
 @JsonSubTypes(
     JsonSubTypes.Type(SingleText::class, name = "string"),
     JsonSubTypes.Type(PluralText::class, name = "plural"),
-    JsonSubTypes.Type(PluralText::class, name = "system-time-dependent"),
+    JsonSubTypes.Type(SystemTimeDependentText::class, name = "system-time-dependent"),
 )
 sealed interface CCLText {
     val type: String
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class AdmissionState(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("badgeText")
-    val badgeText: CCLText,
+    val badgeText: CCLText?,
 
     @JsonProperty("titleText")
-    val titleText: CCLText,
+    val titleText: CCLText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText,
+    val subtitleText: CCLText?,
 
     @JsonProperty("longText")
-    val longText: CCLText,
+    val longText: CCLText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
@@ -65,6 +73,7 @@ data class AdmissionState(
 /**
  * Text
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class SingleText(
     @JsonProperty("type")
     override val type: String,
@@ -76,6 +85,28 @@ data class SingleText(
     val parameters: List<Parameters>
 ) : CCLText
 
+/**
+ * Text
+ */
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class SystemTimeDependentText(
+    @JsonProperty("type")
+    override val type: String,
+
+    @JsonProperty("functionName")
+    val functionName: String,
+
+    @JsonProperty("parameters")
+    val parameters: SystemTimeParameter
+) : CCLText
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class SystemTimeParameter(
+    @JsonProperty("dt")
+    val dt: String
+)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class QuantityText(
     @JsonProperty("zero")
     val zero: String,
@@ -105,6 +136,7 @@ typealias LocalizedText = Map<String, String>
 
 typealias QuantityLocalizedText = Map<String, QuantityText>
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class PluralText(
     @JsonProperty("type")
     override val type: String,
@@ -122,42 +154,51 @@ data class PluralText(
     val parameters: List<Parameters>
 ) : CCLText
 
-data class SystemTimeDependentText(
-
-    @JsonProperty("type")
-    override val type: String,
-
-    @JsonProperty("functionName")
-    val functionName: String,
-
-    @JsonProperty("parameters")
-    val parameters: JsonNode
-
-) : CCLText
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class BoosterNotification(
     @JsonProperty("visible")
-    val visible: Boolean
+    val visible: Boolean,
+
+    @JsonProperty("titleText")
+    val titleText: CCLText?,
+
+    @JsonProperty("subtitleText")
+    val subtitleText: CCLText?,
+
+    @JsonProperty("longText")
+    val longText: CCLText?,
+
+    @JsonProperty("faqAnchor")
+    val faqAnchor: String?,
+
+    @JsonProperty("identifier")
+    val identifier: String?
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class CertificateRef(
     @JsonProperty("barcodeData")
     val barcodeData: String
-)
+) {
+    fun qrCodeHash() = barcodeData.toSHA256()
+}
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class OutputCertificates(
     @JsonProperty("buttonText")
-    val buttonText: CCLText,
+    val buttonText: CCLText?,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class MostRelevantCertificate(
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Parameters(
     @JsonProperty("type")
     val type: Type, // Required
@@ -176,27 +217,29 @@ data class Parameters(
         UTC_DATE_TIME("utcDateTime");
 
         @JsonValue
-        fun paramType() = type
+        fun value() = type
     }
 }
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class VaccinationState(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText,
+    val titleText: CCLText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText,
+    val subtitleText: CCLText?,
 
     @JsonProperty("longText")
-    val longText: CCLText,
+    val longText: CCLText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class Verification(
     @JsonProperty("certificates")
     val certificates: List<OutputCertificates>

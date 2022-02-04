@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -20,6 +20,7 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -38,6 +39,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
+    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @BeforeEach
     fun setup() {
@@ -50,9 +52,9 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
+        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() } just Runs
     }
 
-    // TODO: Update tests
     @Test
     fun `refreshCertificate causes an error dialog event`() {
         val error = mockk<Exception>()
@@ -62,6 +64,16 @@ class PersonOverviewViewModelTest : BaseTest() {
             refreshCertificate(TestCertificateContainerId("Identifier"))
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
+
+        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
+    }
+
+    @Test
+    fun `refreshCertificate with no errors trigger DccWalletInfo calculation`() {
+        instance.apply {
+            refreshCertificate(TestCertificateContainerId("Identifier"))
+        }
+        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
     }
 
     @Test
@@ -90,7 +102,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -106,10 +117,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                     )
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
             }
         }
@@ -125,7 +136,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -141,10 +151,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                     )
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
             }
         }
@@ -158,7 +168,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -169,13 +178,13 @@ class PersonOverviewViewModelTest : BaseTest() {
             getOrAwaitValue().apply {
                 this as PersonOverviewViewModel.UiState.Done
                 (personCertificates[0] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Erika Musterfrau"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Max Mustermann"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
                 }
             }
         }
@@ -188,7 +197,6 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
@@ -199,19 +207,19 @@ class PersonOverviewViewModelTest : BaseTest() {
             getOrAwaitValue().apply {
                 this as PersonOverviewViewModel.UiState.Done
                 (personCertificates[0] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
                 } // CWA user
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Andrea Schneider"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Erika Musterfrau"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
                 }
                 (personCertificates[3] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Max Mustermann"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
                 }
                 (personCertificates[4] as PersonCertificateCard.Item).apply {
-                    certificatesForOverviewScreen[0].certificate.fullName shouldBe "Zeebee A"
+                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee A"
                 }
             }
         }
@@ -234,6 +242,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
-            expirationNotificationService = expirationNotificationService
+            expirationNotificationService = expirationNotificationService,
+            dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
         )
 }

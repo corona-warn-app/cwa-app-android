@@ -12,5 +12,5 @@ data class DccWalletInfoEntity(
     val groupKey: String,
 
     @ColumnInfo(name = "dcc_wallet_info")
-    val dccWalletInfo: DccWalletInfo
+    val dccWalletInfo: DccWalletInfo?
 )

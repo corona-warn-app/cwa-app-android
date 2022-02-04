@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.format
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
@@ -30,7 +31,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
     certificatesProvider: PersonCertificatesProvider,
     private val testCertificateRepository: TestCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
-    private val expirationNotificationService: DccExpirationNotificationService
+    private val expirationNotificationService: DccExpirationNotificationService,
+    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
@@ -65,14 +67,14 @@ class PersonOverviewViewModel @AssistedInject constructor(
         persons.filterNotPending()
             .forEachIndexed { index, person ->
                 val admissionState = person.dccWalletInfo?.admissionState
-                val certificatesForOverviewScreen = person.certificatesForOverviewScreen
-                Timber.d("VerificationCertificates ${person.certificatesForOverviewScreen}")
+                val certificates = person.overviewCertificates
+                Timber.d("VerificationCertificates ${person.overviewCertificates}")
                 val color = PersonColorShade.shadeFor(index)
-                if (certificatesForOverviewScreen.isNotEmpty()) {
+                if (certificates.isNotEmpty()) {
                     add(
                         PersonCertificateCard.Item(
-                            certificatesForOverviewScreen = certificatesForOverviewScreen,
-                            admissionBadgeText = admissionState?.badgeText?.format().orEmpty(),
+                            verificationCertificates = certificates,
+                            admissionBadgeText = admissionState?.badgeText.format(),
                             colorShade = color,
                             badgeCount = person.badgeCount,
                             onClickAction = { _, position ->
@@ -114,8 +116,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
         .sortedByDescending { it.isCwaUser }
 
     fun refreshCertificate(containerId: TestCertificateContainerId) = launch(scope = appScope) {
-        val error = testCertificateRepository.refresh(containerId).mapNotNull { it.error }.singleOrNull()
+        val refreshResults = testCertificateRepository.refresh(containerId)
+        val error = refreshResults.mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
+        if (refreshResults.any { it.error == null }) {
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
+        }
     }
 
     fun checkExpiration() = launch(scope = appScope) {

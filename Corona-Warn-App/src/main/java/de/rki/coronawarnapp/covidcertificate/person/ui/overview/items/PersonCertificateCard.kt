@@ -25,11 +25,13 @@ class PersonCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
+        val firstCertificate = curItem.verificationCertificates[0]
+        val secondCertificate = curItem.verificationCertificates.getOrNull(1)
         setUIState(
-            primaryCertificate = curItem.certificatesForOverviewScreen[0].certificate,
-            secondaryCertificate = curItem.certificatesForOverviewScreen.getOrNull(1)?.certificate,
-            primaryCertificateButtonText = curItem.certificatesForOverviewScreen[0].buttonText,
-            secondaryCertificateButtonText = curItem.certificatesForOverviewScreen.getOrNull(1)?.buttonText,
+            primaryCertificate = firstCertificate.cwaCertificate,
+            primaryCertificateButtonText = firstCertificate.buttonText,
+            secondaryCertificate = secondCertificate?.cwaCertificate,
+            secondaryCertificateButtonText = secondCertificate?.buttonText,
             colorShade = curItem.colorShade,
             statusBadgeText = curItem.admissionBadgeText,
             badgeCount = curItem.badgeCount,
@@ -38,12 +40,12 @@ class PersonCertificateCard(parent: ViewGroup) :
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
-            transitionName = curItem.certificatesForOverviewScreen[0].certificate.personIdentifier.codeSHA256
+            transitionName = firstCertificate.cwaCertificate.personIdentifier.codeSHA256
         }
     }
 
     data class Item(
-        val certificatesForOverviewScreen: List<VerificationCertificate>,
+        val verificationCertificates: List<VerificationCertificate>,
         val primaryCertificateText: String = "",
         val secondaryCertificateText: String = "",
         val admissionBadgeText: String = "",
@@ -52,6 +54,7 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onClickAction: (Item, Int) -> Unit,
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
-        override val stableId: Long = hashCode().toLong()
+        override val stableId: Long =
+            verificationCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()
     }
 }

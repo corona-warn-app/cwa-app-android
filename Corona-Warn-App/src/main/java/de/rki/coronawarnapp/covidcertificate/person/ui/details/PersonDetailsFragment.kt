@@ -86,11 +86,6 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.refreshBoosterRuleState()
-    }
-
     private fun onNavEvent(event: PersonDetailsEvents) {
         when (event) {
             is OpenRecoveryCertificateDetails -> doNavigate(
@@ -128,6 +123,10 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                     error.toErrorDialogBuilder(requireContext()).show()
                 }
             }
+            is OpenBoosterInfoDetails -> doNavigate(
+                PersonDetailsFragmentDirections
+                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personCode)
+            )
             Back -> popBackStack()
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())

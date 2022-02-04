@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -33,8 +32,6 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
 
     private lateinit var dao: DccWalletInfoDao
     private lateinit var db: DccWalletInfoDatabase
-
-    private val boosterNotification = BoosterNotification(visible = false)
 
     private val mostRelevantCertificate = MostRelevantCertificate(
         certificateRef = CertificateRef(
@@ -128,13 +125,34 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         faqAnchor = "dcc_admission_state"
     )
 
+    private val boosterNotification = BoosterNotification(
+        visible = true,
+        titleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Booster"),
+            parameters = listOf()
+        ),
+        subtitleText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Empfehlung einer Booster-Impfung"),
+            parameters = listOf()
+        ),
+        longText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"),
+            parameters = listOf()
+        ),
+        faqAnchor = "dcc_admission_state",
+        identifier = "booster_rule_identifier"
+    )
+
     private val dccWalletInfo = DccWalletInfo(
         admissionState = admissionState,
         vaccinationState = vaccinationState,
         verification = verification,
         boosterNotification = boosterNotification,
         mostRelevantCertificate = mostRelevantCertificate,
-        validUntil = Instant.parse("2022-01-14T18:43:00Z")
+        validUntil = "2022-01-14T18:43:00Z"
     )
 
     private val personIdentifier = CertificatePersonIdentifier(
