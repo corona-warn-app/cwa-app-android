@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
@@ -31,6 +32,7 @@ class CCLJsonFunctions @Inject constructor(
     init {
         configurationRepository
             .cclConfigurations
+            .distinctUntilChanged()
             .onEach { cclConfigList ->
                 mutex.withLock {
                     jsonFunctions = create(cclConfigList)
