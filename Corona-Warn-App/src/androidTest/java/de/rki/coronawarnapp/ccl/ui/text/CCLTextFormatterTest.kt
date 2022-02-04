@@ -21,7 +21,7 @@ import java.nio.file.Paths
 import java.util.Locale
 import java.util.TimeZone
 
-class TextResourceTest : BaseTestInstrumentation() {
+class CCLTextFormatterTest : BaseTestInstrumentation() {
 
     @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
