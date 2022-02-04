@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.ccl.ui.text.format
+import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -33,6 +33,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
+    private val cclTextFormatter: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
@@ -74,7 +75,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                     add(
                         PersonCertificateCard.Item(
                             verificationCertificates = certificates,
-                            admissionBadgeText = admissionState?.badgeText.format(),
+                            admissionBadgeText = cclTextFormatter.format(admissionState?.badgeText),
                             colorShade = color,
                             badgeCount = person.badgeCount,
                             onClickAction = { _, position ->

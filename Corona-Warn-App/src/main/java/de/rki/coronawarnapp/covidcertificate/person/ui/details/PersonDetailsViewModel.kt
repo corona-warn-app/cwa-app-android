@@ -6,8 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
-import de.rki.coronawarnapp.ccl.ui.text.format
-import de.rki.coronawarnapp.ccl.ui.text.formatFaqAnchor
+import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -30,12 +29,10 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -50,9 +47,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
     private val timeStamper: TimeStamper,
-    @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCode: String,
-    @Assisted private val colorShade: PersonColorShade
+    @Assisted private val colorShade: PersonColorShade,
+    private val cclTextFormatter: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     private val colorShadeData = MutableLiveData(colorShade)
@@ -114,11 +111,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             ConfirmedStatusCard.Item(
-                                titleText = admissionState.titleText.format(),
-                                subtitleText = admissionState.subtitleText.format(),
-                                badgeText = admissionState.badgeText.format(),
-                                longText = admissionState.longText.format(),
-                                faqAnchor = formatFaqAnchor(admissionState.faqAnchor),
+                                titleText = cclTextFormatter.format(admissionState.titleText),
+                                subtitleText = cclTextFormatter.format(admissionState.subtitleText),
+                                badgeText = cclTextFormatter.format(admissionState.badgeText),
+                                longText = cclTextFormatter.format(admissionState.longText),
+                                faqAnchor = cclTextFormatter.formatFaqAnchor(admissionState.faqAnchor),
                                 colorShade = colorShade
                             )
                         )
@@ -133,10 +130,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             VaccinationInfoCard.Item(
-                                titleText = vaccinationState.titleText.format(),
-                                subtitleText = vaccinationState.subtitleText.format(),
-                                longText = vaccinationState.longText.format(),
-                                faqAnchor = formatFaqAnchor(vaccinationState.faqAnchor),
+                                titleText = cclTextFormatter.format(vaccinationState.titleText),
+                                subtitleText = cclTextFormatter.format(vaccinationState.subtitleText),
+                                longText = cclTextFormatter.format(vaccinationState.longText),
+                                faqAnchor = cclTextFormatter.formatFaqAnchor(vaccinationState.faqAnchor),
                             )
                         )
                     } catch (e: Exception) {

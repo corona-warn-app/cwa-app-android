@@ -3,11 +3,14 @@ package de.rki.coronawarnapp.ccl.ui.text
 import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
 import org.joda.time.DateTimeZone
 import org.junit.Before
@@ -19,8 +22,12 @@ import java.util.TimeZone
 
 class TextResourceTest : BaseTestInstrumentation() {
 
+    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    private val mapper = SerializationModule.jacksonBaseMapper
+
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         mockkObject(BuildVersionWrap)
         Locale.setDefault(Locale.GERMAN)
 
@@ -42,11 +49,13 @@ class TextResourceTest : BaseTestInstrumentation() {
     }
 
     private fun testCases() {
+        val cclTextFormatter = CCLTextFormatter(cclJsonFunctions, mapper)
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)
         val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
         testCases.testCases.forEach { testCase ->
-            testCase.textDescriptor.format(
+            cclTextFormatter.format(
+                testCase.textDescriptor,
                 Locale.GERMAN
             ) shouldBe testCase.assertions[0].text
         }
