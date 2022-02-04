@@ -22,7 +22,7 @@ data class PersonCertificates(
     }
 
     // PersonOverview
-    val overviewCertificates: List<VerificationCertificate> by lazy {
+    val verificationCertificates: List<VerificationCertificate> by lazy {
         dccWalletInfo?.verification?.certificates.orEmpty().mapNotNull { certRef ->
             certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.qrCodeHash() }?.let {
                 VerificationCertificate(

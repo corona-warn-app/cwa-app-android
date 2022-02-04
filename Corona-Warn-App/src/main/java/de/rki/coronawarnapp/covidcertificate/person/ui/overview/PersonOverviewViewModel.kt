@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
@@ -34,7 +33,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
-    private val cclTextFormatter: CCLTextFormatter,
+    private val format: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
@@ -48,8 +47,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 addPersonItems(persons, tcWrappers)
             }
         )
-    }.onStart { emit(UiState.Loading) }
-        .asLiveData(dispatcherProvider.Default)
+    }.onStart { emit(UiState.Loading) }.asLiveData2()
 
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
         testCertificateRepository.deleteCertificate(containerId)
@@ -66,33 +64,31 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private suspend fun MutableList<PersonCertificatesItem>.addCertificateCards(
         persons: Set<PersonCertificates>,
     ) {
-        persons.filterNotPending()
-            .forEachIndexed { index, person ->
-                val admissionState = person.dccWalletInfo?.admissionState
-                val certificates = person.overviewCertificates
-                Timber.d("VerificationCertificates ${person.overviewCertificates}")
-                val color = PersonColorShade.shadeFor(index)
-                if (certificates.isNotEmpty()) {
-                    add(
-                        PersonCertificateCard.Item(
-                            overviewCertificates = certificates.map {
-                                OverviewCertificate(it.cwaCertificate, cclTextFormatter.format(it.buttonText))
-                            },
-                            admissionBadgeText = cclTextFormatter.format(admissionState?.badgeText),
-                            colorShade = color,
-                            badgeCount = person.badgeCount,
-                            onClickAction = { _, position ->
-                                person.personIdentifier?.let { personIdentifier ->
-                                    events.postValue(
-                                        OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
-                                    )
-                                }
-                            },
-                            onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
-                        )
+        persons.filterNotPending().forEachIndexed { index, person ->
+            val admissionState = person.dccWalletInfo?.admissionState
+            val certificates = person.verificationCertificates
+            val color = PersonColorShade.shadeFor(index)
+            if (certificates.isNotEmpty()) {
+                add(
+                    PersonCertificateCard.Item(
+                        overviewCertificates = certificates.map {
+                            OverviewCertificate(it.cwaCertificate, format(it.buttonText))
+                        },
+                        admissionBadgeText = format(admissionState?.badgeText),
+                        colorShade = color,
+                        badgeCount = person.badgeCount,
+                        onClickAction = { _, position ->
+                            person.personIdentifier?.let { personIdentifier ->
+                                events.postValue(
+                                    OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
+                                )
+                            }
+                        },
+                        onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
                     )
-                }
+                )
             }
+        }
     }
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {

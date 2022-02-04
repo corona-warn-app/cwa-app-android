@@ -50,12 +50,12 @@ class CCLTextFormatterTest : BaseTestInstrumentation() {
     }
 
     private fun testCases() = runBlockingTest {
-        val cclTextFormatter = CCLTextFormatter(cclJsonFunctions, mapper)
+        val format = CCLTextFormatter(cclJsonFunctions, mapper)
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)
         val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
         testCases.testCases.forEach { testCase ->
-            cclTextFormatter.format(
+            format(
                 testCase.textDescriptor,
                 Locale.GERMAN
             ) shouldBe testCase.assertions[0].text

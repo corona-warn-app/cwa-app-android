@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.util.Locale
 
-internal class UrlResourceKtTest : BaseTest() {
+internal class FaqAnchorFormattingTest : BaseTest() {
     @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
@@ -21,17 +21,18 @@ internal class UrlResourceKtTest : BaseTest() {
 
     @Test
     fun formatFaqAnchor() {
-        val cclTextFormatter = CCLTextFormatter(cclJsonFunctions, mapper)
-        val deUrl = cclTextFormatter.formatFaqAnchor("dcc_admission_state", Locale.GERMAN)
+        val format = CCLTextFormatter(cclJsonFunctions, mapper)
+        val deUrl = format("dcc_admission_state", Locale.GERMAN)
         deUrl shouldBe "https://www.coronawarn.app/de/faq/#dcc_admission_state"
 
-        val enUrl = cclTextFormatter.formatFaqAnchor("dcc_admission_state", Locale.FRENCH)
+        val enUrl = format("dcc_admission_state", Locale.FRENCH)
         enUrl shouldBe "https://www.coronawarn.app/en/faq/#dcc_admission_state"
 
-        val url = cclTextFormatter.formatFaqAnchor("dcc_admission_state", Locale.ENGLISH)
+        val url = format("dcc_admission_state", Locale.ENGLISH)
         url shouldBe "https://www.coronawarn.app/en/faq/#dcc_admission_state"
 
-        val nullUrl = cclTextFormatter.formatFaqAnchor(null, Locale.ENGLISH)
+        val anchor: String? = null
+        val nullUrl = format(anchor, Locale.ENGLISH)
         nullUrl shouldBe null
     }
 }

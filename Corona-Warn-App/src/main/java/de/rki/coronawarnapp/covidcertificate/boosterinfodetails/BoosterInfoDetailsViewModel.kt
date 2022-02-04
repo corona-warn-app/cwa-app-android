@@ -19,7 +19,7 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     private val vaccinationRepository: VaccinationRepository,
     @Assisted private val personIdentifierCode: String,
-    private val cclTextFormatter: CCLTextFormatter,
+    private val format: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     val shouldClose = SingleLiveEvent<Unit>()
@@ -35,10 +35,10 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
             }
         }
         UiState(
-            titleText = cclTextFormatter.format(boosterNotification.titleText),
-            subtitleText = cclTextFormatter.format(boosterNotification.subtitleText),
-            longText = cclTextFormatter.format(boosterNotification.longText),
-            faqUrl = cclTextFormatter.formatFaqAnchor(boosterNotification.faqAnchor)
+            titleText = format(boosterNotification.titleText),
+            subtitleText = format(boosterNotification.subtitleText),
+            longText = format(boosterNotification.longText),
+            faqUrl = format(boosterNotification.faqAnchor)
         )
     }.catch { error ->
         // This should never happen due to checks on previous screen

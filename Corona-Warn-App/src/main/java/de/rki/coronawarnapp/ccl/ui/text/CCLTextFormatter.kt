@@ -25,14 +25,19 @@ class CCLTextFormatter @Inject constructor(
     private val cclJsonFunctions: CCLJsonFunctions,
     @BaseJackson private val mapper: ObjectMapper
 ) {
-    suspend fun format(
+    /**
+     * Format [CCLText] based on its sub-types
+     * if the text is a [SystemTimeDependentText] it will be evaluated by [CCLJsonFunctions]
+     * @return [String] empty string if [CCLText] is null or could not be formatted
+     */
+    suspend operator fun invoke(
         cclText: CCLText?,
         locale: Locale = Locale.getDefault()
     ): String = runCatching {
         when (cclText) {
             is PluralText -> cclText.formatPlural(locale)
             is SingleText -> cclText.formatSingle(locale)
-            is SystemTimeDependentText -> format(cclText.formatSystemTimeDependent())
+            is SystemTimeDependentText -> invoke(cclText.formatSystemTimeDependent())
             else -> null
         }
     }.getOrElse {
@@ -40,7 +45,11 @@ class CCLTextFormatter @Inject constructor(
         null
     }.orEmpty()
 
-    fun formatFaqAnchor(
+    /**
+     * From a url from  FAQ anchor
+     * @return url [String] null if anchor is nullable
+     */
+    operator fun invoke(
         faqAnchor: String?,
         locale: Locale = Locale.getDefault()
     ) = when {

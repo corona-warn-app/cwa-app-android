@@ -49,7 +49,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
-    private val cclTextFormatter: CCLTextFormatter,
+    private val format: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     private val colorShadeData = MutableLiveData(colorShade)
@@ -98,8 +98,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 if (boosterNotification.visible) {
                     add(
                         BoosterCard.Item(
-                            title = cclTextFormatter.format(boosterNotification.titleText),
-                            subtitle = cclTextFormatter.format(boosterNotification.subtitleText),
+                            title = format(boosterNotification.titleText),
+                            subtitle = format(boosterNotification.subtitleText),
                             isNew = checkBoosterNotificationBadge(personCertificates, boosterNotification),
                             onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
                         )
@@ -112,11 +112,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             ConfirmedStatusCard.Item(
-                                titleText = cclTextFormatter.format(admissionState.titleText),
-                                subtitleText = cclTextFormatter.format(admissionState.subtitleText),
-                                badgeText = cclTextFormatter.format(admissionState.badgeText),
-                                longText = cclTextFormatter.format(admissionState.longText),
-                                faqAnchor = cclTextFormatter.formatFaqAnchor(admissionState.faqAnchor),
+                                titleText = format(admissionState.titleText),
+                                subtitleText = format(admissionState.subtitleText),
+                                badgeText = format(admissionState.badgeText),
+                                longText = format(admissionState.longText),
+                                faqAnchor = format(admissionState.faqAnchor),
                                 colorShade = colorShade
                             )
                         )
@@ -131,10 +131,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     try {
                         add(
                             VaccinationInfoCard.Item(
-                                titleText = cclTextFormatter.format(vaccinationState.titleText),
-                                subtitleText = cclTextFormatter.format(vaccinationState.subtitleText),
-                                longText = cclTextFormatter.format(vaccinationState.longText),
-                                faqAnchor = cclTextFormatter.formatFaqAnchor(vaccinationState.faqAnchor),
+                                titleText = format(vaccinationState.titleText),
+                                subtitleText = format(vaccinationState.subtitleText),
+                                longText = format(vaccinationState.longText),
+                                faqAnchor = format(vaccinationState.faqAnchor),
                             )
                         )
                     } catch (e: Exception) {
