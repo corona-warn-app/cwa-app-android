@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -54,7 +55,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         testCertificateRepository.deleteCertificate(containerId)
     }
 
-    private fun MutableList<PersonCertificatesItem>.addPersonItems(
+    private suspend fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
     ) {
@@ -62,7 +63,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         addCertificateCards(persons)
     }
 
-    private fun MutableList<PersonCertificatesItem>.addCertificateCards(
+    private suspend fun MutableList<PersonCertificatesItem>.addCertificateCards(
         persons: Set<PersonCertificates>,
     ) {
         persons.filterNotPending()
@@ -74,7 +75,9 @@ class PersonOverviewViewModel @AssistedInject constructor(
                 if (certificates.isNotEmpty()) {
                     add(
                         PersonCertificateCard.Item(
-                            verificationCertificates = certificates,
+                            overviewCertificates = certificates.map {
+                                OverviewCertificate(it.cwaCertificate, cclTextFormatter.format(it.buttonText))
+                            },
                             admissionBadgeText = cclTextFormatter.format(admissionState?.badgeText),
                             colorShade = color,
                             badgeCount = person.badgeCount,

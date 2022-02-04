@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.ui.text
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
+import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
@@ -17,14 +18,13 @@ import org.joda.time.format.DateTimeFormat
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@Reusable
 class CCLTextFormatter @Inject constructor(
     private val cclJsonFunctions: CCLJsonFunctions,
     @BaseJackson private val mapper: ObjectMapper
 ) {
-    fun format(
+    suspend fun format(
         cclText: CCLText?,
         locale: Locale = Locale.getDefault()
     ): String = runCatching {
@@ -87,7 +87,7 @@ class CCLTextFormatter @Inject constructor(
         }
     }
 
-    private fun SystemTimeDependentText.formatSystemTimeDependent(locale: Locale): CCLText? {
+    private suspend fun SystemTimeDependentText.formatSystemTimeDependent(locale: Locale): CCLText? {
 
         val functionName = functionName
 
@@ -95,10 +95,8 @@ class CCLTextFormatter @Inject constructor(
         val parameters = parameters
 
         // TODO: merge defaultParameters and parameters
-
-        // val output = jsonFunctions.evaluateFunction(functionName, parameters)
-        // mapper.treeToValue(output, SingleText::class.java)
-        // mapper.treeToValue(output, PluralText::class.java)
+        val output = cclJsonFunctions.evaluateFunction(functionName, parameters)
+        mapper.treeToValue(output, CCLText::class.java)
 
         return TODO()
     }
