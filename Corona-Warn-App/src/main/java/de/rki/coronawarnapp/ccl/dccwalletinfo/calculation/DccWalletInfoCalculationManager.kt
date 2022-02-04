@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
@@ -14,7 +12,6 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class DccWalletInfoCalculationManager @Inject constructor(
-    private val cclConfigurationRepository: CCLConfigurationRepository,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val boosterNotificationService: BoosterNotificationService,
     private val personCertificatesProvider: PersonCertificatesProvider,
@@ -50,14 +47,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun initCalculation() {
         calculation.init(
-            getConfig(),
             boosterRulesRepository.rules.first()
         )
-    }
-
-    private suspend fun getConfig(): CCLConfiguration {
-        val configs = cclConfigurationRepository.getCCLConfigurations()
-        return configs.first()
     }
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
