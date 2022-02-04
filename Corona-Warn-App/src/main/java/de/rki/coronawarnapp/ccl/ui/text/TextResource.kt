@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTimeDependentText
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateTimeUserTz
 import org.joda.time.Instant
 import org.joda.time.format.DateTimeFormat
@@ -24,6 +25,7 @@ fun CCLText?.format(
     when (this) {
         is PluralText -> formatPlural(locale)
         is SingleText -> formatSingle(locale)
+        is SystemTimeDependentText -> formatSystemTimeDependent(locale)?.format()
         else -> null
     }
 }.getOrElse {
@@ -66,6 +68,10 @@ private fun PluralText.quantityFromIndex(): Int {
         Parameters.Type.NUMBER -> param.toNumber()
         else -> error("`quantity` can't be derived from param=$param")
     }
+}
+
+fun SystemTimeDependentText.formatSystemTimeDependent(locale: Locale): CCLText? {
+    return TODO()
 }
 
 private fun List<Parameters>.convertValues(locale: Locale): Array<Any> =

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
+import com.fasterxml.jackson.databind.node.ObjectNode
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import org.joda.time.Instant
 
@@ -97,7 +98,7 @@ data class SystemTimeDependentText(
     val functionName: String,
 
     @JsonProperty("parameters")
-    val parameters: SystemTimeParameter
+    val parameters: ObjectNode
 ) : CCLText
 
 @JsonIgnoreProperties(ignoreUnknown = true)
