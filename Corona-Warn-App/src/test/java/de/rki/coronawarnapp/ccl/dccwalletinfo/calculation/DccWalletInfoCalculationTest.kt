@@ -27,6 +27,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 
 class DccWalletInfoCalculationTest : BaseTest() {
 
@@ -72,6 +73,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
             gson = SerializationModule().baseGson(),
             mapper = mapper,
             cclJsonFunctions = cclJsonFunctions,
+            dispatcherProvider = TestDispatcherProvider()
         )
     }
 
