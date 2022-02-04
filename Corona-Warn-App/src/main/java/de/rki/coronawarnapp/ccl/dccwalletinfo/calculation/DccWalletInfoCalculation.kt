@@ -14,8 +14,10 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.coroutine.DefaultDispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @BaseGson private val gson: Gson,
     private val cclJsonFunctions: CclJsonFunctions,
+    private val dispatcherProvider: DefaultDispatcherProvider
 ) {
 
     private var boosterRulesNode: JsonNode = NullNode.instance
@@ -31,10 +34,11 @@ class DccWalletInfoCalculation @Inject constructor(
         boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
     }
 
-    fun getDccWalletInfo(
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun getDccWalletInfo(
         dccList: List<CwaCovidCertificate>,
         dateTime: DateTime = DateTime.now()
-    ): DccWalletInfo {
+    ): DccWalletInfo = withContext(dispatcherProvider.IO) {
         val output = cclJsonFunctions.evaluateFunction(
             FUNCTION_NAME,
             getDccWalletInfoInput(
@@ -44,7 +48,7 @@ class DccWalletInfoCalculation @Inject constructor(
             ).toJsonNode()
         )
 
-        return mapper.treeToValue(output, DccWalletInfo::class.java)
+        mapper.treeToValue(output, DccWalletInfo::class.java)
     }
 
     @VisibleForTesting
