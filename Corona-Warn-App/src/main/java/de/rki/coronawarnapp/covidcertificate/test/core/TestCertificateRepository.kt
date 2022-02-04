@@ -70,9 +70,8 @@ class TestCertificateRepository @Inject constructor(
                     data = it,
                     qrCodeExtractor = qrCodeExtractor
                 )
-            }
-            .map { it.containerId to it }
-            .toMap().also {
+            }.associateBy { it.containerId }
+            .also {
                 Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
             }
     }
