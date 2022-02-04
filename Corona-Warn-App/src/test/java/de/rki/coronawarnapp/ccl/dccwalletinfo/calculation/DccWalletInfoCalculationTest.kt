@@ -32,7 +32,7 @@ import testhelpers.TestDispatcherProvider
 class DccWalletInfoCalculationTest : BaseTest() {
 
     @MockK lateinit var walletInfo: DccWalletInfo
-    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var CCLJsonFunctions: CCLJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
 
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
@@ -64,7 +64,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclJsonFunctions.evaluateFunction("getDccWalletInfo", any()) } returns NullNode.instance
+        coEvery { CCLJsonFunctions.evaluateFunction("getDccWalletInfo", any()) } returns NullNode.instance
         every { mapper.treeToValue(any(), DccWalletInfo::class.java) } returns walletInfo
         every { mapper.readTree(any<String>()) } returns ObjectNode(JsonNodeFactory.instance)
         every { mapper.valueToTree<JsonNode>(any()) } returns NullNode.instance
@@ -72,7 +72,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
         instance = DccWalletInfoCalculation(
             gson = SerializationModule().baseGson(),
             mapper = mapper,
-            cclJsonFunctions = cclJsonFunctions,
+            cclJsonFunctions = CCLJsonFunctions,
             dispatcherProvider = TestDispatcherProvider()
         )
     }

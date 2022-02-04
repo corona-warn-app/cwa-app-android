@@ -19,8 +19,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 
-internal class CclJsonFunctionsTest : BaseTest() {
+internal class CCLJsonFunctionsTest : BaseTest() {
 
     private val param1 = FunctionParameter(
         name = "greeting",
@@ -115,9 +116,10 @@ internal class CclJsonFunctionsTest : BaseTest() {
         }
     }
 
-    fun instance(scope: CoroutineScope) = CclJsonFunctions(
+    fun instance(scope: CoroutineScope) = CCLJsonFunctions(
         mapper = SerializationModule.jacksonBaseMapper,
         appScope = scope,
-        configurationRepository = cclConfigurationRepository
+        configurationRepository = cclConfigurationRepository,
+        dispatcher = TestDispatcherProvider()
     )
 }

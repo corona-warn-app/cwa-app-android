@@ -5,21 +5,24 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.jfn.JsonFunctions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CclJsonFunctions @Inject constructor(
+class CCLJsonFunctions @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @AppScope private val appScope: CoroutineScope,
     private val configurationRepository: CCLConfigurationRepository,
+    private val dispatcher: DispatcherProvider,
 ) {
     private lateinit var jsonFunctions: JsonFunctions
     private val mutex = Mutex()
@@ -37,8 +40,10 @@ class CclJsonFunctions @Inject constructor(
     suspend fun evaluateFunction(
         functionName: String,
         parameters: JsonNode
-    ) = mutex.withLock {
-        jsonFunctions.evaluateFunction(functionName, parameters)
+    ) = withContext(dispatcher.Default) {
+        mutex.withLock {
+            jsonFunctions.evaluateFunction(functionName, parameters)
+        }
     }
 
     private suspend fun create(cclConfigurations: List<CCLConfiguration>) = mutex.withLock {

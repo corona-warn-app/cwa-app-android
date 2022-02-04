@@ -24,7 +24,7 @@ import javax.inject.Inject
 class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @BaseGson private val gson: Gson,
-    private val cclJsonFunctions: CclJsonFunctions,
+    private val cclJsonFunctions: CCLJsonFunctions,
     private val dispatcherProvider: DispatcherProvider
 ) {
 
