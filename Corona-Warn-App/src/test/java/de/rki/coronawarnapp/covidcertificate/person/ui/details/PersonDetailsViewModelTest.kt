@@ -190,7 +190,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
-        cclTextFormatter = CCLTextFormatter(cclJsonFunctions, mapper)
+        format = CCLTextFormatter(cclJsonFunctions, mapper)
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {

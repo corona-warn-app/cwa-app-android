@@ -249,6 +249,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
-            cclTextFormatter = CCLTextFormatter(cclJsonFunctions, mapper)
+            format = CCLTextFormatter(cclJsonFunctions, mapper)
         )
 }
