@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.ccl.ui.text
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import java.util.Locale
@@ -11,6 +13,11 @@ import java.util.Locale
 internal class UrlResourceKtTest : BaseTest() {
     @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
+
+    @BeforeEach
+    fun setup() {
+        MockKAnnotations.init(this)
+    }
 
     @Test
     fun formatFaqAnchor() {
