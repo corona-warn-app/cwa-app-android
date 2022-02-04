@@ -487,7 +487,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.5.0"
 
     // HCert
-    implementation("com.upokecenter:cbor:4.5")
+    implementation("com.upokecenter:cbor:4.5.2")
 
     // ROOT
     implementation 'com.scottyab:rootbeer-lib:0.1.0'
