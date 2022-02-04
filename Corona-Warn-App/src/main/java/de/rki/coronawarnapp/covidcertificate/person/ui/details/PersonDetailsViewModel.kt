@@ -98,7 +98,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 if (boosterNotification.visible) {
                     add(
                         BoosterCard.Item(
-                            boosterNotification = boosterNotification,
+                            title = cclTextFormatter.format(boosterNotification.titleText),
+                            subtitle = cclTextFormatter.format(boosterNotification.subtitleText),
                             isNew = checkBoosterNotificationBadge(personCertificates, boosterNotification),
                             onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
                         )
