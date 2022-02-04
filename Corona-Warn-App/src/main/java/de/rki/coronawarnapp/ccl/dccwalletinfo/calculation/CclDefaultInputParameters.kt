@@ -8,7 +8,7 @@ import org.joda.time.format.ISODateTimeFormat
 import java.util.Locale
 
 internal fun getDefaultInputParameters(
-    now: DateTime = DateTime.now()
+    now: DateTime
 ) = CclInputParameters(
     language = getLanguage(),
     now = CclDateTime(now)
