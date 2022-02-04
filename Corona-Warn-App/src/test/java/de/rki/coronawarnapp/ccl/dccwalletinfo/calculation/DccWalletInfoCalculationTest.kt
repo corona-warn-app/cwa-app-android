@@ -5,12 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.databind.node.TextNode
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
-import de.rki.coronawarnapp.ccl.configuration.model.FunctionDefinition
-import de.rki.coronawarnapp.ccl.configuration.model.FunctionParameter
-import de.rki.coronawarnapp.ccl.configuration.model.JsonFunctionsDescriptor
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
@@ -18,6 +12,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -34,44 +29,9 @@ import testhelpers.BaseTest
 
 class DccWalletInfoCalculationTest : BaseTest() {
 
-    @MockK lateinit var cclConfigurationRepository: CCLConfigurationRepository
     @MockK lateinit var walletInfo: DccWalletInfo
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
-
-    val param1 = FunctionParameter(
-        name = "greeting",
-        default = TextNode.valueOf("Hello")
-    )
-
-    val param2 = FunctionParameter(
-        name = "name"
-    )
-
-    val jfnLogic = ObjectMapper().readTree(
-        """{"return": [{"concatenate": [{"var": "greeting"}," ",{"var": "name"}]}]}"""
-    )
-
-    val jfnDescriptor = JsonFunctionsDescriptor(
-        name = "greet",
-        definition = FunctionDefinition(
-            parameters = listOf(param1, param2),
-            logic = listOf(jfnLogic)
-        )
-    )
-
-    private val config = CCLConfiguration(
-        identifier = "CCL-DE-0001",
-        type = CCLConfiguration.Type.CCLConfiguration,
-        country = "DE",
-        version = "1.0.0",
-        schemaVersion = "1.0.0",
-        engine = "JsonFunctions",
-        engineVersion = "1.0.0",
-        _validFrom = "2021-10-07T00:00:00Z",
-        _validTo = "2030-06-01T00:00:00Z",
-        logic = CCLConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor))
-    )
 
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
     private val defaultInputParameters = CclInputParameters(
@@ -102,7 +62,6 @@ class DccWalletInfoCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclConfigurationRepository.getCCLConfigurations() } returns listOf(config)
         coEvery { cclJsonFunctions.evaluateFunction("getDccWalletInfo", any()) } returns NullNode.instance
         every { mapper.treeToValue(any(), DccWalletInfo::class.java) } returns walletInfo
         every { mapper.readTree(any<String>()) } returns ObjectNode(JsonNodeFactory.instance)
@@ -140,8 +99,8 @@ class DccWalletInfoCalculationTest : BaseTest() {
             cose = Cose("kid"),
             cwt = Cwt(
                 iss = "Landratsamt Musterstadt",
-                iat = issuedAt.millis / 1000,
-                exp = expiresAt.millis / 1000
+                iat = issuedAt.seconds,
+                exp = expiresAt.seconds
             ),
             hcert = ObjectMapper().readTree(json),
             validityState = CclCertificate.Validity.BLOCKED
