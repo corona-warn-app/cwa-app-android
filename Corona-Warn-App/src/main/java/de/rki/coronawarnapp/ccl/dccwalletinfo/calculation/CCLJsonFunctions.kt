@@ -26,15 +26,14 @@ class CCLJsonFunctions @Inject constructor(
 ) {
     private lateinit var jsonFunctions: JsonFunctions
     private val mutex = Mutex()
+    private var jsonFunctionsConfigHash: Int = 0
 
     init {
         appScope.launch {
-            jsonFunctions = create(configurationRepository.getCCLConfigurations())
+            val latestConfig = configurationRepository.getCCLConfigurations()
+            jsonFunctionsConfigHash = latestConfig.hashCode()
+            jsonFunctions = create(latestConfig)
         }
-    }
-
-    suspend fun update(cclConfigurations: List<CCLConfiguration>) {
-        jsonFunctions = create(cclConfigurations)
     }
 
     suspend fun evaluateFunction(
@@ -42,6 +41,10 @@ class CCLJsonFunctions @Inject constructor(
         parameters: JsonNode
     ) = withContext(dispatcher.Default) {
         mutex.withLock {
+            val latestConfig = configurationRepository.getCCLConfigurations()
+            if (latestConfig.hashCode() != jsonFunctionsConfigHash) {
+                jsonFunctions = create(latestConfig)
+            }
             jsonFunctions.evaluateFunction(functionName, parameters)
         }
     }
