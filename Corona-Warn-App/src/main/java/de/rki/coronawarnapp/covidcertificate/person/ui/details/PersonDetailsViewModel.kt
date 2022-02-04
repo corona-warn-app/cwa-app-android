@@ -41,6 +41,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -65,6 +66,10 @@ class PersonDetailsViewModel @AssistedInject constructor(
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
         events.postValue(Back)
+
+        runBlocking {
+
+        }
     }
 
     val uiState: LiveData<UiState> = combine(

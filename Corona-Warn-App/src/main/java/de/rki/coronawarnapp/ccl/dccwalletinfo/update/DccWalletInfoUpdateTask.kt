@@ -14,14 +14,14 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class DccWalletInfoUpdateTask @Inject constructor(
-    private val manager: DccWalletInfoCalculationManager
+    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
 ) : Task<DefaultProgress, Task.Result> {
     private val taskProgress = MutableStateFlow<DefaultProgress>(Started)
     override val progress: Flow<DefaultProgress> = taskProgress
 
     override suspend fun run(arguments: Task.Arguments): Task.Result {
-        val configurationChanged = (arguments as Arguments).configurationChanged
-        manager.triggerCalculation(configurationChanged = configurationChanged)
+        val configurationChanged = (arguments as? Arguments)?.configurationChanged ?: false
+        dccWalletInfoCalculationManager.triggerCalculation(configurationChanged = configurationChanged)
         return object : Task.Result {}
     }
 

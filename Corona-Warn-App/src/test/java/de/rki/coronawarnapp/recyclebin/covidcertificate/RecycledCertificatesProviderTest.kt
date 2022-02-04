@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.recyclebin.covidcertificate
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -33,6 +34,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
+    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     private val tcContainerId = mockk<TestCertificateContainerId>()
     private val vcContainerId = mockk<VaccinationCertificateContainerId>()
@@ -77,6 +79,8 @@ class RecycledCertificatesProviderTest : BaseTest() {
             coEvery { restoreCertificate(any()) } just Runs
             coEvery { deleteCertificate(any()) } returns null
         }
+
+        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() } just Runs
     }
 
     @Test
@@ -102,6 +106,10 @@ class RecycledCertificatesProviderTest : BaseTest() {
             testCertificateRepository.restoreCertificate(any())
             recoveryCertificateRepository.restoreCertificate(any())
             vaccinationRepository.restoreCertificate(any())
+        }
+
+        coVerify(exactly = 3) {
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
         }
     }
 
@@ -133,6 +141,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
         vaccinationRepository = vaccinationRepository,
+        dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
         appScope = TestCoroutineScope()
     )
 }
