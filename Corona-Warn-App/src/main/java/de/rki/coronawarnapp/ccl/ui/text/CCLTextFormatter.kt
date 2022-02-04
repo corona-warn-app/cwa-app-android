@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.ui.text
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
@@ -31,7 +32,7 @@ class CCLTextFormatter @Inject constructor(
         when (cclText) {
             is PluralText -> cclText.formatPlural(locale)
             is SingleText -> cclText.formatSingle(locale)
-            is SystemTimeDependentText -> format(cclText.formatSystemTimeDependent(locale))
+            is SystemTimeDependentText -> format(cclText.formatSystemTimeDependent())
             else -> null
         }
     }.getOrElse {
@@ -45,8 +46,11 @@ class CCLTextFormatter @Inject constructor(
     ) = when {
         faqAnchor.isNullOrBlank() -> null
         else -> {
-            val lang = if (locale.language == Locale.GERMAN.language) locale.language else Locale.ENGLISH.language
-            "https://www.coronawarn.app/$lang/faq/#$faqAnchor"
+            val language = when (locale.language) {
+                Locale.GERMAN.language -> locale.language
+                else -> Locale.ENGLISH.language
+            }
+            "https://www.coronawarn.app/$language/faq/#$faqAnchor"
         }
     }
 
@@ -87,19 +91,17 @@ class CCLTextFormatter @Inject constructor(
         }
     }
 
-    private suspend fun SystemTimeDependentText.formatSystemTimeDependent(locale: Locale): CCLText? {
-
-        val functionName = functionName
-
-        val defaultParameters = getDefaultInputParameters(DateTime.now()).toObjectNode()
-        val parameters = parameters
-
-        // TODO: merge defaultParameters and parameters
-        val output = cclJsonFunctions.evaluateFunction(functionName, parameters)
-        mapper.treeToValue(output, CCLText::class.java)
-
-        return null
-    }
+    private suspend fun SystemTimeDependentText.formatSystemTimeDependent(): CCLText? =
+        runCatching {
+            val defaultParameters = getDefaultInputParameters(DateTime.now()).toObjectNode()
+            val allParameters = JsonNodeFactory.instance.objectNode()
+                .setAll<ObjectNode>(defaultParameters)
+                .setAll<ObjectNode>(parameters)
+            val output = cclJsonFunctions.evaluateFunction(functionName, allParameters)
+            mapper.treeToValue(output, CCLText::class.java)
+        }.onFailure {
+            Timber.e(it, "SystemTimeDependentText.formatSystemTimeDependent() failed.")
+        }.getOrNull()
 
     private fun List<Parameters>.convertValues(locale: Locale): Array<Any> =
         map { parameter -> parameter.covertValue(locale) }.toTypedArray()
