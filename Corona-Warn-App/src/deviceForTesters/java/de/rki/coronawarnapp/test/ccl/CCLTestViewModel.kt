@@ -35,7 +35,6 @@ class CCLTestViewModel @AssistedInject constructor(
             .toMutableList<PersonIdentifierSelection>()
             .apply { add(0, PersonIdentifierSelection.All) }
             .toList()
-
     }.asLiveData2()
 
     fun clearDccWallet() = launch {
