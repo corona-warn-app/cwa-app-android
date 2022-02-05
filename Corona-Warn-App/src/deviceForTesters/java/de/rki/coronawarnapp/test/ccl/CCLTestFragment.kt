@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.test.ccl
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
+import androidx.core.text.backgroundColor
 import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
@@ -22,6 +26,7 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
     private val viewModel: CCLTestViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentTestCclBinding by viewBinding()
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,10 +54,19 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
             }
 
             viewModel.dccWalletInfoList.observe2(this@CCLTestFragment) { infoList ->
+                val emoji = when (infoList.size) {
+                    viewModel.personIdentifiers.value?.size -> "✌️"
+                    else -> "\uD83D\uDC4E"
+                }
+                infoStatus.text = "Calculation status: %s".format(emoji)
                 dccWalletInfoList.text = buildSpannedString {
                     infoList.forEachIndexed { index, info ->
                         append("$index: ")
-                        append(info.toString())
+                        backgroundColor(Color.DKGRAY) {
+                            color(Color.WHITE) {
+                                append(info.toString())
+                            }
+                        }
                         appendLine()
                     }
                 }
