@@ -5,7 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.ui.text.format
-import de.rki.coronawarnapp.ccl.ui.text.urlResource
+import de.rki.coronawarnapp.ccl.ui.text.formatFaqAnchor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -40,17 +40,17 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
     }.catch { error ->
         // This should never happen due to checks on previous screen
         Timber.d(error, "No person found for $personIdentifierCode")
-        shouldClose.postValue(null)
+        shouldClose.postValue(Unit)
     }
     val uiState = uiStateFlow.asLiveData2()
 
     data class UiState(
         val boosterNotification: BoosterNotification
     ) {
-        val titleText = boosterNotification.titleText.format().orEmpty()
-        val subtitleText = boosterNotification.subtitleText.format().orEmpty()
-        val longText = boosterNotification.longText.format().orEmpty()
-        val faqUrl = urlResource(boosterNotification.faqAnchor).value
+        val titleText = boosterNotification.titleText.format()
+        val subtitleText = boosterNotification.subtitleText.format()
+        val longText = boosterNotification.longText.format()
+        val faqUrl = formatFaqAnchor(boosterNotification.faqAnchor)
     }
 
     @AssistedFactory
