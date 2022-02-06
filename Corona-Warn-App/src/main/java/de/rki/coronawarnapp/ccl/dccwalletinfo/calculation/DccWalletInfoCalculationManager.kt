@@ -54,12 +54,12 @@ class DccWalletInfoCalculationManager @Inject constructor(
      * Trigger [DccWalletInfo] calculation for specific person
      */
     suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
-        personCertificatesProvider.personCertificates.first().find {
-            it.personIdentifier == personIdentifier
-        }?.let {
-            initCalculation()
-            updateWalletInfoForPerson(it)
-        }
+        personCertificatesProvider.personCertificates.first()
+            .find { it.personIdentifier == personIdentifier }
+            ?.let {
+                initCalculation()
+                updateWalletInfoForPerson(it)
+            }
     }
 
     private suspend fun initCalculation() {
