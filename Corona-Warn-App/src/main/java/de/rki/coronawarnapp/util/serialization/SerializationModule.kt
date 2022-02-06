@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.util.serialization
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.joda.JodaModule
@@ -48,6 +49,7 @@ class SerializationModule {
         val jacksonBaseMapper: ObjectMapper by lazy {
             jsonMapper {
                 addModules(kotlinModule(), JodaModule())
+                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
         }
     }

@@ -68,7 +68,7 @@ internal class CCLJsonFunctionsTest : BaseTest() {
 
     private val cclConfiguration = CCLConfiguration(
         identifier = "CCL-DE-0001",
-        type = CCLConfiguration.Type.CCLConfiguration,
+        type = CCLConfiguration.Type.CCL_CONFIGURATION,
         country = "DE",
         version = "1.0.0",
         schemaVersion = "1.0.0",
