@@ -24,9 +24,7 @@ class DccWalletInfoUpdateTask @Inject constructor(
         return object : Task.Result {}
     }
 
-    override suspend fun cancel() {
-        // No-Op
-    }
+    override suspend fun cancel() = Unit
 
     class Config : TaskFactory.Config {
         override val executionTimeout: Duration = Duration.standardMinutes(9)
