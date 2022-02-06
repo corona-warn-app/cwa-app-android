@@ -26,7 +26,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     ) {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
-        Timber.d("triggerCalculation(persons=%s)", persons.size)
+        Timber.d("triggerCalculation() persons=%s", persons.size)
 
         val personGroupKeys = persons.mapNotNull { it.personIdentifier?.groupingKey }
         val dccWalletGroupKeys = dccWalletInfoRepository.personWallets.first().map { it.personGroupKey }
