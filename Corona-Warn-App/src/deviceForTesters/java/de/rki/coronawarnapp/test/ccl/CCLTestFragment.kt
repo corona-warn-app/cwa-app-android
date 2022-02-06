@@ -55,7 +55,7 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
 
             viewModel.dccWalletInfoList.observe2(this@CCLTestFragment) { infoList ->
                 val emoji = when (infoList.size) {
-                    viewModel.personIdentifiers.value?.size -> "✌️"
+                    viewModel.personIdentifiers.value?.size?.minus(1) -> "✌️"
                     else -> "\uD83D\uDC4E"
                 }
                 infoStatus.text = "Calculation status: %s".format(emoji)
