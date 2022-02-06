@@ -109,3 +109,7 @@
 
 ## WindowManager lib used in QRCode scanner (Prevent crash on foldable devices)
 -keep class androidx.window.** { *; }
+
+# Jackson Kotlin Module
+-keep class kotlin.Metadata { *; }
+-keep class kotlin.reflect.** { *; }
