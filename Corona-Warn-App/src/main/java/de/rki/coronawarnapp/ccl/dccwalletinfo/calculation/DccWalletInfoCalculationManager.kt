@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
@@ -21,9 +22,10 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val timeStamper: TimeStamper,
 ) {
 
-    suspend fun triggerCalculation(
-        configurationChanged: Boolean = true
-    ) {
+    /**
+     * Trigger [DccWalletInfo] calculation for all persons
+     */
+    suspend fun triggerCalculation(configurationChanged: Boolean = true) {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerCalculation() for [%d] persons", persons.size)
@@ -48,6 +50,9 @@ class DccWalletInfoCalculationManager @Inject constructor(
         }
     }
 
+    /**
+     * Trigger [DccWalletInfo] calculation for specific person
+     */
     suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
         personCertificatesProvider.personCertificates.first().find {
             it.personIdentifier == personIdentifier
