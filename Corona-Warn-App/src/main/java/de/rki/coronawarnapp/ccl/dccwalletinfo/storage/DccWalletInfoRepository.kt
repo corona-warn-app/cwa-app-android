@@ -43,6 +43,10 @@ class DccWalletInfoRepository @Inject constructor(
         )
     }
 
+    suspend fun delete(personIds: Set<String>) {
+        dccWalletInfoDao.deleteBy(personIds)
+    }
+
     fun clear() = appScope.launch {
         Timber.d("Delete all DccWalletInfo.")
         dccWalletInfoDao.deleteAll()

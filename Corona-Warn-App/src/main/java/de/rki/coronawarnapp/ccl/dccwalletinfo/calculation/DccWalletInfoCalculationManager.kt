@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,15 +24,25 @@ class DccWalletInfoCalculationManager @Inject constructor(
     suspend fun triggerCalculation(
         configurationChanged: Boolean = true
     ) {
-        Timber.d("triggerCalculation()")
-        val now = timeStamper.nowUTC
         initCalculation()
-        personCertificatesProvider.personCertificates.first().forEach {
+        val persons = personCertificatesProvider.personCertificates.first()
+        Timber.d("triggerCalculation(persons=%s)", persons.size)
+
+        val personGroupKeys = persons.mapNotNull { it.personIdentifier?.groupingKey }
+        val dccWalletGroupKeys = dccWalletInfoRepository.personWallets.first().map { it.personGroupKey }
+        val idsToClean = dccWalletGroupKeys subtract personGroupKeys
+        Timber.d("Cleaning DccWalletInfo for [%s] persons", idsToClean.size)
+        // Cleanup DccWalletInfo for persons who don't have certificates any longer
+        // Please note this is NOT affecting newly added persons who don't have DccWalletInfo yet
+        dccWalletInfoRepository.delete(idsToClean.toSet())
+
+        val now = timeStamper.nowUTC
+        persons.forEach { person ->
             if (configurationChanged ||
-                it.dccWalletInfo == null ||
-                it.dccWalletInfo.validUntilInstant.isBefore(now)
+                person.dccWalletInfo == null ||
+                person.dccWalletInfo.validUntilInstant.isBefore(now)
             ) {
-                updateWalletInfoForPerson(it)
+                updateWalletInfoForPerson(person)
             }
         }
     }
