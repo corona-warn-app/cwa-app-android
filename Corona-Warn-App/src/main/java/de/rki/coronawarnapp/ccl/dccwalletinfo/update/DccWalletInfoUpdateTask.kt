@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.task.TaskFactory.Config.ErrorHandling
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Started
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Duration
@@ -20,7 +21,9 @@ class DccWalletInfoUpdateTask @Inject constructor(
     override val progress: Flow<DefaultProgress> = taskProgress
 
     override suspend fun run(arguments: Task.Arguments): Task.Result {
-        dccWalletInfoCalculationManager.triggerCalculation()
+        arguments as Arguments
+        delay(arguments.startDelay) // To capture latest data before calculation
+        dccWalletInfoCalculationManager.triggerCalculation(arguments.configurationChanged)
         return object : Task.Result {}
     }
 
@@ -40,4 +43,9 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
         override val taskProvider: () -> Task<DefaultProgress, Task.Result> = { taskByDagger.get() }
     }
+
+    data class Arguments(
+        val startDelay: Long = 1_000L,
+        val configurationChanged: Boolean = true
+    ) : Task.Arguments
 }

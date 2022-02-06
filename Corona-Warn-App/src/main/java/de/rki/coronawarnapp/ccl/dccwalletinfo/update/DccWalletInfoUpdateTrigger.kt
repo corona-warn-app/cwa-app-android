@@ -14,7 +14,8 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         Timber.tag(TAG).d("triggerDccWalletInfoUpdate()")
         taskController.submit(
             DefaultTaskRequest(
-                DccWalletInfoUpdateTask::class,
+                type = DccWalletInfoUpdateTask::class,
+                arguments = DccWalletInfoUpdateTask.Arguments(),
                 originTag = TAG
             )
         )
