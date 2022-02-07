@@ -55,7 +55,6 @@ import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
 @ExtendWith(InstantExecutorExtension::class)
-@Disabled
 class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var vaccinationRepository: VaccinationRepository
