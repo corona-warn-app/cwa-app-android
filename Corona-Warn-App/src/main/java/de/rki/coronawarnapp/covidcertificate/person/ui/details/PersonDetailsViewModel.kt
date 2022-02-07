@@ -45,7 +45,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
-    private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     private val format: CCLTextFormatter,
