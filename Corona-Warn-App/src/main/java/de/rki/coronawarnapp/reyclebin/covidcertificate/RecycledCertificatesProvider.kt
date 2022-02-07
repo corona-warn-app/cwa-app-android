@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.covidcertificate
 
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -25,7 +25,7 @@ class RecycledCertificatesProvider @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
-    private val boosterCheckScheduler: BoosterCheckScheduler,
+    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     @AppScope appScope: CoroutineScope
 ) {
 
@@ -60,7 +60,7 @@ class RecycledCertificatesProvider @Inject constructor(
             is TestCertificateContainerId -> testCertificateRepository.restoreCertificate(containerId)
             is VaccinationCertificateContainerId -> vaccinationRepository.restoreCertificate(containerId)
         }
-        boosterCheckScheduler.scheduleNow()
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
     }
 
     suspend fun deleteCertificate(containerId: CertificateContainerId) {

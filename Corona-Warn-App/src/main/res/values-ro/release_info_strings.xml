@@ -16,37 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Note în cazul unui rezultat de test pozitiv"</item>
-        <item>"Statistica pentru vaccinările cu doza booster"</item>
-        <item>"Legătură către rețeaua de social media"</item>
-        <item>"Data de ștergere pentru conținutul coșului de reciclare"</item>
-        <item>"Notificare de risc crescut"</item>
+        <item>"Administrarea centrală a regulilor"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-       <item>"Notele și procedura recomandată în cazul unui rezultat de test pozitiv au fost revizuite."</item>
-       <item>"Pe lângă statistica pentru persoanele care au primit cel puțin o doză de vaccin și persoanele care s-au vaccinat complet, acum veți găsi și numărul de persoane care au primit doza booster."</item>
-       <item>"Dacă doriți să rămâneți la curent cu cele mai noi funcții ale aplicației Corona-Warn și să le discutați cu alte persoane, puteți urmări canalele noastre de social media. Acum veți găsi legătura către canalul de social media pe ecranul inițial, în secțiunea „Mai mult”."</item>
-       <item>"Fiecare element mutat în coșul de reciclare este șters definitiv după 30 de zile. Această dată de ștergere este afișată acum pentru fiecare element."</item>
-       <item>"Acum veți primi o notificare dacă aveți risc crescut de infectare, chiar dacă aplicația este deschisă. Scopul acesteia este de a vă împiedica să ignorați o avertizare de risc de pe tabul de stare dacă, în mod curent, utilizați un tab diferit. În plus, va apărea un punct roșu pe tabul de stare, până când deschideți din nou acest tab."</item>
+        <item>"Regulile pentru certificate (de exemplu, cu privire la valabilitate sau la prioritizare, atunci când sunt disponibile mai multe certificate) și pentru determinarea stării „G” (vaccinat, trecut prin boală, testat) au fost scoase din aplicația Corona-Warn. Acum, aceste reguli sunt stocate central și, astfel, pot fi ajustate independent de versiunile aplicației, ceea ce face posibilă reacționarea mai rapidă la schimbările de reguli. După o schimbare, regulile actualizate vor fi transferate automat la aplicație. Această administrare centrală a regulilor nu schimbă modul în care utilizați aplicația Corona-Warn."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

@@ -1570,7 +1570,7 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Напълно ваксинирани лица"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Лица с основна имунизация"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1588,7 +1588,7 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Брой на поставените дози ваксини в национален мащаб към настоящия момент."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Напълно ваксинирани лица"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Лица с основна имунизация"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили всички необходими дози ваксини за основна имунизация."</string>
     <!-- XTXT: Statistics number of people with booster title -->

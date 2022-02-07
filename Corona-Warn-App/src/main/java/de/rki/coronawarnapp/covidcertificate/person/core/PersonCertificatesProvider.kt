@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -23,6 +24,7 @@ class PersonCertificatesProvider @Inject constructor(
     vaccinationRepository: VaccinationRepository,
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
+    dccWalletInfoRepository: DccWalletInfoRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
     init {
@@ -31,16 +33,14 @@ class PersonCertificatesProvider @Inject constructor(
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
         vaccinationRepository.vaccinationInfos,
-        testCertificateRepository.certificates.map { testWrappers ->
-            testWrappers.mapNotNull { it.testCertificate }
-        },
-        recoveryCertificateRepository.certificates.map { recoveryWrappers ->
-            recoveryWrappers.map { it.recoveryCertificate }
-        },
+        testCertificateRepository.cwaCertificates,
+        recoveryCertificateRepository.cwaCertificates,
         personCertificatesSettings.currentCwaUser.flow,
-    ) { vaccPersons, tests, recoveries, cwaUser ->
+        dccWalletInfoRepository.personWallets
+    ) { vaccPersons, tests, recoveries, cwaUser, personWallets ->
         Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recoveries, cwaUser)
 
+        val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
         val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
 
@@ -62,7 +62,8 @@ class PersonCertificatesProvider @Inject constructor(
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
-                badgeCount = badgeCount
+                badgeCount = badgeCount,
+                dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
             )
         }.toSet()
     }.shareLatest(scope = appScope)
