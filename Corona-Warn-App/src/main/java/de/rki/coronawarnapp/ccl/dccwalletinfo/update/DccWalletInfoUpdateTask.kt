@@ -43,8 +43,8 @@ class DccWalletInfoUpdateTask @Inject constructor(
     override suspend fun cancel() = Unit
 
     data class Arguments(
-        val startDelay: Long = 1_000L,
-        val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType
+        val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType,
+        val startDelay: Long = 1_000L
     ) : Task.Arguments
 
     sealed class DccWalletInfoUpdateTriggerType {
