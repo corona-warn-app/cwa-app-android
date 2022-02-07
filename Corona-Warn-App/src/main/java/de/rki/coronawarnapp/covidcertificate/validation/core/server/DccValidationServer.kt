@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.retrofit.wasModified
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
@@ -152,10 +153,10 @@ class DccValidationServer @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getSource(response: Response<ResponseBody>) = if (response.notModified()) {
-        RuleSetSource.CACHE
-    } else {
+    fun getSource(response: Response<ResponseBody>) = if (response.wasModified) {
         RuleSetSource.SERVER
+    } else {
+        RuleSetSource.CACHE
     }
 
     data class RuleSetResult(
@@ -166,8 +167,6 @@ class DccValidationServer @Inject constructor(
     enum class RuleSetSource {
         SERVER, CACHE
     }
-
-    private fun Response<ResponseBody>.notModified() = this.raw().networkResponse?.code == 304
 
     companion object {
         private const val EXPORT_BINARY_FILE_NAME = "export.bin"

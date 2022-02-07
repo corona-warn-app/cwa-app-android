@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.joda.time.Instant
 import timber.log.Timber
@@ -60,11 +59,7 @@ class CCLConfigurationUpdater @Inject constructor(
         return coroutineScope {
             val newBoosterRulesDownloaded = async { boosterRulesRepository.update() }
             val newCclConfigDownloaded = async { cclConfigurationRepository.updateCCLConfiguration() }
-
-            return@coroutineScope listOf(
-                newBoosterRulesDownloaded,
-                newCclConfigDownloaded
-            ).awaitAll().any { downloaded -> downloaded }
+            newBoosterRulesDownloaded.await() or newCclConfigDownloaded.await()
         }
     }
 }

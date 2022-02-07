@@ -57,17 +57,12 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 "Person identifier is null. Cannot proceed."
             }
 
-            val oldWalletInfo = dccWalletInfoRepository.getWalletInfoForPerson(personIdentifier) ?: run {
-                Timber.d("No oldWalletInfo found.")
-                null
-            }
-
             val newWalletInfo = calculation.getDccWalletInfo(person.certificates)
 
             boosterNotificationService.notifyIfNecessary(
-                personIdentifier,
-                oldWalletInfo,
-                newWalletInfo
+                personIdentifier = personIdentifier,
+                oldWalletInfo = person.dccWalletInfo,
+                newWalletInfo = newWalletInfo
             )
 
             dccWalletInfoRepository.save(

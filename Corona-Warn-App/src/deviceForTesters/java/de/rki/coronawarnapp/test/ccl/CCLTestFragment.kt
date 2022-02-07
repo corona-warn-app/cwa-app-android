@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import androidx.core.text.buildSpannedString
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
 import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Loading
-import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Success
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -63,15 +63,9 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
         }
 
         viewModel.forceUpdateUiState.observe(viewLifecycleOwner) { uiState ->
-            when (uiState) {
-                Loading -> {
-                    binding.forceUpdateProgressBar.visibility = View.VISIBLE
-                    binding.forceUpdateCclConfigurationInfo.visibility = View.INVISIBLE
-                }
-                Success -> {
-                    binding.forceUpdateProgressBar.visibility = View.INVISIBLE
-                    binding.forceUpdateCclConfigurationInfo.visibility = View.VISIBLE
-                }
+            with(binding) {
+                forceUpdateProgressBar.isVisible = uiState is Loading
+                forceUpdateCclConfigurationInfo.isVisible = uiState !is Loading
             }
         }
     }
