@@ -14,12 +14,12 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import testhelpers.coroutines.runBlockingTest2
 
 internal class CCLJsonFunctionsTest : BaseTest() {
 
@@ -81,38 +81,36 @@ internal class CCLJsonFunctionsTest : BaseTest() {
 
     @MockK private lateinit var cclConfigurationRepository: CCLConfigurationRepository
 
+    private var cclConfigurationFlow = MutableStateFlow(listOf(cclConfiguration))
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclConfigurationRepository.getCCLConfigurations() } returns listOf(cclConfiguration)
+        coEvery { cclConfigurationRepository.cclConfigurations } returns cclConfigurationFlow
     }
 
     @Test
-    fun update() = runBlockingTest {
-        val jfnDescriptor = JsonFunctionsDescriptor(
-            name = "sayHi",
-            definition = FunctionDefinition(
-                parameters = listOf(param1, param2),
-                logic = listOf(jfnLogic)
-            )
-        )
-        val newConfig = cclConfiguration.copy(logic = CCLConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor)))
-        instance(scope = this).apply {
-            update(listOf(newConfig))
-            evaluateFunction("sayHi", param).asText() shouldBe "Hello Android!"
-            shouldThrow<NoSuchFunctionException> {
-                evaluateFunction("greet", param)
-            }.printStackTrace()
-        }
-    }
-
-    @Test
-    fun evaluateFunction() = runBlockingTest {
+    fun evaluateFunction() = runBlockingTest2(ignoreActive = true) {
         instance(this).apply {
             evaluateFunction("greet", param).asText() shouldBe "Hello Android!"
             shouldThrow<NoSuchFunctionException> {
                 evaluateFunction("sayHi", param)
-            }.printStackTrace()
+            }
+
+            val jfnDescriptor = JsonFunctionsDescriptor(
+                name = "sayHi",
+                definition = FunctionDefinition(
+                    parameters = listOf(param1, param2),
+                    logic = listOf(jfnLogic)
+                )
+            )
+            val newConfig =
+                cclConfiguration.copy(logic = CCLConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor)))
+            cclConfigurationFlow.value = listOf(newConfig)
+            evaluateFunction("sayHi", param).asText() shouldBe "Hello Android!"
+            shouldThrow<NoSuchFunctionException> {
+                evaluateFunction("greet", param)
+            }
         }
     }
 

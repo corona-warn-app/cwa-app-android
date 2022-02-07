@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
@@ -25,12 +27,30 @@ class DccWalletInfoUpdateTask @Inject constructor(
     override suspend fun run(arguments: Task.Arguments): Task.Result {
         arguments as Arguments
         delay(arguments.startDelay) // To capture latest data before calculation
-        dccWalletInfoCalculationManager.triggerCalculation(arguments.configurationChanged)
+        when (val trigger = arguments.dccWalletInfoUpdateTriggerType) {
+            is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
+                configurationChanged = trigger.configurationChanged
+            )
+            is TriggeredAfterCertificateChange ->
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+        }
+
         dccWalletInfoCleaner.clean()
+
         return object : Task.Result {}
     }
 
     override suspend fun cancel() = Unit
+
+    data class Arguments(
+        val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType,
+        val startDelay: Long = 1_000L
+    ) : Task.Arguments
+
+    sealed class DccWalletInfoUpdateTriggerType {
+        object TriggeredAfterCertificateChange : DccWalletInfoUpdateTriggerType()
+        data class TriggeredAfterConfigUpdate(val configurationChanged: Boolean) : DccWalletInfoUpdateTriggerType()
+    }
 
     class Config : TaskFactory.Config {
         override val executionTimeout: Duration = Duration.standardMinutes(9)
@@ -46,9 +66,4 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
         override val taskProvider: () -> Task<DefaultProgress, Task.Result> = { taskByDagger.get() }
     }
-
-    data class Arguments(
-        val startDelay: Long = 1_000L,
-        val configurationChanged: Boolean = true
-    ) : Task.Arguments
 }

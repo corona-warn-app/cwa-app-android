@@ -62,6 +62,10 @@ class DccValidationRepositoryTest : BaseTest() {
                 }
             ]
         """.trimIndent()
+
+    private val testAcceptanceRulesResult =
+        DccValidationServer.RuleSetResult(testAcceptanceRulesData, DccValidationServer.RuleSetSource.SERVER)
+
     private val testInvalidationRulesData =
         """
             [
@@ -96,6 +100,9 @@ class DccValidationRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
+    private val testInvalidationRulesResult =
+        DccValidationServer.RuleSetResult(testInvalidationRulesData, DccValidationServer.RuleSetSource.SERVER)
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -111,8 +118,8 @@ class DccValidationRepositoryTest : BaseTest() {
 
         server.apply {
             coEvery { dccCountryJson() } returns testCountryData
-            coEvery { ruleSetJson(Type.ACCEPTANCE) } returns testAcceptanceRulesData
-            coEvery { ruleSetJson(Type.INVALIDATION) } returns testInvalidationRulesData
+            coEvery { ruleSetJson(Type.ACCEPTANCE) } returns testAcceptanceRulesResult
+            coEvery { ruleSetJson(Type.INVALIDATION) } returns testInvalidationRulesResult
         }
     }
 
@@ -217,7 +224,8 @@ class DccValidationRepositoryTest : BaseTest() {
     @Test
     fun `bad acceptance rules yields exception`() = runBlockingTest2(ignoreActive = true) {
         // Missing attributes
-        coEvery { server.ruleSetJson(Type.ACCEPTANCE) } returns """
+        coEvery { server.ruleSetJson(Type.ACCEPTANCE) } returns DccValidationServer.RuleSetResult(
+            ruleSetJson = """
             [
                 {
                     "Type": "Acceptance",
@@ -229,7 +237,9 @@ class DccValidationRepositoryTest : BaseTest() {
                     "SchemaVersion": "1.0.0",
                 }
             ]
-        """.trimIndent()
+            """.trimIndent(),
+            source = DccValidationServer.RuleSetSource.SERVER
+        )
 
         val instance = createInstance(this)
 
@@ -252,19 +262,22 @@ class DccValidationRepositoryTest : BaseTest() {
     @Test
     fun `bad invaldation rules yields exception`() = runBlockingTest2(ignoreActive = true) {
         // Missing attributes
-        coEvery { server.ruleSetJson(Type.INVALIDATION) } returns """
-            [
-                {
-                    "Type": "Invalidation",
-                    "Engine": "CERTLOGIC",
-                    "Country": "LT",
-                    "Version": "1.0.0",
-                    "Identifier": "VR-LT-0000",
-                    "EngineVersion": "1.0.0",
-                    "SchemaVersion": "1.0.0",
-                }
-            ]
-        """.trimIndent()
+        coEvery { server.ruleSetJson(Type.INVALIDATION) } returns DccValidationServer.RuleSetResult(
+            ruleSetJson = """
+                        [
+                            {
+                                "Type": "Invalidation",
+                                "Engine": "CERTLOGIC",
+                                "Country": "LT",
+                                "Version": "1.0.0",
+                                "Identifier": "VR-LT-0000",
+                                "EngineVersion": "1.0.0",
+                                "SchemaVersion": "1.0.0",
+                            }
+                        ]
+            """.trimIndent(),
+            source = DccValidationServer.RuleSetSource.SERVER
+        )
         shouldThrow<DccValidationException> {
             createInstance(this).refresh()
         }.errorCode shouldBe DccValidationException.ErrorCode.INVALIDATION_RULE_JSON_DECODING_FAILED

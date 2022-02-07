@@ -24,7 +24,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     /**
      * Trigger [DccWalletInfo] calculation for all persons
      */
-    suspend fun triggerCalculation(configurationChanged: Boolean = true) {
+    suspend fun triggerCalculationAfterConfigChange(configurationChanged: Boolean = true) {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerCalculation() for [%d] persons", persons.size)
@@ -36,6 +36,12 @@ class DccWalletInfoCalculationManager @Inject constructor(
             ) {
                 updateWalletInfoForPerson(person)
             }
+        }
+    }
+
+    suspend fun triggerCalculationAfterCertificateChange() {
+        personCertificatesProvider.personCertificates.first().forEach {
+            updateWalletInfoForPerson(it)
         }
     }
 
@@ -59,17 +65,22 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
         try {
-            val walletInfo = calculation.getDccWalletInfo(person.certificates)
-            dccWalletInfoRepository.save(
-                person.personIdentifier ?: return,
-                walletInfo
+            val personIdentifier = checkNotNull(person.personIdentifier) {
+                "Person identifier is null. Cannot proceed."
+            }
+
+            val newWalletInfo = calculation.getDccWalletInfo(person.certificates)
+
+            boosterNotificationService.notifyIfNecessary(
+                personIdentifier = personIdentifier,
+                oldWalletInfo = person.dccWalletInfo,
+                newWalletInfo = newWalletInfo
             )
-            // TODO add when merged
-//            boosterNotificationService.notifyIfNecessary(
-//                personIdentifier = person.personIdentifier,
-//                oldWalletInfo = person.dccWalletInfo,
-//                newWalletInfo = walletInfo,
-//            )
+
+            dccWalletInfoRepository.save(
+                personIdentifier,
+                newWalletInfo
+            )
         } catch (e: Exception) {
             Timber.e(e, "Failed to calculate DccWalletInfo for ${person.personIdentifier}")
         }
