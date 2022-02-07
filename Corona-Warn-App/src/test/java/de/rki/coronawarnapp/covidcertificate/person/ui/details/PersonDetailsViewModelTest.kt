@@ -129,17 +129,12 @@ class PersonDetailsViewModelTest : BaseTest() {
                     it.certificateItems.run {
                         get(0) as PersonDetailsQrCard.Item
 
-                        get(1) as BoosterCard.Item
-
-                        get(2) as ConfirmedStatusCard.Item
-
-                        get(3) as VaccinationInfoCard.Item
-
-                        (get(4) as CwaUserCard.Item).apply {
+                        (get(1) as CwaUserCard.Item).apply {
                             onSwitch(true)
                             coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }
                         }
-                        (get(5) as RecoveryCertificateCard.Item).apply {
+
+                        (get(2) as RecoveryCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
                                 rcContainerId,
@@ -147,7 +142,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(6) as TestCertificateCard.Item).apply {
+                        (get(3) as TestCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(
                                 tcsContainerId,
@@ -155,7 +150,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(7) as VaccinationCertificateCard.Item).apply {
+                        (get(4) as VaccinationCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
@@ -163,7 +158,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(8) as VaccinationCertificateCard.Item).apply {
+                        (get(5) as VaccinationCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
@@ -227,6 +222,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isSeriesCompletingShot } returns final
+            every { headerIssuedAt } returns Instant.EPOCH
             every { isDisplayValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
@@ -242,6 +238,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { containerId } returns rcContainerId
             every { fullName } returns "Andrea Schneider"
             every { isDisplayValid } returns true
+            every { validFrom } returns LocalDate.now()
             every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
                 every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {
                     every { validFrom } returns LocalDate.now()
