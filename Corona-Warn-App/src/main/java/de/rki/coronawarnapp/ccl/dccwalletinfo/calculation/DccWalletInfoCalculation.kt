@@ -13,16 +13,19 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfoInput
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
 import javax.inject.Inject
 
 class DccWalletInfoCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @BaseGson private val gson: Gson,
-    private val cclJsonFunctions: CclJsonFunctions,
+    private val cclJsonFunctions: CCLJsonFunctions,
+    private val dispatcherProvider: DispatcherProvider
 ) {
 
     private var boosterRulesNode: JsonNode = NullNode.instance
@@ -31,23 +34,21 @@ class DccWalletInfoCalculation @Inject constructor(
         boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
     }
 
-    fun getDccWalletInfo(
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun getDccWalletInfo(
         dccList: List<CwaCovidCertificate>,
         dateTime: DateTime = DateTime.now()
-    ): DccWalletInfo {
+    ): DccWalletInfo = withContext(dispatcherProvider.IO) {
+        val output = cclJsonFunctions.evaluateFunction(
+            FUNCTION_NAME,
+            getDccWalletInfoInput(
+                dccList = dccList,
+                boosterNotificationRules = boosterRulesNode,
+                defaultInputParameters = getDefaultInputParameters(dateTime)
+            ).toJsonNode()
+        )
 
-        val output: JsonNode
-        runBlocking {
-            output = cclJsonFunctions.evaluateFunction(
-                FUNCTION_NAME,
-                getDccWalletInfoInput(
-                    dccList = dccList,
-                    boosterNotificationRules = boosterRulesNode,
-                    defaultInputParameters = getDefaultInputParameters(dateTime)
-                ).toJsonNode()
-            )
-        }
-        return mapper.treeToValue(output, DccWalletInfo::class.java)
+        mapper.treeToValue(output, DccWalletInfo::class.java)
     }
 
     @VisibleForTesting
@@ -72,16 +73,14 @@ class DccWalletInfoCalculation @Inject constructor(
     )
 
     private fun List<CwaCovidCertificate>.toCclCertificateList(): List<CclCertificate> {
-        return filter {
-            it.getState() != CwaCovidCertificate.State.Recycled
-        }.map {
+        return map {
             CclCertificate(
                 barcodeData = it.qrCodeToDisplay.content,
                 cose = Cose(it.dccData.kid),
                 cwt = Cwt(
                     iss = it.headerIssuer,
-                    iat = it.headerIssuedAt.millis / 1000,
-                    exp = it.headerExpiresAt.millis / 1000
+                    iat = it.headerIssuedAt.seconds,
+                    exp = it.headerExpiresAt.seconds
                 ),
                 hcert = it.dccData.certificateJson.toJsonNode(),
                 validityState = it.getState().toCclState()
