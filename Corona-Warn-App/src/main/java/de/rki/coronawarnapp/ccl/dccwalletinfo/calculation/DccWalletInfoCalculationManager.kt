@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 

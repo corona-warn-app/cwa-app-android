@@ -68,7 +68,6 @@ internal class DccWalletInfoCleanerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-
         every { personCertificatesProvider.personCertificates } returns flowOf(
             setOf(
                 person1,

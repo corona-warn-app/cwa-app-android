@@ -129,7 +129,6 @@ class CCLTextFormatter @Inject constructor(
             DateTime.parse(value.toString()).toString(
                 DateTimeFormat.shortDateTime().withZoneUTC().withLocale(locale)
             )
-
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDateTime() failed")
             ""
