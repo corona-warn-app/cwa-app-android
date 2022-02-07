@@ -126,9 +126,12 @@ class CCLTextFormatter @Inject constructor(
 
     private fun Parameters.toUTCDateTime(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDateTime().withZoneUTC().withLocale(locale)
-            )
+            DateTime.parse(value.toString()).run {
+                "%s, %s".format(
+                    toString(DateTimeFormat.shortDate().withZoneUTC().withLocale(locale)),
+                    toString(DateTimeFormat.shortTime().withZoneUTC().withLocale(locale)),
+                )
+            }
         }.getOrElse {
             Timber.e(it, "Parameters.toUTCDateTime() failed")
             ""
@@ -148,9 +151,12 @@ class CCLTextFormatter @Inject constructor(
 
     private fun Parameters.toLocalDateTime(locale: Locale): String {
         return runCatching {
-            DateTime.parse(value.toString()).toString(
-                DateTimeFormat.shortDateTime().withZone(DateTimeZone.getDefault()).withLocale(locale)
-            )
+            DateTime.parse(value.toString()).run {
+                "%s, %s".format(
+                    toString(DateTimeFormat.shortDate().withZone(DateTimeZone.getDefault()).withLocale(locale)),
+                    toString(DateTimeFormat.shortTime().withZone(DateTimeZone.getDefault()).withLocale(locale)),
+                )
+            }
         }.getOrElse {
             Timber.e(it, "Parameters.toLocalDateTime() failed")
             ""
