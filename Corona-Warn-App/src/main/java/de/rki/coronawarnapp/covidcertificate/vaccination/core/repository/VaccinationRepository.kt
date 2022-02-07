@@ -16,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -433,18 +432,6 @@ class VaccinationRepository @Inject constructor(
                 )
             )
             this.minus(toUpdatePerson).plus(newPerson)
-        }
-    }
-
-    private fun dccValidationRule(
-        boosterRules: Map<String, DccValidationRule>,
-        personContainer: VaccinatedPersonData
-    ): DccValidationRule? {
-        val boosterRuleIdentifier = personContainer.boosterRuleIdentifier
-        return if (boosterRuleIdentifier == null) {
-            null
-        } else {
-            boosterRules.getOrDefault(boosterRuleIdentifier, null)
         }
     }
 
