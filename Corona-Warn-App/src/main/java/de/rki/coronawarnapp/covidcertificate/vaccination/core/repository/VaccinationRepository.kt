@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -49,7 +48,6 @@ class VaccinationRepository @Inject constructor(
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
     @AppScope private val appScope: CoroutineScope,
-    private val boosterRulesRepository: BoosterRulesRepository,
     dscRepository: DscRepository
 ) {
 
@@ -87,16 +85,14 @@ class VaccinationRepository @Inject constructor(
     val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
-        dscRepository.dscData,
-        boosterRulesRepository.rules
-    ) { personDatas, currentValueSet, _, boosterRules ->
-        val rulesMap = boosterRules.associateBy { it.identifier }
+        dscRepository.dscData
+    ) { personDatas, currentValueSet, _ ->
         personDatas.map { person ->
             val stateMap = person.data.getStates()
             person.copy(
                 valueSet = currentValueSet,
                 certificateStates = stateMap,
-                data = person.data.copy(boosterRule = dccValidationRule(rulesMap, person.data))
+                data = person.data
             )
         }.toSet().also { Timber.d("Test: $it") }
     }

@@ -25,17 +25,13 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
@@ -49,8 +45,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
-    private val timeStamper: TimeStamper,
-    @AppScope private val appScope: CoroutineScope,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade
 ) : CWAViewModel(dispatcherProvider) {
@@ -189,7 +183,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun MutableList<CertificateItem>.addCardItem(
+    private fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate
     ) {
@@ -206,13 +200,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 }
             )
             is VaccinationCertificate -> {
-                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC) ?: INCOMPLETE
                 add(
                     VaccinationCertificateCard.Item(
                         certificate = certificate,
                         isCurrentCertificate = isCurrentCertificate,
-                        colorShade = colorShade,
-                        status = status
+                        colorShade = colorShade
                     ) {
                         events.postValue(
                             OpenVaccinationCertificateDetails(

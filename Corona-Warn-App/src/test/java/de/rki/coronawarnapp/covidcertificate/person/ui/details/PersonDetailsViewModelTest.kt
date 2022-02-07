@@ -40,7 +40,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -114,12 +113,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH
         val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
             every { vaccinationCertificates } returns setOf(vaccCert1, vaccCert2)
-            every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
-            every { getDaysUntilImmunity(any()) } returns null
-            every { getDaysSinceLastVaccination() } returns 21
-            every { boosterRule } returns null
             every { identifier } returns certificatePersonIdentifier
-            every { hasBoosterNotification } returns false
         }
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
@@ -181,11 +175,9 @@ class PersonDetailsViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         vaccinationRepository = vaccinationRepository,
         dccValidationRepository = dccValidationRepository,
-        timeStamper = timeStamper,
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
-        colorShade = PersonColorShade.COLOR_1,
-        appScope = TestCoroutineScope()
+        colorShade = PersonColorShade.COLOR_1
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
