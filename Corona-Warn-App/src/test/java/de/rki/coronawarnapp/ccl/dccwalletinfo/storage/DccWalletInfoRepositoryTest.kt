@@ -32,6 +32,7 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
         every { dao.getAll() } returns flowOf(listOf())
         coEvery { dao.deleteAll() } just Runs
         coEvery { dao.insert(any()) } just Runs
+        coEvery { dao.deleteBy(any()) } just Runs
     }
 
     @Test
@@ -60,6 +61,14 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
         repo(this).clear()
         coVerify {
             dao.deleteAll()
+        }
+    }
+
+    @Test
+    fun delete() = runBlockingTest {
+        repo(this).delete(setOf("id"))
+        coVerify {
+            dao.deleteBy(any())
         }
     }
 

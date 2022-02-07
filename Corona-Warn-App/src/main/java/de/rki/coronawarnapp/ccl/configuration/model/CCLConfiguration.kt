@@ -47,7 +47,7 @@ data class CCLConfiguration(
 
     enum class Type {
         @JsonProperty("CCLConfiguration")
-        CCLConfiguration
+        CCL_CONFIGURATION
     }
 
     data class Logic(

@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -29,6 +31,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationReposi
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.ui.observeOnce
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -40,7 +43,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScope
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
@@ -60,6 +62,9 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var viewModel: PersonDetailsViewModel
+    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    private val mapper = SerializationModule.jacksonBaseMapper
+
     private val vcContainerId = VaccinationCertificateContainerId("1")
     private val tcsContainerId = TestCertificateContainerId("2")
     private val rcContainerId = RecoveryCertificateContainerId("3")
@@ -185,7 +190,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
-        appScope = TestCoroutineScope()
+        format = CCLTextFormatter(cclJsonFunctions, mapper)
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
