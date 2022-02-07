@@ -15,14 +15,14 @@ import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Test
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 internal class DccWalletInfoCleanerTest : BaseTest() {
 
-    @MockK private lateinit var personCertificatesProvider: PersonCertificatesProvider
-    @MockK private lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK  lateinit var personCertificatesProvider: PersonCertificatesProvider
+    @MockK  lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     private val personIdentifier1 = CertificatePersonIdentifier(
         firstNameStandardized = "A",
@@ -83,7 +83,7 @@ internal class DccWalletInfoCleanerTest : BaseTest() {
                 PersonWalletInfo(person4.personIdentifier!!.groupingKey, null),
             )
         )
-        coEvery { dccWalletInfoRepository.delete(any()) } just Runs
+        coEvery { dccWalletInfoRepository.delete(setOf("04.01.2020#DD#D")) } just Runs
     }
 
     @Test
@@ -94,7 +94,7 @@ internal class DccWalletInfoCleanerTest : BaseTest() {
         ).clean()
 
         coVerify {
-            dccWalletInfoRepository.delete(setOf(person4.personIdentifier!!.groupingKey))
+            dccWalletInfoRepository.delete(setOf("04.01.2020#DD#D"))
         }
     }
 }
