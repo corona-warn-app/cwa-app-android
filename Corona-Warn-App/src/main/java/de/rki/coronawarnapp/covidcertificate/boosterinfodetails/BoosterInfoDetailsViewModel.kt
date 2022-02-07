@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.boosterinfodetails
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getCclLanguage
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -39,10 +38,7 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
             titleText = format(boosterNotification.titleText),
             subtitleText = format(boosterNotification.subtitleText),
             longText = format(boosterNotification.longText),
-            faqUrl = format(
-                boosterNotification.faqAnchor,
-                language = getCclLanguage()
-            )
+            faqUrl = format(boosterNotification.faqAnchor)
         )
     }.catch { error ->
         // This should never happen due to checks on previous screen

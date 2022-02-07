@@ -52,7 +52,7 @@ class CCLTextFormatter @Inject constructor(
      */
     operator fun invoke(
         faqAnchor: String?,
-        language: String
+        language: String = getCclLanguage()
     ) = when {
         faqAnchor.isNullOrBlank() -> null
         else -> {
