@@ -26,7 +26,8 @@ class DccWalletInfoUpdateTask @Inject constructor(
             is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
                 configurationChanged = trigger.configurationChanged
             )
-            is TriggeredAfterCertificateChange -> dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+            is TriggeredAfterCertificateChange ->
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
         }
 
         return object : Task.Result {}
