@@ -1,9 +1,11 @@
 package de.rki.coronawarnapp.util.serialization
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
+import com.fasterxml.jackson.module.kotlin.jsonMapper
+import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -44,11 +46,11 @@ class SerializationModule {
     fun jacksonObjectMapper() = jacksonBaseMapper
 
     companion object {
-        // For access in parcelers, e.g. [DccValidationRule.LogicParceler]
         val jacksonBaseMapper: ObjectMapper by lazy {
-            ObjectMapper()
-                .registerModule(JodaModule())
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            jsonMapper {
+                addModules(kotlinModule(), JodaModule())
+                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            }
         }
     }
 }

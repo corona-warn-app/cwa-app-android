@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
@@ -20,18 +21,20 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val timeStamper: TimeStamper,
 ) {
 
-    suspend fun triggerCalculationAfterConfigChange(
-        configurationChanged: Boolean = true
-    ) {
-        Timber.d("triggerCalculation()")
-        val now = timeStamper.nowUTC
+    /**
+     * Trigger [DccWalletInfo] calculation for all persons
+     */
+    suspend fun triggerCalculationAfterConfigChange(configurationChanged: Boolean = true) {
         initCalculation()
-        personCertificatesProvider.personCertificates.first().forEach {
+        val persons = personCertificatesProvider.personCertificates.first()
+        Timber.d("triggerCalculation() for [%d] persons", persons.size)
+        val now = timeStamper.nowUTC
+        persons.forEach { person ->
             if (configurationChanged ||
-                it.dccWalletInfo == null ||
-                it.dccWalletInfo.validUntilInstant.isBefore(now)
+                person.dccWalletInfo == null ||
+                person.dccWalletInfo.validUntilInstant.isBefore(now)
             ) {
-                updateWalletInfoForPerson(it)
+                updateWalletInfoForPerson(person)
             }
         }
     }
@@ -42,13 +45,16 @@ class DccWalletInfoCalculationManager @Inject constructor(
         }
     }
 
+    /**
+     * Trigger [DccWalletInfo] calculation for specific person
+     */
     suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
-        personCertificatesProvider.personCertificates.first().find {
-            it.personIdentifier == personIdentifier
-        }?.let {
-            initCalculation()
-            updateWalletInfoForPerson(it)
-        }
+        personCertificatesProvider.personCertificates.first()
+            .find { it.personIdentifier == personIdentifier }
+            ?.let {
+                initCalculation()
+                updateWalletInfoForPerson(it)
+            }
     }
 
     private suspend fun initCalculation() {

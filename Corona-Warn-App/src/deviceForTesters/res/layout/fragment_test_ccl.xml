@@ -31,12 +31,13 @@
 
             <RadioGroup
                 android:id="@+id/radio_group"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <Button
                 android:id="@+id/calc_dcc_wallet_info"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
@@ -44,11 +45,23 @@
 
             <Button
                 android:id="@+id/clear_dcc_wallet_info"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Clear DccWalletInfo" />
 
+
+            <TextView
+                android:id="@+id/info_status"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Calculation status:"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -57,7 +70,9 @@
                 <TextView
                     android:id="@+id/dccWalletInfoList"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textIsSelectable="true" />
 
             </HorizontalScrollView>
         </LinearLayout>

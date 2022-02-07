@@ -36,8 +36,10 @@ class CCLTestViewModel @AssistedInject constructor(
         val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
         allCerts.map { it.personIdentifier }
             .distinct()
-            .map { PersonIdentifierSelection.Selected(it) } +
-            PersonIdentifierSelection.All
+            .map { PersonIdentifierSelection.Selected(it) }
+            .toMutableList<PersonIdentifierSelection>()
+            .apply { add(0, PersonIdentifierSelection.All) }
+            .toList()
     }.asLiveData2()
 
     val forceUpdateUiState = MutableLiveData<ForceUpdateUiState>()
