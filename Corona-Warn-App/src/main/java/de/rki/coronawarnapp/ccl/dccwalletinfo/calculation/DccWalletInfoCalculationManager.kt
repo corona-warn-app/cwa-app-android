@@ -20,7 +20,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val timeStamper: TimeStamper,
 ) {
 
-    suspend fun triggerCalculation(
+    suspend fun triggerCalculationAfterConfigChange(
         configurationChanged: Boolean = true
     ) {
         Timber.d("triggerCalculation()")
@@ -33,6 +33,12 @@ class DccWalletInfoCalculationManager @Inject constructor(
             ) {
                 updateWalletInfoForPerson(it)
             }
+        }
+    }
+
+    suspend fun triggerCalculationAfterCertificateChange() {
+        personCertificatesProvider.personCertificates.first().forEach {
+            updateWalletInfoForPerson(it)
         }
     }
 

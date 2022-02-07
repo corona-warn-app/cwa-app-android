@@ -120,7 +120,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         val error = refreshResults.mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
         if (refreshResults.any { it.error == null }) {
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 

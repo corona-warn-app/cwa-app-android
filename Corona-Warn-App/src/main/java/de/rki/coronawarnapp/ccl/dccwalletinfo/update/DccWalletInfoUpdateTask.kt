@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
@@ -20,8 +22,13 @@ class DccWalletInfoUpdateTask @Inject constructor(
     override val progress: Flow<DefaultProgress> = taskProgress
 
     override suspend fun run(arguments: Task.Arguments): Task.Result {
-        val configurationChanged = (arguments as? Arguments)?.configurationChanged ?: false
-        dccWalletInfoCalculationManager.triggerCalculation(configurationChanged = configurationChanged)
+        when (val trigger = (arguments as Arguments).dccWalletInfoUpdateTriggerType) {
+            is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
+                configurationChanged = trigger.configurationChanged
+            )
+            is TriggeredAfterCertificateChange -> dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+        }
+
         return object : Task.Result {}
     }
 
@@ -30,8 +37,13 @@ class DccWalletInfoUpdateTask @Inject constructor(
     }
 
     class Arguments(
-        val configurationChanged: Boolean
+        val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType
     ) : Task.Arguments
+
+    sealed class DccWalletInfoUpdateTriggerType {
+        object TriggeredAfterCertificateChange : DccWalletInfoUpdateTriggerType()
+        data class TriggeredAfterConfigUpdate(val configurationChanged: Boolean) : DccWalletInfoUpdateTriggerType()
+    }
 
     class Config : TaskFactory.Config {
         override val executionTimeout: Duration = Duration.standardMinutes(9)

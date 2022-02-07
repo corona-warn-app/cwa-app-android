@@ -43,7 +43,7 @@ class CCLConfigurationUpdater @Inject constructor(
 
     private suspend fun updateAndTriggerRecalculation() {
         val updated = updateConfiguration()
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate(updated)
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(updated)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
