@@ -16,7 +16,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterConfigUpdate()")
         taskController.submit(
             DefaultTaskRequest(
-                DccWalletInfoUpdateTask::class,
+                type = DccWalletInfoUpdateTask::class,
                 arguments = DccWalletInfoUpdateTask.Arguments(
                     TriggeredAfterConfigUpdate(
                         configurationChanged
@@ -31,7 +31,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterCertificateChange()")
         taskController.submit(
             DefaultTaskRequest(
-                DccWalletInfoUpdateTask::class,
+                type = DccWalletInfoUpdateTask::class,
                 arguments = DccWalletInfoUpdateTask.Arguments(TriggeredAfterCertificateChange),
                 originTag = TAG
             )
