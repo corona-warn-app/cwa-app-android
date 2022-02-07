@@ -21,8 +21,8 @@ import testhelpers.BaseTest
 
 internal class DccWalletInfoCleanerTest : BaseTest() {
 
-    @MockK  lateinit var personCertificatesProvider: PersonCertificatesProvider
-    @MockK  lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     private val personIdentifier1 = CertificatePersonIdentifier(
         firstNameStandardized = "A",
