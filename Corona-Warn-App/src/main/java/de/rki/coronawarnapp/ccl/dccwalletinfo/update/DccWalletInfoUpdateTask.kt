@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
@@ -16,6 +17,7 @@ import javax.inject.Provider
 
 class DccWalletInfoUpdateTask @Inject constructor(
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
+    private val dccWalletInfoCleaner: DccWalletInfoCleaner,
 ) : Task<DefaultProgress, Task.Result> {
     private val taskProgress = MutableStateFlow<DefaultProgress>(Started)
     override val progress: Flow<DefaultProgress> = taskProgress
@@ -24,6 +26,7 @@ class DccWalletInfoUpdateTask @Inject constructor(
         arguments as Arguments
         delay(arguments.startDelay) // To capture latest data before calculation
         dccWalletInfoCalculationManager.triggerCalculation(arguments.configurationChanged)
+        dccWalletInfoCleaner.clean()
         return object : Task.Result {}
     }
 

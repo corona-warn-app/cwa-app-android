@@ -29,16 +29,6 @@ class DccWalletInfoCalculationManager @Inject constructor(
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerCalculation() for [%d] persons", persons.size)
-
-        val personGroupKeys = persons.mapNotNull { it.personIdentifier?.groupingKey }
-        val dccWalletGroupKeys = dccWalletInfoRepository.personWallets.first().map { it.personGroupKey }
-        val idsToClean = dccWalletGroupKeys subtract personGroupKeys
-        Timber.d("Cleaning DccWalletInfo for [%d] persons", idsToClean.size)
-        // Cleanup DccWalletInfo for persons who don't have certificates any longer
-        // i.e all their certificates are recycled or have been deleted permanently.
-        // Note: This is `NOT` affecting newly added persons who don't have DccWalletInfo yet
-        dccWalletInfoRepository.delete(idsToClean.toSet())
-
         val now = timeStamper.nowUTC
         persons.forEach { person ->
             if (configurationChanged ||
