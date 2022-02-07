@@ -22,7 +22,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     suspend fun triggerCalculation(
         configurationChanged: Boolean = true
-    ) {
+    ) = try {
         Timber.d("triggerCalculation()")
         val now = timeStamper.nowUTC
         initCalculation()
@@ -34,6 +34,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 updateWalletInfoForPerson(it)
             }
         }
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation.")
     }
 
     suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
@@ -46,9 +48,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     }
 
     private suspend fun initCalculation() {
-        calculation.init(
-            boosterRulesRepository.rules.first()
-        )
+        calculation.init(boosterRulesRepository.rules.first())
     }
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
