@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.core.VerificationCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
@@ -25,8 +25,8 @@ class PersonCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
-        val firstCertificate = curItem.verificationCertificates[0]
-        val secondCertificate = curItem.verificationCertificates.getOrNull(1)
+        val firstCertificate = curItem.overviewCertificates[0]
+        val secondCertificate = curItem.overviewCertificates.getOrNull(1)
         setUIState(
             primaryCertificate = firstCertificate.cwaCertificate,
             primaryCertificateButtonText = firstCertificate.buttonText,
@@ -45,7 +45,7 @@ class PersonCertificateCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val verificationCertificates: List<VerificationCertificate>,
+        val overviewCertificates: List<OverviewCertificate>,
         val primaryCertificateText: String = "",
         val secondaryCertificateText: String = "",
         val admissionBadgeText: String = "",
@@ -55,6 +55,11 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
         override val stableId: Long =
-            verificationCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()
+            overviewCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()
+
+        data class OverviewCertificate(
+            val cwaCertificate: CwaCovidCertificate,
+            val buttonText: String = ""
+        )
     }
 }
