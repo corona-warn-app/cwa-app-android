@@ -49,6 +49,8 @@ class BoosterNotificationService @Inject constructor(
         if (newRuleId != oldRuleId && newRuleId != legacyBoosterRuleId) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
             boosterNotificationSender.showBoosterNotification(personIdentifier)
+            // Clears booster rule last seen badge, to be shown in conjunction with notification
+            vaccinationRepository.clearBoosterRuleInfo(personIdentifier)
             vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)
             Timber.tag(TAG).d("Person %s notified about booster rule change", codeSHA256)
         } else {

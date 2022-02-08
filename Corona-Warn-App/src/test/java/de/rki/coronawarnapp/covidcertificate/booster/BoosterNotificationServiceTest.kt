@@ -70,7 +70,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
 
-        verifyThatLegacyBoosterRuleIsNotCleared()
+        verifyThatLegacyBoosterRuleIsCleared()
         verifyThatBoosterNotificationIsShown()
         verifyThatBoosterNotificationTimeIsUpdated()
     }
@@ -83,7 +83,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
             service().notifyIfNecessary(personIdentifier, oldWalletInfo = null, newWalletInfo)
 
-            verifyThatLegacyBoosterRuleIsNotCleared()
+            verifyThatLegacyBoosterRuleIsCleared()
             verifyThatBoosterNotificationIsShown()
             verifyThatBoosterNotificationTimeIsUpdated()
         }
@@ -96,7 +96,7 @@ class BoosterNotificationServiceTest : BaseTest() {
 
             service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
 
-            verifyThatLegacyBoosterRuleIsNotCleared()
+            verifyThatLegacyBoosterRuleIsCleared()
             verifyThatBoosterNotificationIsShown()
             verifyThatBoosterNotificationTimeIsUpdated()
         }
@@ -160,10 +160,6 @@ class BoosterNotificationServiceTest : BaseTest() {
 
     private fun verifyThatBoosterNotificationIsShown() {
         verify(exactly = 1) { boosterNotificationSender.showBoosterNotification(personIdentifier) }
-    }
-
-    private fun verifyThatLegacyBoosterRuleIsNotCleared() {
-        coVerify(exactly = 0) { vaccinationRepository.clearBoosterRuleInfo(personIdentifier) }
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
