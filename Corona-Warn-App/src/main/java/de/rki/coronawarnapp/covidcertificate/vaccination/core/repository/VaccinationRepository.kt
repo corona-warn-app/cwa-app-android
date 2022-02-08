@@ -334,7 +334,6 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    // removes booster rule information if newRuleId is null
     suspend fun clearBoosterRuleInfo(
         personIdentifier: CertificatePersonIdentifier
     ) {
