@@ -124,7 +124,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     }
 
     fun checkExpiration() = launch(scope = appScope) {
-        Timber.d("checkExpiration()")
+        Timber.tag(TAG).d("checkExpiration()")
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
