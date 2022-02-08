@@ -14,7 +14,7 @@
     <!-- XBUT: Request green certificate disagree button -->
     <string name="request_green_certificate_disagree_button">Nein Danke</string>
     <!-- XTXT: Request green certificate birth date description -->
-    <string name="request_green_certificate_birthdate_description">Zur Sicherheit wird Ihr Testergebnis mit Ihrem Geburtsdatum geschützt. Das Testergebnis kann nur bei korrekt angegebenem Geburtsdatum zugestellt werden.</string>
+    <string name="request_green_certificate_birthdate_description">Zur Sicherheit wird Ihr Testzertifikat mit Ihrem Geburtsdatum geschützt. Das Testzertifikat kann nur bei korrekt angegebenem Geburtsdatum zugestellt werden.</string>
     <!-- XTXT: Request green certificate birth date hint -->
     <string name="request_green_certificate_birthdate_hint">Geburtsdatum</string>
     <!-- XTXT: Request green certificate exit dialog title -->
