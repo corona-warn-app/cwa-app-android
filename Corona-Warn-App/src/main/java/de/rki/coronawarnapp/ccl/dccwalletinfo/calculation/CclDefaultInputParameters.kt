@@ -11,7 +11,7 @@ import java.util.Locale
 internal fun getDefaultInputParameters(
     now: DateTime
 ) = CclInputParameters(
-    language = getCclLanguage(),
+    language = cclLanguage,
     now = CclDateTime(now)
 )
 
@@ -43,10 +43,10 @@ private val supportedLanguages = arrayOf(
     "tr",
 )
 
-fun getCclLanguage(): String {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+val cclLanguage: String by lazy {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         LocaleList.getDefault().getFirstMatch(supportedLanguages)?.language ?: Locale.getDefault().language.also {
-            Timber.d("Using default language $it")
+            Timber.d("No match. Using default language $it")
         }
     } else {
         Locale.getDefault().language

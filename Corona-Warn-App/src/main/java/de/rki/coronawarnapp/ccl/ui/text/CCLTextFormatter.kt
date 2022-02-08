@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getCclLanguage
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.cclLanguage
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
@@ -32,7 +32,7 @@ class CCLTextFormatter @Inject constructor(
      */
     suspend operator fun invoke(
         cclText: CCLText?,
-        language: String = getCclLanguage(),
+        language: String = cclLanguage,
         locale: Locale = Locale.getDefault()
     ): String = runCatching {
         when (cclText) {
@@ -52,7 +52,7 @@ class CCLTextFormatter @Inject constructor(
      */
     operator fun invoke(
         faqAnchor: String?,
-        language: String = getCclLanguage()
+        language: String = cclLanguage
     ) = when {
         faqAnchor.isNullOrBlank() -> null
         else -> {
