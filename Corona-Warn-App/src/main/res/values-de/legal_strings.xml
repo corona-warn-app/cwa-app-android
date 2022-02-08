@@ -184,7 +184,7 @@
     <!-- XTXT: Request GC bullet point 2 for privacy card -->
     <string name="request_green_certificate_privacy_section_2" translatable="false">Zur Erstellung Ihres Testzertifikats werden Daten einmalig verschlüsselt an das RKI übermittelt. Das RKI signiert die Daten elektronisch, um die Gültigkeit zu bestätigen. Die Daten werden beim RKI nicht gespeichert.</string>
     <!-- XTXT: Request GC extra bullet point PCR test  for privacy card -->
-    <string name="request_green_certificate_privacy_pcr_extra_section" translatable="false">Um sicherzustellen, dass niemand mit Ihrem QR-Code Ihr Testergebnis abrufen kann, wird es mit Ihrem Geburtsdatum geschützt. Ihr Geburtsdatum wird verschlüsselt an das Labor übermittelt, um das Testergebnis abzurufen.</string>
+    <string name="request_green_certificate_privacy_pcr_extra_section" translatable="false">Um sicherzustellen, dass niemand mit Ihrem QR-Code Ihr Testzertifikat abrufen kann, wird es mit Ihrem Geburtsdatum geschützt. Ihr Geburtsdatum wird verschlüsselt an das Labor übermittelt, um das Testzertifikat abzurufen.</string>
     <!-- XTXT: Request GC bullet point 3 for privacy card -->
     <string name="request_green_certificate_privacy_section_3" translatable="false">Das COVID-Testzertifikat enthält die Daten über Ihren Corona-Test. Zum Nachweis des negativen Testergebnisses in den gesetzlich vorgesehenen Fällen genügt das Vorzeigen des QR-Codes in der App. Stellen Sie das Testzertifikat niemandem zur Verfügung, wenn Sie nicht wollen, dass die Daten ausgelesen werden.</string>
     <!-- XTXT: Request GC bullet point 4 for privacy card -->

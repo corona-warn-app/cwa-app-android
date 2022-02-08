@@ -35,7 +35,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { testCertificateRepository.refresh() } returns emptySet()
-        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() } just Runs
+        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     private fun createWorker(
@@ -57,7 +57,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
 
         result shouldBe ListenableWorker.Result.success()
 
-        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
+        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
@@ -68,7 +68,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
 
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
 
-        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
+        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
 
         result shouldBe ListenableWorker.Result.retry()
     }
