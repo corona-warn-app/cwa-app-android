@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensorTest
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
+import de.rki.coronawarnapp.ccl.holder.comparison.DccHolderComparisonTest
 import de.rki.coronawarnapp.covidcertificate.booster.DccBoosterRulesValidatorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTest
@@ -75,6 +76,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: VaccinationGroupingTest)
     fun inject(testClass: AnalyticsTestResultSettingsTest)
     fun inject(testClass: DccTicketingQrCodeExtractorTest)
+    fun inject(testClass: DccHolderComparisonTest)
 
     @Component.Factory
     interface Factory {
