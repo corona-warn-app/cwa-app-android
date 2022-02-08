@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/status_badge"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/ic_admission_badge_1"
         android:gravity="center"
         android:textColor="@android:color/white"
@@ -28,7 +28,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/status_text"
         app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/status_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="2G+ PCR Test" />
 
     <com.google.android.material.imageview.ShapeableImageView

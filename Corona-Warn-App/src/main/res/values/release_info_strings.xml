@@ -16,37 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Notes in Case of a Positive Test Result"</item>
-        <item>"Statistics for Booster Vaccinations"</item>
-        <item>"Link to Social Media"</item>
-        <item>"Deletion Date for Recycle Bin Contents"</item>
-        <item>"Notification of Increased Risk"</item>
+        <item>"Central Administration of Rules"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-       <item>"The notes and recommended procedure in the case of a positive test result have been revised."</item>
-       <item>"In addition to the statistics for people who have received at least one vaccine dose and people who are fully vaccinated, you will now also find the number of people who have received a booster vaccination."</item>
-       <item>"If you want to keep up with the latest developments in the Corona-Warn-App and discuss them with others, you can follow our social media channels. You will now find a social media link on the home screen, under “More”."</item>
-       <item>"Every element that is moved to the recycle bin is permanently deleted after 30 days. This deletion date is now displayed for every element."</item>
-       <item>"You will now receive a notification if you have an increased risk of infection even if the app is open. This is intended to prevent you from overlooking a risk warning on the status tab if you are currently using a different tab. In addition, a red dot will appear on the status tab until you open this tab again."</item>
+        <item>"The rules for certificates (with regard to their validity, for example, or their prioritization when several certificates are available) and for determining your “G” status (vaccinated, recovered, tested) have been separated from the Corona-Warn-App. These rules are now stored centrally and can therefore be adjusted independently of app releases, which will make it possible to react to rule changes more quickly. After a change, the updated rules will be transferred to the app automatically. This central administration of rules does not change how you use the Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "cba13601e0e94dc66873fb7477ef6a6b",
+    "entities": [
+      {
+        "tableName": "person_wallet_info",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`person_identifier` TEXT NOT NULL, `dcc_wallet_info` TEXT, PRIMARY KEY(`person_identifier`))",
+        "fields": [
+          {
+            "fieldPath": "groupKey",
+            "columnName": "person_identifier",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dccWalletInfo",
+            "columnName": "dcc_wallet_info",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "person_identifier"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cba13601e0e94dc66873fb7477ef6a6b')"
+    ]
+  }
+}

@@ -16,37 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Pozitif Test Sonucu Durumunda Notlar"</item>
-        <item>"Hatırlatma Aşılarına İlişkin İstatistikler"</item>
-        <item>"Sosyal Medya Bağlantısı"</item>
-        <item>"Geri Dönüşüm Kutusu için Silme Tarihi"</item>
-        <item>"Daha Yüksek Risk Bildirimi"</item>
+        <item>"Merkezi Kural Yönetimi"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-       <item>"Pozitif test sonucunun gözden geçirilmesi durumuna ilişkin notlar ve önerilen prosedür."</item>
-       <item>"En az bir doz aşı olmuş ve tam aşılı kişilere ilişkin istatistiklerin yanı sıra artık hatırlatma aşısı olan kişi sayısına da ulaşacaksınız."</item>
-       <item>"Corona-Warn-App\'teki en son geliştirmeleri takip etmek ve bunları başkalarıyla tartışmak istiyorsanız sosyal medya kanallarımızı takip edebilirsiniz. Artık, ana ekranda \"Diğer\" kısmında bir sosyal medya bağlantısına da erişeceksiniz."</item>
-       <item>"Geri dönüşüm kutusuna taşınan her öğe, 30 gün sonra kalıcı olarak silinir. Bu silme tarihi artık her öğe için görüntülenmektedir."</item>
-       <item>"Artık uygulama açık olsa da daha yüksek enfeksiyon riskiniz varsa bir bildirim alırsınız. Bunun amacı, farklı bir sekme kullanıyorsanız durum sekmesindeki risk uyarısının gözden kaçırılmasının önüne geçmektir. Ek olarak, siz durum sekmesini yeniden açana dek bu sekmede kırmızı bir nokta görüntülenir."</item>
+        <item>"Sertifikalara ilişkin kurallar (örneğin geçerlilikleriyle ilgili olarak veya birden fazla sertifika mevcut olduğunda bunların önceliğinin belirlenmesi ile ilgili olarak) ve “G” durumunuzu (aşılanmış, iyileşmiş, test yaptırmış) belirleme kuralları Corona-Warn-App\'ten ayrılmıştır. Bu kurallar artık merkezi olarak depolanır ve bu nedenle uygulama sürümlerinden bağımsız olarak ayarlanabilir, bu da kural değişikliklerine daha hızlı tepki vermeyi mümkün kılar. Herhangi bir değişiklik yapıldıktan sonra, güncellenen kurallar uygulamaya otomatik olarak aktarılacaktır. Merkezi kural yönetimi, Corona-Warn-App\'i kullanma şeklinizi değiştirmez."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

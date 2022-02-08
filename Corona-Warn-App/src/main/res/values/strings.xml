@@ -1570,7 +1570,7 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"People Who Are Fully Vaccinated"</string>
+    <string name="statistics_vaccinated_completely_card_title">"People Who Have Basic Immunization"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1588,7 +1588,7 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Number of vaccine doses that have been administered nationwide to date."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"People who are fully vaccinated"</string>
+    <string name="statistics_fully_vaccinated_people_title">"People who have basic immunization"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"Number of persons reported to the RKI who have received all the vaccine doses necessary for basic immunization."</string>
     <!-- XTXT: Statistics number of people with booster title -->
