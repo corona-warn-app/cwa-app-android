@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotification
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
@@ -189,7 +188,4 @@ class MockProvider {
 
     @Provides
     fun recoveryCertificateRepository(): RecoveryCertificateRepository = mockk()
-
-    @Provides
-    fun boosterNotificationService(): BoosterNotificationService = mockk()
 }

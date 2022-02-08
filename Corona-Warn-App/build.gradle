@@ -43,8 +43,8 @@ android {
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
+        resConfigs 'de', 'en', 'tr', 'bg', 'pl', 'ro'
 
-        resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
@@ -185,12 +185,6 @@ android {
         }
     }
 
-    lintOptions {
-        checkAllWarnings = true
-        // this rule is broken on 2.3.0
-        // see the following issue: https://issuetracker.google.com/issues/169249668
-        disable 'NullSafeMutableLiveData'
-    }
 
     testOptions {
         unitTests.all {
@@ -222,19 +216,23 @@ android {
         useBuildCache true
         includeCompileClasspath = false
     }
-
     packagingOptions {
-        exclude "**/module-info.class"
-        exclude 'NOTICE'
-        exclude 'LICENSE'
-        exclude 'CODEOWNERS'
-        exclude 'README.md'
-        exclude 'CODE_OF_CONDUCT.md'
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
-        // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
-        exclude 'DebugProbesKt.bin'
+        resources {
+            excludes += [
+                    '**/module-info.class',
+                    'NOTICE',
+                    'LICENSE',
+                    'CODEOWNERS',
+                    'README.md',
+                    'CODE_OF_CONDUCT.md',
+                    'META-INF/AL2.0',
+                    'META-INF/LGPL2.1',
+                    // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
+                    'DebugProbesKt.bin'
+            ]
+        }
     }
+
 
     sourceSets {
         deviceForTesters {
@@ -259,6 +257,12 @@ android {
             androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
+    lint {
+        checkAllWarnings true
+        // this rule is broken on 2.3.0
+        // see the following issue: https://issuetracker.google.com/issues/169249668
+        disable 'NullSafeMutableLiveData'
+    }
 }
 
 task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceReleaseUnitTest') {
@@ -266,9 +270,9 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     description = "Generate Jacoco coverage reports for the DeviceRelease build."
 
     reports {
-        html.enabled = false
+        html.required.set(false)
         xml {
-            enabled = true
+            required.set(true)
             destination file("$buildDir/reports/jacoco/deviceRelease/jacoco.xml")
         }
     }
@@ -381,6 +385,9 @@ dependencies {
     //ENA
     implementation files('libs/play-services-nearby-exposurenotification-18.0.3.aar')
 
+    // JFN
+    implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-a467904.jar")
+
     // boofCV
     def boofCV_version = "0.39.1"
     implementation("org.boofcv:boofcv-core:$boofCV_version") {
@@ -407,7 +414,7 @@ dependencies {
 
 
     // Testing - jUnit5
-    def jupiter_version = "5.7.0"
+    def jupiter_version = "5.8.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jupiter_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
@@ -464,7 +471,8 @@ dependencies {
     implementation project(":Server-Protocol-Buffer")
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.guava:guava:30.0-android'
-    implementation 'joda-time:joda-time:2.10.6'
+    implementation "joda-time:joda-time:2.10.13"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:2.13.1"
 
     implementation 'com.networknt:json-schema-validator:1.0.58'
     implementation 'net.swiftzer.semver:semver:1.1.1'
@@ -483,7 +491,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.5.0"
 
     // HCert
-    implementation("com.upokecenter:cbor:4.5")
+    implementation("com.upokecenter:cbor:4.5.2")
 
     // ROOT
     implementation 'com.scottyab:rootbeer-lib:0.1.0'

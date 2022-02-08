@@ -1,12 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
@@ -20,6 +19,7 @@ import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,6 +32,7 @@ class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var testRepo: TestCertificateRepository
     @MockK lateinit var recoveryRepo: RecoveryCertificateRepository
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     private val identifierA = mockk<CertificatePersonIdentifier>()
     private val identifierB = mockk<CertificatePersonIdentifier>()
@@ -45,59 +46,48 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
         every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
     }
-    private val testWrapperACertificate = mockk<TestCertificate>().apply {
+    private val testCertA = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { sampleCollectedAt } returns Instant.EPOCH
         every { hasNotificationBadge } returns true
     }
-    private val testWrapperA = mockk<TestCertificateWrapper>().apply {
-        every { testCertificate } returns testWrapperACertificate
-    }
-    private val recoveryWrapperACertificate = mockk<RecoveryCertificate>().apply {
+
+    private val recoveryCertA = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns true
-    }
-    private val recoveryWrapperA = mockk<RecoveryCertificateWrapper>().apply {
-        every { recoveryCertificate } returns recoveryWrapperACertificate
     }
 
     // Person B
-    private val testCertificateB = mockk<TestCertificate>().apply {
+    private val testCertB = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierB
         every { sampleCollectedAt } returns Instant.EPOCH
         every { hasNotificationBadge } returns true
     }
 
-    private val recoveryCertificateB = mockk<RecoveryCertificate>().apply {
+    private val recoveryCertB = mockk<RecoveryCertificate>().apply {
         every { personIdentifier } returns identifierB
         every { validFrom } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns true
     }
 
-    private val recoveryWrapperB = mockk<RecoveryCertificateWrapper>().apply {
-        every { recoveryCertificate } returns recoveryCertificateB
-    }
-
-    private val testWrapperB = mockk<TestCertificateWrapper>().apply {
-        every { testCertificate } returns testCertificateB
-    }
-
     private val vaccinationPersons = MutableStateFlow(setOf(vaccinatedPersonA))
-    private val testWrappers = MutableStateFlow(setOf(testWrapperA, testWrapperB))
-    private val recoveryWrappers = MutableStateFlow(setOf(recoveryWrapperA, recoveryWrapperB))
+    private val cwaTestCerts = MutableStateFlow(setOf(testCertB, testCertA))
+    private val cwaRecoveryCerts = MutableStateFlow(setOf(recoveryCertB, recoveryCertA))
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { vaccinationRepo.vaccinationInfos } returns vaccinationPersons
-        every { testRepo.certificates } returns testWrappers
-        every { recoveryRepo.certificates } returns recoveryWrappers
+        every { testRepo.cwaCertificates } returns cwaTestCerts
+        every { recoveryRepo.cwaCertificates } returns cwaRecoveryCerts
 
         personCertificatesSettings.apply {
             every { currentCwaUser } returns mockFlowPreference(identifierA)
         }
+
+        every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = PersonCertificatesProvider(
@@ -106,21 +96,22 @@ class PersonCertificatesProviderTest : BaseTest() {
         vaccinationRepository = vaccinationRepo,
         personCertificatesSettings = personCertificatesSettings,
         appScope = scope,
+        dccWalletInfoRepository = dccWalletInfoRepository
     )
 
     @Test
     fun `empty data`() = runBlockingTest2(ignoreActive = true) {
         vaccinationPersons.value = emptySet()
-        testWrappers.value = emptySet()
-        recoveryWrappers.value = emptySet()
+        cwaTestCerts.value = emptySet()
+        cwaRecoveryCerts.value = emptySet()
 
         val instance = createInstance(this)
 
         instance.personCertificates.first() shouldBe emptyList()
 
         verify {
-            recoveryRepo.certificates
-            testRepo.certificates
+            recoveryRepo.cwaCertificates
+            testRepo.cwaCertificates
             vaccinationRepo.vaccinationInfos
         }
     }
@@ -133,16 +124,16 @@ class PersonCertificatesProviderTest : BaseTest() {
             PersonCertificates(
                 certificates = listOf(
                     vaccinatedPersonACertificate1,
-                    testWrapperACertificate,
-                    recoveryWrapperACertificate
+                    testCertA,
+                    recoveryCertA
                 ),
                 isCwaUser = true,
                 badgeCount = 2
             ),
             PersonCertificates(
                 certificates = listOf(
-                    testCertificateB,
-                    recoveryCertificateB
+                    testCertB,
+                    recoveryCertB
                 ),
                 isCwaUser = false,
                 badgeCount = 2
@@ -173,16 +164,16 @@ class PersonCertificatesProviderTest : BaseTest() {
             PersonCertificates(
                 certificates = listOf(
                     vaccinatedPersonACertificate1,
-                    testWrapperACertificate,
-                    recoveryWrapperACertificate
+                    testCertA,
+                    recoveryCertA
                 ),
                 isCwaUser = true,
                 badgeCount = 2
             ),
             PersonCertificates(
                 certificates = listOf(
-                    testCertificateB,
-                    recoveryCertificateB
+                    testCertB,
+                    recoveryCertB
                 ),
                 isCwaUser = false,
                 badgeCount = 2

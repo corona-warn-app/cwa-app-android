@@ -16,6 +16,7 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
+import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdateScheduler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
@@ -23,7 +24,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -94,9 +94,9 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
     @Inject lateinit var securityProvider: SecurityProvider
-    @Inject lateinit var boosterCheckScheduler: BoosterCheckScheduler
     @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @Inject lateinit var vaccinationStorage: VaccinationStorage
+    @Inject lateinit var cclConfigurationUpdaterScheduler: CCLConfigurationUpdateScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -169,8 +169,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         traceLocationDbCleanupScheduler.scheduleDaily()
         shareTestResultNotificationService.setup()
         dccStateCheckScheduler.setup()
-        boosterCheckScheduler.setup()
         recycleBinCleanUpScheduler.setup()
+        cclConfigurationUpdaterScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
