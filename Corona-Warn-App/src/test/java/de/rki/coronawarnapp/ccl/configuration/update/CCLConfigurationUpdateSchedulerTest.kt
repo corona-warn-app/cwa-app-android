@@ -1,17 +1,16 @@
-package de.rki.coronawarnapp.covidcertificate.booster
+package de.rki.coronawarnapp.ccl.configuration.update
 
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.util.device.ForegroundState
-import io.mockk.Called
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.runs
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,38 +19,30 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
-class BoosterCheckSchedulerTest : BaseTest() {
+internal class CCLConfigurationUpdateSchedulerTest : BaseTest() {
 
-    @RelaxedMockK lateinit var workManager: WorkManager
     @MockK lateinit var foregroundState: ForegroundState
-    @MockK lateinit var boosterNotificationService: BoosterNotificationService
+    @MockK(relaxed = true) lateinit var workManager: WorkManager
+    @MockK lateinit var cclConfigurationUpdater: CCLConfigurationUpdater
 
     private val isForeground = MutableStateFlow(false)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
         every { foregroundState.isInForeground } returns isForeground
-        coEvery { boosterNotificationService.checkBoosterNotification() } just runs
+        coEvery { cclConfigurationUpdater.updateIfRequired() } just Runs
     }
 
-    private fun createInstance(scope: CoroutineScope) = BoosterCheckScheduler(
-        appScope = scope,
-        foregroundState = foregroundState,
-        workManager = workManager,
-        boosterNotificationService = boosterNotificationService
-    )
-
     @Test
-    fun `schedule booster check on setup`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).setup()
+    fun `schedule daily worker on setup() call`() = runBlockingTest2(ignoreActive = true) {
+        createScheduler(this).setup()
 
         advanceUntilIdle()
 
         verify {
             workManager.enqueueUniquePeriodicWork(
-                "BoosterCheckWorker",
+                "CCLConfigurationUpdateWorker",
                 ExistingPeriodicWorkPolicy.KEEP,
                 any()
             )
@@ -59,17 +50,16 @@ class BoosterCheckSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `force booster check when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).run {
+    fun `perform update when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
+        createScheduler(this).apply {
             setup()
 
-            advanceUntilIdle()
-
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify { boosterNotificationService wasNot Called }
+            coVerify { cclConfigurationUpdater wasNot called }
 
+            // check if cclConfigurationUpdater is only called once even if two true values are emitted
             isForeground.value = true
             advanceUntilIdle()
             isForeground.value = true
@@ -78,7 +68,11 @@ class BoosterCheckSchedulerTest : BaseTest() {
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify(exactly = 1) { boosterNotificationService.checkBoosterNotification() }
+            coVerify(exactly = 1) { cclConfigurationUpdater.updateIfRequired() }
         }
+    }
+
+    private fun createScheduler(scope: CoroutineScope): CCLConfigurationUpdateScheduler {
+        return CCLConfigurationUpdateScheduler(scope, foregroundState, cclConfigurationUpdater, workManager)
     }
 }

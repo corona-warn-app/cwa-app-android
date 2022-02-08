@@ -57,7 +57,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
-        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() } just Runs
+        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     @Test
@@ -70,7 +70,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
 
-        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
+        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
@@ -78,7 +78,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         instance.apply {
             refreshCertificate(TestCertificateContainerId("Identifier"))
         }
-        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
+        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
