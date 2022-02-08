@@ -38,7 +38,6 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.flow,
         dccWalletInfoRepository.personWallets
     ) { vaccPersons, tests, recoveries, cwaUser, personWallets ->
-        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recoveries, cwaUser)
 
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()

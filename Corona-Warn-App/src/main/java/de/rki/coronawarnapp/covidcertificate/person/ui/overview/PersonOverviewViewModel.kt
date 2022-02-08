@@ -40,7 +40,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
     ) { persons, tcWrappers ->
-        Timber.tag(TAG).d("persons=%s, tcWrappers=%s", persons, tcWrappers)
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
                 addPersonItems(persons, tcWrappers)
@@ -68,7 +67,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
             .forEachIndexed { index, person ->
                 val admissionState = person.dccWalletInfo?.admissionState
                 val certificates = person.overviewCertificates
-                Timber.d("VerificationCertificates ${person.overviewCertificates}")
                 val color = PersonColorShade.shadeFor(index)
                 if (certificates.isNotEmpty()) {
                     add(
