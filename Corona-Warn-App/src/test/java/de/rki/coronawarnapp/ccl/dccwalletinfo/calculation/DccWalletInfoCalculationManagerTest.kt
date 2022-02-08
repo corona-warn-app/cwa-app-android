@@ -56,6 +56,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { calculation.init(any()) } just Runs
         coEvery { calculation.getDccWalletInfo(any(), any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs
+        coEvery { boosterNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
         instance = DccWalletInfoCalculationManager(
             boosterRulesRepository,
             boosterNotificationService,
@@ -71,15 +72,36 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         coEvery { calculation.getDccWalletInfo(any()) } throws Exception()
         assertDoesNotThrow {
             runBlockingTest2 {
-                instance.triggerCalculation()
+                instance.triggerCalculationAfterConfigChange()
             }
         }
     }
 
     @Test
-    fun `calculation runs for each person`() {
+    fun `calculation runs for each person after certificate change`() {
+        every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
         runBlockingTest2 {
-            instance.triggerCalculation()
+            instance.triggerCalculationAfterCertificateChange()
+        }
+
+        coVerify(exactly = 2) {
+            calculation.getDccWalletInfo(any(), any())
+        }
+        coVerify(exactly = 1) {
+            dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
+        }
+        coVerify(exactly = 1) {
+            dccWalletInfoRepository.save(certificatePersonIdentifier2, dccWalletInfo1)
+        }
+    }
+
+    @Test
+    fun `calculation runs for each person after config change`() {
+        every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
+        runBlockingTest2 {
+            instance.triggerCalculationAfterConfigChange()
         }
 
         coVerify(exactly = 2) {
@@ -99,7 +121,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo1
 
         runBlockingTest2 {
-            instance.triggerCalculation(false)
+            instance.triggerCalculationAfterConfigChange(false)
         }
 
         coVerify(exactly = 1) {
@@ -119,7 +141,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
 
         runBlockingTest2 {
-            instance.triggerCalculation(false)
+            instance.triggerCalculationAfterConfigChange(false)
         }
 
         coVerify(exactly = 1) {
