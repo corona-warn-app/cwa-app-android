@@ -24,7 +24,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     /**
      * Trigger [DccWalletInfo] calculation for all persons
      */
-    suspend fun triggerCalculationAfterConfigChange(configurationChanged: Boolean = true) {
+    suspend fun triggerCalculationAfterConfigChange(configurationChanged: Boolean = true) = try {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerCalculation() for [%d] persons", persons.size)
@@ -37,12 +37,17 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 updateWalletInfoForPerson(person)
             }
         }
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation.")
     }
 
-    suspend fun triggerCalculationAfterCertificateChange() {
+    suspend fun triggerCalculationAfterCertificateChange() = try {
+        initCalculation()
         personCertificatesProvider.personCertificates.first().forEach {
             updateWalletInfoForPerson(it)
         }
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation.")
     }
 
     /**
