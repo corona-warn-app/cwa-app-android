@@ -30,7 +30,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Vaccination
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
@@ -177,7 +176,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate1,
                     isCurrentCertificate = false,
-                    status = VaccinatedPerson.Status.COMPLETE,
                     colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
@@ -185,7 +183,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate2,
                     isCurrentCertificate = false,
-                    status = VaccinatedPerson.Status.COMPLETE,
                     colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
@@ -194,7 +191,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate3,
                     isCurrentCertificate = false,
-                    status = VaccinatedPerson.Status.IMMUNITY,
                     colorShade = PersonColorShade.COLOR_1
                 ) {}
             )
@@ -285,7 +281,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 VaccinationCertificateCard.Item(
                     vaccinationCertificate1,
                     isCurrentCertificate = true,
-                    status = VaccinatedPerson.Status.COMPLETE,
                     colorShade = PersonColorShade.COLOR_1
                 ) {}
             )

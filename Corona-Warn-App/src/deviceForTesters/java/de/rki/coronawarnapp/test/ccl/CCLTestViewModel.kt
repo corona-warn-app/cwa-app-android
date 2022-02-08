@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.test.ccl
 
+import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdater
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -18,10 +20,13 @@ class CCLTestViewModel @AssistedInject constructor(
     testCertificateRepository: TestCertificateRepository,
     recoveryCertificateRepository: RecoveryCertificateRepository,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
-    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
+    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
+    private val cclConfigurationUpdater: CCLConfigurationUpdater
 ) : CWAViewModel() {
+
     var selectedPersonIdentifier: PersonIdentifierSelection = PersonIdentifierSelection.All
     val dccWalletInfoList = dccWalletInfoRepository.personWallets.asLiveData2()
+
     val personIdentifiers = combine(
         vaccinationRepository.vaccinationInfos,
         testCertificateRepository.cwaCertificates,
@@ -36,6 +41,8 @@ class CCLTestViewModel @AssistedInject constructor(
             .apply { add(0, PersonIdentifierSelection.All) }
             .toList()
     }.asLiveData2()
+
+    val forceUpdateUiState = MutableLiveData<ForceUpdateUiState>()
 
     fun clearDccWallet() = launch {
         dccWalletInfoRepository.clear()
@@ -55,8 +62,19 @@ class CCLTestViewModel @AssistedInject constructor(
         selectedPersonIdentifier.getCertificatePersonIdentifier()?.let {
             dccWalletInfoCalculationManager.triggerCalculationForPerson(it)
         } ?: run {
-            dccWalletInfoCalculationManager.triggerCalculation()
+            dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange()
         }
+    }
+
+    fun forceUpdateCclConfiguration() = launch {
+        forceUpdateUiState.postValue(ForceUpdateUiState.Loading)
+        cclConfigurationUpdater.forceUpdate()
+        forceUpdateUiState.postValue(ForceUpdateUiState.Success)
+    }
+
+    sealed class ForceUpdateUiState {
+        object Loading : ForceUpdateUiState()
+        object Success : ForceUpdateUiState()
     }
 
     @AssistedFactory

@@ -24,11 +24,9 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.INCOMPLETE
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
-import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -46,7 +44,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val vaccinationRepository: VaccinationRepository,
     private val dccValidationRepository: DccValidationRepository,
-    private val timeStamper: TimeStamper,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     private val format: CCLTextFormatter,
@@ -187,7 +184,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun MutableList<CertificateItem>.addCardItem(
+    private fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
         priorityCertificate: CwaCovidCertificate
     ) {
@@ -204,13 +201,11 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 }
             )
             is VaccinationCertificate -> {
-                val status = vaccinatedPerson(certificate)?.getVaccinationStatus(timeStamper.nowUTC) ?: INCOMPLETE
                 add(
                     VaccinationCertificateCard.Item(
                         certificate = certificate,
                         isCurrentCertificate = isCurrentCertificate,
-                        colorShade = colorShade,
-                        status = status
+                        colorShade = colorShade
                     ) {
                         events.postValue(
                             OpenVaccinationCertificateDetails(

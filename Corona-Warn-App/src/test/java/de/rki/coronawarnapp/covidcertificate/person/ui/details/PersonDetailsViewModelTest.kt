@@ -13,14 +13,11 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationInfoCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -46,7 +43,6 @@ import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
@@ -55,7 +51,6 @@ import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
 @ExtendWith(InstantExecutorExtension::class)
-@Disabled
 class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var vaccinationRepository: VaccinationRepository
@@ -119,12 +114,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.EPOCH
         val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
             every { vaccinationCertificates } returns setOf(vaccCert1, vaccCert2)
-            every { getVaccinationStatus(any()) } returns VaccinatedPerson.Status.IMMUNITY
-            every { getDaysUntilImmunity(any()) } returns null
-            every { getDaysSinceLastVaccination() } returns 21
-            every { boosterRule } returns null
             every { identifier } returns certificatePersonIdentifier
-            every { hasBoosterNotification } returns false
         }
         every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
@@ -136,17 +126,12 @@ class PersonDetailsViewModelTest : BaseTest() {
                     it.certificateItems.run {
                         get(0) as PersonDetailsQrCard.Item
 
-                        get(1) as BoosterCard.Item
-
-                        get(2) as ConfirmedStatusCard.Item
-
-                        get(3) as VaccinationInfoCard.Item
-
-                        (get(4) as CwaUserCard.Item).apply {
+                        (get(1) as CwaUserCard.Item).apply {
                             onSwitch(true)
                             coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }
                         }
-                        (get(5) as RecoveryCertificateCard.Item).apply {
+
+                        (get(2) as RecoveryCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
                                 rcContainerId,
@@ -154,7 +139,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(6) as TestCertificateCard.Item).apply {
+                        (get(3) as TestCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(
                                 tcsContainerId,
@@ -162,7 +147,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(7) as VaccinationCertificateCard.Item).apply {
+                        (get(4) as VaccinationCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
@@ -170,7 +155,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(8) as VaccinationCertificateCard.Item).apply {
+                        (get(5) as VaccinationCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
@@ -186,7 +171,6 @@ class PersonDetailsViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         vaccinationRepository = vaccinationRepository,
         dccValidationRepository = dccValidationRepository,
-        timeStamper = timeStamper,
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
@@ -235,6 +219,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { doseNumber } returns number
             every { totalSeriesOfDoses } returns 2
             every { isSeriesCompletingShot } returns final
+            every { headerIssuedAt } returns Instant.EPOCH
             every { isDisplayValid } returns true
             every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
@@ -250,6 +235,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { containerId } returns rcContainerId
             every { fullName } returns "Andrea Schneider"
             every { isDisplayValid } returns true
+            every { validFrom } returns LocalDate.now()
             every { rawCertificate } returns mockk<RecoveryDccV1>().apply {
                 every { recovery } returns mockk<DccV1.RecoveryCertificateData>().apply {
                     every { validFrom } returns LocalDate.now()
