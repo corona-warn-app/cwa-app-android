@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.scanner
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.qrcode.PcrQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
@@ -16,6 +17,7 @@ class QrCodeValidator @Inject constructor(
     pcrExtractor: PcrQrCodeExtractor,
     checkInQrCodeExtractor: CheckInQrCodeExtractor,
     dccTicketingQrCodeExtractor: DccTicketingQrCodeExtractor,
+    rapidPcrQrCodeExtractor: RapidPcrQrCodeExtractor
 ) {
     private val extractors = mutableSetOf<QrCodeExtractor<*>>(
         dccQrCodeExtractor,
@@ -23,6 +25,7 @@ class QrCodeValidator @Inject constructor(
         pcrExtractor,
         checkInQrCodeExtractor,
         dccTicketingQrCodeExtractor,
+        rapidPcrQrCodeExtractor,
     )
 
     /**

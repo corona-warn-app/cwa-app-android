@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode3
+import de.rki.coronawarnapp.coronatest.qrcode.raPcrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
@@ -83,5 +84,8 @@ class QrCodeValidatorTest : BaseTest() {
         (qrCodeValidator.validate(raQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         (qrCodeValidator.validate(raQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         (qrCodeValidator.validate(raQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+
+        //TODO: Change to RAPID_PCR
+        (qrCodeValidator.validate(raPcrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
     }
 }
