@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.contactdiary.ui.exporter
 import android.content.Context
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.util.ContactDiaryData
 import de.rki.coronawarnapp.contactdiary.util.mockStringsForContactDiaryExporterTests
 import de.rki.coronawarnapp.util.TimeStamper
@@ -62,6 +63,7 @@ internal class ContactDiaryExporterTest {
         createInstance().createExport(
             testItem.personEncounters,
             testItem.locationVisits,
+            testItem.testResults,
             numberOfLastDaysToExport
         ) shouldBe testItem.expectedExport
     }
@@ -74,6 +76,7 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = emptyList(),
                 locationVisits = emptyList(),
+                testResults = emptyList(),
                 expectedExport =
                 """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
@@ -84,6 +87,7 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_NO_ADDITIONAL_DATA,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_NO_ADDITIONAL_DATA,
+                testResults = emptyList(),
                 expectedExport =
                 """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
@@ -99,6 +103,7 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_EMAIL,
+                testResults = emptyList(),
                 expectedExport =
                 """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
@@ -114,13 +119,16 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_PHONE_NUMBERS_AND_EMAIL,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_PHONE_NUMBERS_AND_EMAIL,
+                testResults = ContactDiaryData.TWO_TEST_RESULTS,
                 expectedExport =
                 """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
+                    02.01.2021 Schnelltest durchgeführt; Befund negativ
                     02.01.2021 Constantin Frenzel; Tel. +49 987 654321; eMail constantin.frenzel@example.com
                     02.01.2021 Barber; Tel. +99 888 777777; eMail barber@icutyourhair.com
+                    01.01.2021 PCR-Test registriert; Befund positiv
                     01.01.2021 Andrea Steinhauer; Tel. +49 123 456789; eMail andrea.steinhauer@example.com
                     01.01.2021 Bakery; Tel. +11 222 333333; eMail baker@ibakeyourbread.com
                 
@@ -129,13 +137,16 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_ATTRIBUTES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_DURATION,
+                testResults = ContactDiaryData.TWO_TEST_RESULTS,
                 expectedExport =
                 """
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
                     Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
 
+                    02.01.2021 Schnelltest durchgeführt; Befund negativ
                     02.01.2021 Constantin Frenzel; Kontaktdauer > 10 Minuten; ohne Maske; im Gebäude
                     02.01.2021 Barber; Dauer 01:45 h
+                    01.01.2021 PCR-Test registriert; Befund positiv
                     01.01.2021 Andrea Steinhauer; Kontaktdauer < 10 Minuten; mit Maske; im Freien
                     01.01.2021 Bakery; Dauer 00:15 h
                 
@@ -144,6 +155,7 @@ internal class ContactDiaryExporterTest {
             ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_WITH_CIRCUMSTANCES,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_WITH_CIRCUMSTANCES,
+                testResults = emptyList(),
                 expectedExport =
                 """    
                     Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
@@ -162,6 +174,7 @@ internal class ContactDiaryExporterTest {
     data class ExporterTestItem(
         val personEncounters: List<ContactDiaryPersonEncounter>,
         val locationVisits: List<ContactDiaryLocationVisit>,
+        val testResults: List<ContactDiaryCoronaTestEntity>,
         val expectedExport: String
     )
 }
