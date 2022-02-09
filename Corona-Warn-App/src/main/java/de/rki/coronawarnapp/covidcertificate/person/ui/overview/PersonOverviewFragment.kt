@@ -34,9 +34,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     private val personOverviewAdapter = PersonOverviewAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Timber.tag(TAG).d("onViewCreated(view=%s, savedInstanceState=%s)", view, savedInstanceState)
-        Timber.tag(TAG).d("binding=%s, bindingView=%s", binding, binding.root)
-
         binding.apply {
             bindToolbar()
             bindRecycler()
@@ -119,7 +116,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     }
 
     private fun PersonOverviewFragmentBinding.bindViews(uiState: PersonOverviewViewModel.UiState) {
-        Timber.tag(TAG).d("bindViews(uiState=%s)", uiState)
         when (uiState) {
             is PersonOverviewViewModel.UiState.Done -> {
                 emptyLayout.isVisible = uiState.personCertificates.isEmpty()
@@ -133,9 +129,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 loadingLayoutGroup.isVisible = true
             }
         }
-
-        Timber.tag(TAG).d("recyclerViewVisibility=%s", recyclerView.visibility)
-        Timber.tag(TAG).d("recyclerViewItemsCount=%s", recyclerView.layoutManager?.itemCount)
     }
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {

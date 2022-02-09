@@ -9,11 +9,10 @@ import timber.log.Timber
 import java.util.Locale
 
 internal fun ValueSetsOuterClass.ValueSets.toValueSetsContainer(languageCode: Locale): ValueSetsContainer {
-    Timber.d("toValueSetsContainer(valueSets=%s, languageCode=%s)", this, languageCode)
     return ValueSetsContainer(
         vaccinationValueSets = toVaccinationValueSets(languageCode = languageCode),
         testCertificateValueSets = toTestCertificateValueSets(languageCode = languageCode)
-    ).also { Timber.tag(TAG).d("Created %s", it) }
+    ).also { Timber.tag(TAG).d("ValueSetsContainer has been created") }
 }
 
 internal fun ValueSetsOuterClass.ValueSets.toVaccinationValueSets(languageCode: Locale): VaccinationValueSets =
