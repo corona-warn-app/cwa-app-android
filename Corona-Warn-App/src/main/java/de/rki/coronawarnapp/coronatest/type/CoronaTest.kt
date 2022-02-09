@@ -60,6 +60,9 @@ interface CoronaTest : Recyclable {
 
         @SerializedName("RAPID_ANTIGEN")
         RAPID_ANTIGEN("RAPID_ANTIGEN"),
+
+        //@SerializedName("RAPID_PCR")
+        //RAPID_PCR("RAPID_PCR")
     }
 }
 

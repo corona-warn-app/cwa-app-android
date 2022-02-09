@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe

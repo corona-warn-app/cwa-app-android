@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.qrcode.scanner
 
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.coronatest.qrcode.PcrQrCodeExtractor
-import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCodeExtractor
