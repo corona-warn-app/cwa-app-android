@@ -5,12 +5,13 @@ import android.os.LocaleList
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
+import timber.log.Timber
 import java.util.Locale
 
 internal fun getDefaultInputParameters(
     now: DateTime
 ) = CclInputParameters(
-    language = getLanguage(),
+    language = cclLanguage,
     now = CclDateTime(now)
 )
 
@@ -42,11 +43,15 @@ private val supportedLanguages = arrayOf(
     "tr",
 )
 
-private fun getLanguage(): String {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        LocaleList.getDefault().getFirstMatch(supportedLanguages)?.language ?: Locale.getDefault().language
+val cclLanguage: String by lazy {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        LocaleList.getDefault().getFirstMatch(supportedLanguages)?.language ?: Locale.getDefault().language.also {
+            Timber.d("No match. Using default language $it")
+        }
     } else {
         Locale.getDefault().language
+    }.also {
+        Timber.d("Language is $it")
     }
 }
 
