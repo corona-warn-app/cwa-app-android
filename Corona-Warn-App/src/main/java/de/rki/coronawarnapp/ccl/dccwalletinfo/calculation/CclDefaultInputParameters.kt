@@ -7,20 +7,20 @@ import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
 import java.util.Locale
 
-internal fun getDefaultInputParameters(
+fun getDefaultInputParameters(
     now: DateTime
 ) = CclInputParameters(
     language = getLanguage(),
     now = CclDateTime(now)
 )
 
-internal data class CclInputParameters(
+data class CclInputParameters(
     val os: String = "android",
     val language: String,
     val now: CclDateTime,
 )
 
-internal data class CclDateTime(
+data class CclDateTime(
     private val dateTime: DateTime
 ) {
     private val dateTimeUtc = dateTime.toDateTime(DateTimeZone.UTC)

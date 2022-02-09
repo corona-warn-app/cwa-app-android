@@ -40,7 +40,7 @@ class DccWalletInfoCalculation @Inject constructor(
         dateTime: DateTime = DateTime.now()
     ): DccWalletInfo = withContext(dispatcherProvider.IO) {
         val output = cclJsonFunctions.evaluateFunction(
-            FUNCTION_NAME,
+            "getDccWalletInfo",
             getDccWalletInfoInput(
                 dccList = dccList,
                 boosterNotificationRules = boosterRulesNode,
@@ -92,5 +92,3 @@ class DccWalletInfoCalculation @Inject constructor(
 
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
 }
-
-private const val FUNCTION_NAME = "getDccWalletInfo"
