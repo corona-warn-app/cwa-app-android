@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository.UpdateResult
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
@@ -62,9 +63,14 @@ class BoosterRulesRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
-    private val testBoosterNotificationRulesResult = DccValidationServer.RuleSetResult(
+    private val testBoosterNotificationRulesServerResult = DccValidationServer.RuleSetResult(
         ruleSetJson = testBoosterNotificationRulesData,
         source = DccValidationServer.RuleSetSource.SERVER
+    )
+
+    private val testBoosterNotificationRulesCacheResult = DccValidationServer.RuleSetResult(
+        ruleSetJson = testBoosterNotificationRulesData,
+        source = DccValidationServer.RuleSetSource.CACHE
     )
 
     @BeforeEach
@@ -77,7 +83,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         }
 
         server.apply {
-            coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesResult
+            coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
             every { clear() } just runs
         }
     }
@@ -118,7 +124,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
 
         with(createInstance(this)) {
-            update() shouldBe false
+            update() shouldBe UpdateResult.FAIL
             rules.first() shouldBe emptyList()
         }
 
@@ -135,10 +141,10 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `update booster notification rules success`() = runBlockingTest2(ignoreActive = true) {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
-        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesResult
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
 
         with(createInstance(this)) {
-            update() shouldBe true
+            update() shouldBe UpdateResult.UPDATE
             rules.first() shouldBe boosterRuleList
         }
 
@@ -147,6 +153,28 @@ class BoosterRulesRepositoryTest : BaseTest() {
             localCache.saveBoosterNotificationRulesJson(any())
         }
     }
+
+    @Test
+    fun `update booster notification - no new rules - getting data from cache`() =
+        runBlockingTest2(ignoreActive = true) {
+            val boosterRuleList = listOf(testBoosterNotificationRule)
+
+            coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesCacheResult
+
+            with(createInstance(this)) {
+                update() shouldBe UpdateResult.NO_UPDATE
+                rules.first() shouldBe boosterRuleList
+            }
+
+            coVerify {
+                server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+                localCache.loadBoosterNotificationRulesJson()
+            }
+
+            coVerify(exactly = 0) {
+                localCache.saveBoosterNotificationRulesJson(any())
+            }
+        }
 
     @Test
     fun `bad booster notification rules do not wreck cache`() = runBlockingTest2(ignoreActive = true) {
@@ -173,7 +201,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
         with(createInstance(this)) {
-            update() shouldBe true
+            update() shouldBe UpdateResult.FAIL
             rules.first() shouldBe boosterRuleList
         }
 
@@ -190,7 +218,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `clear clears server, cache and flow`() = runBlockingTest2(ignoreActive = true) {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
-            update() shouldBe true
+            update() shouldBe UpdateResult.UPDATE
             rules.first() shouldBe bnrs
 
             clear()

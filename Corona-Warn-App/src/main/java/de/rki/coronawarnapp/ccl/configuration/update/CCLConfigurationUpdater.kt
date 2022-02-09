@@ -59,7 +59,7 @@ class CCLConfigurationUpdater @Inject constructor(
         return coroutineScope {
             val newBoosterRulesDownloaded = async { boosterRulesRepository.update() }
             val newCclConfigDownloaded = async { cclConfigurationRepository.updateCCLConfiguration() }
-            newBoosterRulesDownloaded.await() or newCclConfigDownloaded.await()
+            (newBoosterRulesDownloaded.await() == BoosterRulesRepository.UpdateResult.UPDATE) or newCclConfigDownloaded.await()
         }
     }
 }
