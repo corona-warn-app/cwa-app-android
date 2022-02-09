@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensorTest
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
-import de.rki.coronawarnapp.covidcertificate.booster.DccBoosterRulesValidatorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTest
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckerTest
@@ -68,7 +67,6 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DscSignatureValidatorTest)
     fun inject(testClass: DccExpirationCheckerTest)
     fun inject(testClass: RecoveryCertificateStorageTest)
-    fun inject(testClass: DccBoosterRulesValidatorTest)
     fun inject(testClass: QrCodeValidatorTest)
     fun inject(testClass: QrCodeScannerViewModelTest)
     fun inject(testClass: CwaUserCensorTest)

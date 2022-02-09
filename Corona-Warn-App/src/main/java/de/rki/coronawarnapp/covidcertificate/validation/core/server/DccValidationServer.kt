@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.validation.core.server
 
+import androidx.annotation.VisibleForTesting
 import com.upokecenter.cbor.CBORObject
 import dagger.Lazy
 import dagger.Reusable
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.exception.http.CwaUnknownHostException
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.retrofit.wasModified
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
@@ -37,25 +39,50 @@ class DccValidationServer @Inject constructor(
     private val rulesApi: DccValidationRuleApi
         get() = rulesApiLazy.get()
 
-    suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): String = withContext(dispatcherProvider.IO) {
+    suspend fun ruleSetJson(ruleTypeDcc: DccValidationRule.Type): RuleSetResult = withContext(dispatcherProvider.IO) {
         try {
             Timber.tag(TAG).v("Fetching $ruleTypeDcc rule set...")
             when (ruleTypeDcc) {
-                DccValidationRule.Type.ACCEPTANCE -> rulesApi.acceptanceRules().parseAndValidate(
-                    ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                    ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
-                )
-                DccValidationRule.Type.INVALIDATION -> rulesApi.invalidationRules().parseAndValidate(
-                    ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                    ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
-                )
-                DccValidationRule.Type.BOOSTER_NOTIFICATION -> rulesApi.boosterNotificationRules().parseAndValidate(
-                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING,
-                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
-                    ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_EXTRACTION_FAILED
-                )
+                DccValidationRule.Type.ACCEPTANCE -> {
+                    val response = rulesApi.acceptanceRules()
+                    val source = getSource(response)
+                    Timber.tag(TAG).v("Source of rule set: %s", source)
+
+                    val ruleSet = response.parseAndValidate(
+                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.ACCEPTANCE_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.ACCEPTANCE_RULE_JSON_EXTRACTION_FAILED,
+                    )
+                    RuleSetResult(ruleSet, source)
+                }
+                DccValidationRule.Type.INVALIDATION -> {
+
+                    val response = rulesApi.invalidationRules()
+                    val source = getSource(response)
+                    Timber.tag(TAG).v("Source of rule set: %s", source)
+
+                    val ruleSet = response.parseAndValidate(
+                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.INVALIDATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.INVALIDATION_RULE_JSON_EXTRACTION_FAILED,
+                    )
+
+                    RuleSetResult(ruleSet, source)
+                }
+                DccValidationRule.Type.BOOSTER_NOTIFICATION -> {
+
+                    val response = rulesApi.boosterNotificationRules()
+                    val source = getSource(response)
+                    Timber.tag(TAG).v("Source of rule set: %s", source)
+
+                    val ruleSet = response.parseAndValidate(
+                        ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_FILE_MISSING,
+                        ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_ARCHIVE_SIGNATURE_INVALID,
+                        ErrorCode.BOOSTER_NOTIFICATION_RULE_JSON_EXTRACTION_FAILED
+                    )
+
+                    RuleSetResult(ruleSet, source)
+                }
             }
         } catch (e: Exception) {
             Timber.e(e, "Getting $ruleTypeDcc rule set failed.")
@@ -92,6 +119,11 @@ class DccValidationServer @Inject constructor(
         }
     }
 
+    fun clear() {
+        Timber.d("clear()")
+        cache.evictAll()
+    }
+
     private fun Response<ResponseBody>.parseAndValidate(
         fileMissingErrorCode: ErrorCode,
         invalidSignatureErrorCode: ErrorCode,
@@ -120,9 +152,20 @@ class DccValidationServer @Inject constructor(
         }
     }
 
-    fun clear() {
-        Timber.d("clear()")
-        cache.evictAll()
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun getSource(response: Response<ResponseBody>) = if (response.wasModified) {
+        RuleSetSource.SERVER
+    } else {
+        RuleSetSource.CACHE
+    }
+
+    data class RuleSetResult(
+        val ruleSetJson: String,
+        val source: RuleSetSource
+    )
+
+    enum class RuleSetSource {
+        SERVER, CACHE
     }
 
     companion object {
