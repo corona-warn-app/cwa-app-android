@@ -12,36 +12,7 @@ internal fun ValueSetsOuterClass.ValueSets.toValueSetsContainer(languageCode: Lo
     return ValueSetsContainer(
         vaccinationValueSets = toVaccinationValueSets(languageCode = languageCode),
         testCertificateValueSets = toTestCertificateValueSets(languageCode = languageCode)
-    ).also {
-        Timber.tag(TAG).d(
-            """
-        VaccinationValueSets {
-            languageCode = %s
-            tg.size = %d
-            vp.size = %d
-            mp.size = %d
-            ma.size = %d
-        }
-        TestCertificateValueSets {
-            languageCode = %s
-            tg.size = %d
-            tt.size = %d
-            ma.size = %d
-            tr.size = %d
-        }
-            """.trimIndent(),
-            languageCode,
-            it.vaccinationValueSets.tg.items.size,
-            it.vaccinationValueSets.vp.items.size,
-            it.vaccinationValueSets.mp.items.size,
-            it.vaccinationValueSets.ma.items.size,
-            languageCode,
-            it.testCertificateValueSets.tg.items.size,
-            it.testCertificateValueSets.tt.items.size,
-            it.testCertificateValueSets.ma.items.size,
-            it.testCertificateValueSets.tr.items.size,
-        )
-    }
+    ).also { Timber.tag(TAG).d("ValueSetsContainer has been created") }
 }
 
 internal fun ValueSetsOuterClass.ValueSets.toVaccinationValueSets(languageCode: Locale): VaccinationValueSets =
