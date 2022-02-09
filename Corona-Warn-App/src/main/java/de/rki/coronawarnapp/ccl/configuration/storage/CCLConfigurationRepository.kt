@@ -36,18 +36,28 @@ class CCLConfigurationRepository @Inject constructor(
 
     suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
 
-    /** @return True if the ccl configuration was actually updated, false otherwise */
-    suspend fun updateCCLConfiguration(): Boolean = try {
-        var updated = false
+    /**
+     * @return UpdateResult.UPDATE if new data was fetched from the server, UpdateResult.NO_UPDATE if
+     * we didn't get new data from the server and UpdaterResult.FAIL if something went wrong
+     **/
+    suspend fun updateCCLConfiguration(): UpdateResult = try {
+        var updateResult = UpdateResult.NO_UPDATE
         internalData.updateBlocking {
             Timber.tag(TAG).d("Updating ccl configuration")
+
             val rawData = cclConfigurationServer.getCCLConfiguration()
             val newConfig = rawData?.tryParseCCLConfigurations()
+
+            if (rawData != null && newConfig == null) {
+                // parsing failed
+                updateResult = UpdateResult.FAIL
+            }
+
             when (newConfig != null && newConfig != this) {
                 true -> {
                     Timber.tag(TAG).d("Saving new config data")
                     cclConfigurationStorage.save(rawData = rawData)
-                    updated = true
+                    updateResult = UpdateResult.UPDATE
                     newConfig
                 }
 
@@ -58,10 +68,14 @@ class CCLConfigurationRepository @Inject constructor(
             }
         }
 
-        updated
+        updateResult
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Error while updating ccl config list")
-        false
+        UpdateResult.FAIL
+    }
+
+    enum class UpdateResult {
+        UPDATE, NO_UPDATE, FAIL
     }
 
     suspend fun clear() {

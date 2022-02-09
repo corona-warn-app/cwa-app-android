@@ -39,7 +39,7 @@ class CCLConfigurationServer @Inject constructor(
             }
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to get ccl configuration")
-            null
+            throw e
         }
     }.also { Timber.tag(TAG).d("Returning %s", it) }
 

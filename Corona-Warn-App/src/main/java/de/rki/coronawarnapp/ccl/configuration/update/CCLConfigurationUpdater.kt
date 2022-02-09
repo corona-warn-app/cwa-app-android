@@ -31,7 +31,6 @@ class CCLConfigurationUpdater @Inject constructor(
         }
 
         updateAndTriggerRecalculation()
-        cclSettings.setExecutionTimeToNow()
     }
 
     /**
@@ -57,9 +56,29 @@ class CCLConfigurationUpdater @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun updateConfiguration(): Boolean {
         return coroutineScope {
-            val newBoosterRulesDownloaded = async { boosterRulesRepository.update() }
-            val newCclConfigDownloaded = async { cclConfigurationRepository.updateCCLConfiguration() }
-            (newBoosterRulesDownloaded.await() == BoosterRulesRepository.UpdateResult.UPDATE) or newCclConfigDownloaded.await()
+            val boosterRulesDeferred = async { boosterRulesRepository.update() }
+            val cclConfigDeferred = async { cclConfigurationRepository.updateCCLConfiguration() }
+
+            val boosterRulesResult = boosterRulesDeferred.await()
+            val cclConfigResult = cclConfigDeferred.await()
+
+            updateExecutionTimeOnSuccess(boosterRulesResult, cclConfigResult)
+
+            val newBoosterRules = (boosterRulesDeferred.await() == BoosterRulesRepository.UpdateResult.UPDATE)
+            val newCclConfig = (cclConfigDeferred.await() == CCLConfigurationRepository.UpdateResult.UPDATE)
+
+            return@coroutineScope newBoosterRules || newCclConfig
+        }
+    }
+
+    private fun updateExecutionTimeOnSuccess(
+        boosterRulesUpdateResult: BoosterRulesRepository.UpdateResult,
+        cclConfigUpdateResult: CCLConfigurationRepository.UpdateResult
+    ) {
+        if (boosterRulesUpdateResult != BoosterRulesRepository.UpdateResult.FAIL &&
+            cclConfigUpdateResult != CCLConfigurationRepository.UpdateResult.FAIL
+        ) {
+            cclSettings.setExecutionTimeToNow()
         }
     }
 }
