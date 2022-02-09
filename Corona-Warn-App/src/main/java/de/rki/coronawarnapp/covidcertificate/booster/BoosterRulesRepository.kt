@@ -43,9 +43,12 @@ class BoosterRulesRepository @Inject constructor(
     val rules: Flow<List<DccValidationRule>> = internalData.data
 
     /**
-     * This updates the booster notification rules and returns true if new rules were fetched from the server.
+     * This updates the booster notification rules.
      * Falls back to previous cached rules in case of an error.
      * Worst case is an empty list.
+     *
+     * @return UpdateResult.UPDATE if new booster rules got downloaded from the server, UpdateResult.NO_UPDATE when
+     * there were no new rules from the server, or UpdateResult.FAIL if the request or parsing failed.
      */
     suspend fun update(): UpdateResult {
         Timber.tag(TAG).d("updateBoosterNotificationRules()")
