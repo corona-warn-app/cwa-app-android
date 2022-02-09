@@ -72,7 +72,7 @@ class TestCertificateRepository @Inject constructor(
                 )
             }.associateBy { it.containerId }
             .also {
-                Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
+                Timber.tag(TAG).v("Restored TestCertificate data: %d items", it.size)
             }
     }
 
@@ -126,7 +126,7 @@ class TestCertificateRepository @Inject constructor(
             .drop(1) // Initial emission, restored from storage.
             .onEach { entrySets ->
                 val values = entrySets.values
-                Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
+                Timber.tag(TAG).v("TestCertificateContainer data changed: %d items", values.size)
                 storage.save(values.map { it.data }.toSet())
             }
             .catch {

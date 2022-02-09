@@ -41,7 +41,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
     ) { persons, tcWrappers ->
-        Timber.tag(TAG).d("persons=%s, tcWrappers=%s", persons, tcWrappers)
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
                 addPersonItems(persons, tcWrappers)
@@ -125,7 +124,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     }
 
     fun checkExpiration() = launch(scope = appScope) {
-        Timber.d("checkExpiration()")
+        Timber.tag(TAG).d("checkExpiration()")
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
