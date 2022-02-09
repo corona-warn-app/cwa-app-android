@@ -7,8 +7,6 @@
     <string name="nm_notification_settings">"Zarządzaj powiadomieniami"</string>
     <!-- XHED: notification management: delta onboarding: header -->
     <string name="nm_notification_enabled">"Aktywuj powiadomienia"</string>
-    <!-- XTXT: notification management: inactive text -->
-    <string name="nm_notifications_body_inactive">"Aby aktywować powiadomienia w aplikacji Corona-Warn-App, musisz zezwolić na powiadomienia w ustawieniach swojego urządzenia."</string>
     <!-- XTXT: notification management: active text -->
     <string name="nm_notifications_body_active_beginning">"Tutaj możesz zdefiniować następujące ustawienia:"</string>
     <!-- XTXT: notification management: delta onboarding: point 1 -->
