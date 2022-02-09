@@ -109,7 +109,7 @@ class CCLConfigurationParserTest : BaseTest() {
 
         with(parser.parseCClConfigurationsJson(json = json).first()) {
             identifier shouldBe "CCL-DE-0001"
-            type shouldBe CCLConfiguration.Type.CCLConfiguration
+            type shouldBe CCLConfiguration.Type.CCL_CONFIGURATION
             country shouldBe "DE"
             version shouldBe "1.0.0"
             schemaVersion shouldBe "1.0.0"

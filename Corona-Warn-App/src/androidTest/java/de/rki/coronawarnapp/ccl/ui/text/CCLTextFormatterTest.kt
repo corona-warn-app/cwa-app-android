@@ -3,12 +3,16 @@ package de.rki.coronawarnapp.ccl.ui.text
 import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockkObject
+import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTimeZone
 import org.junit.Before
 import org.junit.Test
@@ -17,10 +21,14 @@ import java.nio.file.Paths
 import java.util.Locale
 import java.util.TimeZone
 
-class TextResourceTest : BaseTestInstrumentation() {
+class CCLTextFormatterTest : BaseTestInstrumentation() {
+
+    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this)
         mockkObject(BuildVersionWrap)
         Locale.setDefault(Locale.GERMAN)
 
@@ -41,12 +49,15 @@ class TextResourceTest : BaseTestInstrumentation() {
         testCases()
     }
 
-    private fun testCases() {
+    private fun testCases() = runBlockingTest {
+        val format = CCLTextFormatter(cclJsonFunctions, mapper)
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)
         val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
         testCases.testCases.forEach { testCase ->
-            testCase.textDescriptor.format(
+            format(
+                testCase.textDescriptor,
+                "de",
                 Locale.GERMAN
             ) shouldBe testCase.assertions[0].text
         }
