@@ -64,14 +64,14 @@ class VaccinationRepository @Inject constructor(
                 )
             }
             .toSet()
-            .also { Timber.tag(TAG).v("Restored vaccination data: %s", it) }
+            .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
     }
 
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
             .onEach { vaccinatedPersons ->
-                Timber.tag(TAG).v("Vaccination data changed: %s", vaccinatedPersons)
+                Timber.tag(TAG).v("Vaccination data changed, %d items", vaccinatedPersons.size)
                 storage.save(vaccinatedPersons.map { it.data }.toSet())
             }
             .catch {
@@ -93,7 +93,7 @@ class VaccinationRepository @Inject constructor(
                 certificateStates = stateMap,
                 data = person.data
             )
-        }.toSet().also { Timber.d("Test: $it") }
+        }.toSet().also { Timber.d("Tests: ${it.size}") }
     }
 
     val vaccinationInfos: Flow<Set<VaccinatedPerson>> = freshVaccinationInfos
@@ -169,7 +169,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).w("Clearing vaccination data.")
         internalData.updateBlocking {
-            Timber.tag(TAG).v("Deleting: %s", this)
+            Timber.tag(TAG).v("Deleting %d items", this.size)
             emptySet()
         }
     }
