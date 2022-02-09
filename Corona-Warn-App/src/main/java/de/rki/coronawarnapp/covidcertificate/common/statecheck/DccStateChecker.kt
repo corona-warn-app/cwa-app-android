@@ -37,14 +37,14 @@ class DccStateChecker @Inject constructor(
                 blocklist = appConfig.covidCertificateParameters.blockListParameters
             )
         } catch (e: Exception) {
-            Timber.tag(TAG).w(e, "Certificate is in the blocklist")
+            Timber.tag(TAG).w("Certificate is in the blocklist %s", e.message)
             return@combine CwaCovidCertificate.State.Blocked
         }
 
         try {
             dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)
         } catch (e: Exception) {
-            Timber.tag(TAG).w(e, "Certificate had invalid signature.")
+            Timber.tag(TAG).w("Certificate had invalid signature %s", e.message)
             return@combine CwaCovidCertificate.State.Invalid()
         }
 

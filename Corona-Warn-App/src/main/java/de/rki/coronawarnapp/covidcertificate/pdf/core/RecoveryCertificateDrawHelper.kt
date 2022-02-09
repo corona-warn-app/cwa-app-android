@@ -23,7 +23,7 @@ class RecoveryCertificateDrawHelper @Inject constructor(@OpenSansTypeFace font: 
             drawTextIntoRectangle(certificate.targetDisease, paint, TextArea(453.41f, 489.40f, 129.55f))
             drawTextIntoRectangle(certificate.testedPositiveOnFormatted, paint, TextArea(453.41f, 560.17f, 129.55f))
             drawTextIntoRectangle(
-                issuerCountryDisplayName(certificate.rawCertificate.recovery.certificateCountry),
+                certificate.rawCertificate.recovery.certificateCountry,
                 paint,
                 TextArea(453.41f, 611.75f, 129.55f)
             )
