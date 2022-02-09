@@ -57,6 +57,7 @@ class CCLTextFormatterTest : BaseTestInstrumentation() {
         testCases.testCases.forEach { testCase ->
             format(
                 testCase.textDescriptor,
+                "de",
                 Locale.GERMAN
             ) shouldBe testCase.assertions[0].text
         }
