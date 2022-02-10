@@ -455,6 +455,7 @@ jobs:
           command: |
             rm -rf firebase-screenshots/*/test_cases
             rm -f firebase-screenshots/*/instrumentation.results
+            rm -f firebase-screenshots/*/logcat
             rm -f firebase-screenshots/*/test_result_1.xml
             mkdir /tmp/screenshots
       - compress-path:
