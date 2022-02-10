@@ -36,14 +36,14 @@ internal class CCLSettingsTest : BaseTest() {
 
     @Test
     fun `test CCLSettings - set admission scenario identifier`() = runBlockingTest {
-        cclSettings.getAdmissionScenarioID() shouldBe ""
+        cclSettings.getAdmissionScenarioId() shouldBe ""
 
-        cclSettings.setAdmissionScenarioID("Ad-Sc-ID")
+        cclSettings.setAdmissionScenarioId("Ad-Sc-ID")
 
         fakeDataStore[CCLSettings.ADMISSION_SCENARIO_ID_KEY] shouldBe "Ad-Sc-ID"
-        cclSettings.getAdmissionScenarioID() shouldBe "Ad-Sc-ID"
+        cclSettings.getAdmissionScenarioId() shouldBe "Ad-Sc-ID"
 
         cclSettings.clear()
-        cclSettings.getAdmissionScenarioID() shouldBe ""
+        cclSettings.getAdmissionScenarioId() shouldBe ""
     }
 }

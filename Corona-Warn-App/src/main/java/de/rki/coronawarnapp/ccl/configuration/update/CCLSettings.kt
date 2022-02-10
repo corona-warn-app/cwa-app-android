@@ -71,16 +71,16 @@ class CCLSettings @Inject constructor(
     /**
      * @returns admission scenario identifier, by default empty string
      */
-    suspend fun getAdmissionScenarioID(): String = dataStoreFlow
+    suspend fun getAdmissionScenarioId(): String = dataStoreFlow
         .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
         .first()
 
     /**
      * Stores admission scenario identifier
      */
-    fun setAdmissionScenarioID(admissionScenarioID: String) = appScope.launch {
+    fun setAdmissionScenarioId(admissionScenarioId: String) = appScope.launch {
         runCatching {
-            dataStore.edit { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY] = admissionScenarioID }
+            dataStore.edit { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY] = admissionScenarioId }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "Failed to set ccl execution time.")
         }
@@ -97,7 +97,7 @@ class CCLSettings @Inject constructor(
 
     companion object {
         internal val LAST_EXECUTION_TIME_KEY = longPreferencesKey("ccl.settings.lastexecutiontime")
-        internal val ADMISSION_SCENARIO_ID_KEY = stringPreferencesKey("ccl.settings.admissionScenarioID")
+        internal val ADMISSION_SCENARIO_ID_KEY = stringPreferencesKey("ccl.settings.admissionScenarioId")
 
         private val TAG = tag<CCLSettings>()
     }
