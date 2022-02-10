@@ -13,6 +13,7 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -30,6 +31,7 @@ import javax.inject.Inject
 class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: PersonOverviewViewModel by cwaViewModels { viewModelFactory }
+    private val admissionViewModel by cwaViewModels<AdmissionScenariosViewModel> { viewModelFactory }
     private val binding by viewBinding<PersonOverviewFragmentBinding>()
     private val personOverviewAdapter = PersonOverviewAdapter()
 

@@ -293,7 +293,7 @@
     </fragment>
     <fragment
         android:id="@+id/admissionScenariosFragment"
-        android:name="de.rki.coronawarnapp.AdmissionScenariosFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosFragment"
         android:label="fragment_admission_scenarios"
         tools:layout="@layout/fragment_admission_scenarios" />
 </navigation>

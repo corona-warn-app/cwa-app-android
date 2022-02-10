@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdmissionScenariosFragment">
+    tools:context=".covidcertificate.person.ui.admission.AdmissionScenariosFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
