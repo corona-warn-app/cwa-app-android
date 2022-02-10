@@ -64,8 +64,8 @@ class CCLConfigurationUpdater @Inject constructor(
 
             updateExecutionTimeOnSuccess(boosterRulesResult, cclConfigResult)
 
-            val newBoosterRules = (boosterRulesDeferred.await() == BoosterRulesRepository.UpdateResult.UPDATE)
-            val newCclConfig = (cclConfigDeferred.await() == CCLConfigurationRepository.UpdateResult.UPDATE)
+            val newBoosterRules = (boosterRulesResult == BoosterRulesRepository.UpdateResult.UPDATE)
+            val newCclConfig = (cclConfigResult == CCLConfigurationRepository.UpdateResult.UPDATE)
 
             return@coroutineScope newBoosterRules || newCclConfig
         }
