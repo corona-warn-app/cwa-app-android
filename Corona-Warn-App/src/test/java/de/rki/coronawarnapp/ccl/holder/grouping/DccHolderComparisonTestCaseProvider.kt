@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ccl.holder.comparison
+package de.rki.coronawarnapp.ccl.holder.grouping
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.util.serialization.SerializationModule
