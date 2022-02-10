@@ -77,7 +77,7 @@ private fun compare(certificateA: CwaCovidCertificate, certificateB: CwaCovidCer
 
     val lastNameA = certificateA.lastName.cleanHolderName()
     val lastNameB = certificateB.lastName.cleanHolderName()
-    var lastNameMatch = firstNameA.intersect(firstNameB).joinToString(separator = "<")
+    var lastNameMatch = lastNameA.intersect(lastNameB).joinToString(separator = "<")
 
     if (firstNameMatch.isNotEmpty() && lastNameMatch.isNotEmpty()) {
         return DccHolderGroupKey(
