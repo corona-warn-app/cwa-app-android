@@ -453,10 +453,6 @@ jobs:
       - run:
           name: Clean up pulled bucket
           command: |
-            rm -rf firebase-screenshots/*/test_cases
-            rm -f firebase-screenshots/*/instrumentation.results
-            rm -f firebase-screenshots/*/logcat
-            rm -f firebase-screenshots/*/test_result_1.xml
             mkdir /tmp/screenshots
       - compress-path:
           input: ./firebase-screenshots
@@ -485,6 +481,7 @@ workflows:
           requires:
             - ktlint_check
             - detekt
+      - firebase_screenshots
 
   check_buildtype_device_for_testers:
     jobs:
