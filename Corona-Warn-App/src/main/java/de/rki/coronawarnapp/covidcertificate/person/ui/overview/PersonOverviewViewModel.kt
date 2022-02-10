@@ -1,17 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.ccl.ui.text.format
+import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -33,6 +33,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
+    private val format: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
@@ -40,20 +41,18 @@ class PersonOverviewViewModel @AssistedInject constructor(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
     ) { persons, tcWrappers ->
-        Timber.tag(TAG).d("persons=%s, tcWrappers=%s", persons, tcWrappers)
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
                 addPersonItems(persons, tcWrappers)
             }
         )
-    }.onStart { emit(UiState.Loading) }
-        .asLiveData(dispatcherProvider.Default)
+    }.onStart { emit(UiState.Loading) }.asLiveData2()
 
     fun deleteTestCertificate(containerId: TestCertificateContainerId) = launch {
         testCertificateRepository.deleteCertificate(containerId)
     }
 
-    private fun MutableList<PersonCertificatesItem>.addPersonItems(
+    private suspend fun MutableList<PersonCertificatesItem>.addPersonItems(
         persons: Set<PersonCertificates>,
         tcWrappers: Set<TestCertificateWrapper>,
     ) {
@@ -61,34 +60,34 @@ class PersonOverviewViewModel @AssistedInject constructor(
         addCertificateCards(persons)
     }
 
-    private fun MutableList<PersonCertificatesItem>.addCertificateCards(
+    private suspend fun MutableList<PersonCertificatesItem>.addCertificateCards(
         persons: Set<PersonCertificates>,
     ) {
-        persons.filterNotPending()
-            .forEachIndexed { index, person ->
-                val admissionState = person.dccWalletInfo?.admissionState
-                val certificates = person.overviewCertificates
-                Timber.d("VerificationCertificates ${person.overviewCertificates}")
-                val color = PersonColorShade.shadeFor(index)
-                if (certificates.isNotEmpty()) {
-                    add(
-                        PersonCertificateCard.Item(
-                            verificationCertificates = certificates,
-                            admissionBadgeText = admissionState?.badgeText.format(),
-                            colorShade = color,
-                            badgeCount = person.badgeCount,
-                            onClickAction = { _, position ->
-                                person.personIdentifier?.let { personIdentifier ->
-                                    events.postValue(
-                                        OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
-                                    )
-                                }
-                            },
-                            onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
-                        )
+        persons.filterNotPending().forEachIndexed { index, person ->
+            val admissionState = person.dccWalletInfo?.admissionState
+            val certificates = person.verificationCertificates
+            val color = PersonColorShade.shadeFor(index)
+            if (certificates.isNotEmpty()) {
+                add(
+                    PersonCertificateCard.Item(
+                        overviewCertificates = certificates.map {
+                            OverviewCertificate(it.cwaCertificate, format(it.buttonText))
+                        },
+                        admissionBadgeText = format(admissionState?.badgeText),
+                        colorShade = color,
+                        badgeCount = person.badgeCount,
+                        onClickAction = { _, position ->
+                            person.personIdentifier?.let { personIdentifier ->
+                                events.postValue(
+                                    OpenPersonDetailsFragment(personIdentifier.codeSHA256, position, color)
+                                )
+                            }
+                        },
+                        onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
                     )
-                }
+                )
             }
+        }
     }
 
     private fun MutableList<PersonCertificatesItem>.addPendingCards(tcWrappers: Set<TestCertificateWrapper>) {
@@ -120,12 +119,12 @@ class PersonOverviewViewModel @AssistedInject constructor(
         val error = refreshResults.mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
         if (refreshResults.any { it.error == null }) {
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 
     fun checkExpiration() = launch(scope = appScope) {
-        Timber.d("checkExpiration()")
+        Timber.tag(TAG).d("checkExpiration()")
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 

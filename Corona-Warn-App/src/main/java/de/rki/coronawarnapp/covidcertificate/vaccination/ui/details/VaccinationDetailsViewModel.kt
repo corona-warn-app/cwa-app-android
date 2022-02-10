@@ -58,16 +58,13 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
         }
 
         val certificate = person?.vaccinationCertificates?.find { it.containerId == containerId }
-        return VaccinationDetails(
-            certificate = certificate,
-            isImmune = person?.getVaccinationStatus() == VaccinatedPerson.Status.IMMUNITY,
-        )
+        return VaccinationDetails(certificate = certificate)
     }
 
     fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")
         vaccinationRepository.recycleCertificate(containerId)
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         events.postValue(VaccinationDetailsNavigation.Back)
     }
 

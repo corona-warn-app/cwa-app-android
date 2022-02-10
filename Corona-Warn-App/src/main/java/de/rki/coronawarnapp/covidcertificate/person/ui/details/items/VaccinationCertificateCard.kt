@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -75,7 +74,6 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val certificate: VaccinationCertificate,
         val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
-        val status: VaccinatedPerson.Status,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId = certificate.containerId.hashCode().toLong()

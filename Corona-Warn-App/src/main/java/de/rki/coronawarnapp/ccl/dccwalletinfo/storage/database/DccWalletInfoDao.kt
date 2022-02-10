@@ -19,6 +19,9 @@ interface DccWalletInfoDao {
     @Query("SELECT * FROM person_wallet_info")
     fun getAll(): Flow<List<DccWalletInfoEntity>>
 
+    @Query("DELETE FROM person_wallet_info WHERE person_identifier IN(:personIds)")
+    suspend fun deleteBy(personIds: Set<String>)
+
     @Query("DELETE FROM person_wallet_info")
     suspend fun deleteAll()
 }

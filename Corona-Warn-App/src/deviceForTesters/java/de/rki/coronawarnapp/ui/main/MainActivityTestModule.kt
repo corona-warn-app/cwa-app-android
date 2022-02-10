@@ -6,8 +6,6 @@ import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragmentModule
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
-import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
-import de.rki.coronawarnapp.test.booster.ui.BoosterTestModule
 import de.rki.coronawarnapp.test.ccl.CCLTestFragment
 import de.rki.coronawarnapp.test.ccl.CCLTestModule
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
@@ -18,8 +16,8 @@ import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment
 import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
-import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
+import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
 import de.rki.coronawarnapp.test.dsc.ui.DscTestFragment
 import de.rki.coronawarnapp.test.dsc.ui.DscTestModule
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
@@ -91,9 +89,6 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [DscTestModule::class])
     abstract fun dscTest(): DscTestFragment
-
-    @ContributesAndroidInjector(modules = [BoosterTestModule::class])
-    abstract fun boosterTestFragment(): BoosterTestFragment
 
     @ContributesAndroidInjector(modules = [DccTicketingTestModule::class])
     abstract fun dccTicketingTestFragment(): DccTicketingTestFragment

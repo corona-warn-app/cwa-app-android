@@ -260,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"If possible, please go home and stay at home and avoid any encounters outside of your own household."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"If you have any other questions, please contact the general medical emergency service on telephone number 116 117."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 (for the Ministry of Health service point). Only press 1 (the general medical emergency service) if you have symptoms."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Wash your hands regularly, with soap, for 20 seconds."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -742,7 +742,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"English, German, Turkish\n\nBusiness hours:\nMonday to Saturday: 7am - 10pm (CET)\n(except national holidays)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
+    <string name="information_contact_body_other">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 (for the Ministry of Health service point). Only press 1 (the general medical emergency service) if you have symptoms."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"A man wears a headset while making a phone call."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -921,8 +921,6 @@
     <string name="qr_code_open_file">"Open File"</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">"Reading QR code…"</string>
-    <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"The QR code is not supported by the Corona-Warn-App. Please scan a suitable QR code."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"File Unreadable"</string>
     <!-- XTXT: QR Code error message body  -->
@@ -975,8 +973,6 @@
     <string name="submission_consent_main_headline_body">"Your consent is needed before you can retrieve your test result and warn others."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Retrieve Test Result"</string>
-    <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Now scan the QR code for your test and retrieve your test result."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Each test can only be scanned once. The app can manage a maximum of one rapid test and one PCR test at the same time."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
@@ -1057,9 +1053,7 @@
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Delete Test"</string>
     <!-- XHED: Page headline for other warnings screen  -->
-    <string name="submission_test_result_positive_steps_warning_others_heading">"Warn Others"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Please share your random IDs and warn others.\nHelp determine the risk of infection for others more accurately by also indicating when you first noticed any coronavirus symptoms."</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Enter Symptoms"</string>
 
@@ -1082,28 +1076,12 @@
     <string name="submission_test_result_dialog_tracing_required_message">"Please activate exposure logging to warn other people."</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
-    <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"The test can only be scanned once."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Delete the test result?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"The test result will be moved to the recycle bin. You’ll find the recycle bin on the “Status” tab page, under the three dots on the upper right. You can permanently delete or restore it there. The test result will be deleted automatically after 30 days."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Delete Test Result"</string>
-    <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Are you sure you want to delete your test?"</string>
-    <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"If you delete the test, you can no longer retrieve your test result. You will receive your test result from the testing center or laboratory regardless of the validity of the QR code. If you are diagnosed with coronavirus, the public health authority will be notified through the legally prescribed channel and will contact you."</string>
-    <!-- YTXT: Dialog text for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_message_no_submission">"If you do, others will not be warned."</string>
-    <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Delete"</string>
-    <!-- XBUT: Negative button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_negative">"Cancel"</string>
-    <!-- XHED: Title for test result card positive -->
-    <string name="submission_test_result_card_positive_title">"SARS-CoV-2 positive"</string>
-    <!-- YTXT: Body text for test result card positive -->
-    <string name="submission_test_result_card_positive_body">"You have been diagnosed with the SARS-CoV-2 virus."</string>
     <!-- XHED: Page headline for test result with consent given  -->
     <string name="submission_test_result_consent_given_heading">"Your Test Result"</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
@@ -1164,14 +1142,10 @@
     <string name="submission_positive_other_warning_title">"Warn Others"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Please help all of us!"</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"If you wish, you can now ensure that others are warned of possible infection.\n\nTo do so, you can transmit your own random IDs from the last 14 days – and, optionally, information about when you first noticed coronavirus symptoms – to the server operated jointly by the participating countries. From there, your random IDs and any additional information will be distributed to the users of the relevant official coronavirus apps. In this way, any other users with whom you have had contact can be warned of a possible infection.\n\nThe only information transmitted will be your random IDs and any optional information you provide about the onset of your symptoms. No personal data such as your name, address or location will be disclosed."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"A smartphone transmits an encrypted positive test diagnosis to the system."</string>
-    <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"The following countries currently participate in transnational exposure logging:"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1293,7 +1267,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Our customer service is available in the following languages: English, German, Turkish\n\nBusiness hours:\nDaily (including weekends) 7am – 8pm (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"If you have any health-related questions, please contact your general practitioner or the medical emergency service hotline, telephone: 116 117."</string>
+    <string name="submission_contact_body_other">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 (for the Ministry of Health service point). Only press 1 (the general medical emergency service) if you have symptoms."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Call the hotline and request a TAN"</string>
@@ -1486,42 +1460,21 @@
     <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Local 7-Day Incidence"</string>
-    <!-- XTXT: Explanation screen local incidence text -->
-    <string name="statistics_explanation_local_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents in the configured district or federal state."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-Day Incidence"</string>
-    <!-- XHED: Explanation screen seven day hospitalization title -->
-    <string name="statistics_explanation_seven_day_hospitalization_title">"7-Day Hospitalization Incidence"</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care title -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"COVID-19 Patients in Intensive Care Units"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Total number of confirmed new infections in the last 7 days (by reporting date) per 100,000 residents."</string>
-    <!-- XTXT: Explanation screen seven day hospitalization text -->
-    <string name="statistics_explanation_seven_day_hospitalization_text">"Total number of hospital admissions due to COVID-19 in the last 7 days (by reporting date) per 100,000 residents."</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care text -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Proportion of people in intensive care units due to COVID-19 in relation to total ICU capacity."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-Day R Value"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"The reproduction figure, R, indicates how many people an average infected person has infected further."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"FAQ for the statistics"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legend"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Time Period"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
-    <string name="statistics_explanation_period_yesterday_subtitle">"Yesterday/Up to yesterday"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
     <string name="statistics_explanation_period_yesterday_text">"For “Yesterday/Up to yesterday”, the number for the previous day/up to the previous day is displayed. If no figures are available yet for the previous day, the last date for which figures are available is displayed."</string>
-    <!-- XHED: Explanation screen period seven day subtitle -->
-    <string name="statistics_explanation_period_seven_day_subtitle">"7-Day Average"</string>
-    <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Average value from the past 7 days"</string>
-    <!-- XHED: Explanation screen period total subtitle -->
-    <string name="statistics_explanation_period_total_subtitle">"Total"</string>
-    <!-- XTXT: Explanation screen period total text -->
-    <string name="statistics_explanation_period_total_text">"Total number since the start of the year or launch of the app (June 15, 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1609,8 +1562,6 @@
     <string name="statistics_seven_day_hospitalization_card_title">"7-Day Hospitalization Incidence"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_seven_day_hospitalization_nationwide_text">"Nationwide"</string>
-    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
-    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19 Hospitalizations per 100,000 Residents"</string>
 
     <!-- Occupied Intensive Care Statistics Card -->
     <!-- XHED: Title for occupied intensive care card -->
