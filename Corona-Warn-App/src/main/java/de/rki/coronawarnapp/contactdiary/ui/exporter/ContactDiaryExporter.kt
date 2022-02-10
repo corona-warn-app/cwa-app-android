@@ -81,7 +81,7 @@ class ContactDiaryExporter @Inject constructor(
         datesToExport: List<LocalDate>
     ) = apply {
 
-        if (personEncounters.isNotEmpty() || locationVisits.isNotEmpty()) {
+        if (personEncounters.isNotEmpty() || locationVisits.isNotEmpty() || testResults.isNotEmpty()) {
             appendLine()
         } else {
             return this
