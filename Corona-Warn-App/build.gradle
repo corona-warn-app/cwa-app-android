@@ -23,7 +23,7 @@ android {
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
     compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    buildToolsVersion "32.0.0"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
@@ -43,8 +43,8 @@ android {
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
+        resConfigs 'de', 'en', 'tr', 'bg', 'pl', 'ro'
 
-        resConfigs "de", "en", "tr", "bg", "pl", "ro"
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
         buildConfigField "String", "ENVIRONMENT_JSONDATA", prodEnvJson
@@ -216,19 +216,23 @@ android {
         useBuildCache true
         includeCompileClasspath = false
     }
-
     packagingOptions {
-        exclude "**/module-info.class"
-        exclude 'NOTICE'
-        exclude 'LICENSE'
-        exclude 'CODEOWNERS'
-        exclude 'README.md'
-        exclude 'CODE_OF_CONDUCT.md'
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
-        // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
-        exclude 'DebugProbesKt.bin'
+        resources {
+            excludes += [
+                    '**/module-info.class',
+                    'NOTICE',
+                    'LICENSE',
+                    'CODEOWNERS',
+                    'README.md',
+                    'CODE_OF_CONDUCT.md',
+                    'META-INF/AL2.0',
+                    'META-INF/LGPL2.1',
+                    // https://github.com/Kotlin/kotlinx.coroutines/issues/2274
+                    'DebugProbesKt.bin'
+            ]
+        }
     }
+
 
     sourceSets {
         deviceForTesters {
@@ -266,9 +270,9 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
     description = "Generate Jacoco coverage reports for the DeviceRelease build."
 
     reports {
-        html.enabled = false
+        html.required.set(false)
         xml {
-            enabled = true
+            required.set(true)
             destination file("$buildDir/reports/jacoco/deviceRelease/jacoco.xml")
         }
     }

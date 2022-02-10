@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -38,7 +39,6 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.flow,
         dccWalletInfoRepository.personWallets
     ) { vaccPersons, tests, recoveries, cwaUser, personWallets ->
-        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recoveries, cwaUser)
 
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
@@ -56,14 +56,18 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesMap.entries.map { (personIdentifier, certs) ->
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
 
+            val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
+
             val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
-                vaccPersons.boosterBadgeCount(personIdentifier)
+                vaccPersons.boosterBadgeCount(personIdentifier, dccWalletInfo?.boosterNotification)
+
             Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
+
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
                 badgeCount = badgeCount,
-                dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
+                dccWalletInfo = dccWalletInfo
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -82,14 +86,23 @@ class PersonCertificatesProvider @Inject constructor(
         .map { persons -> persons.sumOf { it.badgeCount } }
 
     private fun Set<VaccinatedPerson>.boosterBadgeCount(
-        personIdentifier: CertificatePersonIdentifier
+        personIdentifier: CertificatePersonIdentifier,
+        boosterNotification: BoosterNotification?
     ): Int {
+        if (boosterNotification == null) {
+            return 0
+        }
         val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
-        return when (vaccinatedPerson?.hasBoosterNotification) {
+        return when (hasBoosterRuleNotYetSeen(vaccinatedPerson, boosterNotification)) {
             true -> 1
             else -> 0
         }
     }
+
+    private fun hasBoosterRuleNotYetSeen(
+        vaccinatedPerson: VaccinatedPerson?,
+        boosterNotification: BoosterNotification
+    ) = vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
 
     companion object {
         private val TAG = PersonCertificatesProvider::class.simpleName!!

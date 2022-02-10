@@ -42,14 +42,14 @@ class ValueSetsRepository @Inject constructor(
         coroutineContext = dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Lazily
     ) {
-        valueSetsStorage.load().also { Timber.v("Loaded initial value sets %s", it) }
+        valueSetsStorage.load().also { Timber.v("Loaded initial value sets.") }
     }
 
     init {
         internalData.data
             .drop(1) // Initial emission that ways restored from storage anyways.
             .onEach {
-                Timber.v("Storing new valueset data.")
+                Timber.v("Storing new value set data.")
                 valueSetsStorage.save(it)
             }
             .catch {
@@ -91,7 +91,7 @@ class ValueSetsRepository @Inject constructor(
             container = certificateValueSetServer.getVaccinationValueSets(languageCode = Locale.ENGLISH)
         }
 
-        return container.also { Timber.v("New value sets %s", it) }
+        return container.also { Timber.v("Value set has been obtained from server") }
     }
 
     suspend fun clear() {

@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -36,7 +35,6 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 import timber.log.Timber
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 class VaccinationRepositoryTest : BaseTest() {
@@ -48,7 +46,6 @@ class VaccinationRepositoryTest : BaseTest() {
     @MockK lateinit var vaccinationValueSet: VaccinationValueSets
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dscRepository: DscRepository
-    @MockK lateinit var boosterRulesRepository: BoosterRulesRepository
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
@@ -74,8 +71,6 @@ class VaccinationRepositoryTest : BaseTest() {
 
         every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
 
-        every { boosterRulesRepository.rules } returns flowOf(emptyList())
-
         storage.apply {
             coEvery { load() } answers { testStorage }
             coEvery { save(any()) } answers { testStorage = arg(0) }
@@ -90,8 +85,7 @@ class VaccinationRepositoryTest : BaseTest() {
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = dccQrCodeExtractor,
         dccStateChecker = dccStateChecker,
-        dscRepository = dscRepository,
-        boosterRulesRepository = boosterRulesRepository
+        dscRepository = dscRepository
     )
 
     @Test
