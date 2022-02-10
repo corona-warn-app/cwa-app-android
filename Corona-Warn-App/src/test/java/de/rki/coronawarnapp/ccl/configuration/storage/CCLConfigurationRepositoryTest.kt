@@ -4,9 +4,7 @@ import com.upokecenter.cbor.CBORException
 import de.rki.coronawarnapp.ccl.configuration.common.CCLConfigurationParser
 import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
 import de.rki.coronawarnapp.ccl.configuration.server.CCLConfigurationServer
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository.UpdateResult.FAIL
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository.UpdateResult.NO_UPDATE
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository.UpdateResult.UPDATE
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.called
@@ -118,7 +116,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
             getCCLConfigurations() shouldBe cclConfigurations.first()
             clear()
             getCCLConfigurations() shouldBe cclConfigurations.first()
-            updateCCLConfiguration() shouldBe UPDATE
+            updateCCLConfiguration() shouldBe UpdateResult.UPDATE
             getCCLConfigurations() shouldBe cclConfigurations.first()
         }
     }
@@ -137,11 +135,11 @@ class CCLConfigurationRepositoryTest : BaseTest() {
 
         createInstance(scope = this).run {
             getCCLConfigurations().first() shouldBe storageCCLConfig
-            updateCCLConfiguration() shouldBe UPDATE
+            updateCCLConfiguration() shouldBe UpdateResult.UPDATE
             getCCLConfigurations().first() shouldBe serverCCLConfig
-            updateCCLConfiguration() shouldBe NO_UPDATE
+            updateCCLConfiguration() shouldBe UpdateResult.NO_UPDATE
             getCCLConfigurations().first() shouldBe serverCCLConfig
-            updateCCLConfiguration() shouldBe UPDATE
+            updateCCLConfiguration() shouldBe UpdateResult.UPDATE
             getCCLConfigurations().first() shouldBe serverCCLConfig2
         }
 
@@ -165,7 +163,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
 
         createInstance(scope = this).run {
             getCCLConfigurations().first() shouldBe storageCCLConfig
-            updateCCLConfiguration() shouldBe NO_UPDATE
+            updateCCLConfiguration() shouldBe UpdateResult.NO_UPDATE
             getCCLConfigurations().first() shouldBe storageCCLConfig
         }
 
@@ -188,7 +186,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
 
         createInstance(scope = this).run {
             getCCLConfigurations().first() shouldBe storageCCLConfig
-            updateCCLConfiguration() shouldBe FAIL
+            updateCCLConfiguration() shouldBe UpdateResult.FAIL
             getCCLConfigurations().first() shouldBe storageCCLConfig
         }
 

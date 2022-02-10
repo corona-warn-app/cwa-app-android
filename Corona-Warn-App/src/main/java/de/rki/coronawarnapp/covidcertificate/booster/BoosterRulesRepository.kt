@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidatio
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -79,10 +80,6 @@ class BoosterRulesRepository @Inject constructor(
         }
 
         return updateResult
-    }
-
-    enum class UpdateResult {
-        UPDATE, NO_UPDATE, FAIL
     }
 
     private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)

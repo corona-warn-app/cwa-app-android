@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.joda.time.Instant
@@ -64,20 +65,18 @@ class CCLConfigurationUpdater @Inject constructor(
 
             updateExecutionTimeOnSuccess(boosterRulesResult, cclConfigResult)
 
-            val newBoosterRules = (boosterRulesResult == BoosterRulesRepository.UpdateResult.UPDATE)
-            val newCclConfig = (cclConfigResult == CCLConfigurationRepository.UpdateResult.UPDATE)
+            val newBoosterRules = (boosterRulesResult == UpdateResult.UPDATE)
+            val newCclConfig = (cclConfigResult == UpdateResult.UPDATE)
 
             return@coroutineScope newBoosterRules || newCclConfig
         }
     }
 
     private fun updateExecutionTimeOnSuccess(
-        boosterRulesUpdateResult: BoosterRulesRepository.UpdateResult,
-        cclConfigUpdateResult: CCLConfigurationRepository.UpdateResult
+        boosterRulesUpdateResult: UpdateResult,
+        cclConfigUpdateResult: UpdateResult
     ) {
-        if (boosterRulesUpdateResult != BoosterRulesRepository.UpdateResult.FAIL &&
-            cclConfigUpdateResult != CCLConfigurationRepository.UpdateResult.FAIL
-        ) {
+        if (boosterRulesUpdateResult != UpdateResult.FAIL && cclConfigUpdateResult != UpdateResult.FAIL) {
             cclSettings.setExecutionTimeToNow()
         }
     }

@@ -41,7 +41,7 @@ class CCLConfigurationServer @Inject constructor(
             Timber.tag(TAG).e(e, "Failed to get ccl configuration")
             throw e
         }
-    }.also { Timber.tag(TAG).d("Returning %s", it) }
+    }
 
     private fun Response<ResponseBody>.parseAndValidate(): ByteArray {
         if (!isSuccessful) throw HttpException(this)

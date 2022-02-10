@@ -1,12 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository.UpdateResult
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
