@@ -85,6 +85,20 @@ internal class ContactDiaryExporterTest {
                 """.trimIndent()
             ),
             ExporterTestItem(
+                personEncounters = emptyList(),
+                locationVisits = emptyList(),
+                testResults = ContactDiaryData.TWO_TEST_RESULTS,
+                expectedExport =
+                """
+                    Kontakte der letzten 15 Tage (01.01.2021 - 15.01.2021)
+                    Die nachfolgende Liste dient dem zuständigen Gesundheitsamt zur Kontaktnachverfolgung gem. § 25 IfSG.
+                    
+                    02.01.2021 Schnelltest durchgeführt; Befund negativ
+                    01.01.2021 PCR-Test registriert; Befund positiv
+                    
+                """.trimIndent()
+            ),
+            ExporterTestItem(
                 personEncounters = ContactDiaryData.TWO_PERSONS_NO_ADDITIONAL_DATA,
                 locationVisits = ContactDiaryData.TWO_LOCATIONS_NO_ADDITIONAL_DATA,
                 testResults = emptyList(),
