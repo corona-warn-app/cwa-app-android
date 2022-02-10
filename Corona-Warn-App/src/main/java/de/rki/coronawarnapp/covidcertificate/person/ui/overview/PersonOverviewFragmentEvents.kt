@@ -19,3 +19,4 @@ data class OpenPersonDetailsFragment(
 ) : PersonOverviewFragmentEvents()
 
 object OpenCovPassInfo : PersonOverviewFragmentEvents()
+object OpenAdmissionScenarioScreen : PersonOverviewFragmentEvents()

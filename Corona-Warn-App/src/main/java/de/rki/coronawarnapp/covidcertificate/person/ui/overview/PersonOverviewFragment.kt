@@ -85,6 +85,10 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             OpenCovPassInfo -> doNavigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
             )
+
+            OpenAdmissionScenarioScreen -> doNavigate(
+                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToAdmissionScenariosFragment()
+            )
         }
     }
 
@@ -122,11 +126,16 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 recyclerView.isGone = uiState.personCertificates.isEmpty()
                 personOverviewAdapter.update(uiState.personCertificates)
                 loadingLayoutGroup.isVisible = false
+                admissionContainer.admissionTile.apply {
+                    isVisible = uiState.personCertificates.isNotEmpty()
+                    setOnClickListener { viewModel.openAdmissionScenarioScreen() }
+                }
             }
             PersonOverviewViewModel.UiState.Loading -> {
                 recyclerView.isGone = true
                 emptyLayout.isGone = true
                 loadingLayoutGroup.isVisible = true
+                admissionContainer.admissionTile.isVisible = false
             }
         }
     }

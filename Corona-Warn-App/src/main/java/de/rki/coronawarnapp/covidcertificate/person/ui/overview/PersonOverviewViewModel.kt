@@ -128,6 +128,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
+    fun openAdmissionScenarioScreen() = events.postValue(OpenAdmissionScenarioScreen)
+
     sealed class UiState {
         object Loading : UiState()
         data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState()

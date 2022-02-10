@@ -25,7 +25,9 @@
                 app:menu="@menu/menu_person_overview"
                 app:title="@string/certification_screen_title" />
 
-            <include layout="@layout/admission_scenario_tile" />
+            <include
+                android:id="@+id/admission_container"
+                layout="@layout/admission_scenario_tile" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
