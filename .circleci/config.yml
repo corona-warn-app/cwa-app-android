@@ -485,7 +485,6 @@ workflows:
           requires:
             - ktlint_check
             - detekt
-      - firebase_screenshots
 
   check_buildtype_device_for_testers:
     jobs:
