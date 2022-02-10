@@ -207,4 +207,15 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         dao.delete(personWallet)
         dao.getAll().first() shouldBe listOf()
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun deleteBy() = runBlocking {
+        val personId = personIdentifier.groupingKey
+        val personWallet = DccWalletInfoEntity(personId, dccWalletInfo)
+
+        dao.insert(personWallet)
+        dao.deleteBy(setOf(personId))
+        dao.getAll().first() shouldBe listOf()
+    }
 }

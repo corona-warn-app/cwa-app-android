@@ -25,7 +25,6 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/status_text"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintTop_toTopOf="parent"

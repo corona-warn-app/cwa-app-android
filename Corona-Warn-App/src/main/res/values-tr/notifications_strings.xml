@@ -7,8 +7,6 @@
     <string name="nm_notification_settings">"Bildirimleri Yönet"</string>
     <!-- XHED: notification management: delta onboarding: header -->
     <string name="nm_notification_enabled">"Bildirimleri Etkinleştir"</string>
-    <!-- XTXT: notification management: inactive text -->
-    <string name="nm_notifications_body_inactive">"Corona-Warn-App uygulamasında bildirimleri etkinleştirmek için cihazınızın ayarlarında bildirimlere izin vermeniz gerekir."</string>
     <!-- XTXT: notification management: active text -->
     <string name="nm_notifications_body_active_beginning">"Burada şu ayarları tanımlayabilirsiniz:"</string>
     <!-- XTXT: notification management: delta onboarding: point 1 -->

@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class BoosterNotificationTest : BaseTest() {
+class BoosterNotificationSenderTest : BaseTest() {
     @MockK(relaxed = true) lateinit var context: Context
     @MockK(relaxed = true) lateinit var navDeepLinkBuilder: NavDeepLinkBuilder
     @MockK lateinit var pendingIntent: PendingIntent
@@ -45,7 +45,7 @@ class BoosterNotificationTest : BaseTest() {
         } just Runs
     }
 
-    fun createInstance() = BoosterNotification(
+    fun createInstance() = BoosterNotificationSender(
         context = context,
         deepLinkBuilderFactory = deepLinkBuilderFactory,
         notificationHelper = notificationHelper,

@@ -10,7 +10,7 @@ import testhelpers.extensions.toComparableJsonPretty
 @Suppress("MaxLineLength")
 internal class DccWalletInfoParserTest : BaseTest() {
 
-    private val mapper = SerializationModule().jacksonObjectMapper()
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     private val boosterNotification = BoosterNotification(
         visible = true,

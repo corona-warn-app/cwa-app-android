@@ -6,7 +6,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
-import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
 import de.rki.coronawarnapp.test.ccl.CCLTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
@@ -53,7 +52,6 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
             HomeTestCardsFragment.MENU_ITEM,
             QrCodeTestFragment.MENU_ITEM,
             DscTestFragment.MENU_ITEM,
-            BoosterTestFragment.MENU_ITEM,
             DccTicketingTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }
