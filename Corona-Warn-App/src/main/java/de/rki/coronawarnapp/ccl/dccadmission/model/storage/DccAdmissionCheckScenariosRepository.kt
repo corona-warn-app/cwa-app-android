@@ -6,14 +6,19 @@ import de.rki.coronawarnapp.ccl.dccadmission.model.ScenarioSelection
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
-class DccAdmissionCheckScenariosRepository {
+class DccAdmissionCheckScenariosRepository @Inject constructor() {
 
     val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios> = flowOf(dummy)
 
-    fun save(scenarios: DccAdmissionCheckScenarios) {}
+    fun save(scenarios: DccAdmissionCheckScenarios) {
+        TODO()
+    }
 
-    fun clear() {}
+    fun clear() {
+        TODO()
+    }
 }
 
 val dummy = DccAdmissionCheckScenarios(
