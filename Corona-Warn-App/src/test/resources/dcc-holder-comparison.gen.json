@@ -577,6 +577,24 @@
         "dob": "2010-01-01"
       },
       "expIsSameHolder": true
+    },
+    {
+      "description": "match if partly swaped",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MUSTERMANN<MARIA",
+          "fnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
     }
   ]
 }

@@ -3,38 +3,6 @@ package de.rki.coronawarnapp.util.dcc
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
 fun Set<CwaCovidCertificate>.group(): Map<DccHolderGroupKey, List<CwaCovidCertificate>> {
-
-//    val result = Map<CertificatePersonIdentifier, List<CwaCovidCertificate>>()
-//    val result: Set<DccHolderGroupKey> = map { cwaCovidCertificate -> cwaCovidCertificate.toDccHolderGroupKey() }.toSet()
-//    zipWithNext { a: CwaCovidCertificate, b: CwaCovidCertificate ->
-//        val key = compare(a,b)
-//        if(key != null) {
-//
-//            if(result.containsKey(key)) {
-//                // If we already have the key in map - just add certificates and remove duplicates
-//                result[key] = (listOf(a,b) + result[key]!!).distinct()
-//            } else {
-//                // If not : first check if we have a and b somewhere in map
-//                listOf(a, b).forEach { cert ->
-//                    var contained = false
-//                    for (group in result.values) {
-//                        if (group.contains(cert)) {
-//                            contained = true
-//                        }
-//                    }
-//                }
-//                result[key] = listOf(a, b)
-//            }
-//        }
-//    }
-//                for (k in result.keys) {
-//                    val mergedKey = compare(key, k)
-// //                    if (mergedKey != null) {
-// //
-// //                    }
-//                }
-//
-
     val result = mutableMapOf<DccHolderGroupKey, List<CwaCovidCertificate>>()
     // First split on initial groups
     // At this point we could have multiple groups with same certificates
