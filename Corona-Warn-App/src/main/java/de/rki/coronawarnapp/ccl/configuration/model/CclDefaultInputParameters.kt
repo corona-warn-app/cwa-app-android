@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
+package de.rki.coronawarnapp.ccl.configuration.model
 
 import android.os.Build
 import android.os.LocaleList
