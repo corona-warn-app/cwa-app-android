@@ -1,4 +1,5 @@
 @file:Suppress("MaxLineLength")
+
 package de.rki.coronawarnapp.coronatest.qrcode
 
 internal const val pcrQrCode1 = "HTTPS://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064"
@@ -44,10 +45,10 @@ internal const val raQrAnonymousValidHash =
 internal const val raQrAnonymousInvalidHash =
     """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzUsInNhbHQiOiJGQjRDMzZENDVFMjBBMkMwNzExNUFDMzIwMkI5OThBMiIsInRlc3RpZCI6IjlhYTNmMDM3LWM3MjgtNDRmNy1iMGVmLWVmMWM4MjdiYjAzNSIsImhhc2giOiI3MmQyYmJkNmMwM2QwMGFkMWRlZWQxYjE0Y2MzYjk4ZTVmMTQ1M2U5MDEzYTNiNWE1NTc2MDY1NmYzMWU4YmQ5In0"""
 
+internal const val raPcrCode1 =
+    """https://p.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2NDQyNzQ5MjAsInNhbHQiOiIzMjg0QzRGODUzNjgyQkI2MTBFMzAxQzY3QTUxOEZFOSIsInRlc3RpZCI6IjU4Y2E2OThmLTFmNmUtNDU3Zi1hMzcwLWU1OTVlY2IzNGZkNSIsImhhc2giOiJlNmRjZDVlNmZiMjgwMmYwODhmOTMxMDA2ZjQzNDYwZjBiMTYwNGRhNTRkNzgyOTljMDEwZTQxMTljYTA4ODJlIiwiZm4iOiJJc2FhYyIsImxuIjoiRHVwdXkiLCJkb2IiOiIxOTY1LTEyLTA4In0"""
 
-internal const val raPcrCode1 = """https://p.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2NDQyNzQ5MjAsInNhbHQiOiIzMjg0QzRGODUzNjgyQkI2MTBFMzAxQzY3QTUxOEZFOSIsInRlc3RpZCI6IjU4Y2E2OThmLTFmNmUtNDU3Zi1hMzcwLWU1OTVlY2IzNGZkNSIsImhhc2giOiJlNmRjZDVlNmZiMjgwMmYwODhmOTMxMDA2ZjQzNDYwZjBiMTYwNGRhNTRkNzgyOTljMDEwZTQxMTljYTA4ODJlIiwiZm4iOiJJc2FhYyIsImxuIjoiRHVwdXkiLCJkb2IiOiIxOTY1LTEyLTA4In0"""
-
-//{
+// {
 //   "timestamp":1619618382,
 //   "salt":"6EBB1C8574AF1C70BF613FB334372C72",
 //   "testid":"86393115-edb0-4a7f-be85-a0b5b2693d71",
@@ -56,14 +57,16 @@ internal const val raPcrCode1 = """https://p.coronawarn.app?v=1#eyJ0aW1lc3RhbXAi
 //   "ln":"Huisman",
 //   "dob":"1959-08-02",
 //   "dgc":true
-//}
-internal const val rawPayloadWithDgcAndFullPersonalData = """eyJ0aW1lc3RhbXAiOjE2MTk2MTgzODIsInNhbHQiOiI2RUJCMUM4NTc0QUYxQzcwQkY2MTNGQjMzNDM3MkM3MiIsInRlc3RpZCI6Ijg2MzkzMTE1LWVkYjAtNGE3Zi1iZTg1LWEwYjViMjY5M2Q3MSIsImhhc2giOiIzMmQxYjk4MTRjNWU0ZjI3Mjc5NWU0NjNhMmViZjI5Y2Y1ZDZkYzdiZmRhODNhYzViZWY5Y2Q5M2E3YjMxMjYwIiwiZm4iOiJBZGVsYWlkZSIsImxuIjoiSHVpc21hbiIsImRvYiI6IjE5NTktMDgtMDIiLCAiZGdjIjp0cnVlfQ=="""
+// }
+internal const val rawPayloadWithDgcAndFullPersonalData =
+    """eyJ0aW1lc3RhbXAiOjE2MTk2MTgzODIsInNhbHQiOiI2RUJCMUM4NTc0QUYxQzcwQkY2MTNGQjMzNDM3MkM3MiIsInRlc3RpZCI6Ijg2MzkzMTE1LWVkYjAtNGE3Zi1iZTg1LWEwYjViMjY5M2Q3MSIsImhhc2giOiIzMmQxYjk4MTRjNWU0ZjI3Mjc5NWU0NjNhMmViZjI5Y2Y1ZDZkYzdiZmRhODNhYzViZWY5Y2Q5M2E3YjMxMjYwIiwiZm4iOiJBZGVsYWlkZSIsImxuIjoiSHVpc21hbiIsImRvYiI6IjE5NTktMDgtMDIiLCAiZGdjIjp0cnVlfQ=="""
 
-//{
+// {
 //   "timestamp":1627403671,
 //   "salt":"D3B5FCC2D1383474F0DE696068ABB338",
 //   "testid":"730c7077-56fd-47b8-813b-fb67895a80b9",
 //   "hash":"61df099207704a072fb2a97d31687523ca50f5bb031fc58bcd325bd9a976fd68",
 //   "dgc":true
-//}
-internal const val rawPayloadWithDgcWithoutPersonalData = """eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzEsInNhbHQiOiJEM0I1RkNDMkQxMzgzNDc0RjBERTY5NjA2OEFCQjMzOCIsInRlc3RpZCI6IjczMGM3MDc3LTU2ZmQtNDdiOC04MTNiLWZiNjc4OTVhODBiOSIsImhhc2giOiI2MWRmMDk5MjA3NzA0YTA3MmZiMmE5N2QzMTY4NzUyM2NhNTBmNWJiMDMxZmM1OGJjZDMyNWJkOWE5NzZmZDY4IiwiZGdjIjp0cnVlfQ=="""
+// }
+internal const val rawPayloadWithDgcWithoutPersonalData =
+    """eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzEsInNhbHQiOiJEM0I1RkNDMkQxMzgzNDc0RjBERTY5NjA2OEFCQjMzOCIsInRlc3RpZCI6IjczMGM3MDc3LTU2ZmQtNDdiOC04MTNiLWZiNjc4OTVhODBiOSIsImhhc2giOiI2MWRmMDk5MjA3NzA0YTA3MmZiMmE5N2QzMTY4NzUyM2NhNTBmNWJiMDMxZmM1OGJjZDMyNWJkOWE5NzZmZDY4IiwiZGdjIjp0cnVlfQ=="""
