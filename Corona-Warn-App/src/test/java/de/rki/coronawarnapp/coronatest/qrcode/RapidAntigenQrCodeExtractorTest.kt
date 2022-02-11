@@ -92,4 +92,34 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
             RapidAntigenQrCodeExtractor().extract(invalidCode)
         }
     }
+
+    @Test
+    fun `isDccSupportedByPoc is true only if dgc is true and has full personal data`() = runBlockingTest {
+        val qrCodeWithDgcAndFullPersonalData = """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzODIsInNhbHQiOiI2RUJCMUM4NTc0QUYxQzcwQkY2MTNGQjMzNDM3MkM3MiIsInRlc3RpZCI6Ijg2MzkzMTE1LWVkYjAtNGE3Zi1iZTg1LWEwYjViMjY5M2Q3MSIsImhhc2giOiIzMmQxYjk4MTRjNWU0ZjI3Mjc5NWU0NjNhMmViZjI5Y2Y1ZDZkYzdiZmRhODNhYzViZWY5Y2Q5M2E3YjMxMjYwIiwiZm4iOiJBZGVsYWlkZSIsImxuIjoiSHVpc21hbiIsImRvYiI6IjE5NTktMDgtMDIiLCAiZGdjIjp0cnVlfQ=="""
+        val qrCodeWithDgcWithoutPersonalData = """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzEsInNhbHQiOiJEM0I1RkNDMkQxMzgzNDc0RjBERTY5NjA2OEFCQjMzOCIsInRlc3RpZCI6IjczMGM3MDc3LTU2ZmQtNDdiOC04MTNiLWZiNjc4OTVhODBiOSIsImhhc2giOiI2MWRmMDk5MjA3NzA0YTA3MmZiMmE5N2QzMTY4NzUyM2NhNTBmNWJiMDMxZmM1OGJjZDMyNWJkOWE5NzZmZDY4IiwiZGdjIjp0cnVlfQ=="""
+
+        with(instance) {
+            extract(rawString = qrCodeWithDgcAndFullPersonalData).also {
+                it.isDccSupportedByPoc shouldBe true
+                it.firstName shouldBe "Adelaide"
+                it.lastName shouldBe "Huisman"
+                it.dateOfBirth shouldBe LocalDate.parse("1959-08-02")
+            }
+
+            extract(rawString = qrCodeWithDgcWithoutPersonalData).also {
+                it.isDccSupportedByPoc shouldBe false
+                it.firstName shouldBe null
+                it.lastName shouldBe null
+                it.dateOfBirth shouldBe null
+            }
+
+            // dgc of qr is null, trust me
+            extract(rawString = raQrCode1).also {
+                it.isDccSupportedByPoc shouldBe false
+                it.firstName shouldBe "Dylan"
+                it.lastName shouldBe "Gardiner"
+                it.dateOfBirth shouldBe LocalDate.parse("1967-12-22")
+            }
+        }
+    }
 }
