@@ -453,7 +453,6 @@ jobs:
       - run:
           name: Clean up pulled bucket
           command: |
-            rm -rf firebase-screenshots/*/artifacts/sdcard
             rm -rf firebase-screenshots/*/test_cases
             rm -f firebase-screenshots/*/instrumentation.results
             rm -f firebase-screenshots/*/logcat
@@ -461,7 +460,7 @@ jobs:
             mkdir /tmp/screenshots
       - compress-path:
           input: ./firebase-screenshots
-          output: /tmp/screenshots/CWA-Android-Screenshots-${CIRCLE_SHA1}.zip
+          output: /tmp/screenshots/CWA-Android-Screenshots.zip
       - store_artifacts:
           path: /tmp/screenshots
           destination: zips/
