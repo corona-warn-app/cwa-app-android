@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
@@ -40,6 +42,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     private val format: CCLTextFormatter,
+    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
 ) : CWAViewModel(dispatcherProvider) {
 
     val admissionTile = admissionCheckScenariosRepository.admissionCheckScenarios
@@ -142,7 +145,16 @@ class PersonOverviewViewModel @AssistedInject constructor(
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
-    fun openAdmissionScenarioScreen() = events.postValue(OpenAdmissionScenarioScreen)
+    fun openAdmissionScenarioScreen() = launch {
+        runCatching {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios()
+        }.onFailure { error ->
+            events.postValue(ShowAdmissionScenarioError(error))
+        }.onSuccess { result ->
+            admissionSharedViewModel.setAdmissionScenarios(result)
+            events.postValue(OpenAdmissionScenarioScreen)
+        }
+    }
 
     sealed class UiState {
         object Loading : UiState()

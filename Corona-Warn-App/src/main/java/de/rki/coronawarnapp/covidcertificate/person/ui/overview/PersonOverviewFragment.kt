@@ -101,6 +101,8 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             OpenAdmissionScenarioScreen -> doNavigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToAdmissionScenariosFragment()
             )
+
+            is ShowAdmissionScenarioError -> event.error.toErrorDialogBuilder(requireContext()).show()
         }
     }
 

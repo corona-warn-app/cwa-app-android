@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
@@ -7,6 +8,7 @@ import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -253,6 +255,8 @@ class PersonOverviewViewModelTest : BaseTest() {
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
-            format = CCLTextFormatter(cclJsonFunctions, mapper)
+            format = CCLTextFormatter(cclJsonFunctions, mapper),
+            admissionSharedViewModel = AdmissionSharedViewModel(SavedStateHandle()),
+            admissionCheckScenariosCalculation = mockk()
         )
 }

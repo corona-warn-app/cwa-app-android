@@ -25,6 +25,8 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.admissionCheckScenarios
+        viewModel.admissionCheckScenarios.observe(viewLifecycleOwner) {
+            // TODO: Bind views
+        }
     }
 }
