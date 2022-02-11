@@ -81,11 +81,11 @@ class QrCodeValidatorTest : BaseTest() {
         (qrCodeValidator.validate(pcrQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
         (qrCodeValidator.validate(pcrQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
         (qrCodeValidator.validate(pcrQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
+
         (qrCodeValidator.validate(raQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         (qrCodeValidator.validate(raQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         (qrCodeValidator.validate(raQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
 
-        //TODO: Change to RAPID_PCR
-        (qrCodeValidator.validate(raPcrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        (qrCodeValidator.validate(raPcrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
     }
 }

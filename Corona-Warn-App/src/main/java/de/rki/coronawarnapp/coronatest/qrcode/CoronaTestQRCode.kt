@@ -84,9 +84,8 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val testId: String? = null,
         override val salt: String? = null,
     ) : Rapid() {
-        // TODO. Change to RAPID_PCR
         @IgnoredOnParcel
-        override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+        override val type: CoronaTest.Type = CoronaTest.Type.PCR
     }
 }
 
