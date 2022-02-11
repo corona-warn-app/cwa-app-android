@@ -85,12 +85,12 @@ class CCLConfigurationRepository @Inject constructor(
         get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
 
     private fun ByteArray.tryParseCCLConfigurations(): List<CCLConfiguration>? = try {
-        Timber.tag(TAG).d("Trying to parse %s", this)
+        Timber.tag(TAG).d("tryParseCCLConfiguration()")
         cclConfigurationParser.parseCClConfigurations(rawData = this)
     } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to parse %s", this)
+        Timber.tag(TAG).e(e, "Failed to parse CCLConfiguration")
         null
-    }.also { Timber.d("Returning %s", it) }
+    }.also { logConfigVersionAndIdentifier(it, logPrefix = "tryParseCCLConfiguration() - Returning") }
 
     private suspend fun loadInitialConfigs(): List<CCLConfiguration> {
         Timber.tag(TAG).d("loadInitialConfig()")
@@ -98,7 +98,14 @@ class CCLConfigurationRepository @Inject constructor(
         return when (config != null) {
             true -> config
             false -> cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigurationsRawData)
-        }.also { Timber.tag(TAG).d("Returning %s", it) }
+        }.also { logConfigVersionAndIdentifier(it, logPrefix = "loadInitialConfig() - Returning") }
+    }
+
+    private fun logConfigVersionAndIdentifier(cclConfigurationList: List<CCLConfiguration>?, logPrefix: String) {
+        cclConfigurationList?.forEach { config ->
+            Timber.tag(TAG)
+                .d("%s Configuration with Version=%s and identifier=%s", logPrefix, config.version, config.identifier)
+        }
     }
 }
 
