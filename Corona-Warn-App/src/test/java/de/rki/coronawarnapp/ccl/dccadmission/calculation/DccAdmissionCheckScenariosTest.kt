@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ccl.dccadmission.calculation
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.NullNode
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import io.kotest.matchers.shouldBe
@@ -21,6 +20,9 @@ import testhelpers.TestDispatcherProvider
 class DccAdmissionCheckScenariosTest : BaseTest() {
 
     @MockK lateinit var dccAdmissionCheckScenarios: DccAdmissionCheckScenarios
+    @MockK lateinit var dccAdmissionCheckInput: JsonNode
+    @MockK lateinit var dccAdmissionCheckOutput: JsonNode
+
     @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
@@ -29,10 +31,15 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclJsonFunctions.evaluateFunction("getDCCAdmissionCheckScenarios", NullNode.instance) } returns
-            NullNode.instance
-        every { mapper.treeToValue(any(), DccAdmissionCheckScenarios::class.java) } returns dccAdmissionCheckScenarios
-        every { mapper.valueToTree<JsonNode>(any()) } returns NullNode.instance
+        coEvery { cclJsonFunctions.evaluateFunction("getDCCAdmissionCheckScenarios", dccAdmissionCheckInput) } returns
+            dccAdmissionCheckOutput
+        every {
+            mapper.treeToValue(
+                dccAdmissionCheckOutput,
+                DccAdmissionCheckScenarios::class.java
+            )
+        } returns dccAdmissionCheckScenarios
+        every { mapper.valueToTree<JsonNode>(any()) } returns dccAdmissionCheckInput
 
         instance = DccAdmissionCheckScenariosCalculation(
             mapper = mapper,
@@ -47,7 +54,7 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
             dateTime = dateTime
         ) shouldBe dccAdmissionCheckScenarios
         coVerify {
-            cclJsonFunctions.evaluateFunction("getDCCAdmissionCheckScenarios", NullNode.instance)
+            cclJsonFunctions.evaluateFunction("getDCCAdmissionCheckScenarios", dccAdmissionCheckInput)
         }
     }
 }
