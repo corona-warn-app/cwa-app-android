@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.recyclebin.covidcertificate
 
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -34,7 +34,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
-    @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
+    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     private val tcContainerId = mockk<TestCertificateContainerId>()
     private val vcContainerId = mockk<VaccinationCertificateContainerId>()
@@ -80,7 +80,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
             coEvery { deleteCertificate(any()) } returns null
         }
 
-        every { boosterCheckScheduler.scheduleNow(any()) } just Runs
+        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     @Test
@@ -109,7 +109,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         }
 
         coVerify(exactly = 3) {
-            boosterCheckScheduler.scheduleNow(any())
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 
@@ -141,7 +141,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
         vaccinationRepository = vaccinationRepository,
-        boosterCheckScheduler = boosterCheckScheduler,
+        dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
         appScope = TestCoroutineScope()
     )
 }

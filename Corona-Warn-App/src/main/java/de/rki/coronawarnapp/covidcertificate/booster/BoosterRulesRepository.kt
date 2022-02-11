@@ -5,9 +5,12 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationCache
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer.RuleSetSource.CACHE
+import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer.RuleSetSource.SERVER
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -41,23 +44,42 @@ class BoosterRulesRepository @Inject constructor(
     val rules: Flow<List<DccValidationRule>> = internalData.data
 
     /**
-     * This updates the booster notification rules and returns them.
+     * This updates the booster notification rules.
      * Falls back to previous cached rules in case of an error.
      * Worst case is an empty list.
+     *
+     * @return UpdateResult.UPDATE if new booster rules got downloaded from the server, UpdateResult.NO_UPDATE when
+     * there were no new rules from the server, or UpdateResult.FAIL if the request or parsing failed.
      */
-    suspend fun updateBoosterNotificationRules(): List<DccValidationRule> {
+    suspend fun update(): UpdateResult {
         Timber.tag(TAG).d("updateBoosterNotificationRules()")
-        return internalData.updateBlocking {
+
+        var updateResult = UpdateResult.NO_UPDATE
+
+        internalData.updateBlocking {
             return@updateBlocking try {
-                val rawJson = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
-                rawJson.toRuleSet().also { localCache.saveBoosterNotificationRulesJson(rawJson) }
+                val ruleSetResult = server.ruleSetJson(DccValidationRule.Type.BOOSTER_NOTIFICATION)
+                when (ruleSetResult.source) {
+                    SERVER -> {
+                        updateResult = UpdateResult.UPDATE
+                        ruleSetResult.ruleSetJson.toRuleSet()
+                            .also { localCache.saveBoosterNotificationRulesJson(ruleSetResult.ruleSetJson) }
+                    }
+                    CACHE -> {
+                        updateResult = UpdateResult.NO_UPDATE
+                        ruleSetResult.ruleSetJson.toRuleSet()
+                    }
+                }
             } catch (e: Exception) {
+                updateResult = UpdateResult.FAIL
                 Timber.tag(TAG).w(e, "Updating booster notification rules failed, loading cached rules")
                 localCache.loadBoosterNotificationRulesJson().toRuleSet()
             }
         }.let { boosterNotificationRules ->
             boosterNotificationRules.also { Timber.tag(TAG).d("Booster notification rules size=%s: %s", it.size, it) }
         }
+
+        return updateResult
     }
 
     private fun String?.toRuleSet(): List<DccValidationRule> = converter.jsonToRuleSet(this)

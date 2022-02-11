@@ -26,7 +26,6 @@
     <!-- Text -->
     <color name="colorOnPrimary">#17191A</color>
     <color name="colorTextPrimary1Inverted">#FFFFFF</color>
-    <color name="colorTextPrimary1Stable">#17191A</color>
     <color name="colorTextPrimary1InvertedStable">#FFFFFF</color>
     <color name="colorTextPrimary1InvertedStableTransparent">#80FFFFFF</color>
     <color name="colorTextPrimary2">#9917191A</color>
@@ -42,25 +41,17 @@
     <color name="colorSemanticHighRisk">#C00F2D</color>
     <color name="colorSemanticHighRiskPressed">#AE102B</color>
     <color name="colorSemanticLowRisk">#2E854B</color>
-    <color name="colorSemanticLowRiskPressed">#2B7A46</color>
     <color name="colorSemanticNeutralRisk">@color/cwaGrayHighlight</color>
-    <color name="colorSemanticNeutralRiskPressed">#556675</color>
     <color name="colorSemanticUnknownRisk">#FFFFFF</color>
-    <color name="colorSemanticUnknownRiskPressed">#E7E8E8</color>
 
     <!-- Misc -->
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorCrashReporter">@color/colorTextSemanticNeutral</color>
 
     <!-- Tan Input -->
-    <color name="tanInputBackground">#1A17191A</color>
 
     <!-- Stable Colors -->
-    <color name="colorStableDark">#000000</color>
-    <color name="colorStableMedium">#4D17191A</color>
     <color name="colorStableLight">#FFFFFF</color>
-    <color name="colorStableHairlineLight">#33FFFFFF</color>
-    <color name="colorStableHairlineDark">#3317191A</color>
 
     <!-- Symptoms / Calendar -->
     <color name="colorCalendarBackgroundSelected">@color/colorTextSemanticNeutral</color>
@@ -93,7 +84,6 @@
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>
     <color name="colorTraceLocationGradientBackground">#F2F2F2</color>
-    <color name="colorTraceLocationButtonTextColor">#F5F5F5</color>
 
     <!-- QR Code Scan -->
     <color name="colorQrCodeScanToolbar">#000000</color>
@@ -112,7 +102,6 @@
     <color name="starsColor2">#116A9F</color>
     <color name="starsColor3">#025A8F</color>
     <color name="starsColorInvalid">#576778</color>
-    <color name="qrcodeCardColor">@color/colorSurface</color>
     <color name="badgeColor">#ED382F</color>
     <color name="fab_tint">#409CC8</color>
 

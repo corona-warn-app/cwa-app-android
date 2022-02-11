@@ -5,6 +5,7 @@ import coil.ImageLoaderFactory
 import dagger.android.DispatchingAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
+import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdateScheduler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
@@ -12,7 +13,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -86,9 +86,9 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var imageLoaderFactory: ImageLoaderFactory
     @MockK lateinit var dscCheckScheduler: DccStateCheckScheduler
     @MockK lateinit var securityProvider: SecurityProvider
-    @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
+    @MockK lateinit var cclConfigurationUpdateScheduler: CCLConfigurationUpdateScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -151,9 +151,9 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.environmentSetup = environmentSetup
                 app.imageLoaderFactory = imageLoaderFactory
                 app.dccStateCheckScheduler = dscCheckScheduler
-                app.boosterCheckScheduler = boosterCheckScheduler
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
+                app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
             }
         }
     }
@@ -191,8 +191,8 @@ class CoronaWarnApplicationTest : BaseTest() {
             traceLocationDbCleanupScheduler.scheduleDaily()
             shareTestResultNotificationService.setup()
             dscCheckScheduler.setup()
-            boosterCheckScheduler.setup()
             recycleBinCleanUpScheduler.setup()
+            cclConfigurationUpdateScheduler.setup()
         }
     }
 }

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.joda.time.Instant
 
@@ -36,15 +37,17 @@ data class CCLConfiguration(
     val logic: Logic
 ) {
 
+    @get:JsonIgnore
     val validFrom: Instant
         get() = _validFrom.toInstant()
 
+    @get:JsonIgnore
     val validTo: Instant
         get() = _validTo.toInstant()
 
     enum class Type {
         @JsonProperty("CCLConfiguration")
-        CCLConfiguration
+        CCL_CONFIGURATION
     }
 
     data class Logic(

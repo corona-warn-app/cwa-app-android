@@ -31,7 +31,7 @@ class VaccinationCertificateDrawHelper @Inject constructor(@OpenSansTypeFace fon
             )
             drawTextIntoRectangle(certificate.vaccinatedOnFormatted, paint, TextArea(450.05f, 726.90f, 127.15f))
             drawTextIntoRectangle(
-                issuerCountryDisplayName(certificate.rawCertificate.vaccination.certificateCountry),
+                certificate.rawCertificate.vaccination.certificateCountry,
                 paint,
                 TextArea(450.05f, 758.08f, 127.15f)
             )

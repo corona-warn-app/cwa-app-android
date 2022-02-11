@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.covidcertificate.person.core.VerificationCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewAdapter
 import de.rki.coronawarnapp.databinding.PersonOverviewItemBinding
@@ -25,11 +25,13 @@ class PersonCertificateCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
+        val firstCertificate = curItem.overviewCertificates[0]
+        val secondCertificate = curItem.overviewCertificates.getOrNull(1)
         setUIState(
-            primaryCertificate = curItem.certificatesForOverviewScreen[0].certificate,
-            secondaryCertificate = curItem.certificatesForOverviewScreen.getOrNull(1)?.certificate,
-            primaryCertificateButtonText = curItem.certificatesForOverviewScreen[0].buttonText,
-            secondaryCertificateButtonText = curItem.certificatesForOverviewScreen.getOrNull(1)?.buttonText,
+            primaryCertificate = firstCertificate.cwaCertificate,
+            primaryCertificateButtonText = firstCertificate.buttonText,
+            secondaryCertificate = secondCertificate?.cwaCertificate,
+            secondaryCertificateButtonText = secondCertificate?.buttonText,
             colorShade = curItem.colorShade,
             statusBadgeText = curItem.admissionBadgeText,
             badgeCount = curItem.badgeCount,
@@ -38,12 +40,12 @@ class PersonCertificateCard(parent: ViewGroup) :
 
         itemView.apply {
             setOnClickListener { curItem.onClickAction(curItem, bindingAdapterPosition) }
-            transitionName = curItem.certificatesForOverviewScreen[0].certificate.personIdentifier.codeSHA256
+            transitionName = firstCertificate.cwaCertificate.personIdentifier.codeSHA256
         }
     }
 
     data class Item(
-        val certificatesForOverviewScreen: List<VerificationCertificate>,
+        val overviewCertificates: List<OverviewCertificate>,
         val primaryCertificateText: String = "",
         val secondaryCertificateText: String = "",
         val admissionBadgeText: String = "",
@@ -52,6 +54,12 @@ class PersonCertificateCard(parent: ViewGroup) :
         val onClickAction: (Item, Int) -> Unit,
         val onCovPassInfoAction: () -> Unit
     ) : PersonCertificatesItem, HasPayloadDiffer {
-        override val stableId: Long = hashCode().toLong()
+        override val stableId: Long =
+            overviewCertificates[0].cwaCertificate.personIdentifier.hashCode().toLong()
+
+        data class OverviewCertificate(
+            val cwaCertificate: CwaCovidCertificate,
+            val buttonText: String = ""
+        )
     }
 }

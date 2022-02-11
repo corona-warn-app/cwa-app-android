@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.retrofit.wasModified
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -38,9 +39,9 @@ class CCLConfigurationServer @Inject constructor(
             }
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to get ccl configuration")
-            null
+            throw e
         }
-    }.also { Timber.tag(TAG).d("Returning %s", it) }
+    }
 
     private fun Response<ResponseBody>.parseAndValidate(): ByteArray {
         if (!isSuccessful) throw HttpException(this)
@@ -64,12 +65,6 @@ class CCLConfigurationServer @Inject constructor(
 
         return exportBinary
     }
-
-    private val Response<ResponseBody>.wasModified: Boolean
-        get() {
-            val code = raw().networkResponse?.code
-            return code != null && code != 304
-        }
 
     companion object {
         @VisibleForTesting const val EXPORT_BINARY_FILE_NAME = "export.bin"

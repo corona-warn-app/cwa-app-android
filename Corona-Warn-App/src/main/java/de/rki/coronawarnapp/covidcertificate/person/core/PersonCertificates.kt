@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
-import de.rki.coronawarnapp.ccl.ui.text.format
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
@@ -22,12 +22,12 @@ data class PersonCertificates(
     }
 
     // PersonOverview
-    val overviewCertificates: List<VerificationCertificate> by lazy {
+    val verificationCertificates: List<VerificationCertificate> by lazy {
         dccWalletInfo?.verification?.certificates.orEmpty().mapNotNull { certRef ->
             certificates.firstOrNull { it.qrCodeHash == certRef.certificateRef.qrCodeHash() }?.let {
                 VerificationCertificate(
-                    certificate = it,
-                    buttonText = certRef.buttonText.format()
+                    cwaCertificate = it,
+                    buttonText = certRef.buttonText
                 )
             }
         }.take(2).ifEmpty {
@@ -40,6 +40,6 @@ data class PersonCertificates(
 }
 
 data class VerificationCertificate(
-    val certificate: CwaCovidCertificate,
-    val buttonText: String = ""
+    val cwaCertificate: CwaCovidCertificate,
+    val buttonText: CCLText? = null
 )

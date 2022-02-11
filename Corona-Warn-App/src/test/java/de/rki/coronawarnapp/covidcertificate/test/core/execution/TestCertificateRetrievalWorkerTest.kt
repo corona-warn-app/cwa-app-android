@@ -4,14 +4,18 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -22,6 +26,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var request: WorkRequest
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
+    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @RelaxedMockK lateinit var workerParams: WorkerParameters
 
@@ -30,6 +35,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
         MockKAnnotations.init(this)
 
         coEvery { testCertificateRepository.refresh() } returns emptySet()
+        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     private fun createWorker(
@@ -40,6 +46,7 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
             every { it.runAttemptCount } returns runAttempts
         },
         testCertificateRepository = testCertificateRepository,
+        dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
     )
 
     @Test
@@ -49,6 +56,8 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
 
         result shouldBe ListenableWorker.Result.success()
+
+        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
@@ -58,6 +67,8 @@ class TestCertificateRetrievalWorkerTest : BaseTest() {
         val result = createWorker().doWork()
 
         coVerify(exactly = 1) { testCertificateRepository.refresh() }
+
+        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
 
         result shouldBe ListenableWorker.Result.retry()
     }
