@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
@@ -43,6 +44,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
+    @MockK lateinit var admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository
     @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
@@ -58,6 +60,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
         every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
+        every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(mockk())
     }
 
     @Test
@@ -246,6 +249,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             dispatcherProvider = TestDispatcherProvider(),
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
+            admissionCheckScenariosRepository = admissionCheckScenariosRepository,
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
