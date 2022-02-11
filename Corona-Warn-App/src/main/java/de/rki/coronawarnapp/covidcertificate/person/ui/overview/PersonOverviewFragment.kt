@@ -14,11 +14,9 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
-import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
