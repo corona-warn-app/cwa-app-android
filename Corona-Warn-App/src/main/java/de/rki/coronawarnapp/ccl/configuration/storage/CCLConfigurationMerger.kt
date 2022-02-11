@@ -8,13 +8,16 @@ import javax.inject.Inject
 class CCLConfigurationMerger @Inject constructor() {
 
     fun merge(
-        defaultConfigurationList: List<CCLConfiguration>,
-        downloadedConfigurationList: List<CCLConfiguration>
+        defaultConfigList: List<CCLConfiguration>,
+        downloadedConfigList: List<CCLConfiguration>
     ): List<CCLConfiguration> {
-        return defaultConfigurationList.map { defaultConfig ->
-            downloadedConfigurationList.firstOrNull { downloadedConfig ->
+
+        val defaultConfigsNotInDownloadedConfigs = defaultConfigList.filter { defaultConfig ->
+            downloadedConfigList.none { downloadedConfig ->
                 downloadedConfig.identifier == defaultConfig.identifier
-            } ?: defaultConfig
+            }
         }
+
+        return downloadedConfigList + defaultConfigsNotInDownloadedConfigs
     }
 }
