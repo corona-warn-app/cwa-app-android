@@ -17,9 +17,9 @@ import timber.log.Timber
 
 abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
 
-    abstract val loggingTag: String
-    abstract fun String.removeQrCodePrefix(): String
-    abstract fun CleanPayload.toCoronaTestQRCode(rawString: String): CoronaTestQRCode.Rapid
+    protected abstract val loggingTag: String
+    protected abstract fun String.removeQrCodePrefix(): String
+    protected abstract fun CleanPayload.toCoronaTestQRCode(rawString: String): CoronaTestQRCode.Rapid
 
     override suspend fun extract(rawString: String): CoronaTestQRCode.Rapid {
         Timber.tag(loggingTag).v("extract(rawString=%s)", rawString)
@@ -136,7 +136,7 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
         }
 
         private fun requireValidHash() {
-            val isQrCodeWithPersonalData = firstName != null && lastName != null && dateOfBirth != null
+            val isQrCodeWithPersonalData = allPersonalData.all { it != null }
             val generatedHash = if (isQrCodeWithPersonalData)
                 "${raw.dateOfBirth}#${raw.firstName}#${raw.lastName}#${raw.timestamp}#${raw.testid}#${raw.salt}"
                     .toSHA256()
