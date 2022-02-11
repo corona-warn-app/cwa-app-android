@@ -120,19 +120,17 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
             if (raw.salt.isNullOrEmpty()) null else raw.salt
         }
 
-        val isDccSupportedByPoc: Boolean by lazy { raw.dgc == true }
+        val isDccSupportedByPoc: Boolean by lazy { raw.dgc == true && allPersonalData.all { it != null } }
 
         fun requireValidData() {
             requireValidPersonalData()
             requireValidHash()
         }
 
+        private val allPersonalData: List<Any?> by lazy { listOf(firstName, lastName, dateOfBirth) }
+
         private fun requireValidPersonalData() {
-            val allOrNothing = listOf(
-                firstName != null,
-                lastName != null,
-                dateOfBirth != null,
-            )
+            val allOrNothing = allPersonalData.map { it != null }
             val complete = allOrNothing.all { it } || allOrNothing.all { !it }
             if (!complete) throw InvalidQRCodeException("QRCode contains incomplete personal data: $raw")
         }
