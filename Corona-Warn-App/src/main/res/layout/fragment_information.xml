@@ -23,9 +23,9 @@
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:paddingTop="@dimen/spacing_normal"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,15 +112,24 @@
                     tools:text="v1.8.0-RC1" />
 
                 <TextView
+                    android:id="@+id/ccl_version"
+                    style="@style/body2Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/guideline_body_title_padding"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:focusable="true"
+                    tools:text="1.0.0" />
+
+                <TextView
                     android:id="@+id/information_enf_version"
                     style="@style/body2Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/guideline_body_title_padding"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:background="?selectableItemBackground"
                     android:focusable="true"
-                    android:paddingTop="@dimen/spacing_tiny"
-                    android:paddingBottom="@dimen/spacing_tiny"
                     tools:text="16000000"
                     tools:visibility="visible" />
 
