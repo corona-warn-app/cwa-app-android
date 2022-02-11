@@ -15,7 +15,6 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
 
     val admissionCheckScenarios = admissionCheckScenariosRepository.admissionCheckScenarios
         .map {
-
         }
         .asLiveData2()
 

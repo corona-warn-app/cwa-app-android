@@ -13,8 +13,6 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
