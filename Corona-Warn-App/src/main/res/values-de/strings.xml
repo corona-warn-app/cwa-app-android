@@ -694,8 +694,6 @@
     <string name="information_title">"App-Informationen"</string>
     <!-- XTXT: Version information text -->
     <string name="information_version">"Version: %1s"</string>
-    <!-- XTXT: CCL Version text -->
-    <string name="ccl_version">"CCL Version: %1s"</string>
     <!-- XHED: Page title for about information page, also menu item / button text -->
     <string name="information_about_title">"Über die App"</string>
     <!-- XHED: Subtitle for about information page -->

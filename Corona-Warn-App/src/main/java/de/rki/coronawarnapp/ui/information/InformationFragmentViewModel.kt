@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.information
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
+@SuppressLint("StaticFieldLeak")
 class InformationFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     enfClient: ENFClient,
@@ -23,8 +25,9 @@ class InformationFragmentViewModel @AssistedInject constructor(
     cclConfigurationRepository: CCLConfigurationRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val cclConfigVersion = cclConfigurationRepository.cclConfigurations.map {
-        context.getString(R.string.ccl_version, it[0].version)
+    val cclConfigVersion = cclConfigurationRepository.cclConfigurations.map { configs ->
+        val version = configs.map { it.version }.toSet().joinToString(", ")
+        "CCL ${context.getString(R.string.information_version).format(version)}"
     }.asLiveData2()
 
     val currentENFVersion = flow {
