@@ -351,6 +351,7 @@ class ContactDiaryOverviewViewModel @AssistedInject constructor(
             val export = exporter.createExport(
                 personEncountersFlow.first(),
                 locationVisitsFlow.first(),
+                testResultsFlow.first(),
                 DAY_COUNT
             )
 

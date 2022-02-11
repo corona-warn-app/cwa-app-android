@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
+package de.rki.coronawarnapp.ccl.configuration.model
 
 import android.os.Build
 import android.os.LocaleList
@@ -8,20 +8,20 @@ import org.joda.time.format.ISODateTimeFormat
 import timber.log.Timber
 import java.util.Locale
 
-internal fun getDefaultInputParameters(
+fun getDefaultInputParameters(
     now: DateTime
 ) = CclInputParameters(
     language = cclLanguage,
     now = CclDateTime(now)
 )
 
-internal data class CclInputParameters(
+data class CclInputParameters(
     val os: String = "android",
     val language: String,
     val now: CclDateTime,
 )
 
-internal data class CclDateTime(
+data class CclDateTime(
     private val dateTime: DateTime
 ) {
     private val dateTimeUtc = dateTime.toDateTime(DateTimeZone.UTC)

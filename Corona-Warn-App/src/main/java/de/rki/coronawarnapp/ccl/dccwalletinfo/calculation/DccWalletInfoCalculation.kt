@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.NullNode
 import com.google.gson.Gson
+import de.rki.coronawarnapp.ccl.configuration.model.CclInputParameters
+import de.rki.coronawarnapp.ccl.configuration.model.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
@@ -40,7 +42,7 @@ class DccWalletInfoCalculation @Inject constructor(
         dateTime: DateTime = DateTime.now()
     ): DccWalletInfo = withContext(dispatcherProvider.IO) {
         val output = cclJsonFunctions.evaluateFunction(
-            FUNCTION_NAME,
+            "getDccWalletInfo",
             getDccWalletInfoInput(
                 dccList = dccList,
                 boosterNotificationRules = boosterRulesNode,
@@ -92,5 +94,3 @@ class DccWalletInfoCalculation @Inject constructor(
 
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
 }
-
-private const val FUNCTION_NAME = "getDccWalletInfo"
