@@ -5,10 +5,26 @@ import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import org.joda.time.Duration
 import org.joda.time.LocalDate
 
 object ContactDiaryData {
+
+    val TWO_TEST_RESULTS = listOf(
+        ContactDiaryCoronaTestEntity(
+            id = "PCR_01",
+            testType = ContactDiaryCoronaTestEntity.TestType.PCR,
+            result = ContactDiaryCoronaTestEntity.TestResult.POSITIVE,
+            time = LocalDate.parse("2021-01-01").toDateTimeAtStartOfDay().toInstant()
+        ),
+        ContactDiaryCoronaTestEntity(
+            id = "RAT_01",
+            testType = ContactDiaryCoronaTestEntity.TestType.ANTIGEN,
+            result = ContactDiaryCoronaTestEntity.TestResult.NEGATIVE,
+            time = LocalDate.parse("2021-01-02").toDateTimeAtStartOfDay().toInstant()
+        )
+    )
 
     val TWO_PERSONS_NO_ADDITIONAL_DATA = listOf(
         DefaultContactDiaryPersonEncounter(
