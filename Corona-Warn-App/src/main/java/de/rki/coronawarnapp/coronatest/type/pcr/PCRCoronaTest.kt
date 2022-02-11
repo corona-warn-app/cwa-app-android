@@ -44,6 +44,8 @@ data class PCRCoronaTest(
     @Transient override val isProcessing: Boolean = false,
     @Transient override val lastError: Throwable? = null,
 
+    @SerializedName("isDccSupportedByPoc")
+    private val _isDccSupportedByPoc: Boolean? = true,
     @SerializedName("isDccConsentGiven")
     override val isDccConsentGiven: Boolean = false,
 
@@ -78,6 +80,10 @@ data class PCRCoronaTest(
     override val isSubmissionAllowed: Boolean
         get() = isPositive && !isSubmitted
 
+    // Set to true for old records
+    override val isDccSupportedByPoc: Boolean
+        get() = _isDccSupportedByPoc ?: true
+
     val state: State
         get() = when {
             isRecycled -> State.RECYCLED
@@ -90,9 +96,6 @@ data class PCRCoronaTest(
                 else -> throw IllegalArgumentException("Invalid PCR test state $testResult")
             }
         }
-
-    override val isDccSupportedByPoc: Boolean
-        get() = true
 
     enum class State {
         PENDING,
