@@ -82,7 +82,7 @@ class CCLSettings @Inject constructor(
         runCatching {
             dataStore.edit { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY] = admissionScenarioId }
         }.onFailure { e ->
-            Timber.tag(TAG).e(e, "Failed to set ccl execution time.")
+            Timber.tag(TAG).e(e, "Failed to set admissionScenarioId.")
         }
     }
 
