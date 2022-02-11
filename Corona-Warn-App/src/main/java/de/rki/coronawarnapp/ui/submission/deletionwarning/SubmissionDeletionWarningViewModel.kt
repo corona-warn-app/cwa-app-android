@@ -64,23 +64,67 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 val test = submissionRepository.testForType(request.type).first()
                 if (test != null) {
                     recycledCoronaTestsProvider.recycleCoronaTest(test.identifier)
-                }
-                recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
-                val directions = if (request.fromRecycleBin) {
-                    DuplicateWarningEvent.Back
+                    recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
+                    restoreCertificates(test, request)
                 } else {
+                    recycledCoronaTestsProvider.restoreCoronaTest(request.identifier)
+                    val directions = if (request.fromRecycleBin) {
+                        DuplicateWarningEvent.Back
+                    } else {
+                        DuplicateWarningEvent.Direction(
+                            SubmissionDeletionWarningFragmentDirections
+                                .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                                    testType = request.type,
+                                    forceTestResultUpdate = true,
+                                    testIdentifier = request.identifier
+                                )
+                        )
+                    }
+                    routeToScreen.postValue(directions)
+                }
+            }
+        }
+    }
+
+    private fun restoreCertificates(test: CoronaTest, request: TestRegistrationRequest) {
+        when {
+            test.isPositive -> routeToScreen.postValue(
+                DuplicateWarningEvent.Direction(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionTestResultKeysSharedFragment(
+                            testType = request.type,
+                            testIdentifier = request.identifier
+                        )
+                )
+            )
+            test.isNegative -> when (test.type) {
+                CoronaTest.Type.PCR -> routeToScreen.postValue(
                     DuplicateWarningEvent.Direction(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultNegativeFragment(
                                 testType = request.type,
-                                forceTestResultUpdate = true,
                                 testIdentifier = request.identifier
                             )
                     )
-                }
-
-                routeToScreen.postValue(directions)
+                )
+                CoronaTest.Type.RAPID_ANTIGEN -> routeToScreen.postValue(
+                    DuplicateWarningEvent.Direction(
+                        SubmissionDeletionWarningFragmentDirections
+                            .actionSubmissionDeletionWarningFragmentToNegativeRatFragment(
+                                testIdentifier = request.identifier
+                            )
+                    )
+                )
             }
+            test.isPending -> routeToScreen.postValue(
+                DuplicateWarningEvent.Direction(
+                    SubmissionDeletionWarningFragmentDirections
+                        .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
+                            testType = request.type,
+                            testIdentifier = request.identifier
+                        )
+                )
+            )
         }
     }
 
