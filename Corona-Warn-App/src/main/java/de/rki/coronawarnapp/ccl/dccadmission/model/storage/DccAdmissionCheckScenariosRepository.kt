@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class DccAdmissionCheckScenariosRepository @Inject constructor() {
 
-    val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios> = flowOf(dummy)
+    val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios?> = flowOf(dummy)
 
     fun save(scenarios: DccAdmissionCheckScenarios) {
         // TODO

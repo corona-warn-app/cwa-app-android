@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -23,18 +24,28 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
+    admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
     private val testCertificateRepository: TestCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     private val format: CCLTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
+
+    val admissionTile = admissionCheckScenariosRepository.admissionCheckScenarios
+        .map { admissionScenarios ->
+            AdmissionTile(
+                title = format(admissionScenarios?.labelText),
+                subtitle = format(admissionScenarios?.scenarioSelection?.titleText)
+            )
+        }.asLiveData2()
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
@@ -134,6 +145,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
         object Loading : UiState()
         data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState()
     }
+
+    data class AdmissionTile(
+        val title: String,
+        val subtitle: String
+    )
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<PersonOverviewViewModel>
