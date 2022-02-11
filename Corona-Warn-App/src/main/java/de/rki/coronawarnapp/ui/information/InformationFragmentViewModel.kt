@@ -26,7 +26,11 @@ class InformationFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val cclConfigVersion = cclConfigurationRepository.cclConfigurations.map { configs ->
-        val version = configs.map { it.version }.toSet().joinToString(", ")
+        val version = configs
+            .sortedBy { it.identifier }
+            .map { it.version }
+            .toSet()
+            .joinToString(", ")
         "CCL ${context.getString(R.string.information_version).format(version)}"
     }.asLiveData2()
 
