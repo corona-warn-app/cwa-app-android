@@ -17,9 +17,9 @@ import timber.log.Timber
 
 abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
 
-    protected abstract val loggingTag: String
-    protected abstract fun String.removeQrCodePrefix(): String
-    protected abstract fun CleanPayload.toCoronaTestQRCode(rawString: String): CoronaTestQRCode.Rapid
+    abstract val loggingTag: String
+    abstract fun String.removeQrCodePrefix(): String
+    abstract fun CleanPayload.toCoronaTestQRCode(rawString: String): CoronaTestQRCode.Rapid
 
     override suspend fun extract(rawString: String): CoronaTestQRCode.Rapid {
         Timber.tag(loggingTag).v("extract(rawString=%s)", rawString)
