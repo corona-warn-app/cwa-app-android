@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.coronatest.qrcode.rapid
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject

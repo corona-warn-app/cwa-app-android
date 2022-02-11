@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
 
+@Suppress("ConstructorParameterNaming")
 data class PCRCoronaTest(
     @SerializedName("identifier")
     override val identifier: TestIdentifier,
