@@ -257,6 +257,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
             format = CCLTextFormatter(cclJsonFunctions, mapper),
             admissionSharedViewModel = AdmissionSharedViewModel(SavedStateHandle()),
-            admissionCheckScenariosCalculation = mockk()
+            admissionCheckScenariosCalculation = mockk(),
+            cclSettings = mockk()
         )
 }
