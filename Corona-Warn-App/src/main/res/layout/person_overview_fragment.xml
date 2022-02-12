@@ -12,10 +12,9 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            style="@style/CWAToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            app:elevation="0dp"
             app:liftOnScroll="true">
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
