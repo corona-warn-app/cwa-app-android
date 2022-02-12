@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/admission_tile"
     android:layout_width="match_parent"
@@ -8,6 +8,7 @@
     android:layout_marginVertical="@dimen/spacing_tiny"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
+    android:transitionName="admission-scenarios-view"
     app:cardCornerRadius="@dimen/radius_card"
     app:cardElevation="0dp"
     app:layout_scrollFlags="noScroll">
@@ -47,4 +48,4 @@
             app:tint="@color/colorTextPrimary2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

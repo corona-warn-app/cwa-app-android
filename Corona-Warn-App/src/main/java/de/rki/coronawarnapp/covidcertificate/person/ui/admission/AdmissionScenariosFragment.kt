@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -23,6 +24,14 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
             )
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val materialContainerTransform = MaterialContainerTransform()
+        sharedElementEnterTransition = materialContainerTransform
+        sharedElementReturnTransition = materialContainerTransform
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.admissionCheckScenarios.observe(viewLifecycleOwner) {

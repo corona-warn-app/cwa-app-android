@@ -98,9 +98,18 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
             )
 
-            OpenAdmissionScenarioScreen -> doNavigate(
-                PersonOverviewFragmentDirections.actionPersonOverviewFragmentToAdmissionScenariosFragment()
-            )
+            OpenAdmissionScenarioScreen -> {
+                setupHoldTransition()
+                val navigatorExtras = FragmentNavigatorExtras(
+                    binding.admissionContainer.root to binding.admissionContainer.root.transitionName
+                )
+                findNavController().navigate(
+                    R.id.action_personOverviewFragment_to_admissionScenariosFragment,
+                    null,
+                    null,
+                    navigatorExtras
+                )
+            }
 
             is ShowAdmissionScenarioError -> event.error.toErrorDialogBuilder(requireContext()).show()
         }
