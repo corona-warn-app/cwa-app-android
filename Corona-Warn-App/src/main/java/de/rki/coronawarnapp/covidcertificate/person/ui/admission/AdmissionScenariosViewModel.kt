@@ -20,12 +20,25 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 ) : CWAViewModel() {
 
-    val admissionCheckScenarios = admissionSharedViewModel.admissionScenarios
-        .map {
+    val state = admissionSharedViewModel.admissionScenarios
+        .map { dccCheckScenarios ->
+            State(
+                title = format(dccCheckScenarios.scenarioSelection.titleText),
+                scenarios = dccCheckScenarios.scenarioSelection.items.map { scenario ->
+                    AdmissionItemCard.Item(
+                        identifier = scenario.identifier,
+                        title = format(scenario.titleText),
+                        subtitle = format(scenario.subtitleText),
+                        enabled = scenario.enabled
+                    ) {
+                        selectScenario(scenario.identifier)
+                    }
+                }
+            )
         }
         .asLiveData2()
 
-    fun selectScenario(admissionScenarioId: String) = launch {
+    private fun selectScenario(admissionScenarioId: String) = launch {
         dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         admissionCheckScenariosRepository.save(
             admissionSharedViewModel.admissionScenarios.first()
@@ -40,4 +53,9 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
             admissionSharedViewModel: AdmissionSharedViewModel
         ): AdmissionScenariosViewModel
     }
+
+    data class State(
+        val title: String,
+        val scenarios: List<AdmissionItemCard.Item>
+    )
 }

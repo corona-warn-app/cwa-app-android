@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.FragmentAdmissionScenariosBinding
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.popBackStack
+import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
@@ -25,6 +29,10 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
         }
     )
 
+    private val binding by viewBinding<FragmentAdmissionScenariosBinding>()
+
+    private val admissionScenariosAdapter = AdmissionScenariosAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,9 +41,12 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
         sharedElementReturnTransition = materialContainerTransform
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.admissionCheckScenarios.observe(viewLifecycleOwner) {
-            // TODO: Bind views
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+        admissionScenarios.adapter = admissionScenariosAdapter
+        toolbar.setNavigationOnClickListener { popBackStack() }
+        viewModel.state.observe(viewLifecycleOwner) {
+            toolbar.title = it.title
+            admissionScenariosAdapter.update(it.scenarios)
         }
     }
 }
