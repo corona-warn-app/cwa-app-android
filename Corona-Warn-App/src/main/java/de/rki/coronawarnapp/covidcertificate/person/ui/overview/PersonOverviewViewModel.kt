@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccadmission.model.storage.dummy
@@ -43,14 +44,19 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     private val format: CCLTextFormatter,
-    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
+    private val cclSettings: CCLSettings
 ) : CWAViewModel(dispatcherProvider) {
 
     val admissionTile = admissionCheckScenariosRepository.admissionCheckScenarios
         .map { admissionScenarios ->
             AdmissionTile(
                 title = format(admissionScenarios?.labelText),
-                subtitle = format(admissionScenarios?.scenarioSelection?.titleText)
+                subtitle = format(
+                    admissionScenarios?.scenarioSelection?.items
+                        ?.find { it.identifier == cclSettings.getAdmissionScenarioId() }
+                        ?.titleText
+                )
             )
         }.asLiveData2()
 
