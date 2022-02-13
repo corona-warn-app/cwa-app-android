@@ -36,6 +36,9 @@ class CCLSettings @Inject constructor(
             }
         }
 
+    val admissionScenarioId = dataStoreFlow
+        .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
+
     /**
      * @returns the instant of the last time the CCL Settings were updated, or null if they haven't been updated yet
      */
@@ -71,9 +74,7 @@ class CCLSettings @Inject constructor(
     /**
      * @returns admission scenario identifier, by default empty string
      */
-    suspend fun getAdmissionScenarioId(): String = dataStoreFlow
-        .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
-        .first()
+    suspend fun getAdmissionScenarioId(): String = admissionScenarioId.first()
 
     /**
      * Stores admission scenario identifier

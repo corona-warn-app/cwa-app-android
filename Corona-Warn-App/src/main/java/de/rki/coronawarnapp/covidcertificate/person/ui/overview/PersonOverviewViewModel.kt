@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
@@ -29,36 +30,39 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 @Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
+    cclSettings: CCLSettings,
     dispatcherProvider: DispatcherProvider,
+    appConfigProvider: AppConfigProvider,
     certificatesProvider: PersonCertificatesProvider,
     admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
     @Assisted private val admissionSharedViewModel: AdmissionSharedViewModel,
-    private val testCertificateRepository: TestCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
+    private val testCertificateRepository: TestCertificateRepository,
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     private val format: CCLTextFormatter,
-    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
-    private val cclSettings: CCLSettings
+    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
 ) : CWAViewModel(dispatcherProvider) {
 
-    val admissionTile = admissionCheckScenariosRepository.admissionCheckScenarios
-        .map { admissionScenarios ->
-            AdmissionTile(
-                title = format(admissionScenarios?.labelText),
-                subtitle = format(
-                    admissionScenarios?.scenarioSelection?.items
-                        ?.find { it.identifier == cclSettings.getAdmissionScenarioId() }
-                        ?.titleText
-                )
+    val admissionTile = combine(
+        admissionCheckScenariosRepository.admissionCheckScenarios,
+        appConfigProvider.currentConfig,
+        certificatesProvider.personCertificates,
+        cclSettings.admissionScenarioId
+    ) { admissionScenarios, appConfig, persons, scenarioId ->
+        AdmissionTile(
+            visible = persons.isNotEmpty() && !appConfig.admissionScenariosDisabled,
+            title = format(admissionScenarios?.labelText),
+            subtitle = format(
+                admissionScenarios?.scenarioSelection?.items?.find { it.identifier == scenarioId }?.titleText
             )
-        }.asLiveData2()
+        )
+    }.asLiveData2()
 
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
@@ -169,6 +173,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     }
 
     data class AdmissionTile(
+        val visible: Boolean,
         val title: String,
         val subtitle: String
     )
