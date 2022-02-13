@@ -1,14 +1,20 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.SavedStateHandle
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -27,7 +33,6 @@ import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
 import io.mockk.verify
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
@@ -47,7 +52,11 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
     @MockK lateinit var admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository
-    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    @MockK lateinit var cclSettings: CCLSettings
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var configData: ConfigData
+    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -56,13 +65,25 @@ class PersonOverviewViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
-        every { personCertificatesProvider.personCertificates } returns emptyFlow()
+        every { personCertificatesProvider.personCertificates } returns flowOf(
+            setOf(
+                PersonCertificates(
+                    certificates = listOf(),
+                    isCwaUser = true,
+                    dccWalletInfo = null
+                )
+            )
+        )
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
         every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(mockk())
+        every { configData.admissionScenariosDisabled } returns false
+        every { appConfigProvider.currentConfig } returns flowOf(configData)
+        every { cclSettings.admissionScenarioId } returns flowOf("DE")
+        every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(dccAdmissionCheckScenarios)
     }
 
     @Test
@@ -246,6 +267,53 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `admission tile is visible`() {
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe PersonOverviewViewModel.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
+    @Test
+    fun `admission tile is not visible when config flag is disabled`() {
+        every { configData.admissionScenariosDisabled } returns true
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe PersonOverviewViewModel.AdmissionTile(
+                visible = false,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
+    @Test
+    fun `admission tile is not visible when no certificates are available`() {
+        every { personCertificatesProvider.personCertificates } returns flowOf(setOf())
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe PersonOverviewViewModel.AdmissionTile(
+                visible = false,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
+    @Test
+    fun `admission tile - subtitle is from selected scenario`() {
+        every { cclSettings.admissionScenarioId } returns flowOf("BW")
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe PersonOverviewViewModel.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Baden-Württemberg"
+            )
+        }
+    }
+
     private val instance
         get() = PersonOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
@@ -257,7 +325,8 @@ class PersonOverviewViewModelTest : BaseTest() {
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
             format = CCLTextFormatter(cclJsonFunctions, mapper),
             admissionSharedViewModel = AdmissionSharedViewModel(SavedStateHandle()),
-            admissionCheckScenariosCalculation = mockk(),
-            cclSettings = mockk()
+            admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
+            cclSettings = cclSettings,
+            appConfigProvider = appConfigProvider
         )
 }

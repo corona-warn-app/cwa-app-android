@@ -2,9 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.annotation.IdRes
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelStore
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -14,6 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -38,7 +43,6 @@ import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
 import testhelpers.createFakeImageLoaderForQrCodes
-import testhelpers.launchFragment2
 import testhelpers.launchInMainActivity
 import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
@@ -50,26 +54,47 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: PersonOverviewViewModel
 
+    private val navController = TestNavHostController(
+        ApplicationProvider.getApplicationContext()
+    ).apply {
+        UiThreadStatement.runOnUiThread {
+            setViewModelStore(ViewModelStore())
+            setGraph(R.navigation.covid_certificates_graph)
+            setCurrentDestination(R.id.personOverviewFragment)
+        }
+    }
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel.apply {
             every { events } returns SingleLiveEvent()
             every { uiState } returns MutableLiveData()
+            every { admissionTile } returns MutableLiveData(
+                PersonOverviewViewModel.AdmissionTile(
+                    visible = true,
+                    title = "Status anzeigen für folgendes Bundesland:",
+                    subtitle = "Bundesweit"
+                )
+            )
         }
         setupFakeImageLoader(
             createFakeImageLoaderForQrCodes()
         )
         setupMockViewModel(
             object : PersonOverviewViewModel.Factory {
-                override fun create(): PersonOverviewViewModel = viewModel
+                override fun create(admissionSharedViewModel: AdmissionSharedViewModel): PersonOverviewViewModel {
+                    return viewModel
+                }
             }
         )
     }
 
     @Test
     fun launch_fragment() {
-        launchFragment2<PersonOverviewFragment>()
+        launchInMainActivity<PersonOverviewFragment>(
+            testNavHostController = navController
+        )
     }
 
     @Test
@@ -137,7 +162,9 @@ class PersonOverviewFragmentTest : BaseUITest() {
     }
 
     private fun takeSelfieWithBottomNavBadge(suffix: String, @IdRes badgeId: Int, count: Int) {
-        val activityScenario = launchInMainActivity<PersonOverviewFragment>()
+        val activityScenario = launchInMainActivity<PersonOverviewFragment>(
+            testNavHostController = navController
+        )
         activityScenario.onActivity {
             it.findViewById<BottomNavigationView>(R.id.fake_bottom_navigation).updateCountBadge(badgeId, count)
         }
@@ -146,7 +173,9 @@ class PersonOverviewFragmentTest : BaseUITest() {
     }
 
     private fun takeSelfie(suffix: String) {
-        launchInMainActivity<PersonOverviewFragment>()
+        launchInMainActivity<PersonOverviewFragment>(
+            testNavHostController = navController
+        )
         onView(withId(R.id.fake_bottom_navigation)).perform(selectBottomNavTab(R.id.covid_certificates_graph))
         takeScreenshot<PersonOverviewFragment>(suffix)
     }
