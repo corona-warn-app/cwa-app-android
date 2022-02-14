@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentAdmissionScenariosBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.diffutil.update
@@ -31,7 +32,7 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
     )
 
     private val binding by viewBinding<FragmentAdmissionScenariosBinding>()
-
+    private val blockingDialog by lazy { AdmissionBlockingDialog(requireContext()) }
     private val admissionScenariosAdapter = AdmissionScenariosAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +50,20 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
         viewModel.state.observe(viewLifecycleOwner) {
             toolbar.title = it.title
             admissionScenariosAdapter.update(it.scenarios)
+        }
+
+        viewModel.calculationState.observe(viewLifecycleOwner) { calculationState ->
+            when (calculationState) {
+                AdmissionScenariosViewModel.Calculating -> blockingDialog.setState(true)
+                is AdmissionScenariosViewModel.CalculationError -> {
+                    blockingDialog.setState(false)
+                    calculationState.error.toErrorDialogBuilder(requireContext()).show()
+                }
+                AdmissionScenariosViewModel.CalculationDone -> {
+                    blockingDialog.setState(false)
+                    popBackStack()
+                }
+            }
         }
     }
 }
