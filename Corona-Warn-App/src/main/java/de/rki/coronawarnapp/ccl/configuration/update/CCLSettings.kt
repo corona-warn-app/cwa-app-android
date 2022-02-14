@@ -88,7 +88,7 @@ class CCLSettings @Inject constructor(
     }
 
     /**
-     * @returns admission check scenarios, by default empty string
+     * @returns admission check scenarios, by default null
      */
     val admissionCheckScenarios: Flow<String?> = dataStoreFlow
         .map { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] }
