@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPersonOverviewQrCardGrey"
+        android:background="@color/admissionTileBackground"
         android:padding="12dp">
 
         <TextView
