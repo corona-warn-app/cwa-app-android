@@ -152,7 +152,7 @@ class AutoSubmissionTest : BaseTest() {
                 DefaultTaskRequest(
                     id = slot.captured.id,
                     type = SubmissionTask::class,
-                    arguments = SubmissionTask.Arguments(checkUserActivity = false),
+                    arguments = SubmissionTask.Arguments(checkUserActivity = false, testType = CoronaTest.Type.PCR),
                     originTag = "AutoSubmission"
                 )
             )
