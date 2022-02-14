@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
@@ -20,29 +21,45 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val timeStamper: TimeStamper,
 ) {
 
-    suspend fun triggerCalculation(
-        configurationChanged: Boolean = true
-    ) {
-        Timber.d("triggerCalculation()")
-        val now = timeStamper.nowUTC
+    /**
+     * Trigger [DccWalletInfo] calculation for all persons
+     */
+    suspend fun triggerCalculationAfterConfigChange(configurationChanged: Boolean = true) = try {
         initCalculation()
-        personCertificatesProvider.personCertificates.first().forEach {
+        val persons = personCertificatesProvider.personCertificates.first()
+        Timber.d("triggerCalculation() for [%d] persons", persons.size)
+        val now = timeStamper.nowUTC
+        persons.forEach { person ->
             if (configurationChanged ||
-                it.dccWalletInfo == null ||
-                it.dccWalletInfo.validUntilInstant.isBefore(now)
+                person.dccWalletInfo == null ||
+                person.dccWalletInfo.validUntilInstant.isBefore(now)
             ) {
-                updateWalletInfoForPerson(it)
+                updateWalletInfoForPerson(person)
             }
         }
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation.")
     }
 
-    suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
-        personCertificatesProvider.personCertificates.first().find {
-            it.personIdentifier == personIdentifier
-        }?.let {
-            initCalculation()
+    suspend fun triggerCalculationAfterCertificateChange() = try {
+        initCalculation()
+        personCertificatesProvider.personCertificates.first().forEach {
             updateWalletInfoForPerson(it)
         }
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation.")
+    }
+
+    /**
+     * Trigger [DccWalletInfo] calculation for specific person
+     */
+    suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
+        personCertificatesProvider.personCertificates.first()
+            .find { it.personIdentifier == personIdentifier }
+            ?.let {
+                initCalculation()
+                updateWalletInfoForPerson(it)
+            }
     }
 
     private suspend fun initCalculation() {
@@ -53,17 +70,22 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun updateWalletInfoForPerson(person: PersonCertificates) {
         try {
-            val walletInfo = calculation.getDccWalletInfo(person.certificates)
-            dccWalletInfoRepository.save(
-                person.personIdentifier ?: return,
-                walletInfo
+            val personIdentifier = checkNotNull(person.personIdentifier) {
+                "Person identifier is null. Cannot proceed."
+            }
+
+            val newWalletInfo = calculation.getDccWalletInfo(person.certificates)
+
+            boosterNotificationService.notifyIfNecessary(
+                personIdentifier = personIdentifier,
+                oldWalletInfo = person.dccWalletInfo,
+                newWalletInfo = newWalletInfo
             )
-            // TODO add when merged
-//            boosterNotificationService.notifyIfNecessary(
-//                personIdentifier = person.personIdentifier,
-//                oldWalletInfo = person.dccWalletInfo,
-//                newWalletInfo = walletInfo,
-//            )
+
+            dccWalletInfoRepository.save(
+                personIdentifier,
+                newWalletInfo
+            )
         } catch (e: Exception) {
             Timber.e(e, "Failed to calculate DccWalletInfo for ${person.personIdentifier}")
         }

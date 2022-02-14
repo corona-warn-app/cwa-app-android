@@ -11,7 +11,6 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -128,7 +127,6 @@ class VaccinationStorageTest : BaseTest() {
         )
         val personData = testData.personAData2Vac.copy(
             vaccinations = setOf(testData.personAVac1Container, vaccinationContainer2),
-            boosterRule = mockk(),
             boosterRuleIdentifier = "boosterRuleIdentifier"
         )
         runBlockingTest {
@@ -165,7 +163,7 @@ class VaccinationStorageTest : BaseTest() {
             """.toComparableJsonPretty()
 
             instance.load().single().apply {
-                this shouldBe personData.copy(boosterRule = null) // Booster rule is not persisted
+                this shouldBe personData
                 this.vaccinations shouldBe setOf(
                     testData.personAVac1Container,
                     vaccinationContainer2

@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
 
-class BoosterNotification @Inject constructor(
+class BoosterNotificationSender @Inject constructor(
     @AppContext private val context: Context,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
@@ -48,6 +48,6 @@ class BoosterNotification @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<BoosterNotification>()
+        private val TAG = tag<BoosterNotificationSender>()
     }
 }
