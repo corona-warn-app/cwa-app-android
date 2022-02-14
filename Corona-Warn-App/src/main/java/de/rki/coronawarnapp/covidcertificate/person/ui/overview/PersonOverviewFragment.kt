@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
@@ -166,7 +167,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     }
 
     private fun AdmissionScenarioTileBinding.bindAdmissionTile(
-        tile: PersonOverviewViewModel.AdmissionTile
+        tile: AdmissionTileProvider.AdmissionTile
     ) {
         admissionTile.apply {
             isVisible = tile.visible

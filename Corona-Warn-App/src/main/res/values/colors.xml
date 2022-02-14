@@ -113,4 +113,6 @@
     <color name="disabledTitleColor">#9917191A</color>
     <color name="disabledSubtitleColor">#7317191A</color>
 
+    <color name="admissionTileBackground">@color/colorPersonOverviewQrCardGrey</color>
+
 </resources>

@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
-import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -15,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificatio
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
@@ -34,35 +32,19 @@ import timber.log.Timber
 
 @Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
-    cclSettings: CCLSettings,
     dispatcherProvider: DispatcherProvider,
-    appConfigProvider: AppConfigProvider,
     certificatesProvider: PersonCertificatesProvider,
-    admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
+    dccAdmissionTileProvider: AdmissionTileProvider,
     @Assisted private val admissionSharedViewModel: AdmissionSharedViewModel,
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
     private val expirationNotificationService: DccExpirationNotificationService,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     private val format: CCLTextFormatter,
-    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
 ) : CWAViewModel(dispatcherProvider) {
 
-    val admissionTile = combine(
-        admissionCheckScenariosRepository.admissionCheckScenarios,
-        appConfigProvider.currentConfig,
-        certificatesProvider.personCertificates,
-        cclSettings.admissionScenarioId
-    ) { admissionScenarios, appConfig, persons, scenarioId ->
-        AdmissionTile(
-            visible = persons.isNotEmpty() && !appConfig.admissionScenariosDisabled,
-            title = format(admissionScenarios?.labelText),
-            subtitle = format(
-                admissionScenarios?.scenarioSelection?.items?.find { it.identifier == scenarioId }?.titleText
-            )
-        )
-    }.asLiveData2()
-
+    val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
         certificatesProvider.personCertificates,
@@ -168,12 +150,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         object Loading : UiState()
         data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState()
     }
-
-    data class AdmissionTile(
-        val visible: Boolean,
-        val title: String,
-        val subtitle: String
-    )
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonOverviewViewModel> {

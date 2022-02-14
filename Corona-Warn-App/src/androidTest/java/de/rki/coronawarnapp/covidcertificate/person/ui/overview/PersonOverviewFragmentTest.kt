@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
@@ -71,7 +72,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             every { events } returns SingleLiveEvent()
             every { uiState } returns MutableLiveData()
             every { admissionTile } returns MutableLiveData(
-                PersonOverviewViewModel.AdmissionTile(
+                AdmissionTileProvider.AdmissionTile(
                     visible = true,
                     title = "Status anzeigen für folgendes Bundesland:",
                     subtitle = "Bundesweit"
