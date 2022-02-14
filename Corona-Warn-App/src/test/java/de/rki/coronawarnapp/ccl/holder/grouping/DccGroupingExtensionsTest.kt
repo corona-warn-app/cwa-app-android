@@ -51,7 +51,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certB2,
             certB3
         )
-        
+
         result[2] shouldContainAll listOf(
             certC1
         )
