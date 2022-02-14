@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
+import de.rki.coronawarnapp.ccl.dccadmission.model.scenariosJson
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -15,11 +16,10 @@ internal class CCLSettingsTest : BaseTest() {
 
     private val fakeDataStore = FakeDataStore()
     private lateinit var cclSettings: CCLSettings
-    private val mapper = SerializationModule().jacksonObjectMapper()
 
     @BeforeEach
     fun setup() {
-        cclSettings = CCLSettings(fakeDataStore, TestCoroutineScope(), mapper)
+        cclSettings = CCLSettings(fakeDataStore, TestCoroutineScope())
     }
 
     @Test
@@ -47,5 +47,18 @@ internal class CCLSettingsTest : BaseTest() {
 
         cclSettings.clear()
         cclSettings.getAdmissionScenarioId() shouldBe ""
+    }
+
+    @Test
+    fun `test CCLSettings - set admission check scenarios`() = runBlockingTest {
+        cclSettings.admissionCheckScenarios.first() shouldBe null
+
+        cclSettings.setAdmissionCheckScenarios(scenariosJson)
+
+        fakeDataStore[CCLSettings.ADMISSION_CHECK_SCENARIOS_KEY] shouldBe scenariosJson
+        cclSettings.admissionCheckScenarios.first() shouldBe scenariosJson
+
+        cclSettings.clear()
+        cclSettings.admissionCheckScenarios.first() shouldBe null
     }
 }

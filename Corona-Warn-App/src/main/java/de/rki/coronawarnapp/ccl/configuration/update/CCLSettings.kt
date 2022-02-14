@@ -6,15 +6,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import dagger.Reusable
-import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -30,7 +25,6 @@ import javax.inject.Inject
 class CCLSettings @Inject constructor(
     @CCLSettingsDataStore private val dataStore: DataStore<Preferences>,
     @AppScope private val appScope: CoroutineScope,
-    @BaseJackson private val mapper: ObjectMapper
 ) {
 
     private val dataStoreFlow = dataStore.data
@@ -96,23 +90,13 @@ class CCLSettings @Inject constructor(
     /**
      * @returns admission check scenarios, by default empty string
      */
-    val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios?> = dataStoreFlow
-        .map { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY].orEmpty() }
-        .map {
-            try {
-                mapper.readValue<DccAdmissionCheckScenarios>(it)
-            } catch (e: Exception) {
-                Timber.e(e, "Failed to parse admission check scenarios.")
-                null
-            }
-        }
+    val admissionCheckScenarios: Flow<String?> = dataStoreFlow
+        .map { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] }
 
     /**
      * Stores admission check scenarios
      */
-    @Suppress("BlockingMethodInNonBlockingContext")
-    fun setAdmissionCheckScenarios(scenarios: DccAdmissionCheckScenarios?) = appScope.launch {
-        val json = mapper.writeValueAsString(scenarios)
+    suspend fun setAdmissionCheckScenarios(json: String) {
         runCatching {
             dataStore.edit { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] = json }
         }.onFailure { e ->
@@ -132,7 +116,6 @@ class CCLSettings @Inject constructor(
     companion object {
         internal val LAST_EXECUTION_TIME_KEY = longPreferencesKey("ccl.settings.lastexecutiontime")
         internal val ADMISSION_SCENARIO_ID_KEY = stringPreferencesKey("ccl.settings.admissionScenarioId")
-
         internal val ADMISSION_CHECK_SCENARIOS_KEY = stringPreferencesKey("ccl.settings.admissionCheckScenarios")
         private val TAG = tag<CCLSettings>()
     }

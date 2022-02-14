@@ -1,26 +1,45 @@
-package de.rki.coronawarnapp.ccl.dccadmission.model.storage
+package de.rki.coronawarnapp.ccl.dccadmission.storage
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.dccadmission.model.ScenarioSelection
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("BlockingMethodInNonBlockingContext")
 class DccAdmissionCheckScenariosRepository @Inject constructor(
-    private val cclSettings: CCLSettings
+    private val cclSettings: CCLSettings,
+    @BaseJackson private val mapper: ObjectMapper
 ) {
 
-    val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios?> = cclSettings.admissionCheckScenarios
+    val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios?> =
+        cclSettings.admissionCheckScenarios.map {
+            it?.let { json ->
+                try {
+                    mapper.readValue(json, DccAdmissionCheckScenarios::class.java)
+                } catch (e: Exception) {
+                    Timber.e(e, "Failed to parse admission check scenarios.")
+                    null
+                }
+            } ?: run {
+                Timber.v("No admission check scenarios available.")
+                null
+            }
+        }
 
-    fun save(scenarios: DccAdmissionCheckScenarios) {
-        cclSettings.setAdmissionCheckScenarios(scenarios)
+    suspend fun save(scenarios: DccAdmissionCheckScenarios) {
+        val json = mapper.writeValueAsString(scenarios)
+        cclSettings.setAdmissionCheckScenarios(json)
     }
 
-    fun clear() {
-        cclSettings.setAdmissionCheckScenarios(null)
+    suspend fun clear() {
+        cclSettings.setAdmissionCheckScenarios("")
     }
 }
 
