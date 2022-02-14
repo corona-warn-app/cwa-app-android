@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.util.dcc.group2
+import de.rki.coronawarnapp.util.dcc.group
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -28,7 +28,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             cert_3_1
         )
 
-        val result = certificatesList.shuffled().toSet().group2()
+        val result = certificatesList.shuffled().toSet().group()
 
         result.count() shouldBe 3
 

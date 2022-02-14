@@ -3,10 +3,8 @@ package de.rki.coronawarnapp.ccl.holder.grouping
 import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.dcc.cleanHolderName
-import de.rki.coronawarnapp.util.dcc.group
 import de.rki.coronawarnapp.util.dcc.isItSamePerson
 import de.rki.coronawarnapp.util.serialization.SerializationModule
-import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
