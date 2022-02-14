@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,18 +37,28 @@ class CCLConfigurationRepository @Inject constructor(
 
     suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
 
-    /** @return True if the ccl configuration was actually updated, false otherwise */
-    suspend fun updateCCLConfiguration(): Boolean = try {
-        var updated = false
+    /**
+     * @return UpdateResult.UPDATE if new data was fetched from the server, UpdateResult.NO_UPDATE if
+     * we didn't get new data from the server and UpdaterResult.FAIL if something went wrong
+     **/
+    suspend fun updateCCLConfiguration(): UpdateResult = try {
+        var updateResult = UpdateResult.NO_UPDATE
         internalData.updateBlocking {
             Timber.tag(TAG).d("Updating ccl configuration")
+
             val rawData = cclConfigurationServer.getCCLConfiguration()
             val newConfig = rawData?.tryParseCCLConfigurations()
+
+            if (rawData != null && newConfig == null) {
+                // parsing failed
+                updateResult = UpdateResult.FAIL
+            }
+
             when (newConfig != null && newConfig != this) {
                 true -> {
                     Timber.tag(TAG).d("Saving new config data")
                     cclConfigurationStorage.save(rawData = rawData)
-                    updated = true
+                    updateResult = UpdateResult.UPDATE
                     newConfig
                 }
 
@@ -58,10 +69,10 @@ class CCLConfigurationRepository @Inject constructor(
             }
         }
 
-        updated
+        updateResult
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Error while updating ccl config list")
-        false
+        UpdateResult.FAIL
     }
 
     suspend fun clear() {
@@ -74,12 +85,12 @@ class CCLConfigurationRepository @Inject constructor(
         get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
 
     private fun ByteArray.tryParseCCLConfigurations(): List<CCLConfiguration>? = try {
-        Timber.tag(TAG).d("Trying to parse %s", this)
+        Timber.tag(TAG).d("tryParseCCLConfiguration()")
         cclConfigurationParser.parseCClConfigurations(rawData = this)
     } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to parse %s", this)
+        Timber.tag(TAG).e(e, "Failed to parse CCLConfiguration")
         null
-    }.also { Timber.d("Returning %s", it) }
+    }.also { logConfigVersionAndIdentifier(it, logPrefix = "tryParseCCLConfiguration() - Returning") }
 
     private suspend fun loadInitialConfigs(): List<CCLConfiguration> {
         Timber.tag(TAG).d("loadInitialConfig()")
@@ -87,7 +98,14 @@ class CCLConfigurationRepository @Inject constructor(
         return when (config != null) {
             true -> config
             false -> cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigurationsRawData)
-        }.also { Timber.tag(TAG).d("Returning %s", it) }
+        }.also { logConfigVersionAndIdentifier(it, logPrefix = "loadInitialConfig() - Returning") }
+    }
+
+    private fun logConfigVersionAndIdentifier(cclConfigurationList: List<CCLConfiguration>?, logPrefix: String) {
+        cclConfigurationList?.forEach { config ->
+            Timber.tag(TAG)
+                .d("%s Configuration with Version=%s and identifier=%s", logPrefix, config.version, config.identifier)
+        }
     }
 }
 
