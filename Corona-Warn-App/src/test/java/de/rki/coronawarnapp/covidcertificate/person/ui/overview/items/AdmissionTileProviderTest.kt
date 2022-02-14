@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -34,6 +35,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
 
     @BeforeEach
     fun setup() {
+        MockKAnnotations.init(this)
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(mockk())
         every { configData.admissionScenariosDisabled } returns false
         every { appConfigProvider.currentConfig } returns flowOf(configData)
