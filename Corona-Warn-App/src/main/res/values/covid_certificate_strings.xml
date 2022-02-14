@@ -334,7 +334,7 @@
     <string name="confirmed_status_faq_text">"For further information, please see our FAQ page."</string>
 
     <!-- XTXT: CCL Admission scenario tile title -->
-    <string name="ccl_admission_state_tile_title">Status für folgendes Bundesland:</string>
+    <string name="ccl_admission_state_tile_title">Status für folgendes Bundesland</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
     <string name="ccl_admission_state_tile_subtitle">Regeln des Bundes</string>
 
