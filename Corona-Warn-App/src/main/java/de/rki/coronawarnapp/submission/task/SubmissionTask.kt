@@ -80,7 +80,7 @@ class SubmissionTask @Inject constructor(
             }
 
             Timber.tag(TAG).i("Proceeding with submission.")
-            return performSubmission()
+            return performSubmission(arguments.testType)
         } catch (error: Exception) {
             Timber.tag(TAG).e(error, "TEK submission failed.")
             throw error
@@ -125,10 +125,12 @@ class SubmissionTask @Inject constructor(
         }
     }
 
-    private suspend fun performSubmission(): Result {
+    private suspend fun performSubmission(testType: CoronaTest.Type?): Result {
         val availableTests = coronaTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
-        val coronaTest = availableTests.firstOrNull { it.isSubmissionAllowed }
+        val coronaTest = availableTests
+            .filter { testType == null || it.type == testType }
+            .firstOrNull { it.isSubmissionAllowed }
             ?: throw IllegalStateException("No valid test available to authorize submission")
 
         Timber.tag(TAG).d("Submission is authorized by coronaTest=%s", coronaTest)
@@ -205,7 +207,8 @@ class SubmissionTask @Inject constructor(
     }
 
     data class Arguments(
-        val checkUserActivity: Boolean = false
+        val checkUserActivity: Boolean = false,
+        val testType: CoronaTest.Type? = null
     ) : Task.Arguments
 
     data class Result(

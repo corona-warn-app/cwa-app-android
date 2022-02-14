@@ -3,19 +3,22 @@ package de.rki.coronawarnapp.ui.submission.resultready
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import timber.log.Timber
 
 class SubmissionResultReadyViewModel @AssistedInject constructor(
     private val autoSubmission: AutoSubmission,
-    dispatcherProvider: DispatcherProvider
+    dispatcherProvider: DispatcherProvider,
+    @Assisted val testType: CoronaTest.Type,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
@@ -40,7 +43,7 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
         Timber.d("Symptom submission was skipped.")
         launch {
             try {
-                autoSubmission.runSubmissionNow()
+                autoSubmission.runSubmissionNow(testType)
             } catch (e: Exception) {
                 Timber.e(e, "greenlightSubmission() failed.")
             } finally {
@@ -57,5 +60,7 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<SubmissionResultReadyViewModel>
+    interface Factory : CWAViewModelFactory<SubmissionResultReadyViewModel> {
+        fun create(testType: CoronaTest.Type): SubmissionResultReadyViewModel
+    }
 }
