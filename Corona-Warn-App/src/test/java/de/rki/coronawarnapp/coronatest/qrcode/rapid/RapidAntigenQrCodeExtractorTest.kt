@@ -1,6 +1,21 @@
-package de.rki.coronawarnapp.coronatest.qrcode
+package de.rki.coronawarnapp.coronatest.qrcode.rapid
 
-import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
+import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode1
+import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode2
+import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode3
+import de.rki.coronawarnapp.coronatest.qrcode.raQrAnonymousInvalidHash
+import de.rki.coronawarnapp.coronatest.qrcode.raQrAnonymousValidHash
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode1
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode2
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode4
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode5
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode6
+import de.rki.coronawarnapp.coronatest.qrcode.raQrCode7
+import de.rki.coronawarnapp.coronatest.qrcode.raQrIncompletePersonalData
+import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcAndFullPersonalData
+import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcWithoutPersonalData
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -96,8 +111,8 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     @Test
     fun `isDccSupportedByPoc is true only if dgc is true and has full personal data`() = runBlockingTest {
         val prefix = "https://s.coronawarn.app?v=1#"
-        val qrCodeWithDgcAndFullPersonalData = prefix + rawpayloadWithDgcAndFullPersonalData
-        val qrCodeWithDgcWithoutPersonalData = prefix + rawpayloadWithDgcWithoutPersonalData
+        val qrCodeWithDgcAndFullPersonalData = prefix + rawPayloadWithDgcAndFullPersonalData
+        val qrCodeWithDgcWithoutPersonalData = prefix + rawPayloadWithDgcWithoutPersonalData
 
         with(instance) {
             extract(rawString = qrCodeWithDgcAndFullPersonalData).also {
