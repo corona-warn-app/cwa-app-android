@@ -201,6 +201,11 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
         val testDate = DateTime.parse("12.05.2021 19:00", formatter).toInstant()
 
         return object : AbstractTestCertificate(testDate, certificatePersonIdentifier) {
+
+            override val sanitizedFamilyName: List<String> = emptyList()
+
+            override val sanitizedGivenName: List<String> = emptyList()
+
             override val isNew: Boolean get() = false
 
             override val recycledAt: Instant? get() = null
