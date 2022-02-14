@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.util.dcc.group
+import de.rki.coronawarnapp.util.dcc.groupCertificatesByPerson
 import de.rki.coronawarnapp.util.dcc.sanitizeName
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
@@ -30,7 +30,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certC1
         )
 
-        val result = certificatesList.toSet().group()
+        val result = certificatesList.toSet().groupCertificatesByPerson()
 
         result.count() shouldBe 3
 
@@ -61,7 +61,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
     fun `empty grouping check`() {
         val certificatesList = emptySet<CwaCovidCertificate>()
 
-        val result = certificatesList.toSet().group()
+        val result = certificatesList.toSet().groupCertificatesByPerson()
 
         result.count() shouldBe 0
     }
@@ -82,7 +82,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certD1,
         )
 
-        val result = certificatesList.shuffled().toSet().group()
+        val result = certificatesList.shuffled().toSet().groupCertificatesByPerson()
 
         result.count() shouldBe 1
 

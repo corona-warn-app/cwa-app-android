@@ -2,7 +2,21 @@ package de.rki.coronawarnapp.util.dcc
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
-/*
+/**
+The operation shall group set of DGCs irrespective of their type
+(e.g. Vaccination Certificate, Test Certificate, or Recovery Certificate) by the same holder.
+ */
+fun Set<CwaCovidCertificate>.groupCertificatesByPerson(): List<Set<CwaCovidCertificate>> {
+    var groups = map { setOf(it) }
+    var newGroups: List<Set<CwaCovidCertificate>> = groups
+    do {
+        groups = newGroups
+        newGroups = dgcGroupingIteration(groups)
+    } while (newGroups != groups)
+    return newGroups
+}
+
+/**
 Method shall decide whether the DGCs belongs the same holder.
 Two DCCs shall be considered as belonging to the same holder, if:
 
@@ -33,17 +47,13 @@ fun belongToSamePerson(certA: CwaCovidCertificate, certB: CwaCovidCertificate): 
     return false
 }
 
-fun Set<CwaCovidCertificate>.group(): List<Set<CwaCovidCertificate>> {
-    var groups = map { setOf(it) }
-    var newGroups: List<Set<CwaCovidCertificate>> = groups
-    do {
-        groups = newGroups
-        newGroups = mergeSamePersons(groups)
-    } while (newGroups != groups)
-    return newGroups
-}
-
-fun mergeSamePersons(input: List<Set<CwaCovidCertificate>>): List<Set<CwaCovidCertificate>> {
+/**
+ * One step in certificate grouping. This method needs to be called multiple times.
+ * In every step method create more accurate results. Let's say you have certificates registered to
+ * Dr. Thomas, Dr. Martin, and Thomas Martin. In the beginning, we don't know that Dr. Thomas and
+ * Dr. Martin is the same person, but after 1st iteration, we know that we can group them together.
+ */
+private fun dgcGroupingIteration(input: List<Set<CwaCovidCertificate>>): List<Set<CwaCovidCertificate>> {
     val output = mutableListOf<Set<CwaCovidCertificate>>()
     input.forEachIndexed { index, set ->
         var newGroup = set
@@ -57,23 +67,26 @@ fun mergeSamePersons(input: List<Set<CwaCovidCertificate>>): List<Set<CwaCovidCe
     return output.removeDuplicates()
 }
 
-fun List<Set<CwaCovidCertificate>>.removeDuplicates(): List<Set<CwaCovidCertificate>> {
+private fun List<Set<CwaCovidCertificate>>.removeDuplicates(): List<Set<CwaCovidCertificate>> {
     val output = mutableListOf<Set<CwaCovidCertificate>>()
     reversed().forEachIndexed { index, set ->
-        var isAlreadyThere = false
+        var isDuplicate = false
         for (i in 0 until size - index - 1) {
             if (get(i).containsAll(set)) {
-                isAlreadyThere = true
+                isDuplicate = true
             }
         }
-        if (!isAlreadyThere) {
+        if (!isDuplicate) {
             output.add(set)
         }
     }
     return output.reversed()
 }
 
-fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidCertificate>): Boolean {
+/**
+ * @return [True] if two certificate sets share certificates belonging to the same person
+ */
+private fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidCertificate>): Boolean {
     forEach { certificateA ->
         certificates.forEach { certificateB ->
             if (belongToSamePerson(certificateA, certificateB)) return true
