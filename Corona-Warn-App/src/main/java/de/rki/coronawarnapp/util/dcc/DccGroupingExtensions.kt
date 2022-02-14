@@ -12,14 +12,14 @@ fun isItSamePerson(certificateA: CwaCovidCertificate, certificateB: CwaCovidCert
 
     if (certificateALastNames.intersect(certificateBLastNames).isNotEmpty()) {
         if (certificateAFirstNames.intersect(certificateBFirstNames)
-                .isNotEmpty() || (certificateAFirstNames.isEmpty() && certificateBFirstNames.isEmpty())
+            .isNotEmpty() || (certificateAFirstNames.isEmpty() && certificateBFirstNames.isEmpty())
         ) {
             return true
         }
     }
 
-    if (certificateAFirstNames.intersect(certificateBLastNames).isNotEmpty()
-        && certificateALastNames.intersect(certificateBFirstNames).isNotEmpty()
+    if (certificateAFirstNames.intersect(certificateBLastNames).isNotEmpty() &&
+        certificateALastNames.intersect(certificateBFirstNames).isNotEmpty()
     ) {
         return true
     }

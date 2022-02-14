@@ -41,4 +41,3 @@ data class TestCaseName(
     @JsonProperty("expNameComponents")
     val expectedResult: List<String>
 )
-

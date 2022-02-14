@@ -31,7 +31,7 @@ class DccHolderComparisonTest : BaseTestInstrumentation() {
             every { lastName } returns testCase.holderB.name.familyName
         }
 
-        assert(testCase.isEqual == isItSamePerson(certA,certB))
+        assert(testCase.isEqual == isItSamePerson(certA, certB))
     }
 }
 

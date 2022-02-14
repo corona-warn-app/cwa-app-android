@@ -10,7 +10,7 @@ import java.io.FileReader
 import java.nio.file.Paths
 import java.util.stream.Stream
 
-class DccHolderNameComponentsTestCaseProvider: ArgumentsProvider {
+class DccHolderNameComponentsTestCaseProvider : ArgumentsProvider {
 
     // Json file (located in /test/resources/dcc-holder-name-components.gen.json)
     private val fileName = "dcc-holder-name-components.gen.json"

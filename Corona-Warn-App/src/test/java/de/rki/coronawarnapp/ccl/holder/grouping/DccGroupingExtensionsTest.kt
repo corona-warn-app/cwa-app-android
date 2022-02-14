@@ -32,17 +32,19 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
 
         result.count() shouldBe 3
 
-        result[0].containsAll(listOf(
-            cert_1_1,
-            cert_1_2,
-            cert_1_3,
-            cert_1_4,
-            cert_1_5,
-            cert_1_6,
-            cert_1_7,
-            cert_1_8,
-            cert_1_9,
-        )) shouldBe true
+        result[0].containsAll(
+            listOf(
+                cert_1_1,
+                cert_1_2,
+                cert_1_3,
+                cert_1_4,
+                cert_1_5,
+                cert_1_6,
+                cert_1_7,
+                cert_1_8,
+                cert_1_9,
+            )
+        ) shouldBe true
 
         result[1].containsAll(
             listOf(
