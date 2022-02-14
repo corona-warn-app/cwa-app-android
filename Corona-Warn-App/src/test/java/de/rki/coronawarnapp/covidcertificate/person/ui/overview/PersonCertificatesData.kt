@@ -74,6 +74,8 @@ fun testCertificate(
     override val fullName: String = fullName
     override val fullNameFormatted: String = fullName
     override val fullNameStandardizedFormatted: String = "lastNameStandardized, firstNameStandardized"
+    override val sanitizedFamilyName: List<String> = emptyList()
+    override val sanitizedGivenName: List<String> = emptyList()
     override val dateOfBirthFormatted = "1981-03-20"
     override val personIdentifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "1981-03-20",
