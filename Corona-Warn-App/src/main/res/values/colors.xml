@@ -110,5 +110,7 @@
     <color name="tipTitleColor">#FFFFFF</color>
     <color name="tipSubtitleColor">#9E9E9E</color>
     <color name="dim_color">#80000000</color>
+    <color name="disabledTitleColor">#9917191A</color>
+    <color name="disabledSubtitleColor">#7317191A</color>
 
 </resources>

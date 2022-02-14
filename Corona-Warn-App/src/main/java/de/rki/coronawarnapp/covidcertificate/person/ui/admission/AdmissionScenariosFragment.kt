@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -35,8 +36,9 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val materialContainerTransform = MaterialContainerTransform()
+        val materialContainerTransform = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+        }
         sharedElementEnterTransition = materialContainerTransform
         sharedElementReturnTransition = materialContainerTransform
     }
