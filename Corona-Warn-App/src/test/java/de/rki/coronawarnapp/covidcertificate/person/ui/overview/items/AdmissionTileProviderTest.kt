@@ -22,7 +22,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
-import testhelpers.extensions.getOrAwaitValue
 
 internal class AdmissionTileProviderTest : BaseTest() {
     @MockK lateinit var admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository
