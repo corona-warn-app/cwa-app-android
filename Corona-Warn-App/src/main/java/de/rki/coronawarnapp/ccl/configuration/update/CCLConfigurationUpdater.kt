@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.joda.time.Instant
@@ -31,7 +32,6 @@ class CCLConfigurationUpdater @Inject constructor(
         }
 
         updateAndTriggerRecalculation()
-        cclSettings.setExecutionTimeToNow()
     }
 
     /**
@@ -57,9 +57,27 @@ class CCLConfigurationUpdater @Inject constructor(
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun updateConfiguration(): Boolean {
         return coroutineScope {
-            val newBoosterRulesDownloaded = async { boosterRulesRepository.update() }
-            val newCclConfigDownloaded = async { cclConfigurationRepository.updateCCLConfiguration() }
-            newBoosterRulesDownloaded.await() or newCclConfigDownloaded.await()
+            val boosterRulesDeferred = async { boosterRulesRepository.update() }
+            val cclConfigDeferred = async { cclConfigurationRepository.updateCCLConfiguration() }
+
+            val boosterRulesResult = boosterRulesDeferred.await()
+            val cclConfigResult = cclConfigDeferred.await()
+
+            updateExecutionTimeOnSuccess(boosterRulesResult, cclConfigResult)
+
+            val newBoosterRules = (boosterRulesResult == UpdateResult.UPDATE)
+            val newCclConfig = (cclConfigResult == UpdateResult.UPDATE)
+
+            return@coroutineScope newBoosterRules || newCclConfig
+        }
+    }
+
+    private fun updateExecutionTimeOnSuccess(
+        boosterRulesUpdateResult: UpdateResult,
+        cclConfigUpdateResult: UpdateResult
+    ) {
+        if (boosterRulesUpdateResult != UpdateResult.FAIL && cclConfigUpdateResult != UpdateResult.FAIL) {
+            cclSettings.setExecutionTimeToNow()
         }
     }
 }
