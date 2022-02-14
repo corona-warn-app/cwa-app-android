@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.dcc.cleanHolderName
 import de.rki.coronawarnapp.util.dcc.group
+import de.rki.coronawarnapp.util.dcc.isItSamePerson
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -32,11 +33,7 @@ class DccHolderComparisonTest : BaseTestInstrumentation() {
             every { lastName } returns testCase.holderB.name.familyName
         }
 
-        val result = setOf(certA, certB).group()
-
-        println(result)
-
-        if(testCase.isEqual) result.count() shouldBe 1 else result.count() shouldBe 2
+        assert(testCase.isEqual == isItSamePerson(certA,certB))
     }
 }
 

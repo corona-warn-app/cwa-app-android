@@ -6,7 +6,7 @@ fun String.cleanHolderName(): List<String> {
     return uppercase()
         .trim()
         .trim('<')
-        .replace(" ", "<")
+        .replace("\\s+".toRegex(), "<")
         .replace(".", "<")
         .replace("-", "<")
         .replace("Ä", "AE")
@@ -16,5 +16,5 @@ fun String.cleanHolderName(): List<String> {
         .replace("<+".toRegex(), "<")
         .split("<")
         .filter { !filteringList.contains(it) }
-        .filter { !it.isNullOrBlank() }
+        .filter { it.isNotBlank() }
 }
