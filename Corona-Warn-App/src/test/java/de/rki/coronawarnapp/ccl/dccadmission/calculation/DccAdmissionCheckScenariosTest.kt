@@ -31,7 +31,7 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { cclJsonFunctions.evaluateFunction("getDCCAdmissionCheckScenarios", dccAdmissionCheckInput) } returns
+        coEvery { cclJsonFunctions.evaluateFunction("getDccAdmissionCheckScenarios", dccAdmissionCheckInput) } returns
             dccAdmissionCheckOutput
         every {
             mapper.treeToValue(
@@ -54,7 +54,7 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
             dateTime = dateTime
         ) shouldBe dccAdmissionCheckScenarios
         coVerify {
-            cclJsonFunctions.evaluateFunction("getDCCAdmissionCheckScenarios", dccAdmissionCheckInput)
+            cclJsonFunctions.evaluateFunction("getDccAdmissionCheckScenarios", dccAdmissionCheckInput)
         }
     }
 }
