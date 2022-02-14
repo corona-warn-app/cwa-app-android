@@ -1,8 +1,24 @@
 package de.rki.coronawarnapp.util.dcc
 
-val filteringList = listOf("DR")
+private val filteringList = listOf("DR")
+/*
+Function sanitize names according to the following requirements:
 
-fun String.cleanHolderName(): List<String> {
+- dots `.` and dashes `-` shall be replaced by `<`
+- the string shall be converted to upper-case
+- German umlauts `Ä/ä`, `Ö/ö`, `Ü/ü` shall be replaced by `AE`, `OE`, `UE`
+- German `ß` shall be replaced by `SS`
+- the string shall be trimmed for leading and training whitespace
+- the string shall be trimmed for leading and trailing `<`
+- any whitespace in the string shall be replaced by `<`
+- any occurrence of more than one `<` shall be replaced by a single `<`
+
+Name fields shall be split into components as follows:
+
+- the string shall be split by `<`
+- components with the value `DR` shall be filtered out
+ */
+fun String.sanitizeName(): List<String> {
     return uppercase()
         .trim()
         .trim('<')

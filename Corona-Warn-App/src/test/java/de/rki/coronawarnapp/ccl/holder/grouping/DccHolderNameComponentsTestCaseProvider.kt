@@ -12,14 +12,15 @@ import java.util.stream.Stream
 
 class DccHolderNameComponentsTestCaseProvider : ArgumentsProvider {
 
-    // Json file (located in /test/resources/dcc-holder-name-components.gen.json)
-    private val fileName = "dcc-holder-name-components.gen.json"
-
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
         val mapper = SerializationModule().jacksonObjectMapper()
-        val jsonFile = Paths.get("src", "test", "resources", fileName).toFile()
+        val jsonFile = Paths.get("src", "test", "resources", FILE_NAME).toFile()
         val jsonString = FileReader(jsonFile).readText()
         val testCases = mapper.readValue<TestCasesName>(jsonString)
         return testCases.testCases.map { Arguments.of(Named.of(it.description, it)) }.stream()
+    }
+
+    companion object {
+        private const val FILE_NAME = "dcc-holder-name-components.gen.json"
     }
 }

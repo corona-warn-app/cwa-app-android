@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.util.dcc.sanitizeName
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
@@ -91,12 +92,21 @@ data class RecoveryCertificateContainer(
 
             override val firstName: String?
                 get() = certificate.nameData.firstName
+
             override val lastName: String
                 get() = certificate.nameData.lastName
+
             override val fullName: String
                 get() = certificate.nameData.fullName
+
             override val fullNameFormatted: String
                 get() = certificate.nameData.fullNameFormatted
+
+            override val sanitizedFamilyName: List<String>
+                get() = certificate.nameData.sanitizedFamilyName
+
+            override val sanitizedGivenName: List<String>
+                get() = certificate.nameData.sanitizedGivenName
 
             override val fullNameStandardizedFormatted: String
                 get() = certificate.nameData.fullNameStandardizedFormatted

@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.util.dcc.cleanHolderName
-import de.rki.coronawarnapp.util.dcc.isItSamePerson
-import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.dcc.belongToSamePerson
+import de.rki.coronawarnapp.util.dcc.sanitizeName
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
@@ -16,78 +15,19 @@ class DccHolderComparisonTest : BaseTestInstrumentation() {
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderComparisonTestCaseProvider::class)
     fun allTestCases(testCase: TestCase) {
-        val mapper = SerializationModule().jacksonObjectMapper()
-        println("Executing TestCase: ${mapper.writerWithDefaultPrettyPrinter().writeValueAsString(testCase)}")
 
         val certA: CwaCovidCertificate = mockk {
             every { dateOfBirthFormatted } returns testCase.holderA.dateOfBirth
-            every { firstName } returns testCase.holderA.name.givenName
-            every { lastName } returns testCase.holderA.name.familyName
+            every { sanitizedGivenName } returns testCase.holderA.name.givenName.sanitizeName()
+            every { sanitizedFamilyName } returns testCase.holderA.name.familyName.sanitizeName()
         }
 
         val certB: CwaCovidCertificate = mockk {
             every { dateOfBirthFormatted } returns testCase.holderB.dateOfBirth
-            every { firstName } returns testCase.holderB.name.givenName
-            every { lastName } returns testCase.holderB.name.familyName
+            every { sanitizedGivenName } returns testCase.holderB.name.givenName.sanitizeName()
+            every { sanitizedFamilyName } returns testCase.holderB.name.familyName.sanitizeName()
         }
 
-        assert(testCase.isEqual == isItSamePerson(certA, certB))
+        belongToSamePerson(certA, certB) shouldBe testCase.isEqual
     }
 }
-
-fun compare(holderA: Holder, holderB: Holder): Boolean {
-    if (holderA.dateOfBirth.trim() != holderB.dateOfBirth.trim()) return false
-
-    val firstNameA = holderA.name.givenName.cleanHolderName()
-    val firstNameB = holderB.name.givenName.cleanHolderName()
-    val firstNameMatch = firstNameA.intersect(firstNameB).isNotEmpty()
-
-    val lastNameA = holderA.name.familyName.cleanHolderName()
-    val lastNameB = holderB.name.familyName.cleanHolderName()
-    val lastNameMatch = lastNameA.intersect(lastNameB).isNotEmpty()
-
-    if (firstNameMatch && lastNameMatch) return true
-
-    return firstNameB.intersect(lastNameA).isNotEmpty() && firstNameA.intersect(lastNameB).isNotEmpty()
-}
-
-data class TestCases(
-    @JsonProperty("\$comment")
-    val comment: String,
-
-    @JsonProperty("\$sourceHash")
-    val sourceHash: String,
-
-    @JsonProperty("data")
-    val testCases: List<TestCase>
-)
-
-data class TestCase(
-    @JsonProperty("description")
-    val description: String,
-
-    @JsonProperty("actHolderA")
-    val holderA: Holder,
-
-    @JsonProperty("actHolderB")
-    val holderB: Holder,
-
-    @JsonProperty("expIsSameHolder")
-    val isEqual: Boolean
-)
-
-data class Holder(
-    @JsonProperty("nam")
-    val name: HolderName,
-
-    @JsonProperty("dob")
-    val dateOfBirth: String
-)
-
-data class HolderName(
-    @JsonProperty("gnt")
-    val givenName: String,
-
-    @JsonProperty("fnt")
-    val familyName: String
-)

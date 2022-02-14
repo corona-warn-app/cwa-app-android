@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.util.dcc.sanitizeName
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -23,6 +24,12 @@ data class DccV1(
 
         val lastName: String
             get() = if (familyName.isNullOrBlank()) familyNameStandardized else familyName
+
+        val sanitizedFamilyName: List<String>
+            get() = familyNameStandardized.sanitizeName()
+
+        val sanitizedGivenName: List<String>
+            get() = givenNameStandardized?.sanitizeName() ?: emptyList()
 
         val fullName: String
             get() = when {

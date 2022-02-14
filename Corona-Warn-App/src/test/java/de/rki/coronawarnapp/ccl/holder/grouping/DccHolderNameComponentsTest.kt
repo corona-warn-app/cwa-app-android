@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import de.rki.coronawarnapp.util.dcc.cleanHolderName
-import de.rki.coronawarnapp.util.serialization.SerializationModule
+import de.rki.coronawarnapp.util.dcc.sanitizeName
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
@@ -13,10 +12,7 @@ class DccHolderNameComponentsTest : BaseTestInstrumentation() {
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderNameComponentsTestCaseProvider::class)
     fun allTestCases(testCase: TestCaseName) {
-        val mapper = SerializationModule().jacksonObjectMapper()
-        println("Executing TestCase: ${mapper.writerWithDefaultPrettyPrinter().writeValueAsString(testCase)}")
-
-        testCase.name.cleanHolderName() shouldBe testCase.expectedResult
+        testCase.name.sanitizeName() shouldBe testCase.expectedResult
     }
 }
 

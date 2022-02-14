@@ -25,6 +25,8 @@ interface CwaCovidCertificate : Recyclable {
     val fullName: String
     val fullNameFormatted: String
     val fullNameStandardizedFormatted: String
+    val sanitizedFamilyName: List<String>
+    val sanitizedGivenName: List<String>
     val dateOfBirthFormatted: String
     val personIdentifier: CertificatePersonIdentifier
     val certificateIssuer: String
