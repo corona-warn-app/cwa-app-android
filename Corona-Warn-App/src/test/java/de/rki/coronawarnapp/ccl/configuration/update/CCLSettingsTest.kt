@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
@@ -14,10 +15,11 @@ internal class CCLSettingsTest : BaseTest() {
 
     private val fakeDataStore = FakeDataStore()
     private lateinit var cclSettings: CCLSettings
+    private val mapper = SerializationModule().jacksonObjectMapper()
 
     @BeforeEach
     fun setup() {
-        cclSettings = CCLSettings(fakeDataStore, TestCoroutineScope())
+        cclSettings = CCLSettings(fakeDataStore, TestCoroutineScope(), mapper)
     }
 
     @Test

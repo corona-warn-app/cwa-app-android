@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.extensions.toComparableJsonPretty
 
 class DccAdmissionCheckScenariosTest : BaseTest() {
 
@@ -169,10 +170,12 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
     @Test
     fun `parse output`() {
         mapper.readValue<DccAdmissionCheckScenarios>(outputJson) shouldBe output
+        mapper.writeValueAsString(output).toComparableJsonPretty() shouldBe outputJson
     }
 
     @Test
     fun `parse input`() {
         mapper.readValue<DccAdmissionCheckScenariosInput>(inputJson) shouldBe input
+        mapper.writeValueAsString(input).toComparableJsonPretty() shouldBe inputJson
     }
 }
