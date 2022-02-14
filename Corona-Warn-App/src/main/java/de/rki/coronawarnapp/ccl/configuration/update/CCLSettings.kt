@@ -96,11 +96,11 @@ class CCLSettings @Inject constructor(
     /**
      * Stores admission check scenarios
      */
-    suspend fun setAdmissionCheckScenarios(json: String) {
+    suspend fun setAdmissionCheckScenarios(json: String?) {
         runCatching {
-            dataStore.edit { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] = json }
+            dataStore.edit { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] = json ?: "" }
         }.onFailure { e ->
-            Timber.tag(TAG).e(e, "Failed to set ccl execution time.")
+            Timber.tag(TAG).e(e, "Failed to set admission check scenarios.")
         }
     }
 

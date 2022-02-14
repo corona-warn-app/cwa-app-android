@@ -36,6 +36,6 @@ class DccAdmissionCheckScenariosRepository @Inject constructor(
     }
 
     suspend fun clear() {
-        cclSettings.setAdmissionCheckScenarios("")
+        cclSettings.setAdmissionCheckScenarios(null)
     }
 }

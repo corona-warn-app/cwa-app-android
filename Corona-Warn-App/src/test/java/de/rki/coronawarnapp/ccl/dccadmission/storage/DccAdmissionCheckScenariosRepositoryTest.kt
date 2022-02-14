@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ccl.dccadmission.storage
 
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
-import de.rki.coronawarnapp.ccl.dccadmission.model.admissionCheckScenarios
-import de.rki.coronawarnapp.ccl.dccadmission.model.scenariosJson
+import de.rki.coronawarnapp.ccl.dccadmission.admissionCheckScenarios
+import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
-import de.rki.coronawarnapp.ccl.dccadmission.model.scenariosJson
+import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first

@@ -1,5 +1,8 @@
-package de.rki.coronawarnapp.ccl.dccadmission.model
+package de.rki.coronawarnapp.ccl.dccadmission
 
+import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
+import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
+import de.rki.coronawarnapp.ccl.dccadmission.model.ScenarioSelection
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 
 val scenariosJson = """
