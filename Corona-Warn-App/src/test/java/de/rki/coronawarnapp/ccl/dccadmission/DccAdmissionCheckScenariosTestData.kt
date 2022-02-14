@@ -3,75 +3,75 @@ package de.rki.coronawarnapp.ccl.dccadmission.model
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 
 val scenariosJson = """
-        {
-          "labelText": {
-            "type": "string",
-            "localizedText": {
-              "de": "Status anzeigen für folgendes Bundesland:"
-            },
-            "parameters": []
+    {
+      "labelText": {
+        "type": "string",
+        "localizedText": {
+          "de": "Status anzeigen für folgendes Bundesland:"
+        },
+        "parameters": []
+      },
+      "scenarioSelection": {
+        "titleText": {
+          "type": "string",
+          "localizedText": {
+            "de": "Ihr Bundesland"
           },
-          "scenarioSelection": {
+          "parameters": []
+        },
+        "items": [
+          {
+            "identifier": "DE",
             "titleText": {
               "type": "string",
               "localizedText": {
-                "de": "Ihr Bundesland"
+                "de": "Bundesweit"
               },
               "parameters": []
             },
-            "items": [
-              {
-                "identifier": "DE",
-                "titleText": {
-                  "type": "string",
-                  "localizedText": {
-                    "de": "Bundesweit"
-                  },
-                  "parameters": []
-                },
-                "subtitleText":null,
-                "enabled": true
+            "subtitleText":null,
+            "enabled": true
+          },
+          {
+            "identifier": "BW",
+            "titleText": {
+              "type": "string",
+              "localizedText": {
+                "de": "Baden-Württemberg"
               },
-              {
-                "identifier": "BW",
-                "titleText": {
-                  "type": "string",
-                  "localizedText": {
-                    "de": "Baden-Württemberg"
-                  },
-                  "parameters": []
-                },
-                "subtitleText": {
-                  "type": "string",
-                  "localizedText": {
-                    "de": "Schön hier"
-                  },
-                  "parameters": []
-                },
-                "enabled": true
+              "parameters": []
+            },
+            "subtitleText": {
+              "type": "string",
+              "localizedText": {
+                "de": "Schön hier"
               },
-              {
-                "identifier": "HE",
-                "titleText": {
-                  "type": "string",
-                  "localizedText": {
-                    "de": "Hesse"
-                  },
-                  "parameters": []
-                },
-                "subtitleText": {
-                  "type": "string",
-                  "localizedText": {
-                    "de": "Für dieses Bundesland liegen momentan keine Regeln vor"
-                  },
-                  "parameters": []
-                },
-                "enabled": false
-              }
-            ]
+              "parameters": []
+            },
+            "enabled": true
+          },
+          {
+            "identifier": "HE",
+            "titleText": {
+              "type": "string",
+              "localizedText": {
+                "de": "Hesse"
+              },
+              "parameters": []
+            },
+            "subtitleText": {
+              "type": "string",
+              "localizedText": {
+                "de": "Für dieses Bundesland liegen momentan keine Regeln vor"
+              },
+              "parameters": []
+            },
+            "enabled": false
           }
-        }
-    """.trimIndent()
+        ]
+      }
+    }
+""".trimIndent()
 
 val admissionCheckScenarios = DccAdmissionCheckScenarios(
     labelText = SingleText(
