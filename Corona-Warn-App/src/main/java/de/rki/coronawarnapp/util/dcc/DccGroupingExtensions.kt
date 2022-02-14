@@ -84,7 +84,7 @@ private fun List<Set<CwaCovidCertificate>>.removeDuplicates(): List<Set<CwaCovid
 }
 
 /**
- * @return [True] if two certificate sets share certificates belonging to the same person
+ * @return True if two certificate sets share certificates belonging to the same person
  */
 private fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidCertificate>): Boolean {
     forEach { certificateA ->
