@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -55,7 +54,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     fun `admission tile is not visible when config flag is disabled`() = runBlockingTest {
         every { configData.admissionScenariosDisabled } returns true
         instance().run {
-            admissionTile.first() shouldBe PersonOverviewViewModel.AdmissionTile(
+            admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
                 visible = false,
                 title = "Status anzeigen für folgendes Bundesland:",
                 subtitle = "Bundesweit"
@@ -67,7 +66,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     fun `admission tile is not visible when no certificates are available`() = runBlockingTest {
         every { personCertificatesProvider.personCertificates } returns flowOf(setOf())
         instance().run {
-            admissionTile.first() shouldBe PersonOverviewViewModel.AdmissionTile(
+            admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
                 visible = false,
                 title = "Status anzeigen für folgendes Bundesland:",
                 subtitle = "Bundesweit"
@@ -79,7 +78,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     fun `admission tile - subtitle is from selected scenario`() = runBlockingTest {
         every { cclSettings.admissionScenarioId } returns flowOf("BW")
         instance().run {
-            admissionTile.first() shouldBe PersonOverviewViewModel.AdmissionTile(
+            admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
                 visible = true,
                 title = "Status anzeigen für folgendes Bundesland:",
                 subtitle = "Baden-Württemberg"
