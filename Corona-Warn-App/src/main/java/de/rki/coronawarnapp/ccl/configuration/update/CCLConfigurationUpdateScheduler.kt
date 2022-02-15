@@ -1,13 +1,12 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
-import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
+import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -48,14 +47,13 @@ class CCLConfigurationUpdateScheduler @Inject constructor(
     }
 
     private fun buildWorkRequest(): PeriodicWorkRequest {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
         return PeriodicWorkRequestBuilder<CCLConfigurationUpdateWorker>(
             repeatInterval = 24,
             repeatIntervalTimeUnit = TimeUnit.HOURS
-        ).setConstraints(constraints).build()
+        ).setInitialDelay(
+            BackgroundConstants.KIND_DELAY,
+            TimeUnit.MINUTES
+        ).build()
     }
 }
 
