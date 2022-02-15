@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -36,7 +36,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
     dccAdmissionTileProvider: AdmissionTileProvider,
-    @Assisted private val admissionSharedViewModel: AdmissionSharedViewModel,
+    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
     private val expirationNotificationService: DccExpirationNotificationService,
@@ -144,7 +144,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
             dummy // TODO remove
         }.onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
             .onSuccess {
-                admissionSharedViewModel.setAdmissionScenarios(it)
+                admissionScenariosSharedViewModel.setAdmissionScenarios(it)
                 events.postValue(OpenAdmissionScenarioScreen)
             }
     }
@@ -157,7 +157,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonOverviewViewModel> {
         fun create(
-            admissionSharedViewModel: AdmissionSharedViewModel
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
         ): PersonOverviewViewModel
     }
 

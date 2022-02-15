@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
@@ -84,7 +84,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
         )
         setupMockViewModel(
             object : PersonOverviewViewModel.Factory {
-                override fun create(admissionSharedViewModel: AdmissionSharedViewModel): PersonOverviewViewModel {
+                override fun create(admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel): PersonOverviewViewModel {
                     return viewModel
                 }
             }

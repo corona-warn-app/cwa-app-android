@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
-class AdmissionSharedViewModel(private val savedState: SavedStateHandle) : ViewModel() {
+class AdmissionScenariosSharedViewModel(private val savedState: SavedStateHandle) : ViewModel() {
     private val currentAdmissionScenarios = MutableStateFlow(savedAdmissionScenarios)
 
     val admissionScenarios: Flow<DccAdmissionCheckScenarios> = currentAdmissionScenarios.filterNotNull()
@@ -39,7 +39,7 @@ class AdmissionSharedViewModel(private val savedState: SavedStateHandle) : ViewM
         }
 
     companion object {
-        private val TAG = tag<AdmissionSharedViewModel>()
+        private val TAG = tag<AdmissionScenariosSharedViewModel>()
 
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
         const val ADMISSION_SCENARIOS = "admission_scenarios_key"

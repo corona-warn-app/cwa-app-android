@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.map
 class AdmissionScenariosViewModel @AssistedInject constructor(
     format: CCLTextFormatter,
     private val admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
-    @Assisted private val admissionSharedViewModel: AdmissionSharedViewModel,
+    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     private val cclSettings: CCLSettings,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 ) : CWAViewModel() {
 
-    val state = admissionSharedViewModel.admissionScenarios
+    val state = admissionScenariosSharedViewModel.admissionScenarios
         .map { dccCheckScenarios ->
             State(
                 title = format(dccCheckScenarios.scenarioSelection.titleText),
@@ -41,7 +41,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     private fun selectScenario(admissionScenarioId: String) = launch {
         dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         admissionCheckScenariosRepository.save(
-            admissionSharedViewModel.admissionScenarios.first()
+            admissionScenariosSharedViewModel.admissionScenarios.first()
         )
 
         cclSettings.setAdmissionScenarioId(admissionScenarioId)
@@ -50,7 +50,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<AdmissionScenariosViewModel> {
         fun create(
-            admissionSharedViewModel: AdmissionSharedViewModel
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
         ): AdmissionScenariosViewModel
     }
 

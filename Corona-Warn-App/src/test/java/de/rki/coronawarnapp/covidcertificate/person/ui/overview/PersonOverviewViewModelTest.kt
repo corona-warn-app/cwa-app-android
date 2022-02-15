@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -282,7 +282,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
             format = CCLTextFormatter(cclJsonFunctions, mapper),
-            admissionSharedViewModel = AdmissionSharedViewModel(SavedStateHandle()),
+            admissionSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider
         )
