@@ -32,7 +32,6 @@ val scenariosJson = """
               },
               "parameters": []
             },
-            "subtitleText":null,
             "enabled": true
           },
           {

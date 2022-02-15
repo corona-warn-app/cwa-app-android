@@ -46,8 +46,10 @@ class DccAdmissionCheckScenariosTest : BaseTest() {
 
     @Test
     fun `parse output`() {
-        mapper.readValue<DccAdmissionCheckScenarios>(scenariosJson) shouldBe admissionCheckScenarios
-        mapper.writeValueAsString(admissionCheckScenarios).toComparableJsonPretty() shouldBe scenariosJson
+        val scenarios = mapper.readValue<DccAdmissionCheckScenarios>(scenariosJson)
+        scenarios shouldBe admissionCheckScenarios
+        val json = mapper.writeValueAsString(admissionCheckScenarios).toComparableJsonPretty()
+        json shouldBe scenariosJson
     }
 
     @Test

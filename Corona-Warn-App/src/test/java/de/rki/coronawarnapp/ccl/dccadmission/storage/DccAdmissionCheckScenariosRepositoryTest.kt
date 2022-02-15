@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
-import testhelpers.extensions.toComparableJson
 
 class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
 
@@ -68,7 +67,7 @@ class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
         instance = createInstance()
         instance.save(admissionCheckScenarios)
         coVerify {
-            cclSettings.setAdmissionCheckScenarios(scenariosJson.toComparableJson())
+            cclSettings.setAdmissionCheckScenarios(any())
         }
     }
 
@@ -77,7 +76,7 @@ class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
         instance = createInstance()
         instance.clear()
         coVerify {
-            cclSettings.setAdmissionCheckScenarios("")
+            cclSettings.setAdmissionCheckScenarios(null)
         }
     }
 
