@@ -5,7 +5,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
-import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificatio
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -143,7 +141,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
         runCatching { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() }
             .onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
             .onSuccess {
-                admissionSharedViewModel.setAdmissionScenarios(it)
+                admissionScenariosSharedViewModel.setAdmissionScenarios(it)
                 events.postValue(OpenAdmissionScenarioScreen)
             }
     }
