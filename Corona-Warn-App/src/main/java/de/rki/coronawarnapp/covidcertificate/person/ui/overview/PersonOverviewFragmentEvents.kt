@@ -19,3 +19,5 @@ data class OpenPersonDetailsFragment(
 ) : PersonOverviewFragmentEvents()
 
 object OpenCovPassInfo : PersonOverviewFragmentEvents()
+object OpenAdmissionScenarioScreen : PersonOverviewFragmentEvents()
+data class ShowAdmissionScenarioError(val error: Throwable) : PersonOverviewFragmentEvents()
