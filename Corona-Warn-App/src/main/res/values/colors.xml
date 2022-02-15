@@ -111,4 +111,6 @@
     <color name="tipSubtitleColor">#9E9E9E</color>
     <color name="dim_color">#80000000</color>
 
+    <color name="admissionTileBackground">@color/colorPersonOverviewQrCardGrey</color>
+
 </resources>
