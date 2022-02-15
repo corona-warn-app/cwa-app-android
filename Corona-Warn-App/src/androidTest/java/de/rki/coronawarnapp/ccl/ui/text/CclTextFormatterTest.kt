@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.ccl.ui.text
 import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclText
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -21,9 +21,9 @@ import java.nio.file.Paths
 import java.util.Locale
 import java.util.TimeZone
 
-class CCLTextFormatterTest : BaseTestInstrumentation() {
+class CclTextFormatterTest : BaseTestInstrumentation() {
 
-    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @Before
@@ -50,7 +50,7 @@ class CCLTextFormatterTest : BaseTestInstrumentation() {
     }
 
     private fun testCases() = runBlockingTest {
-        val format = CCLTextFormatter(cclJsonFunctions, mapper)
+        val format = CclTextFormatter(cclJsonFunctions, mapper)
         val path = Paths.get("ccl", "ccl-text-descriptor-test-cases.gen.json").toString()
         val stream = InstrumentationRegistry.getInstrumentation().context.assets.open(path)
         val testCases = SerializationModule().jacksonObjectMapper().readValue<TestCases>(stream)
@@ -69,7 +69,7 @@ data class TestCase(
     val description: String,
 
     @JsonProperty("textDescriptor")
-    val textDescriptor: CCLText,
+    val textDescriptor: CclText,
 
     @JsonProperty("assertions")
     val assertions: List<Assertions>

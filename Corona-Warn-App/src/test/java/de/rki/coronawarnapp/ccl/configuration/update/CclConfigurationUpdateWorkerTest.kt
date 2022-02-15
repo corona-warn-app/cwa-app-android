@@ -18,11 +18,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class CCLConfigurationUpdateWorkerTest : BaseTest() {
+class CclConfigurationUpdateWorkerTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @RelaxedMockK lateinit var workerParams: WorkerParameters
-    @MockK lateinit var cclConfigurationUpdater: CCLConfigurationUpdater
+    @MockK lateinit var cclConfigurationUpdater: CclConfigurationUpdater
 
     @BeforeEach
     fun setup() {
@@ -37,8 +37,8 @@ class CCLConfigurationUpdateWorkerTest : BaseTest() {
         coVerify(exactly = 1) { cclConfigurationUpdater.updateIfRequired() }
     }
 
-    private fun createWorker(): CCLConfigurationUpdateWorker {
-        return CCLConfigurationUpdateWorker(context, workerParams, cclConfigurationUpdater)
+    private fun createWorker(): CclConfigurationUpdateWorker {
+        return CclConfigurationUpdateWorker(context, workerParams, cclConfigurationUpdater)
     }
 
     @AfterEach

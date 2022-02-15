@@ -12,7 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
-import de.rki.coronawarnapp.test.ccl.CCLTestViewModel.ForceUpdateUiState.Loading
+import de.rki.coronawarnapp.test.ccl.CclTestViewModel.ForceUpdateUiState.Loading
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -21,11 +21,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
+class CclTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: CCLTestViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: CclTestViewModel by cwaViewModels { viewModelFactory }
     private val binding: FragmentTestCclBinding by viewBinding()
 
     @SuppressLint("SetTextI18n")
@@ -36,14 +36,14 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
             calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
-            viewModel.personIdentifiers.observe2(this@CCLTestFragment) { personIdentifier ->
+            viewModel.personIdentifiers.observe2(this@CclTestFragment) { personIdentifier ->
                 radioGroup.removeAllViews()
                 personIdentifier.forEach { item ->
                     radioGroup.addView(
                         RadioButton(requireContext()).apply {
                             text = when (item) {
-                                CCLTestViewModel.PersonIdentifierSelection.All -> "All"
-                                is CCLTestViewModel.PersonIdentifierSelection.Selected -> item.personIdentifier.groupingKey
+                                CclTestViewModel.PersonIdentifierSelection.All -> "All"
+                                is CclTestViewModel.PersonIdentifierSelection.Selected -> item.personIdentifier.groupingKey
                             }
                             setOnCheckedChangeListener { _, isChecked ->
                                 if (isChecked) {
@@ -56,7 +56,7 @@ class CCLTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
                 radioGroup.check(radioGroup.getChildAt(0).id)
             }
 
-            viewModel.dccWalletInfoList.observe2(this@CCLTestFragment) { infoList ->
+            viewModel.dccWalletInfoList.observe2(this@CclTestFragment) { infoList ->
                 val emoji = when (infoList.size) {
                     viewModel.personIdentifiers.value?.size?.minus(1) -> "✌️"
                     else -> "\uD83D\uDC4E"

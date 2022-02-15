@@ -9,10 +9,10 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
-class CCLConfigurationUpdateWorker @AssistedInject constructor(
+class CclConfigurationUpdateWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted val workerParams: WorkerParameters,
-    private val cclConfigurationUpdater: CCLConfigurationUpdater
+    private val cclConfigurationUpdater: CclConfigurationUpdater
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -23,5 +23,5 @@ class CCLConfigurationUpdateWorker @AssistedInject constructor(
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<CCLConfigurationUpdateWorker>
+    interface Factory : InjectedWorkerFactory<CclConfigurationUpdateWorker>
 }

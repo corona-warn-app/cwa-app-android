@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
@@ -43,7 +43,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
-    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -249,6 +249,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
-            format = CCLTextFormatter(cclJsonFunctions, mapper)
+            format = CclTextFormatter(cclJsonFunctions, mapper)
         )
 }

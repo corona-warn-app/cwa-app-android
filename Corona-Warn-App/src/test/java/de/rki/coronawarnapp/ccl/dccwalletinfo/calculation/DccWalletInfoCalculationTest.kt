@@ -32,7 +32,7 @@ import testhelpers.TestDispatcherProvider
 class DccWalletInfoCalculationTest : BaseTest() {
 
     @MockK lateinit var walletInfo: DccWalletInfo
-    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
 
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")

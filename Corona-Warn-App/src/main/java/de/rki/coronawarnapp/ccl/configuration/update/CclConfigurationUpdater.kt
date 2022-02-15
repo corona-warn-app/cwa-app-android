@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
 import androidx.annotation.VisibleForTesting
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
@@ -15,11 +15,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CCLConfigurationUpdater @Inject constructor(
+class CclConfigurationUpdater @Inject constructor(
     private val timeStamper: TimeStamper,
-    private val cclSettings: CCLSettings,
+    private val cclSettings: CclSettings,
     private val boosterRulesRepository: BoosterRulesRepository,
-    private val cclConfigurationRepository: CCLConfigurationRepository,
+    private val cclConfigurationRepository: CclConfigurationRepository,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 ) {
 
@@ -58,7 +58,7 @@ class CCLConfigurationUpdater @Inject constructor(
     internal suspend fun updateConfiguration(): Boolean {
         return coroutineScope {
             val boosterRulesDeferred = async { boosterRulesRepository.update() }
-            val cclConfigDeferred = async { cclConfigurationRepository.updateCCLConfiguration() }
+            val cclConfigDeferred = async { cclConfigurationRepository.updateCclConfiguration() }
 
             val boosterRulesResult = boosterRulesDeferred.await()
             val cclConfigResult = cclConfigDeferred.await()

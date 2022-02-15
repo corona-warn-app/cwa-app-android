@@ -15,25 +15,25 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 
-class DefaultCCLConfigurationProviderTest : BaseIOTest() {
+class DefaultCclConfigurationProviderTest : BaseIOTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var assets: AssetManager
 
-    private val testDir = File(IO_TEST_BASEDIR, DefaultCCLConfigurationProviderTest::class.java.simpleName)
-    private val defaultCCLConfigFile = File(testDir, ASSET_DEFAULT_CCL_CONFIGURATION)
+    private val testDir = File(IO_TEST_BASEDIR, DefaultCclConfigurationProviderTest::class.java.simpleName)
+    private val defaultCclConfigFile = File(testDir, ASSET_DEFAULT_CCL_CONFIGURATION)
 
-    private val instance: DefaultCCLConfigurationProvider
-        get() = DefaultCCLConfigurationProvider(context = context)
+    private val instance: DefaultCclConfigurationProvider
+        get() = DefaultCclConfigurationProvider(context = context)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        defaultCCLConfigFile.parentFile?.mkdirs()
+        defaultCclConfigFile.parentFile?.mkdirs()
 
         every { context.assets } returns assets
-        every { assets.open(ASSET_DEFAULT_CCL_CONFIGURATION) } answers { defaultCCLConfigFile.inputStream() }
+        every { assets.open(ASSET_DEFAULT_CCL_CONFIGURATION) } answers { defaultCclConfigFile.inputStream() }
     }
 
     @AfterEach
@@ -49,9 +49,9 @@ class DefaultCCLConfigurationProviderTest : BaseIOTest() {
     @Test
     fun `loads default ccl configs raw data from assets`() {
         val data = "ccl config".toByteArray()
-        defaultCCLConfigFile.writeBytes(data)
+        defaultCclConfigFile.writeBytes(data)
 
-        instance.loadDefaultCCLConfigurationsRawData() shouldBe data
+        instance.loadDefaultCclConfigurationsRawData() shouldBe data
 
         verify { assets.open(ASSET_DEFAULT_CCL_CONFIGURATION) }
     }
@@ -61,6 +61,6 @@ class DefaultCCLConfigurationProviderTest : BaseIOTest() {
         val error = FileNotFoundException("Test error")
         every { assets.open(any()) } throws error
 
-        shouldThrow<FileNotFoundException> { instance.loadDefaultCCLConfigurationsRawData() } shouldBe error
+        shouldThrow<FileNotFoundException> { instance.loadDefaultCclConfigurationsRawData() } shouldBe error
     }
 }

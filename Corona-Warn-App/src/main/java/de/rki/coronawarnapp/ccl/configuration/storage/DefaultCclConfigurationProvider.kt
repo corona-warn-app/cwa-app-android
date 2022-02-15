@@ -7,15 +7,15 @@ import de.rki.coronawarnapp.util.di.AppContext
 import timber.log.Timber
 import javax.inject.Inject
 
-class DefaultCCLConfigurationProvider @Inject constructor(
+class DefaultCclConfigurationProvider @Inject constructor(
     @AppContext private val context: Context
 ) {
 
-    fun loadDefaultCCLConfigurationsRawData(): ByteArray = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
+    fun loadDefaultCclConfigurationsRawData(): ByteArray = context.assets.open(ASSET_DEFAULT_CCL_CONFIGURATION)
         .use { it.readBytes() }
         .also { Timber.tag(TAG).d("Loaded default ccl config") }
 }
 
-private val TAG = tag<DefaultCCLConfigurationProvider>()
+private val TAG = tag<DefaultCclConfigurationProvider>()
 
 @VisibleForTesting const val ASSET_DEFAULT_CCL_CONFIGURATION = "ccl/ccl-configuration.bin"

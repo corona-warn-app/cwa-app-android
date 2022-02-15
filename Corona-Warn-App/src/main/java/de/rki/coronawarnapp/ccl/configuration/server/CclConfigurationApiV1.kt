@@ -4,8 +4,8 @@ import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface CCLConfigurationApiV1 {
+interface CclConfigurationApiV1 {
 
     @GET("/version/v1/ccl/config-v1")
-    suspend fun getCCLConfiguration(): Response<ResponseBody>
+    suspend fun getCclConfiguration(): Response<ResponseBody>
 }

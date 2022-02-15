@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import dagger.Reusable
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.cclLanguage
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getDefaultInputParameters
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
@@ -21,17 +21,17 @@ import java.util.Locale
 import javax.inject.Inject
 
 @Reusable
-class CCLTextFormatter @Inject constructor(
-    private val cclJsonFunctions: CCLJsonFunctions,
+class CclTextFormatter @Inject constructor(
+    private val cclJsonFunctions: CclJsonFunctions,
     @BaseJackson private val mapper: ObjectMapper
 ) {
     /**
-     * Format [CCLText] based on its sub-types
-     * if the text is a [SystemTimeDependentText] it will be evaluated by [CCLJsonFunctions]
-     * @return [String] empty string if [CCLText] is null or could not be formatted
+     * Format [CclText] based on its sub-types
+     * if the text is a [SystemTimeDependentText] it will be evaluated by [CclJsonFunctions]
+     * @return [String] empty string if [CclText] is null or could not be formatted
      */
     suspend operator fun invoke(
-        cclText: CCLText?,
+        cclText: CclText?,
         language: String = cclLanguage,
         locale: Locale = Locale.getDefault()
     ): String = runCatching {
@@ -42,7 +42,7 @@ class CCLTextFormatter @Inject constructor(
             else -> null
         }
     }.getOrElse {
-        Timber.w(it, "CCLText.format() failed")
+        Timber.w(it, "CclText.format() failed")
         null
     }.orEmpty()
 
@@ -103,14 +103,14 @@ class CCLTextFormatter @Inject constructor(
         }
     }
 
-    private suspend fun SystemTimeDependentText.formatSystemTimeDependent(): CCLText? =
+    private suspend fun SystemTimeDependentText.formatSystemTimeDependent(): CclText? =
         runCatching {
             val defaultParameters = getDefaultInputParameters(DateTime.now()).toObjectNode()
             val allParameters = JsonNodeFactory.instance.objectNode()
                 .setAll<ObjectNode>(defaultParameters)
                 .setAll<ObjectNode>(parameters)
             val output = cclJsonFunctions.evaluateFunction(functionName, allParameters)
-            mapper.treeToValue(output, CCLText::class.java)
+            mapper.treeToValue(output, CclText::class.java)
         }.onFailure {
             Timber.e(it, "SystemTimeDependentText.formatSystemTimeDependent() failed.")
         }.getOrNull()

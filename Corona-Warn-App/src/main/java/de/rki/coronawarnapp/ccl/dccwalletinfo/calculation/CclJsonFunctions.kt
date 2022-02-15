@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.model.CclConfiguration
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
@@ -20,10 +20,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CCLJsonFunctions @Inject constructor(
+class CclJsonFunctions @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
     @AppScope private val appScope: CoroutineScope,
-    configurationRepository: CCLConfigurationRepository,
+    configurationRepository: CclConfigurationRepository,
     private val dispatcher: DispatcherProvider,
 ) {
     private lateinit var jsonFunctions: JsonFunctions
@@ -50,7 +50,7 @@ class CCLJsonFunctions @Inject constructor(
         }
     }
 
-    private fun create(cclConfigurations: List<CCLConfiguration>): JsonFunctions {
+    private fun create(cclConfigurations: List<CclConfiguration>): JsonFunctions {
         return JsonFunctions().apply {
             cclConfigurations
                 .map { it.logic.jfnDescriptors }

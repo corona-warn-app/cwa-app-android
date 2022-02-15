@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import org.joda.time.Instant
 
 @Suppress("ConstructorParameterNaming")
-data class CCLConfiguration(
+data class CclConfiguration(
     @JsonProperty("Identifier")
     val identifier: String,
 

@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeStamper
@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 @Suppress("MaxLineLength")
-internal class CCLConfigurationUpdaterTest : BaseTest() {
+internal class CclConfigurationUpdaterTest : BaseTest() {
 
     @MockK private lateinit var timeStamper: TimeStamper
-    @RelaxedMockK private lateinit var cclSettings: CCLSettings
+    @RelaxedMockK private lateinit var cclSettings: CclSettings
     @MockK private lateinit var boosterRulesRepository: BoosterRulesRepository
-    @MockK private lateinit var cclConfigurationRepository: CCLConfigurationRepository
+    @MockK private lateinit var cclConfigurationRepository: CclConfigurationRepository
     @RelaxedMockK private lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @BeforeEach
@@ -39,12 +39,12 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
         coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
         coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
-        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
+        coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
 
         getInstance().updateIfRequired()
 
         coVerify(exactly = 1) { boosterRulesRepository.update() }
-        coVerify(exactly = 1) { cclConfigurationRepository.updateCCLConfiguration() }
+        coVerify(exactly = 1) { cclConfigurationRepository.updateCclConfiguration() }
 
         verify(exactly = 1) { cclSettings.setExecutionTimeToNow(any()) }
 
@@ -52,7 +52,7 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
 
         // false should be passed to the trigger when there are no updates
         coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
-        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
+        coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
         getInstance().updateIfRequired()
         verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
     }
@@ -77,19 +77,19 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
             val updater = getInstance()
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
             updater.updateConfiguration() shouldBe false
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
             updater.updateConfiguration() shouldBe true
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.UPDATE
             updater.updateConfiguration() shouldBe true
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.UPDATE
             updater.updateConfiguration() shouldBe true
 
             verify(exactly = 4) { cclSettings.setExecutionTimeToNow(any()) }
@@ -102,15 +102,15 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
             val updater = getInstance()
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.FAIL
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.UPDATE
             updater.updateConfiguration()
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.FAIL
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.FAIL
             updater.updateConfiguration()
 
             coEvery { boosterRulesRepository.update() } returns UpdateResult.FAIL
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.FAIL
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.FAIL
             updater.updateConfiguration()
 
             verify { cclSettings wasNot Called }
@@ -142,8 +142,8 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
         updater.isUpdateRequired(previousDay)
     }
 
-    private fun getInstance(): CCLConfigurationUpdater {
-        return CCLConfigurationUpdater(
+    private fun getInstance(): CclConfigurationUpdater {
+        return CclConfigurationUpdater(
             timeStamper,
             cclSettings,
             boosterRulesRepository,

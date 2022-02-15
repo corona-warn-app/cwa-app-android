@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdater
+import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
@@ -35,7 +35,6 @@ import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
-import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -191,5 +190,5 @@ class MockProvider {
     fun recoveryCertificateRepository(): RecoveryCertificateRepository = mockk()
 
     @Provides
-    fun cclConfigurationUpdater(): CCLConfigurationUpdater = mockk()
+    fun cclConfigurationUpdater(): CclConfigurationUpdater = mockk()
 }

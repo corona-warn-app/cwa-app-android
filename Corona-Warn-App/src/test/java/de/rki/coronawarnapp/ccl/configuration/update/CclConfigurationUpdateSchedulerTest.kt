@@ -19,11 +19,11 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
-internal class CCLConfigurationUpdateSchedulerTest : BaseTest() {
+internal class CclConfigurationUpdateSchedulerTest : BaseTest() {
 
     @MockK lateinit var foregroundState: ForegroundState
     @MockK(relaxed = true) lateinit var workManager: WorkManager
-    @MockK lateinit var cclConfigurationUpdater: CCLConfigurationUpdater
+    @MockK lateinit var cclConfigurationUpdater: CclConfigurationUpdater
 
     private val isForeground = MutableStateFlow(false)
 
@@ -72,7 +72,7 @@ internal class CCLConfigurationUpdateSchedulerTest : BaseTest() {
         }
     }
 
-    private fun createScheduler(scope: CoroutineScope): CCLConfigurationUpdateScheduler {
-        return CCLConfigurationUpdateScheduler(scope, foregroundState, cclConfigurationUpdater, workManager)
+    private fun createScheduler(scope: CoroutineScope): CclConfigurationUpdateScheduler {
+        return CclConfigurationUpdateScheduler(scope, foregroundState, cclConfigurationUpdater, workManager)
     }
 }

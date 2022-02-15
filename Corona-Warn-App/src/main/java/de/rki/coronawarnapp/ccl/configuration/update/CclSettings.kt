@@ -20,14 +20,14 @@ import java.io.IOException
 import javax.inject.Inject
 
 @Reusable
-class CCLSettings @Inject constructor(
-    @CCLSettingsDataStore private val dataStore: DataStore<Preferences>,
+class CclSettings @Inject constructor(
+    @CclSettingsDataStore private val dataStore: DataStore<Preferences>,
     @AppScope private val appScope: CoroutineScope
 ) {
 
     private val dataStoreFlow = dataStore.data
         .catch { e ->
-            Timber.tag(TAG).e(e, "Failed to read CCL Settings")
+            Timber.tag(TAG).e(e, "Failed to read CclSettings")
             if (e is IOException) {
                 emit(emptyPreferences())
             } else {
@@ -79,6 +79,6 @@ class CCLSettings @Inject constructor(
     companion object {
         internal val LAST_EXECUTION_TIME_KEY = longPreferencesKey("ccl.settings.lastexecutiontime")
 
-        private val TAG = tag<CCLSettings>()
+        private val TAG = tag<CclSettings>()
     }
 }

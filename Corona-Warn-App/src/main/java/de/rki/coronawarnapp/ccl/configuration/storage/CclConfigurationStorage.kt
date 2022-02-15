@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.configuration.storage
 
-import de.rki.coronawarnapp.ccl.configuration.CCLConfiguration
+import de.rki.coronawarnapp.ccl.configuration.CclConfiguration
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -8,8 +8,8 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class CCLConfigurationStorage @Inject constructor(
-    @CCLConfiguration private val cclFile: File
+class CclConfigurationStorage @Inject constructor(
+    @CclConfiguration private val cclFile: File
 ) {
 
     private val mutex = Mutex()
@@ -47,4 +47,4 @@ class CCLConfigurationStorage @Inject constructor(
     }
 }
 
-private val TAG = tag<CCLConfigurationStorage>()
+private val TAG = tag<CclConfigurationStorage>()

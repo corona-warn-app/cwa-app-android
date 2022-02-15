@@ -4,7 +4,7 @@ import androidx.work.ListenableWorker
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdateWorker
+import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateWorker
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
@@ -139,8 +139,8 @@ abstract class WorkerBinder {
 
     @Binds
     @IntoMap
-    @WorkerKey(CCLConfigurationUpdateWorker::class)
+    @WorkerKey(CclConfigurationUpdateWorker::class)
     abstract fun cclConfigurationUpdateWorker(
-        factory: CCLConfigurationUpdateWorker.Factory
+        factory: CclConfigurationUpdateWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

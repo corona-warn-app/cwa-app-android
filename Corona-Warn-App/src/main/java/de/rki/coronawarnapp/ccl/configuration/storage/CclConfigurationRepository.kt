@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ccl.configuration.storage
 
-import de.rki.coronawarnapp.ccl.configuration.common.CCLConfigurationParser
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
-import de.rki.coronawarnapp.ccl.configuration.server.CCLConfigurationServer
+import de.rki.coronawarnapp.ccl.configuration.common.CclConfigurationParser
+import de.rki.coronawarnapp.ccl.configuration.model.CclConfiguration
+import de.rki.coronawarnapp.ccl.configuration.server.CclConfigurationServer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -18,36 +18,36 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CCLConfigurationRepository @Inject constructor(
+class CclConfigurationRepository @Inject constructor(
     @AppScope appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
-    private val cclConfigurationStorage: CCLConfigurationStorage,
-    private val defaultCCLConfigurationProvider: DefaultCCLConfigurationProvider,
-    private val cclConfigurationParser: CCLConfigurationParser,
-    private val cclConfigurationServer: CCLConfigurationServer
+    private val cclConfigurationStorage: CclConfigurationStorage,
+    private val defaultCclConfigurationProvider: DefaultCclConfigurationProvider,
+    private val cclConfigurationParser: CclConfigurationParser,
+    private val cclConfigurationServer: CclConfigurationServer
 ) {
-    private val internalData: HotDataFlow<List<CCLConfiguration>> = HotDataFlow(
+    private val internalData: HotDataFlow<List<CclConfiguration>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Eagerly,
         startValueProvider = { loadInitialConfigs() }
     )
 
-    val cclConfigurations: Flow<List<CCLConfiguration>> = internalData.data
+    val cclConfigurations: Flow<List<CclConfiguration>> = internalData.data
 
-    suspend fun getCCLConfigurations(): List<CCLConfiguration> = cclConfigurations.first()
+    suspend fun getCclConfigurations(): List<CclConfiguration> = cclConfigurations.first()
 
     /**
      * @return UpdateResult.UPDATE if new data was fetched from the server, UpdateResult.NO_UPDATE if
      * we didn't get new data from the server and UpdaterResult.FAIL if something went wrong
      **/
-    suspend fun updateCCLConfiguration(): UpdateResult = try {
+    suspend fun updateCclConfiguration(): UpdateResult = try {
         var updateResult = UpdateResult.NO_UPDATE
         internalData.updateBlocking {
             Timber.tag(TAG).d("Updating ccl configuration")
 
-            val rawData = cclConfigurationServer.getCCLConfiguration()
-            val newConfig = rawData?.tryParseCCLConfigurations()
+            val rawData = cclConfigurationServer.getCclConfiguration()
+            val newConfig = rawData?.tryParseCclConfigurations()
 
             if (rawData != null && newConfig == null) {
                 // parsing failed
@@ -81,27 +81,27 @@ class CCLConfigurationRepository @Inject constructor(
         internalData.updateBlocking { loadInitialConfigs() }
     }
 
-    private val defaultCCLConfigurationsRawData: ByteArray
-        get() = defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
+    private val defaultCclConfigurationsRawData: ByteArray
+        get() = defaultCclConfigurationProvider.loadDefaultCclConfigurationsRawData()
 
-    private fun ByteArray.tryParseCCLConfigurations(): List<CCLConfiguration>? = try {
-        Timber.tag(TAG).d("tryParseCCLConfiguration()")
+    private fun ByteArray.tryParseCclConfigurations(): List<CclConfiguration>? = try {
+        Timber.tag(TAG).d("tryParseCclConfiguration()")
         cclConfigurationParser.parseCClConfigurations(rawData = this)
     } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to parse CCLConfiguration")
+        Timber.tag(TAG).e(e, "Failed to parse CclConfiguration")
         null
-    }.also { logConfigVersionAndIdentifier(it, logPrefix = "tryParseCCLConfiguration() - Returning") }
+    }.also { logConfigVersionAndIdentifier(it, logPrefix = "tryParseCclConfiguration() - Returning") }
 
-    private suspend fun loadInitialConfigs(): List<CCLConfiguration> {
+    private suspend fun loadInitialConfigs(): List<CclConfiguration> {
         Timber.tag(TAG).d("loadInitialConfig()")
-        val config = cclConfigurationStorage.load()?.tryParseCCLConfigurations()
+        val config = cclConfigurationStorage.load()?.tryParseCclConfigurations()
         return when (config != null) {
             true -> config
-            false -> cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigurationsRawData)
+            false -> cclConfigurationParser.parseCClConfigurations(rawData = defaultCclConfigurationsRawData)
         }.also { logConfigVersionAndIdentifier(it, logPrefix = "loadInitialConfig() - Returning") }
     }
 
-    private fun logConfigVersionAndIdentifier(cclConfigurationList: List<CCLConfiguration>?, logPrefix: String) {
+    private fun logConfigVersionAndIdentifier(cclConfigurationList: List<CclConfiguration>?, logPrefix: String) {
         cclConfigurationList?.forEach { config ->
             Timber.tag(TAG)
                 .d("%s Configuration with Version=%s and identifier=%s", logPrefix, config.version, config.identifier)
@@ -109,4 +109,4 @@ class CCLConfigurationRepository @Inject constructor(
     }
 }
 
-private val TAG = tag<CCLConfigurationRepository>()
+private val TAG = tag<CclConfigurationRepository>()

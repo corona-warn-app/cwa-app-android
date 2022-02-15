@@ -17,8 +17,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class CCLConfigurationServer @Inject constructor(
-    private val cclConfigurationApiLazy: Lazy<CCLConfigurationApiV1>,
+class CclConfigurationServer @Inject constructor(
+    private val cclConfigurationApiLazy: Lazy<CclConfigurationApiV1>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation,
 ) {
@@ -26,10 +26,10 @@ class CCLConfigurationServer @Inject constructor(
     private val cclConfigurationApi
         get() = cclConfigurationApiLazy.get()
 
-    suspend fun getCCLConfiguration(): ByteArray? = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).d("getCCLConfiguration()")
+    suspend fun getCclConfiguration(): ByteArray? = withContext(dispatcherProvider.IO) {
+        Timber.tag(TAG).d("getCclConfiguration()")
         try {
-            val response = cclConfigurationApi.getCCLConfiguration()
+            val response = cclConfigurationApi.getCclConfiguration()
             when (response.wasModified) {
                 true -> response.parseAndValidate()
                 false -> {
@@ -53,7 +53,7 @@ class CCLConfigurationServer @Inject constructor(
         val exportSignature = fileMap[EXPORT_SIGNATURE_FILE_NAME]
 
         if (exportBinary == null || exportSignature == null)
-            throw CCLConfigurationInvalidSignatureException(msg = "Unknown files ${fileMap.entries}")
+            throw CclConfigurationInvalidSignatureException(msg = "Unknown files ${fileMap.entries}")
 
         val hasValidSignature = signatureValidation.hasValidSignature(
             toVerify = exportBinary,
@@ -61,7 +61,7 @@ class CCLConfigurationServer @Inject constructor(
         )
 
         if (!hasValidSignature)
-            throw CCLConfigurationInvalidSignatureException(msg = "Signature of ccl configuration did not match")
+            throw CclConfigurationInvalidSignatureException(msg = "Signature of ccl configuration did not match")
 
         return exportBinary
     }
@@ -69,6 +69,6 @@ class CCLConfigurationServer @Inject constructor(
     companion object {
         @VisibleForTesting const val EXPORT_BINARY_FILE_NAME = "export.bin"
         private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
-        private val TAG = tag<CCLConfigurationServer>()
+        private val TAG = tag<CclConfigurationServer>()
     }
 }

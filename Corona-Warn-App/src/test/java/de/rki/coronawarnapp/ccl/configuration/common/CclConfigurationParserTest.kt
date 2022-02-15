@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ccl.configuration.common
 
 import com.fasterxml.jackson.databind.node.TextNode
 import com.upokecenter.cbor.CBORObject
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
+import de.rki.coronawarnapp.ccl.configuration.model.CclConfiguration
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionDefinition
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionParameter
 import de.rki.coronawarnapp.ccl.configuration.model.JsonFunctionsDescriptor
@@ -12,10 +12,10 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class CCLConfigurationParserTest : BaseTest() {
+class CclConfigurationParserTest : BaseTest() {
 
     private val mapper = SerializationModule.jacksonBaseMapper
-    private val parser = CCLConfigurationParser(objectMapper = mapper)
+    private val parser = CclConfigurationParser(objectMapper = mapper)
 
     private val json = """
         [
@@ -109,7 +109,7 @@ class CCLConfigurationParserTest : BaseTest() {
 
         with(parser.parseCClConfigurationsJson(json = json).first()) {
             identifier shouldBe "CCL-DE-0001"
-            type shouldBe CCLConfiguration.Type.CCL_CONFIGURATION
+            type shouldBe CclConfiguration.Type.CCL_CONFIGURATION
             country shouldBe "DE"
             version shouldBe "1.0.0"
             schemaVersion shouldBe "1.0.0"
@@ -117,7 +117,7 @@ class CCLConfigurationParserTest : BaseTest() {
             engineVersion shouldBe "1.0.0"
             validFrom shouldBe Instant.parse("2021-10-07T00:00:00Z")
             validTo shouldBe Instant.parse("2030-06-01T00:00:00Z")
-            logic shouldBe CCLConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor))
+            logic shouldBe CclConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor))
         }
     }
 

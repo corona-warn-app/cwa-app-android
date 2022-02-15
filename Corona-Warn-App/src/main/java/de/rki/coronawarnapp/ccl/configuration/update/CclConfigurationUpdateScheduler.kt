@@ -17,10 +17,10 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CCLConfigurationUpdateScheduler @Inject constructor(
+class CclConfigurationUpdateScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val foregroundState: ForegroundState,
-    private val cclConfigurationUpdater: CCLConfigurationUpdater,
+    private val cclConfigurationUpdater: CclConfigurationUpdater,
     private val workManager: WorkManager
 ) {
 
@@ -47,7 +47,7 @@ class CCLConfigurationUpdateScheduler @Inject constructor(
     }
 
     private fun buildWorkRequest(): PeriodicWorkRequest {
-        return PeriodicWorkRequestBuilder<CCLConfigurationUpdateWorker>(
+        return PeriodicWorkRequestBuilder<CclConfigurationUpdateWorker>(
             repeatInterval = 24,
             repeatIntervalTimeUnit = TimeUnit.HOURS
         ).setInitialDelay(

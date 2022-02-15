@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
 import com.fasterxml.jackson.databind.node.TextNode
-import de.rki.coronawarnapp.ccl.configuration.model.CCLConfiguration
+import de.rki.coronawarnapp.ccl.configuration.model.CclConfiguration
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionDefinition
 import de.rki.coronawarnapp.ccl.configuration.model.FunctionParameter
 import de.rki.coronawarnapp.ccl.configuration.model.JsonFunctionsDescriptor
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.jfn.error.NoSuchFunctionException
 import io.kotest.assertions.throwables.shouldThrow
@@ -21,7 +21,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 
-internal class CCLJsonFunctionsTest : BaseTest() {
+internal class CclJsonFunctionsTest : BaseTest() {
 
     private val param1 = FunctionParameter(
         name = "greeting",
@@ -66,9 +66,9 @@ internal class CCLJsonFunctionsTest : BaseTest() {
         )
     )
 
-    private val cclConfiguration = CCLConfiguration(
+    private val cclConfiguration = CclConfiguration(
         identifier = "CCL-DE-0001",
-        type = CCLConfiguration.Type.CCL_CONFIGURATION,
+        type = CclConfiguration.Type.CCL_CONFIGURATION,
         country = "DE",
         version = "1.0.0",
         schemaVersion = "1.0.0",
@@ -76,10 +76,10 @@ internal class CCLJsonFunctionsTest : BaseTest() {
         engineVersion = "1.0.0",
         _validFrom = "2021-10-07T00:00:00Z",
         _validTo = "2030-06-01T00:00:00Z",
-        logic = CCLConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor))
+        logic = CclConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor))
     )
 
-    @MockK private lateinit var cclConfigurationRepository: CCLConfigurationRepository
+    @MockK private lateinit var cclConfigurationRepository: CclConfigurationRepository
 
     private var cclConfigurationFlow = MutableStateFlow(listOf(cclConfiguration))
 
@@ -105,7 +105,7 @@ internal class CCLJsonFunctionsTest : BaseTest() {
                 )
             )
             val newConfig =
-                cclConfiguration.copy(logic = CCLConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor)))
+                cclConfiguration.copy(logic = CclConfiguration.Logic(jfnDescriptors = listOf(jfnDescriptor)))
             cclConfigurationFlow.value = listOf(newConfig)
             evaluateFunction("sayHi", param).asText() shouldBe "Hello Android!"
             shouldThrow<NoSuchFunctionException> {
@@ -114,7 +114,7 @@ internal class CCLJsonFunctionsTest : BaseTest() {
         }
     }
 
-    fun instance(scope: CoroutineScope) = CCLJsonFunctions(
+    fun instance(scope: CoroutineScope) = CclJsonFunctions(
         mapper = SerializationModule.jacksonBaseMapper,
         appScope = scope,
         configurationRepository = cclConfigurationRepository,

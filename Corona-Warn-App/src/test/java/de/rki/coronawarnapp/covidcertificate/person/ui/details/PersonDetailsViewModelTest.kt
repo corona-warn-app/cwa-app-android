@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -57,7 +57,7 @@ class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var viewModel: PersonDetailsViewModel
-    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
     private val vcContainerId = VaccinationCertificateContainerId("1")
@@ -174,7 +174,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
-        format = CCLTextFormatter(cclJsonFunctions, mapper)
+        format = CclTextFormatter(cclJsonFunctions, mapper)
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {

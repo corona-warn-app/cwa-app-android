@@ -16,7 +16,7 @@ import dagger.android.HasAndroidInjector
 import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
-import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdateScheduler
+import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateScheduler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
@@ -96,7 +96,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var securityProvider: SecurityProvider
     @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @Inject lateinit var vaccinationStorage: VaccinationStorage
-    @Inject lateinit var cclConfigurationUpdaterScheduler: CCLConfigurationUpdateScheduler
+    @Inject lateinit var cclConfigurationUpdaterScheduler: CclConfigurationUpdateScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
