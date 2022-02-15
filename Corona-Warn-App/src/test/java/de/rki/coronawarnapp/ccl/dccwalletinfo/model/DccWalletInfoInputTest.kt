@@ -63,10 +63,11 @@ internal class DccWalletInfoInputTest : BaseTest() {
                         )
                     )
                 ),
-                validityState = CclCertificate.Validity.VALID
+                validityState = CclCertificate.Validity.VALID,
             )
         ),
-        boosterNotificationRules = readBoosterRules()
+        boosterNotificationRules = readBoosterRules(),
+        scenarioIdentifier = ""
     )
 
     @Test

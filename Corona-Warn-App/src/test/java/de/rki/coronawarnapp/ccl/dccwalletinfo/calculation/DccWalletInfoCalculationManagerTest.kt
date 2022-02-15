@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
@@ -37,6 +38,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     @MockK lateinit var certificatePersonIdentifier2: CertificatePersonIdentifier
     @MockK lateinit var dccWalletInfo1: DccWalletInfo
     @MockK lateinit var dccWalletInfo2: DccWalletInfo
+    @MockK lateinit var cclSettings: CCLSettings
 
     lateinit var instance: DccWalletInfoCalculationManager
 
@@ -54,16 +56,18 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { dccWalletInfo1.validUntilInstant } returns Instant.EPOCH.withMillis(2000)
         every { dccWalletInfo2.validUntilInstant } returns Instant.EPOCH.withMillis(100)
         every { calculation.init(any()) } just Runs
-        coEvery { calculation.getDccWalletInfo(any(), any()) } returns dccWalletInfo1
+        coEvery { calculation.getDccWalletInfo(any(), "", any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs
         coEvery { boosterNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
+        coEvery { cclSettings.getAdmissionScenarioId() } returns ""
         instance = DccWalletInfoCalculationManager(
             boosterRulesRepository,
             boosterNotificationService,
             personCertificatesProvider,
             dccWalletInfoRepository,
             calculation,
-            timeStamper
+            timeStamper,
+            cclSettings,
         )
     }
 
@@ -86,7 +90,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         }
 
         coVerify(exactly = 2) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
@@ -105,7 +109,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         }
 
         coVerify(exactly = 2) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
@@ -125,7 +129,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
@@ -145,7 +149,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 0) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
