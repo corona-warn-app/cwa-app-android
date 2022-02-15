@@ -20,7 +20,7 @@ import javax.inject.Inject
 class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+    private val admissionScenariosSharedViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
         R.id.covid_certificates_graph
     )
 
@@ -29,13 +29,12 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
         constructorCall = { factory, _ ->
             factory as AdmissionScenariosViewModel.Factory
             factory.create(
-                admissionScenariosSharedViewModel = admissionViewModel
+                admissionScenariosSharedViewModel = admissionScenariosSharedViewModel
             )
         }
     )
 
     private val binding by viewBinding<FragmentAdmissionScenariosBinding>()
-
     private val blockingDialog by lazy { AdmissionBlockingDialog(requireContext()) }
     private val admissionScenariosAdapter = AdmissionScenariosAdapter()
 
