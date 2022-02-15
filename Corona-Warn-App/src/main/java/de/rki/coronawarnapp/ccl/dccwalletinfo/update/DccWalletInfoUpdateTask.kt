@@ -44,7 +44,8 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
     data class Arguments(
         val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType,
-        val startDelay: Long = 1_000L
+        val startDelay: Long = 1_000L,
+        val admissionScenarioId: String = ""
     ) : Task.Arguments
 
     sealed class DccWalletInfoUpdateTriggerType {

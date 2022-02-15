@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_container"
@@ -7,105 +7,122 @@
     android:layout_height="match_parent"
     android:background="@color/colorSurface">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_person_overview"
-        app:title="@string/certification_screen_title" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/spacing_fab_padding"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:visibility="visible" />
-
-    <LinearLayout
-        android:id="@+id/empty_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/spacing_small"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/spacing_fab_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            style="@style/CWAToolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/person_overview_no_certificates_image_description"
-            android:focusable="true"
-            app:srcCompat="@drawable/ic_person_overview_illustration" />
+            app:liftOnScroll="true">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:menu="@menu/menu_person_overview"
+                app:title="@string/certification_screen_title" />
+
+            <include
+                android:id="@+id/admission_container"
+                layout="@layout/admission_scenario_tile" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/spacing_fab_padding"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:itemCount="1"
+            tools:listitem="@layout/person_overview_item"
+            tools:visibility="visible" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/empty_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/spacing_small"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_fab_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/person_overview_no_certificates_image_description"
+                android:focusable="true"
+                app:srcCompat="@drawable/ic_person_overview_illustration" />
+
+            <TextView
+                style="@style/subtitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="36dp"
+                android:text="@string/person_overview_no_certificates_title"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/body2Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/person_overview_no_certificates_subtitle"
+                app:autoSizeTextType="uniform" />
+
+            <TextView
+                style="@style/body2Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/person_overview_no_certificates_subtitle_2"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/loading_progress_bar"
+            android:layout_width="@dimen/spacing_normal"
+            android:layout_height="@dimen/spacing_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/loading_text"
             style="@style/subtitleMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="36dp"
-            android:text="@string/person_overview_no_certificates_title"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/certificate_loading_text"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/loading_progress_bar" />
 
-        <TextView
-            style="@style/body2Medium"
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/loading_layout_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/person_overview_no_certificates_subtitle"
-            app:autoSizeTextType="uniform" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="loading_progress_bar,loading_text" />
 
-        <TextView
-            style="@style/body2Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@string/person_overview_no_certificates_subtitle_2"
-            app:autoSizeTextType="uniform" />
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/loading_progress_bar"
-        android:layout_width="@dimen/spacing_normal"
-        android:layout_height="@dimen/spacing_normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/loading_text"
-        style="@style/subtitleMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/certificate_loading_text"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/loading_progress_bar" />
-
-    <androidx.constraintlayout.widget.Group
-        android:visibility="gone"
-        android:id="@+id/loading_layout_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="loading_progress_bar,loading_text" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
