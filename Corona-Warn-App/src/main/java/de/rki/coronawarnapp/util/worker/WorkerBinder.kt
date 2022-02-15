@@ -141,6 +141,6 @@ abstract class WorkerBinder {
     @IntoMap
     @WorkerKey(CCLConfigurationUpdateWorker::class)
     abstract fun cclConfigurationUpdateWorker(
-        factory: DccStateCheckWorker.Factory
+        factory: CCLConfigurationUpdateWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }
