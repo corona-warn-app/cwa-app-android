@@ -18,13 +18,13 @@ import kotlinx.coroutines.flow.map
 class AdmissionScenariosViewModel @AssistedInject constructor(
     private val format: CCLTextFormatter,
     private val admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
-    @Assisted private val admissionSharedViewModel: AdmissionSharedViewModel,
+    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     private val cclSettings: CCLSettings,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 ) : CWAViewModel() {
 
     private val _calculationState = MutableLiveData<CalculationState>()
-    val state = admissionSharedViewModel.admissionScenarios.map { it.toScenarioItems() }.asLiveData2()
+    val state = admissionScenariosSharedViewModel.admissionScenarios.map { it.toScenarioItems() }.asLiveData2()
     val calculationState: LiveData<CalculationState> = _calculationState
 
     private suspend fun DccAdmissionCheckScenarios.toScenarioItems() = State(
@@ -48,7 +48,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
         }.onFailure {
             _calculationState.postValue(CalculationError(it))
         }.onSuccess {
-            admissionCheckScenariosRepository.save(admissionSharedViewModel.admissionScenarios.first())
+            admissionCheckScenariosRepository.save(admissionScenariosSharedViewModel.admissionScenarios.first())
             cclSettings.setAdmissionScenarioId(admissionScenarioId)
             _calculationState.postValue(CalculationDone)
         }
@@ -57,7 +57,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<AdmissionScenariosViewModel> {
         fun create(
-            admissionSharedViewModel: AdmissionSharedViewModel
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
         ): AdmissionScenariosViewModel
     }
 

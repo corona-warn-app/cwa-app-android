@@ -14,7 +14,7 @@ import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
@@ -33,13 +33,15 @@ import javax.inject.Inject
 // Shows a list of multiple persons
 class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val admissionViewModel by navGraphViewModels<AdmissionSharedViewModel>(R.id.covid_certificates_graph)
+    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+        R.id.covid_certificates_graph
+    )
     private val viewModel: PersonOverviewViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as PersonOverviewViewModel.Factory
             factory.create(
-                admissionSharedViewModel = admissionViewModel
+                admissionScenariosSharedViewModel = admissionViewModel
             )
         }
     )

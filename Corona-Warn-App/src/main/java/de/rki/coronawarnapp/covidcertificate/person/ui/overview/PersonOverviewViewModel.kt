@@ -5,12 +5,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
+import de.rki.coronawarnapp.ccl.dccadmission.model.storage.dummy
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
@@ -35,7 +39,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
     dccAdmissionTileProvider: AdmissionTileProvider,
-    @Assisted private val admissionSharedViewModel: AdmissionSharedViewModel,
+    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
     private val expirationNotificationService: DccExpirationNotificationService,
@@ -154,7 +158,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<PersonOverviewViewModel> {
         fun create(
-            admissionSharedViewModel: AdmissionSharedViewModel
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
         ): PersonOverviewViewModel
     }
 

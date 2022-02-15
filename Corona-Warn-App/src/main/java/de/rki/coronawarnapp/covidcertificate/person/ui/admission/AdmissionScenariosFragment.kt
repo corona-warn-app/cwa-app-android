@@ -20,23 +20,28 @@ import javax.inject.Inject
 class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val admissionViewModel by navGraphViewModels<AdmissionSharedViewModel>(R.id.covid_certificates_graph)
+    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+        R.id.covid_certificates_graph
+    )
+
     private val viewModel: AdmissionScenariosViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as AdmissionScenariosViewModel.Factory
             factory.create(
-                admissionSharedViewModel = admissionViewModel
+                admissionScenariosSharedViewModel = admissionViewModel
             )
         }
     )
 
     private val binding by viewBinding<FragmentAdmissionScenariosBinding>()
+
     private val blockingDialog by lazy { AdmissionBlockingDialog(requireContext()) }
     private val admissionScenariosAdapter = AdmissionScenariosAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val materialContainerTransform = MaterialContainerTransform().apply {
             scrimColor = Color.TRANSPARENT
         }
