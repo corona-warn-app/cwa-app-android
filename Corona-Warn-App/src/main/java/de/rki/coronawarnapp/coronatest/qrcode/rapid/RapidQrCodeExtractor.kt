@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.qrcode.rapid
 import com.google.common.io.BaseEncoding
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.InvalidQRCodeException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
@@ -25,7 +25,7 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
         Timber.tag(loggingTag).v("extract(rawString=%s)", rawString)
         val payload = CleanPayload(extractData(rawString))
 
-        RatQrCodeCensor.dataToCensor = RatQrCodeCensor.CensorData(
+        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
             rawString = rawString,
             hash = payload.hash,
             firstName = payload.firstName,

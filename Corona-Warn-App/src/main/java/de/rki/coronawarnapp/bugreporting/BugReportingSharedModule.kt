@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RatProfileCensor
-import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.upload.server.LogUploadApiV1
@@ -99,7 +99,7 @@ class BugReportingSharedModule {
 
     @Provides
     @IntoSet
-    fun ratQrCodeCensor(censor: RatQrCodeCensor): BugCensor = censor
+    fun ratQrCodeCensor(censor: RapidQrCodeCensor): BugCensor = censor
 
     @Provides
     @IntoSet
