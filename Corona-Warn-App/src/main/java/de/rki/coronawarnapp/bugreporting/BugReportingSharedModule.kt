@@ -99,7 +99,7 @@ class BugReportingSharedModule {
 
     @Provides
     @IntoSet
-    fun ratQrCodeCensor(censor: RapidQrCodeCensor): BugCensor = censor
+    fun rapidQrCodeCensor(censor: RapidQrCodeCensor): BugCensor = censor
 
     @Provides
     @IntoSet
