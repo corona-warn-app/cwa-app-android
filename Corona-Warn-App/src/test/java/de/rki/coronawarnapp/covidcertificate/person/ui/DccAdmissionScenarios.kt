@@ -1,27 +1,11 @@
-package de.rki.coronawarnapp.ccl.dccadmission.model.storage
+package de.rki.coronawarnapp.covidcertificate.person.ui
 
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.dccadmission.model.ScenarioSelection
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import javax.inject.Inject
 
-class DccAdmissionCheckScenariosRepository @Inject constructor() {
-
-    val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios?> = flowOf(dummy)
-
-    fun save(scenarios: DccAdmissionCheckScenarios) {
-        // TODO
-    }
-
-    fun clear() {
-        // TODO
-    }
-}
-
-val dummy = DccAdmissionCheckScenarios(
+val dccAdmissionCheckScenarios = DccAdmissionCheckScenarios(
     labelText = SingleText(
         type = "string",
         localizedText = mapOf("de" to "Status anzeigen für folgendes Bundesland:"),
