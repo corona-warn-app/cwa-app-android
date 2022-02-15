@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
@@ -26,12 +25,14 @@ class DccWalletInfoCalculationManager @Inject constructor(
     /**
      * Trigger [DccWalletInfo] calculation for all persons
      */
-    suspend fun triggerCalculationAfterConfigChange(configurationChanged: Boolean = true) = try {
+    suspend fun triggerCalculationAfterConfigChange(
+        admissionScenarioId: String,
+        configurationChanged: Boolean = true
+    ): Result = try {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerCalculation() for [%d] persons", persons.size)
         val now = timeStamper.nowUTC
-        val admissionScenarioId = cclSettings.getAdmissionScenarioId()
         persons.forEach { person ->
             if (configurationChanged ||
                 person.dccWalletInfo == null ||
@@ -40,31 +41,25 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 updateWalletInfoForPerson(person, admissionScenarioId)
             }
         }
+        cclSettings.setAdmissionScenarioId(admissionScenarioId)
+        Result.Success
     } catch (e: Exception) {
         Timber.e(e, "Failed to run calculation.")
+        Result.Failure
     }
 
-    suspend fun triggerCalculationAfterCertificateChange() = try {
+    suspend fun triggerCalculationAfterCertificateChange(
+        admissionScenarioId: String
+    ): Result = try {
         initCalculation()
-        val admissionScenarioId = cclSettings.getAdmissionScenarioId()
         personCertificatesProvider.personCertificates.first().forEach {
             updateWalletInfoForPerson(it, admissionScenarioId)
         }
+        cclSettings.setAdmissionScenarioId(admissionScenarioId)
+        Result.Success
     } catch (e: Exception) {
         Timber.e(e, "Failed to run calculation.")
-    }
-
-    /**
-     * Trigger [DccWalletInfo] calculation for specific person
-     */
-    suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
-        personCertificatesProvider.personCertificates.first()
-            .find { it.personIdentifier == personIdentifier }
-            ?.let {
-                initCalculation()
-                val admissionScenarioId = cclSettings.getAdmissionScenarioId()
-                updateWalletInfoForPerson(it, admissionScenarioId)
-            }
+        Result.Failure
     }
 
     private suspend fun initCalculation() {
@@ -77,28 +72,29 @@ class DccWalletInfoCalculationManager @Inject constructor(
         person: PersonCertificates,
         admissionScenarioId: String
     ) {
-        try {
-            val personIdentifier = checkNotNull(person.personIdentifier) {
-                "Person identifier is null. Cannot proceed."
-            }
-
-            val newWalletInfo = calculation.getDccWalletInfo(
-                person.certificates,
-                admissionScenarioId
-            )
-
-            boosterNotificationService.notifyIfNecessary(
-                personIdentifier = personIdentifier,
-                oldWalletInfo = person.dccWalletInfo,
-                newWalletInfo = newWalletInfo
-            )
-
-            dccWalletInfoRepository.save(
-                personIdentifier,
-                newWalletInfo
-            )
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to calculate DccWalletInfo for ${person.personIdentifier}")
+        val personIdentifier = checkNotNull(person.personIdentifier) {
+            "Person identifier is null. Cannot proceed."
         }
+
+        val newWalletInfo = calculation.getDccWalletInfo(
+            person.certificates,
+            admissionScenarioId
+        )
+
+        boosterNotificationService.notifyIfNecessary(
+            personIdentifier = personIdentifier,
+            oldWalletInfo = person.dccWalletInfo,
+            newWalletInfo = newWalletInfo
+        )
+
+        dccWalletInfoRepository.save(
+            personIdentifier,
+            newWalletInfo
+        )
+    }
+
+    sealed class Result {
+        object Success : Result()
+        object Failure : Result()
     }
 }
