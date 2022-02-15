@@ -18,7 +18,9 @@ import javax.inject.Inject
 class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(R.id.covid_certificates_graph)
+    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+        R.id.covid_certificates_graph
+    )
     private val viewModel: AdmissionScenariosViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->

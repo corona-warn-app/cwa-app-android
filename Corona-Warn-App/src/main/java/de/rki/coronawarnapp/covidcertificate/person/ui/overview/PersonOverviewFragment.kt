@@ -33,7 +33,9 @@ import javax.inject.Inject
 // Shows a list of multiple persons
 class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(R.id.covid_certificates_graph)
+    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+        R.id.covid_certificates_graph
+    )
     private val viewModel: PersonOverviewViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
