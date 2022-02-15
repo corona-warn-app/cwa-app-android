@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccadmission.storage
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.util.serialization.BaseJackson
@@ -19,7 +20,7 @@ class DccAdmissionCheckScenariosRepository @Inject constructor(
         cclSettings.admissionCheckScenarios.map {
             it?.let { json ->
                 try {
-                    mapper.readValue(json, DccAdmissionCheckScenarios::class.java)
+                    mapper.readValue(json)
                 } catch (e: Exception) {
                     Timber.e(e, "Failed to parse admission check scenarios.")
                     null
