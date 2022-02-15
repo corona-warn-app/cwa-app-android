@@ -282,7 +282,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
             format = CCLTextFormatter(cclJsonFunctions, mapper),
-            admissionSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
+            admissionScenariosSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider
         )
