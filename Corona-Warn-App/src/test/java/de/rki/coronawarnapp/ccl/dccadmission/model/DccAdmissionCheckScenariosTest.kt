@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ccl.dccadmission.model
 
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.ccl.dccadmission.admissionCheckScenarios
+import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
