@@ -19,7 +19,10 @@ class DccAdmissionCheckScenariosRepository @Inject constructor(
     val admissionCheckScenarios: Flow<DccAdmissionCheckScenarios?> =
         cclSettings.admissionCheckScenarios.map {
             it?.let { json ->
-                try {
+                if (json.isBlank()) {
+                    Timber.v("No admission check scenarios available.")
+                    null
+                } else try {
                     mapper.readValue(json)
                 } catch (e: Exception) {
                     Timber.e(e, "Failed to parse admission check scenarios.")
