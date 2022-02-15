@@ -38,8 +38,4 @@ class DccAdmissionCheckScenariosRepository @Inject constructor(
         val json = mapper.writeValueAsString(scenarios)
         cclSettings.setAdmissionCheckScenarios(json)
     }
-
-    suspend fun clear() {
-        cclSettings.setAdmissionCheckScenarios(null)
-    }
 }

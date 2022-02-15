@@ -71,14 +71,5 @@ class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
         }
     }
 
-    @Test
-    fun `clear works`() = runBlockingTest2 {
-        instance = createInstance()
-        instance.clear()
-        coVerify {
-            cclSettings.setAdmissionCheckScenarios(null)
-        }
-    }
-
     private fun createInstance() = DccAdmissionCheckScenariosRepository(cclSettings, mapper)
 }
