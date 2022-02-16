@@ -19,6 +19,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
             dccPersonCountMax = rawConfig.dccPersonCountMax(),
             dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
+            admissionScenariosEnabled = true // TODO parse from feature toggle
         )
     }
 
@@ -111,6 +112,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         override val validationServiceMinVersion: Int,
         override val dccPersonWarnThreshold: Int,
         override val dccPersonCountMax: Int,
+        override val admissionScenariosEnabled: Boolean,
     ) : CWAConfig
 
     companion object {

@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 
 /**
@@ -26,11 +26,15 @@ import javax.inject.Inject
 class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_result_ready), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: SubmissionResultReadyViewModel by cwaViewModels { viewModelFactory }
+    private val viewModel: SubmissionResultReadyViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as SubmissionResultReadyViewModel.Factory
+            factory.create(navArgs.testType)
+        }
+    )
     private val binding: FragmentSubmissionResultReadyBinding by viewBinding()
-
     private val navArgs by navArgs<CheckInsConsentFragmentArgs>()
-
     private lateinit var uploadDialog: SubmissionBlockingDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

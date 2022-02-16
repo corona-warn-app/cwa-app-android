@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @Reusable
 class CCLSettings @Inject constructor(
     @CCLSettingsDataStore private val dataStore: DataStore<Preferences>,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
 ) {
 
     private val dataStoreFlow = dataStore.data
@@ -35,6 +36,9 @@ class CCLSettings @Inject constructor(
                 throw e
             }
         }
+
+    val admissionScenarioId = dataStoreFlow
+        .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
 
     /**
      * @returns the instant of the last time the CCL Settings were updated, or null if they haven't been updated yet
@@ -71,9 +75,7 @@ class CCLSettings @Inject constructor(
     /**
      * @returns admission scenario identifier, by default empty string
      */
-    suspend fun getAdmissionScenarioId(): String = dataStoreFlow
-        .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
-        .first()
+    suspend fun getAdmissionScenarioId(): String = admissionScenarioId.first()
 
     /**
      * Stores admission scenario identifier
@@ -82,7 +84,24 @@ class CCLSettings @Inject constructor(
         runCatching {
             dataStore.edit { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY] = admissionScenarioId }
         }.onFailure { e ->
-            Timber.tag(TAG).e(e, "Failed to set ccl execution time.")
+            Timber.tag(TAG).e(e, "Failed to set admissionScenarioId.")
+        }
+    }
+
+    /**
+     * @returns admission check scenarios, by default null
+     */
+    val admissionCheckScenarios: Flow<String?> = dataStoreFlow
+        .map { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] }
+
+    /**
+     * Stores admission check scenarios
+     */
+    suspend fun setAdmissionCheckScenarios(json: String?) {
+        runCatching {
+            dataStore.edit { prefs -> prefs[ADMISSION_CHECK_SCENARIOS_KEY] = json ?: "" }
+        }.onFailure { e ->
+            Timber.tag(TAG).e(e, "Failed to set admission check scenarios.")
         }
     }
 
@@ -98,7 +117,7 @@ class CCLSettings @Inject constructor(
     companion object {
         internal val LAST_EXECUTION_TIME_KEY = longPreferencesKey("ccl.settings.lastexecutiontime")
         internal val ADMISSION_SCENARIO_ID_KEY = stringPreferencesKey("ccl.settings.admissionScenarioId")
-
+        internal val ADMISSION_CHECK_SCENARIOS_KEY = stringPreferencesKey("ccl.settings.admissionCheckScenarios")
         private val TAG = tag<CCLSettings>()
     }
 }

@@ -197,13 +197,13 @@
     <string name="validation_rules_result_valid_result_country_and_time">Einreise nach %1$s am %2$s, geprüft am %3$s</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist im gewählten Land gültig</string>
+    <string name="validation_rules_result_valid_result_title">Ihr Zertifikat ist für die Einreise in das gewählte Land gültig</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
     <string name="validation_rules_result_no_rules_title">Ihr Zertifikat konnte nicht geprüft werden</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">Ihr Zertifikat konnte nicht vollständig geprüft werden</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
-    <string name="validation_rules_result_not_valid_result_title">Ihr Zertifikat ist im gewählten Land nicht gültig</string>
+    <string name="validation_rules_result_not_valid_result_title">Ihr Zertifikat ist für die Einreise in das gewählte Land nicht gültig</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
     <string name="validation_rules_open_header_title">Prüfung nicht möglich</string>
@@ -333,5 +333,10 @@
 
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Mehr Informationen finden Sie in den FAQ."</string>
+
+    <!-- XTXT: CCL Admission scenario tile title -->
+    <string name="ccl_admission_state_tile_title">Status für folgendes Bundesland</string>
+    <!-- XTXT: CCL Admission scenario tile subtitle -->
+    <string name="ccl_admission_state_tile_subtitle">Regeln des Bundes</string>
 
 </resources>

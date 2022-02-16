@@ -23,7 +23,7 @@ import org.joda.time.Instant
 
 fun RACoronaTest?.toSubmissionState(nowUTC: Instant = Instant.now(), coronaTestConfig: CoronaTestConfig) = when {
     this == null -> NoTest
-    isSubmitted -> SubmissionDone(testRegisteredAt = registeredAt)
+    isSubmitted && isViewed -> SubmissionDone(testRegisteredAt = registeredAt)
     isProcessing -> FetchingResult
     lastError is BadRequestException -> TestInvalid
     else -> when (getState(nowUTC, coronaTestConfig)) {

@@ -85,7 +85,8 @@ class DccWalletInfoCalculationTest : BaseTest() {
         val dccWalletInfoInput = instance.getDccWalletInfoInput(
             defaultInputParameters = defaultInputParameters,
             dccList = listOf(certificate),
-            boosterNotificationRules = NullNode.instance
+            boosterNotificationRules = NullNode.instance,
+            scenarioIdentifier = "",
         )
         dccWalletInfoInput.language shouldBe "de"
         dccWalletInfoInput.os shouldBe "android"
