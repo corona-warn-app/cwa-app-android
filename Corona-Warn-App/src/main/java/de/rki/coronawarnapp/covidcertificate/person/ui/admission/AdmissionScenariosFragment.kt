@@ -61,7 +61,10 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
                 AdmissionScenariosViewModel.Calculating -> blockingDialog.setState(true)
                 is AdmissionScenariosViewModel.CalculationError -> {
                     blockingDialog.setState(false)
-                    calculationState.error.toErrorDialogBuilder(requireContext()).show()
+                    calculationState.error
+                        .toErrorDialogBuilder(requireContext())
+                        .setOnDismissListener { popBackStack() }
+                        .show()
                 }
                 AdmissionScenariosViewModel.CalculationDone -> {
                     blockingDialog.setState(false)
