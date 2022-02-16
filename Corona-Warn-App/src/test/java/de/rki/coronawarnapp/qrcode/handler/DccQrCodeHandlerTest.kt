@@ -55,7 +55,7 @@ class DccQrCodeHandlerTest : BaseTest() {
             .apply { every { containerId } returns vaccinationCertID }
         coEvery { recoverCertificateRepository.registerCertificate(any()) } returns recoveryCertificateContainer
             .apply { every { containerId } returns recoveryCertID }
-        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
+        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     @Test
