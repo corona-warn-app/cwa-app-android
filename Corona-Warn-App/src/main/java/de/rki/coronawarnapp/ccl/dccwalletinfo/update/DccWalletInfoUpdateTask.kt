@@ -29,10 +29,13 @@ class DccWalletInfoUpdateTask @Inject constructor(
         delay(arguments.startDelay) // To capture latest data before calculation
         when (val trigger = arguments.dccWalletInfoUpdateTriggerType) {
             is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
-                configurationChanged = trigger.configurationChanged
+                configurationChanged = trigger.configurationChanged,
+                admissionScenarioId = arguments.admissionScenarioId
             )
             is TriggeredAfterCertificateChange ->
-                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
+                    admissionScenarioId = arguments.admissionScenarioId
+                )
         }
 
         dccWalletInfoCleaner.clean()

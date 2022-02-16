@@ -48,13 +48,13 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
 
         verify(exactly = 1) { cclSettings.setExecutionTimeToNow(any()) }
 
-        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(true) }
+        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(true) }
 
         // false should be passed to the trigger when there are no updates
         coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
         coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
         getInstance().updateIfRequired()
-        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
+        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
     }
 
     @Test
