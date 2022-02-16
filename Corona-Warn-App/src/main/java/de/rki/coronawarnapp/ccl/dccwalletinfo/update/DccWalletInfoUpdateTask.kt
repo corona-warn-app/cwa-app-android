@@ -30,11 +30,11 @@ class DccWalletInfoUpdateTask @Inject constructor(
         when (val trigger = arguments.dccWalletInfoUpdateTriggerType) {
             is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
                 configurationChanged = trigger.configurationChanged,
-                admissionScenarioId = "" // to do
+                admissionScenarioId = arguments.admissionScenarioId
             )
             is TriggeredAfterCertificateChange ->
                 dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
-                    admissionScenarioId = "" // to do
+                    admissionScenarioId = arguments.admissionScenarioId
                 )
         }
 
