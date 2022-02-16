@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.tag
@@ -25,7 +27,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                     dccWalletInfoUpdateTriggerType = TriggeredAfterConfigUpdate(
                         configurationChanged
                     ),
-                    admissionScenarioId = getAdmissionScenarioId()
+                    admissionScenarioId = admissionScenarioId()
                 ),
                 originTag = TAG
             )
@@ -39,22 +41,21 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 type = DccWalletInfoUpdateTask::class,
                 arguments = DccWalletInfoUpdateTask.Arguments(
                     dccWalletInfoUpdateTriggerType = TriggeredAfterCertificateChange,
-                    admissionScenarioId = getAdmissionScenarioId()
+                    admissionScenarioId = admissionScenarioId()
                 ),
                 originTag = TAG
             )
         )
     }
 
-    private suspend fun getAdmissionScenarioId(): String {
-        val enabled = runCatching {
-            appConfigProvider.getAppConfig().admissionScenariosEnabled
-        }.onFailure {
-            Timber.d(it, "getAppConfig().admissionScenariosEnabled failed")
-        }.getOrElse { true }
-
-        return if (enabled) cclSettings.getAdmissionScenarioId() else ""
-    }
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun admissionScenarioId(): String =
+        if (appConfigProvider.getAppConfig().admissionScenariosEnabled) {
+            cclSettings.getAdmissionScenarioId()
+        } else {
+            Timber.tag(TAG).d("admissionScenarios feature is disabled, `scenarioIdentifier` is replaced by \"\"")
+            Scenario.DEFAULT_ID
+        }
 
     companion object {
         private val TAG = tag<DccWalletInfoUpdateTrigger>()

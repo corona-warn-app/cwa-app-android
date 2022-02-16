@@ -31,4 +31,8 @@ data class Scenario(
 
     @JsonProperty("enabled")
     val enabled: Boolean,
-)
+) {
+    companion object {
+        const val DEFAULT_ID = ""
+    }
+}
