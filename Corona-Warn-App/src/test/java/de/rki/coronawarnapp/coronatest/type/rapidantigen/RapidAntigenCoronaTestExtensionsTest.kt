@@ -45,6 +45,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
             testResult = CoronaTestResult.RAT_POSITIVE,
             testedAt = Instant.EPOCH,
             isSubmitted = true, // <---
+            isViewed = true,
             dateOfBirth = null,
             firstName = null,
             lastName = null,

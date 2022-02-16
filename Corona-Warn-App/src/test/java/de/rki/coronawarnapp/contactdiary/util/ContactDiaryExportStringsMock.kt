@@ -40,4 +40,9 @@ fun mockStringsForContactDiaryExporterTests(context: Context) {
 
     every { context.getString(R.string.contact_diary_export_location_duration_prefix) } returns "Dauer"
     every { context.getString(R.string.contact_diary_export_location_duration_suffix) } returns "h"
+
+    every { context.getString(R.string.contact_diary_corona_test_pcr_title) } returns "PCR-Test registriert"
+    every { context.getString(R.string.contact_diary_corona_test_rat_title) } returns "Schnelltest durchgeführt"
+    every { context.getString(R.string.contact_diary_corona_test_positive) } returns "Befund positiv"
+    every { context.getString(R.string.contact_diary_corona_test_negative) } returns "Befund negativ"
 }

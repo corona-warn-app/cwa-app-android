@@ -18,6 +18,7 @@
         android:text="@string/person_overview_status_text"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/badge"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,11 +26,11 @@
         android:id="@+id/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="2G"
         app:layout_constraintEnd_toEndOf="@+id/title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/title"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="2G" />
 
     <TextView
         android:id="@+id/badge"
@@ -37,10 +38,10 @@
         android:layout_height="0dp"
         android:background="@drawable/ic_admission_badge_1"
         android:gravity="center"
+        android:maxWidth="100dp"
         android:paddingVertical="2dp"
         android:textColor="@color/colorTextEmphasizedButton"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/title"
         tools:text="2G+ PCR Test" />
@@ -51,10 +52,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        tools:text="Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/subtitle"
-        app:layout_constraintTop_toBottomOf="@id/subtitle" />
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        tools:text="Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht." />
 
     <TextView
         android:id="@+id/faq"

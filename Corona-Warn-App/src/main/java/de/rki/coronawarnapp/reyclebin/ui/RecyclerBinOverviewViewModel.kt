@@ -62,7 +62,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         return when (recyclerBinItems.isNotEmpty()) {
             true -> listOf(OverviewSubHeaderItem).plus(recyclerBinItems)
             false -> emptyList()
-        }.also { Timber.d("Created recycler bin items=%s from certs=%s", it, this) }
+        }
     }
 
     private fun mapTestToRecyclerBinItem(recycledTest: CoronaTest): RecyclerBinItem = CoronaTestCard.Item(
@@ -106,7 +106,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
             }
         )
         else -> null
-    }.also { Timber.v("Mapped cert=%s to recycler bin item=%s", cert, it) }
+    }
 
     fun onRemoveAllItemsClicked() {
         Timber.d("onRemoveAllItemsClicked()")

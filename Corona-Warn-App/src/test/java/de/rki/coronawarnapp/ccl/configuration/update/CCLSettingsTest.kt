@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.ccl.configuration.update
 
+import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -32,5 +34,31 @@ internal class CCLSettingsTest : BaseTest() {
 
         cclSettings.clear()
         cclSettings.getLastExecutionTime() shouldBe null
+    }
+
+    @Test
+    fun `test CCLSettings - set admission scenario identifier`() = runBlockingTest {
+        cclSettings.getAdmissionScenarioId() shouldBe ""
+
+        cclSettings.setAdmissionScenarioId("Ad-Sc-ID")
+
+        fakeDataStore[CCLSettings.ADMISSION_SCENARIO_ID_KEY] shouldBe "Ad-Sc-ID"
+        cclSettings.getAdmissionScenarioId() shouldBe "Ad-Sc-ID"
+
+        cclSettings.clear()
+        cclSettings.getAdmissionScenarioId() shouldBe ""
+    }
+
+    @Test
+    fun `test CCLSettings - set admission check scenarios`() = runBlockingTest {
+        cclSettings.admissionCheckScenarios.first() shouldBe null
+
+        cclSettings.setAdmissionCheckScenarios(scenariosJson)
+
+        fakeDataStore[CCLSettings.ADMISSION_CHECK_SCENARIOS_KEY] shouldBe scenariosJson
+        cclSettings.admissionCheckScenarios.first() shouldBe scenariosJson
+
+        cclSettings.clear()
+        cclSettings.admissionCheckScenarios.first() shouldBe null
     }
 }

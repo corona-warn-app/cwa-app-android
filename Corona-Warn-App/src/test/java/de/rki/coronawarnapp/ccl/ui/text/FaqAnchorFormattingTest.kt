@@ -22,17 +22,17 @@ internal class FaqAnchorFormattingTest : BaseTest() {
     @Test
     fun formatFaqAnchor() {
         val format = CCLTextFormatter(cclJsonFunctions, mapper)
-        val deUrl = format("dcc_admission_state", Locale.GERMAN)
+        val deUrl = format(faqAnchor = "dcc_admission_state", "de")
         deUrl shouldBe "https://www.coronawarn.app/de/faq/#dcc_admission_state"
 
-        val enUrl = format("dcc_admission_state", Locale.FRENCH)
+        val enUrl = format(faqAnchor = "dcc_admission_state", "ro")
         enUrl shouldBe "https://www.coronawarn.app/en/faq/#dcc_admission_state"
 
-        val url = format("dcc_admission_state", Locale.ENGLISH)
+        val url = format(faqAnchor = "dcc_admission_state", "en")
         url shouldBe "https://www.coronawarn.app/en/faq/#dcc_admission_state"
 
         val anchor: String? = null
-        val nullUrl = format(anchor, Locale.ENGLISH)
+        val nullUrl = format(anchor, Locale.ENGLISH.language)
         nullUrl shouldBe null
     }
 }

@@ -261,7 +261,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Begeben Sie sich, wenn möglich, nach Hause bzw. bleiben Sie zu Hause und vermeiden Sie Begegnungen außerhalb Ihres Haushalts."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Bei sonstigen Fragen wenden Sie sich bitte an den kassenärztlichen Bereitschaftsdienst unter der Telefonnummer 116 117."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Bei Fragen rufen Sie die 116 117 an. Wählen Sie bei der Telefonansage dann die 2, um die Servicestelle des Bundesministeriums für Gesundheit zu erreichen. Nur bei Krankheitssymptomen wählen Sie die 1 (kassenärztlicher Bereitschaftsdienst)."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Waschen Sie Ihre Hände regelmäßig mit Seife für 20 Sekunden."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -743,7 +743,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"Deutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo – Sa: 07:00 – 22:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
+    <string name="information_contact_body_other">"Bei Fragen rufen Sie die 116 117 an. Wählen Sie bei der Telefonansage dann die 2, um die Servicestelle des Bundesministeriums für Gesundheit zu erreichen. Nur bei Krankheitssymptomen wählen Sie die 1 (kassenärztlicher Bereitschaftsdienst)."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Ein Mann nutzt ein Headset zum Telefonieren."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -1270,7 +1270,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Unser Kundenservice ist in den folgenden Sprachen für Sie da: Deutsch, Englisch, Türkisch \n\nErreichbarkeit:\nMo–So: 07:00 – 20:00 Uhr"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Für gesundheitliche Fragen wenden Sie sich bitte an Ihre Hausarztpraxis oder die Hotline des ärztlichen Bereitschaftsdienstes 116 117."</string>
+    <string name="submission_contact_body_other">"Bei Fragen rufen Sie die 116 117 an. Wählen Sie bei der Telefonansage dann die 2, um die Servicestelle des Bundesministeriums für Gesundheit zu erreichen. Nur bei Krankheitssymptomen wählen Sie die 1 (kassenärztlicher Bereitschaftsdienst)."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"TAN-Anfrage per Telefonanruf"</string>

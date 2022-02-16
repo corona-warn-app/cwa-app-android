@@ -66,7 +66,7 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     fun onCancelConfirmed() {
         launch {
             try {
-                autoSubmission.runSubmissionNow()
+                autoSubmission.runSubmissionNow(testType)
             } catch (e: Exception) {
                 Timber.e(e, "onCancelConfirmed() failed.")
             } finally {

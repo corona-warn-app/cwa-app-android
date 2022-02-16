@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -33,12 +34,12 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `updateIfRequired should update booster rules and ccl configuration if required`() = runBlockingTest {
+    fun `updateIfRequired() should update booster rules and ccl configuration if required`() = runBlockingTest {
         coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
         coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
-        coEvery { boosterRulesRepository.update() } returns true
-        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns false
+        coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
+        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
 
         getInstance().updateIfRequired()
 
@@ -47,27 +48,28 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
 
         verify(exactly = 1) { cclSettings.setExecutionTimeToNow(any()) }
 
-        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(true) }
+        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(true) }
 
         // false should be passed to the trigger when there are no updates
-        coEvery { boosterRulesRepository.update() } returns false
-        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns false
+        coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
+        coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
         getInstance().updateIfRequired()
-        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
+        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
     }
 
     @Test
-    fun `updateIfRequired should NOT update booster rules and ccl configuration if NOT required`() = runBlockingTest {
-        coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
-        coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
+    fun `updateIfRequired() should NOT update booster rules and ccl configuration if NOT required but should trigger DccWalletInfo recalculation`() =
+        runBlockingTest {
+            coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
+            coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
 
-        getInstance().updateIfRequired()
+            getInstance().updateIfRequired()
 
-        verify { boosterRulesRepository wasNot Called }
-        verify { cclConfigurationRepository wasNot Called }
+            verify { boosterRulesRepository wasNot Called }
+            verify { cclConfigurationRepository wasNot Called }
 
-        verify { dccWalletInfoUpdateTrigger wasNot Called }
-    }
+            coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
+        }
 
     @Test
     fun `updateConfiguration() should return true when new booster rules or new configuration was downloaded or false otherwise`() =
@@ -75,21 +77,44 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
 
             val updater = getInstance()
 
-            coEvery { boosterRulesRepository.update() } returns false
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns false
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
             updater.updateConfiguration() shouldBe false
 
-            coEvery { boosterRulesRepository.update() } returns true
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns false
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.NO_UPDATE
             updater.updateConfiguration() shouldBe true
 
-            coEvery { boosterRulesRepository.update() } returns false
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns true
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.UPDATE
             updater.updateConfiguration() shouldBe true
 
-            coEvery { boosterRulesRepository.update() } returns true
-            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns true
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.UPDATE
             updater.updateConfiguration() shouldBe true
+
+            verify(exactly = 4) { cclSettings.setExecutionTimeToNow(any()) }
+        }
+
+    @Test
+    fun `updateConfiguration() should not store execution time when at least one network request fails`() =
+        runBlockingTest {
+
+            val updater = getInstance()
+
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.FAIL
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.UPDATE
+            updater.updateConfiguration()
+
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.FAIL
+            updater.updateConfiguration()
+
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.FAIL
+            coEvery { cclConfigurationRepository.updateCCLConfiguration() } returns UpdateResult.FAIL
+            updater.updateConfiguration()
+
+            verify { cclSettings wasNot Called }
         }
 
     @Test
