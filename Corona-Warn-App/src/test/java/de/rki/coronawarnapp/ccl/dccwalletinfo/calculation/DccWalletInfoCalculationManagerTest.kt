@@ -82,7 +82,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
         runBlockingTest2 {
-            instance.triggerCalculationAfterCertificateChange("")
+            instance.triggerCalculationNow("")
         }
 
         coVerify(exactly = 2) {

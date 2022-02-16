@@ -8,7 +8,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -20,7 +20,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     private val admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     private val cclSettings: CCLSettings,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
+    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
 ) : CWAViewModel() {
 
     private val _calculationState = MutableLiveData<CalculationState>()
@@ -44,14 +44,19 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     private fun selectScenario(admissionScenarioId: String) = launch {
         runCatching {
             _calculationState.postValue(Calculating)
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
-        }.onFailure {
-            _calculationState.postValue(CalculationError(it))
-        }.onSuccess {
             admissionCheckScenariosRepository.save(admissionScenariosSharedViewModel.admissionScenarios.first())
-            cclSettings.setAdmissionScenarioId(admissionScenarioId)
-            _calculationState.postValue(CalculationDone)
-        }
+            when (val result = dccWalletInfoCalculationManager.triggerCalculationNow(admissionScenarioId)) {
+                is DccWalletInfoCalculationManager.Result.Failure -> {
+                    _calculationState.postValue(CalculationError(result.error))
+                }
+
+                DccWalletInfoCalculationManager.Result.Success -> {
+                    cclSettings.setAdmissionScenarioId(admissionScenarioId)
+                    _calculationState.postValue(CalculationDone)
+                }
+            }
+
+        }.onFailure { _calculationState.postValue(CalculationError(it)) }
     }
 
     @AssistedFactory
