@@ -68,7 +68,7 @@ internal class CCLConfigurationUpdaterTest : BaseTest() {
             verify { boosterRulesRepository wasNot Called }
             verify { cclConfigurationRepository wasNot Called }
 
-            verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
+            coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
         }
 
     @Test
