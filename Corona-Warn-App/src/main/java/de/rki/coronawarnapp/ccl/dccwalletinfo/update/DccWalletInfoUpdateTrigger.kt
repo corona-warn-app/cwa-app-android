@@ -47,13 +47,13 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     }
 
     private suspend fun getAdmissionScenarioId(): String {
-        val disabled = runCatching {
-            appConfigProvider.getAppConfig().admissionScenariosDisabled
+        val enabled = runCatching {
+            appConfigProvider.getAppConfig().admissionScenariosEnabled
         }.onFailure {
-            Timber.d(it, "getAppConfig().admissionScenariosDisabled failed")
-        }.getOrElse { false }
+            Timber.d(it, "getAppConfig().admissionScenariosEnabled failed")
+        }.getOrElse { true }
 
-        return if (disabled) "" else cclSettings.getAdmissionScenarioId()
+        return if (enabled) cclSettings.getAdmissionScenarioId() else ""
     }
 
     companion object {

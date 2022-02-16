@@ -22,7 +22,7 @@ class AdmissionTileProvider @Inject constructor(
         cclSettings.admissionScenarioId
     ) { admissionScenarios, appConfig, persons, scenarioId ->
         AdmissionTile(
-            visible = persons.isNotEmpty() && !appConfig.admissionScenariosDisabled,
+            visible = persons.isNotEmpty() && appConfig.admissionScenariosEnabled,
             title = format(admissionScenarios?.labelText),
             subtitle = format(
                 admissionScenarios?.scenarioSelection?.items?.find { it.identifier == scenarioId }?.titleText

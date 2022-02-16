@@ -37,7 +37,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(mockk())
-        every { configData.admissionScenariosDisabled } returns false
+        every { configData.admissionScenariosEnabled } returns true
         every { appConfigProvider.currentConfig } returns flowOf(configData)
         every { cclSettings.admissionScenarioId } returns flowOf("DE")
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(dccAdmissionCheckScenarios)
@@ -54,7 +54,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
 
     @Test
     fun `admission tile is not visible when config flag is disabled`() = runBlockingTest {
-        every { configData.admissionScenariosDisabled } returns true
+        every { configData.admissionScenariosEnabled } returns false
         instance().run {
             admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
                 visible = false,
