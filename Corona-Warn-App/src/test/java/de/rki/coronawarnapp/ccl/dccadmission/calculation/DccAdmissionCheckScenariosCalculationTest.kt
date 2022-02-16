@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 
-class DccAdmissionCheckScenariosTest : BaseTest() {
+class DccAdmissionCheckScenariosCalculationTest : BaseTest() {
 
     @MockK lateinit var dccAdmissionCheckScenarios: DccAdmissionCheckScenarios
     @MockK lateinit var dccAdmissionCheckInput: JsonNode

@@ -23,7 +23,7 @@ class DccAdmissionCheckScenariosCalculation @Inject constructor(
 
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun getDccAdmissionCheckScenarios(
-        dateTime: DateTime = DateTime.now()
+        dateTime: DateTime = DateTime.now(),
     ): DccAdmissionCheckScenarios = withContext(dispatcherProvider.IO) {
         val output = cclJsonFunctions.evaluateFunction(
             "getDccAdmissionCheckScenarios",
