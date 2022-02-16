@@ -115,3 +115,4 @@
 -keep class kotlin.reflect.** { *; }
 -keep class de.rki.coronawarnapp.ccl.configuration.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.dccwalletinfo.model.** { *; }
+-keep class de.rki.coronawarnapp.ccl.dccadmission.model.** { *; }

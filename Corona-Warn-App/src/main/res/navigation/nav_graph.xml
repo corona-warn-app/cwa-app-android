@@ -789,6 +789,21 @@
             app:destination="@id/requestCovidCertificateFragment"
             app:popUpTo="@id/submissionDeletionWarningFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_SubmissionTestResultKeysSharedFragment"
+            app:destination="@id/submissionTestResultKeysSharedFragment"
+            app:popUpTo="@id/submissionDeletionWarningFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultNegativeFragment"
+            app:destination="@id/submissionTestResultNegativeFragment"
+            app:popUpTo="@id/submissionDeletionWarningFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_submissionDeletionWarningFragment_to_negativeRatFragment"
+            app:destination="@id/submissionNegativeAntigenTestResultFragment"
+            app:popUpTo="@id/submissionDeletionWarningFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

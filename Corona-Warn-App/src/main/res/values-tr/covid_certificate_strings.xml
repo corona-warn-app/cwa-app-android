@@ -16,8 +16,6 @@
     <string name="person_overview_no_certificates_subtitle">"Kaydedilen dijital aşı sertifikaları, iyileşme sertifikaları ve test sertifikaları burada görüntülenir."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Sertifikanın QR kodunu taramak için alt gezinti çubuğundaki \"Tara\" düğmesini kullanın."</string>
-    <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Sertifika"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Üzerinde QR kod sembolü olan bir sertifika."</string>
     <!-- XTXT: Overview certificate status text -->
@@ -60,29 +58,8 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Devam Et"</string>
 
-    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Son aşı %1$d gün önce yapıldı"</item>
-        <item quantity="other">"Son aşı %1$d gün önce yapıldı"</item>
-        <item quantity="zero">"Son aşı bugün yapıldı"</item>
-        <item quantity="two">"Son aşı %1$d gün önce yapıldı"</item>
-        <item quantity="few">"Son aşı %1$d gün önce yapıldı"</item>
-        <item quantity="many">"Son aşı %1$d gün önce yapıldı"</item>
-    </plurals>
-    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
-    <string name="vaccination_days_since_last_shot_today">"Son aşı bugün yapıldı"</string>
-    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
-    <string name="vaccination_list_immunity_card_body">"Geçerli olarak planlanan tüm aşıları yaptırdınız. Aşı korumanız tamamlandı."</string>
-    <!-- XTXT: Vaccination card title -->
-    <string name="vaccination_state_title">"Aşı Durumu"</string>
-    <!-- XTXT: Vaccination card booster eligible description -->
-    <string name="vaccination_card_booster_eligible_description">"%1$s (Kural No: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
     <string name="vaccination_card_booster_eligible_faq">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
-    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
-    <string name="vaccination_card_booster_eligible_faq_link_container">"SSS"</string>
-
-
     <!-- XTXT: Current priority certificate info -->
     <string name="certificate_card_bookmark_info">"Şu anda kullanılan sertifika"</string>
     <!-- XHED: Person certificate details title -->
@@ -102,21 +79,8 @@
     <string name="vaccination_certificate_doses">"Aşı %1$d / %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Aşı Sertifikası"</string>
-
-    <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
-        <item quantity="other">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
-        <item quantity="zero">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
-        <item quantity="two">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
-        <item quantity="few">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
-        <item quantity="many">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız %1$d gün daha tamamlanmayacaktır."</item>
-    </plurals>
-
     <!-- XTXT: Vaccination only one shot required -->
     <string name="vaccination_certificate_one_shot">"Bu, yalnızca bir doz uygulanması gereken bir aşıdır ya da hastalığı geçirerek yalnızca bir doza ihtiyacı olan kişiye yönelik bir aşıdır."</string>
-    <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Henüz şu anda tüm planlanan aşıları olmadınız. Dolayısıyla aşı korumanız henüz tamamlanmadı."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
@@ -183,8 +147,6 @@
     <string name="dcc_validation_error_no_network">"İnternet bağlantınız kesildi. Sertifika geçerlilik kontrolünü tamamlamak için lütfen bağlantıyı kontrol edin ve yeniden deneyin."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Bir hata oluştu. Lütfen daha sonra tekrar deneyin veya Uygulama Bilgileri -&gt; Teknik Yardım Hattı üzerinden teknik yardım hattı ile iletişime geçin."</string>
-    <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Seyahat için Geçerliliği Kontrol Et"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -279,23 +241,12 @@
     <string name="validation_open_title">"Sertifika Doğrulanamıyor"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XTXT: validation start for the validation open card  -->
-    <string name="validation_rules_open_vh_start_date">"Numune Alma Tarihi ve Saati (YYYY-AA-GG ss:dd)"</string>
-    <!-- XTXT: title for the validation open card  -->
-    <string name="validation_rules_open_vh_title">"Antijen testi en fazla 48 saat geçerlidir."</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Test sertifikası, onaylanmış bir test merkezi tarafından düzenlenmelidir."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Test Merkezi"</string>
-    <!-- XHED: title for the validation failed card  -->
-    <string name="validation_rules_failed_vh_title_wrong_test_type">"Test türü; antijen testi veya nükleik asit amplifikasyon testi olmalıdır."</string>
-    <!-- XHED: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Test sertifikası, onaylanmış bir test merkezi tarafından düzenlenmelidir."</string>
-    <!-- XTXT: rule id for the validation failed card  -->
-    <string name="validation_rules_failed_vh_test_type">"Test Türü"</string>
-
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Bu, gideceğiniz ülke olan %s için geçerli bir kural."</string>
     <!-- XHED: issuer country for the validation failed card  -->
@@ -326,12 +277,6 @@
     <!-- XBUT: Signature validation dialog FAQ button-->
     <string name="dcc_signature_validation_dialog_faq_button">"İmza Doğrulama için SSS"</string>
 
-    <!-- Expiration notification -->
-    <!-- XTXT: expiring soon notification -->
-    <string name="dcc_notification_expires_soon_text">"Sertifikalarınızın geçerliliğini kontrol edin."</string>
-    <!-- XTXT: expired notification -->
-    <string name="dcc_notification_expired_text">"Sertifikalarınızın geçerliliğini kontrol edin."</string>
-
     <!-- DCC notification channel-->
     <!-- XTXT: certificate notification channel title -->
     <string name="dcc_notification_channel_title">"Sertifikalar"</string>
@@ -352,8 +297,6 @@
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">"Basılı Versiyonu Görüntüle"</string>
-    <!-- XACT: PDF Export: Info screen illustration description-->
-    <string name="pdf_export_info_illustration_description">"Akıllı telefondan yazıcıya göndermek üzere AB çıktısı oluşturmak için sertifikanın basılı versiyonu kullanılır."</string>
     <!-- XTXT: PDF Export: Info screen subtitle-->
     <string name="pdf_export_info_subtitle">"AB Çıktısı Oluşturma"</string>
     <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
@@ -387,37 +330,7 @@
         CONFIRMED STATUS CARD
         ##################################################### -->
 
-    <!-- XTXT: Confirmed status card title -->
-    <string name="confirmed_status_title">"Durum Kanıtı"</string>
-
-    <!-- XTXT: Confirmed status card 2g+ PCR subtitle -->
-    <string name="confirmed_status_2g_pcr_subtitle">"2G+ PCR testi"</string>
-    <!-- XTXT: Confirmed status card 2g+ RAT subtitle -->
-    <string name="confirmed_status_2g_rat_subtitle">"2G+ hızlı testi"</string>
-
-    <!-- XTXT: Confirmed status card 2G badge -->
-    <string name="confirmed_status_2g_badge">"2G"</string>
-    <!-- XTXT: Confirmed status card 2G+ badge -->
-    <string name="confirmed_status_2g_plus_badge">"2G+"</string>
-    <!-- XTXT: Confirmed status card 3G badge -->
-    <string name="confirmed_status_3g_badge">"3G"</string>
-    <!-- XTXT: Confirmed status card 3G+ badge -->
-    <string name="confirmed_status_3g_plus_badge">"3G+"</string>
-
-    <!-- XTXT: Confirmed status card 2G body -->
-    <string name="confirmed_status_2g_body">"Sertifikalarınız 2G kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
-    <!-- XTXT: Confirmed status card 2G+ RAT body -->
-    <string name="confirmed_status_2g_plus_rat_body">"PCR testi gerekmiyorsa sertifikalarınız 2G plus kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
-    <!-- XTXT: Confirmed status card 2G+ PCR body -->
-    <string name="confirmed_status_2g_plus_pcr_body">"Sertifikalarınız 2G plus kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
-    <!-- XTXT: Confirmed status card 3G body -->
-    <string name="confirmed_status_3g_body">"Sertifikalarınız 3G kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
-    <!-- XTXT: Confirmed status card 3G+ body -->
-    <string name="confirmed_status_3g_plus_body">"Sertifikalarınız 2G plus kuralına uygun. Güncel durumunuzu kanıtlamanız gerekiyorsa bu görünümünü kapatın ve sertifikaya genel bakış bölümündeki QR kodu gösterin."</string>
-
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
-    <!-- XTXT: Confirmed status card FAQ link -->
-    <string name="confirmed_status_faq_label">"SSS"</string>
 
 </resources>

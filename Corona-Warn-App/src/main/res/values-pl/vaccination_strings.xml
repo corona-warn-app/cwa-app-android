@@ -2,22 +2,13 @@
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">"Certyfikat szczepienia"</string>
 
-    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
-    <string name="vaccination_list_immunity_tomorrow_card_body">"Otrzymałeś(-aś) już wszystkie zaplanowane dotychczas szczepienia, jednak pełną ochronę poszczepienną uzyskasz dopiero jutro."</string>
-    <!-- XBUT: Vaccination List delete button -->
-    <string name="vaccination_list_delete_button">"Usuń"</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"Kod QR"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Ten kod QR nie jest ważnym certyfikatem.\n\nWięcej informacji na temat tego, jak otrzymać certyfikat, znajduje się na naszej stronie „Często zadawane pytania”."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Ten certyfikat szczepienia nie jest jeszcze obsługiwany w Twojej wersji aplikacji. Zaktualizuj aplikację lub skontaktuj się z infolinią techniczną dostępną w sekcji „Informacje o aplikacji”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Dane osobowe tego certyfikatu szczepienia nie są zgodne z danymi już zarejestrowanych certyfikatów. W aplikacji można rejestrować certyfikaty tylko dla jednej osoby."</string>
-
-    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Często zadawane pytania na temat certyfikatów"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Certyfikat szczepienia"</string>

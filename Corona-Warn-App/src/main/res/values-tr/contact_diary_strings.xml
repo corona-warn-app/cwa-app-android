@@ -19,12 +19,6 @@
     <string name="contact_diary_add_location_text_input_hint">"Tanım"</string>
     <string name="contact_diary_add_location_save_button">"Kaydet"</string>
 
-    <!-- XHED: Title for the contact diary card displayed in the homescreen -->
-    <string name="contact_diary_homescreen_card_header">"Temas Güncesi"</string>
-    <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
-    <string name="contact_diary_homescreen_card_body">"Nerede bulunduğunuzun ve kimlerle karşılaştığınızın kaydını tutun."</string>
-    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Günceyi Aç"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
     <string name="contact_diary_onboarding_button_text">"Günceyi Aç"</string>
 

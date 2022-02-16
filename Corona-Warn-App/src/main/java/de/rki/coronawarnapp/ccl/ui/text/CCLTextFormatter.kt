@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.configuration.model.cclLanguage
+import de.rki.coronawarnapp.ccl.configuration.model.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
@@ -31,11 +32,12 @@ class CCLTextFormatter @Inject constructor(
      */
     suspend operator fun invoke(
         cclText: CCLText?,
+        language: String = cclLanguage,
         locale: Locale = Locale.getDefault()
     ): String = runCatching {
         when (cclText) {
-            is PluralText -> cclText.formatPlural(locale)
-            is SingleText -> cclText.formatSingle(locale)
+            is PluralText -> cclText.formatPlural(language, locale)
+            is SingleText -> cclText.formatSingle(language, locale)
             is SystemTimeDependentText -> invoke(cclText.formatSystemTimeDependent())
             else -> null
         }
@@ -50,22 +52,23 @@ class CCLTextFormatter @Inject constructor(
      */
     operator fun invoke(
         faqAnchor: String?,
-        locale: Locale = Locale.getDefault()
+        language: String = cclLanguage
     ) = when {
         faqAnchor.isNullOrBlank() -> null
         else -> {
-            val language = when (locale.language) {
-                Locale.GERMAN.language -> locale.language
+            val languagePath = when (language) {
+                Locale.GERMAN.language -> language
                 else -> Locale.ENGLISH.language
             }
-            "https://www.coronawarn.app/$language/faq/#$faqAnchor"
+            "https://www.coronawarn.app/$languagePath/faq/#$faqAnchor"
         }
     }
 
     private fun SingleText.formatSingle(
+        language: String,
         locale: Locale
     ): String? {
-        val text = localizedText[locale.language]
+        val text = localizedText[language]
             ?: localizedText[EN] // Default for other languages
             ?: localizedText[DE] // Default for EN
 
@@ -75,10 +78,11 @@ class CCLTextFormatter @Inject constructor(
     }
 
     private fun PluralText.formatPlural(
+        language: String,
         locale: Locale
     ): String? {
         val quantity = quantity()
-        val quantityText = localizedText[locale.language]
+        val quantityText = localizedText[language]
             ?: localizedText[EN] // Default for other languages
             ?: localizedText[DE] // Default for EN
             ?: return null

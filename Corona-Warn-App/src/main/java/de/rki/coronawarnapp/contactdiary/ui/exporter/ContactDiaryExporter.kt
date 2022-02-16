@@ -5,7 +5,9 @@ import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryLocationVisit
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.ui.durationpicker.toReadableDuration
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -38,9 +40,15 @@ class ContactDiaryExporter @Inject constructor(
     private val durationPrefix = context.getString(R.string.contact_diary_export_location_duration_prefix)
     private val durationSuffix = context.getString(R.string.contact_diary_export_location_duration_suffix)
 
+    private val pcrTestRegistered = context.getString(R.string.contact_diary_corona_test_pcr_title)
+    private val ratTestPerformed = context.getString(R.string.contact_diary_corona_test_rat_title)
+    private val testResultPositive = context.getString(R.string.contact_diary_corona_test_positive)
+    private val testResultNegative = context.getString(R.string.contact_diary_corona_test_negative)
+
     suspend fun createExport(
         personEncounters: List<ContactDiaryPersonEncounter>,
         locationVisits: List<ContactDiaryLocationVisit>,
+        testResults: List<ContactDiaryCoronaTestEntity>,
         numberOfLastDaysToExport: Int
     ): String = withContext(dispatcherProvider.Default) {
 
@@ -48,7 +56,7 @@ class ContactDiaryExporter @Inject constructor(
 
         StringBuilder()
             .appendIntro(datesToExport)
-            .appendPersonsAndLocations(personEncounters, locationVisits, datesToExport)
+            .appendPersonsAndLocations(personEncounters, locationVisits, testResults, datesToExport)
             .toString()
     }
 
@@ -69,10 +77,11 @@ class ContactDiaryExporter @Inject constructor(
     private fun StringBuilder.appendPersonsAndLocations(
         personEncounters: List<ContactDiaryPersonEncounter>,
         locationVisits: List<ContactDiaryLocationVisit>,
+        testResults: List<ContactDiaryCoronaTestEntity>,
         datesToExport: List<LocalDate>
     ) = apply {
 
-        if (personEncounters.isNotEmpty() || locationVisits.isNotEmpty()) {
+        if (personEncounters.isNotEmpty() || locationVisits.isNotEmpty() || testResults.isNotEmpty()) {
             appendLine()
         } else {
             return this
@@ -80,10 +89,14 @@ class ContactDiaryExporter @Inject constructor(
 
         val groupedPersonEncounters = personEncounters.groupBy { it.date }
         val groupedLocationVisits = locationVisits.groupBy { it.date }
+        val groupedTestResults = testResults.groupBy { it.time.toLocalDateUserTz() }
 
         for (date in datesToExport) {
 
-            // According to tech spec persons first and then locations
+            groupedTestResults[date]
+                ?.map { it.getExportInfo(date) }
+                ?.forEach { appendLine(it) }
+
             groupedPersonEncounters[date]
                 ?.sortedBy { getStringToSortBy(it.contactDiaryPerson.fullName) }
                 ?.map { it.getExportInfo(it.date) }
@@ -118,6 +131,23 @@ class ContactDiaryExporter @Inject constructor(
             duration?.toReadableDuration(durationPrefix, durationSuffix),
             circumstances
         ).joinToString(separator = "; ")
+    }
+
+    private fun ContactDiaryCoronaTestEntity.getExportInfo(date: LocalDate): String {
+        return listOfNotNull(
+            date.toFormattedStringWithName(testType.toReadableString()),
+            result.toReadableString()
+        ).joinToString(separator = "; ")
+    }
+
+    private fun ContactDiaryCoronaTestEntity.TestType.toReadableString(): String = when (this) {
+        ContactDiaryCoronaTestEntity.TestType.PCR -> pcrTestRegistered
+        ContactDiaryCoronaTestEntity.TestType.ANTIGEN -> ratTestPerformed
+    }
+
+    private fun ContactDiaryCoronaTestEntity.TestResult.toReadableString(): String = when (this) {
+        ContactDiaryCoronaTestEntity.TestResult.POSITIVE -> testResultPositive
+        ContactDiaryCoronaTestEntity.TestResult.NEGATIVE -> testResultNegative
     }
 
     private fun LocalDate.toFormattedStringWithName(name: String) = "${toFormattedString()} $name"
