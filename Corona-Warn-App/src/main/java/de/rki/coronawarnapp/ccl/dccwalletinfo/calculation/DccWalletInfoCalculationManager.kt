@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
@@ -19,7 +18,6 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val calculation: DccWalletInfoCalculation,
     private val timeStamper: TimeStamper,
-    private val cclSettings: CCLSettings,
 ) {
 
     /**
@@ -41,11 +39,10 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 updateWalletInfoForPerson(person, admissionScenarioId)
             }
         }
-        cclSettings.setAdmissionScenarioId(admissionScenarioId)
         Result.Success
     } catch (e: Exception) {
         Timber.e(e, "Failed to run calculation.")
-        Result.Failure
+        Result.Failure(e)
     }
 
     suspend fun triggerCalculationAfterCertificateChange(
@@ -55,11 +52,10 @@ class DccWalletInfoCalculationManager @Inject constructor(
         personCertificatesProvider.personCertificates.first().forEach {
             updateWalletInfoForPerson(it, admissionScenarioId)
         }
-        cclSettings.setAdmissionScenarioId(admissionScenarioId)
         Result.Success
     } catch (e: Exception) {
         Timber.e(e, "Failed to run calculation.")
-        Result.Failure
+        Result.Failure(e)
     }
 
     private suspend fun initCalculation() {
@@ -95,6 +91,6 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     sealed class Result {
         object Success : Result()
-        object Failure : Result()
+        data class Failure(val error: Exception) : Result()
     }
 }
