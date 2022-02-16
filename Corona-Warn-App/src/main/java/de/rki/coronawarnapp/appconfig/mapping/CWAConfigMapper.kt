@@ -33,34 +33,15 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             else -> supportedCountriesList
         }
 
-    private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled(): Boolean {
-        if (!hasAppFeatures()) return false
+    private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled() = findBoolean(
+        labelValue = "disable-device-time-check",
+        defaultValue = false
+    )
 
-        return try {
-            (0 until appFeatures.appFeaturesCount)
-                .map { appFeatures.getAppFeatures(it) }
-                .firstOrNull { it.label == "disable-device-time-check" }
-                ?.let { it.value == 1 }
-                ?: false
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to map `disable-device-time-check` from %s", this)
-            false
-        }
-    }
-
-    private fun ApplicationConfigurationAndroid.isUnencryptedCheckInsEnabled(): Boolean {
-        if (!hasAppFeatures()) return false
-        return try {
-            (0 until appFeatures.appFeaturesCount)
-                .map { appFeatures.getAppFeatures(it) }
-                .firstOrNull { it.label == "unencrypted-checkins-enabled" }
-                ?.let { it.value == 1 }
-                ?: false
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to map `unencrypted-checkins-enabled` from %s", this)
-            false
-        }
-    }
+    private fun ApplicationConfigurationAndroid.isUnencryptedCheckInsEnabled() = findBoolean(
+        labelValue = "unencrypted-checkins-enabled",
+        defaultValue = false
+    )
 
     private fun ApplicationConfigurationAndroid.validationServiceMinVersionCode(): Int {
         if (!hasAppFeatures()) return DEFAULT_VALIDATION_SERVICE_MIN_VERSION
@@ -103,18 +84,23 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
-    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled(): Boolean {
-        if (!hasAppFeatures()) return DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
+    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled() = findBoolean(
+        labelValue = "dcc-admission-check-scenarios-disabled",
+        defaultValue = DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
+    )
+
+    private fun ApplicationConfigurationAndroid.findBoolean(labelValue: String, defaultValue: Boolean): Boolean {
+        if (!hasAppFeatures()) return defaultValue
 
         return try {
             (0 until appFeatures.appFeaturesCount)
                 .map { appFeatures.getAppFeatures(it) }
-                .firstOrNull { it.label == "dcc-admission-check-scenarios-disabled" }
+                .firstOrNull { it.label == labelValue }
                 ?.let { it.value == 1 }
                 ?: false
         } catch (e: Exception) {
-            Timber.e(e, "Failed to find `dcc-admission-check-scenarios-disabled` from %s", this)
-            DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
+            Timber.e(e, "Failed to find `%s` from %s", labelValue, this)
+            defaultValue
         }
     }
 
