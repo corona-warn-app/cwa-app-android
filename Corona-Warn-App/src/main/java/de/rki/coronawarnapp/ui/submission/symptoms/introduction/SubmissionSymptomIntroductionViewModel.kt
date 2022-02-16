@@ -120,7 +120,7 @@ class SubmissionSymptomIntroductionViewModel @AssistedInject constructor(
     private fun doSubmit() {
         launch {
             try {
-                autoSubmission.runSubmissionNow()
+                autoSubmission.runSubmissionNow(testType)
             } catch (e: Exception) {
                 Timber.e(e, "doSubmit() failed.")
             } finally {

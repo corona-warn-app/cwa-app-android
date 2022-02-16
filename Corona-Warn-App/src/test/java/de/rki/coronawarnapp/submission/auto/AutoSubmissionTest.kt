@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.submission.auto
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.WorkManager
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.task.SubmissionTask
 import de.rki.coronawarnapp.task.TaskController
@@ -143,7 +144,7 @@ class AutoSubmissionTest : BaseTest() {
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
         runBlockingTest {
-            instance.runSubmissionNow()
+            instance.runSubmissionNow(CoronaTest.Type.PCR)
         }
 
         coVerifySequence {
@@ -151,7 +152,7 @@ class AutoSubmissionTest : BaseTest() {
                 DefaultTaskRequest(
                     id = slot.captured.id,
                     type = SubmissionTask::class,
-                    arguments = SubmissionTask.Arguments(checkUserActivity = false),
+                    arguments = SubmissionTask.Arguments(checkUserActivity = false, testType = CoronaTest.Type.PCR),
                     originTag = "AutoSubmission"
                 )
             )
@@ -172,7 +173,7 @@ class AutoSubmissionTest : BaseTest() {
         coEvery { taskController.submitBlocking(capture(slot)) } returns taskResult
 
         runBlockingTest {
-            instance.runSubmissionNow()
+            instance.runSubmissionNow(CoronaTest.Type.PCR)
         }
 
         verifySequence {
