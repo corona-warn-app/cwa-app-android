@@ -51,7 +51,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
             appConfigProvider.getAppConfig().admissionScenariosDisabled
         }.onFailure {
             Timber.d(it, "getAppConfig().admissionScenariosDisabled failed")
-        }.getOrElse { true }
+        }.getOrElse { false }
 
         return if (disabled) "" else cclSettings.getAdmissionScenarioId()
     }
