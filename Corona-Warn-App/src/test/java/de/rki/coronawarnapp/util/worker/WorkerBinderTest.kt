@@ -1,12 +1,16 @@
 package de.rki.coronawarnapp.util.worker
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.work.ListenableWorker
 import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdater
+import de.rki.coronawarnapp.ccl.configuration.update.CCLSettingsDataStore
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
@@ -32,13 +36,17 @@ import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.task.TaskController
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import io.github.classgraph.ClassGraph
 import io.kotest.matchers.collections.shouldContainAll
 import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.FakeDataStore
 import timber.log.Timber
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -192,4 +200,7 @@ class MockProvider {
 
     @Provides
     fun cclConfigurationUpdater(): CCLConfigurationUpdater = mockk()
+
+    @Provides
+    fun dccWalletInfoUpdateTrigger(): DccWalletInfoUpdateTrigger = mockk()
 }
