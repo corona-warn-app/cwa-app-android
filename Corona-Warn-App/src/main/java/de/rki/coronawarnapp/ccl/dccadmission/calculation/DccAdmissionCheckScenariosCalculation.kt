@@ -26,7 +26,7 @@ class DccAdmissionCheckScenariosCalculation @Inject constructor(
         dateTime: DateTime = DateTime.now(),
     ): DccAdmissionCheckScenarios = withContext(dispatcherProvider.IO) {
         val output = cclJsonFunctions.evaluateFunction(
-            "getDCCAdmissionCheckScenarios",
+            "getDccAdmissionCheckScenarios",
             getDefaultInputParameters(dateTime).toInput(mapper)
         )
 

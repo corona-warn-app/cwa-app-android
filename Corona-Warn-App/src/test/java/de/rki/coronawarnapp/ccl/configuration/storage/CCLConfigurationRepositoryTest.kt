@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.ccl.configuration.server.CCLConfigurationServer
 import de.rki.coronawarnapp.util.repositories.UpdateResult
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifyOrder
@@ -25,14 +24,23 @@ import testhelpers.coroutines.runBlockingTest2
 
 class CCLConfigurationRepositoryTest : BaseTest() {
 
-    @RelaxedMockK lateinit var cclConfigurationStorage: CCLConfigurationStorage
+    @RelaxedMockK lateinit var downloadedCclConfigurationStorage: DownloadedCCLConfigurationStorage
     @MockK lateinit var defaultCCLConfigurationProvider: DefaultCCLConfigurationProvider
     @MockK lateinit var cclConfigurationParser: CCLConfigurationParser
     @MockK lateinit var cclConfigurationServer: CCLConfigurationServer
 
-    private val defaultCCLConfig: CCLConfiguration = mockk { every { identifier } returns "defaultCCLConfig" }
-    private val storageCCLConfig: CCLConfiguration = mockk { every { identifier } returns "storageCCLConfig" }
-    private val serverCCLConfig: CCLConfiguration = mockk { every { identifier } returns "serverCCLConfig" }
+    private val defaultCCLConfig: CCLConfiguration = mockk {
+        every { identifier } returns "defaultCCLConfig"
+        every { version } returns "1"
+    }
+    private val storageCCLConfig: CCLConfiguration = mockk {
+        every { identifier } returns "storageCCLConfig"
+        every { version } returns "1"
+    }
+    private val serverCCLConfig: CCLConfiguration = mockk {
+        every { identifier } returns "serverCCLConfig"
+        every { version } returns "1"
+    }
 
     private val defaultCCLConfigRaw = defaultCCLConfig.identifier.toByteArray()
     private val storageCCLConfigRaw = storageCCLConfig.identifier.toByteArray()
@@ -41,10 +49,11 @@ class CCLConfigurationRepositoryTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope): CCLConfigurationRepository = CCLConfigurationRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
-        cclConfigurationStorage = cclConfigurationStorage,
+        downloadedCclConfigurationStorage = downloadedCclConfigurationStorage,
         defaultCCLConfigurationProvider = defaultCCLConfigurationProvider,
         cclConfigurationParser = cclConfigurationParser,
-        cclConfigurationServer = cclConfigurationServer
+        cclConfigurationServer = cclConfigurationServer,
+        cclConfigurationMerger = CCLConfigurationMerger()
     )
 
     @BeforeEach
@@ -52,7 +61,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData() } returns defaultCCLConfigRaw
-        coEvery { cclConfigurationStorage.load() } returns storageCCLConfigRaw
+        coEvery { downloadedCclConfigurationStorage.load() } returns storageCCLConfigRaw
         coEvery { cclConfigurationServer.getCCLConfiguration() } returns serverCCLConfigRaw
 
         every { cclConfigurationParser.parseCClConfigurations(defaultCCLConfigRaw) } returns listOf(defaultCCLConfig)
@@ -62,24 +71,28 @@ class CCLConfigurationRepositoryTest : BaseTest() {
 
     @Test
     fun `loads default ccl config if storage is empty`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { cclConfigurationStorage.load() } returns null
+        coEvery { downloadedCclConfigurationStorage.load() } returns null
 
-        createInstance(scope = this).getCCLConfigurations().first() shouldBe defaultCCLConfig
+        createInstance(scope = this).getCCLConfigurations() shouldBe listOf(defaultCCLConfig)
 
         coVerify {
-            cclConfigurationStorage.load()
+            downloadedCclConfigurationStorage.load()
             defaultCCLConfigurationProvider.loadDefaultCCLConfigurationsRawData()
             cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigRaw)
         }
     }
 
     @Test
-    fun `loads ccl config from storage`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(scope = this).getCCLConfigurations().first() shouldBe storageCCLConfig
+    fun `loads and merges ccl config from storage`() = runBlockingTest2(ignoreActive = true) {
+        createInstance(scope = this).getCCLConfigurations().run {
+            // merged config
+            size shouldBe 2
+            contains(defaultCCLConfig) shouldBe true
+            contains(storageCCLConfig) shouldBe true
+        }
 
         coVerify {
-            defaultCCLConfigurationProvider wasNot called
-            cclConfigurationStorage.load()
+            downloadedCclConfigurationStorage.load()
             cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
         }
     }
@@ -89,23 +102,28 @@ class CCLConfigurationRepositoryTest : BaseTest() {
         createInstance(scope = this).clear()
 
         coVerify {
-            cclConfigurationStorage.clear()
+            downloadedCclConfigurationStorage.clear()
         }
     }
 
     @Test
     fun `provides default ccl config after clearing`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { cclConfigurationStorage.load() } returns storageCCLConfigRaw andThen null
+        coEvery { downloadedCclConfigurationStorage.load() } returns storageCCLConfigRaw andThen null
 
         with(createInstance(scope = this)) {
-            getCCLConfigurations().first() shouldBe storageCCLConfig
+            getCCLConfigurations().run {
+                // merged config
+                size shouldBe 2
+                contains(storageCCLConfig) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
             clear()
-            getCCLConfigurations().first() shouldBe defaultCCLConfig
+            getCCLConfigurations() shouldBe listOf(defaultCCLConfig)
         }
 
         coVerifyOrder {
             cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
-            cclConfigurationStorage.clear()
+            downloadedCclConfigurationStorage.clear()
             cclConfigurationParser.parseCClConfigurations(rawData = defaultCCLConfigRaw)
         }
     }
@@ -123,7 +141,10 @@ class CCLConfigurationRepositoryTest : BaseTest() {
 
     @Test
     fun `update returns true only if ccl config was updated`() = runBlockingTest2(ignoreActive = true) {
-        val serverCCLConfig2: CCLConfiguration = mockk { every { identifier } returns "serverCCLConfig2" }
+        val serverCCLConfig2: CCLConfiguration = mockk {
+            every { identifier } returns "serverCCLConfig2"
+            every { version } returns "1"
+        }
         val serverCCLConfig2Raw = serverCCLConfig2.identifier.toByteArray()
 
         every { cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfig2Raw) } returns listOf(
@@ -131,51 +152,44 @@ class CCLConfigurationRepositoryTest : BaseTest() {
         )
         coEvery {
             cclConfigurationServer.getCCLConfiguration()
-        } returns serverCCLConfigRaw andThen serverCCLConfigRaw andThen serverCCLConfig2Raw
+        } returns serverCCLConfigRaw andThen null andThen serverCCLConfig2Raw
 
         createInstance(scope = this).run {
-            getCCLConfigurations().first() shouldBe storageCCLConfig
+            getCCLConfigurations().run {
+                // Merged configs
+                size shouldBe 2
+                contains(storageCCLConfig) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
+
             updateCCLConfiguration() shouldBe UpdateResult.UPDATE
-            getCCLConfigurations().first() shouldBe serverCCLConfig
+            getCCLConfigurations().run {
+                // Merged configs
+                size shouldBe 2
+                contains(serverCCLConfig) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
+
             updateCCLConfiguration() shouldBe UpdateResult.NO_UPDATE
-            getCCLConfigurations().first() shouldBe serverCCLConfig
+            getCCLConfigurations().run {
+                // Merged configs
+                size shouldBe 2
+                contains(serverCCLConfig) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
+
             updateCCLConfiguration() shouldBe UpdateResult.UPDATE
-            getCCLConfigurations().first() shouldBe serverCCLConfig2
+            getCCLConfigurations().run {
+                // Merged configs
+                size shouldBe 2
+                contains(serverCCLConfig2) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
         }
 
-        coVerifyOrder {
-            cclConfigurationStorage.load()
-            cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
-            cclConfigurationServer.getCCLConfiguration()
-            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
-            cclConfigurationStorage.save(rawData = serverCCLConfigRaw)
-            cclConfigurationServer.getCCLConfiguration()
-            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
-            cclConfigurationServer.getCCLConfiguration()
-            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfig2Raw)
-            cclConfigurationStorage.save(rawData = serverCCLConfig2Raw)
-        }
-    }
-
-    @Test
-    fun `update returns false if ccl config was not updated`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { cclConfigurationServer.getCCLConfiguration() } returns null
-
-        createInstance(scope = this).run {
-            getCCLConfigurations().first() shouldBe storageCCLConfig
-            updateCCLConfiguration() shouldBe UpdateResult.NO_UPDATE
-            getCCLConfigurations().first() shouldBe storageCCLConfig
-        }
-
-        coVerifyOrder {
-            cclConfigurationStorage.load()
-            cclConfigurationParser.parseCClConfigurations(rawData = storageCCLConfigRaw)
-            cclConfigurationServer.getCCLConfiguration()
-        }
-
-        coVerify(exactly = 0) {
-            cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw)
-            cclConfigurationStorage.save(rawData = serverCCLConfigRaw)
+        coVerify {
+            downloadedCclConfigurationStorage.save(rawData = serverCCLConfigRaw)
+            downloadedCclConfigurationStorage.save(rawData = serverCCLConfig2Raw)
         }
     }
 
@@ -185,9 +199,20 @@ class CCLConfigurationRepositoryTest : BaseTest() {
         every { cclConfigurationParser.parseCClConfigurations(rawData = serverCCLConfigRaw) } throws error
 
         createInstance(scope = this).run {
-            getCCLConfigurations().first() shouldBe storageCCLConfig
+            getCCLConfigurations().run {
+                // Merged configs
+                size shouldBe 2
+                contains(storageCCLConfig) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
+
             updateCCLConfiguration() shouldBe UpdateResult.FAIL
-            getCCLConfigurations().first() shouldBe storageCCLConfig
+            getCCLConfigurations().run {
+                // Merged configs
+                size shouldBe 2
+                contains(storageCCLConfig) shouldBe true
+                contains(defaultCCLConfig) shouldBe true
+            }
         }
 
         coVerify {
@@ -196,7 +221,7 @@ class CCLConfigurationRepositoryTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            cclConfigurationStorage.save(rawData = any())
+            downloadedCclConfigurationStorage.save(rawData = any())
         }
     }
 }
