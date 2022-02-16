@@ -55,7 +55,6 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
                     _calculationState.postValue(CalculationDone)
                 }
             }
-
         }.onFailure { _calculationState.postValue(CalculationError(it)) }
     }
 
