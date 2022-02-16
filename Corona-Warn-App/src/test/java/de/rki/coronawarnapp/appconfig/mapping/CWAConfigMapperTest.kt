@@ -363,4 +363,68 @@ class CWAConfigMapperTest : BaseTest() {
             isDeviceTimeCheckEnabled shouldBe true
         }
     }
+
+    @Test
+    fun `feature flag dcc-admission-check-scenarios-disabled is true`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-disabled"
+                value = 1
+            }
+        )
+
+        createInstance().map(rawConfig).apply {
+            admissionScenariosDisabled shouldBe true
+        }
+    }
+
+    @Test
+    fun `feature flag dcc-admission-check-scenarios-disabled is false`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-disabled"
+                value = 0
+            }
+        )
+
+        createInstance().map(rawConfig).apply {
+            admissionScenariosDisabled shouldBe false
+        }
+    }
+
+    @Test
+    fun `feature flag dcc-admission-check-scenarios-disabled is default value on invalid value`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-disabled"
+                value = 99
+            }
+        )
+
+        createInstance().map(rawConfig).apply {
+            admissionScenariosDisabled shouldBe false
+        }
+    }
+
+    @Test
+    fun `feature flag dcc-admission-check-scenarios-disabled is default value if label can't be found`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "random-label"
+                value = 1
+            }
+        )
+
+        createInstance().map(rawConfig).apply {
+            admissionScenariosDisabled shouldBe false
+        }
+    }
+
+    private fun buildConfigWithAppFeatures(appFeature: AppFeature.Builder) =
+        ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    addAppFeatures(appFeature.build())
+                }
+            ).build()
 }

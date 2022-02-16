@@ -19,7 +19,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
             dccPersonCountMax = rawConfig.dccPersonCountMax(),
             dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
-            admissionScenariosDisabled = false // TODO parse from feature toggle
+            admissionScenariosDisabled = rawConfig.dccAdmissionCheckScenariosDisabled()
         )
     }
 
@@ -103,6 +103,21 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
+    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled(): Boolean {
+        if (!hasAppFeatures()) return DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
+
+        return try {
+            (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == "dcc-admission-check-scenarios-disabled" }
+                ?.let { it.value == 1 }
+                ?: false
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to find `dcc-admission-check-scenarios-disabled` from %s", this)
+            DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
+        }
+    }
+
     data class CWAConfigContainer(
         override val latestVersionCode: Long,
         override val minVersionCode: Long,
@@ -121,5 +136,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
 
         private const val DCC_PERSON_WARN_THRESHOLD: Int = 10
         private const val DCC_PERSON_COUNT_MAX: Int = 20
+
+        private const val DCC_ADMISSION_CHECK_SCENARIOS_DISABLED = false
     }
 }
