@@ -125,6 +125,10 @@ class SubmissionTask @Inject constructor(
         }
     }
 
+    /**
+     * Submission could be triggered manually by user where [CoronaTest.Type] parameter is required or
+     * automatically by periodic worker where the [CoronaTest.Type] parameter is not required
+     */
     private suspend fun performSubmission(testType: CoronaTest.Type?): Result {
         val availableTests = coronaTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
