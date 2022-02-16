@@ -67,7 +67,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private suspend fun updateWalletInfoForPerson(
         person: PersonCertificates,
         admissionScenarioId: String
-    ) {
+    ) = try {
         val personIdentifier = checkNotNull(person.personIdentifier) {
             "Person identifier is null. Cannot proceed."
         }
@@ -87,6 +87,11 @@ class DccWalletInfoCalculationManager @Inject constructor(
             personIdentifier,
             newWalletInfo
         )
+
+        Result.Success
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation for person=%s", person.personIdentifier)
+        Result.Failure(e)
     }
 
     sealed class Result {
