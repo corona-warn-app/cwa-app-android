@@ -21,10 +21,11 @@ import javax.inject.Singleton
 class CclConfigurationRepository @Inject constructor(
     @AppScope appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
-    private val cclConfigurationStorage: CclConfigurationStorage,
+    private val downloadedCclConfigurationStorage: DownloadedCclConfigurationStorage,
     private val defaultCclConfigurationProvider: DefaultCclConfigurationProvider,
     private val cclConfigurationParser: CclConfigurationParser,
-    private val cclConfigurationServer: CclConfigurationServer
+    private val cclConfigurationServer: CclConfigurationServer,
+    private val cclConfigurationMerger: CclConfigurationMerger
 ) {
     private val internalData: HotDataFlow<List<CclConfiguration>> = HotDataFlow(
         loggingTag = TAG,
@@ -43,30 +44,30 @@ class CclConfigurationRepository @Inject constructor(
      **/
     suspend fun updateCclConfiguration(): UpdateResult = try {
         var updateResult = UpdateResult.NO_UPDATE
+
         internalData.updateBlocking {
             Timber.tag(TAG).d("Updating ccl configuration")
 
-            val rawData = cclConfigurationServer.getCclConfiguration()
-            val newConfig = rawData?.tryParseCclConfigurations()
+            val downloadedConfigListRaw = cclConfigurationServer.getCclConfiguration() ?: run {
+                // no new config was downloaded
+                Timber.tag(TAG).d("Nothing to update. Keeping old ccl config list")
+                return@updateBlocking this
+            }
 
-            if (rawData != null && newConfig == null) {
-                // parsing failed
+            val downloadedConfigList = downloadedConfigListRaw.tryParseCclConfigurations() ?: run {
                 updateResult = UpdateResult.FAIL
+                return@updateBlocking this
             }
 
-            when (newConfig != null && newConfig != this) {
-                true -> {
-                    Timber.tag(TAG).d("Saving new config data")
-                    cclConfigurationStorage.save(rawData = rawData)
-                    updateResult = UpdateResult.UPDATE
-                    newConfig
-                }
+            Timber.tag(TAG).d("Saving new config data")
+            downloadedCclConfigurationStorage.save(rawData = downloadedConfigListRaw)
 
-                false -> {
-                    Timber.tag(TAG).d("Nothing to update. Keeping old ccl config list")
-                    this
-                }
-            }
+            updateResult = UpdateResult.UPDATE
+
+            return@updateBlocking cclConfigurationMerger.merge(
+                defaultConfigList = loadDefaultCclConfiguration(),
+                downloadedConfigList = downloadedConfigList
+            )
         }
 
         updateResult
@@ -77,7 +78,7 @@ class CclConfigurationRepository @Inject constructor(
 
     suspend fun clear() {
         Timber.tag(TAG).d("Clearing")
-        cclConfigurationStorage.clear()
+        downloadedCclConfigurationStorage.clear()
         internalData.updateBlocking { loadInitialConfigs() }
     }
 
@@ -94,12 +95,20 @@ class CclConfigurationRepository @Inject constructor(
 
     private suspend fun loadInitialConfigs(): List<CclConfiguration> {
         Timber.tag(TAG).d("loadInitialConfig()")
-        val config = cclConfigurationStorage.load()?.tryParseCclConfigurations()
-        return when (config != null) {
-            true -> config
-            false -> cclConfigurationParser.parseCClConfigurations(rawData = defaultCclConfigurationsRawData)
+        val downloadedConfigList = downloadedCclConfigurationStorage.load()?.tryParseCclConfigurations()
+        return when (downloadedConfigList != null) {
+            true -> {
+                cclConfigurationMerger.merge(
+                    defaultConfigList = loadDefaultCclConfiguration(),
+                    downloadedConfigList = downloadedConfigList
+                )
+            }
+            false -> loadDefaultCclConfiguration()
         }.also { logConfigVersionAndIdentifier(it, logPrefix = "loadInitialConfig() - Returning") }
     }
+
+    private fun loadDefaultCclConfiguration() =
+        cclConfigurationParser.parseCClConfigurations(rawData = defaultCclConfigurationsRawData)
 
     private fun logConfigVersionAndIdentifier(cclConfigurationList: List<CclConfiguration>?, logPrefix: String) {
         cclConfigurationList?.forEach { config ->

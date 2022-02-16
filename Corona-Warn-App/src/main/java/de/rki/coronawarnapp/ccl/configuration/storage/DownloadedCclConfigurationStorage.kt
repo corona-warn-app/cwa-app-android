@@ -8,7 +8,7 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class CclConfigurationStorage @Inject constructor(
+class DownloadedCclConfigurationStorage @Inject constructor(
     @CclConfiguration private val cclFile: File
 ) {
 
@@ -47,4 +47,4 @@ class CclConfigurationStorage @Inject constructor(
     }
 }
 
-private val TAG = tag<CclConfigurationStorage>()
+private val TAG = tag<DownloadedCclConfigurationStorage>()

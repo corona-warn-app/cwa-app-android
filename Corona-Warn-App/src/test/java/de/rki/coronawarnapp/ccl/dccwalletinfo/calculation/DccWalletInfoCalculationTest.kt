@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import de.rki.coronawarnapp.ccl.configuration.model.CclDateTime
+import de.rki.coronawarnapp.ccl.configuration.model.CclInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt

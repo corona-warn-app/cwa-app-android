@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseIOTest
 import java.io.File
 
-class CclConfigurationStorageTest : BaseIOTest() {
+class DownloadedCclConfigurationStorageTest : BaseIOTest() {
 
-    private val cclFile = File(IO_TEST_BASEDIR, CclConfigurationStorageTest::class.java.simpleName)
+    private val cclFile = File(IO_TEST_BASEDIR, DownloadedCclConfigurationStorageTest::class.java.simpleName)
 
-    private val instance: CclConfigurationStorage
-        get() = CclConfigurationStorage(cclFile = cclFile)
+    private val instance: DownloadedCclConfigurationStorage
+        get() = DownloadedCclConfigurationStorage(cclFile = cclFile)
 
     @AfterEach
     fun cleanup() {

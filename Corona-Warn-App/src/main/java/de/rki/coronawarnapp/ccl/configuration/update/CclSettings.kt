@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import dagger.Reusable
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -35,6 +36,9 @@ class CclSettings @Inject constructor(
             }
         }
 
+    val admissionScenarioId = dataStoreFlow
+        .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
+
     /**
      * @returns the instant of the last time the CCL Settings were updated, or null if they haven't been updated yet
      */
@@ -44,10 +48,10 @@ class CclSettings @Inject constructor(
             prefs[LAST_EXECUTION_TIME_KEY]
         }.map { lastExecutionTime ->
             if (lastExecutionTime != null) {
-                Timber.d("Last CCL execution time found in data store: %s", lastExecutionTime)
+                Timber.tag(TAG).d("Last CCL execution time found in data store: %s", lastExecutionTime)
                 Instant.ofEpochSecond(lastExecutionTime)
             } else {
-                Timber.d("No CCL execution time stored yet.")
+                Timber.tag(TAG).d("No CCL execution time stored yet.")
                 null
             }
         }.first()
@@ -57,27 +61,44 @@ class CclSettings @Inject constructor(
      * Stores the execution time of the CCL update in the data store
      */
     fun setExecutionTimeToNow(executionTime: Instant = Instant.now()) = appScope.launch {
-        Timber.d("Storing executionTime to CCL settings data store: %s", executionTime)
+        Timber.tag(TAG).d("Storing executionTime to CCL settings data store: %s", executionTime)
         runCatching {
             dataStore.edit { prefs ->
                 prefs[LAST_EXECUTION_TIME_KEY] = executionTime.seconds
             }
         }.onFailure { e ->
-            Timber.e(e, "Failed to set ccl execution time.")
+            Timber.tag(TAG).e(e, "Failed to set ccl execution time.")
+        }
+    }
+
+    /**
+     * @returns admission scenario identifier, by default empty string
+     */
+    suspend fun getAdmissionScenarioId(): String = admissionScenarioId.first()
+
+    /**
+     * Stores admission scenario identifier
+     */
+    fun setAdmissionScenarioId(admissionScenarioId: String) = appScope.launch {
+        runCatching {
+            dataStore.edit { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY] = admissionScenarioId }
+        }.onFailure { e ->
+            Timber.tag(TAG).e(e, "Failed to set admissionScenarioId.")
         }
     }
 
     suspend fun clear() {
-        Timber.d("Clearing CCL Settings data store.")
+        Timber.tag(TAG).d("Clearing CCL Settings data store.")
         runCatching {
             dataStore.edit { prefs -> prefs.clear() }
         }.onFailure { e ->
-            Timber.e(e, "Failed to clear ccl settings.")
+            Timber.tag(TAG).e(e, "Failed to clear ccl settings.")
         }
     }
 
     companion object {
         internal val LAST_EXECUTION_TIME_KEY = longPreferencesKey("ccl.settings.lastexecutiontime")
+        internal val ADMISSION_SCENARIO_ID_KEY = stringPreferencesKey("ccl.settings.admissionScenarioId")
 
         private val TAG = tag<CclSettings>()
     }

@@ -1,11 +1,16 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import androidx.lifecycle.SavedStateHandle
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -24,7 +29,6 @@ import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
 import io.mockk.verify
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
@@ -43,7 +47,9 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
-    @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var admissionTileProvider: AdmissionTileProvider
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -52,12 +58,27 @@ class PersonOverviewViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
-        every { personCertificatesProvider.personCertificates } returns emptyFlow()
+        every { personCertificatesProvider.personCertificates } returns flowOf(
+            setOf(
+                PersonCertificates(
+                    certificates = listOf(),
+                    isCwaUser = true,
+                    dccWalletInfo = null
+                )
+            )
+        )
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
         every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
+        every { admissionTileProvider.admissionTile } returns flowOf(
+            AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        )
     }
 
     @Test
@@ -241,6 +262,17 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `admission tile is visible`() {
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
     private val instance
         get() = PersonOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
@@ -249,6 +281,9 @@ class PersonOverviewViewModelTest : BaseTest() {
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
-            format = CclTextFormatter(cclJsonFunctions, mapper)
+            format = CclTextFormatter(cclJsonFunctions, mapper),
+            admissionScenariosSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
+            admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
+            dccAdmissionTileProvider = admissionTileProvider
         )
 }

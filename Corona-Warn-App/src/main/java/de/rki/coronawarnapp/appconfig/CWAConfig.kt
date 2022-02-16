@@ -20,5 +20,7 @@ interface CWAConfig {
 
     val dccPersonCountMax: Int
 
+    val admissionScenariosDisabled: Boolean
+
     interface Mapper : ConfigMapper<CWAConfig>
 }

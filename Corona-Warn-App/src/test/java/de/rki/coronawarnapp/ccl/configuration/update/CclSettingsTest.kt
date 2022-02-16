@@ -33,4 +33,17 @@ internal class CclSettingsTest : BaseTest() {
         cclSettings.clear()
         cclSettings.getLastExecutionTime() shouldBe null
     }
+
+    @Test
+    fun `test CclSettings - set admission scenario identifier`() = runBlockingTest {
+        cclSettings.getAdmissionScenarioId() shouldBe ""
+
+        cclSettings.setAdmissionScenarioId("Ad-Sc-ID")
+
+        fakeDataStore[CclSettings.ADMISSION_SCENARIO_ID_KEY] shouldBe "Ad-Sc-ID"
+        cclSettings.getAdmissionScenarioId() shouldBe "Ad-Sc-ID"
+
+        cclSettings.clear()
+        cclSettings.getAdmissionScenarioId() shouldBe ""
+    }
 }

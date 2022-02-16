@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.ObjectNode
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.configuration.model.cclLanguage
+import de.rki.coronawarnapp.ccl.configuration.model.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.cclLanguage
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
@@ -26,9 +26,9 @@ class CclTextFormatter @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper
 ) {
     /**
-     * Format [CclText] based on its sub-types
-     * if the text is a [SystemTimeDependentText] it will be evaluated by [CclJsonFunctions]
-     * @return [String] empty string if [CclText] is null or could not be formatted
+     * Format [CCLText] based on its sub-types
+     * if the text is a [SystemTimeDependentText] it will be evaluated by [CCLJsonFunctions]
+     * @return [String] empty string if [CCLText] is null or could not be formatted
      */
     suspend operator fun invoke(
         cclText: CclText?,
@@ -42,7 +42,7 @@ class CclTextFormatter @Inject constructor(
             else -> null
         }
     }.getOrElse {
-        Timber.w(it, "CclText.format() failed")
+        Timber.w(it, "CCLText.format() failed")
         null
     }.orEmpty()
 
