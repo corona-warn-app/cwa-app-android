@@ -5,7 +5,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
-import de.rki.coronawarnapp.ccl.dccadmission.model.storage.dummy
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -140,8 +139,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
 
     fun openAdmissionScenarioScreen() = launch {
         runCatching {
-            // TODO: un-hash admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios()
-            dummy // TODO remove
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios()
         }.onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
             .onSuccess {
                 admissionScenariosSharedViewModel.setAdmissionScenarios(it)
