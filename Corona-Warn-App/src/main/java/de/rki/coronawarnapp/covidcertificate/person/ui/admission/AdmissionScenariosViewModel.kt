@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class AdmissionScenariosViewModel @AssistedInject constructor(
     private val format: CCLTextFormatter,
@@ -45,17 +46,12 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
         runCatching {
             _calculationState.postValue(Calculating)
             admissionCheckScenariosRepository.save(admissionScenariosSharedViewModel.admissionScenarios.first())
-            when (val result = dccWalletInfoCalculationManager.triggerCalculationNow(admissionScenarioId)) {
-                is DccWalletInfoCalculationManager.Result.Failure -> {
-                    _calculationState.postValue(CalculationError(result.error))
-                }
-
-                DccWalletInfoCalculationManager.Result.Success -> {
-                    cclSettings.setAdmissionScenarioId(admissionScenarioId)
-                    _calculationState.postValue(CalculationDone)
-                }
-            }
-        }.onFailure { _calculationState.postValue(CalculationError(it)) }
+            dccWalletInfoCalculationManager.triggerCalculationNow(admissionScenarioId)
+            cclSettings.setAdmissionScenarioId(admissionScenarioId)
+            _calculationState.postValue(CalculationDone)
+        }.onFailure {
+            Timber.e(it, "selectScenario() failed")
+        }
     }
 
     @AssistedFactory
@@ -73,5 +69,4 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     sealed interface CalculationState
     object Calculating : CalculationState
     object CalculationDone : CalculationState
-    data class CalculationError(val error: Throwable) : CalculationState
 }
