@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -10,6 +8,7 @@ import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
@@ -24,9 +23,8 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
 ) : CWAViewModel() {
 
-    private val _calculationState = MutableLiveData<CalculationState>()
+    val calculationState = SingleLiveEvent<CalculationState>()
     val state = admissionScenariosSharedViewModel.admissionScenarios.map { it.toScenarioItems() }.asLiveData2()
-    val calculationState: LiveData<CalculationState> = _calculationState
 
     private suspend fun DccAdmissionCheckScenarios.toScenarioItems() = State(
         title = format(scenarioSelection.titleText),
@@ -44,13 +42,20 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
 
     private fun selectScenario(admissionScenarioId: String) = launch {
         runCatching {
-            _calculationState.postValue(Calculating)
-            admissionCheckScenariosRepository.save(admissionScenariosSharedViewModel.admissionScenarios.first())
-            dccWalletInfoCalculationManager.triggerCalculationNow(admissionScenarioId)
+            calculationState.postValue(Calculating) // Shows busy indicator
+            // Save Admission Scenarios and selected Admission scenario Id
+            admissionCheckScenariosRepository.save(
+                scenarios = admissionScenariosSharedViewModel.admissionScenarios.first()
+            )
             cclSettings.setAdmissionScenarioId(admissionScenarioId)
-            _calculationState.postValue(CalculationDone)
+            // Calculate DccWalletInfo for certificate holders
+            dccWalletInfoCalculationManager.triggerCalculationNow(
+                admissionScenarioId = admissionScenarioId
+            )
+            calculationState.postValue(CalculationDone) // Dismiss busy indicator
         }.onFailure {
             Timber.e(it, "selectScenario() failed")
+            calculationState.postValue(CalculationDone)
         }
     }
 
