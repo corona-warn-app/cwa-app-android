@@ -51,7 +51,52 @@ class PCRTestProcessor @Inject constructor(
     override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
         is CoronaTestQRCode.PCR -> createQR(request)
         is CoronaTestTAN.PCR -> createTAN(request)
+        is CoronaTestQRCode.RapidPCR -> createQR(request)
         else -> throw IllegalArgumentException("PCRProcessor: Unknown test request: $request")
+    }
+
+    private suspend fun createQR(request: CoronaTestQRCode.RapidPCR): PCRCoronaTest {
+        Timber.tag(TAG).d("createQR(data=%s)", request)
+
+        analyticsKeySubmissionCollector.reset(type)
+        analyticsTestResultCollector.clear(type)
+
+        val serverRequest = RegistrationRequest(
+            key = request.registrationIdentifier,
+            dateOfBirthKey = null,
+            type = VerificationKeyType.GUID
+        )
+
+        val registrationData = submissionService.registerTest(serverRequest).also {
+            Timber.tag(TAG).d("Request %s gave us %s", request, it)
+        }
+
+        val testResult = registrationData.testResultResponse.coronaTestResult.let {
+            Timber.tag(TAG).v("Raw test result was %s", it)
+            it.toValidatedResult()
+        }
+
+        analyticsKeySubmissionCollector.reportTestRegistered(type)
+        if (testResult == PCR_POSITIVE) {
+            analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
+        }
+        analyticsTestResultCollector.reportTestRegistered(type)
+        analyticsTestResultCollector.reportTestResultReceived(testResult, type)
+
+        val now = timeStamper.nowUTC
+
+        return PCRCoronaTest(
+            identifier = request.identifier,
+            registeredAt = now,
+            lastUpdatedAt = now,
+            registrationToken = registrationData.registrationToken,
+            testResult = testResult,
+            testResultReceivedAt = determineReceivedDate(null, testResult),
+            _isDccSupportedByPoc = request.isDccSupportedByPoc,
+            isDccConsentGiven = request.isDccConsentGiven,
+            labId = registrationData.testResultResponse.labId,
+            qrCodeHash = request.rawQrCode.toSHA256()
+        )
     }
 
     private suspend fun createQR(request: CoronaTestQRCode.PCR): PCRCoronaTest {
@@ -130,6 +175,7 @@ class PCRTestProcessor @Inject constructor(
             registrationToken = response.registrationToken,
             testResult = testResult,
             testResultReceivedAt = determineReceivedDate(null, testResult),
+            _isDccSupportedByPoc = true,
             isDccConsentGiven = request.isDccConsentGiven,
             labId = response.testResultResponse.labId,
             qrCodeHash = qrCodeHash

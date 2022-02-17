@@ -116,6 +116,11 @@
                     android:pathPattern=".*"
                     android:scheme="https" />
 
+                <data
+                    android:host="p.coronawarn.app"
+                    android:pathPattern=".*"
+                    android:scheme="https" />
+
             </intent-filter>
 
         </activity>
