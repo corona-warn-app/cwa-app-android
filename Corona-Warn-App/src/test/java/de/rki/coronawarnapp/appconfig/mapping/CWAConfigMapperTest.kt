@@ -76,28 +76,25 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `findBoolean() should return false on 0`() {
-        val rawConfig = buildConfigWithAppFeatures(
+    fun `findBoolean() should return default value on integers other than 1`() {
+        val rawConfigWithItemValue0 = buildConfigWithAppFeatures(
             AppFeature.newBuilder().apply {
                 label = "labelValue"
                 value = 0
             }
         )
-        rawConfig.findBoolean(
+        rawConfigWithItemValue0.findBoolean(
             labelValue = "labelValue",
             defaultValue = true
-        ) shouldBe false
-    }
+        ) shouldBe true
 
-    @Test
-    fun `findBoolean() should return default value on invalid integer`() {
-        val rawConfig = buildConfigWithAppFeatures(
+        val rawConfigWithItemValue2 = buildConfigWithAppFeatures(
             AppFeature.newBuilder().apply {
                 label = "labelValue"
                 value = 2
             }
         )
-        rawConfig.findBoolean(
+        rawConfigWithItemValue2.findBoolean(
             labelValue = "labelValue",
             defaultValue = true
         ) shouldBe true
