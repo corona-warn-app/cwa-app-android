@@ -11,8 +11,10 @@ import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.plus
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,10 +32,12 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
 
     init {
         certificateProvider.certificateContainer
+            .onStart { Timber.tag(TAG).d("Observing certificates for changes") }
             .onEach {
-                Timber.tag(TAG).e("Certificates changed!")
+                Timber.tag(TAG).d("Certificates changed!")
                 triggerDccWalletInfoUpdateAfterCertificateChange()
             }
+            .catch { Timber.tag(TAG).e(it, "Failed to observe certificates for changes") }
             .launchIn(scope = appScope + dispatcherProvider.IO)
     }
 

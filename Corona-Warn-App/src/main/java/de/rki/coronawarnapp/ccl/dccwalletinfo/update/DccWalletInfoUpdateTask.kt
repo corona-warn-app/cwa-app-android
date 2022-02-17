@@ -47,9 +47,9 @@ class DccWalletInfoUpdateTask @Inject constructor(
         val admissionScenarioId: String = ""
     ) : Task.Arguments
 
-    sealed class DccWalletInfoUpdateTriggerType {
-        object TriggeredAfterCertificateChange : DccWalletInfoUpdateTriggerType()
-        data class TriggeredAfterConfigUpdate(val configurationChanged: Boolean) : DccWalletInfoUpdateTriggerType()
+    sealed interface DccWalletInfoUpdateTriggerType {
+        object TriggeredAfterCertificateChange : DccWalletInfoUpdateTriggerType
+        data class TriggeredAfterConfigUpdate(val configurationChanged: Boolean) : DccWalletInfoUpdateTriggerType
     }
 
     class Config : TaskFactory.Config {
