@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
-import de.rki.coronawarnapp.bugreporting.censors.submission.RatQrCodeCensor
+import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.test.runBlockingTest
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @Suppress("MaxLineLength")
-internal class RatQrCodeCensorTest {
+internal class RapidQrCodeCensorTest {
 
     private val testHash = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
     private val testRawString = "testRawString"
@@ -22,14 +22,14 @@ internal class RatQrCodeCensorTest {
 
     @AfterEach
     fun teardown() {
-        RatQrCodeCensor.dataToCensor = null
+        RapidQrCodeCensor.dataToCensor = null
     }
 
-    private fun createInstance() = RatQrCodeCensor()
+    private fun createInstance() = RapidQrCodeCensor()
 
     @Test
     fun `checkLog() should return censored LogLine`() = runBlockingTest {
-        RatQrCodeCensor.dataToCensor = RatQrCodeCensor.CensorData(
+        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
             rawString = testRawString,
             hash = testHash,
             firstName = "Milhouse",
@@ -43,7 +43,7 @@ internal class RatQrCodeCensorTest {
             "Here comes the hash: $testHash of the rat test of Milhouse Van Houten. He was born on 1980-07-01"
 
         censor.checkLog(logLineToCensor)!!
-            .compile()!!.censored shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RATest/FirstName RATest/LastName. He was born on RATest/DateOfBirth"
+            .compile()!!.censored shouldBe "Here comes the hash: SHA256HASH-ENDING-WITH-15ad of the rat test of RapidTest/FirstName RapidTest/LastName. He was born on RapidTest/DateOfBirth"
     }
 
     @Test
@@ -57,7 +57,7 @@ internal class RatQrCodeCensorTest {
 
     @Test
     fun `checkLog() should return null if nothing should be censored`() = runBlockingTest {
-        RatQrCodeCensor.dataToCensor = RatQrCodeCensor.CensorData(
+        RapidQrCodeCensor.dataToCensor = RapidQrCodeCensor.CensorData(
             rawString = testRawString,
             hash = testHash.replace("8", "9"),
             firstName = null,
