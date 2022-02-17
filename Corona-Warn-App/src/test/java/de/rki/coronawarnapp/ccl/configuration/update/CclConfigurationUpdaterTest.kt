@@ -34,7 +34,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `updateIfRequired should update booster rules and ccl configuration if required`() = runBlockingTest {
+    fun `updateIfRequired() should update booster rules and ccl configuration if required`() = runBlockingTest {
         coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
         coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
@@ -48,27 +48,28 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
 
         verify(exactly = 1) { cclSettings.setExecutionTimeToNow(any()) }
 
-        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(true) }
+        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(true) }
 
         // false should be passed to the trigger when there are no updates
         coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
         coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
         getInstance().updateIfRequired()
-        verify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
+        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
     }
 
     @Test
-    fun `updateIfRequired should NOT update booster rules and ccl configuration if NOT required`() = runBlockingTest {
-        coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
-        coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
+    fun `updateIfRequired() should NOT update booster rules and ccl configuration if NOT required but should trigger DccWalletInfo recalculation`() =
+        runBlockingTest {
+            coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
+            coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
 
-        getInstance().updateIfRequired()
+            getInstance().updateIfRequired()
 
-        verify { boosterRulesRepository wasNot Called }
-        verify { cclConfigurationRepository wasNot Called }
+            verify { boosterRulesRepository wasNot Called }
+            verify { cclConfigurationRepository wasNot Called }
 
-        verify { dccWalletInfoUpdateTrigger wasNot Called }
-    }
+            coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(false) }
+        }
 
     @Test
     fun `updateConfiguration() should return true when new booster rules or new configuration was downloaded or false otherwise`() =

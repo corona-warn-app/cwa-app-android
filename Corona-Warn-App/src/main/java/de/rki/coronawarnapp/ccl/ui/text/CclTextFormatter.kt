@@ -26,9 +26,9 @@ class CclTextFormatter @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper
 ) {
     /**
-     * Format [CCLText] based on its sub-types
-     * if the text is a [SystemTimeDependentText] it will be evaluated by [CCLJsonFunctions]
-     * @return [String] empty string if [CCLText] is null or could not be formatted
+     * Format [CclText] based on its sub-types
+     * if the text is a [SystemTimeDependentText] it will be evaluated by [CclJsonFunctions]
+     * @return [String] empty string if [CclText] is null or could not be formatted
      */
     suspend operator fun invoke(
         cclText: CclText?,
@@ -42,7 +42,7 @@ class CclTextFormatter @Inject constructor(
             else -> null
         }
     }.getOrElse {
-        Timber.w(it, "CCLText.format() failed")
+        Timber.w(it, "CclText.format() failed")
         null
     }.orEmpty()
 

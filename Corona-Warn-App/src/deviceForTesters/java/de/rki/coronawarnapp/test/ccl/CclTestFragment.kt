@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
 import androidx.core.text.backgroundColor
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
@@ -36,32 +35,8 @@ class CclTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
             calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
-            viewModel.personIdentifiers.observe2(this@CclTestFragment) { personIdentifier ->
-                radioGroup.removeAllViews()
-                personIdentifier.forEach { item ->
-                    radioGroup.addView(
-                        RadioButton(requireContext()).apply {
-                            text = when (item) {
-                                CclTestViewModel.PersonIdentifierSelection.All -> "All"
-                                is CclTestViewModel.PersonIdentifierSelection.Selected -> item.personIdentifier.groupingKey
-                            }
-                            setOnCheckedChangeListener { _, isChecked ->
-                                if (isChecked) {
-                                    viewModel.selectedPersonIdentifier = item
-                                }
-                            }
-                        }
-                    )
-                }
-                radioGroup.check(radioGroup.getChildAt(0).id)
-            }
 
             viewModel.dccWalletInfoList.observe2(this@CclTestFragment) { infoList ->
-                val emoji = when (infoList.size) {
-                    viewModel.personIdentifiers.value?.size?.minus(1) -> "✌️"
-                    else -> "\uD83D\uDC4E"
-                }
-                infoStatus.text = "Calculation status: %s".format(emoji)
                 dccWalletInfoList.text = buildSpannedString {
                     infoList.forEachIndexed { index, info ->
                         append("$index: ")

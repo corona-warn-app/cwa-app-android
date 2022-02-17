@@ -42,7 +42,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { autoSubmission.isSubmissionRunning } returns flowOf(false)
-        coEvery { autoSubmission.runSubmissionNow() } just Runs
+        coEvery { autoSubmission.runSubmissionNow(any()) } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
@@ -82,7 +82,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             )
         }
 
-        coVerify { autoSubmission.runSubmissionNow() }
+        coVerify { autoSubmission.runSubmissionNow(any()) }
     }
 
     @Test
@@ -98,7 +98,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
             )
         }
 
-        coVerify { autoSubmission.runSubmissionNow() }
+        coVerify { autoSubmission.runSubmissionNow(any()) }
     }
 
     @Test
@@ -109,7 +109,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
 
         coVerifySequence {
             autoSubmission.isSubmissionRunning
-            autoSubmission.runSubmissionNow()
+            autoSubmission.runSubmissionNow(any())
         }
     }
 

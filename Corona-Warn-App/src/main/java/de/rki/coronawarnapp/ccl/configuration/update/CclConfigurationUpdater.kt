@@ -26,12 +26,13 @@ class CclConfigurationUpdater @Inject constructor(
     suspend fun updateIfRequired() {
         Timber.d("update()")
 
-        if (!isUpdateRequired()) {
+        if (isUpdateRequired()) {
+            Timber.d("CCLConfig update required!")
+            updateAndTriggerRecalculation()
+        } else {
             Timber.d("No CCLConfig update required!")
-            return
+            triggerRecalculation(configurationChanged = false)
         }
-
-        updateAndTriggerRecalculation()
     }
 
     /**
@@ -43,7 +44,11 @@ class CclConfigurationUpdater @Inject constructor(
 
     private suspend fun updateAndTriggerRecalculation() {
         val updated = updateConfiguration()
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(updated)
+        triggerRecalculation(configurationChanged = updated)
+    }
+
+    private suspend fun triggerRecalculation(configurationChanged: Boolean) {
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

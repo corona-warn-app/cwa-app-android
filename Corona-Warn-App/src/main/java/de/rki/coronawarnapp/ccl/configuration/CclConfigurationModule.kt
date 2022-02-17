@@ -21,7 +21,7 @@ object CclConfigurationModule {
     @CclConfiguration
     @Provides
     // Holds the ccl and ccl http cache. Gets cleared in CclConfigurationRepository
-    fun provideCCLDir(@AppContext context: Context): File = File(context.filesDir, CCL_DIR)
+    fun provideCclDir(@AppContext context: Context): File = File(context.filesDir, CCL_DIR)
 
     @Singleton
     @Provides

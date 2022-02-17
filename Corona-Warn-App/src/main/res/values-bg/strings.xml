@@ -260,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"По възможност се приберете и си останете вкъщи, избягвайки срещи с хора, които не са от Вашето домакинство."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2(за свързване с Министерство на здравеопазването). Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Мийте редовно ръцете си със сапун в продължение на 20 сек."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -742,7 +742,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"Английски, немски, турски\n\nРаботно време:\nот понеделник до неделя: 7:00 - 22:00\n(с изключение на национални празници)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2(за свързване с Министерство на здравеопазването). Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
+    <string name="information_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Мъж със слушалки провежда телефонен разговор."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -1267,7 +1267,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици: английски, немски, турски\n\nРаботно време:\nВсеки ден (включително уикендите) от 07:00 до 20:00 ч. (СЕТ)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2(за свързване с Министерство на здравеопазването). Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
+    <string name="submission_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Обадете се на горещата линия и поискайте ТАН код"</string>
