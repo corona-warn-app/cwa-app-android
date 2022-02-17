@@ -117,7 +117,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        val certificateContainer: CertificateProvider.CertificateContainer = mockk{
+        val certificateContainer: CertificateProvider.CertificateContainer = mockk {
             every { recoveryCwaCertificates } returns rcSet
             every { testCwaCertificates } returns tcSet
             every { vaccinationCwaCertificates } returns vcSet
