@@ -13,7 +13,7 @@ class DccWalletInfoCleaner @Inject constructor(
 
     suspend fun clean() {
         val persons = personCertificatesProvider.personCertificates.first()
-        val personGroupKeys = persons.mapNotNull { it.personIdentifier?.groupingKey } // TODO: Don't use just grouping key comparasion
+        val personGroupKeys = persons.mapNotNull { it.personIdentifier?.groupingKey }
         val dccWalletGroupKeys = dccWalletInfoRepository.personWallets.first().map { it.personGroupKey }
         val idsToClean = dccWalletGroupKeys subtract personGroupKeys
         Timber.d("Cleaning DccWalletInfo for [%d] persons", idsToClean.size)
