@@ -44,6 +44,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
                 dateOfBirth = birthDateData.value,
                 isDccConsentGiven = dccConsent
             )
+            is CoronaTestQRCode.RapidPCR -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
             is CoronaTestQRCode.RapidAntigen -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
             else -> testRegistrationRequest
         }
