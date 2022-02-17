@@ -138,7 +138,7 @@ class CWAConfigMapperTest : BaseTest() {
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe false
             isUnencryptedCheckInsEnabled shouldBe true
-            admissionScenariosDisabled shouldBe true
+            admissionScenariosEnabled shouldBe false
         }
     }
 
@@ -151,7 +151,7 @@ class CWAConfigMapperTest : BaseTest() {
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe true
             isUnencryptedCheckInsEnabled shouldBe false
-            admissionScenariosDisabled shouldBe false
+            admissionScenariosEnabled shouldBe true
         }
     }
 

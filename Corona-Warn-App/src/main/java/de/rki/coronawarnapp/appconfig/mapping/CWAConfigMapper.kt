@@ -20,7 +20,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
             dccPersonCountMax = rawConfig.dccPersonCountMax(),
             dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
-            admissionScenariosEnabled = rawConfig.dccAdmissionCheckScenariosEnabled()
+            admissionScenariosEnabled = !rawConfig.dccAdmissionCheckScenariosDisabled()
         )
     }
 
@@ -85,7 +85,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
-    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosEnabled() = findBoolean(
+    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled() = findBoolean(
         labelValue = "dcc-admission-check-scenarios-disabled",
         defaultValue = DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
     )
@@ -124,10 +124,9 @@ fun ApplicationConfigurationAndroid.findBoolean(labelValue: String, defaultValue
             ?.value
 
         return when (value) {
-            null -> defaultValue
-            0 -> false
-            1 -> true
-            else -> defaultValue
+            null -> defaultValue // no item found
+            1 -> true // found item has value '1'
+            else -> defaultValue // found item has value different to '1'
         }
     } catch (e: Exception) {
         Timber.e(e, "Failed to find `%s` from %s", labelValue, this)
