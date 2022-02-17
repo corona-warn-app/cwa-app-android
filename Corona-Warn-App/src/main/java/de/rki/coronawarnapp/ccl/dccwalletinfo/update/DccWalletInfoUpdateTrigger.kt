@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
@@ -23,8 +21,6 @@ import javax.inject.Singleton
 @Singleton
 class DccWalletInfoUpdateTrigger @Inject constructor(
     private val taskController: TaskController,
-    private val cclSettings: CCLSettings,
-    private val appConfigProvider: AppConfigProvider,
     certificateProvider: CertificateProvider,
     @AppScope appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider
@@ -41,7 +37,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
             .launchIn(scope = appScope + dispatcherProvider.IO)
     }
 
-    suspend fun triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged: Boolean = false) {
+    fun triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged: Boolean = false) {
         Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterConfigUpdate()")
         taskController.submit(
             DefaultTaskRequest(
@@ -56,7 +52,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         )
     }
 
-    fun triggerDccWalletInfoUpdateAfterCertificateChange() {
+    private fun triggerDccWalletInfoUpdateAfterCertificateChange() {
         Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterCertificateChange()")
         taskController.submit(
             DefaultTaskRequest(
