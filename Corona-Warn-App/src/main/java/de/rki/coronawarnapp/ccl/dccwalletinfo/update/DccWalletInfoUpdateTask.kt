@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.task.TaskFactory.Config.CollisionBehavior
 import de.rki.coronawarnapp.task.TaskFactory.Config.ErrorHandling
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Started
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.joda.time.Duration
@@ -38,7 +37,6 @@ class DccWalletInfoUpdateTask @Inject constructor(
         }
 
         dccWalletInfoCleaner.clean()
-
         return object : Task.Result {}
     }
 
