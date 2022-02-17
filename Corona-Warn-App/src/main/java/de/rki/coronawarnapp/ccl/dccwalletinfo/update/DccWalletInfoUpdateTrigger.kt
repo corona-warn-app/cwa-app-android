@@ -29,7 +29,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
 ) {
 
     init {
-        certificateProvider.allCertificates
+        certificateProvider.certificateContainer
             .onEach {
                 Timber.tag(TAG).e("Certificates changed!")
                 triggerDccWalletInfoUpdateAfterCertificateChange()
