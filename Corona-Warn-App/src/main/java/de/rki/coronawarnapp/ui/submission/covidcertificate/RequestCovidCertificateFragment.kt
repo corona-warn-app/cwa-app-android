@@ -16,7 +16,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
@@ -44,7 +44,7 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
-            val isPCR = args.testRegistrationRequest.type == CoronaTest.Type.PCR
+            val isPCR = args.testRegistrationRequest is CoronaTestQRCode.PCR
             birthDateGroup.isVisible = isPCR
             privacyCard.pcrExtraBullet.isVisible = isPCR
 

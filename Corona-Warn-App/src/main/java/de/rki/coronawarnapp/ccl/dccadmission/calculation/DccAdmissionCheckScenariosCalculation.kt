@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.ccl.configuration.model.CclInputParameters
 import de.rki.coronawarnapp.ccl.configuration.model.getDefaultInputParameters
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenariosInput
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SystemTime
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class DccAdmissionCheckScenariosCalculation @Inject constructor(
     @BaseJackson private val mapper: ObjectMapper,
-    private val cclJsonFunctions: CCLJsonFunctions,
+    private val cclJsonFunctions: CclJsonFunctions,
     private val dispatcherProvider: DispatcherProvider
 ) {
 

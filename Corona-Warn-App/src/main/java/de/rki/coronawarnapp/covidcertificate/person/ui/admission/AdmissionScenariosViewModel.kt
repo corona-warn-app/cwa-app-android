@@ -3,12 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
-import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.first
@@ -16,10 +14,10 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class AdmissionScenariosViewModel @AssistedInject constructor(
-    private val format: CCLTextFormatter,
+    private val format: CclTextFormatter,
     private val admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
-    private val cclSettings: CCLSettings,
+    private val cclSettings: CclSettings,
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
 ) : CWAViewModel() {
 
