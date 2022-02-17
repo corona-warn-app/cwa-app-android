@@ -43,38 +43,24 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
             DefaultTaskRequest(
                 type = DccWalletInfoUpdateTask::class,
                 arguments = DccWalletInfoUpdateTask.Arguments(
-                    dccWalletInfoUpdateTriggerType = TriggeredAfterConfigUpdate(
+                    TriggeredAfterConfigUpdate(
                         configurationChanged
-                    ),
-                    admissionScenarioId = getAdmissionScenarioId()
+                    )
                 ),
                 originTag = TAG
             )
         )
     }
 
-    suspend fun triggerDccWalletInfoUpdateAfterCertificateChange() {
+    fun triggerDccWalletInfoUpdateAfterCertificateChange() {
         Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterCertificateChange()")
         taskController.submit(
             DefaultTaskRequest(
                 type = DccWalletInfoUpdateTask::class,
-                arguments = DccWalletInfoUpdateTask.Arguments(
-                    dccWalletInfoUpdateTriggerType = TriggeredAfterCertificateChange,
-                    admissionScenarioId = getAdmissionScenarioId()
-                ),
+                arguments = DccWalletInfoUpdateTask.Arguments(TriggeredAfterCertificateChange),
                 originTag = TAG
             )
         )
-    }
-
-    private suspend fun getAdmissionScenarioId(): String {
-        val enabled = runCatching {
-            appConfigProvider.getAppConfig().admissionScenariosEnabled
-        }.onFailure {
-            Timber.d(it, "getAppConfig().admissionScenariosEnabled failed")
-        }.getOrElse { true }
-
-        return if (enabled) cclSettings.getAdmissionScenarioId() else ""
     }
 
     companion object {
