@@ -260,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen eve gidin ve evde kalın ve beraber yaşadığınız kişiler haricinde başka insanlarla karşılaşmaktan kaçının."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Herhangi bir sorunuz varsa, lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında 2\'ye basın (Sağlık Bakanlığı hizmet noktası için). Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Ellerinizi düzenli olarak 20 saniye sabunla yıkayın."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -742,7 +742,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Herhangi bir sorunuz varsa, lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında 2\'ye basın (Sağlık Bakanlığı hizmet noktası için). Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
+    <string name="information_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Bir erkek kulaklıkla telefon görüşmesi yapıyor."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -1267,7 +1267,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:\nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\nGünlük (hafta sonları dahil) 7:00 - 20:00 (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Herhangi bir sorunuz varsa, lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında 2\'ye basın (Sağlık Bakanlığı hizmet noktası için). Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
+    <string name="submission_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Yardım hattını arayın ve TAN talep edin"</string>

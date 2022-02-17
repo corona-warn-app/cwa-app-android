@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
-import de.rki.coronawarnapp.ccl.dccadmission.model.storage.DccAdmissionCheckScenariosRepository
+import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -37,7 +37,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(mockk())
-        every { configData.admissionScenariosDisabled } returns false
+        every { configData.admissionScenariosEnabled } returns true
         every { appConfigProvider.currentConfig } returns flowOf(configData)
         every { cclSettings.admissionScenarioId } returns flowOf("DE")
         every { admissionCheckScenariosRepository.admissionCheckScenarios } returns flowOf(dccAdmissionCheckScenarios)
@@ -54,7 +54,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
 
     @Test
     fun `admission tile is not visible when config flag is disabled`() = runBlockingTest {
-        every { configData.admissionScenariosDisabled } returns true
+        every { configData.admissionScenariosEnabled } returns false
         instance().run {
             admissionTile.first() shouldBe AdmissionTileProvider.AdmissionTile(
                 visible = false,

@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 
 fun PCRCoronaTest?.toSubmissionState() = when {
     this == null -> NoTest
-    isSubmitted -> SubmissionStatePCR.SubmissionDone(testRegisteredAt = registeredAt)
+    isSubmitted && isViewed -> SubmissionStatePCR.SubmissionDone(testRegisteredAt = registeredAt)
     isProcessing -> FetchingResult
     lastError is BadRequestException -> TestInvalid
     else -> when (state) {

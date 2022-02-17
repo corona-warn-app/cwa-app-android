@@ -20,7 +20,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
             dccPersonCountMax = rawConfig.dccPersonCountMax(),
             dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
-            admissionScenariosDisabled = rawConfig.dccAdmissionCheckScenariosDisabled()
+            admissionScenariosEnabled = rawConfig.dccAdmissionCheckScenariosEnabled()
         )
     }
 
@@ -85,7 +85,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
-    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled() = findBoolean(
+    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosEnabled() = findBoolean(
         labelValue = "dcc-admission-check-scenarios-disabled",
         defaultValue = DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
     )
@@ -99,7 +99,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         override val validationServiceMinVersion: Int,
         override val dccPersonWarnThreshold: Int,
         override val dccPersonCountMax: Int,
-        override val admissionScenariosDisabled: Boolean,
+        override val admissionScenariosEnabled: Boolean,
     ) : CWAConfig
 
     companion object {
