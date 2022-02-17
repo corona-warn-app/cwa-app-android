@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.pcrQrCode3
+import de.rki.coronawarnapp.coronatest.qrcode.raPcrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode1
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode2
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode3
@@ -13,7 +14,9 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -56,15 +59,22 @@ class QrCodeValidatorTest : BaseTest() {
 
     @Test
     fun `validator uses recognises PCR QrCode`() = runBlockingTest {
-        qrCodeValidator.validate(pcrQrCode1).apply {
-            this as CoronaTestQRCode
-        }
+        qrCodeValidator.validate(pcrQrCode1) should beInstanceOf(CoronaTestQRCode.PCR::class)
     }
 
     @Test
     fun `validator uses recognises RAT QrCode`() = runBlockingTest {
-        qrCodeValidator.validate(raQrCode3).apply {
-            this as CoronaTestQRCode
+        qrCodeValidator.validate(raQrCode3).also {
+            it should beInstanceOf(CoronaTestQRCode.Rapid::class)
+            it should beInstanceOf(CoronaTestQRCode.RapidAntigen::class)
+        }
+    }
+
+    @Test
+    fun `validator uses recognises Rapid PCR QrCode`() = runBlockingTest {
+        qrCodeValidator.validate(raPcrCode1).also {
+            it should beInstanceOf(CoronaTestQRCode.Rapid::class)
+            it should beInstanceOf(CoronaTestQRCode.RapidPCR::class)
         }
     }
 
@@ -80,8 +90,11 @@ class QrCodeValidatorTest : BaseTest() {
         (qrCodeValidator.validate(pcrQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
         (qrCodeValidator.validate(pcrQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
         (qrCodeValidator.validate(pcrQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
+
         (qrCodeValidator.validate(raQrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         (qrCodeValidator.validate(raQrCode2) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
         (qrCodeValidator.validate(raQrCode3) as CoronaTestQRCode).type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+
+        (qrCodeValidator.validate(raPcrCode1) as CoronaTestQRCode).type shouldBe CoronaTest.Type.PCR
     }
 }

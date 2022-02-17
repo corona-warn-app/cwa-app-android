@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
 @Reusable
-class RatQrCodeCensor @Inject constructor() : BugCensor {
+class RapidQrCodeCensor @Inject constructor() : BugCensor {
 
     private val dayOfBirthFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
 
@@ -21,30 +21,33 @@ class RatQrCodeCensor @Inject constructor() : BugCensor {
         var newMessage = CensorContainer(message)
 
         with(dataToCensor) {
-            newMessage = newMessage.censor(rawString, "RatQrCode/ScannedRawString")
+            newMessage = newMessage.censor(rawString, createReplacement(input = "ScannedRawString"))
 
             newMessage = newMessage.censor(hash, PLACEHOLDER + hash.takeLast(4))
 
             withValidName(firstName) { firstName ->
-                newMessage = newMessage.censor(firstName, "RATest/FirstName")
+                newMessage = newMessage.censor(firstName, createReplacement(input = "FirstName"))
             }
 
             withValidName(lastName) { lastName ->
-                newMessage = newMessage.censor(lastName, "RATest/LastName")
+                newMessage = newMessage.censor(lastName, createReplacement(input = "LastName"))
             }
 
             val dateOfBirthString = dateOfBirth?.toString(dayOfBirthFormatter) ?: return@with
 
-            newMessage = newMessage.censor(dateOfBirthString, "RATest/DateOfBirth")
+            newMessage = newMessage.censor(dateOfBirthString, createReplacement(input = "DateOfBirth"))
         }
 
         return newMessage.nullIfEmpty()
     }
 
+    private fun createReplacement(input: String): String = "$PLACEHOLDER_TYPE/$input"
+
     companion object {
         var dataToCensor: CensorData? = null
 
         private const val PLACEHOLDER = "SHA256HASH-ENDING-WITH-"
+        private const val PLACEHOLDER_TYPE = "RapidTest"
     }
 
     data class CensorData(
