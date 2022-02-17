@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ccl.dccadmission.storage
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @Suppress("BlockingMethodInNonBlockingContext")
 class DccAdmissionCheckScenariosRepository @Inject constructor(
-    private val cclSettings: CCLSettings,
+    private val cclSettings: CclSettings,
     @BaseJackson private val mapper: ObjectMapper
 ) {
 
