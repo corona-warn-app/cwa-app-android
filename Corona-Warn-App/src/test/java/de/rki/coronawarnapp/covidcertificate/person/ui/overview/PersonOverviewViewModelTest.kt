@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
@@ -45,7 +44,6 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
-    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
     @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
     @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
     @MockK lateinit var admissionTileProvider: AdmissionTileProvider
@@ -70,7 +68,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
-        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
         every { admissionTileProvider.admissionTile } returns flowOf(
             AdmissionTileProvider.AdmissionTile(
                 visible = true,
@@ -89,8 +86,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             refreshCertificate(TestCertificateContainerId("Identifier"))
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
-
-        coVerify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
@@ -98,7 +93,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         instance.apply {
             refreshCertificate(TestCertificateContainerId("Identifier"))
         }
-        coVerify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
@@ -279,7 +273,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
-            dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
             format = CCLTextFormatter(cclJsonFunctions, mapper),
             admissionScenariosSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
