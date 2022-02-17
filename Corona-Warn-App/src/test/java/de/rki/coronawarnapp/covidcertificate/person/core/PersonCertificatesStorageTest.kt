@@ -32,7 +32,7 @@ class PersonCertificatesStorageTest : BaseTest() {
 
     private fun createInstance() = PersonCertificatesSettings(
         context = context,
-        gson = SerializationModule().baseGson()
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test

@@ -1,7 +1,8 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import androidx.annotation.VisibleForTesting
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.DOB_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
@@ -9,14 +10,15 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import timber.log.Timber
 
 data class CertificatePersonIdentifier(
-    @SerializedName("dateOfBirth") val dateOfBirthFormatted: String,
-    @SerializedName("familyNameStandardized") val lastNameStandardized: String,
-    @SerializedName("givenNameStandardized") val firstNameStandardized: String? = null,
+    @JsonProperty("dateOfBirth") val dateOfBirthFormatted: String,
+    @JsonProperty("familyNameStandardized") val lastNameStandardized: String,
+    @JsonProperty("givenNameStandardized") val firstNameStandardized: String? = null,
 ) {
 
+    //Lazy loading here because gson deserialization doesn't call initialization
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val sanitizedFamilyName: List<String> = lastNameStandardized.sanitizeName()
-    private val sanitizedGivenName: List<String> = firstNameStandardized?.sanitizeName() ?: emptyList()
+    @JsonIgnore val sanitizedFamilyName: List<String> = lastNameStandardized.sanitizeName()
+    @JsonIgnore private val sanitizedGivenName: List<String> = firstNameStandardized?.sanitizeName() ?: emptyList()
 
     /**
     Method shall decide whether the DGCs belongs the same holder.
@@ -50,6 +52,7 @@ data class CertificatePersonIdentifier(
     /**
      * Used internally to group and store the data related to this person.
      */
+    @get:JsonIgnore
     internal val groupingKey: String // String representation of Person Identifier
         get() {
             val lastName = sanitizedFamilyName.joinToString(separator = "<")
@@ -70,6 +73,7 @@ data class CertificatePersonIdentifier(
      * Can be used as external identifier for the data set representing this person.
      * e.g. pass this identifier as uri argument.
      */
+    @get:JsonIgnore
     val codeSHA256: String
         get() = this.groupingKey.toSHA256()
 
