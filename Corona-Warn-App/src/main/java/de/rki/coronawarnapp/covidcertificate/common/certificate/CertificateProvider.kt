@@ -2,8 +2,14 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -26,11 +32,11 @@ class CertificateProvider @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) {
 
-    val allCertificates: Flow<Set<CwaCovidCertificate>> = combine(
-        vcRepo.cwaCertificates,
-        tcRepo.cwaCertificates,
-        rcRepo.cwaCertificates
-    ) { vaccinations, tests, recoveries -> (vaccinations + tests + recoveries) }
+    val certificateContainer: Flow<CertificateContainer> = combine(
+        rcRepo.certificates,
+        tcRepo.certificates,
+        vcRepo.vaccinationInfos
+    ) { recoveries, tests, vaccinations -> CertificateContainer(recoveries, tests, vaccinations) }
         .conflate()
         .distinctUntilChanged()
         .shareLatest(scope = appScope + dispatcherProvider.IO)
@@ -40,7 +46,30 @@ class CertificateProvider @Inject constructor(
      * @throws [Exception] if certificate not found
      */
     suspend fun findCertificate(containerId: CertificateContainerId): CwaCovidCertificate {
-        val certificates = allCertificates.first()
+        val certificates = certificateContainer.first().allCwaCertificates
         return certificates.find { it.containerId == containerId }!! // Must be a certificate
+    }
+
+    data class CertificateContainer(
+        val recoveryCertificates: Set<RecoveryCertificateWrapper>,
+        val testCertificates: Set<TestCertificateWrapper>,
+        val vaccinationInfos: Set<VaccinatedPerson>
+    ) {
+
+        val recoveryCwaCertificates: Set<RecoveryCertificate> by lazy {
+            recoveryCertificates.map { it.recoveryCertificate }.toSet()
+        }
+
+        val testCwaCertificates: Set<TestCertificate> by lazy {
+            testCertificates.mapNotNull { it.testCertificate }.toSet()
+        }
+
+        val vaccinationCwaCertificates: Set<VaccinationCertificate> by lazy {
+            vaccinationInfos.flatMap { it.vaccinationCertificates }.toSet()
+        }
+
+        val allCwaCertificates by lazy {
+            recoveryCwaCertificates + testCwaCertificates + vaccinationCwaCertificates
+        }
     }
 }
