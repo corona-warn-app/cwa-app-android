@@ -91,8 +91,8 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { recoveryCwaCertificates } returns rcSet
         every { allCwaCertificates } returns (
             recoveryCwaCertificates +
-            testCwaCertificates +
-            vaccinationCwaCertificates
+                testCwaCertificates +
+                vaccinationCwaCertificates
             )
     }
 
