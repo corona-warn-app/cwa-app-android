@@ -89,7 +89,11 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { vaccinationCwaCertificates } returns vcSet
         every { testCwaCertificates } returns tcSet
         every { recoveryCwaCertificates } returns rcSet
-        every { allCwaCertificates } returns (recoveryCwaCertificates + testCwaCertificates + vaccinationCwaCertificates)
+        every { allCwaCertificates } returns (
+            recoveryCwaCertificates +
+            testCwaCertificates +
+            vaccinationCwaCertificates
+            )
     }
 
     private val certificateContainerFlow = MutableStateFlow(certificateContainer)
