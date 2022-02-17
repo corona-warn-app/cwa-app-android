@@ -6,7 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -46,7 +46,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
-    private val format: CCLTextFormatter,
+    private val format: CclTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     private val colorShadeData = MutableLiveData(colorShade)

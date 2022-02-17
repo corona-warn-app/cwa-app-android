@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -47,7 +47,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
     @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
-    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var admissionTileProvider: AdmissionTileProvider
     private val mapper = SerializationModule.jacksonBaseMapper
 
@@ -280,7 +280,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
-            format = CCLTextFormatter(cclJsonFunctions, mapper),
+            format = CclTextFormatter(cclJsonFunctions, mapper),
             admissionScenariosSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider
