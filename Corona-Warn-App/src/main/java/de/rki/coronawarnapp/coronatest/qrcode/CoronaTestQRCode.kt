@@ -38,33 +38,58 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
             get() = qrCodeGUID
     }
 
+    abstract class Rapid : CoronaTestQRCode() {
+        abstract val hash: RapidHash
+        abstract val createdAt: Instant
+        abstract val firstName: String?
+        abstract val lastName: String?
+        abstract val testId: String?
+        abstract val salt: String?
+
+        override val identifier: String
+            get() = "qrcode-${type.raw}-$hash"
+
+        override val registrationIdentifier: String
+            // We hash in the VerificationServer.retrieveRegistrationToken which was needed anyway for PCR
+            get() = hash
+    }
+
     @Parcelize
     data class RapidAntigen(
         override val dateOfBirth: LocalDate? = null,
         override val isDccConsentGiven: Boolean = false,
         override val isDccSupportedByPoc: Boolean = false,
         override val rawQrCode: String,
-        val hash: RapidAntigenHash,
-        val createdAt: Instant,
-        val firstName: String? = null,
-        val lastName: String? = null,
-        val testId: String? = null,
-        val salt: String? = null,
-    ) : CoronaTestQRCode() {
-
+        override val hash: RapidAntigenHash,
+        override val createdAt: Instant,
+        override val firstName: String? = null,
+        override val lastName: String? = null,
+        override val testId: String? = null,
+        override val salt: String? = null,
+    ) : Rapid() {
         @IgnoredOnParcel
         override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+    }
 
+    @Parcelize
+    data class RapidPCR(
+        override val dateOfBirth: LocalDate? = null,
+        override val isDccConsentGiven: Boolean = false,
+        override val isDccSupportedByPoc: Boolean = false,
+        override val rawQrCode: String,
+        override val hash: RapidPCRHash,
+        override val createdAt: Instant,
+        override val firstName: String? = null,
+        override val lastName: String? = null,
+        override val testId: String? = null,
+        override val salt: String? = null,
+    ) : Rapid() {
         @IgnoredOnParcel
-        override val identifier: String
-            get() = "qrcode-${type.raw}-$hash"
-
-        @IgnoredOnParcel
-        override val registrationIdentifier: String
-            // We hash in the VerificationServer.retrieveRegistrationToken which was needed anyway for PCR
-            get() = hash
+        override val type: CoronaTest.Type = CoronaTest.Type.PCR
     }
 }
 
 typealias CoronaTestGUID = String
+typealias RapidHash = String
 typealias RapidAntigenHash = String
+typealias RapidPCRHash = String
