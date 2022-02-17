@@ -101,12 +101,6 @@ data class RecoveryCertificateContainer(
             override val fullNameFormatted: String
                 get() = certificate.nameData.fullNameFormatted
 
-            override val sanitizedFamilyName: List<String>
-                get() = certificate.nameData.sanitizedFamilyName
-
-            override val sanitizedGivenName: List<String>
-                get() = certificate.nameData.sanitizedGivenName
-
             override val fullNameStandardizedFormatted: String
                 get() = certificate.nameData.fullNameStandardizedFormatted
 

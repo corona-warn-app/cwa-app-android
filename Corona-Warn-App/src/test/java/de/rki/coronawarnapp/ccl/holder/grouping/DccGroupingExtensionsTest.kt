@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.util.dcc.groupCertificatesByPerson
-import de.rki.coronawarnapp.util.dcc.sanitizeName
+import de.rki.coronawarnapp.util.dcc.groupByPerson
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -30,7 +30,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certC1
         )
 
-        val result = certificatesList.toSet().groupCertificatesByPerson()
+        val result = certificatesList.toSet().groupByPerson()
 
         result.count() shouldBe 3
 
@@ -61,7 +61,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
     fun `empty grouping check`() {
         val certificatesList = emptySet<CwaCovidCertificate>()
 
-        val result = certificatesList.toSet().groupCertificatesByPerson()
+        val result = certificatesList.toSet().groupByPerson()
 
         result.count() shouldBe 0
     }
@@ -82,7 +82,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certD1,
         )
 
-        val result = certificatesList.shuffled().toSet().groupCertificatesByPerson()
+        val result = certificatesList.shuffled().toSet().groupByPerson()
 
         result.count() shouldBe 1
 
@@ -103,149 +103,197 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
 
     // Group A
     private val certA1: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "DR<MARIO".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "DR<MARIO",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certA2: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "POLO".sanitizeName()
-        every { sanitizedFamilyName } returns "DR<MARIO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "POLO",
+            lastNameStandardized = "DR<MARIO"
+        )
     }
 
     private val certA3: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "POLO".sanitizeName()
-        every { sanitizedFamilyName } returns "MARIO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARIO",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certA4: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "MARIO".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "POLO",
+            lastNameStandardized = "MARIO"
+        )
     }
 
     private val certA5: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "MARIO<APPLE".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARIO<APPLE",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certA6: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "APPLE".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "APPLE",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certA7: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "POLO".sanitizeName()
-        every { sanitizedFamilyName } returns "APPLE".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "POLO",
+            lastNameStandardized = "APPLE"
+        )
     }
 
     private val certA8: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "APPLE<SAM".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "APPLE<SAM",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certA9: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "SAM".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "SAM",
+            lastNameStandardized = "POLO"
+        )
     }
 
     // Group B
     private val certB1: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "MARK".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARK",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certB2: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "MARK<CARL".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARK<CARL",
+            lastNameStandardized = "POLO"
+        )
     }
 
     private val certB3: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "MARK<CARL<THE<GREAT".sanitizeName()
-        every { sanitizedFamilyName } returns "POLO".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "MARK<CARL<THE<GREAT",
+            lastNameStandardized = "POLO"
+        )
     }
 
     // Group C
     private val certC1: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1980-02-03"
-        every { sanitizedGivenName } returns "DJ<ALEX".sanitizeName()
-        every { sanitizedFamilyName } returns "BOOM".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1980-02-03",
+            firstNameStandardized = "DJ<ALEX",
+            lastNameStandardized = "BOOM"
+        )
     }
 
     // Group D
     private val certD1: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "A".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "A",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD2: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "B".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "B",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD3: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "C".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "C",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD5: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "D".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "D",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD6: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "E".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "E",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD7: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "F".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "F",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD8: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "A B X".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "A B X",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD9: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "C D Y".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "C D Y",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD10: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "E F Z".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "E F Z",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD11: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "X Y W".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "X Y W",
+            lastNameStandardized = "X"
+        )
     }
 
     private val certD12: CwaCovidCertificate = mockk {
-        every { dateOfBirthFormatted } returns "1988-01-01"
-        every { sanitizedGivenName } returns "Z W".sanitizeName()
-        every { sanitizedFamilyName } returns "X".sanitizeName()
+        every { personIdentifier } returns CertificatePersonIdentifier(
+            dateOfBirthFormatted = "1988-01-01",
+            firstNameStandardized = "Z W",
+            lastNameStandardized = "X"
+        )
     }
 }

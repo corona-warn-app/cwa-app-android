@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.dcc.firstGroupWithPerson
+import de.rki.coronawarnapp.util.dcc.groupByPerson
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -40,32 +42,33 @@ class PersonCertificatesProvider @Inject constructor(
         dccWalletInfoRepository.personWallets
     ) { vaccPersons, tests, recoveries, cwaUser, personWallets ->
 
-        val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
+        val personWalletsGroup = personWallets.associateBy { it.personGroupKey } // TODO: does it matter?
         val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
         val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
 
-        val personCertificatesMap = allCerts.groupBy {
-            it.personIdentifier
-        }
+        val allCertsByPerson = allCerts.groupByPerson()
 
-        if (!personCertificatesMap.containsKey(cwaUser)) {
+        if (allCertsByPerson.firstGroupWithPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
             personCertificatesSettings.currentCwaUser.update { null }
         }
 
-        personCertificatesMap.entries.map { (personIdentifier, certs) ->
-            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
+        allCertsByPerson.map { certs ->
+            val firstPersonIdentifier = certs.first().personIdentifier
+            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", firstPersonIdentifier, certs.size)
 
-            val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
+            val dccWalletInfo =
+                personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo // TODO: don't compare like this
 
+            // TODO: booster badge & vaccination repository should be updated in (EXPOSUREAPP-11724)
             val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
-                vaccPersons.boosterBadgeCount(personIdentifier, dccWalletInfo?.boosterNotification)
+                vaccPersons.boosterBadgeCount(firstPersonIdentifier, dccWalletInfo?.boosterNotification)
 
-            Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
+            Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
 
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
-                isCwaUser = personIdentifier == cwaUser,
+                isCwaUser = certs.any { it.personIdentifier.isTheSamePerson(cwaUser) }, // TODO: this could lead to multiple PersonCertificates where isCwaUser == true
                 badgeCount = badgeCount,
                 dccWalletInfo = dccWalletInfo
             )

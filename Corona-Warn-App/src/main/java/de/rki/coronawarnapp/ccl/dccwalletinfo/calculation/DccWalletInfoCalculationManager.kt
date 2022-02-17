@@ -55,7 +55,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
      */
     suspend fun triggerCalculationForPerson(personIdentifier: CertificatePersonIdentifier) {
         personCertificatesProvider.personCertificates.first()
-            .find { it.personIdentifier == personIdentifier }
+            .find { it.isTheSamePerson(personIdentifier) }
             ?.let {
                 initCalculation()
                 updateWalletInfoForPerson(it)

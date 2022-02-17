@@ -1,12 +1,13 @@
 package de.rki.coronawarnapp.util.dcc
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 
 /**
 The operation shall group set of DGCs irrespective of their type
 (e.g. Vaccination Certificate, Test Certificate, or Recovery Certificate) by the same holder.
  */
-fun Set<CwaCovidCertificate>.groupCertificatesByPerson(): List<Set<CwaCovidCertificate>> {
+fun Set<CwaCovidCertificate>.groupByPerson(): List<Set<CwaCovidCertificate>> {
     var groups = map { setOf(it) }
     var newGroups: List<Set<CwaCovidCertificate>> = groups
     do {
@@ -14,38 +15,6 @@ fun Set<CwaCovidCertificate>.groupCertificatesByPerson(): List<Set<CwaCovidCerti
         newGroups = dgcGroupingIteration(groups)
     } while (newGroups != groups)
     return newGroups
-}
-
-/**
-Method shall decide whether the DGCs belongs the same holder.
-Two DCCs shall be considered as belonging to the same holder, if:
-
-- the sanitized `dob` attributes are the same strings, and
-- one of:
- - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one element,
- and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least one element
- or both are empty sets (`gnt` is an optional field)
- - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one element,
- and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least one element
- */
-fun belongToSamePerson(certA: CwaCovidCertificate, certB: CwaCovidCertificate): Boolean {
-    if (certA.dateOfBirthFormatted.trim() != certB.dateOfBirthFormatted.trim()) return false
-
-    if (certA.sanitizedFamilyName.intersect(certB.sanitizedFamilyName).isNotEmpty()) {
-        if (certA.sanitizedGivenName.intersect(certB.sanitizedGivenName)
-            .isNotEmpty() || (certA.sanitizedGivenName.isEmpty() && certB.sanitizedGivenName.isEmpty())
-        ) {
-            return true
-        }
-    }
-
-    if (certA.sanitizedFamilyName.intersect(certB.sanitizedGivenName).isNotEmpty() &&
-        certA.sanitizedGivenName.intersect(certB.sanitizedFamilyName).isNotEmpty()
-    ) {
-        return true
-    }
-
-    return false
 }
 
 /**
@@ -90,8 +59,20 @@ private fun List<Set<CwaCovidCertificate>>.removeDuplicates(): List<Set<CwaCovid
 private fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidCertificate>): Boolean {
     forEach { certificateA ->
         certificates.forEach { certificateB ->
-            if (belongToSamePerson(certificateA, certificateB)) return true
+            if (certificateA.personIdentifier.isTheSamePerson(certificateB)) return true
         }
     }
     return false
+}
+
+fun List<Set<CwaCovidCertificate>>.firstGroupWithPerson(personIdentifier: CertificatePersonIdentifier?): Set<CwaCovidCertificate> {
+    if (personIdentifier == null) return emptySet()
+    forEach { certificates ->
+        certificates.forEach { certificate ->
+            if (personIdentifier.isTheSamePerson(certificate)) {
+                return certificates
+            }
+        }
+    }
+    return emptySet()
 }

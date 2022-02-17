@@ -1,8 +1,7 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.util.dcc.belongToSamePerson
-import de.rki.coronawarnapp.util.dcc.sanitizeName
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -17,17 +16,21 @@ class DccHolderComparisonTest : BaseTestInstrumentation() {
     fun allTestCases(testCase: TestCase) {
 
         val certA: CwaCovidCertificate = mockk {
-            every { dateOfBirthFormatted } returns testCase.holderA.dateOfBirth
-            every { sanitizedGivenName } returns testCase.holderA.name.givenName.sanitizeName()
-            every { sanitizedFamilyName } returns testCase.holderA.name.familyName.sanitizeName()
+            every { personIdentifier } returns CertificatePersonIdentifier(
+                dateOfBirthFormatted = testCase.holderA.dateOfBirth,
+                firstNameStandardized = testCase.holderA.name.givenName,
+                lastNameStandardized = testCase.holderA.name.familyName
+            )
         }
 
         val certB: CwaCovidCertificate = mockk {
-            every { dateOfBirthFormatted } returns testCase.holderB.dateOfBirth
-            every { sanitizedGivenName } returns testCase.holderB.name.givenName.sanitizeName()
-            every { sanitizedFamilyName } returns testCase.holderB.name.familyName.sanitizeName()
+            every { personIdentifier } returns CertificatePersonIdentifier(
+                dateOfBirthFormatted = testCase.holderB.dateOfBirth,
+                firstNameStandardized = testCase.holderB.name.givenName,
+                lastNameStandardized = testCase.holderB.name.familyName
+            )
         }
 
-        belongToSamePerson(certA, certB) shouldBe testCase.isEqual
+        certA.personIdentifier.isTheSamePerson(certB) shouldBe testCase.isEqual
     }
 }

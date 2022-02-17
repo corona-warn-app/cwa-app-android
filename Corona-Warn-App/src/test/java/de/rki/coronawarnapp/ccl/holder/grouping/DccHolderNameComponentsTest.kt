@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ccl.holder.grouping
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import de.rki.coronawarnapp.util.dcc.sanitizeName
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource
@@ -12,7 +12,7 @@ class DccHolderNameComponentsTest : BaseTestInstrumentation() {
     @ParameterizedTest(name = "{index}: {0}")
     @ArgumentsSource(DccHolderNameComponentsTestCaseProvider::class)
     fun allTestCases(testCase: TestCaseName) {
-        testCase.name.sanitizeName() shouldBe testCase.expectedResult
+        CertificatePersonIdentifier("", testCase.name).sanitizedFamilyName shouldBe testCase.expectedResult
     }
 }
 

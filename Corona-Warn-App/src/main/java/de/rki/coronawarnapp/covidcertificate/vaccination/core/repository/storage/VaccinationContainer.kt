@@ -125,12 +125,6 @@ data class VaccinationContainer internal constructor(
         override val fullNameStandardizedFormatted: String
             get() = certificate.nameData.fullNameStandardizedFormatted
 
-        override val sanitizedFamilyName: List<String>
-            get() = certificate.nameData.sanitizedFamilyName
-
-        override val sanitizedGivenName: List<String>
-            get() = certificate.nameData.sanitizedGivenName
-
         override val dateOfBirthFormatted: String
             get() = certificate.dateOfBirthFormatted
 
