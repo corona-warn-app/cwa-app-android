@@ -26,7 +26,6 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
     override suspend fun run(arguments: Task.Arguments): Task.Result {
         arguments as Arguments
-        delay(arguments.startDelay) // To capture latest data before calculation
         when (val trigger = arguments.dccWalletInfoUpdateTriggerType) {
             is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
                 configurationChanged = trigger.configurationChanged,
@@ -47,7 +46,6 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
     data class Arguments(
         val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType,
-        val startDelay: Long = 1_000L,
         val admissionScenarioId: String = ""
     ) : Task.Arguments
 

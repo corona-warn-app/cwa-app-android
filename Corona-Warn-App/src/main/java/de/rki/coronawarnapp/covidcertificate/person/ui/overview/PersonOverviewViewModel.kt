@@ -39,7 +39,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
     private val expirationNotificationService: DccExpirationNotificationService,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     private val format: CCLTextFormatter,
     private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
 ) : CWAViewModel(dispatcherProvider) {
@@ -127,9 +126,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         val refreshResults = testCertificateRepository.refresh(containerId)
         val error = refreshResults.mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
-        if (refreshResults.any { it.error == null }) {
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
-        }
     }
 
     fun checkExpiration() = launch(scope = appScope) {
