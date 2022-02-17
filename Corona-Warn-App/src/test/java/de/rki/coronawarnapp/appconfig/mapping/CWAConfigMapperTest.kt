@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockkObject
-import io.mockk.spyk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -62,61 +61,7 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `findBoolean() should return true on 1`() {
-        val rawConfig = buildConfigWithAppFeatures(
-            AppFeature.newBuilder().apply {
-                label = "labelValue"
-                value = 1
-            }
-        )
-        rawConfig.findBoolean(
-            labelValue = "labelValue",
-            defaultValue = false
-        ) shouldBe true
-    }
-
-    @Test
-    fun `findBoolean() should return default value on integers other than 1`() {
-        val rawConfigWithItemValue0 = buildConfigWithAppFeatures(
-            AppFeature.newBuilder().apply {
-                label = "labelValue"
-                value = 0
-            }
-        )
-        rawConfigWithItemValue0.findBoolean(
-            labelValue = "labelValue",
-            defaultValue = true
-        ) shouldBe true
-
-        val rawConfigWithItemValue2 = buildConfigWithAppFeatures(
-            AppFeature.newBuilder().apply {
-                label = "labelValue"
-                value = 2
-            }
-        )
-        rawConfigWithItemValue2.findBoolean(
-            labelValue = "labelValue",
-            defaultValue = true
-        ) shouldBe true
-    }
-
-    @Test
-    fun `findBoolean() should return default value on exception`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                spyk(AppFeatures.newBuilder().build()).apply {
-                    every { appFeaturesCount } throws IllegalArgumentException()
-                }
-            )
-            .build()
-        rawConfig.findBoolean(
-            labelValue = "labelValue",
-            defaultValue = true
-        ) shouldBe true
-    }
-
-    @Test
-    fun `test boolean app features`() {
+    fun `test boolean app config flags - should return true on 1`() {
         val rawConfig = buildConfigWithAppFeatures(
             AppFeature.newBuilder().apply {
                 label = "disable-device-time-check"
@@ -140,9 +85,57 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `test boolean app features default values`() {
+    fun `test boolean app config flags - should return default value on 0`() {
         val rawConfig = buildConfigWithAppFeatures(
-            // fields not available, default values should be used
+            AppFeature.newBuilder().apply {
+                label = "disable-device-time-check"
+                value = 0
+            },
+            AppFeature.newBuilder().apply {
+                label = "unencrypted-checkins-enabled"
+                value = 0
+            },
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-disabled"
+                value = 0
+            },
+        )
+
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+            admissionScenariosEnabled shouldBe true
+        }
+    }
+
+    @Test
+    fun `test boolean app config flags should return default value on invalid integer value`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "disable-device-time-check"
+                value = 2
+            },
+            AppFeature.newBuilder().apply {
+                label = "unencrypted-checkins-enabled"
+                value = 99
+            },
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-disabled"
+                value = -1
+            },
+        )
+
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+            admissionScenariosEnabled shouldBe true
+        }
+    }
+
+    @Test
+    fun `test boolean app config flags should return default value if flag is not available`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            // flags not available, default values should be used
         )
 
         createInstance().map(rawConfig).apply {
