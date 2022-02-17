@@ -41,7 +41,6 @@ class CertificateProvider @Inject constructor(
      */
     suspend fun findCertificate(containerId: CertificateContainerId): CwaCovidCertificate {
         val certificates = allCertificates.first()
-
         return certificates.find { it.containerId == containerId }!! // Must be a certificate
     }
 }
