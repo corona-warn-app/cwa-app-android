@@ -31,7 +31,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     init {
         certificateProvider.allCertificates
             .onEach {
-                Timber.tag(TAG).e("Certificates changed! ")
+                Timber.tag(TAG).e("Certificates changed!")
                 triggerDccWalletInfoUpdateAfterCertificateChange()
             }
             .launchIn(scope = appScope + dispatcherProvider.IO)
