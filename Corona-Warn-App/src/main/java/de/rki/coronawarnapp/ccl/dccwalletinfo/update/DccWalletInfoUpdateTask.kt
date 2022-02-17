@@ -27,13 +27,10 @@ class DccWalletInfoUpdateTask @Inject constructor(
         arguments as Arguments
         when (val trigger = arguments.dccWalletInfoUpdateTriggerType) {
             is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
-                configurationChanged = trigger.configurationChanged,
-                admissionScenarioId = arguments.admissionScenarioId
+                configurationChanged = trigger.configurationChanged
             )
             is TriggeredAfterCertificateChange ->
-                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
-                    admissionScenarioId = arguments.admissionScenarioId
-                )
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
         }
 
         dccWalletInfoCleaner.clean()
