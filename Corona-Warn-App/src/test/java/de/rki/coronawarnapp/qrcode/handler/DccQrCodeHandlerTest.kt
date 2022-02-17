@@ -55,7 +55,7 @@ class DccQrCodeHandlerTest : BaseTest() {
             .apply { every { containerId } returns vaccinationCertID }
         coEvery { recoverCertificateRepository.registerCertificate(any()) } returns recoveryCertificateContainer
             .apply { every { containerId } returns recoveryCertID }
-        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
+        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow() } just Runs
     }
 
     @Test
@@ -67,7 +67,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationRepository.registerCertificate(any())
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
         }
     }
 
@@ -80,7 +80,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
         }
     }
 
@@ -93,7 +93,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
         }
     }
 

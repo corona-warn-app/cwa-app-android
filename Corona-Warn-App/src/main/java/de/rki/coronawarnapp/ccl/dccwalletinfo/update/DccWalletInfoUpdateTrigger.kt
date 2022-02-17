@@ -34,8 +34,8 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         )
     }
 
-    suspend fun triggerDccWalletInfoUpdateAfterCertificateChange() {
-        Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterCertificateChange()")
+    suspend fun triggerDccWalletInfoUpdateNow() {
+        Timber.tag(TAG).d("triggerDccWalletInfoUpdateNow()")
         taskController.submit(
             DefaultTaskRequest(
                 type = DccWalletInfoUpdateTask::class,

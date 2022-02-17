@@ -64,7 +64,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")
         vaccinationRepository.recycleCertificate(containerId)
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
         events.postValue(VaccinationDetailsNavigation.Back)
     }
 

@@ -34,7 +34,7 @@ class DccQrCodeHandler @Inject constructor(
             is TestCertificateQRCode -> testCertificateRepository.registerCertificate(dccQrCode).containerId
             else -> throw UnsupportedQrCodeException()
         }.also {
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
         }
     }
 }
