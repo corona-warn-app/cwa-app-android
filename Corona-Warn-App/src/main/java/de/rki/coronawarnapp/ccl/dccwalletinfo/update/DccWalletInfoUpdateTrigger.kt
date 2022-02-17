@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
