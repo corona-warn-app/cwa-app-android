@@ -125,6 +125,22 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_one_person_admission_berlin() {
+
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Berlin"
+            )
+        )
+
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(onePersonItem()))
+        takeSelfie("one_person_berlin")
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_two_g_plus_certificate() {
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificate()))
         takeSelfie("two_g_plus")
