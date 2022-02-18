@@ -31,7 +31,7 @@ internal fun String.formatDateTime(tz: DateTimeZone = DateTimeZone.getDefault())
 
 internal fun String.parseLocalDate(): LocalDate? = try {
     LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))
-} catch (e:Exception) {
-    Timber.e(e,"Malformed date")
+} catch (e: Exception) {
+    Timber.e(e, "Malformed date")
     null
 }
