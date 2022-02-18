@@ -34,13 +34,11 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
 
     private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled() = findBoolean(
-        labelValue = "disable-device-time-check",
-        defaultValue = false
+        labelValue = "disable-device-time-check"
     )
 
     private fun ApplicationConfigurationAndroid.isUnencryptedCheckInsEnabled() = findBoolean(
-        labelValue = "unencrypted-checkins-enabled",
-        defaultValue = false
+        labelValue = "unencrypted-checkins-enabled"
     )
 
     private fun ApplicationConfigurationAndroid.validationServiceMinVersionCode(): Int {
@@ -85,11 +83,13 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
     }
 
     private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled() = findBoolean(
-        labelValue = "dcc-admission-check-scenarios-disabled",
-        defaultValue = DCC_ADMISSION_CHECK_SCENARIOS_DISABLED
+        labelValue = "dcc-admission-check-scenarios-disabled"
     )
 
-    private fun ApplicationConfigurationAndroid.findBoolean(labelValue: String, defaultValue: Boolean): Boolean {
+    private fun ApplicationConfigurationAndroid.findBoolean(
+        labelValue: String,
+        defaultValue: Boolean = false
+    ): Boolean {
         if (!hasAppFeatures()) return defaultValue
 
         return try {
@@ -127,7 +127,5 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
 
         private const val DCC_PERSON_WARN_THRESHOLD: Int = 10
         private const val DCC_PERSON_COUNT_MAX: Int = 20
-
-        private const val DCC_ADMISSION_CHECK_SCENARIOS_DISABLED = false
     }
 }
