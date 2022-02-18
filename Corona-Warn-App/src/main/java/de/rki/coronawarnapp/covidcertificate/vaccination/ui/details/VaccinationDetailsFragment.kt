@@ -207,7 +207,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
-        oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
+        oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1 && certificate.doseNumber == 1
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
