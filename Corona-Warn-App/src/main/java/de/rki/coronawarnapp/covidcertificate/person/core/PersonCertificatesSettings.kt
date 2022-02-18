@@ -2,13 +2,11 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import android.content.Context
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.preferences.FlowPreference
 import de.rki.coronawarnapp.util.preferences.clearAndNotify
 import de.rki.coronawarnapp.util.preferences.createFlowPreference
-import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import timber.log.Timber
 import javax.inject.Inject

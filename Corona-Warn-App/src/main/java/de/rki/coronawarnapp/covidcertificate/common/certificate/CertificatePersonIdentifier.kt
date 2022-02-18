@@ -15,31 +15,32 @@ data class CertificatePersonIdentifier(
     @JsonProperty("givenNameStandardized") val firstNameStandardized: String? = null,
 ) {
 
-    //Lazy loading here because gson deserialization doesn't call initialization
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     @JsonIgnore val sanitizedFamilyName: List<String> = lastNameStandardized.sanitizeName()
     @JsonIgnore private val sanitizedGivenName: List<String> = firstNameStandardized?.sanitizeName() ?: emptyList()
 
     /**
-    Method shall decide whether the DGCs belongs the same holder.
-    Two DCCs shall be considered as belonging to the same holder, if:
+     Method shall decide whether the DGCs belongs the same holder.
+     Two DCCs shall be considered as belonging to the same holder, if:
 
-    - the sanitized `dob` attributes are the same strings, and
-    - one of:
-    - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one element,
-    and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least one element
-    or both are empty sets (`gnt` is an optional field)
-    - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one element,
-    and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least one element
+     - the sanitized `dob` attributes are the same strings, and
+     - one of:
+     - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one element,
+     and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least one element
+     or both are empty sets (`gnt` is an optional field)
+     - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one element,
+     and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least one element
      */
-    //or belongsToTheSamePerson()
+    // or belongsToTheSamePerson()
     fun isTheSamePerson(other: CwaCovidCertificate): Boolean = isTheSamePerson(other.personIdentifier)
     fun isTheSamePerson(other: CertificatePersonIdentifier?): Boolean {
         if (other == null) return false
         if (dateOfBirthFormatted.trim() != other.dateOfBirthFormatted.trim()) return false
 
-        if ((sanitizedFamilyName.intersect(other.sanitizedFamilyName).isNotEmpty() &&
-                sanitizedGivenName.intersect(other.sanitizedGivenName).isNotEmpty()) ||
+        if ((
+            sanitizedFamilyName.intersect(other.sanitizedFamilyName).isNotEmpty() &&
+                sanitizedGivenName.intersect(other.sanitizedGivenName).isNotEmpty()
+            ) ||
             ((sanitizedGivenName.isEmpty() && other.sanitizedGivenName.isEmpty()))
         ) {
             return true
