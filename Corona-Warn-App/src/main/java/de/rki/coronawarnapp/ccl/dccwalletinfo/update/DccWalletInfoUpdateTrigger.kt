@@ -31,7 +31,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     init {
         personCertificateProvider.personCertificates
             .onStart { Timber.tag(TAG).d("Observing certificates for changes") }
-            .distinctUntilChanged { oldCerts, newCerts -> oldCerts.sortedQrCodeHashSet != newCerts.sortedQrCodeHashSet }
+            .distinctUntilChanged { oldCerts, newCerts -> oldCerts.sortedQrCodeHashSet == newCerts.sortedQrCodeHashSet }
             .onEach {
                 Timber.tag(TAG).d("Certificates changed!")
                 triggerDccWalletInfoUpdateAfterCertificateChange()
