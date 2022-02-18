@@ -85,7 +85,7 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-        val testedPositiveOn: LocalDate
+        val testedPositiveOn: LocalDate?
             get() = fr.parseLocalDate()
 
         val testedPositiveOnFormatted: String
@@ -93,12 +93,12 @@ data class DccV1(
 
         val validFromFormatted: String
             get() = df.formatDate()
-        val validFrom: LocalDate
+        val validFrom: LocalDate?
             get() = validFromFormatted.parseLocalDate()
 
         val validUntilFormatted: String
             get() = du.formatDate()
-        val validUntil: LocalDate
+        val validUntil: LocalDate?
             get() = validUntilFormatted.parseLocalDate()
     }
 
@@ -127,7 +127,7 @@ data class DccV1(
         val vaccinatedOnFormatted: String
             get() = dt.formatDate()
 
-        val vaccinatedOn: LocalDate
+        val vaccinatedOn: LocalDate?
             get() = vaccinatedOnFormatted.parseLocalDate()
     }
 

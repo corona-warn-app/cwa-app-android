@@ -64,14 +64,14 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             qrTitle.text = context.getString(R.string.vaccination_details_subtitle)
             qrSubtitle.text = context.getString(
                 R.string.vaccination_certificate_vaccinated_on,
-                certificate.vaccinatedOn.toShortDayFormat()
+                certificate.vaccinatedOn?.toShortDayFormat()
             )
         }
         is RecoveryCertificate -> {
             qrTitle.text = context.getString(R.string.recovery_certificate_name)
             qrSubtitle.text = context.getString(
                 R.string.recovery_certificate_valid_until,
-                certificate.validUntil.toShortDayFormat()
+                certificate.validUntil?.toShortDayFormat()
             )
         }
     }

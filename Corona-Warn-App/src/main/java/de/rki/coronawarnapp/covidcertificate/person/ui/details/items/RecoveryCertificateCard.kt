@@ -31,7 +31,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
         certificateDate.text = context.getString(
             R.string.recovery_certificate_valid_until,
-            certificate.validUntil.toShortDayFormat()
+            certificate.validUntil?.toShortDayFormat()
         )
 
         val bookmarkIcon =

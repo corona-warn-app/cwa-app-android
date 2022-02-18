@@ -6,6 +6,7 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatterBuilder
 import org.joda.time.format.ISODateTimeFormat
+import timber.log.Timber
 
 internal fun String.formatDate(): String {
     val regex = "T\\d\\d:\\d\\d:\\d\\d(\\+\\d\\d:\\d\\d)?.*".toRegex()
@@ -28,4 +29,9 @@ internal fun String.formatDateTime(tz: DateTimeZone = DateTimeZone.getDefault())
     this
 }
 
-internal fun String.parseLocalDate(): LocalDate = LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))
+internal fun String.parseLocalDate(): LocalDate? = try {
+    LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))
+} catch (e:Exception) {
+    Timber.e(e,"Malformed date")
+    null
+}

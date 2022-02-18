@@ -85,10 +85,12 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             "recovery/validUntilFormatted"
         )
 
-        newMessage = newMessage.censor(
-            data.validUntil.toShortDayFormat(),
-            "recovery/validFromFormatted"
-        )
+        data.validUntil?.toShortDayFormat()?.let { validUntil ->
+            newMessage = newMessage.censor(
+                validUntil,
+                "recovery/validFromFormatted"
+            )
+        }
 
         return newMessage
     }
