@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccadmission.storage
 
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccadmission.admissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.scenariosJson
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -23,7 +23,7 @@ class DccAdmissionCheckScenariosRepositoryTest : BaseTest() {
 
     private val mapper = SerializationModule().jacksonObjectMapper()
 
-    @MockK lateinit var cclSettings: CCLSettings
+    @MockK lateinit var cclSettings: CclSettings
 
     lateinit var instance: DccAdmissionCheckScenariosRepository
 

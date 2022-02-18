@@ -176,7 +176,7 @@
 
     <fragment
         android:id="@+id/cclTestFragment"
-        android:name="de.rki.coronawarnapp.test.ccl.CCLTestFragment"
-        android:label="CCLTestFragment" />
+        android:name="de.rki.coronawarnapp.test.ccl.CclTestFragment"
+        android:label="CclTestFragment" />
 
 </navigation>
