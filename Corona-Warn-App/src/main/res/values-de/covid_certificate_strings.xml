@@ -80,8 +80,6 @@
     <string name="vaccination_certificate_doses">Impfung %1$d von %2$d</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">Impfzertifikat</string>
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">Es handelt sich hier um einen Impfstoff, bei dem nur eine Impfdosis erforderlich ist oder um eine Impfung für Genesene, die nur eine Impfdosis benötigt.</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
