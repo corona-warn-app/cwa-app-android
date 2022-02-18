@@ -65,7 +65,9 @@ private fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidC
     return false
 }
 
-fun List<Set<CwaCovidCertificate>>.firstGroupWithPerson(personIdentifier: CertificatePersonIdentifier?): Set<CwaCovidCertificate> {
+fun List<Set<CwaCovidCertificate>>.firstGroupWithPerson(
+    personIdentifier: CertificatePersonIdentifier?
+): Set<CwaCovidCertificate> {
     if (personIdentifier == null) return emptySet()
     forEach { certificates ->
         certificates.forEach { certificate ->

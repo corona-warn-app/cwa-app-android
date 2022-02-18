@@ -20,16 +20,17 @@ data class CertificatePersonIdentifier(
     @JsonIgnore private val sanitizedGivenName: List<String> = firstNameStandardized?.sanitizeName() ?: emptyList()
 
     /**
-     Method shall decide whether the DGCs belongs the same holder.
-     Two DCCs shall be considered as belonging to the same holder, if:
+    Method shall decide whether the DGCs belongs the same holder.
+    Two DCCs shall be considered as belonging to the same holder, if:
 
-     - the sanitized `dob` attributes are the same strings, and
-     - one of:
-     - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one element,
-     and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least one element
-     or both are empty sets (`gnt` is an optional field)
-     - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one element,
-     and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least one element
+    - the sanitized `dob` attributes are the same strings, and
+    - one of:
+    - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.fnt` has at least one element,
+    and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.gnt` has at least one
+    element or both are empty sets (`gnt` is an optional field)
+    - the intersection/overlap of the name components of sanitized `a.nam.fnt` and `b.nam.gnt` has at least one element,
+    and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least one
+    element
      */
     // or belongsToTheSamePerson()
     fun isTheSamePerson(other: CwaCovidCertificate): Boolean = isTheSamePerson(other.personIdentifier)
@@ -37,17 +38,19 @@ data class CertificatePersonIdentifier(
         if (other == null) return false
         if (dateOfBirthFormatted.trim() != other.dateOfBirthFormatted.trim()) return false
 
-        if ((
-            sanitizedFamilyName.intersect(other.sanitizedFamilyName).isNotEmpty() &&
-                sanitizedGivenName.intersect(other.sanitizedGivenName).isNotEmpty()
-            ) ||
-            ((sanitizedGivenName.isEmpty() && other.sanitizedGivenName.isEmpty()))
-        ) {
+        // TODO: need refactoring
+        val familyNameOverlap = sanitizedFamilyName.intersect(other.sanitizedFamilyName).isNotEmpty()
+        val givenNameOverlap = sanitizedGivenName.intersect(other.sanitizedGivenName).isNotEmpty()
+        val bothGivenNamesAreEmpty = sanitizedGivenName.isEmpty() && other.sanitizedGivenName.isEmpty()
+        val familyNameAndGivenNameAreSwapped = sanitizedFamilyName.intersect(other.sanitizedGivenName).isNotEmpty() &&
+            sanitizedGivenName.intersect(other.sanitizedFamilyName).isNotEmpty()
+
+        if (familyNameOverlap && (givenNameOverlap || bothGivenNamesAreEmpty))
+        {
             return true
         }
 
-        return sanitizedFamilyName.intersect(other.sanitizedGivenName).isNotEmpty() &&
-            sanitizedGivenName.intersect(other.sanitizedFamilyName).isNotEmpty()
+        return familyNameAndGivenNameAreSwapped
     }
 
     /**
