@@ -1,34 +1,29 @@
+@file:Suppress("MaxLineLength")
+
 package de.rki.coronawarnapp.coronatest.qrcode
 
 internal const val pcrQrCode1 = "HTTPS://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064"
 internal const val pcrQrCode2 = "https://localhost/?123456-12345678-1234-4DA7-B166-B86D85475064"
 internal const val pcrQrCode3 = "https://LOCALHOST/?123456-12345678-1234-4DA7-B166-B86D85475064"
 
-@Suppress("MaxLineLength")
 internal const val raQrCode1 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzMTEsInNhbHQiOiJBODczOTVDRjYyMjc1QzRCQjczMjAxOERFRTRDQzhCRSIsInRlc3RpZCI6IjQwNDBkNTRlLWIzNmYtNGQ1Yi05MThiLTExODZjM2E0OTZhNSIsImhhc2giOiI4MzFhNzNmNGZhODZkMDdjMjViOTdjNzdiZjg5MzNhN2Q5MzAzODIxZDRjNzdiZDc5YzlkNzJlMmU0ZTI1MWYyIiwiZm4iOiJEeWxhbiIsImxuIjoiR2FyZGluZXIiLCJkb2IiOiIxOTY3LTEyLTIyIn0="
 
-@Suppress("MaxLineLength")
 internal const val raQrCode2 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzMzMsInNhbHQiOiI5Nzk5OUY4QTBFMjBBMDgxMDMyMDdGQzkxOEQzRTVFRiIsInRlc3RpZCI6IjE3ZjFlOGMxLTBiMWMtNDE1Ni1iMTZkLTlmMmQwNzEzMDJmNSIsImhhc2giOiIzMDcxNmQzM2FkNDFhZjQwNTk1Y2IyOThkMDcwMDllM2QwZjIxZDk5Njg4ZWZkOTIyNGQ4OWQ0OTQ3YjRkZDU3IiwiZm4iOiJIYXJyaWV0IiwibG4iOiJCbGFuYyIsImRvYiI6IjE5OTUtMDItMTUifQ=="
 
-@Suppress("MaxLineLength")
 internal const val raQrCode3 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzNTIsInNhbHQiOiJDRjBDNTQ3RkY2RDMwOTlBMkIwNkMxQzRFNEYwOEFGOSIsInRlc3RpZCI6ImY0N2VmODA0LTZmMGMtNDhiMy1hODY5LWUyZjg4NmIxMjU0ZiIsImhhc2giOiI3ZGNlMDhkYjBkNGFiZDVhYzFkMjQ5OGI1NzFhZmIyMjFjYTk0N2M3NWM4NDdkMDU0NjZiNGNmZTlkOTVkYzY2IiwiZm4iOiJKYWNvYiIsImxuIjoiVHlsZXIiLCJkb2IiOiIxOTYzLTAzLTE3In0="
 
-@Suppress("MaxLineLength")
 internal const val raQrCode4 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzNjksInNhbHQiOiJEQTg3M0YwOUJCQzZCQzVFMEQ0QTdBMzc2MjZERkMwNSIsInRlc3RpZCI6IjlmYjYzNWE2LThhZTQtNDVjZS1iZTZkLTg5MjdmMjM1ZmIzNiIsImhhc2giOiJmNGYzMDU0NTMwODI1MjkxYjhmMDQ3MWZkZTRiY2EzNTljOGVjZDI0ZTBmNTkxNTA5NTQyY2ZmNGJhNDBkNmY1IiwiZm4iOiJFZGRpZSIsImxuIjoiQm91Y2hlciIsImRvYiI6IjE5NzktMDEtMjMifQ=="
 
-@Suppress("MaxLineLength")
 internal const val raQrCode5 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzODIsInNhbHQiOiI2RUJCMUM4NTc0QUYxQzcwQkY2MTNGQjMzNDM3MkM3MiIsInRlc3RpZCI6Ijg2MzkzMTE1LWVkYjAtNGE3Zi1iZTg1LWEwYjViMjY5M2Q3MSIsImhhc2giOiIzMmQxYjk4MTRjNWU0ZjI3Mjc5NWU0NjNhMmViZjI5Y2Y1ZDZkYzdiZmRhODNhYzViZWY5Y2Q5M2E3YjMxMjYwIiwiZm4iOiJBZGVsYWlkZSIsImxuIjoiSHVpc21hbiIsImRvYiI6IjE5NTktMDgtMDIifQ=="
 
-@Suppress("MaxLineLength")
 internal const val raQrCode6 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTgzOTcsInNhbHQiOiI3MDcyQzAyMTkyM0ZFOEMzMDVDNTAxQkU5MjQyMjNBQyIsInRlc3RpZCI6IjhmMzA0OTE4LWI2YmMtNDQyOS1iYzhlLWMzMzRkMjdhNTdiNCIsImhhc2giOiI2ZjVhMjJhYzY2ZTc1Y2JiYTE3MTBlN2IxZWMwZTllMDk4NjUyMjY0MWE3NTYyNGY0MGZhMDc4YTZkZjY0ZTVjIiwiZm4iOiJBbmRyZSIsImxuIjoiQmFyZ2VsbGluaSIsImRvYiI6IjE5OTItMTEtMDcifQ=="
 
-@Suppress("MaxLineLength")
 internal const val raQrCode7 =
     "https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2MTk2MTg0MjMsInNhbHQiOiJEM0Y1MzcyODU2NkMxMDFENjE1MkVCQ0I0OEMxMkFCOCIsInRlc3RpZCI6Ijc5NWIxY2MwLWU2NjQtNGFmZi05NTk3LWU3MTk2ODE4ZGVmYiIsImhhc2giOiI3NmMxMjJiOTlmZWVmZmM5Mjc3MTE2YjUwZGIwZGM1NjI0ZjY5OWFiMzliMDAwOWMwYzg5YmRlMWNjZjM4YmQxIiwiZm4iOiJWaWN0b3JpYSIsImxuIjoiTWFubmVsbGkiLCJkb2IiOiIxOTc4LTA0LTIxIn0="
 
@@ -41,14 +36,37 @@ internal const val raQrCode7 =
 //     "salt":"510f3d750c2fc631fbcfe32cb06bbba9",
 //     "hash":"d6e4d0181d8109bf05b346a0d2e0ef0cc472eed70d9df8c4b9ae5c7a009f3e34"
 // }
-@Suppress("MaxLineLength")
 internal const val raQrIncompletePersonalData =
     "https://s.coronawarn.app?v=1#ewogICAgImZuIjoiTWF4IiwKICAgICJsbiI6IiIsCiAgICAiZG9iIjoiIiwKICAgICJ0ZXN0aWQiOiIwZTYwMGI0Mi1jYzIxLTRlNzUtOTE0Yy03MDYwMzE0M2I2Y2IiLAogICAgInRpbWVzdGFtcCI6IDE2MTkwMTI5NTIsCiAgICAic2FsdCI6IjUxMGYzZDc1MGMyZmM2MzFmYmNmZTMyY2IwNmJiYmE5IiwKICAgICJoYXNoIjoiZDZlNGQwMTgxZDgxMDliZjA1YjM0NmEwZDJlMGVmMGNjNDcyZWVkNzBkOWRmOGM0YjlhZTVjN2EwMDlmM2UzNCIKfQ"
 
-@Suppress("MaxLineLength")
 internal const val raQrAnonymousValidHash =
     """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzEsInNhbHQiOiJEM0I1RkNDMkQxMzgzNDc0RjBERTY5NjA2OEFCQjMzOCIsInRlc3RpZCI6IjczMGM3MDc3LTU2ZmQtNDdiOC04MTNiLWZiNjc4OTVhODBiOSIsImhhc2giOiI2MWRmMDk5MjA3NzA0YTA3MmZiMmE5N2QzMTY4NzUyM2NhNTBmNWJiMDMxZmM1OGJjZDMyNWJkOWE5NzZmZDY4In0"""
 
-@Suppress("MaxLineLength")
 internal const val raQrAnonymousInvalidHash =
     """https://s.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzUsInNhbHQiOiJGQjRDMzZENDVFMjBBMkMwNzExNUFDMzIwMkI5OThBMiIsInRlc3RpZCI6IjlhYTNmMDM3LWM3MjgtNDRmNy1iMGVmLWVmMWM4MjdiYjAzNSIsImhhc2giOiI3MmQyYmJkNmMwM2QwMGFkMWRlZWQxYjE0Y2MzYjk4ZTVmMTQ1M2U5MDEzYTNiNWE1NTc2MDY1NmYzMWU4YmQ5In0"""
+
+internal const val raPcrCode1 =
+    """https://p.coronawarn.app?v=1#eyJ0aW1lc3RhbXAiOjE2NDQyNzQ5MjAsInNhbHQiOiIzMjg0QzRGODUzNjgyQkI2MTBFMzAxQzY3QTUxOEZFOSIsInRlc3RpZCI6IjU4Y2E2OThmLTFmNmUtNDU3Zi1hMzcwLWU1OTVlY2IzNGZkNSIsImhhc2giOiJlNmRjZDVlNmZiMjgwMmYwODhmOTMxMDA2ZjQzNDYwZjBiMTYwNGRhNTRkNzgyOTljMDEwZTQxMTljYTA4ODJlIiwiZm4iOiJJc2FhYyIsImxuIjoiRHVwdXkiLCJkb2IiOiIxOTY1LTEyLTA4In0"""
+
+// {
+//   "timestamp":1619618382,
+//   "salt":"6EBB1C8574AF1C70BF613FB334372C72",
+//   "testid":"86393115-edb0-4a7f-be85-a0b5b2693d71",
+//   "hash":"32d1b9814c5e4f272795e463a2ebf29cf5d6dc7bfda83ac5bef9cd93a7b31260",
+//   "fn":"Adelaide",
+//   "ln":"Huisman",
+//   "dob":"1959-08-02",
+//   "dgc":true
+// }
+internal const val rawPayloadWithDgcAndFullPersonalData =
+    """eyJ0aW1lc3RhbXAiOjE2MTk2MTgzODIsInNhbHQiOiI2RUJCMUM4NTc0QUYxQzcwQkY2MTNGQjMzNDM3MkM3MiIsInRlc3RpZCI6Ijg2MzkzMTE1LWVkYjAtNGE3Zi1iZTg1LWEwYjViMjY5M2Q3MSIsImhhc2giOiIzMmQxYjk4MTRjNWU0ZjI3Mjc5NWU0NjNhMmViZjI5Y2Y1ZDZkYzdiZmRhODNhYzViZWY5Y2Q5M2E3YjMxMjYwIiwiZm4iOiJBZGVsYWlkZSIsImxuIjoiSHVpc21hbiIsImRvYiI6IjE5NTktMDgtMDIiLCAiZGdjIjp0cnVlfQ=="""
+
+// {
+//   "timestamp":1627403671,
+//   "salt":"D3B5FCC2D1383474F0DE696068ABB338",
+//   "testid":"730c7077-56fd-47b8-813b-fb67895a80b9",
+//   "hash":"61df099207704a072fb2a97d31687523ca50f5bb031fc58bcd325bd9a976fd68",
+//   "dgc":true
+// }
+internal const val rawPayloadWithDgcWithoutPersonalData =
+    """eyJ0aW1lc3RhbXAiOjE2Mjc0MDM2NzEsInNhbHQiOiJEM0I1RkNDMkQxMzgzNDc0RjBERTY5NjA2OEFCQjMzOCIsInRlc3RpZCI6IjczMGM3MDc3LTU2ZmQtNDdiOC04MTNiLWZiNjc4OTVhODBiOSIsImhhc2giOiI2MWRmMDk5MjA3NzA0YTA3MmZiMmE5N2QzMTY4NzUyM2NhNTBmNWJiMDMxZmM1OGJjZDMyNWJkOWE5NzZmZDY4IiwiZGdjIjp0cnVlfQ=="""

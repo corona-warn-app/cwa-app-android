@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.tag
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class DccWalletInfoUpdateTrigger @Inject constructor(
     private val taskController: TaskController,
-    private val cclSettings: CCLSettings,
+    private val cclSettings: CclSettings,
     private val appConfigProvider: AppConfigProvider,
 ) {
 
