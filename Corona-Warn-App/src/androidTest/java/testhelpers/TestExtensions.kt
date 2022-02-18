@@ -97,7 +97,7 @@ inline fun <reified F : Fragment> launchInMainActivity(
         }
         activity.supportFragmentManager
             .beginTransaction()
-            .add(android.R.id.content, fragment, "")
+            .add(R.id.fake_host_fragment, fragment, F::class.java.name)
             .commitNow()
     }
 }

@@ -100,7 +100,16 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment_empty() = takeSelfie("empty")
+    fun capture_fragment_empty() {
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = false,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Berlin"
+            )
+        )
+        takeSelfie("empty")
+    }
 
     @Test
     @Screenshot
