@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterCertificateChange
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -10,6 +11,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -21,14 +23,15 @@ import javax.inject.Singleton
 @Singleton
 class DccWalletInfoUpdateTrigger @Inject constructor(
     private val taskController: TaskController,
-    certificateProvider: CertificateProvider,
+    personCertificateProvider: PersonCertificatesProvider,
     @AppScope appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider
 ) {
 
     init {
-        certificateProvider.certificateContainer
+        personCertificateProvider.personCertificates
             .onStart { Timber.tag(TAG).d("Observing certificates for changes") }
+            .distinctUntilChanged { oldCerts, newCerts -> oldCerts.sortedQrCodeHashSet != newCerts.sortedQrCodeHashSet }
             .onEach {
                 Timber.tag(TAG).d("Certificates changed!")
                 triggerDccWalletInfoUpdateAfterCertificateChange()
@@ -62,6 +65,13 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
             )
         )
     }
+
+    private val Set<PersonCertificates>.sortedQrCodeHashSet: Set<String>
+        get() = flatMap { personCert ->
+            personCert.certificates.map { it.qrCodeHash }
+        }
+            .sorted()
+            .toSet()
 
     companion object {
         private val TAG = tag<DccWalletInfoUpdateTrigger>()
