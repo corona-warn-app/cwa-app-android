@@ -325,26 +325,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp" />
 
-                <LinearLayout
-                    android:id="@+id/one_shot_info"
-                    style="@style/Card.Vaccination"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <TextView
-                        style="@style/body2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/vaccination_certificate_one_shot" />
-
-                </LinearLayout>
-
                 <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView
                     android:id="@+id/travel_notice"
                     android:layout_width="match_parent"
