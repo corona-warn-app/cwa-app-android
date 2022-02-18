@@ -50,7 +50,7 @@ class SubmissionTestResultAvailableFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
 
         every { submissionRepository.testForType(any()) } returns flowOf()
-        every { appShortcutsHelper.removeAppShortcut() } just Runs
+        every { appShortcutsHelper.removeAppShortcuts() } just Runs
 
         viewModel = spyk(
             SubmissionTestResultAvailableViewModel(

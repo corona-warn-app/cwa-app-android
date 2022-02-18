@@ -40,7 +40,7 @@ class SettingsResetViewModel @AssistedInject constructor(
             }
 
             dataReset.clearAllLocalData()
-            shortcutsHelper.removeAppShortcut()
+            shortcutsHelper.removeAppShortcuts()
             clickEvent.postValue(SettingsEvents.GoToOnboarding)
         }
     }
