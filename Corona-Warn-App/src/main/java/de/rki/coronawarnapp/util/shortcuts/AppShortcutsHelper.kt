@@ -29,14 +29,14 @@ class AppShortcutsHelper @Inject constructor(
 ) {
     suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
         // No shortcuts if test result is positive
-        if(coronaTestRepository.allCoronaTests.first().any { it.isPositive }) {
+        if (coronaTestRepository.allCoronaTests.first().any { it.isPositive }) {
             Timber.i("[AppShortcuts] Remove all shortcut items since exposure submission result is positive")
             removeAppShortcuts()
             return@withContext
         }
 
         // No shortcuts if not onboarded
-        if(!onboardingSettings.isOnboarded) {
+        if (!onboardingSettings.isOnboarded) {
             Timber.i("[AppShortcuts] Remove all shortcut items since onboarding is not done yet")
             removeAppShortcuts()
             return@withContext
@@ -81,7 +81,7 @@ class AppShortcutsHelper @Inject constructor(
         )
 
         // don't show camera related actions if no camera access is granted
-        if(PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
+        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
             shortcutList.add(shortcutScanner)
         }
 
