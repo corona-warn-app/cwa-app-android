@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.task.TaskController
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -102,8 +103,36 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun triggerDccWalletInfoUpdateAfterConfigUpdate() = runBlockingTest {
+    fun `No crash when update manager throw error`() = runBlockingTest2(true) {
+        coEvery { dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange() } throws
+            RuntimeException("error")
+        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+        every { personCertificateProvider.personCertificates } returns flow
+        shouldNotThrow<RuntimeException> {
+            instance(this)
+        }
+    }
+
+    @Test
+    fun `No crash when update cleaner throw error`() = runBlockingTest2(true) {
+        coEvery { dccWalletInfoCleaner.clean() } throws
+            RuntimeException("error")
+        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+        every { personCertificateProvider.personCertificates } returns flow
+        shouldNotThrow<RuntimeException> {
+            instance(this)
+        }
+    }
+
+    @Test
+    fun `triggerDccWalletInfoUpdateAfterConfigUpdate false`() = runBlockingTest {
         instance(this).triggerDccWalletInfoUpdateAfterConfigUpdate(false)
+        verify { taskController.submit(any()) }
+    }
+
+    @Test
+    fun `triggerDccWalletInfoUpdateAfterConfigUpdate true`() = runBlockingTest {
+        instance(this).triggerDccWalletInfoUpdateAfterConfigUpdate(true)
         verify { taskController.submit(any()) }
     }
 
