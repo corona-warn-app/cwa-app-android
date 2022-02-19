@@ -326,7 +326,7 @@ class VaccinationRepository @Inject constructor(
                 )
             )
 
-            Timber.tag(TAG).d("acknowledgeBoosterRule updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("acknowledgeBoosterRule updatedPerson=%s", updatedPerson.identifier)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
@@ -351,7 +351,7 @@ class VaccinationRepository @Inject constructor(
                 vaccinatedPerson.data.copy(boosterRuleIdentifier = null, lastSeenBoosterRuleIdentifier = null)
             val updatedPerson = vaccinatedPerson.copy(data = data)
 
-            Timber.tag(TAG).d("clearBoosterRuleInfo updatedPerson=%s", data)
+            Timber.tag(TAG).d("clearBoosterRuleInfo updatedPerson=%s", data.identifier)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
@@ -374,7 +374,7 @@ class VaccinationRepository @Inject constructor(
                 data = vaccinatedPerson.data.copy(lastBoosterNotifiedAt = time)
             )
 
-            Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson.identifier)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
