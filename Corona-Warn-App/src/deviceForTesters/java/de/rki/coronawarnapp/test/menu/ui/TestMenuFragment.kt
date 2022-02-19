@@ -41,7 +41,7 @@ class TestMenuFragment : Fragment(R.layout.fragment_test_menu), AutoInject {
         }
 
         vm.personsCount.observe2(this) {
-            binding.personsCount.text = "Persons count: $it"
+            binding.personsCount.text = "Persons count: ${it.first}\nCertificates: ${it.second}"
         }
     }
 }
