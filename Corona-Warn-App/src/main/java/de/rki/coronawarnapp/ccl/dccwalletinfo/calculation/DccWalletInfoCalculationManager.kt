@@ -38,7 +38,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
             }
         }
     } catch (e: Exception) {
-        Timber.e(e, "Failed to run calculation.")
+        Timber.d(e, "Failed to run calculation.")
     }
 
     suspend fun triggerCalculationAfterCertificateChange() = try {
@@ -47,7 +47,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
             updateWalletInfoForPerson(it)
         }
     } catch (e: Exception) {
-        Timber.e(e, "Failed to run calculation.")
+        Timber.d(e, "Failed to run calculation.")
     }
 
     /**
@@ -87,7 +87,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 newWalletInfo
             )
         } catch (e: Exception) {
-            Timber.e(e, "Failed to calculate DccWalletInfo for ${person.personIdentifier}")
+            Timber.d(e, "Failed to calculate DccWalletInfo for ${person.personIdentifier}")
         }
     }
 }
