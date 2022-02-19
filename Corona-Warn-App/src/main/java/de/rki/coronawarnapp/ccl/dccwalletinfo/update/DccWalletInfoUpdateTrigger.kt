@@ -11,7 +11,8 @@ import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -29,7 +30,8 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     init {
         appScope.launch {
             personCertificateProvider.personCertificates
-                .distinctUntilChanged { old, new -> old.sortedQrCodeHashSet == new.sortedQrCodeHashSet }
+                .drop(1) // Drop first value on App start that causes unnecessary calculation
+                .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
                     runCatching {
                         dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
