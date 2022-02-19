@@ -17,6 +17,7 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -51,17 +52,21 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `update triggered on first certificates change`() = runBlockingTest2(true) {
-        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf())))
-        every { personCertificateProvider.personCertificates } returns flow
-        instance(this)
-        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+    fun `update triggered on first certificates change after initial empty set`() =
+        runBlockingTest2(true) {
+            val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf())))
+            every { personCertificateProvider.personCertificates } returns flow
+            instance(this)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
-        coVerify(exactly = 2) {
-            dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
-            dccWalletInfoCleaner.clean()
+            delay(1_00L)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+
+            coVerify(exactly = 1) {
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+                dccWalletInfoCleaner.clean()
+            }
         }
-    }
 
     @Test
     fun `update is not triggered on same certificates change`() = runBlockingTest2(true) {
@@ -70,24 +75,31 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         instance(this)
         flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
-        coVerify(exactly = 1) {
+        delay(1_00L)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+
+        coVerify(exactly = 0) {
             dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
             dccWalletInfoCleaner.clean()
         }
     }
 
     @Test
-    fun `update is triggered on second certificates change`() = runBlockingTest2(true) {
-        val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
-        every { personCertificateProvider.personCertificates } returns flow
-        instance(this)
-        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+    fun `update is triggered on first certificates change after initial non empty set`() =
+        runBlockingTest2(true) {
+            val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1))))
+            every { personCertificateProvider.personCertificates } returns flow
+            instance(this)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
-        coVerify(exactly = 2) {
-            dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
-            dccWalletInfoCleaner.clean()
+            delay(1_00L)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
+
+            coVerify(exactly = 1) {
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+                dccWalletInfoCleaner.clean()
+            }
         }
-    }
 
     @Test
     fun `update is triggered on recycling certificate`() = runBlockingTest2(true) {
@@ -96,7 +108,10 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         instance(this)
         flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
-        coVerify(exactly = 2) {
+        delay(1_00L)
+        flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
+
+        coVerify(exactly = 1) {
             dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
             dccWalletInfoCleaner.clean()
         }
@@ -110,7 +125,10 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         every { personCertificateProvider.personCertificates } returns flow
         shouldNotThrow<RuntimeException> {
             instance(this)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
         }
+
+        coVerify { dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange() }
     }
 
     @Test
@@ -121,7 +139,9 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         every { personCertificateProvider.personCertificates } returns flow
         shouldNotThrow<RuntimeException> {
             instance(this)
+            flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
         }
+        coVerify { dccWalletInfoCleaner.clean() }
     }
 
     @Test
