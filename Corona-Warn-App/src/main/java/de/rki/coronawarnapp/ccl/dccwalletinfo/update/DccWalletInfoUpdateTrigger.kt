@@ -35,7 +35,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                         dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
                         dccWalletInfoCleaner.clean()
                     }.onFailure {
-                        Timber.tag(TAG).e(it, "Failed to calculate dccWallet")
+                        Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
                     }
                 }
         }
