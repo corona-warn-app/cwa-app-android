@@ -33,7 +33,7 @@ class DccWalletInfoUpdateTask @Inject constructor(
                 admissionScenarioId = arguments.admissionScenarioId
             )
             is TriggeredAfterCertificateChange ->
-                dccWalletInfoCalculationManager.triggerCalculationNow(
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
                     admissionScenarioId = arguments.admissionScenarioId
                 )
         }

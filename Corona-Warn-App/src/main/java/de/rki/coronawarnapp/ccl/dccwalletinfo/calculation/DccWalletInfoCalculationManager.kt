@@ -45,7 +45,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
         Result.Failure(e)
     }
 
-    suspend fun triggerCalculationNow(
+    suspend fun triggerCalculationAfterCertificateChange(
         admissionScenarioId: String
     ): Result = try {
         initCalculation()

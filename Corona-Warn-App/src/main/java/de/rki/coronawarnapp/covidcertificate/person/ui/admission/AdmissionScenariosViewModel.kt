@@ -49,7 +49,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
             )
             cclSettings.setAdmissionScenarioId(admissionScenarioId)
             // Calculate DccWalletInfo for certificate holders
-            dccWalletInfoCalculationManager.triggerCalculationNow(
+            dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
                 admissionScenarioId = admissionScenarioId
             )
             calculationState.postValue(CalculationDone) // Dismiss busy indicator
