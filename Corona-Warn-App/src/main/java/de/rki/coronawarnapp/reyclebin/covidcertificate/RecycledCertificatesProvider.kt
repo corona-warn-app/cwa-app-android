@@ -60,7 +60,7 @@ class RecycledCertificatesProvider @Inject constructor(
             is TestCertificateContainerId -> testCertificateRepository.restoreCertificate(containerId)
             is VaccinationCertificateContainerId -> vaccinationRepository.restoreCertificate(containerId)
         }
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
     }
 
     suspend fun deleteCertificate(containerId: CertificateContainerId) {

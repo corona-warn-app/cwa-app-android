@@ -36,7 +36,7 @@ class TestCertificateRetrievalWorker @AssistedInject constructor(
                 Result.retry()
             } else {
                 Timber.tag(TAG).d("No errors during test certificate refresh :).")
-                dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
+                dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
                 Result.success()
             }
         } catch (e: Exception) {

@@ -80,7 +80,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
             coEvery { deleteCertificate(any()) } returns null
         }
 
-        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow() } just Runs
+        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     @Test
@@ -109,7 +109,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         }
 
         coVerify(exactly = 3) {
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
+            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 

@@ -70,7 +70,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
-        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow() } just Runs
+        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
         every { admissionTileProvider.admissionTile } returns flowOf(
             AdmissionTileProvider.AdmissionTile(
                 visible = true,
@@ -90,7 +90,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
 
-        coVerify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow() }
+        coVerify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test
@@ -98,7 +98,7 @@ class PersonOverviewViewModelTest : BaseTest() {
         instance.apply {
             refreshCertificate(TestCertificateContainerId("Identifier"))
         }
-        coVerify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow() }
+        coVerify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() }
     }
 
     @Test

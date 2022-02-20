@@ -47,7 +47,7 @@ class RecoveryCertificateDetailsViewModel @AssistedInject constructor(
     fun recycleRecoveryCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Recovery Certificate=$containerId")
         recoveryCertificateRepository.recycleCertificate(containerId)
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateNow()
+        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         events.postValue(RecoveryCertificateDetailsNavigation.Back)
     }
 
