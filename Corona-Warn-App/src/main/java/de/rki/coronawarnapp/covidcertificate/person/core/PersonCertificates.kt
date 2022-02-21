@@ -14,10 +14,6 @@ data class PersonCertificates(
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier
 
-    fun isTheSamePerson(personIdentifier: CertificatePersonIdentifier): Boolean {
-        return certificates.any { it.personIdentifier.belongsToSamePerson(personIdentifier) }
-    }
-
     // PersonDetails
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
         certificates.firstOrNull { certificate ->

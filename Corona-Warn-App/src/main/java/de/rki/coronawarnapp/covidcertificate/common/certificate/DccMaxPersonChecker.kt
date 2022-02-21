@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.util.dcc.firstGroupWithPerson
+import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -21,21 +21,22 @@ class DccMaxPersonChecker @Inject constructor(
         val max = config.dccPersonCountMax
 
         val importedPersons = personCertificatesProvider.personCertificates.first()
-        val allCertificatesByPerson = importedPersons.map {
+        val importedCertificates = importedPersons.map {
             it.certificates.toSet()
         }
 
-        val newSize = if (allCertificatesByPerson.firstGroupWithPerson(dccQrCode.personIdentifier).isNotEmpty()) {
-            allCertificatesByPerson.size
+        // increase size if person is not already in the app
+        val newSize = if (importedCertificates.findCertificatesForPerson(dccQrCode.personIdentifier).isEmpty()) {
+            importedCertificates.size + 1
         } else {
-            allCertificatesByPerson.size + 1
+            importedCertificates.size
         }
 
         // below threshold -> allow import
         if (newSize < threshold) return Result.Passed
 
         // not a new person -> allow import
-        if (allCertificatesByPerson.size == newSize) return Result.Passed
+        if (importedCertificates.size == newSize) return Result.Passed
 
         // adding the certificate results in exceeding max -> block import
         if (newSize > max) {

@@ -19,7 +19,7 @@ fun Set<CwaCovidCertificate>.groupByPerson(): List<Set<CwaCovidCertificate>> {
 
 /**
  * One step in certificate grouping. This method needs to be called multiple times.
- * In every step method create more accurate results. Let's say you have certificates registered to
+ * In every step method create more accurate result. Let's say you have certificates registered to
  * Dr. Thomas, Dr. Martin, and Thomas Martin. In the beginning, we don't know that Dr. Thomas and
  * Dr. Martin is the same person, but after 1st iteration, we know that we can group them together.
  */
@@ -68,7 +68,7 @@ private fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidC
 /**
  * @return first group of certificates belonging to the person
  */
-fun List<Set<CwaCovidCertificate>>.firstGroupWithPerson(
+fun List<Set<CwaCovidCertificate>>.findCertificatesForPerson(
     personIdentifier: CertificatePersonIdentifier?
 ): Set<CwaCovidCertificate> {
     if (personIdentifier == null) return emptySet()
