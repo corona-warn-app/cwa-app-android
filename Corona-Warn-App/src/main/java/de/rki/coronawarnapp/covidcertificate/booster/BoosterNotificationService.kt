@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.booster
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class BoosterNotificationService @Inject constructor(
-    private val boosterNotificationSender: BoosterNotificationSender,
+    private val personNotificationSender: PersonNotificationSender,
     private val vaccinationRepository: VaccinationRepository,
     private val timeStamper: TimeStamper,
 ) : DccWalletInfoNotificationService {
@@ -49,7 +50,7 @@ class BoosterNotificationService @Inject constructor(
 
         if (newRuleId != oldRuleId && newRuleId != legacyBoosterRuleId) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
-            boosterNotificationSender.showBoosterNotification(personIdentifier)
+            personNotificationSender.showNotification(personIdentifier)
             // Clears booster rule last seen badge, to be shown in conjunction with notification
             vaccinationRepository.clearBoosterRuleInfo(personIdentifier)
             vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, timeStamper.nowUTC)

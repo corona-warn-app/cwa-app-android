@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.booster
+package de.rki.coronawarnapp.covidcertificate.notification
 
 import android.app.PendingIntent
 import android.content.Context
@@ -15,15 +15,15 @@ import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
 
-class BoosterNotificationSender @Inject constructor(
+class PersonNotificationSender @Inject constructor(
     @AppContext private val context: Context,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
-    fun showBoosterNotification(
+    fun showNotification(
         personIdentifier: CertificatePersonIdentifier
     ) {
-        Timber.tag(TAG).d("showBoosterNotification(personIdentifier=${personIdentifier.codeSHA256})")
+        Timber.tag(TAG).d("showNotification(personIdentifier=${personIdentifier.codeSHA256})")
         val pendingIntent = buildPendingIntent(personIdentifier)
         val notification = notificationHelper.newBaseBuilder().apply {
             setContentIntent(pendingIntent)
@@ -48,6 +48,6 @@ class BoosterNotificationSender @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<BoosterNotificationSender>()
+        private val TAG = tag<PersonNotificationSender>()
     }
 }
