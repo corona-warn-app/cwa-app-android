@@ -7,13 +7,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
+import de.rki.coronawarnapp.databinding.AdmissionScenarioTileBinding
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -22,14 +26,25 @@ import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
 
 // Shows a list of multiple persons
 class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), AutoInject {
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val viewModel: PersonOverviewViewModel by cwaViewModels { viewModelFactory }
+    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+        R.id.covid_certificates_graph
+    )
+    private val viewModel: PersonOverviewViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as PersonOverviewViewModel.Factory
+            factory.create(
+                admissionScenariosSharedViewModel = admissionViewModel
+            )
+        }
+    )
     private val binding by viewBinding<PersonOverviewFragmentBinding>()
     private val personOverviewAdapter = PersonOverviewAdapter()
 
@@ -40,6 +55,7 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
         viewModel.uiState.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
+        viewModel.admissionTile.observe(viewLifecycleOwner) { binding.admissionContainer.bindAdmissionTile(it) }
     }
 
     override fun onStart() {
@@ -85,6 +101,21 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
             OpenCovPassInfo -> doNavigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
             )
+
+            OpenAdmissionScenarioScreen -> {
+                setupHoldTransition()
+                val navigatorExtras = FragmentNavigatorExtras(
+                    binding.admissionContainer.root to binding.admissionContainer.root.transitionName
+                )
+                findNavController().navigate(
+                    R.id.action_personOverviewFragment_to_admissionScenariosFragment,
+                    null,
+                    null,
+                    navigatorExtras
+                )
+            }
+
+            is ShowAdmissionScenarioError -> event.error.toErrorDialogBuilder(requireContext()).show()
         }
     }
 
@@ -135,6 +166,18 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         adapter = personOverviewAdapter
         addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
         itemAnimator = DefaultItemAnimator()
+    }
+
+    private fun AdmissionScenarioTileBinding.bindAdmissionTile(
+        tile: AdmissionTileProvider.AdmissionTile
+    ) {
+        admissionTile.apply {
+            isVisible = tile.visible
+            setOnClickListener { viewModel.openAdmissionScenarioScreen() }
+        }
+
+        admissionTileTitle.text = tile.title.ifEmpty { getString(R.string.ccl_admission_state_tile_title) }
+        admissionTileSubtitle.text = tile.subtitle.ifEmpty { getString(R.string.ccl_admission_state_tile_subtitle) }
     }
 
     companion object {

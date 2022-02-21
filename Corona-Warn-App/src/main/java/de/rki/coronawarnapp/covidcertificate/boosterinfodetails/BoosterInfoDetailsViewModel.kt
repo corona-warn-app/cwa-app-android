@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.boosterinfodetails
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -19,7 +19,7 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider,
     private val vaccinationRepository: VaccinationRepository,
     @Assisted private val personIdentifierCode: String,
-    private val format: CCLTextFormatter,
+    private val format: CclTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     val shouldClose = SingleLiveEvent<Unit>()

@@ -85,5 +85,8 @@ data class DccWalletInfoInput(
     val certificates: List<CclCertificate>,
 
     @JsonProperty("boosterNotificationRules")
-    val boosterNotificationRules: JsonNode
+    val boosterNotificationRules: JsonNode,
+
+    @JsonProperty("scenarioIdentifier")
+    val scenarioIdentifier: String
 )

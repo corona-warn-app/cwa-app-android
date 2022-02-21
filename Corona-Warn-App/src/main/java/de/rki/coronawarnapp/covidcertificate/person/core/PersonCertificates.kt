@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -45,5 +45,5 @@ data class PersonCertificates(
 
 data class VerificationCertificate(
     val cwaCertificate: CwaCovidCertificate,
-    val buttonText: CCLText? = null
+    val buttonText: CclText? = null
 )

@@ -34,7 +34,7 @@ import testhelpers.TestDispatcherProvider
 class DccWalletInfoCalculationTest : BaseTest() {
 
     @MockK lateinit var walletInfo: DccWalletInfo
-    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
 
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
@@ -85,7 +85,8 @@ class DccWalletInfoCalculationTest : BaseTest() {
         val dccWalletInfoInput = instance.getDccWalletInfoInput(
             defaultInputParameters = defaultInputParameters,
             dccList = listOf(certificate),
-            boosterNotificationRules = NullNode.instance
+            boosterNotificationRules = NullNode.instance,
+            scenarioIdentifier = "",
         )
         dccWalletInfoInput.language shouldBe "de"
         dccWalletInfoInput.os shouldBe "android"
