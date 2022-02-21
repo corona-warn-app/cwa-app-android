@@ -277,6 +277,13 @@ class RecoveryCertificateRepository @Inject constructor(
         }
     }
 
+    suspend fun replaceCertificate(
+        certificateToReplace: RecoveryCertificateContainerId,
+        newCertificate: RecoveryCertificateContainerId
+    ) {
+        TODO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+    }
+
     companion object {
         private val TAG = RecoveryCertificateRepository::class.simpleName!!
     }

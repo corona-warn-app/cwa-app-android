@@ -434,6 +434,13 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
+    suspend fun replaceCertificate(
+        certificateToReplace: VaccinationCertificateContainerId,
+        newCertificate: VaccinationCertificateContainerId
+    ) {
+        TODO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+    }
+
     companion object {
         private const val TAG = "VaccinationRepository"
     }
