@@ -9,7 +9,10 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
+import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.util.AppShortcuts
@@ -25,7 +28,10 @@ import javax.inject.Singleton
 class AppShortcutsHelper @Inject constructor(
     @AppContext private val context: Context,
     private val onboardingSettings: OnboardingSettings,
-    private val coronaTestRepository: CoronaTestRepository
+    private val coronaTestRepository: CoronaTestRepository,
+    private val contactDiarySettings: ContactDiarySettings,
+    private val traceLocationSettings: TraceLocationSettings,
+    private val covidCertificateSettings: CovidCertificateSettings,
 ) {
     suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
         // No shortcuts if test result is positive
@@ -36,7 +42,8 @@ class AppShortcutsHelper @Inject constructor(
         }
 
         // No shortcuts if not onboarded
-        if (!onboardingSettings.isOnboarded) {
+        if (!onboardingSettings.isOnboarded || !contactDiarySettings.isOnboardingDone ||
+            !traceLocationSettings.isOnboardingDone ||!covidCertificateSettings.isOnboarded.value) {
             Timber.i("[AppShortcuts] Remove all shortcut items since onboarding is not done yet")
             removeAppShortcuts()
             return@withContext
