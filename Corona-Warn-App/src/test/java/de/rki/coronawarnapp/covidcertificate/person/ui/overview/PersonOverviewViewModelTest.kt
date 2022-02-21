@@ -27,7 +27,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
