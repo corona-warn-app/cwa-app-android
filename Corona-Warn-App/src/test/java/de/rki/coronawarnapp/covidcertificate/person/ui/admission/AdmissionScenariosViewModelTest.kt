@@ -78,10 +78,7 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
 
     @Test
     fun selectScenario() {
-        instance().apply {
-            selectScenario("admissionScenarioId")
-            calculationState.getOrAwaitValue() shouldBe AdmissionScenariosViewModel.CalculationDone
-        }
+        instance().selectScenario("admissionScenarioId")
         coVerifySequence {
             admissionCheckScenariosRepository.save(any())
             cclSetting.setAdmissionScenarioId(any())
