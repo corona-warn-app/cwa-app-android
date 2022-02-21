@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
-import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
@@ -46,6 +45,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var admissionTileProvider: AdmissionTileProvider
     private val mapper = SerializationModule.jacksonBaseMapper
@@ -76,6 +76,7 @@ class PersonOverviewViewModelTest : BaseTest() {
                 subtitle = "Bundesweit"
             )
         )
+        coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
     }
 
     @Test
@@ -269,6 +270,10 @@ class PersonOverviewViewModelTest : BaseTest() {
             openAdmissionScenarioScreen()
             events.getOrAwaitValue() shouldBe OpenAdmissionScenarioScreen
         }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
     }
 
     @Test
@@ -280,6 +285,13 @@ class PersonOverviewViewModelTest : BaseTest() {
             openAdmissionScenarioScreen()
             events.getOrAwaitValue() shouldBe ShowAdmissionScenarioError(exception)
         }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+        }
+
+        coVerify(exactly = 0) {
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
     }
 
     private val instance
@@ -290,7 +302,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
             format = CclTextFormatter(cclJsonFunctions, mapper),
-            admissionScenariosSharedViewModel = AdmissionScenariosSharedViewModel(SavedStateHandle()),
+            admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
             dccAdmissionTileProvider = admissionTileProvider
         )
