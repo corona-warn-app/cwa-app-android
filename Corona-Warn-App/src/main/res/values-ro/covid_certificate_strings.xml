@@ -79,8 +79,6 @@
     <string name="vaccination_certificate_doses">"Vaccinarea %1$d din %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Certificat de vaccinare"</string>
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">"Acesta este un vaccin care necesită o singură doză sau un vaccin pentru o persoană care s-a recuperat după boală și care are nevoie de o singură doză."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW

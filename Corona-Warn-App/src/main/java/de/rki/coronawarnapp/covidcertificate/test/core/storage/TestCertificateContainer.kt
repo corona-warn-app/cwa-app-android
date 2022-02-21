@@ -133,8 +133,7 @@ data class TestCertificateContainer(
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
-            override val qrCodeHash: String
-                get() = this@TestCertificateContainer.qrCodeHash
+            override val qrCodeHash: String by lazy { this@TestCertificateContainer.qrCodeHash }
 
             override val uniqueCertificateIdentifier: String
                 get() = testCertificate.uniqueCertificateIdentifier

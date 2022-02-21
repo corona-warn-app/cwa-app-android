@@ -1,16 +1,14 @@
 package de.rki.coronawarnapp.dccticketing.core.certificateselection
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -26,9 +24,7 @@ import testhelpers.BaseTest
 
 internal class DccTicketingCertificateFilterTest : BaseTest() {
 
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
-    @MockK lateinit var testCertificateRepository: TestCertificateRepository
-    @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
+    @MockK lateinit var certificateProvider: CertificateProvider
 
     // ///////////////////////////////////////////////////////////
     // Vaccinations
@@ -121,9 +117,12 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        every { vaccinationRepository.cwaCertificates } returns flowOf(vcSet)
-        every { recoveryCertificateRepository.cwaCertificates } returns flowOf(rcSet)
-        every { testCertificateRepository.cwaCertificates } returns flowOf(tcSet)
+        val certificateContainer: CertificateProvider.CertificateContainer = mockk {
+            every { recoveryCwaCertificates } returns rcSet
+            every { testCwaCertificates } returns tcSet
+            every { vaccinationCwaCertificates } returns vcSet
+        }
+        every { certificateProvider.certificateContainer } returns flowOf(certificateContainer)
     }
 
     @Test
@@ -303,11 +302,7 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
             ) shouldBe emptySet()
         }
 
-    private fun instance() = DccTicketingCertificateFilter(
-        vaccinationRepository = vaccinationRepository,
-        testCertificateRepository = testCertificateRepository,
-        recoveryCertificateRepository = recoveryCertificateRepository
-    )
+    private fun instance() = DccTicketingCertificateFilter(certificateProvider = certificateProvider)
 
     private inline fun <reified T : CwaCovidCertificate, reified D : DccV1.MetaData> mockCertificate(
         fName: String,

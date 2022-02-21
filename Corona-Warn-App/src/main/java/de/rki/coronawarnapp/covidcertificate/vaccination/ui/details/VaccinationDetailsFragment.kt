@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -207,7 +206,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
-        oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
