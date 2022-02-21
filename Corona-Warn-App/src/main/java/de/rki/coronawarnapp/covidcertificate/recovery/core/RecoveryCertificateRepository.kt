@@ -100,8 +100,6 @@ class RecoveryCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    val cwaCertificates = certificates.map { set -> set.map { it.recoveryCertificate }.toSet() }
-
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
      */
@@ -275,6 +273,13 @@ class RecoveryCertificateRepository @Inject constructor(
                 }
             )
         }
+    }
+
+    suspend fun replaceCertificate(
+        certificateToReplace: RecoveryCertificateContainerId,
+        newCertificateQrCode: RecoveryCertificateQRCode
+    ) {
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     companion object {

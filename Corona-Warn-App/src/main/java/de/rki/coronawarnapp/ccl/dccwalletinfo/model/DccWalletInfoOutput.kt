@@ -20,13 +20,17 @@ data class DccWalletInfo(
     val boosterNotification: BoosterNotification,
 
     @JsonProperty("mostRelevantCertificate")
-    val mostRelevantCertificate: MostRelevantCertificate,
+    val mostRelevantCertificate: Certificate,
 
     @JsonProperty("verification")
     val verification: Verification,
 
     @JsonProperty("validUntil")
     val validUntil: String,
+
+    @JsonProperty("certificateReissuance")
+    val certificateReissuance: CertificateReissuance? = null
+
 ) {
     @get:JsonIgnore
     val validUntilInstant: Instant
@@ -44,7 +48,7 @@ data class DccWalletInfo(
     JsonSubTypes.Type(PluralText::class, name = "plural"),
     JsonSubTypes.Type(SystemTimeDependentText::class, name = "system-time-dependent"),
 )
-sealed interface CCLText {
+sealed interface CclText {
     val type: String
 }
 
@@ -53,16 +57,16 @@ data class AdmissionState(
     val visible: Boolean,
 
     @JsonProperty("badgeText")
-    val badgeText: CCLText?,
+    val badgeText: CclText?,
 
     @JsonProperty("titleText")
-    val titleText: CCLText?,
+    val titleText: CclText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText?,
+    val subtitleText: CclText?,
 
     @JsonProperty("longText")
-    val longText: CCLText?,
+    val longText: CclText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
@@ -80,7 +84,7 @@ data class SingleText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-) : CCLText
+) : CclText
 
 /**
  * Text
@@ -94,7 +98,7 @@ data class SystemTimeDependentText(
 
     @JsonProperty("parameters")
     val parameters: ObjectNode
-) : CCLText
+) : CclText
 
 data class QuantityText(
     @JsonProperty("zero")
@@ -140,20 +144,20 @@ data class PluralText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-) : CCLText
+) : CclText
 
 data class BoosterNotification(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText?,
+    val titleText: CclText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText?,
+    val subtitleText: CclText?,
 
     @JsonProperty("longText")
-    val longText: CCLText?,
+    val longText: CclText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?,
@@ -171,13 +175,13 @@ data class CertificateRef(
 
 data class OutputCertificates(
     @JsonProperty("buttonText")
-    val buttonText: CCLText?,
+    val buttonText: CclText?,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
 
-data class MostRelevantCertificate(
+data class Certificate(
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
@@ -209,13 +213,13 @@ data class VaccinationState(
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText?,
+    val titleText: CclText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText?,
+    val subtitleText: CclText?,
 
     @JsonProperty("longText")
-    val longText: CCLText?,
+    val longText: CclText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
@@ -224,4 +228,33 @@ data class VaccinationState(
 data class Verification(
     @JsonProperty("certificates")
     val certificates: List<OutputCertificates>
+)
+
+data class CertificateReissuance(
+
+    @JsonProperty("reissuanceDivision")
+    val reissuanceDivision: ReissuanceDivision,
+
+    @JsonProperty("certificateToReissue")
+    val certificateToReissue: Certificate,
+
+    @JsonProperty("accompanyingCertificates")
+    val accompanyingCertificates: List<Certificate>
+)
+
+data class ReissuanceDivision(
+    @JsonProperty("visible")
+    val visible: Boolean,
+
+    @JsonProperty("titleText")
+    val titleText: CclText?,
+
+    @JsonProperty("subtitleText")
+    val subtitleText: CclText?,
+
+    @JsonProperty("longText")
+    val longText: CclText?,
+
+    @JsonProperty("faqAnchor")
+    val faqAnchor: String?
 )

@@ -6,13 +6,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
@@ -46,7 +47,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val dccValidationRepository: DccValidationRepository,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
-    private val format: CCLTextFormatter,
+    private val format: CclTextFormatter,
 ) : CWAViewModel(dispatcherProvider) {
 
     private val colorShadeData = MutableLiveData(colorShade)
@@ -68,7 +69,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         createUiState(personSpecificCertificates, isLoading)
     }.asLiveData2()
 
-    @Suppress("NestedBlockDepth")
+    @Suppress("NestedBlockDepth", "ComplexMethod")
     private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
         val priorityCertificate = personCertificates.highestPriorityCertificate
         if (priorityCertificate == null) {
@@ -90,6 +91,18 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
                 )
             )
+
+            personCertificates.dccWalletInfo?.certificateReissuance?.reissuanceDivision?.let { division ->
+                if (division.visible) {
+                    add(
+                        CertificateReissuanceCard.Item(
+                            title = format(division.titleText),
+                            subtitle = format(division.subtitleText),
+                            onClick = { events.postValue(OpenCertificateReissuanceConsent) }
+                        )
+                    )
+                }
+            }
 
             personCertificates.dccWalletInfo?.boosterNotification?.let { boosterNotification ->
                 if (boosterNotification.visible) {

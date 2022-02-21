@@ -79,8 +79,6 @@
     <string name="vaccination_certificate_doses">"Szczepienie %1$d %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Certyfikat szczepienia"</string>
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">"Jest to szczepionka, która wymaga tylko jednej dawki lub szczepionka dla ozdrowieńca, który potrzebuje tylko jednej dawki."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW

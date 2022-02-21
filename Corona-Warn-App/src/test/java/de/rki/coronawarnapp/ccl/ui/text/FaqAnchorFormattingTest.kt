@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ccl.ui.text
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -11,7 +11,7 @@ import testhelpers.BaseTest
 import java.util.Locale
 
 internal class FaqAnchorFormattingTest : BaseTest() {
-    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -21,7 +21,7 @@ internal class FaqAnchorFormattingTest : BaseTest() {
 
     @Test
     fun formatFaqAnchor() {
-        val format = CCLTextFormatter(cclJsonFunctions, mapper)
+        val format = CclTextFormatter(cclJsonFunctions, mapper)
         val deUrl = format(faqAnchor = "dcc_admission_state", "de")
         deUrl shouldBe "https://www.coronawarn.app/de/faq/#dcc_admission_state"
 
