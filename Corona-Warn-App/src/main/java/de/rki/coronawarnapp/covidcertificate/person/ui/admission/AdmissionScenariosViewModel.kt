@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 
+import androidx.annotation.VisibleForTesting
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -40,7 +41,8 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
         }
     )
 
-    private fun selectScenario(admissionScenarioId: String) = launch {
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun selectScenario(admissionScenarioId: String) = launch {
         runCatching {
             calculationState.postValue(Calculating) // Shows busy indicator
             // Save Admission Scenarios and selected Admission scenario Id
