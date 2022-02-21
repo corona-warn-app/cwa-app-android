@@ -37,7 +37,7 @@ class DccWalletInfoRepository @Inject constructor(
     ) {
         dccWalletInfoDao.insert(
             DccWalletInfoEntity(
-                groupKey = personIdentifier.groupingKey, // TODO: here we save grouping key :-/
+                groupKey = personIdentifier.groupingKey,
                 dccWalletInfo = dccWalletInfo
             )
         )

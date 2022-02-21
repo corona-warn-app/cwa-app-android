@@ -15,7 +15,7 @@ data class PersonCertificates(
         get() = certificates.firstOrNull()?.personIdentifier
 
     fun isTheSamePerson(personIdentifier: CertificatePersonIdentifier): Boolean {
-        return certificates.any { it.personIdentifier.isTheSamePerson(personIdentifier) }
+        return certificates.any { it.personIdentifier.belongsToSamePerson(personIdentifier) }
     }
 
     // PersonDetails

@@ -31,6 +31,6 @@ class DccHolderComparisonTest : BaseTestInstrumentation() {
             )
         }
 
-        certA.personIdentifier.isTheSamePerson(certB) shouldBe testCase.isEqual
+        certA.personIdentifier.belongsToSamePerson(certB) shouldBe testCase.isEqual
     }
 }

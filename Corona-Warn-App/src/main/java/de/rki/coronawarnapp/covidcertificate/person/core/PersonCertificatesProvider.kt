@@ -68,7 +68,7 @@ class PersonCertificatesProvider @Inject constructor(
 
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
-                isCwaUser = certs.any { it.personIdentifier.isTheSamePerson(cwaUser) },
+                isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
                 // TODO: this could lead to multiple PersonCertificates where isCwaUser == true
                 badgeCount = badgeCount,
                 dccWalletInfo = dccWalletInfo

@@ -59,19 +59,22 @@ private fun List<Set<CwaCovidCertificate>>.removeDuplicates(): List<Set<CwaCovid
 private fun Set<CwaCovidCertificate>.personIntersect(certificates: Set<CwaCovidCertificate>): Boolean {
     forEach { certificateA ->
         certificates.forEach { certificateB ->
-            if (certificateA.personIdentifier.isTheSamePerson(certificateB)) return true
+            if (certificateA.personIdentifier.belongsToSamePerson(certificateB)) return true
         }
     }
     return false
 }
 
+/**
+ * @return first group of certificates belonging to the person
+ */
 fun List<Set<CwaCovidCertificate>>.firstGroupWithPerson(
     personIdentifier: CertificatePersonIdentifier?
 ): Set<CwaCovidCertificate> {
     if (personIdentifier == null) return emptySet()
     forEach { certificates ->
         certificates.forEach { certificate ->
-            if (personIdentifier.isTheSamePerson(certificate)) {
+            if (personIdentifier.belongsToSamePerson(certificate)) {
                 return certificates
             }
         }

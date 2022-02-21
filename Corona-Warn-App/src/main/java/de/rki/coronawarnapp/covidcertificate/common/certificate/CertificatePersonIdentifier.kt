@@ -20,7 +20,7 @@ data class CertificatePersonIdentifier(
     @JsonIgnore private val sanitizedGivenName: List<String> = firstNameStandardized?.sanitizeName() ?: emptyList()
 
     /**
-     Method shall decide whether the DGCs belongs the same holder.
+     Method shall decide whether the DGCs belong to the same holder.
      Two DCCs shall be considered as belonging to the same holder, if:
 
      - the sanitized `dob` attributes are the same strings, and
@@ -32,13 +32,11 @@ data class CertificatePersonIdentifier(
      element, and the intersection/overlap of the name components of sanitized `a.nam.gnt` and `b.nam.fnt` has at least
      one element
      */
-    // or belongsToTheSamePerson()
-    fun isTheSamePerson(other: CwaCovidCertificate): Boolean = isTheSamePerson(other.personIdentifier)
-    fun isTheSamePerson(other: CertificatePersonIdentifier?): Boolean {
+    fun belongsToSamePerson(other: CwaCovidCertificate): Boolean = belongsToSamePerson(other.personIdentifier)
+    fun belongsToSamePerson(other: CertificatePersonIdentifier?): Boolean {
         if (other == null) return false
         if (dateOfBirthFormatted.trim() != other.dateOfBirthFormatted.trim()) return false
 
-        // TODO: need refactoring
         val familyNameOverlap = sanitizedFamilyName.intersect(other.sanitizedFamilyName).isNotEmpty()
         val givenNameOverlap = sanitizedGivenName.intersect(other.sanitizedGivenName).isNotEmpty()
         val bothGivenNamesAreEmpty = sanitizedGivenName.isEmpty() && other.sanitizedGivenName.isEmpty()
@@ -117,7 +115,6 @@ private fun String.sanitizeName(): List<String> {
     val filteringList = listOf("DR")
     return uppercase()
         .trim()
-        .trim('<')
         .replace("\\s+".toRegex(), "<")
         .replace(".", "<")
         .replace("-", "<")
