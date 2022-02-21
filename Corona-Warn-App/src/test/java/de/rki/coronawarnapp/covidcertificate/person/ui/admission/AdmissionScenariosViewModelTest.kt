@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
@@ -86,6 +87,7 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
     }
 
     private fun instance() = AdmissionScenariosViewModel(
+        dispatcherProvider= TestDispatcherProvider(),
         format = CclTextFormatter(cclJsonFunctions, mapper),
         admissionCheckScenariosRepository = admissionCheckScenariosRepository,
         admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
