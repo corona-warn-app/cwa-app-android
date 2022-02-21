@@ -44,7 +44,7 @@ data class DccWalletInfo(
     JsonSubTypes.Type(PluralText::class, name = "plural"),
     JsonSubTypes.Type(SystemTimeDependentText::class, name = "system-time-dependent"),
 )
-sealed interface CCLText {
+sealed interface CclText {
     val type: String
 }
 
@@ -53,16 +53,16 @@ data class AdmissionState(
     val visible: Boolean,
 
     @JsonProperty("badgeText")
-    val badgeText: CCLText?,
+    val badgeText: CclText?,
 
     @JsonProperty("titleText")
-    val titleText: CCLText?,
+    val titleText: CclText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText?,
+    val subtitleText: CclText?,
 
     @JsonProperty("longText")
-    val longText: CCLText?,
+    val longText: CclText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
@@ -80,7 +80,7 @@ data class SingleText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-) : CCLText
+) : CclText
 
 /**
  * Text
@@ -94,7 +94,7 @@ data class SystemTimeDependentText(
 
     @JsonProperty("parameters")
     val parameters: ObjectNode
-) : CCLText
+) : CclText
 
 data class QuantityText(
     @JsonProperty("zero")
@@ -140,20 +140,20 @@ data class PluralText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-) : CCLText
+) : CclText
 
 data class BoosterNotification(
     @JsonProperty("visible")
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText?,
+    val titleText: CclText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText?,
+    val subtitleText: CclText?,
 
     @JsonProperty("longText")
-    val longText: CCLText?,
+    val longText: CclText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?,
@@ -171,7 +171,7 @@ data class CertificateRef(
 
 data class OutputCertificates(
     @JsonProperty("buttonText")
-    val buttonText: CCLText?,
+    val buttonText: CclText?,
 
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
@@ -209,13 +209,13 @@ data class VaccinationState(
     val visible: Boolean,
 
     @JsonProperty("titleText")
-    val titleText: CCLText?,
+    val titleText: CclText?,
 
     @JsonProperty("subtitleText")
-    val subtitleText: CCLText?,
+    val subtitleText: CclText?,
 
     @JsonProperty("longText")
-    val longText: CCLText?,
+    val longText: CclText?,
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?

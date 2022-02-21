@@ -6,7 +6,8 @@ import com.google.gson.Gson
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.ccl.configuration.update.CCLConfigurationUpdater
+import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
@@ -191,5 +192,8 @@ class MockProvider {
     fun recoveryCertificateRepository(): RecoveryCertificateRepository = mockk()
 
     @Provides
-    fun cclConfigurationUpdater(): CCLConfigurationUpdater = mockk()
+    fun cclConfigurationUpdater(): CclConfigurationUpdater = mockk()
+
+    @Provides
+    fun dccWalletInfoUpdateTrigger(): DccWalletInfoUpdateTrigger = mockk()
 }

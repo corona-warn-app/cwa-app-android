@@ -27,10 +27,13 @@ class DccWalletInfoUpdateTask @Inject constructor(
         arguments as Arguments
         when (val trigger = arguments.dccWalletInfoUpdateTriggerType) {
             is TriggeredAfterConfigUpdate -> dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(
-                configurationChanged = trigger.configurationChanged
+                configurationChanged = trigger.configurationChanged,
+                admissionScenarioId = arguments.admissionScenarioId
             )
             is TriggeredAfterCertificateChange ->
-                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
+                    admissionScenarioId = arguments.admissionScenarioId
+                )
         }
 
         dccWalletInfoCleaner.clean()
@@ -41,6 +44,7 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
     data class Arguments(
         val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType,
+        val admissionScenarioId: String = ""
     ) : Task.Arguments
 
     sealed interface DccWalletInfoUpdateTriggerType {

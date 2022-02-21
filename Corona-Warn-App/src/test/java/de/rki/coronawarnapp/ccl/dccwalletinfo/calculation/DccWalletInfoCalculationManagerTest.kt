@@ -54,16 +54,16 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { dccWalletInfo1.validUntilInstant } returns Instant.EPOCH.withMillis(2000)
         every { dccWalletInfo2.validUntilInstant } returns Instant.EPOCH.withMillis(100)
         every { calculation.init(any()) } just Runs
-        coEvery { calculation.getDccWalletInfo(any(), any()) } returns dccWalletInfo1
+        coEvery { calculation.getDccWalletInfo(any(), "", any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs
         coEvery { boosterNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
         instance = DccWalletInfoCalculationManager(
-            boosterRulesRepository,
-            boosterNotificationService,
-            personCertificatesProvider,
-            dccWalletInfoRepository,
-            calculation,
-            timeStamper
+            boosterRulesRepository = boosterRulesRepository,
+            boosterNotificationService = boosterNotificationService,
+            personCertificatesProvider = personCertificatesProvider,
+            dccWalletInfoRepository = dccWalletInfoRepository,
+            calculation = calculation,
+            timeStamper = timeStamper
         )
     }
 
@@ -72,7 +72,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         coEvery { calculation.getDccWalletInfo(any()) } throws Exception()
         assertDoesNotThrow {
             runBlockingTest2 {
-                instance.triggerCalculationAfterConfigChange()
+                instance.triggerCalculationAfterConfigChange("")
             }
         }
     }
@@ -82,11 +82,11 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
         runBlockingTest2 {
-            instance.triggerCalculationAfterCertificateChange()
+            instance.triggerCalculationAfterCertificateChange("")
         }
 
         coVerify(exactly = 2) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
@@ -101,11 +101,11 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
         runBlockingTest2 {
-            instance.triggerCalculationAfterConfigChange()
+            instance.triggerCalculationAfterConfigChange("")
         }
 
         coVerify(exactly = 2) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
@@ -121,11 +121,11 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo1
 
         runBlockingTest2 {
-            instance.triggerCalculationAfterConfigChange(false)
+            instance.triggerCalculationAfterConfigChange("", false)
         }
 
         coVerify(exactly = 1) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
@@ -141,11 +141,11 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
 
         runBlockingTest2 {
-            instance.triggerCalculationAfterConfigChange(false)
+            instance.triggerCalculationAfterConfigChange("", false)
         }
 
         coVerify(exactly = 1) {
-            calculation.getDccWalletInfo(any(), any())
+            calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 0) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)

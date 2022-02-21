@@ -1,13 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
 import androidx.lifecycle.LiveData
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard.Item.OverviewCertificate
@@ -19,21 +23,26 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
+@Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     certificatesProvider: PersonCertificatesProvider,
-    private val testCertificateRepository: TestCertificateRepository,
+    dccAdmissionTileProvider: AdmissionTileProvider,
+    @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     @AppScope private val appScope: CoroutineScope,
+    private val testCertificateRepository: TestCertificateRepository,
     private val expirationNotificationService: DccExpirationNotificationService,
-    private val format: CCLTextFormatter,
+    private val format: CclTextFormatter,
+    private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
 ) : CWAViewModel(dispatcherProvider) {
 
+    val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
     val events = SingleLiveEvent<PersonOverviewFragmentEvents>()
     val uiState: LiveData<UiState> = combine<Set<PersonCertificates>, Set<TestCertificateWrapper>, UiState>(
         certificatesProvider.personCertificates,
@@ -123,13 +132,27 @@ class PersonOverviewViewModel @AssistedInject constructor(
         expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
+    fun openAdmissionScenarioScreen() = launch {
+        runCatching {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios()
+        }.onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
+            .onSuccess {
+                admissionScenariosSharedViewModel.setAdmissionScenarios(it)
+                events.postValue(OpenAdmissionScenarioScreen)
+            }
+    }
+
     sealed class UiState {
         object Loading : UiState()
         data class Done(val personCertificates: List<PersonCertificatesItem>) : UiState()
     }
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<PersonOverviewViewModel>
+    interface Factory : CWAViewModelFactory<PersonOverviewViewModel> {
+        fun create(
+            admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+        ): PersonOverviewViewModel
+    }
 
     companion object {
         private const val TAG = "PersonOverviewViewModel"

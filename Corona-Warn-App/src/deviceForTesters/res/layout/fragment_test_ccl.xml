@@ -29,12 +29,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
-
             <Button
                 android:id="@+id/calc_dcc_wallet_info"
                 style="@style/buttonPrimary"
@@ -50,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="Clear DccWalletInfo" />
-
 
             <TextView
                 android:id="@+id/info_status"
@@ -95,10 +88,11 @@
 
             <Button
                 android:id="@+id/force_update_ccl_configuration"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Force-update CCL Configuration" />
+                android:text="Force CCL Config update" />
 
             <ProgressBar
                 android:id="@+id/force_update_progress_bar"

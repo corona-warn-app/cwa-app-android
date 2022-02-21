@@ -8,6 +8,7 @@ message DGCParameters {
   DGCTestCertificateParameters testCertificateParameters = 1;
   uint32 expirationThresholdInDays = 2;
   DGCBlocklistParameters blockListParameters = 3;
+  bytes reissueServicePublicKeyDigest = 4;
 }
 
 message DGCTestCertificateParameters {

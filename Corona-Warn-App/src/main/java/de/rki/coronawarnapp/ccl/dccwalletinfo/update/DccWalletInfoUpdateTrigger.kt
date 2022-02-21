@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
@@ -20,9 +22,11 @@ import javax.inject.Singleton
 
 @Singleton
 class DccWalletInfoUpdateTrigger @Inject constructor(
+    private val taskController: TaskController,
+    private val cclSettings: CclSettings,
+    private val appConfigProvider: AppConfigProvider,
     personCertificateProvider: PersonCertificatesProvider,
     @AppScope appScope: CoroutineScope,
-    private val taskController: TaskController,
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
     private val dccWalletInfoCleaner: DccWalletInfoCleaner
 ) {
@@ -38,33 +42,46 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 // meant to trigger calculation - such as badge dismissal or validity state change - is not considered
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
-                    runCatching {
-                        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
-                        dccWalletInfoCleaner.clean()
-                    }.onFailure {
+                    runCatching { triggerNow(getAdmissionScenarioId()) }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
                     }
                 }
         }
     }
 
-    fun triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged: Boolean = false) {
+    suspend fun triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged: Boolean = false) {
         Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterConfigUpdate()")
         taskController.submit(
             DefaultTaskRequest(
                 type = DccWalletInfoUpdateTask::class,
                 arguments = DccWalletInfoUpdateTask.Arguments(
-                    TriggeredAfterConfigUpdate(
+                    dccWalletInfoUpdateTriggerType = TriggeredAfterConfigUpdate(
                         configurationChanged
-                    )
+                    ),
+                    admissionScenarioId = getAdmissionScenarioId()
                 ),
                 originTag = TAG
             )
         )
     }
 
+    suspend fun triggerNow(admissionScenarioId: String) {
+        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(admissionScenarioId)
+        dccWalletInfoCleaner.clean()
+    }
+
     private val Set<PersonCertificates>.sortedQrCodeHashSet: Set<String>
         get() = flatMap { personCert -> personCert.certificates.map { it.qrCodeHash } }.sorted().toSet()
+
+    private suspend fun getAdmissionScenarioId(): String {
+        val enabled = runCatching {
+            appConfigProvider.getAppConfig().admissionScenariosEnabled
+        }.onFailure {
+            Timber.d(it, "getAppConfig().admissionScenariosEnabled failed")
+        }.getOrElse { true }
+
+        return if (enabled) cclSettings.getAdmissionScenarioId() else ""
+    }
 
     companion object {
         private val TAG = tag<DccWalletInfoUpdateTrigger>()
