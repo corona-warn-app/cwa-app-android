@@ -22,7 +22,8 @@ class CertificateReissuanceCard(parent: ViewGroup) :
 
     @SuppressLint("SetTextI18n")
     override val onBindData: PersonDetailsCertificateReissuanceCardBinding.(item: Item, payloads: List<Any>) -> Unit =
-        { item, payloads ->
+        { curItem, payloads ->
+            root.setOnClickListener { curItem.onClick() }
             // TODO
         }
 

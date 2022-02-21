@@ -128,6 +128,9 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_boosterInfoDetailsFragment"
             app:destination="@id/boosterInfoDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_dccReissuanceConsentFragment"
+            app:destination="@id/DccReissuanceConsentFragment" />
     </fragment>
 
     <fragment
@@ -296,4 +299,9 @@
         android:name="de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosFragment"
         android:label="fragment_admission_scenarios"
         tools:layout="@layout/fragment_admission_scenarios" />
+    <fragment
+        android:id="@+id/DccReissuanceConsentFragment"
+        android:name="de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragment"
+        android:label="fragment_dcc_reissuance_consent"
+        tools:layout="@layout/fragment_dcc_reissuance_consent"></fragment>
 </navigation>
