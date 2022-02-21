@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.ccl.configuration.CclConfigurationModule
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettingsDataStore
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDao
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.database.DccWalletInfoDatabase
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.TaskTypeKey
@@ -21,30 +20,21 @@ import de.rki.coronawarnapp.util.di.AppContext
 import javax.inject.Singleton
 
 @Module(includes = [CclConfigurationModule::class])
-abstract class CclModule {
+object CclModule {
 
-    @Binds
-    @IntoMap
-    @TaskTypeKey(DccWalletInfoUpdateTask::class)
-    abstract fun dccWalletInfoUpdateTaskFactory(
-        factory: DccWalletInfoUpdateTask.Factory
-    ): TaskFactory<out Task.Progress, out Task.Result>
+    @Singleton
+    @Provides
+    fun dccWalletInfoDao(
+        dccWalletInfoDatabaseFactory: DccWalletInfoDatabase.Factory
+    ): DccWalletInfoDao = dccWalletInfoDatabaseFactory.create().dccWalletInfoDao()
 
-    companion object {
-        @Singleton
-        @Provides
-        fun dccWalletInfoDao(
-            dccWalletInfoDatabaseFactory: DccWalletInfoDatabase.Factory
-        ): DccWalletInfoDao = dccWalletInfoDatabaseFactory.create().dccWalletInfoDao()
+    @Singleton
+    @Provides
+    @CclSettingsDataStore
+    fun provideCLLSettingsDataStore(@AppContext context: Context): DataStore<Preferences> =
+        PreferenceDataStoreFactory.create {
+            context.preferencesDataStoreFile(CCL_SETTINGS_DATASTORE_NAME)
+        }
 
-        @Singleton
-        @Provides
-        @CclSettingsDataStore
-        fun provideCLLSettingsDataStore(@AppContext context: Context): DataStore<Preferences> =
-            PreferenceDataStoreFactory.create {
-                context.preferencesDataStoreFile(CCL_SETTINGS_DATASTORE_NAME)
-            }
-
-        private const val CCL_SETTINGS_DATASTORE_NAME = "ccl_settings_localdata"
-    }
+    private const val CCL_SETTINGS_DATASTORE_NAME = "ccl_settings_localdata"
 }

@@ -24,7 +24,7 @@ class CclTestViewModel @AssistedInject constructor(
     }
 
     fun triggerCalculation() = launch {
-        dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange("")
+        dccWalletInfoCalculationManager.triggerAfterConfigChange("")
     }
 
     fun forceUpdateCclConfiguration() = launch {

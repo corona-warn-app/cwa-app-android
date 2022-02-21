@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccadmission.model.DccAdmissionCheckScenarios
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -21,7 +22,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
     private val admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository,
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     private val cclSettings: CclSettings,
-    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
+    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 ) : CWAViewModel() {
 
     val calculationState = SingleLiveEvent<CalculationState>()
@@ -51,9 +52,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
             )
             cclSettings.setAdmissionScenarioId(admissionScenarioId)
             // Calculate DccWalletInfo for certificate holders
-            dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
-                admissionScenarioId = admissionScenarioId
-            )
+            dccWalletInfoUpdateTrigger.triggerNow(admissionScenarioId = admissionScenarioId)
             calculationState.postValue(CalculationDone) // Dismiss busy indicator
         }.onFailure {
             Timber.d(it, "selectScenario() failed")
