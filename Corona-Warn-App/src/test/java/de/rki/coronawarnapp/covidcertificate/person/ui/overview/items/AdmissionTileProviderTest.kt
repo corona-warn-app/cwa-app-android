@@ -2,10 +2,10 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.overview.items
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccadmission.storage.DccAdmissionCheckScenariosRepository
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
@@ -25,10 +25,10 @@ import testhelpers.BaseTest
 
 internal class AdmissionTileProviderTest : BaseTest() {
     @MockK lateinit var admissionCheckScenariosRepository: DccAdmissionCheckScenariosRepository
-    @MockK lateinit var cclSettings: CCLSettings
+    @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var configData: ConfigData
-    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
 
     private val mapper = SerializationModule.jacksonBaseMapper
@@ -89,7 +89,7 @@ internal class AdmissionTileProviderTest : BaseTest() {
     }
 
     fun instance() = AdmissionTileProvider(
-        format = CCLTextFormatter(cclJsonFunctions, mapper),
+        format = CclTextFormatter(cclJsonFunctions, mapper),
         appConfigProvider = appConfigProvider,
         certificatesProvider = personCertificatesProvider,
         admissionCheckScenariosRepository = admissionCheckScenariosRepository,

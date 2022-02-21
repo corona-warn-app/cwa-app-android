@@ -79,8 +79,6 @@
     <string name="vaccination_certificate_doses">"Aşı %1$d / %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Aşı Sertifikası"</string>
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">"Bu, yalnızca bir doz uygulanması gereken bir aşıdır ya da hastalığı geçirerek yalnızca bir doza ihtiyacı olan kişiye yönelik bir aşıdır."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
