@@ -41,7 +41,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
         }
         Result.Success
     } catch (e: Exception) {
-        Timber.e(e, "Failed to run calculation.")
+        Timber.d(e, "Failed to run calculation.")
         Result.Failure(e)
     }
 
@@ -54,7 +54,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
         }
         Result.Success
     } catch (e: Exception) {
-        Timber.e(e, "Failed to run calculation.")
+        Timber.d(e, "Failed to run calculation.")
         Result.Failure(e)
     }
 

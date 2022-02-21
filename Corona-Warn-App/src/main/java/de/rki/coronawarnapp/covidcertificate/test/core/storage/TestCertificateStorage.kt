@@ -60,7 +60,7 @@ class TestCertificateStorage @Inject constructor(
     }
 
     suspend fun save(certs: Collection<BaseTestCertificateData>) = mutex.withLock {
-        Timber.tag(TAG).d("save(testCertificates=%s)", certs)
+        Timber.tag(TAG).d("save(testCertificates=%s)", certs.size)
         prefs.edit(commit = true) {
             storeCerts(certs.filterIsInstance<PCRCertificateData>(), typeTokenPCR, PKEY_DATA_PCR)
             storeCerts(certs.filterIsInstance<RACertificateData>(), typeTokenRA, PKEY_DATA_RA)
@@ -76,7 +76,7 @@ class TestCertificateStorage @Inject constructor(
         val type = typeToken.type
         if (certs.isNotEmpty()) {
             val raw = gson.toJson(certs, type)
-            Timber.tag(TAG).v("Storing scanned certs ($type): %s", raw)
+            Timber.tag(TAG).v("Storing scanned certs ($type): %s", certs.size)
             putString(storageKey, raw)
         } else {
             Timber.tag(TAG).v("No stored certificates ($type) available, clearing.")
@@ -92,7 +92,7 @@ class TestCertificateStorage @Inject constructor(
         val type = typeToken.type
         val raw = prefs.getString(storageKey, null) ?: return emptySet()
         return gson.fromJson<Set<T>>(raw, type).onEach {
-            Timber.tag(TAG).v("Certificates ($type) loaded: %s", it)
+            Timber.tag(TAG).v("Certificates ($type) loaded: %s", it.identifier)
             requireNotNull(it.identifier)
         }
     }

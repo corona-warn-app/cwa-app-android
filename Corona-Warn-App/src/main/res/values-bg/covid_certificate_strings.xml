@@ -79,8 +79,6 @@
     <string name="vaccination_certificate_doses">"Ваксинация %1$d от %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Сертификат за ваксинация"</string>
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">"Тази ваксина осигурява защита с една доза или се поставя на преболедувало лице, което се нуждае само от една доза."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
