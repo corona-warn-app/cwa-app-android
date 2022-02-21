@@ -42,12 +42,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 // meant to trigger calculation - such as badge dismissal or validity state change - is not considered
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
-                    runCatching {
-                        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
-                            getAdmissionScenarioId()
-                        )
-                        dccWalletInfoCleaner.clean()
-                    }.onFailure {
+                    runCatching { triggerNow(getAdmissionScenarioId()) }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
                     }
                 }
@@ -68,6 +63,11 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 originTag = TAG
             )
         )
+    }
+
+    suspend fun triggerNow(admissionScenarioId: String) {
+        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(admissionScenarioId)
+        dccWalletInfoCleaner.clean()
     }
 
     private val Set<PersonCertificates>.sortedQrCodeHashSet: Set<String>
