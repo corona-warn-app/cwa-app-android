@@ -103,8 +103,6 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    val cwaCertificates = certificates.map { set -> set.mapNotNull { it.testCertificate }.toSet() }
-
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
@@ -531,6 +529,13 @@ class TestCertificateRepository @Inject constructor(
 
             mutate { this[containerId] = updated }
         }
+    }
+
+    suspend fun replaceCertificate(
+        certificateToReplace: TestCertificateContainerId,
+        newCertificateQrCode: TestCertificateQRCode
+    ) {
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     private fun updateLastSeenStateData(

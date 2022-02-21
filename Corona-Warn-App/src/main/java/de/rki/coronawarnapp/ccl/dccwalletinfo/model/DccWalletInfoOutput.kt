@@ -20,13 +20,17 @@ data class DccWalletInfo(
     val boosterNotification: BoosterNotification,
 
     @JsonProperty("mostRelevantCertificate")
-    val mostRelevantCertificate: MostRelevantCertificate,
+    val mostRelevantCertificate: Certificate,
 
     @JsonProperty("verification")
     val verification: Verification,
 
     @JsonProperty("validUntil")
     val validUntil: String,
+
+    @JsonProperty("certificateReissuance")
+    val certificateReissuance: CertificateReissuance? = null
+
 ) {
     @get:JsonIgnore
     val validUntilInstant: Instant
@@ -177,7 +181,7 @@ data class OutputCertificates(
     val certificateRef: CertificateRef
 )
 
-data class MostRelevantCertificate(
+data class Certificate(
     @JsonProperty("certificateRef")
     val certificateRef: CertificateRef
 )
@@ -224,4 +228,33 @@ data class VaccinationState(
 data class Verification(
     @JsonProperty("certificates")
     val certificates: List<OutputCertificates>
+)
+
+data class CertificateReissuance(
+
+    @JsonProperty("reissuanceDivision")
+    val reissuanceDivision: ReissuanceDivision,
+
+    @JsonProperty("certificateToReissue")
+    val certificateToReissue: Certificate,
+
+    @JsonProperty("accompanyingCertificates")
+    val accompanyingCertificates: List<Certificate>
+)
+
+data class ReissuanceDivision(
+    @JsonProperty("visible")
+    val visible: Boolean,
+
+    @JsonProperty("titleText")
+    val titleText: CclText?,
+
+    @JsonProperty("subtitleText")
+    val subtitleText: CclText?,
+
+    @JsonProperty("longText")
+    val longText: CclText?,
+
+    @JsonProperty("faqAnchor")
+    val faqAnchor: String?
 )

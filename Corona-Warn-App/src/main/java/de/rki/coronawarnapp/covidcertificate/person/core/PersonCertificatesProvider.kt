@@ -2,13 +2,15 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
 import de.rki.coronawarnapp.util.dcc.groupByPerson
@@ -24,9 +26,7 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    vaccinationRepository: VaccinationRepository,
-    testCertificateRepository: TestCertificateRepository,
-    recoveryCertificateRepository: RecoveryCertificateRepository,
+    certificatesProvider: CertificateProvider,
     dccWalletInfoRepository: DccWalletInfoRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
@@ -35,12 +35,13 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
-        vaccinationRepository.vaccinationInfos,
-        testCertificateRepository.cwaCertificates,
-        recoveryCertificateRepository.cwaCertificates,
+        certificatesProvider.certificateContainer,
         personCertificatesSettings.currentCwaUser.flow,
         dccWalletInfoRepository.personWallets
-    ) { vaccPersons, tests, recoveries, cwaUser, personWallets ->
+    ) { certificateContainer, cwaUser, personWallets ->
+
+        val allCerts = certificateContainer.allCwaCertificates
+        val vaccPersons = certificateContainer.vaccinationInfos
 
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
@@ -64,11 +65,43 @@ class PersonCertificatesProvider @Inject constructor(
 
             Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
 
+            // dummy reissuance data so that we can start working on the tile
+            // TODO: remove once we get actual reissuance data from CCL
+            val dummyCertificateReissuance = CertificateReissuance(
+                reissuanceDivision = ReissuanceDivision(
+                    visible = true,
+                    titleText = SingleText(
+                        type = "string",
+                        localizedText = mapOf("de" to "Title Text"),
+                        parameters = listOf()
+                    ),
+                    subtitleText = SingleText(
+                        type = "string",
+                        localizedText = mapOf("de" to "Subtitle Text"),
+                        parameters = listOf()
+                    ),
+                    longText = SingleText(
+                        type = "string",
+                        localizedText = mapOf("de" to "Long Text"),
+                        parameters = listOf()
+                    ),
+                    faqAnchor = "dcc_admission_state"
+                ),
+                certificateToReissue = Certificate(
+                    certificateRef = CertificateRef(
+                        barcodeData = certs.first().qrCodeToDisplay.content,
+                    )
+                ),
+                accompanyingCertificates = listOf()
+            )
+
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
                 badgeCount = badgeCount,
-                dccWalletInfo = dccWalletInfo
+                dccWalletInfo = dccWalletInfo?.copy(
+                    certificateReissuance = dummyCertificateReissuance
+                )
             )
         }.toSet()
     }.shareLatest(scope = appScope)
