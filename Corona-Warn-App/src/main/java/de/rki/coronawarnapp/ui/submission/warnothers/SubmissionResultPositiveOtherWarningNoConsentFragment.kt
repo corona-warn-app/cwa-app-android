@@ -95,7 +95,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
-        appShortcutsHelper.removeAppShortcut()
+        appShortcutsHelper.removeAppShortcuts()
         binding.submissionPositiveOtherPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
