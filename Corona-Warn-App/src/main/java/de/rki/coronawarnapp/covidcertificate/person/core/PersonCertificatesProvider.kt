@@ -40,12 +40,9 @@ class PersonCertificatesProvider @Inject constructor(
         dccWalletInfoRepository.personWallets
     ) { certificateContainer, cwaUser, personWallets ->
 
-        val allCerts = certificateContainer.allCwaCertificates
         val vaccPersons = certificateContainer.vaccinationInfos
-
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
-        val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
-        val allCerts: List<Set<CwaCovidCertificate>> = (vaccinations + tests + recoveries).groupByPerson()
+        val allCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
         if (allCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
