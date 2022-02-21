@@ -31,6 +31,11 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         appScope.launch {
             personCertificateProvider.personCertificates
                 .drop(1) // Drop first value on App start that causes unnecessary calculation
+
+                // Compare persons emissions certificates by using its hash. Changes in certificates set such as
+                // registering, recycling, restoring, retrieving, re-issuing a DCC will lead to a difference in the set
+                // of qrCode hashes and therefore  will calculate the DccWalletInfo. Any change in the flow that is not
+                // meant to trigger calculation - such as badge dismissal or validity state change - is not considered
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
                     runCatching {
