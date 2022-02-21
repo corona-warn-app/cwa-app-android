@@ -42,7 +42,6 @@ class DccQrCodeHandlerTest : BaseTest() {
     @MockK lateinit var testCertID: TestCertificateContainerId
     @MockK lateinit var recoveryCertID: RecoveryCertificateContainerId
     @MockK lateinit var vaccinationCertID: VaccinationCertificateContainerId
-    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @BeforeEach
     fun setup() {
@@ -55,7 +54,6 @@ class DccQrCodeHandlerTest : BaseTest() {
             .apply { every { containerId } returns vaccinationCertID }
         coEvery { recoverCertificateRepository.registerCertificate(any()) } returns recoveryCertificateContainer
             .apply { every { containerId } returns recoveryCertID }
-        coEvery { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange() } just Runs
     }
 
     @Test
@@ -67,7 +65,6 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             vaccinationRepository.registerCertificate(any())
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 
@@ -80,7 +77,6 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             testCertificateRepository.registerCertificate(any())
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 
@@ -93,7 +89,6 @@ class DccQrCodeHandlerTest : BaseTest() {
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
             recoverCertificateRepository.registerCertificate(any())
-            dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
         }
     }
 
@@ -102,6 +97,5 @@ class DccQrCodeHandlerTest : BaseTest() {
         vaccinationRepository = vaccinationRepository,
         recoveryCertificateRepository = recoverCertificateRepository,
         dscSignatureValidator = dscSignatureValidator,
-        dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger
     )
 }
