@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.kotest.assertions.throwables.shouldNotThrow
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -159,6 +160,28 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any())
             dccWalletInfoCleaner.clean()
         }
+    }
+
+    @Test
+    fun `admissionScenarioId - enabled`() = runBlockingTest {
+
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { admissionScenariosEnabled } returns true
+        }
+
+        coEvery { cclSettings.getAdmissionScenarioId() } returns "id"
+        instance(this).admissionScenarioId() shouldBe "id"
+    }
+
+    @Test
+    fun `admissionScenarioId - disabled`() = runBlockingTest {
+
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { admissionScenariosEnabled } returns false
+        }
+
+        coEvery { cclSettings.getAdmissionScenarioId() } returns "id"
+        instance(this).admissionScenarioId() shouldBe ""
     }
 
     private fun instance(scope: CoroutineScope) = DccWalletInfoUpdateTrigger(
