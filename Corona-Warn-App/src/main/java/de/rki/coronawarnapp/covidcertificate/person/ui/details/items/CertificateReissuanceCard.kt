@@ -8,7 +8,10 @@ import de.rki.coronawarnapp.databinding.PersonDetailsCertificateReissuanceCardBi
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class CertificateReissuanceCard(parent: ViewGroup) :
-    PersonDetailsAdapter.PersonDetailsItemVH<CertificateReissuanceCard.Item, PersonDetailsCertificateReissuanceCardBinding>(
+    PersonDetailsAdapter.PersonDetailsItemVH<
+        CertificateReissuanceCard.Item,
+        PersonDetailsCertificateReissuanceCardBinding
+        >(
         layoutRes = R.layout.person_details_certificate_reissuance_card,
         parent = parent
     ) {
