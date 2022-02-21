@@ -41,7 +41,6 @@ class DccWalletInfoUpdateTask @Inject constructor(
 
     data class Arguments(
         val dccWalletInfoUpdateTriggerType: DccWalletInfoUpdateTriggerType,
-        val admissionScenarioId: String = ""
     ) : Task.Arguments
 
     sealed interface DccWalletInfoUpdateTriggerType {
