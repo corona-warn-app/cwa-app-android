@@ -43,7 +43,9 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
                     runCatching {
-                        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange()
+                        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(
+                            getAdmissionScenarioId()
+                        )
                         dccWalletInfoCleaner.clean()
                     }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
