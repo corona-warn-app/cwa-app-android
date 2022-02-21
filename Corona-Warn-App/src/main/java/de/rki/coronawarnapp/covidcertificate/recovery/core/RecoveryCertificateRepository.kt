@@ -279,7 +279,7 @@ class RecoveryCertificateRepository @Inject constructor(
 
     suspend fun replaceCertificate(
         certificateToReplace: RecoveryCertificateContainerId,
-        newCertificate: RecoveryCertificateContainerId
+        newCertificateQrCode: RecoveryCertificateQRCode
     ) {
         // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
