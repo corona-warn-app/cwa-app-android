@@ -103,8 +103,6 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    val cwaCertificates = certificates.map { set -> set.mapNotNull { it.testCertificate }.toSet() }
-
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */

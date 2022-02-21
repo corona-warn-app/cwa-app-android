@@ -9,11 +9,8 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
@@ -27,9 +24,7 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    vaccinationRepository: VaccinationRepository,
-    testCertificateRepository: TestCertificateRepository,
-    recoveryCertificateRepository: RecoveryCertificateRepository,
+    certificatesProvider: CertificateProvider,
     dccWalletInfoRepository: DccWalletInfoRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
@@ -38,16 +33,15 @@ class PersonCertificatesProvider @Inject constructor(
     }
 
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
-        vaccinationRepository.vaccinationInfos,
-        testCertificateRepository.cwaCertificates,
-        recoveryCertificateRepository.cwaCertificates,
+        certificatesProvider.certificateContainer,
         personCertificatesSettings.currentCwaUser.flow,
         dccWalletInfoRepository.personWallets
-    ) { vaccPersons, tests, recoveries, cwaUser, personWallets ->
+    ) { certificateContainer, cwaUser, personWallets ->
+
+        val allCerts = certificateContainer.allCwaCertificates
+        val vaccPersons = certificateContainer.vaccinationInfos
 
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
-        val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
-        val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
 
         val personCertificatesMap = allCerts.groupBy {
             it.personIdentifier
