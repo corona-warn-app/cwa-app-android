@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificatio
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
@@ -269,6 +270,28 @@ class PersonOverviewViewModelTest : BaseTest() {
                 title = "Status anzeigen für folgendes Bundesland:",
                 subtitle = "Bundesweit"
             )
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - success`() {
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() } returns
+            dccAdmissionCheckScenarios
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe OpenAdmissionScenarioScreen
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - error`() {
+        val exception = Exception("Crash!")
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() } throws exception
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe ShowAdmissionScenarioError(exception)
         }
     }
 
