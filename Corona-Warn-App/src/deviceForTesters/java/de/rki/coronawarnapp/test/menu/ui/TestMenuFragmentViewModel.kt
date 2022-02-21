@@ -31,7 +31,10 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider
 ) : CWAViewModel() {
 
-    val personsCount = personCertificatesProvider.personCertificates.map { it.size }.asLiveData2()
+    val personsCount =
+        personCertificatesProvider.personCertificates.map {
+            it.size to it.sumOf { certs -> certs.certificates.size }
+        }.asLiveData2()
 
     val testMenuData by lazy {
         listOf(

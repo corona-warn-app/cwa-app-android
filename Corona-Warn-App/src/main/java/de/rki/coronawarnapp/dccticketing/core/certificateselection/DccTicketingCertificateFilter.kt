@@ -1,12 +1,10 @@
 package de.rki.coronawarnapp.dccticketing.core.certificateselection
 
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.dccticketing.core.transaction.DccTicketingValidationCondition
 import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.PCR_TEST
 import de.rki.coronawarnapp.dccticketing.core.certificateselection.DccTicketingCertificatesFilterType.RA_TEST
@@ -19,14 +17,13 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class DccTicketingCertificateFilter @Inject constructor(
-    private val vaccinationRepository: VaccinationRepository,
-    private val testCertificateRepository: TestCertificateRepository,
-    private val recoveryCertificateRepository: RecoveryCertificateRepository,
+    private val certificateProvider: CertificateProvider
 ) {
     suspend fun filter(validationCondition: DccTicketingValidationCondition?): Set<CwaCovidCertificate> {
-        val vaccinationCerts = vaccinationRepository.cwaCertificates.first()
-        val recoveryCerts = recoveryCertificateRepository.cwaCertificates.first()
-        val testCerts = testCertificateRepository.cwaCertificates.first()
+        val certificateContainer = certificateProvider.certificateContainer.first()
+        val vaccinationCerts = certificateContainer.vaccinationCwaCertificates
+        val recoveryCerts = certificateContainer.recoveryCwaCertificates
+        val testCerts = certificateContainer.testCwaCertificates
 
         return validationCondition?.type.orEmpty()
             .filterByType(vaccinationCerts, recoveryCerts, testCerts)

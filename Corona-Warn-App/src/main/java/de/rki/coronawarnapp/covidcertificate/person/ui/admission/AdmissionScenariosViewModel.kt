@@ -39,7 +39,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
         .asLiveData2()
 
     private fun selectScenario(admissionScenarioId: String) = launch {
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterCertificateChange()
+        dccWalletInfoUpdateTrigger.triggerNow(admissionScenarioId)
         admissionCheckScenariosRepository.save(
             admissionScenariosSharedViewModel.admissionScenarios.first()
         )
