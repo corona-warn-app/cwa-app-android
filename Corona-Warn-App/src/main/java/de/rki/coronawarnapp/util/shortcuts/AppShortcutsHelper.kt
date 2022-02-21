@@ -33,6 +33,12 @@ class AppShortcutsHelper @Inject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
 ) {
+    private val allOnboardingStepsComplete: Boolean
+        get() {
+            return !onboardingSettings.isOnboarded || !contactDiarySettings.isOnboardingDone ||
+                !traceLocationSettings.isOnboardingDone || !covidCertificateSettings.isOnboarded.value
+        }
+
     suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
         // No shortcuts if test result is positive
         if (coronaTestRepository.allCoronaTests.first().any { it.isPositive }) {
@@ -42,8 +48,7 @@ class AppShortcutsHelper @Inject constructor(
         }
 
         // No shortcuts if not onboarded
-        if (!onboardingSettings.isOnboarded || !contactDiarySettings.isOnboardingDone ||
-            !traceLocationSettings.isOnboardingDone ||!covidCertificateSettings.isOnboarded.value) {
+        if (!allOnboardingStepsComplete) {
             Timber.i("[AppShortcuts] Remove all shortcut items since onboarding is not done yet")
             removeAppShortcuts()
             return@withContext
