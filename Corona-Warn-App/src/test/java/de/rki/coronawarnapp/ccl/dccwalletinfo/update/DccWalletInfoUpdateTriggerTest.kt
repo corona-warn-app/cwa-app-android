@@ -152,13 +152,13 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `triggerDccWalletInfoUpdateAfterConfigUpdate false`() = runBlockingTest {
+    fun `triggerAfterConfigChange false`() = runBlockingTest {
         instance(this).triggerAfterConfigChange(false)
         coVerify { dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any()) }
     }
 
     @Test
-    fun `triggerDccWalletInfoUpdateAfterConfigUpdate true`() = runBlockingTest {
+    fun `triggerAfterConfigChange true`() = runBlockingTest {
         instance(this).triggerAfterConfigChange(true)
         coVerify { dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any()) }
     }
