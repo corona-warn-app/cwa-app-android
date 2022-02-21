@@ -152,15 +152,13 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `triggerAfterConfigChange false`() = runBlockingTest {
-        instance(this).triggerAfterConfigChange(false)
-        coVerify { dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any()) }
-    }
-
-    @Test
-    fun `triggerAfterConfigChange true`() = runBlockingTest {
+    fun triggerAfterConfigChange() = runBlockingTest {
         instance(this).triggerAfterConfigChange(true)
-        coVerify { dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any()) }
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any())
+            dccWalletInfoCleaner.clean()
+        }
     }
 
     private fun instance(scope: CoroutineScope) = DccWalletInfoUpdateTrigger(
