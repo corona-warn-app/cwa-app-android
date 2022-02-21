@@ -33,7 +33,6 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
     @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
     @MockK lateinit var cclSetting: CclSettings
     @MockK lateinit var dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
-
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -50,41 +49,39 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
     }
 
     @Test
-    fun getCalculationState() {
-    }
-
-    @Test
     fun getState() {
-        instance().state.getOrAwaitValue() shouldBe AdmissionScenariosViewModel.State(
-            title = "Ihr Bundesland",
-            scenarios = listOf(
-                AdmissionItemCard.Item(
-                    identifier = "DE",
-                    title = "Bundesweit",
-                    subtitle = "",
-                    enabled = true
-                ) {},
+        instance().state.getOrAwaitValue().apply {
+            title shouldBe "Ihr Bundesland"
+            scenarios.size shouldBe 3
+            scenarios[0].apply {
+                identifier shouldBe "DE"
+                title shouldBe "Bundesweit"
+                subtitle shouldBe ""
+                enabled shouldBe true
+            }
 
-                AdmissionItemCard.Item(
-                    identifier = "BW",
-                    title = "Baden-Württemberg",
-                    subtitle = "Schön hier",
-                    enabled = true
-                ) {},
+            scenarios[1].apply {
+                identifier shouldBe "BW"
+                title shouldBe "Baden-Württemberg"
+                subtitle shouldBe "Schön hier"
+                enabled shouldBe true
+            }
 
-                AdmissionItemCard.Item(
-                    identifier = "HE",
-                    title = "Hesse",
-                    subtitle = "Für dieses Bundesland liegen momentan keine Regeln vor",
-                    enabled = false
-                ) {},
-            )
-        )
+            scenarios[2].apply {
+                identifier shouldBe "HE"
+                title shouldBe "Hesse"
+                subtitle shouldBe "Für dieses Bundesland liegen momentan keine Regeln vor"
+                enabled shouldBe false
+            }
+        }
     }
 
     @Test
     fun selectScenario() {
-        instance().selectScenario("admissionScenarioId")
+        instance().apply {
+            selectScenario("admissionScenarioId")
+            calculationState.getOrAwaitValue() shouldBe AdmissionScenariosViewModel.CalculationDone
+        }
         coVerifySequence {
             admissionCheckScenariosRepository.save(any())
             cclSetting.setAdmissionScenarioId(any())
