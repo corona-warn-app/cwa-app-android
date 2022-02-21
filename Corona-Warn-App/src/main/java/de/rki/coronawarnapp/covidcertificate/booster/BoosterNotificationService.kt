@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
+import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.tag
@@ -15,8 +16,8 @@ class BoosterNotificationService @Inject constructor(
     private val boosterNotificationSender: BoosterNotificationSender,
     private val vaccinationRepository: VaccinationRepository,
     private val timeStamper: TimeStamper,
-) {
-    suspend fun notifyIfNecessary(
+) : DccWalletInfoNotificationService {
+    override suspend fun notifyIfNecessary(
         personIdentifier: CertificatePersonIdentifier,
         oldWalletInfo: DccWalletInfo?,
         newWalletInfo: DccWalletInfo
