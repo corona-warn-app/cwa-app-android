@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.tag
