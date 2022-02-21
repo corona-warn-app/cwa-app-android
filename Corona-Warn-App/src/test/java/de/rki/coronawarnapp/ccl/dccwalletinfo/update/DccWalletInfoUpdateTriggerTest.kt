@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.kotest.assertions.throwables.shouldNotThrow
-import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -153,35 +152,46 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun triggerAfterConfigChange() = runBlockingTest {
+    fun `triggerAfterConfigChange - feature is on and config update`() = runBlockingTest {
+        coEvery { cclSettings.getAdmissionScenarioId() } returns "BW"
+        coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true) } returns
+            DccWalletInfoCalculationManager.Result.Success
+
         instance(this).triggerAfterConfigChange(true)
 
         coVerify {
-            dccWalletInfoCalculationManager.triggerAfterConfigChange(any(), any())
+            dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true)
             dccWalletInfoCleaner.clean()
         }
     }
 
     @Test
-    fun `admissionScenarioId - enabled`() = runBlockingTest {
-
-        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
-            every { admissionScenariosEnabled } returns true
-        }
-
-        coEvery { cclSettings.getAdmissionScenarioId() } returns "id"
-        instance(this).admissionScenarioId() shouldBe "id"
-    }
-
-    @Test
-    fun `admissionScenarioId - disabled`() = runBlockingTest {
-
+    fun `triggerAfterConfigChange - feature is off and no config update`() = runBlockingTest {
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { admissionScenariosEnabled } returns false
         }
+        coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange("", false) } returns
+            DccWalletInfoCalculationManager.Result.Success
 
-        coEvery { cclSettings.getAdmissionScenarioId() } returns "id"
-        instance(this).admissionScenarioId() shouldBe ""
+        instance(this).triggerAfterConfigChange(false)
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerAfterConfigChange("", false)
+            dccWalletInfoCleaner.clean()
+        }
+    }
+
+    @Test
+    fun triggerNow() = runBlockingTest {
+        coEvery { dccWalletInfoCalculationManager.triggerNow("BW") } returns
+            DccWalletInfoCalculationManager.Result.Success
+
+        instance(this).triggerNow("BW")
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerNow("BW")
+            dccWalletInfoCleaner.clean()
+        }
     }
 
     private fun instance(scope: CoroutineScope) = DccWalletInfoUpdateTrigger(

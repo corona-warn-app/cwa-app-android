@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
-import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
@@ -70,8 +69,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     private val Set<PersonCertificates>.sortedQrCodeHashSet: Set<String>
         get() = flatMap { personCert -> personCert.certificates.map { it.qrCodeHash } }.sorted().toSet()
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun admissionScenarioId(): String =
+    private suspend fun admissionScenarioId(): String =
         if (appConfigProvider.getAppConfig().admissionScenariosEnabled) {
             cclSettings.getAdmissionScenarioId()
         } else {
