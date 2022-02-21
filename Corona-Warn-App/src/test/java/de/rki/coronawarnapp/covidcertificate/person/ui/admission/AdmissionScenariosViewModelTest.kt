@@ -87,7 +87,7 @@ internal class AdmissionScenariosViewModelTest : BaseTest() {
     }
 
     private fun instance() = AdmissionScenariosViewModel(
-        dispatcherProvider= TestDispatcherProvider(),
+        dispatcherProvider = TestDispatcherProvider(),
         format = CclTextFormatter(cclJsonFunctions, mapper),
         admissionCheckScenariosRepository = admissionCheckScenariosRepository,
         admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
