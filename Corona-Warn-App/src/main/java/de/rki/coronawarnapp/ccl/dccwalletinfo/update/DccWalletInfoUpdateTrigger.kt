@@ -35,7 +35,7 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
     }
 
     suspend fun triggerDccWalletInfoUpdateAfterCertificateChange() {
-        Timber.tag(TAG).d("triggerDccWalletInfoUpdateNow()")
+        Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterCertificateChange()")
         taskController.submit(
             DefaultTaskRequest(
                 type = DccWalletInfoUpdateTask::class,
@@ -53,7 +53,9 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         if (appConfigProvider.getAppConfig().admissionScenariosEnabled) {
             cclSettings.getAdmissionScenarioId()
         } else {
-            Timber.tag(TAG).d("admissionScenarios feature is disabled, `scenarioIdentifier` is replaced by \"\"")
+            Timber.tag(TAG).d(
+                "admissionScenarios feature is disabled, `scenarioIdentifier` is replaced by ${Scenario.DEFAULT_ID} "
+            )
             Scenario.DEFAULT_ID
         }
 
