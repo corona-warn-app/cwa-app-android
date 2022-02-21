@@ -275,7 +275,7 @@ class PersonOverviewViewModelTest : BaseTest() {
 
     @Test
     fun `openAdmissionScenarioScreen - success`() {
-        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() } returns
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } returns
             dccAdmissionCheckScenarios
 
         instance.apply {
@@ -287,7 +287,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @Test
     fun `openAdmissionScenarioScreen - error`() {
         val exception = Exception("Crash!")
-        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() } throws exception
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } throws exception
 
         instance.apply {
             openAdmissionScenarioScreen()
