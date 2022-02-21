@@ -132,8 +132,7 @@ data class RecoveryCertificateContainer(
                 get() = Locale(userLocale.language, recoveryCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
 
-            override val qrCodeHash: String
-                get() = this@RecoveryCertificateContainer.qrCodeHash
+            override val qrCodeHash: String by lazy { this@RecoveryCertificateContainer.qrCodeHash }
 
             override val uniqueCertificateIdentifier: String
                 get() = recoveryCertificate.uniqueCertificateIdentifier
