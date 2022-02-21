@@ -281,7 +281,7 @@ class RecoveryCertificateRepository @Inject constructor(
         certificateToReplace: RecoveryCertificateContainerId,
         newCertificate: RecoveryCertificateContainerId
     ) {
-        TODO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     companion object {

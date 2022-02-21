@@ -537,7 +537,7 @@ class TestCertificateRepository @Inject constructor(
         certificateToReplace: TestCertificateContainerId,
         newCertificate: TestCertificateContainerId
     ) {
-        TODO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     private fun updateLastSeenStateData(

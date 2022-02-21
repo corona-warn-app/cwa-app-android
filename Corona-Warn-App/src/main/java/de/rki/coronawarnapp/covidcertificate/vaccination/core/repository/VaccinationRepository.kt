@@ -438,7 +438,7 @@ class VaccinationRepository @Inject constructor(
         certificateToReplace: VaccinationCertificateContainerId,
         newCertificate: VaccinationCertificateContainerId
     ) {
-        TODO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     companion object {
