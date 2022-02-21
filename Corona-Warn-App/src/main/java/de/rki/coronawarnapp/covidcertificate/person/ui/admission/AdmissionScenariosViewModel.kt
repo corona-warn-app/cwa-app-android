@@ -56,7 +56,7 @@ class AdmissionScenariosViewModel @AssistedInject constructor(
             )
             calculationState.postValue(CalculationDone) // Dismiss busy indicator
         }.onFailure {
-            Timber.e(it, "selectScenario() failed")
+            Timber.d(it, "selectScenario() failed")
             calculationState.postValue(CalculationDone)
         }
     }
