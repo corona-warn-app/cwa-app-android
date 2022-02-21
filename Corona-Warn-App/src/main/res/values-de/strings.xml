@@ -1460,7 +1460,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnende Personen"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Anzahl der über einen PCR-Test Corona-positiv getesteten Personen, die mithilfe der App ihre Mitmenschen gewarnt haben."</string>
+    <string name="statistics_explanation_warned_persons_text">"Anzahl der Corona-positiv getesteten Personen, die mithilfe der App ihre Mitmenschen gewarnt haben."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Lokale 7-Tage-Inzidenz"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
