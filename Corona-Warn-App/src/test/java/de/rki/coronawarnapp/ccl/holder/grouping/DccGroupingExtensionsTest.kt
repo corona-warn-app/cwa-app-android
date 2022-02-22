@@ -14,7 +14,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
 
     @Test
     fun `first grouping check`() {
-        val certificatesList = setOf(
+        val certificates = setOf(
             certA1,
             certA2,
             certA3,
@@ -30,7 +30,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certC1
         )
 
-        val result = certificatesList.toSet().groupByPerson()
+        val result = certificates.groupByPerson()
 
         result.count() shouldBe 3
 
@@ -59,16 +59,16 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
 
     @Test
     fun `empty grouping check`() {
-        val certificatesList = emptySet<CwaCovidCertificate>()
+        val certificates = emptySet<CwaCovidCertificate>()
 
-        val result = certificatesList.toSet().groupByPerson()
+        val result = certificates.groupByPerson()
 
         result.count() shouldBe 0
     }
 
     @Test
     fun `second grouping check`() {
-        val certificatesList = setOf(
+        val certificates = setOf(
             certD12,
             certD11,
             certD10,
@@ -82,7 +82,7 @@ class DccGroupingExtensionsTest : BaseTestInstrumentation() {
             certD1,
         )
 
-        val result = certificatesList.shuffled().toSet().groupByPerson()
+        val result = certificates.shuffled().toSet().groupByPerson()
 
         result.count() shouldBe 1
 
