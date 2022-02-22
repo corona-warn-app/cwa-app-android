@@ -2,6 +2,11 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
@@ -57,11 +62,43 @@ class PersonCertificatesProvider @Inject constructor(
 
             Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
 
+            // dummy reissuance data so that we can start working on the tile
+            // TODO: remove once we get actual reissuance data from CCL
+            val dummyCertificateReissuance = CertificateReissuance(
+                reissuanceDivision = ReissuanceDivision(
+                    visible = true,
+                    titleText = SingleText(
+                        type = "string",
+                        localizedText = mapOf("de" to "Title Text"),
+                        parameters = listOf()
+                    ),
+                    subtitleText = SingleText(
+                        type = "string",
+                        localizedText = mapOf("de" to "Subtitle Text"),
+                        parameters = listOf()
+                    ),
+                    longText = SingleText(
+                        type = "string",
+                        localizedText = mapOf("de" to "Long Text"),
+                        parameters = listOf()
+                    ),
+                    faqAnchor = "dcc_admission_state"
+                ),
+                certificateToReissue = Certificate(
+                    certificateRef = CertificateRef(
+                        barcodeData = certs.first().qrCodeToDisplay.content,
+                    )
+                ),
+                accompanyingCertificates = listOf()
+            )
+
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
                 badgeCount = badgeCount,
-                dccWalletInfo = dccWalletInfo
+                dccWalletInfo = dccWalletInfo?.copy(
+                    certificateReissuance = dummyCertificateReissuance
+                )
             )
         }.toSet()
     }.shareLatest(scope = appScope)

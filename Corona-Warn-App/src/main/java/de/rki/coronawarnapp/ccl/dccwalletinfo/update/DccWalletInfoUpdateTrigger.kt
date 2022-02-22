@@ -1,15 +1,13 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.update
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTask.DccWalletInfoUpdateTriggerType.TriggeredAfterConfigUpdate
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.task.TaskController
-import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -22,13 +20,12 @@ import javax.inject.Singleton
 
 @Singleton
 class DccWalletInfoUpdateTrigger @Inject constructor(
-    private val taskController: TaskController,
-    private val cclSettings: CclSettings,
-    private val appConfigProvider: AppConfigProvider,
     personCertificateProvider: PersonCertificatesProvider,
     @AppScope appScope: CoroutineScope,
-    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
-    private val dccWalletInfoCleaner: DccWalletInfoCleaner
+    private val cclSettings: CclSettings,
+    private val appConfigProvider: AppConfigProvider,
+    private val dccWalletInfoCleaner: DccWalletInfoCleaner,
+    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
 ) {
 
     init {
@@ -36,52 +33,51 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
             personCertificateProvider.personCertificates
                 .drop(1) // Drop first value on App start that causes unnecessary calculation
 
-                // Compare persons emissions certificates by using its hash. Changes in certificates set such as
-                // registering, recycling, restoring, retrieving, re-issuing a DCC will lead to a difference in the set
-                // of qrCode hashes and therefore  will calculate the DccWalletInfo. Any change in the flow that is not
-                // meant to trigger calculation - such as badge dismissal or validity state change - is not considered
+                /*
+                 Compare persons emissions certificates by using its hash. Changes in certificates set such as
+                 registering, recycling, restoring, retrieving and, re-issuing a DCC will lead to a difference in the
+                 set of qrCode hashes and therefore  will calculate the DccWalletInfo. Any change in the flow that
+                 isn't meant to trigger calculation - such as badge dismissal or validity state change -
+                 isn't considered
+                 */
                 .distinctUntilChangedBy { it.sortedQrCodeHashSet }
                 .collectLatest {
-                    runCatching { triggerNow(getAdmissionScenarioId()) }.onFailure {
+                    runCatching { triggerNow(admissionScenarioId()) }.onFailure {
                         Timber.tag(TAG).d(it, "Failed to calculate dccWallet")
                     }
                 }
         }
     }
 
-    suspend fun triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged: Boolean = false) {
-        Timber.tag(TAG).d("triggerDccWalletInfoUpdateAfterConfigUpdate()")
-        taskController.submit(
-            DefaultTaskRequest(
-                type = DccWalletInfoUpdateTask::class,
-                arguments = DccWalletInfoUpdateTask.Arguments(
-                    dccWalletInfoUpdateTriggerType = TriggeredAfterConfigUpdate(
-                        configurationChanged
-                    ),
-                    admissionScenarioId = getAdmissionScenarioId()
-                ),
-                originTag = TAG
-            )
+    suspend fun triggerAfterConfigChange(configurationChanged: Boolean = false) {
+        Timber.tag(TAG).d("triggerAfterConfigChange()")
+
+        dccWalletInfoCalculationManager.triggerAfterConfigChange(
+            admissionScenarioId = admissionScenarioId(),
+            configurationChanged = configurationChanged
         )
+        dccWalletInfoCleaner.clean()
     }
 
     suspend fun triggerNow(admissionScenarioId: String) {
-        dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(admissionScenarioId)
+        Timber.tag(TAG).d("triggerNow()")
+
+        dccWalletInfoCalculationManager.triggerNow(admissionScenarioId = admissionScenarioId)
         dccWalletInfoCleaner.clean()
     }
 
     private val Set<PersonCertificates>.sortedQrCodeHashSet: Set<String>
         get() = flatMap { personCert -> personCert.certificates.map { it.qrCodeHash } }.sorted().toSet()
 
-    private suspend fun getAdmissionScenarioId(): String {
-        val enabled = runCatching {
-            appConfigProvider.getAppConfig().admissionScenariosEnabled
-        }.onFailure {
-            Timber.d(it, "getAppConfig().admissionScenariosEnabled failed")
-        }.getOrElse { true }
-
-        return if (enabled) cclSettings.getAdmissionScenarioId() else ""
-    }
+    private suspend fun admissionScenarioId(): String =
+        if (appConfigProvider.getAppConfig().admissionScenariosEnabled) {
+            cclSettings.getAdmissionScenarioId()
+        } else {
+            Timber.tag(TAG).d(
+                "admissionScenarios feature is disabled, `scenarioIdentifier` is replaced by ${Scenario.DEFAULT_ID} "
+            )
+            Scenario.DEFAULT_ID
+        }
 
     companion object {
         private val TAG = tag<DccWalletInfoUpdateTrigger>()
