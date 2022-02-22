@@ -133,9 +133,8 @@ class PersonOverviewViewModel @AssistedInject constructor(
     }
 
     fun openAdmissionScenarioScreen() = launch {
-        runCatching {
-            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios()
-        }.onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
+        runCatching { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios() }
+            .onFailure { events.postValue(ShowAdmissionScenarioError(it)) }
             .onSuccess {
                 admissionScenariosSharedViewModel.setAdmissionScenarios(it)
                 events.postValue(OpenAdmissionScenarioScreen)
