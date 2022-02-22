@@ -2,15 +2,11 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
@@ -99,6 +95,6 @@ class PersonCertificatesProvider @Inject constructor(
     ) = vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
 
     companion object {
-        private val TAG = PersonCertificatesProvider::class.simpleName!!
+        private val TAG = tag<PersonCertificatesProvider>()
     }
 }
