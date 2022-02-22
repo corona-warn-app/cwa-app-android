@@ -335,5 +335,6 @@
     <string name="ccl_admission_state_tile_title">Status für folgendes Bundesland</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
     <string name="ccl_admission_state_tile_subtitle">Regeln des Bundes</string>
-
+    <!-- XTXT: CCL Admission calculation progress message-->
+    <string name="admission_calculation_message">Status wird ermittelt...</string>
 </resources>
