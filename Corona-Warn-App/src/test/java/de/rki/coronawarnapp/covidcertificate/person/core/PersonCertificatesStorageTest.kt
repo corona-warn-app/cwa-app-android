@@ -1,38 +1,43 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import android.content.Context
-import androidx.core.content.edit
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.toComparableJsonPretty
-import testhelpers.preferences.MockSharedPreferences
+import testhelpers.preferences.FakeDataStore
 
 @Suppress("MaxLineLength")
 class PersonCertificatesStorageTest : BaseTest() {
     @MockK lateinit var context: Context
-    private lateinit var mockPreferences: MockSharedPreferences
+    private lateinit var mockPreferences: FakeDataStore
+    private val personIdentifier = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "01.10.2020",
+        firstNameStandardized = "fN",
+        lastNameStandardized = "lN"
+    )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        mockPreferences = MockSharedPreferences()
-
-        every {
-            context.getSharedPreferences("certificate_person_localdata", Context.MODE_PRIVATE)
-        } returns mockPreferences
+        mockPreferences = FakeDataStore()
     }
 
     private fun createInstance() = PersonCertificatesSettings(
-        context = context,
-        gson = SerializationModule().baseGson()
+        dataStore = mockPreferences,
+        mapper = SerializationModule.jacksonBaseMapper,
+        appScope = TestCoroutineScope(),
+        dispatcherProvider = TestDispatcherProvider()
     )
 
     @Test
@@ -42,16 +47,19 @@ class PersonCertificatesStorageTest : BaseTest() {
 
     @Test
     fun `clearing deletes all data`() {
-        mockPreferences.edit {
-            putString("deleteme", "test")
-        }
-        createInstance().clear()
 
-        mockPreferences.dataMapPeek.keys.isEmpty() shouldBe true
+        createInstance().apply {
+            setCurrentCwaUser(personIdentifier)
+            setBoosterNotifiedAt(personIdentifier)
+            clear()
+        }
+
+        mockPreferences[PersonCertificatesSettings.CURRENT_PERSON_KEY] shouldBe null
+        mockPreferences[PersonCertificatesSettings.PERSONS_SETTINGS_MAP] shouldBe null
     }
 
     @Test
-    fun `store current cwa user person identifier`() {
+    fun `store current cwa user person identifier`() = runBlockingTest {
         val testIdentifier = CertificatePersonIdentifier(
             firstNameStandardized = "firstname",
             lastNameStandardized = "lastname",
@@ -59,11 +67,11 @@ class PersonCertificatesStorageTest : BaseTest() {
         )
 
         createInstance().apply {
-            currentCwaUser.value shouldBe null
-            currentCwaUser.update { testIdentifier }
-            currentCwaUser.value shouldBe testIdentifier
+            currentCwaUser.first() shouldBe null
+            setCurrentCwaUser(testIdentifier)
+            currentCwaUser.first() shouldBe testIdentifier
 
-            val raw = mockPreferences.dataMapPeek["certificate.person.current"] as String
+            val raw = mockPreferences[PersonCertificatesSettings.CURRENT_PERSON_KEY] as String
             raw.toComparableJsonPretty() shouldBe """
                 {
                   "dateOfBirth": "1999-12-24",
