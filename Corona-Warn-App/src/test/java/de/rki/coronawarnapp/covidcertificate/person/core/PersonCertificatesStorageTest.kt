@@ -329,4 +329,44 @@ class PersonCertificatesStorageTest : BaseTest() {
             )
         }
     }
+
+    @Test
+    fun `clean up settings for outdated persons`() = runBlockingTest {
+        createInstance().apply {
+            setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
+            setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
+            dismissReissuanceBadge(personIdentifier1)
+            acknowledgeBoosterRule(personIdentifier1, "BRN-123")
+
+            setDccReissuanceNotifiedAt(personIdentifier2, Instant.EPOCH)
+            setBoosterNotifiedAt(personIdentifier2, Instant.EPOCH)
+            dismissReissuanceBadge(personIdentifier2)
+            acknowledgeBoosterRule(personIdentifier2, "BRN-456")
+
+            cleanSettingsNotIn(personIdentifiers = setOf(personIdentifier2))
+
+            fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
+                {
+                	"settings": {
+                        "{\"dateOfBirth\":\"20.10.2020\",\"familyNameStandardized\":\"llNN\",\"givenNameStandardized\":\"ffNN\"}": {
+                          "lastSeenBoosterRuleIdentifier": "BRN-456",
+                          "lastBoosterNotifiedAt": 0,
+                          "showDccReissuanceBadge": false,
+                          "lastDccReissuanceNotifiedAt": 0
+                        }
+                    }
+                }
+            """.trimIndent()
+                .toComparableJsonPretty()
+
+            personsSettings.first() shouldBe mapOf(
+                personIdentifier2 to PersonSettings(
+                    lastBoosterNotifiedAt = Instant.EPOCH,
+                    lastSeenBoosterRuleIdentifier = "BRN-456",
+                    showDccReissuanceBadge = false,
+                    lastDccReissuanceNotifiedAt = Instant.EPOCH
+                )
+            )
+        }
+    }
 }

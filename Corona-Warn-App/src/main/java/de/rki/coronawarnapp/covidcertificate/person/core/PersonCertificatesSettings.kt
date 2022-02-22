@@ -119,8 +119,8 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun cleanOutdatedPerson(personIdentifiers: Set<CertificatePersonIdentifier>) = appScope.launch {
-        Timber.tag(TAG).d("cleanOutdatedPerson()")
+    fun cleanSettingsNotIn(personIdentifiers: Set<CertificatePersonIdentifier>) = appScope.launch {
+        Timber.tag(TAG).d("cleanSettingsNotIn()")
         settings().mutate {
             val personsToClean = keys subtract personIdentifiers
             personsToClean.forEach { remove(it) }
