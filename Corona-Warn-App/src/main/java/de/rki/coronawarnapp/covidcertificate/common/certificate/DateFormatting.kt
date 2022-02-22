@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatterBuilder
@@ -33,5 +34,12 @@ internal fun String.parseLocalDate(): LocalDate? = try {
     LocalDate.parse(this, DateTimeFormat.forPattern("yyyy-MM-dd"))
 } catch (e: Exception) {
     Timber.e(e, "Malformed date")
+    null
+}
+
+internal fun String.parseInstant() = try {
+    Instant.parse(this)
+} catch (e: Exception) {
+    Timber.e(e, "Malformed instant")
     null
 }

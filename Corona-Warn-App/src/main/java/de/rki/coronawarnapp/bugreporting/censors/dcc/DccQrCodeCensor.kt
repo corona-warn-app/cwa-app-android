@@ -198,10 +198,12 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             "test/sampleCollectedAtFormatted"
         )
 
-        newMessage = newMessage.censor(
-            data.sampleCollectedAt.toShortDayFormat(),
-            "test/sampleCollectedAt"
-        )
+        data.sampleCollectedAt?.toShortDayFormat()?.let { sampleCollectedAt ->
+            newMessage = newMessage.censor(
+                sampleCollectedAt,
+                "test/sampleCollectedAt"
+            )
+        }
 
         newMessage = newMessage.censor(
             data.targetId,

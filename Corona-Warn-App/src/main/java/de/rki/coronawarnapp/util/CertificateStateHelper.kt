@@ -53,9 +53,9 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
     when (certificate) {
         is TestCertificate -> {
-            val dateTime = certificate.sampleCollectedAt.toLocalDateTimeUserTz().run {
+            val dateTime = certificate.sampleCollectedAt?.toLocalDateTimeUserTz()?.run {
                 "${toShortDayFormat()}, ${toShortTimeFormat()}"
-            }
+            } ?: certificate.rawCertificate.test.sc
 
             qrTitle.text = context.getString(R.string.test_certificate_name)
             qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)

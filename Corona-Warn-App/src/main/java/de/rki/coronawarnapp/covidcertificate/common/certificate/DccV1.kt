@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 import com.google.gson.annotations.SerializedName
 import org.joda.time.Instant
 import org.joda.time.LocalDate
+import timber.log.Timber
 
 data class DccV1(
     @SerializedName("ver") val version: String,
@@ -154,8 +155,8 @@ data class DccV1(
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
 
-        val sampleCollectedAt: Instant
-            get() = Instant.parse(sc)
+        val sampleCollectedAt: Instant?
+            get() = sc.parseInstant()
 
         val sampleCollectedAtFormatted: String
             get() = sc.formatDateTime()
