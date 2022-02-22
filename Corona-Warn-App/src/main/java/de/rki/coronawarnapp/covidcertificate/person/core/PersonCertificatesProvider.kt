@@ -58,43 +58,11 @@ class PersonCertificatesProvider @Inject constructor(
 
             Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
 
-            // dummy reissuance data so that we can start working on the tile
-            // TODO: remove once we get actual reissuance data from CCL
-            val dummyCertificateReissuance = CertificateReissuance(
-                reissuanceDivision = ReissuanceDivision(
-                    visible = true,
-                    titleText = SingleText(
-                        type = "string",
-                        localizedText = mapOf("de" to "Title Text"),
-                        parameters = listOf()
-                    ),
-                    subtitleText = SingleText(
-                        type = "string",
-                        localizedText = mapOf("de" to "Subtitle Text"),
-                        parameters = listOf()
-                    ),
-                    longText = SingleText(
-                        type = "string",
-                        localizedText = mapOf("de" to "Long Text"),
-                        parameters = listOf()
-                    ),
-                    faqAnchor = "dcc_admission_state"
-                ),
-                certificateToReissue = Certificate(
-                    certificateRef = CertificateRef(
-                        barcodeData = certs.first().qrCodeToDisplay.content,
-                    )
-                ),
-                accompanyingCertificates = listOf()
-            )
-
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
                 badgeCount = badgeCount,
-                dccWalletInfo = dccWalletInfo?.copy(
-                    certificateReissuance = dummyCertificateReissuance
-                )
+                dccWalletInfo = dccWalletInfo
             )
         }.toSet()
     }.shareLatest(scope = appScope)
