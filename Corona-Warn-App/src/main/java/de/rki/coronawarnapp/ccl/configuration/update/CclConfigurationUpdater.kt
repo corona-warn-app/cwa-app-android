@@ -48,7 +48,7 @@ class CclConfigurationUpdater @Inject constructor(
     }
 
     private suspend fun triggerRecalculation(configurationChanged: Boolean) {
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdateAfterConfigUpdate(configurationChanged)
+        dccWalletInfoUpdateTrigger.triggerAfterConfigChange(configurationChanged)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
