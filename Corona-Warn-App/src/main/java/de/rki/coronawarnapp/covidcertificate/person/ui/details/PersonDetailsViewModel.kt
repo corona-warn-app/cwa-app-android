@@ -98,6 +98,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                         CertificateReissuanceCard.Item(
                             title = format(division.titleText),
                             subtitle = format(division.subtitleText),
+                            badgeVisible = true,
                             onClick = { events.postValue(OpenCertificateReissuanceConsent) }
                         )
                     )
