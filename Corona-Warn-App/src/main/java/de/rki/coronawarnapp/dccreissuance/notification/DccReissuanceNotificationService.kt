@@ -22,10 +22,10 @@ class DccReissuanceNotificationService @Inject constructor(
         val oldCertReissuance = oldWalletInfo?.certificateReissuance
         val newCertReissuance = newWalletInfo.certificateReissuance
         if (newCertReissuance != null && oldCertReissuance == null) {
-            Timber.tag(TAG).d("Person=%s is eligible for dcc reissuance", personIdentifier.codeSHA256)
+            Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
             personNotificationSender.showNotification(personIdentifier)
         } else {
-            Timber.tag(TAG).d("Person=%s isn't eligible for dcc reissuance", personIdentifier.codeSHA256)
+            Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
         }
     }
 
