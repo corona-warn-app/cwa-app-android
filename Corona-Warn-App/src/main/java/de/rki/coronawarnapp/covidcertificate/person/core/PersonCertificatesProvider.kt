@@ -28,10 +28,6 @@ class PersonCertificatesProvider @Inject constructor(
     dccWalletInfoRepository: DccWalletInfoRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
-    init {
-        Timber.tag(TAG).d("PersonCertificatesProvider init(%s)", this)
-    }
-
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
         certificatesProvider.certificateContainer,
         personCertificatesSettings.currentCwaUser.flow,
@@ -113,8 +109,7 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser.update { personIdentifier }
     }
 
-    val personsBadgeCount: Flow<Int> = personCertificates
-        .map { persons -> persons.sumOf { it.badgeCount } }
+    val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
 
     private fun Set<VaccinatedPerson>.boosterBadgeCount(
         personIdentifier: CertificatePersonIdentifier,
