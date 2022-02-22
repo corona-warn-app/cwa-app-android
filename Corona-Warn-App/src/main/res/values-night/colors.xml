@@ -80,6 +80,7 @@
     <!-- Tip-->
     <color name="tipBackgroundColor">#FFFFFF</color>
     <color name="tipTitleColor">#000000</color>
+    <color name="admissionItemDisabledColor">#80FFFFFF</color>
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardBorder</color>
 
 </resources>

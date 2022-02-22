@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.admission
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -18,27 +19,30 @@ import javax.inject.Inject
 class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenarios), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-    private val admissionViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
+    private val admissionScenariosSharedViewModel by navGraphViewModels<AdmissionScenariosSharedViewModel>(
         R.id.covid_certificates_graph
     )
+
     private val viewModel: AdmissionScenariosViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as AdmissionScenariosViewModel.Factory
             factory.create(
-                admissionScenariosSharedViewModel = admissionViewModel
+                admissionScenariosSharedViewModel = admissionScenariosSharedViewModel
             )
         }
     )
 
     private val binding by viewBinding<FragmentAdmissionScenariosBinding>()
-
+    private val blockingDialog by lazy { AdmissionBlockingDialog(requireContext()) }
     private val admissionScenariosAdapter = AdmissionScenariosAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val materialContainerTransform = MaterialContainerTransform()
+        val materialContainerTransform = MaterialContainerTransform().apply {
+            scrimColor = Color.TRANSPARENT
+        }
         sharedElementEnterTransition = materialContainerTransform
         sharedElementReturnTransition = materialContainerTransform
     }
@@ -49,6 +53,16 @@ class AdmissionScenariosFragment : Fragment(R.layout.fragment_admission_scenario
         viewModel.state.observe(viewLifecycleOwner) {
             toolbar.title = it.title
             admissionScenariosAdapter.update(it.scenarios)
+        }
+
+        viewModel.calculationState.observe(viewLifecycleOwner) { calculationState ->
+            when (calculationState) {
+                AdmissionScenariosViewModel.Calculating -> blockingDialog.setState(true)
+                AdmissionScenariosViewModel.CalculationDone -> {
+                    blockingDialog.setState(false)
+                    popBackStack()
+                }
+            }
         }
     }
 }
