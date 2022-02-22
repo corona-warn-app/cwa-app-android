@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
+import de.rki.coronawarnapp.util.list.hasIntersect
 import timber.log.Timber
 
 data class CertificatePersonIdentifier(
@@ -37,11 +38,11 @@ data class CertificatePersonIdentifier(
         if (other == null) return false
         if (dateOfBirthFormatted.trim() != other.dateOfBirthFormatted.trim()) return false
 
-        val familyNameOverlap = sanitizedFamilyName.intersect(other.sanitizedFamilyName).isNotEmpty()
-        val givenNameOverlap = sanitizedGivenName.intersect(other.sanitizedGivenName).isNotEmpty()
+        val familyNameOverlap = sanitizedFamilyName.hasIntersect(other.sanitizedFamilyName)
+        val givenNameOverlap = sanitizedGivenName.hasIntersect(other.sanitizedGivenName)
         val bothGivenNamesAreEmpty = sanitizedGivenName.isEmpty() && other.sanitizedGivenName.isEmpty()
-        val familyNameAndGivenNameAreSwapped = sanitizedFamilyName.intersect(other.sanitizedGivenName).isNotEmpty() &&
-            sanitizedGivenName.intersect(other.sanitizedFamilyName).isNotEmpty()
+        val familyNameAndGivenNameAreSwapped = sanitizedFamilyName.hasIntersect(other.sanitizedGivenName) &&
+            sanitizedGivenName.hasIntersect(other.sanitizedFamilyName)
 
         if (familyNameOverlap && (givenNameOverlap || bothGivenNamesAreEmpty)) {
             return true
