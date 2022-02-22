@@ -9,17 +9,20 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.mutate
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.joda.time.Instant
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,32 +34,34 @@ class PersonCertificatesSettings @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) {
 
-    val currentCwaUser: Flow<CertificatePersonIdentifier?> = dataStore.data.map { prefs ->
-        val json = prefs[CURRENT_PERSON_KEY]
-        try {
-            mapper.readValue(json.orEmpty())
-        } catch (e: Exception) {
-            Timber.tag(TAG).d("currentCwaUser failed to parse %s", json)
-            null
+    private val dataStoreFlow = dataStore.data
+        .catch { e ->
+            Timber.tag(TAG).e(e, "Failed to read PersonCertificatesSettings")
+            if (e is IOException) emit(emptyPreferences()) else throw e
         }
-    }
 
-    val personsSettings: Flow<Map<CertificatePersonIdentifier, PersonSettings>> = dataStore.data.map { prefs ->
-        val json = prefs[PERSONS_SETTINGS_MAP]
-        try {
-            mapper.readValue(json.orEmpty())
-        } catch (e: Exception) {
-            Timber.tag(TAG).d("personsSettings failed to parse %s", json)
-            emptyMap()
+    val currentCwaUser: Flow<CertificatePersonIdentifier?> = dataStoreFlow
+        .map { prefs ->
+            mapper.readValue<CertificatePersonIdentifier?>(prefs[CURRENT_PERSON_KEY].orEmpty())
+        }.catch {
+            Timber.tag(TAG).d(it, "currentCwaUser failed to parse")
+            emit(null)
         }
-    }
+
+    val personsSettings: Flow<Map<CertificatePersonIdentifier, PersonSettings>> = dataStoreFlow
+        .map { prefs ->
+            mapper.readValue<SettingsMap>(prefs[PERSONS_SETTINGS_MAP].orEmpty()).settings
+        }.catch {
+            Timber.tag(TAG).d(it, "personsSettings failed to parse")
+            emit(emptyMap())
+        }
 
     fun setDccReissuanceNotifiedAt(
         personIdentifier: CertificatePersonIdentifier,
         time: Instant = Instant.now()
     ) = appScope.launch {
         Timber.tag(TAG).d("setDccReissuanceNotifiedAt()")
-        personsSettings.first().mutate {
+        settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(showDccReissuanceBadge = true, lastDccReissuanceNotifiedAt = time)
             this[personIdentifier] = badgeSettings
@@ -68,7 +73,7 @@ class PersonCertificatesSettings @Inject constructor(
         personIdentifier: CertificatePersonIdentifier
     ) = appScope.launch {
         Timber.tag(TAG).d("dismissReissuanceBadge()")
-        personsSettings.first().mutate {
+        settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(showDccReissuanceBadge = false)
             this[personIdentifier] = badgeSettings
@@ -81,7 +86,7 @@ class PersonCertificatesSettings @Inject constructor(
         time: Instant = Instant.now()
     ) = appScope.launch {
         Timber.tag(TAG).d("setBoosterNotifiedAt()")
-        personsSettings.first().mutate {
+        settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(lastBoosterNotifiedAt = time)
             this[personIdentifier] = badgeSettings
@@ -94,7 +99,7 @@ class PersonCertificatesSettings @Inject constructor(
         boosterIdentifier: String
     ) = appScope.launch {
         Timber.tag(TAG).d("acknowledgeBoosterRule()")
-        personsSettings.first().mutate {
+        settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(lastSeenBoosterRuleIdentifier = boosterIdentifier)
             this[personIdentifier] = badgeSettings
@@ -106,7 +111,7 @@ class PersonCertificatesSettings @Inject constructor(
         personIdentifier: CertificatePersonIdentifier
     ) = appScope.launch {
         Timber.tag(TAG).d("clearBoosterRuleInfo()")
-        personsSettings.first().mutate {
+        settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(lastSeenBoosterRuleIdentifier = null, lastBoosterNotifiedAt = null)
             this[personIdentifier] = badgeSettings
@@ -116,7 +121,7 @@ class PersonCertificatesSettings @Inject constructor(
 
     fun cleanOutdatedPerson(personIdentifiers: Set<CertificatePersonIdentifier>) = appScope.launch {
         Timber.tag(TAG).d("cleanOutdatedPerson()")
-        personsSettings.first().mutate {
+        settings().mutate {
             val personsToClean = keys subtract personIdentifiers
             personsToClean.forEach { remove(it) }
             saveSettings(toMap())
@@ -143,9 +148,13 @@ class PersonCertificatesSettings @Inject constructor(
             }
         }
 
-    private suspend fun saveSettings(map: Map<CertificatePersonIdentifier, PersonSettings>) {
+    private suspend fun settings() = personsSettings.first()
+
+    private suspend fun saveSettings(
+        map: Map<CertificatePersonIdentifier, PersonSettings>
+    ) {
         dataStore.edit { prefs ->
-            prefs[PERSONS_SETTINGS_MAP] = runCatching { mapper.writeValueAsString(map) }
+            prefs[PERSONS_SETTINGS_MAP] = runCatching { mapper.writeValueAsString(SettingsMap(map)) }
                 .onFailure { Timber.tag(TAG).d(it, "cleanOutdatedPerson failed") }
                 .getOrDefault("")
         }
