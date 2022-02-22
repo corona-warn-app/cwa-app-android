@@ -40,13 +40,6 @@ class AppShortcutsHelper @Inject constructor(
         }
 
     suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
-        // No shortcuts if test result is positive
-        if (coronaTestRepository.allCoronaTests.first().any { it.isPositive }) {
-            Timber.i("[AppShortcuts] Remove all shortcut items since exposure submission result is positive")
-            removeAppShortcuts()
-            return@withContext
-        }
-
         // No shortcuts if not onboarded
         if (!allOnboardingStepsComplete) {
             Timber.i("[AppShortcuts] Remove all shortcut items since onboarding is not done yet")
