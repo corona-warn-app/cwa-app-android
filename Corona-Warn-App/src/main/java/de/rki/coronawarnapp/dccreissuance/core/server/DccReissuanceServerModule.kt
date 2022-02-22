@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.dccreissuance.core.server
 
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.environment.vaccination.VaccinationProofServerUrl
+import de.rki.coronawarnapp.environment.dccreissuance.DccReissuanceServerURL
 import de.rki.coronawarnapp.http.HttpClientDefault
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -13,7 +13,7 @@ object DccReissuanceServerModule {
 
     @Provides
     fun provideApi(
-        @VaccinationProofServerUrl url: String,
+        @DccReissuanceServerURL url: String,
         @HttpClientDefault client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): DccReissuanceApi = Retrofit.Builder()

@@ -40,7 +40,7 @@ class EnvironmentSetup @Inject constructor(
         SAFETYNET_API_KEY("SAFETYNET_API_KEY"),
         CROWD_NOTIFIER_PUBLIC_KEY("CROWD_NOTIFIER_PUBLIC_KEY"),
         DCC("DCC_SERVER_URL"),
-        VACCINATION_PROOF_SERVER_URL("VACCINATION_PROOF_SERVER_URL"),
+        DCC_REISSUANCE_SERVER_URL("DCC_REISSUANCE_SERVER_URL"),
     }
 
     enum class Type(val rawKey: String) {
@@ -147,8 +147,8 @@ class EnvironmentSetup @Inject constructor(
 
     val dccServerUrl: String
         get() = getEnvironmentValue(DCC).asString
-    val vaccinationProofServerUrl: String
-        get() = getEnvironmentValue(EnvKey.VACCINATION_PROOF_SERVER_URL).asString
+    val dccReissuanceServerURL: String
+        get() = getEnvironmentValue(EnvKey.DCC_REISSUANCE_SERVER_URL).asString
 
     companion object {
         private const val PKEY_CURRENT_ENVIRONMENT = "environment.current"
