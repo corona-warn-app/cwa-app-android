@@ -42,14 +42,14 @@ class PersonCertificatesProvider @Inject constructor(
 
         val vaccPersons = certificateContainer.vaccinationInfos
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
-        val allCerts = certificateContainer.allCwaCertificates.groupByPerson()
+        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
-        if (allCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
+        if (groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
             personCertificatesSettings.currentCwaUser.update { null }
         }
 
-        allCerts.map { certs ->
+        groupedCerts.map { certs ->
             val firstPersonIdentifier = certs.first().personIdentifier
             Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", firstPersonIdentifier, certs.size)
 
