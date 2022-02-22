@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.IOException
@@ -152,7 +153,7 @@ class PersonCertificatesSettings @Inject constructor(
 
     private suspend fun saveSettings(
         map: Map<CertificatePersonIdentifier, PersonSettings>
-    ) {
+    ) = withContext(dispatcherProvider.IO) {
         dataStore.edit { prefs ->
             prefs[PERSONS_SETTINGS_MAP] = runCatching { mapper.writeValueAsString(SettingsMap(map)) }
                 .onFailure { Timber.tag(TAG).d(it, "cleanOutdatedPerson failed") }
