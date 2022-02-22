@@ -9,5 +9,7 @@ import retrofit2.http.POST
 interface DccReissuanceApi {
 
     @POST("/api/certify/v2/reissue")
-    suspend fun requestReissuance(@Body dccReissuanceRequestBody: DccReissuanceRequestBody): Response<List<DccReissuanceResponse>>
+    suspend fun requestReissuance(
+        @Body dccReissuanceRequestBody: DccReissuanceRequestBody
+    ): Response<List<DccReissuanceResponse>>
 }
