@@ -57,10 +57,7 @@ class PersonCertificatesSettings @Inject constructor(
     ) = appScope.launch {
         Timber.tag(TAG).d("setDccReissuanceNotifiedAt()")
         personsSettings.first().mutate {
-            val personSettings = get(personIdentifier) ?: run {
-                Timber.tag(TAG).d("setDccReissuanceNotifiedAt(P=%s doesn't exist)", personIdentifier.codeSHA256)
-                return@mutate
-            }
+            val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(showDccReissuanceBadge = true, lastDccReissuanceNotifiedAt = time)
             this[personIdentifier] = badgeSettings
             saveSettings(toMap())
@@ -72,10 +69,7 @@ class PersonCertificatesSettings @Inject constructor(
     ) = appScope.launch {
         Timber.tag(TAG).d("dismissReissuanceBadge()")
         personsSettings.first().mutate {
-            val personSettings = get(personIdentifier) ?: run {
-                Timber.tag(TAG).d("dismissReissuanceBadge(P=%s doesn't exist)", personIdentifier.codeSHA256)
-                return@mutate
-            }
+            val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(showDccReissuanceBadge = false)
             this[personIdentifier] = badgeSettings
             saveSettings(toMap())
@@ -88,10 +82,7 @@ class PersonCertificatesSettings @Inject constructor(
     ) = appScope.launch {
         Timber.tag(TAG).d("setBoosterNotifiedAt()")
         personsSettings.first().mutate {
-            val personSettings = get(personIdentifier) ?: run {
-                Timber.tag(TAG).d("setBoosterNotifiedAt(P=%s doesn't exist)", personIdentifier.codeSHA256)
-                return@mutate
-            }
+            val personSettings = get(personIdentifier) ?: PersonSettings()
             val badgeSettings = personSettings.copy(lastBoosterNotifiedAt = time)
             this[personIdentifier] = badgeSettings
             saveSettings(toMap())
@@ -104,14 +95,8 @@ class PersonCertificatesSettings @Inject constructor(
     ) = appScope.launch {
         Timber.tag(TAG).d("acknowledgeBoosterRule()")
         personsSettings.first().mutate {
-            val personSettings = get(personIdentifier) ?: run {
-                Timber.tag(TAG).d("acknowledgeBoosterRule(P=%s doesn't exist)", personIdentifier.codeSHA256)
-                return@mutate
-            }
-            val badgeSettings = personSettings.copy(
-                lastSeenBoosterRuleIdentifier = boosterIdentifier
-            )
-
+            val personSettings = get(personIdentifier) ?: PersonSettings()
+            val badgeSettings = personSettings.copy(lastSeenBoosterRuleIdentifier = boosterIdentifier)
             this[personIdentifier] = badgeSettings
             saveSettings(toMap())
         }
@@ -122,14 +107,8 @@ class PersonCertificatesSettings @Inject constructor(
     ) = appScope.launch {
         Timber.tag(TAG).d("clearBoosterRuleInfo()")
         personsSettings.first().mutate {
-            val personSettings = get(personIdentifier) ?: run {
-                Timber.tag(TAG).d("clearBoosterRuleInfo(P=%s doesn't exist)", personIdentifier.codeSHA256)
-                return@mutate
-            }
-            val badgeSettings = personSettings.copy(
-                lastSeenBoosterRuleIdentifier = null,
-                lastBoosterNotifiedAt = null
-            )
+            val personSettings = get(personIdentifier) ?: PersonSettings()
+            val badgeSettings = personSettings.copy(lastSeenBoosterRuleIdentifier = null, lastBoosterNotifiedAt = null)
             this[personIdentifier] = badgeSettings
             saveSettings(toMap())
         }
