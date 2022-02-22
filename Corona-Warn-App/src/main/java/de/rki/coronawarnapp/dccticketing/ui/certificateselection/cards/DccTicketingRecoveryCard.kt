@@ -31,7 +31,7 @@ class DccTicketingRecoveryCard(parent: ViewGroup) :
 
             certificateDate.text = context.getString(
                 R.string.recovery_certificate_valid_until,
-                certificate.validUntil?.toShortDayFormat()
+                certificate.validUntil?.toShortDayFormat() ?: certificate.rawCertificate.recovery.du
             )
 
             arrow.isVisible = item.showArrow

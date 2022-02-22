@@ -33,7 +33,7 @@ class DccTicketingVaccinationCard(parent: ViewGroup) :
 
         certificateDate.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn?.toShortDayFormat()
+            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
         )
 
         arrow.isVisible = item.showArrow
