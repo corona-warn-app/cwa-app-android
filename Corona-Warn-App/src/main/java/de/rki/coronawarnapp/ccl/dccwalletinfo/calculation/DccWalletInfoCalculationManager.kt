@@ -23,13 +23,13 @@ class DccWalletInfoCalculationManager @Inject constructor(
     /**
      * Trigger [DccWalletInfo] calculation for all persons
      */
-    suspend fun triggerCalculationAfterConfigChange(
+    suspend fun triggerAfterConfigChange(
         admissionScenarioId: String,
         configurationChanged: Boolean = true
     ): Result = try {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
-        Timber.d("triggerCalculation() for [%d] persons", persons.size)
+        Timber.d("triggerAfterConfigChange() for [%d] persons", persons.size)
         val now = timeStamper.nowUTC
         persons.forEach { person ->
             if (configurationChanged ||
@@ -45,11 +45,13 @@ class DccWalletInfoCalculationManager @Inject constructor(
         Result.Failure(e)
     }
 
-    suspend fun triggerCalculationAfterCertificateChange(
+    suspend fun triggerNow(
         admissionScenarioId: String
     ): Result = try {
         initCalculation()
-        personCertificatesProvider.personCertificates.first().forEach {
+        val persons = personCertificatesProvider.personCertificates.first()
+        Timber.d("triggerNow() for [%d] persons", persons.size)
+        persons.forEach {
             updateWalletInfoForPerson(it, admissionScenarioId)
         }
         Result.Success
@@ -67,7 +69,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private suspend fun updateWalletInfoForPerson(
         person: PersonCertificates,
         admissionScenarioId: String
-    ) {
+    ) = try {
         val personIdentifier = checkNotNull(person.personIdentifier) {
             "Person identifier is null. Cannot proceed."
         }
@@ -87,6 +89,11 @@ class DccWalletInfoCalculationManager @Inject constructor(
             personIdentifier,
             newWalletInfo
         )
+
+        Result.Success
+    } catch (e: Exception) {
+        Timber.e(e, "Failed to run calculation for person=%s", person.personIdentifier)
+        Result.Failure(e)
     }
 
     sealed class Result {

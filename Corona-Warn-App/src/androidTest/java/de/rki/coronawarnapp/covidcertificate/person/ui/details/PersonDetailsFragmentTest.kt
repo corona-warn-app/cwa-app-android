@@ -108,6 +108,14 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_admission_berlin() {
+        every { viewModel.uiState } returns certificateData(admissionSubtitle = "Berlin")
+        launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<PersonDetailsFragment>("admission_berlin")
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_booster() {
         every { viewModel.uiState } returns boosterCertificateData()
         launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
@@ -117,7 +125,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
         takeScreenshot<PersonDetailsFragment>("booster_2")
     }
 
-    private fun certificateData(isCwa: Boolean = false): LiveData<PersonDetailsViewModel.UiState> {
+    private fun certificateData(
+        isCwa: Boolean = false,
+        admissionSubtitle: String = "2G+ PCR-Test"
+    ): LiveData<PersonDetailsViewModel.UiState> {
         var name: String
         val certificateItems = mutableListOf<CertificateItem>().apply {
             val testCertificate = mockTestCertificate().also { name = it.fullName }
@@ -137,7 +148,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Status-Nachweis",
-                        subtitleText = "2G+ PCR-Test",
+                        subtitleText = admissionSubtitle,
                         badgeText = "2G+",
                         longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
                         faqAnchor = "FAQ"
