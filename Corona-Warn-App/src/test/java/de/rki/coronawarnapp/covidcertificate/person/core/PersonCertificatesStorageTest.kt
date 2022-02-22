@@ -56,7 +56,6 @@ class PersonCertificatesStorageTest : BaseTest() {
 
     @Test
     fun `clearing deletes all data`() {
-
         createInstance().apply {
             setCurrentCwaUser(personIdentifier1)
             setBoosterNotifiedAt(personIdentifier1)
@@ -88,6 +87,23 @@ class PersonCertificatesStorageTest : BaseTest() {
                   "givenNameStandardized": "firstname"
                 }
             """.toComparableJsonPretty()
+        }
+    }
+
+    @Test
+    fun `remove current cwa user person identifier`() = runBlockingTest {
+        val testIdentifier = CertificatePersonIdentifier(
+            firstNameStandardized = "firstname",
+            lastNameStandardized = "lastname",
+            dateOfBirthFormatted = "1999-12-24"
+        )
+
+        createInstance().apply {
+            currentCwaUser.first() shouldBe null
+            setCurrentCwaUser(testIdentifier)
+            currentCwaUser.first() shouldBe testIdentifier
+            removeCurrentCwaUser()
+            currentCwaUser.first() shouldBe null
         }
     }
 
@@ -155,8 +171,8 @@ class PersonCertificatesStorageTest : BaseTest() {
     @Test
     fun `set dcc reissuance for a person has settings`() {
         createInstance().apply {
-            setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
+            setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
                 {
                 	"settings": {
