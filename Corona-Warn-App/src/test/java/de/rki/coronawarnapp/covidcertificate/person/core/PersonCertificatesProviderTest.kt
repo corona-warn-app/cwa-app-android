@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -17,6 +16,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -25,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
-import testhelpers.preferences.mockFlowPreference
 
 class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var certificateProvider: CertificateProvider
@@ -98,7 +97,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val certificateContainerFlow = MutableStateFlow(certificateContainer)
 
-    private lateinit var currentCwaUserPref: FlowPreference<CertificatePersonIdentifier?>
+    private lateinit var currentCwaUserPref: Flow<CertificatePersonIdentifier?>
 
     @BeforeEach
     fun setup() {
@@ -106,7 +105,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
         every { certificateProvider.certificateContainer } returns certificateContainerFlow
 
-        currentCwaUserPref = mockFlowPreference(identifierA)
+        currentCwaUserPref = flowOf(identifierA)
         personCertificatesSettings.apply {
             every { currentCwaUser } returns currentCwaUserPref
         }
@@ -165,7 +164,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         instance.personsBadgeCount.first() shouldBe 4
-        currentCwaUserPref.value shouldBe identifierA
+        currentCwaUserPref.first() shouldBe identifierA
 
         verify {
             certificateProvider.certificateContainer
@@ -174,7 +173,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     @Test
     fun `data combination and cwa user is not in the list`() = runBlockingTest2(ignoreActive = true) {
-        currentCwaUserPref.update { identifierC }
+        currentCwaUserPref = flowOf(identifierC)
         val instance = createInstance(this)
 
         instance.personCertificates.first() shouldBe listOf(
@@ -198,7 +197,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         instance.personsBadgeCount.first() shouldBe 4
-        currentCwaUserPref.value shouldBe null
+        currentCwaUserPref.first() shouldBe null
 
         verify {
             certificateProvider.certificateContainer
