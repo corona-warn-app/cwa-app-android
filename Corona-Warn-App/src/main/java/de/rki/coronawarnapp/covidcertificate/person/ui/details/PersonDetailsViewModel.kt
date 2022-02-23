@@ -95,7 +95,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                             title = format(division.titleText),
                             subtitle = format(division.subtitleText),
                             badgeVisible = personCertificates.hasDccReissuance,
-                            onClick = { events.postValue(OpenCertificateReissuanceConsent) }
+                            onClick = { events.postValue(OpenCertificateReissuanceConsent(personIdentifierCode)) }
                         )
                     )
                 }

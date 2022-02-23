@@ -310,6 +310,10 @@
             android:id="@+id/action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment"
             app:destination="@id/dccReissuanceSuccessFragment" />
 
+        <argument
+            android:name="personCode"
+            app:argType="string" />
+
     </fragment>
 
     <fragment
