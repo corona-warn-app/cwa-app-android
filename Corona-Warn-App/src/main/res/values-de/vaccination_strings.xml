@@ -3,22 +3,13 @@
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">Impfzertifikat</string>
 
-    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
-    <string name="vaccination_list_immunity_tomorrow_card_body">Sie haben nun alle derzeit geplanten Impfungen erhalten. Allerdings ist der Impfschutz erst morgen vollständig.</string>
-    <!-- XBUT: Vaccination List delete button -->
-    <string name="vaccination_list_delete_button">Löschen</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">Qr-Code</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">Dieser QR-Code ist kein gültiges Zertifikat.\n\nWeitere Informationen zum Erhalt Ihres Zertifikats finden Sie in den FAQ.</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">Dieses Impfzertifikat wird in Ihrer App-Version noch nicht unterstützt. Bitte aktualisieren Sie Ihre App oder wenden Sie sich an die technische Hotline unter „App-Informationen“.</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">Die persönlichen Daten dieses Impfzertifikats stimmen nicht mit denen der bereits registrierten Zertifikate überein. Sie können in der App nur Zertifikate einer Person registrieren.</string>
-
-    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">FAQ zu Zertifikaten</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Impfzertifikat"</string>

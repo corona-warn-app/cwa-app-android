@@ -105,14 +105,8 @@
     <string name="submission_test_result_negative_message">"Нямате поставена диагноза за заразяване с вирус SARS-CoV-2."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Функция за проверка"</string>
-    <!-- XHED: submission result antigen fragment negative result proof title for anonymous tests-->
-    <string name="submission_test_result_antigen_negative_proof_title_anonymous">"Без функция за проверка"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"За да докажете резултата, който се показва тук се изисква цифров COVID сертификат на ЕС. Ако сте заявили цифров сертификат за направен тест, когато сте регистрирали своя тест и пунктът поддържа издаването на такива, може да откриете своя цифров сертификат за направен тест в посоченият линк по-горе. Също така може да го намерите в таба “Сертификати”. \nМоля, запознайте се с критериите за признаване на валидност на цифрови сертификати за направени тестове, според това за какво Ви трябва доказателство."</string>
-    <!-- XHED: submission result antigen fragment negative result proof body anonymous -->
-    <string name="submission_test_result_antigen_negative_proof_body_anonymous">"Тъй като показаният тук резултат е анонимизиран, той не може да се използва като доказателство за отрицателен резултат от бърз тест."</string>
-    <!-- XHED: submission result antigen fragment negative result proof additional information -->
-    <string name="submission_test_result_antigen_negative_proof_additional_information">"Моля, имайте предвид, че трябва да представите доказателство за резултата от Вашия бърз тест единствено ако законът изисква това. Можете да покажете резултата си чрез приложението или по друг начин. За повече информация, моля запознайте се с критериите за приемане на доказателства за тестване във Вашата федерална провинция."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Резултатът ще е достъпен след"</string>
     <!-- XHED: coronatest negative antigen result first info title -->

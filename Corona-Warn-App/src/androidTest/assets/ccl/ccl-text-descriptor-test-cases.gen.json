@@ -1,0 +1,572 @@
+{
+  "$comment": "Generated at Tue Feb 15 2022 09:52:07 GMT+0000 (Coordinated Universal Time)",
+  "sourceTreeish": "81d9b76",
+  "testCases": [
+    {
+      "description": "simple hello world",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo Welt"
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo Welt"
+        }
+      ]
+    },
+    {
+      "description": "hello world with placeholders",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo %s"
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "value": "John"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo John"
+        }
+      ]
+    },
+    {
+      "description": "placeholder %d",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo %d"
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 3
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo 3"
+        }
+      ]
+    },
+    {
+      "description": "multiple placeholders",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo %s %s"
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "value": "John"
+          },
+          {
+            "type": "string",
+            "value": "Doe"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo John Doe"
+        }
+      ]
+    },
+    {
+      "description": "multiple placeholders with index",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo %1$s %2$s"
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "value": "John"
+          },
+          {
+            "type": "string",
+            "value": "Doe"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo John Doe"
+        }
+      ]
+    },
+    {
+      "description": "multiple placeholders with index and switched sequence",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo %2$s, %1$s"
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "value": "John"
+          },
+          {
+            "type": "string",
+            "value": "Doe"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo Doe, John"
+        }
+      ]
+    },
+    {
+      "description": "use same placeholder multiple times",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo %2$s, %1$s oder %1$s %2$s"
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "value": "John"
+          },
+          {
+            "type": "string",
+            "value": "Doe"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Hallo Doe, John oder John Doe"
+        }
+      ]
+    },
+    {
+      "description": "placeholder of type localDate (without milliseconds)",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Gültig ab %s"
+        },
+        "parameters": [
+          {
+            "type": "localDate",
+            "value": "2022-01-02T00:30:00+01:00"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Gültig ab 02.01.22"
+        }
+      ]
+    },
+    {
+      "description": "placeholder of type localDate (with milliseconds)",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Gültig ab %s"
+        },
+        "parameters": [
+          {
+            "type": "localDate",
+            "value": "2022-01-02T00:30:00.000+01:00"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Gültig ab 02.01.22"
+        }
+      ]
+    },
+    {
+      "description": "placeholder of type localDateTime",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Gültig ab %s"
+        },
+        "parameters": [
+          {
+            "type": "localDateTime",
+            "value": "2022-01-02T00:30:00+01:00"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Gültig ab 02.01.22, 00:30"
+        }
+      ]
+    },
+    {
+      "description": "placeholder of type utcDate",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Gültig ab %s"
+        },
+        "parameters": [
+          {
+            "type": "utcDate",
+            "value": "2022-01-02T00:30:00+01:00"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Gültig ab 01.01.22"
+        }
+      ]
+    },
+    {
+      "description": "placeholder of type utcDateTime",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Gültig ab %s"
+        },
+        "parameters": [
+          {
+            "type": "utcDateTime",
+            "value": "2022-01-02T00:30:00+01:00"
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Gültig ab 01.01.22, 23:30"
+        }
+      ]
+    },
+    {
+      "description": "plural simple hello world (quantity 0)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 0,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Jetzt"
+        }
+      ]
+    },
+    {
+      "description": "plural simple hello world (quantity 1)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 1,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor einer Minute"
+        }
+      ]
+    },
+    {
+      "description": "plural simple hello world (quantity 2)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 2,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor wenigen Minuten"
+        }
+      ]
+    },
+    {
+      "description": "plural simple hello world (quantity 20)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 20,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor einer Minute",
+            "two": "vor wenigen Minuten",
+            "few": "vor wenigen Minuten",
+            "many": "vor wenigen Minuten",
+            "other": "vor wenigen Minuten"
+          }
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor wenigen Minuten"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders (quantity 0)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 0,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 42
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Jetzt"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders (quantity 1)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 1,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 42
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor 42 Minute"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders (quantity 2)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantity": 2,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 42
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor 42 Minuten"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders and quantityParameterIndex (#1)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantityParameterIndex": 0,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 0
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "Jetzt"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders and quantityParameterIndex (#2)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantityParameterIndex": 0,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 1
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor 1 Minute"
+        }
+      ]
+    },
+    {
+      "description": "plural hello world with placeholders and quantityParameterIndex (#3)",
+      "textDescriptor": {
+        "type": "plural",
+        "quantityParameterIndex": 0,
+        "localizedText": {
+          "de": {
+            "zero": "Jetzt",
+            "one": "vor %d Minute",
+            "two": "vor %d Minuten",
+            "few": "vor %d Minuten",
+            "many": "vor %d Minuten",
+            "other": "vor %d Minuten"
+          }
+        },
+        "parameters": [
+          {
+            "type": "number",
+            "value": 2
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "languageCode": "de",
+          "text": "vor 2 Minuten"
+        }
+      ]
+    },
+    {
+      "description": "fallback - EN is used as fallback if there is no text for the given languageCode",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo Welt",
+          "en": "Hello World"
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "tr",
+          "text": "Hello World"
+        }
+      ]
+    },
+    {
+      "description": "fallback - DE is used as fallback if there is no text for the given languageCode and for EN",
+      "textDescriptor": {
+        "type": "string",
+        "localizedText": {
+          "de": "Hallo Welt"
+        },
+        "parameters": []
+      },
+      "assertions": [
+        {
+          "languageCode": "tr",
+          "text": "Hallo Welt"
+        }
+      ]
+    }
+  ]
+}

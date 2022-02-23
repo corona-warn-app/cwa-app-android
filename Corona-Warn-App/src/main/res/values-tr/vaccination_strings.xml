@@ -2,22 +2,13 @@
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">"Aşı Sertifikası"</string>
 
-    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
-    <string name="vaccination_list_immunity_tomorrow_card_body">"Şu anda planlanan tüm aşıları aldınız ancak aşı korumanız yarına kadar tamamlanmayacaktır."</string>
-    <!-- XBUT: Vaccination List delete button -->
-    <string name="vaccination_list_delete_button">"Sil"</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"QR Kod"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"Bu QR kodu geçerli bir sertifika değildir.\n\nSertifikanızı nasıl alacağınız hakkında daha fazla bilgi için lütfen SSS sayfamıza bakın."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"Bu aşı sertifikası henüz uygulamanızın sürümünde desteklenmiyor. Lütfen uygulamanızı güncelleyin veya “Uygulama Bilgileri” bölümünde belirtilen teknik yardım hattı ile iletişime geçin."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"Bu aşı sertifikasındaki kişisel bilgiler, kaydedilmiş sertifikalardaki bilgilerle eşleşmiyor. Uygulamaya yalnızca bir kişiye ait sertifikalar kaydedebilirsiniz."</string>
-
-    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"Sertifikalar için SSS"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Aşı Sertifikası"</string>

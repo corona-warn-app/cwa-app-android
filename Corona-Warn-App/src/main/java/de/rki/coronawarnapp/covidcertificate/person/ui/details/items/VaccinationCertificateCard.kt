@@ -6,9 +6,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.BOOSTER_ELIGIBLE
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -57,10 +54,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
 
             // Final shot
-            certificate.isSeriesCompletingShot -> when (curItem.status) {
-                IMMUNITY, BOOSTER_ELIGIBLE -> R.drawable.ic_vaccination_immune
-                else -> R.drawable.ic_vaccination_complete
-            }
+            certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
 
             // Other shots
             else -> R.drawable.ic_vaccination_incomplete
@@ -80,7 +74,6 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         val certificate: VaccinationCertificate,
         val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
-        val status: VaccinatedPerson.Status,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId = certificate.containerId.hashCode().toLong()

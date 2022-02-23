@@ -40,7 +40,7 @@ class RecoveryCertificateStorage @Inject constructor(
     }
 
     suspend fun save(certificates: Set<StoredRecoveryCertificateData>) = mutex.withLock {
-        Timber.tag(TAG).d("recoveryCertificates - save(%s)", certificates)
+        Timber.tag(TAG).d("recoveryCertificates - save(%s)", certificates.size)
         prefs.edit(commit = true) {
             if (certificates.isEmpty()) {
                 remove(PKEY_RECOVERY_CERT)

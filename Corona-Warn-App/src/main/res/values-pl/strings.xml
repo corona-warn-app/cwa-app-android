@@ -260,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Jeśli to możliwe, idź do domu i w nim pozostań. Unikaj wszelkich spotkań poza domem."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"W razie jakichkolwiek innych pytań związanych ze zdrowiem skontaktuj się z pogotowiem ratunkowym pod numerem: 116 117."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"W razie jakichkolwiek innych pytań zadzwoń na numer 116 117 (w Niemczech). Następnie w trakcie automatycznego komunikatu naciśnij 2 (punkt Związkowego Ministerstwa Zdrowia). Naciśnij 1 (pogotowie ratunkowe) tylko, jeśli masz objawy."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Regularnie myj ręce mydłem przez 20 sekund."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -742,7 +742,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"angielskim, niemieckim, tureckim\n\nGodziny pracy:\nod poniedziałku do soboty: 7:00 - 22:00 (CET)\n(za wyjątkiem świąt państwowych)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"W razie jakichkolwiek pytań związanych ze zdrowiem skontaktuj się z lekarzem rodzinnym lub lekarzem dyżurnym pod numerem: 116 117."</string>
+    <string name="information_contact_body_other">"W razie jakichkolwiek innych pytań zadzwoń na numer 116 117 (w Niemczech). Następnie w trakcie automatycznego komunikatu naciśnij 2 (punkt Związkowego Ministerstwa Zdrowia). Naciśnij 1 (pogotowie ratunkowe) tylko, jeśli masz objawy."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Mężczyzna korzystający z zestawu słuchawkowego prowadzi rozmowę telefoniczną."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -921,8 +921,6 @@
     <string name="qr_code_open_file">"Otwórz plik"</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">"Odczytywanie kodu QR…"</string>
-    <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Ten kod QR nie jest obsługiwany przez aplikację Corona-Warn-App. Zeskanuj odpowiedni kod QR."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Nie można odczytać pliku"</string>
     <!-- XTXT: QR Code error message body  -->
@@ -975,8 +973,6 @@
     <string name="submission_consent_main_headline_body">"Zanim pobierzesz wynik testu i będziesz ostrzegać innych musisz wyrazić zgodę."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Pobierz wynik testu"</string>
-    <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Zeskanuj teraz kod QR dla swojego testu i pobierz wynik testu."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Test można zeskanować tylko raz. Aplikacja może zarządzać maksymalnie jednym szybkim testem i jednym testem PCR jednocześnie."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
@@ -1057,9 +1053,7 @@
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Usuń test"</string>
     <!-- XHED: Page headline for other warnings screen  -->
-    <string name="submission_test_result_positive_steps_warning_others_heading">"Ostrzegaj innych"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Udostępnij swoje losowe identyfikatory, aby ostrzegać innych.\nPomóż innym dokładniej ocenić ryzyko zakażenia, wysyłając informację, gdy dostrzeżesz u siebie objawy koronawirusa."</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Wprowadź objawy"</string>
 
@@ -1082,28 +1076,12 @@
     <string name="submission_test_result_dialog_tracing_required_message">"Aktywuj rejestrowanie narażenia, aby ostrzec inne osoby."</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
-    <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Test można zeskanować tylko raz."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Usunąć wynik testu?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Wynik testu zostanie przeniesiony do kosza. Kosz znajduje się na stronie karty „Status”, pod trzema kropkami w prawym górnym rogu. W tym miejscu możesz go trwale usunąć lub odzyskać. Wynik testu zostanie automatycznie usunięty po 30 dniach."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Usuń wynik testu"</string>
-    <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Czy na pewno chcesz usunąć test?"</string>
-    <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Jeśli usuniesz test, nie będziesz mieć możliwości pobrania wyniku swojego testu. Otrzymasz swój wynik testu z ośrodka wykonującego testy lub laboratorium niezależnie od ważności kodu QR. W przypadku zdiagnozowania u Ciebie koronawirusa organ ds. zdrowia publicznego zostanie powiadomiony przez ustanowiony prawnie kanał komunikacyjny i skontaktuje się z Tobą."</string>
-    <!-- YTXT: Dialog text for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Jeśli to zrobisz, inne osoby nie otrzymają ostrzeżeń."</string>
-    <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Usuń"</string>
-    <!-- XBUT: Negative button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_negative">"Anuluj"</string>
-    <!-- XHED: Title for test result card positive -->
-    <string name="submission_test_result_card_positive_title">"Zakażenie SARS-CoV-2"</string>
-    <!-- YTXT: Body text for test result card positive -->
-    <string name="submission_test_result_card_positive_body">"Zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
     <!-- XHED: Page headline for test result with consent given  -->
     <string name="submission_test_result_consent_given_heading">"Wynik Twojego testu"</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
@@ -1164,14 +1142,10 @@
     <string name="submission_positive_other_warning_title">"Ostrzegaj innych"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Pomóż nam wszystkim!"</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Jeśli chcesz, możesz teraz zapewnić, by inni otrzymali ostrzeżenie dotyczące potencjalnego zakażenia.\n\nW tym celu możesz wysłać losowe identyfikatory z ostatnich 14 dni – oraz opcjonalnie informację o dostrzeżeniu objawów koronawirusa u siebie – na serwer obsługiwany wspólnie przez uczestniczące kraje. Z tego serwera Twoje losowe identyfikatory i wszelkie dodatkowe informacje będą przesyłane do użytkowników odpowiednich oficjalnych aplikacji koronawirusowych. Dzięki temu inni użytkownicy, z którymi miałeś(-łaś) kontakt, otrzymają ostrzeżenie dotyczące ewentualnego zakażenia.\n\nJedynymi przesyłanymi informacjami są Twoje losowe identyfikatory oraz wszelkie opcjonalnie podane przez Ciebie informacje o wystąpieniu u Ciebie objawów. Nie są udostępniane żadne dane osobowe, takie jak imię i nazwisko, adres czy lokalizacja."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Akceptuj"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Zaszyfrowana diagnoza zakażenia jest przesyłana do systemu."</string>
-    <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"Następujące kraje uczestniczą obecnie w międzynarodowym rejestrowaniu narażenia:"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1293,7 +1267,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Zapewniamy obsługę klienta w następujących językach: angielskim, niemieckim, tureckim\n\nGodziny pracy:\nCodziennie (wraz z weekendami) 7:00 – 20:00 (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"W razie jakichkolwiek pytań związanych ze zdrowiem skontaktuj się z lekarzem rodzinnym lub lekarzem dyżurnym pod numerem: 116 117."</string>
+    <string name="submission_contact_body_other">"W razie jakichkolwiek innych pytań zadzwoń na numer 116 117 (w Niemczech). Następnie w trakcie automatycznego komunikatu naciśnij 2 (punkt Związkowego Ministerstwa Zdrowia). Naciśnij 1 (pogotowie ratunkowe) tylko, jeśli masz objawy."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Zadzwoń na infolinię i poproś o numer TAN"</string>
@@ -1486,42 +1460,21 @@
     <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym za pomocą testu PCR zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Lokalna 7-dniowa zapadalność"</string>
-    <!-- XTXT: Explanation screen local incidence text -->
-    <string name="statistics_explanation_local_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców w skonfigurowanym okręgu lub kraju związkowym."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-dniowa zapadalność"</string>
-    <!-- XHED: Explanation screen seven day hospitalization title -->
-    <string name="statistics_explanation_seven_day_hospitalization_title">"7-dniowy wskaźnik hospitalizacji"</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care title -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"Pacjenci z COVID-19 na oddziałach intensywnej terapii"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Łączna liczba potwierdzonych nowych zakażeń w ciągu ostatnich 7 dni (według daty zgłoszenia) na 100 000 mieszkańców."</string>
-    <!-- XTXT: Explanation screen seven day hospitalization text -->
-    <string name="statistics_explanation_seven_day_hospitalization_text">"Całkowita liczba przyjęć do szpitala z powodu COVID-19 w ciągu ostatnich 7 dni (wg daty zgłoszenia) na 100 000 mieszkańców."</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care text -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Stosunek liczby osób przebywających na oddziałach intensywnej terapii z powodu COVID-19 do całkowitej liczby łóżek OIT."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-dniowa wartość R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Współczynnik reprodukcji R wskazuje liczbę osób, którą zaraziła przeciętna osoba zakażona."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"Często zadawane pytania dotyczące statystyk"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legenda"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Okres"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
-    <string name="statistics_explanation_period_yesterday_subtitle">"Wczoraj/do wczoraj"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
     <string name="statistics_explanation_period_yesterday_text">"W przypadku przedziału czasu „Wczoraj/do wczoraj” wyświetlana jest liczba dotycząca dnia poprzedniego/okresu do dnia poprzedniego. Jeśli dane liczbowe za poprzedni dzień nie są jeszcze dostępne, wyświetlana jest ostatnia data, dla której istnieją dane."</string>
-    <!-- XHED: Explanation screen period seven day subtitle -->
-    <string name="statistics_explanation_period_seven_day_subtitle">"7-dniowa średnia"</string>
-    <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Średnia wartość z ostatnich 7 dni"</string>
-    <!-- XHED: Explanation screen period total subtitle -->
-    <string name="statistics_explanation_period_total_subtitle">"Suma"</string>
-    <!-- XTXT: Explanation screen period total text -->
-    <string name="statistics_explanation_period_total_text">"Łączna liczba od początku roku lub wprowadzenia aplikacji na rynek (15 czerwca 2020 r.)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1570,7 +1523,7 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Osoby w pełni zaszczepione"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Osoby posiadające podstawowe szczepienia"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1588,7 +1541,7 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Liczba dawek szczepionki podanych do tej pory w całym kraju."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Osoby w pełni zaszczepione"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Osoby posiadające podstawowe szczepienia"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"Liczba osób zgłoszonych w RKI, które otrzymały wszystkie dawki szczepionki niezbędne do podstawowego uodpornienia."</string>
     <!-- XTXT: Statistics number of people with booster title -->
@@ -1609,8 +1562,6 @@
     <string name="statistics_seven_day_hospitalization_card_title">"7-dniowy wskaźnik hospitalizacji"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_seven_day_hospitalization_nationwide_text">"W całym kraju"</string>
-    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
-    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"Hospitalizacje z powodu COVID-19 na 100 000 mieszkańców"</string>
 
     <!-- Occupied Intensive Care Statistics Card -->
     <!-- XHED: Title for occupied intensive care card -->

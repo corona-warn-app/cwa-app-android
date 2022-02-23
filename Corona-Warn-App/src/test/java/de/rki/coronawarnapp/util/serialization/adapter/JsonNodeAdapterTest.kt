@@ -17,25 +17,8 @@ class JsonNodeAdapterTest : BaseTest() {
         .registerTypeAdapter(JsonNode::class.java, JsonNodeAdapter(mapper))
         .create()
 
-    private val innerJson = """
-        {
-            "and": [
-                {
-                    "===": [
-                      {
-                        "var": "payload.t.0.tg"
-                      },
-                      "840539006"
-                    ]
-                }
-            ]
-        }
-    """.trimIndent()
-    private val outerJson = """
-        {
-            "innerJson": $innerJson
-        }
-    """.trimIndent()
+    private val innerJson = """{"and": [{"===": [{"var": "payload.t.0.tg"},"840539006"]}]}"""
+    private val outerJson = """{"innerJson":{"and":[{"===":[{"var":"payload.t.0.tg"},"840539006"]}]}}"""
 
     @Test
     fun `serialize and deserialize`() {
@@ -50,6 +33,14 @@ class JsonNodeAdapterTest : BaseTest() {
             this shouldBe original
             innerJson shouldBe innerJson
         }
+    }
+
+    @Test
+    fun `deserialize, serialize, and deserialize`() {
+        val testData = gson.fromJson<TestData>(outerJson)
+        val json = gson.toJson(testData)
+        json shouldBe outerJson
+        gson.fromJson(json, TestData::class.java) shouldBe testData
     }
 
     @Test

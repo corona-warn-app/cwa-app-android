@@ -14,7 +14,6 @@ import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentArgs
-import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificatesItem
 import de.rki.coronawarnapp.databinding.PersonOverviewFragmentBinding
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -35,14 +34,11 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
     private val personOverviewAdapter = PersonOverviewAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Timber.tag(TAG).d("onViewCreated(view=%s, savedInstanceState=%s)", view, savedInstanceState)
-        Timber.tag(TAG).d("binding=%s, bindingView=%s", binding, binding.root)
-
         binding.apply {
             bindToolbar()
             bindRecycler()
         }
-        viewModel.personCertificates.observe(viewLifecycleOwner) { binding.bindViews(it) }
+        viewModel.uiState.observe(viewLifecycleOwner) { binding.bindViews(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
     }
 
@@ -119,14 +115,20 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         }
     }
 
-    private fun PersonOverviewFragmentBinding.bindViews(items: List<PersonCertificatesItem>) {
-        Timber.tag(TAG).d("bindViews(items=%s)", items)
-        emptyLayout.isVisible = items.isEmpty()
-        recyclerView.isGone = items.isEmpty()
-        personOverviewAdapter.update(items)
-
-        Timber.tag(TAG).d("recyclerViewVisibility=%s", recyclerView.visibility)
-        Timber.tag(TAG).d("recyclerViewItemsCount=%s", recyclerView.layoutManager?.itemCount)
+    private fun PersonOverviewFragmentBinding.bindViews(uiState: PersonOverviewViewModel.UiState) {
+        when (uiState) {
+            is PersonOverviewViewModel.UiState.Done -> {
+                emptyLayout.isVisible = uiState.personCertificates.isEmpty()
+                recyclerView.isGone = uiState.personCertificates.isEmpty()
+                personOverviewAdapter.update(uiState.personCertificates)
+                loadingLayoutGroup.isVisible = false
+            }
+            PersonOverviewViewModel.UiState.Loading -> {
+                recyclerView.isGone = true
+                emptyLayout.isGone = true
+                loadingLayoutGroup.isVisible = true
+            }
+        }
     }
 
     private fun PersonOverviewFragmentBinding.bindRecycler() = recyclerView.apply {

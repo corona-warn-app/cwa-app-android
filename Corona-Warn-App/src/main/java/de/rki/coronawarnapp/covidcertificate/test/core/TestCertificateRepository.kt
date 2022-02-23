@@ -70,10 +70,9 @@ class TestCertificateRepository @Inject constructor(
                     data = it,
                     qrCodeExtractor = qrCodeExtractor
                 )
-            }
-            .map { it.containerId to it }
-            .toMap().also {
-                Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
+            }.associateBy { it.containerId }
+            .also {
+                Timber.tag(TAG).v("Restored TestCertificate data: %d items", it.size)
             }
     }
 
@@ -104,8 +103,6 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    val cwaCertificates = certificates.map { set -> set.mapNotNull { it.testCertificate }.toSet() }
-
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
@@ -127,7 +124,7 @@ class TestCertificateRepository @Inject constructor(
             .drop(1) // Initial emission, restored from storage.
             .onEach { entrySets ->
                 val values = entrySets.values
-                Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
+                Timber.tag(TAG).v("TestCertificateContainer data changed: %d items", values.size)
                 storage.save(values.map { it.data }.toSet())
             }
             .catch {

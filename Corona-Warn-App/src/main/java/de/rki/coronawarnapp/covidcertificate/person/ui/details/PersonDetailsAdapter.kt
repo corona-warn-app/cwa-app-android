@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
@@ -31,6 +32,7 @@ class PersonDetailsAdapter :
                 StableIdMod(data),
                 DataBinderMod<CertificateItem, PersonDetailsItemVH<CertificateItem, ViewBinding>>(data),
                 TypedVHCreatorMod({ data[it] is PersonDetailsQrCard.Item }) { PersonDetailsQrCard(it) },
+                TypedVHCreatorMod({ data[it] is BoosterCard.Item }) { BoosterCard(it) },
                 TypedVHCreatorMod({ data[it] is ConfirmedStatusCard.Item }) { ConfirmedStatusCard(it) },
                 TypedVHCreatorMod({ data[it] is CwaUserCard.Item }) { CwaUserCard(it) },
                 TypedVHCreatorMod({ data[it] is VaccinationInfoCard.Item }) { VaccinationInfoCard(it) },

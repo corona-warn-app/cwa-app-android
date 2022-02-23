@@ -2,22 +2,13 @@
     <!-- XTXT: Vaccination Details subtitle-->
     <string name="vaccination_details_subtitle">"Vaccination Certificate"</string>
 
-    <!-- XTXT: Vaccination card immunity information card body when <1 day is left till immunity -->
-    <string name="vaccination_list_immunity_tomorrow_card_body">"You have now received all the currently planned vaccinations, however, your vaccination protection will not be complete until tomorrow."</string>
-    <!-- XBUT: Vaccination List delete button -->
-    <string name="vaccination_list_delete_button">"Delete"</string>
     <!-- XACT: Vaccination List Qr-Code for screen readers -->
     <string name="vaccination_list_qr_code_accessibility">"QR Code"</string>
 
     <!-- XTXT: Vaccination QR code scan error message-->
-    <string name="error_vc_invalid">"This QR code is not a valid certificate.\n\nFor more information about how to receive your certificate, please see our FAQ page."</string>
-    <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_not_yet_supported">"This vaccination certificate is not supported in your app version yet. Please update your app or contact the technical hotline under “App Information”."</string>
     <!-- XTXT: Vaccination QR code scan error message-->
     <string name="error_vc_different_person">"The personal information of this vaccination certificate does not match that of the certificates already registered. You can only register certificates for one person in the app."</string>
-
-    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
-    <string name="error_button_vc_faq">"FAQ for Certificates"</string>
 
     <!-- XTXT: Vaccination certificate Detail title -->
     <string name="vaccination_certificate_title">"Vaccination Certificate"</string>

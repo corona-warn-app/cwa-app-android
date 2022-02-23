@@ -260,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Dacă este posibil, mergeți acasă și rămâneți în casă și, de asemenea, evitați întâlnirile cu persoane din afara gospodăriei dvs."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Dacă aveți alte întrebări, vă rugăm să contactați serviciul medical de urgență la numărul de telefon: 116 117."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Dacă aveți alte întrebări, vă rugăm să sunați la 116 117 (în Germania). Apoi, în timpul mesajului automat, apăsați tasta 2 pentru punctul de asistență al Ministerului Federal al Sănătății. Apăsați tasta 1 (serviciul de urgență medical general), doar dacă aveți simptome."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Spălați-vă frecvent pe mâini cu săpun timp de 20 de secunde."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -742,7 +742,7 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"engleză, germană, turcă\n\nProgram de lucru:\nluni - sâmbătă: 07:00 - 22:00 (CET)\n(exceptând sărbătorile legale)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Dacă aveți întrebări legate de starea de sănătate, vă rugăm să contactați medicul de familie sau hotline-ul pentru servicii medicale de urgență, la numărul de telefon: 116 117."</string>
+    <string name="information_contact_body_other">"Dacă aveți alte întrebări, vă rugăm să sunați la 116 117 (în Germania). Apoi, în timpul mesajului automat, apăsați tasta 2 pentru punctul de asistență al Ministerului Federal al Sănătății. Apăsați tasta 1 (serviciul de urgență medical general), doar dacă aveți simptome."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Un bărbat poartă căști în timpul unei convorbiri telefonice."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
@@ -921,8 +921,6 @@
     <string name="qr_code_open_file">"Deschidere fișier"</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">"Citire cod QR..."</string>
-    <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Codul QR nu este acceptat de Corona-Warn-App. Scanați un cod QR potrivit."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Fișier imposibil de citit"</string>
     <!-- XTXT: QR Code error message body  -->
@@ -975,8 +973,6 @@
     <string name="submission_consent_main_headline_body">"Consimțământul dvs. este necesar înainte de a putea regăsi rezultatul testului dvs. și a-i avertiza pe ceilalți."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Aflarea rezultatului testului"</string>
-    <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Acum scanați codul QR de pe testul dvs. și aflați rezultatul testului."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Fiecare test poate fi scanat o singură dată. Aplicația poate gestiona cel mult un test rapid și un test PCR în același timp."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
@@ -1057,9 +1053,7 @@
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Ștergere test"</string>
     <!-- XHED: Page headline for other warnings screen  -->
-    <string name="submission_test_result_positive_steps_warning_others_heading">"Avertizați-i pe ceilalți"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Vă rugăm să partajați ID-urile dvs. aleatorii și să-i avertizați pe ceilalți.\nAjutați la stabilirea riscului de infectare pentru ceilalți cu mai multă acuratețe, indicând momentul în care ați observat prima dată simptomele de coronavirus."</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Introducere simptome"</string>
 
@@ -1082,28 +1076,12 @@
     <string name="submission_test_result_dialog_tracing_required_message">"Activați Înregistrarea în jurnal a expunerilor pentru a avertiza alte persoane."</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
-    <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Testul poate fi scanat o singură dată."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Ștergeți rezultatul testului?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Rezultatul testului va fi mutat în coșul de reciclare. Veți găsi coșul de reciclare pe pagina de tab „Stare”, sub cele trei puncte din dreapta sus. Acolo, îl puteți șterge definitiv sau restaura. Rezultatul testului va fi șters automat după 30 de zile."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Ștergere rezultat test"</string>
-    <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Sigur doriți să ștergeți testul dvs.?"</string>
-    <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Dacă ștergeți testul, nu veți mai putea afla rezultatul testului. Veți primi rezultatul testului dvs. de la centrul sau laboratorul de testare, indiferent de valabilitatea codului QR. Dacă sunteți diagnosticat cu coronavirus, autoritatea de sănătate publică va fi notificată prin canalul de comunicare prevăzut în mod legal și vă va contacta."</string>
-    <!-- YTXT: Dialog text for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_message_no_submission">"În caz afirmativ, alte persoane nu vor fi avertizate."</string>
-    <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Ștergere"</string>
-    <!-- XBUT: Negative button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_negative">"Anulare"</string>
-    <!-- XHED: Title for test result card positive -->
-    <string name="submission_test_result_card_positive_title">"Pozitiv la SARS-CoV-2"</string>
-    <!-- YTXT: Body text for test result card positive -->
-    <string name="submission_test_result_card_positive_body">"Ați fost diagnosticat cu virusul SARS-CoV-2."</string>
     <!-- XHED: Page headline for test result with consent given  -->
     <string name="submission_test_result_consent_given_heading">"Rezultatul testului dvs."</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
@@ -1164,14 +1142,10 @@
     <string name="submission_positive_other_warning_title">"Avertizați-i pe ceilalți"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Să ne ajutăm împreună!"</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Dacă doriți, acum puteți să vă asigurați că alte persoane sunt avertizate de posibila infectare.\n\nPentru aceasta, puteți transmite ID-urile dvs. aleatorii din ultimele 14 zile – și, opțional, informații despre momentul în care ați observat prima dată simptomele de coronavirus – către serverul operat în comun de țările participante. De aici, ID-urile aleatorii și informațiile suplimentare vor fi distribuite către utilizatorii aplicațiilor oficiale relevante împotriva coronavirusului. În acest mod, orice alt utilizator cu care ați avut contact poate fi avertizat de o posibilă infectare.\n\nSingurele informații transmise vor fi doar ID-urile aleatorii și orice informații opționale pe care le furnizați despre debutul simptomelor. Nu vor fi dezvăluite niciun fel de date personale, cum ar fi numele, adresa sau locația dvs."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Accept"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Un smartphone transmite un diagnostic de test pozitiv criptat către sistem."</string>
-    <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"Următoarele țări participă în prezent la înregistrarea în jurnal a expunerilor la nivel transnațional:"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1293,7 +1267,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Serviciul clienți vă stă la dispoziție în următoarele limbi: \nengleză, germană, turcă\n\nProgram de lucru:\nZilnic (inclusiv în weekend): 07:00 - 20:00 (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Dacă aveți întrebări legate de starea de sănătate, vă rugăm să contactați medicul de familie sau hotline-ul pentru servicii medicale de urgență, la numărul de telefon: 116 117."</string>
+    <string name="submission_contact_body_other">"Dacă aveți alte întrebări, vă rugăm să sunați la 116 117 (în Germania). Apoi, în timpul mesajului automat, apăsați tasta 2 pentru punctul de asistență al Ministerului Federal al Sănătății. Apăsați tasta 1 (serviciul de urgență medical general), doar dacă aveți simptome."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Sunați la hotline și solicitați un TAN"</string>
@@ -1486,42 +1460,21 @@
     <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus prin test PCR și care i-au avertizat pe ceilalți prin aplicație."</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
-    <!-- XTXT: Explanation screen local incidence text -->
-    <string name="statistics_explanation_local_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori în districtul sau statul federal configurat."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"Incidența pe 7 zile"</string>
-    <!-- XHED: Explanation screen seven day hospitalization title -->
-    <string name="statistics_explanation_seven_day_hospitalization_title">"Incidența spitalizării pe 7 zile"</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care title -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"Pacienți COVID-19 în unități de terapie intensivă"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Numărul total de infecții noi confirmate în ultimele 7 zile (după data de raportare) la 100.000 de locuitori."</string>
-    <!-- XTXT: Explanation screen seven day hospitalization text -->
-    <string name="statistics_explanation_seven_day_hospitalization_text">"Numărul total de admiteri în spital din cauza COVID-19 în ultimele 7 zile (după data raportării) la 100.000 de locuitori."</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care text -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Proporția de persoane în unitățile de terapie intensivă din cauza COVID-19 în raport cu capacitatea ATI totală."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"Valoarea R pe 7 zile"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Numărul de reproducție R indică câte persoane a infectat mai departe, în medie, o persoană infectată."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"Întrebări frecvente despre statistică"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Legendă"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Perioadă de timp"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
-    <string name="statistics_explanation_period_yesterday_subtitle">"Ieri/Până ieri"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
     <string name="statistics_explanation_period_yesterday_text">"Pentru „Ieri/Până ieri”, este afișat numărul pentru ziua anterioară/până la ziua anterioară. Dacă încă nu sunt disponibile cifrele pentru ziua anterioară, este afișată ultima dată pentru care sunt disponibile cifrele."</string>
-    <!-- XHED: Explanation screen period seven day subtitle -->
-    <string name="statistics_explanation_period_seven_day_subtitle">"Media pe 7 zile"</string>
-    <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Valoarea medie din ultimele 7 zile"</string>
-    <!-- XHED: Explanation screen period total subtitle -->
-    <string name="statistics_explanation_period_total_subtitle">"Total"</string>
-    <!-- XTXT: Explanation screen period total text -->
-    <string name="statistics_explanation_period_total_text">"Numărul total de la începutul anului sau de la lansarea aplicației (15 iunie 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Tendință"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1570,7 +1523,7 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Persoane care sunt complet vaccinate"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Persoane care au imunizarea de bază"</string>
 
     <!-- Persons Vaccinated With Booster Card -->
     <!-- XHED: Title for vaccinated with booster statistics card -->
@@ -1588,7 +1541,7 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Numărul de doze de vaccin care au fost administrate la nivel național până în prezent."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Persoane care sunt complet vaccinate"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Persoane care au imunizarea de bază"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
     <string name="statistics_fully_vaccinated_people_text">"Numărul de persoane raportat la RKI care au primit toate dozele de vaccin necesare pentru imunizarea de bază."</string>
     <!-- XTXT: Statistics number of people with booster title -->
@@ -1609,8 +1562,6 @@
     <string name="statistics_seven_day_hospitalization_card_title">"Incidența spitalizării pe 7 zile"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_seven_day_hospitalization_nationwide_text">"La nivel național"</string>
-    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
-    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"Spitalizări COVID-19 per 100.000 de locuitori"</string>
 
     <!-- Occupied Intensive Care Statistics Card -->
     <!-- XHED: Title for occupied intensive care card -->

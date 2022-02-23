@@ -60,7 +60,7 @@ class RecoveryCertificateRepository @Inject constructor(
                 )
             }
             .toSet()
-            .also { Timber.tag(TAG).v("Restored recovery certificate data: %s", it) }
+            .also { Timber.tag(TAG).v("Restored recovery certificate data: %d items", it.size) }
     }
 
     init {
@@ -68,7 +68,7 @@ class RecoveryCertificateRepository @Inject constructor(
             .onStart { Timber.tag(TAG).d("Observing RecoveryCertificateContainer data.") }
             .drop(1) // Initial emission, restored from storage.
             .onEach { recoveryCertificates ->
-                Timber.tag(TAG).v("Recovery Certificate data changed: %s", recoveryCertificates)
+                Timber.tag(TAG).v("Recovery Certificate data changed: %d items", recoveryCertificates.size)
                 storage.save(recoveryCertificates.map { it.data }.toSet())
             }
             .catch {
@@ -99,8 +99,6 @@ class RecoveryCertificateRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
-
-    val cwaCertificates = certificates.map { set -> set.map { it.recoveryCertificate }.toSet() }
 
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]

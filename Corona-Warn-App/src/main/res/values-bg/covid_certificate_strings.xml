@@ -16,8 +16,6 @@
     <string name="person_overview_no_certificates_subtitle">"Тук се показват запазените цифрови сертификати за ваксинация, възстановяване и тест."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"За да сканирате QR кода на сертификата, използвайте бутона \"Сканиране\", който се намира на долната лента за навигация."</string>
-    <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Сертификат"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Сертификат със символ за QR код."</string>
     <!-- XTXT: Overview certificate status text -->
@@ -40,6 +38,8 @@
     <string name="certificate_qr_invalid_signature">"Сертификатът (подписът) е невалиден"</string>
     <!-- XTXT: Certificate badge text -->
     <string name="certificate_badge_text">"Има новини относно сертификатите В"</string>
+    <!-- XTXT: Certificate loading text -->
+    <string name="certificate_loading_text">"Зареждане на Вашите сертификати..."</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Добавете сертификати"</string>
@@ -58,29 +58,8 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Напред"</string>
 
-    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Последна ваксинация преди %1$d ден"</item>
-        <item quantity="other">"Последна ваксинация преди %1$d дни"</item>
-        <item quantity="zero">"Последна ваксинация днес"</item>
-        <item quantity="two">"Последна ваксинация преди %1$d дни"</item>
-        <item quantity="few">"Последна ваксинация преди %1$d дни"</item>
-        <item quantity="many">"Последна ваксинация преди %1$d дни"</item>
-    </plurals>
-    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
-    <string name="vaccination_days_since_last_shot_today">"Последна ваксинация днес"</string>
-    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
-    <string name="vaccination_list_immunity_card_body">"Получили сте всички планирани за момента ваксинации. Ваксинационната Ви защита е пълна."</string>
-    <!-- XTXT: Vaccination card title -->
-    <string name="vaccination_state_title">"Ваксинационен статус"</string>
-    <!-- XTXT: Vaccination card booster eligible description -->
-    <string name="vaccination_card_booster_eligible_description">"%1$s (ИД на правило: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
     <string name="vaccination_card_booster_eligible_faq">"За повече информация вижте страницата „ЧЗВ“."</string>
-    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
-    <string name="vaccination_card_booster_eligible_faq_link_container">"ЧЗВ"</string>
-
-
     <!-- XTXT: Current priority certificate info -->
     <string name="certificate_card_bookmark_info">"Текущо използван сертификат"</string>
     <!-- XHED: Person certificate details title -->
@@ -100,21 +79,6 @@
     <string name="vaccination_certificate_doses">"Ваксинация %1$d от %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Сертификат за ваксинация"</string>
-
-    <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна след %1$d ден."</item>
-        <item quantity="other">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="zero">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="two">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="few">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-        <item quantity="many">"Получихте всички планирани за момента ваксинации, но ваксинационната Ви защита ще е пълна едва след %1$d дни."</item>
-    </plurals>
-
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">"Тази ваксина осигурява защита с една доза или се поставя на преболедувало лице, което се нуждае само от една доза."</string>
-    <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Не сте получили всички планирани за момента ваксинации – Вашата ваксинационна защита все още не е пълна."</string>
 
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
@@ -181,8 +145,6 @@
     <string name="dcc_validation_error_no_network">"Изгубихте връзка с Интернет. За да завършите проверката за валидност на сертификата, проверете връзката си и опитайте отново."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"Възникна грешка. Моля, опитайте по-късно или се свържете с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
-    <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Проверка за валидност на сертификат за пътуване"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -277,23 +239,12 @@
     <string name="validation_open_title">"Сертификатът не може да бъде валидиран"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XTXT: validation start for the validation open card  -->
-    <string name="validation_rules_open_vh_start_date">"Datum und Uhrzeit der Probenahme/Дата и час на вземане на пробата (ГГГГ-ММ-ДД чч:мм Ч)"</string>
-    <!-- XTXT: title for the validation open card  -->
-    <string name="validation_rules_open_vh_title">"Максималната валидност на антигенния тест е 48 часа."</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Сертификатът за тест трябва да бъде издаден от сертифициран център за тестване."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung/Център за тестване"</string>
-    <!-- XHED: title for the validation failed card  -->
-    <string name="validation_rules_failed_vh_title_wrong_test_type">"Тестът трябва да е антигенен или PCR."</string>
-    <!-- XHED: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Сертификатът за тест трябва да бъде издаден от сертифициран център за тестване."</string>
-    <!-- XTXT: rule id for the validation failed card  -->
-    <string name="validation_rules_failed_vh_test_type">"Art des Tests/Вид на теста"</string>
-
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Това е правило в държавата, където отивате: %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
@@ -324,12 +275,6 @@
     <!-- XBUT: Signature validation dialog FAQ button-->
     <string name="dcc_signature_validation_dialog_faq_button">"ЧЗВ за проверката на подписа"</string>
 
-    <!-- Expiration notification -->
-    <!-- XTXT: expiring soon notification -->
-    <string name="dcc_notification_expires_soon_text">"Проверете валидността на своите сертификати."</string>
-    <!-- XTXT: expired notification -->
-    <string name="dcc_notification_expired_text">"Проверете валидността на своите сертификати."</string>
-
     <!-- DCC notification channel-->
     <!-- XTXT: certificate notification channel title -->
     <string name="dcc_notification_channel_title">"Сертификати"</string>
@@ -350,8 +295,6 @@
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">"Показване на версия за печат"</string>
-    <!-- XACT: PDF Export: Info screen illustration description-->
-    <string name="pdf_export_info_illustration_description">"Версията за печат на сертификата се използва за създаване на разпечатка за ЕС, която се изпраща от устройството към принтер."</string>
     <!-- XTXT: PDF Export: Info screen subtitle-->
     <string name="pdf_export_info_subtitle">"Генериране на разпечатка за ЕС"</string>
     <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
@@ -385,37 +328,7 @@
         CONFIRMED STATUS CARD
         ##################################################### -->
 
-    <!-- XTXT: Confirmed status card title -->
-    <string name="confirmed_status_title">"Доказателство за статус"</string>
-
-    <!-- XTXT: Confirmed status card 2g+ PCR subtitle -->
-    <string name="confirmed_status_2g_pcr_subtitle">"2G+ PCR тест"</string>
-    <!-- XTXT: Confirmed status card 2g+ RAT subtitle -->
-    <string name="confirmed_status_2g_rat_subtitle">"2G+ бърз тест"</string>
-
-    <!-- XTXT: Confirmed status card 2G badge -->
-    <string name="confirmed_status_2g_badge">"2G"</string>
-    <!-- XTXT: Confirmed status card 2G+ badge -->
-    <string name="confirmed_status_2g_plus_badge">"2G+"</string>
-    <!-- XTXT: Confirmed status card 3G badge -->
-    <string name="confirmed_status_3g_badge">"3G"</string>
-    <!-- XTXT: Confirmed status card 3G+ badge -->
-    <string name="confirmed_status_3g_plus_badge">"3G+"</string>
-
-    <!-- XTXT: Confirmed status card 2G body -->
-    <string name="confirmed_status_2g_body">"Вашите сертификати отговарят на 2G правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
-    <!-- XTXT: Confirmed status card 2G+ RAT body -->
-    <string name="confirmed_status_2g_plus_rat_body">"Вашите сертификати отговарят на 2G plus правилото, освен ако не Ви се изисква PCR тест. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
-    <!-- XTXT: Confirmed status card 2G+ PCR body -->
-    <string name="confirmed_status_2g_plus_pcr_body">"Вашите сертификати отговарят на 2G plus правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
-    <!-- XTXT: Confirmed status card 3G body -->
-    <string name="confirmed_status_3g_body">"Вашите сертификати отговарят на 3G правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
-    <!-- XTXT: Confirmed status card 3G+ body -->
-    <string name="confirmed_status_3g_plus_body">"Вашите сертификати отговарят на 2G plus правилото. Ако Ви се налага да доказвате своя текущ статус затворете този изглед и покажете QR кода в “Преглед на сертификати”."</string>
-
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"За повече информация вижте страницата „ЧЗВ“."</string>
-    <!-- XTXT: Confirmed status card FAQ link -->
-    <string name="confirmed_status_faq_label">"ЧЗВ"</string>
 
 </resources>
