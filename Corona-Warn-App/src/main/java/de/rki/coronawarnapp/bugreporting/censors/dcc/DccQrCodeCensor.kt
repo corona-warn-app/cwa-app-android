@@ -85,10 +85,12 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             "recovery/validUntilFormatted"
         )
 
-        newMessage = newMessage.censor(
-            data.validUntil.toShortDayFormat(),
-            "recovery/validFromFormatted"
-        )
+        data.validUntil?.toShortDayFormat()?.let { validUntil ->
+            newMessage = newMessage.censor(
+                validUntil,
+                "recovery/validFromFormatted"
+            )
+        }
 
         return newMessage
     }
@@ -196,10 +198,12 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             "test/sampleCollectedAtFormatted"
         )
 
-        newMessage = newMessage.censor(
-            data.sampleCollectedAt.toShortDayFormat(),
-            "test/sampleCollectedAt"
-        )
+        data.sampleCollectedAt?.toShortDayFormat()?.let { sampleCollectedAt ->
+            newMessage = newMessage.censor(
+                sampleCollectedAt,
+                "test/sampleCollectedAt"
+            )
+        }
 
         newMessage = newMessage.censor(
             data.targetId,
