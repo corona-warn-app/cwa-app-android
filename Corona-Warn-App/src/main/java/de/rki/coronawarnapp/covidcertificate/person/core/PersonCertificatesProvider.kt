@@ -27,8 +27,9 @@ class PersonCertificatesProvider @Inject constructor(
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
         certificatesProvider.certificateContainer,
         personCertificatesSettings.currentCwaUser,
-        dccWalletInfoRepository.personWallets
-    ) { certificateContainer, cwaUser, personWallets ->
+        dccWalletInfoRepository.personWallets,
+        personCertificatesSettings.personsSettings
+    ) { certificateContainer, cwaUser, personWallets, personSettings ->
 
         val allCerts = certificateContainer.allCwaCertificates
         val vaccPersons = certificateContainer.vaccinationInfos
@@ -49,16 +50,18 @@ class PersonCertificatesProvider @Inject constructor(
 
             val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
 
-            val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
-                vaccPersons.boosterBadgeCount(personIdentifier, dccWalletInfo?.boosterNotification)
-
+            val hasBooster = vaccPersons.boosterBadgeCount(personIdentifier, dccWalletInfo?.boosterNotification)
+            val hasDccReissuance = personSettings[personIdentifier]?.showDccReissuanceBadge ?: false
+            val badgeCount = certs.count { it.hasNotificationBadge } + hasBooster.toInt() + hasDccReissuance.toInt()
             Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
 
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
                 isCwaUser = personIdentifier == cwaUser,
                 badgeCount = badgeCount,
-                dccWalletInfo = dccWalletInfo
+                dccWalletInfo = dccWalletInfo,
+                hasBooster = hasBooster,
+                hasDccReissuance = hasDccReissuance
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -78,21 +81,18 @@ class PersonCertificatesProvider @Inject constructor(
     private fun Set<VaccinatedPerson>.boosterBadgeCount(
         personIdentifier: CertificatePersonIdentifier,
         boosterNotification: BoosterNotification?
-    ): Int {
-        if (boosterNotification == null) {
-            return 0
-        }
+    ): Boolean {
+        if (boosterNotification == null) return false
         val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
-        return when (hasBoosterRuleNotYetSeen(vaccinatedPerson, boosterNotification)) {
-            true -> 1
-            else -> 0
-        }
+        return hasBoosterRuleNotYetSeen(vaccinatedPerson, boosterNotification)
     }
 
     private fun hasBoosterRuleNotYetSeen(
         vaccinatedPerson: VaccinatedPerson?,
         boosterNotification: BoosterNotification
     ) = vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
+
+    private fun Boolean?.toInt(): Int = if (this == true) 1 else 0
 
     companion object {
         private val TAG = tag<PersonCertificatesProvider>()

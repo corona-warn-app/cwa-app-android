@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
@@ -12,6 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class DccReissuanceNotificationService @Inject constructor(
     private val personNotificationSender: PersonNotificationSender,
+    private val personCertificatesSettings: PersonCertificatesSettings,
 ) : DccWalletInfoNotificationService {
 
     override suspend fun notifyIfNecessary(
@@ -24,6 +26,7 @@ class DccReissuanceNotificationService @Inject constructor(
         if (newCertReissuance != null && oldCertReissuance == null) {
             Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
             personNotificationSender.showNotification(personIdentifier)
+            personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
         } else {
             Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
         }

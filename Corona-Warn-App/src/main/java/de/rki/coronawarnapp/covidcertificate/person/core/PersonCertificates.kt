@@ -9,7 +9,9 @@ data class PersonCertificates(
     val certificates: List<CwaCovidCertificate>,
     val isCwaUser: Boolean = false,
     val badgeCount: Int = 0,
-    val dccWalletInfo: DccWalletInfo? = null
+    val dccWalletInfo: DccWalletInfo? = null,
+    val hasBooster: Boolean = false,
+    val hasDccReissuance: Boolean = false,
 ) {
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier
