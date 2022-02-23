@@ -108,6 +108,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         currentCwaUserPref = flowOf(identifierA)
         personCertificatesSettings.apply {
             every { currentCwaUser } returns currentCwaUserPref
+            every { personsSettings } returns flowOf(mapOf())
         }
 
         every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
