@@ -62,6 +62,7 @@ class PersonCertificatesStorageTest : BaseTest() {
         createInstance().apply {
             setCurrentCwaUser(personIdentifier1)
             setBoosterNotifiedAt(personIdentifier1)
+            setDccReissuanceNotifiedAt(personIdentifier1)
             clear()
         }
 
@@ -300,6 +301,23 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
+    fun `clear booster for a person has not settings`() {
+        createInstance().apply {
+            clearBoosterRuleInfo(personIdentifier1)
+            fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
+                {
+                	"settings": {
+                		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
+                			"showDccReissuanceBadge": false
+                		}
+                	}
+                }
+            """.trimIndent()
+                .toComparableJsonPretty()
+        }
+    }
+
+    @Test
     fun `save settings for many persons`() = runBlockingTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -307,8 +325,8 @@ class PersonCertificatesStorageTest : BaseTest() {
             dismissReissuanceBadge(personIdentifier1)
             acknowledgeBoosterRule(personIdentifier1, "BRN-123")
 
-            setDccReissuanceNotifiedAt(personIdentifier2, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier2, Instant.EPOCH)
+            setDccReissuanceNotifiedAt(personIdentifier2, Instant.EPOCH)
             dismissReissuanceBadge(personIdentifier2)
             acknowledgeBoosterRule(personIdentifier2, "BRN-456")
 
