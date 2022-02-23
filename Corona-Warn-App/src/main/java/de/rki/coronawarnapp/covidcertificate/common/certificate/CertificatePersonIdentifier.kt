@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.certificate
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.DOB_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.NAME_MISMATCH
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
@@ -8,14 +9,15 @@ import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import timber.log.Timber
 
 data class CertificatePersonIdentifier(
-    @SerializedName("dateOfBirth") val dateOfBirthFormatted: String,
-    @SerializedName("familyNameStandardized") val lastNameStandardized: String,
-    @SerializedName("givenNameStandardized") val firstNameStandardized: String?
+    @JsonProperty("dateOfBirth") val dateOfBirthFormatted: String,
+    @JsonProperty("familyNameStandardized") val lastNameStandardized: String,
+    @JsonProperty("givenNameStandardized") val firstNameStandardized: String?
 ) {
 
     /**
      * Used internally to group and store the data related to this person.
      */
+    @get:JsonIgnore
     internal val groupingKey: String
         get() {
             val lastName = lastNameStandardized.trim()
@@ -36,6 +38,7 @@ data class CertificatePersonIdentifier(
      * Can be used as external identifier for the data set representing this person.
      * e.g. pass this identifier as uri argument.
      */
+    @get:JsonIgnore
     val codeSHA256: String
         get() = this.groupingKey.toSHA256()
 

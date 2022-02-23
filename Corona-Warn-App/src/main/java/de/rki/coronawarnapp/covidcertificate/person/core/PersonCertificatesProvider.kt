@@ -26,7 +26,7 @@ class PersonCertificatesProvider @Inject constructor(
 ) {
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
         certificatesProvider.certificateContainer,
-        personCertificatesSettings.currentCwaUser.flow,
+        personCertificatesSettings.currentCwaUser,
         dccWalletInfoRepository.personWallets
     ) { certificateContainer, cwaUser, personWallets ->
 
@@ -41,7 +41,7 @@ class PersonCertificatesProvider @Inject constructor(
 
         if (!personCertificatesMap.containsKey(cwaUser)) {
             Timber.tag(TAG).v("Resetting cwa user")
-            personCertificatesSettings.currentCwaUser.update { null }
+            personCertificatesSettings.removeCurrentCwaUser()
         }
 
         personCertificatesMap.entries.map { (personIdentifier, certs) ->
@@ -70,7 +70,7 @@ class PersonCertificatesProvider @Inject constructor(
      */
     fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.d("setCurrentCwaUser(personIdentifier=%s)", personIdentifier)
-        personCertificatesSettings.currentCwaUser.update { personIdentifier }
+        personCertificatesSettings.setCurrentCwaUser(personIdentifier)
     }
 
     val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
