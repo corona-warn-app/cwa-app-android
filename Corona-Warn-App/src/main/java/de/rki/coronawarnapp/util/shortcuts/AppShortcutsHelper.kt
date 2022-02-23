@@ -9,16 +9,13 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.util.AppShortcuts
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,23 +24,16 @@ import javax.inject.Singleton
 class AppShortcutsHelper @Inject constructor(
     @AppContext private val context: Context,
     private val onboardingSettings: OnboardingSettings,
-    private val coronaTestRepository: CoronaTestRepository,
-    private val contactDiarySettings: ContactDiarySettings,
-    private val traceLocationSettings: TraceLocationSettings,
-    private val covidCertificateSettings: CovidCertificateSettings,
+    @AppScope private val appScope: CoroutineScope
 ) {
-    private val allOnboardingStepsComplete: Boolean
-        get() {
-            return !onboardingSettings.isOnboarded || !contactDiarySettings.isOnboardingDone ||
-                !traceLocationSettings.isOnboardingDone || !covidCertificateSettings.isOnboarded.value
-        }
 
-    suspend fun restoreAppShortcut() = withContext(Dispatchers.IO) {
+    fun initAppShortcuts() = appScope.launch {
+
         // No shortcuts if not onboarded
-        if (!allOnboardingStepsComplete) {
+        if (!onboardingSettings.isOnboarded) {
             Timber.i("[AppShortcuts] Remove all shortcut items since onboarding is not done yet")
             removeAppShortcuts()
-            return@withContext
+            return@launch
         }
 
         val shortcutScanner = ShortcutInfoCompat.Builder(context, QR_CODE_SCANNER_SHORTCUT_ID)
@@ -54,7 +44,7 @@ class AppShortcutsHelper @Inject constructor(
             .setRank(0)
             .build()
 
-        val shortcutCertificates = ShortcutInfoCompat.Builder(context, COVID_CERTIFICATES_SHORTCUT_ID)
+        val shortcutCertificates = ShortcutInfoCompat.Builder(context, CERTIFICATES_SHORTCUT_ID)
             .setShortLabel(context.getString(R.string.app_shortcut_certificates_title))
             .setLongLabel(context.getString(R.string.app_shortcut_certificates_title))
             .setIcon(IconCompat.createWithResource(context, R.drawable.ic_certificates_shortcut_icon))
@@ -78,28 +68,28 @@ class AppShortcutsHelper @Inject constructor(
             .setRank(3)
             .build()
 
-        val shortcutList = arrayListOf(
-            shortcutDiary,
-            shortcutCheckIns,
-            shortcutCertificates
-        )
+        buildList {
+            add(shortcutDiary)
+            add(shortcutCheckIns)
+            add(shortcutCertificates)
 
-        // don't show camera related actions if no camera access is granted
-        if (PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED) {
-            shortcutList.add(shortcutScanner)
-        }
-
-        for (shortcut in shortcutList) {
+            if (isCameraPermissionGranted()) {
+                add(shortcutScanner)
+            }
+        }.forEach { shortcut ->
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         }
     }
+
+    private fun isCameraPermissionGranted() =
+        PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED
 
     fun removeAppShortcuts() {
         ShortcutManagerCompat.removeDynamicShortcuts(
             context,
             listOf(
                 QR_CODE_SCANNER_SHORTCUT_ID,
-                COVID_CERTIFICATES_SHORTCUT_ID,
+                CERTIFICATES_SHORTCUT_ID,
                 CHECK_INS_SHORTCUT_ID,
                 CONTACT_DIARY_SHORTCUT_ID
             )
@@ -113,7 +103,7 @@ class AppShortcutsHelper @Inject constructor(
 
     companion object {
         private const val QR_CODE_SCANNER_SHORTCUT_ID = "scanner_id"
-        private const val COVID_CERTIFICATES_SHORTCUT_ID = "certificates_id"
+        private const val CERTIFICATES_SHORTCUT_ID = "certificates_id"
         private const val CHECK_INS_SHORTCUT_ID = "check_ins_id"
         private const val CONTACT_DIARY_SHORTCUT_ID = "contact_diary_id"
         const val SHORTCUT_EXTRA = "shortcut_extra"

@@ -302,10 +302,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
         if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(ShowTracingExplanation)
     }
 
-    fun restoreAppShortcuts() {
-        launch {
-            appShortcutsHelper.restoreAppShortcut()
-        }
+    fun initAppShortcuts() {
+        appShortcutsHelper.initAppShortcuts()
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

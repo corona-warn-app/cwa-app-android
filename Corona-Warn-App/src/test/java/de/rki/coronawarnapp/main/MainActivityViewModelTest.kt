@@ -167,7 +167,7 @@ class MainActivityViewModelTest : BaseTest() {
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(false)
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isVaccinationConsentGiven.value shouldBe false
+        vm.isCertificatesConsentGiven.value shouldBe false
     }
 
     @Test
@@ -176,6 +176,6 @@ class MainActivityViewModelTest : BaseTest() {
         every { covidCertificateSettings.isOnboarded } returns mockFlowPreference(true)
         val vm = createInstance()
         vm.onBottomNavSelected()
-        vm.isVaccinationConsentGiven.value shouldBe true
+        vm.isCertificatesConsentGiven.value shouldBe true
     }
 }

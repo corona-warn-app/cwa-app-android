@@ -54,7 +54,7 @@ class HomeFragmentTest : BaseUITest() {
             every { homeItems } returns homeFragmentItemsLiveData()
             every { events } returns SingleLiveEvent()
             every { showPopUps() } just Runs
-            every { restoreAppShortcuts() } just Runs
+            every { initAppShortcuts() } just Runs
         }
 
         setupMockViewModel(

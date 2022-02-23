@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         viewModel.isTraceLocationOnboardingDone.observe(this) { isOnboardingDone ->
             startTraceLocationNestedGraphDestination(navController, isOnboardingDone)
         }
-        viewModel.isVaccinationConsentGiven.observe(this) { isConsentGiven ->
+        viewModel.isCertificatesConsentGiven.observe(this) { isConsentGiven ->
             startCertificatesNestedGraphDestination(navController, isConsentGiven)
         }
 
@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun processExtraParameters() {
         when (intent.getShortcutExtra()) {
             AppShortcuts.QR_CODE_SCANNER -> goToQrCodeScanner()
-            AppShortcuts.CERTIFICATES -> goToCovidCertificates()
+            AppShortcuts.CERTIFICATES -> goToCertificates()
             AppShortcuts.CHECK_INS -> goToCheckIns()
             AppShortcuts.CONTACT_DIARY -> goToContactJournal()
             else -> Unit
@@ -205,18 +205,27 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         navController.navigate(R.id.universalScanner)
     }
 
-    private fun goToCovidCertificates() {
+    private fun goToCertificates() {
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.covid_certificates_graph
         val nestedGraph = navController.findNestedGraph(R.id.covid_certificates_graph)
-        nestedGraph.startDestination = R.id.personOverviewFragment
+        nestedGraph.startDestination =
+            if (viewModel.isCertificatesConsentGiven.value == true) {
+                R.id.personOverviewFragment
+            } else {
+                R.id.covidCertificateOnboardingFragment
+            }
     }
 
     private fun goToCheckIns() {
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.trace_location_attendee_nav_graph
         val nestedGraph = navController.findNestedGraph(R.id.trace_location_attendee_nav_graph)
-        nestedGraph.startDestination = R.id.checkInsConsentFragment
+        nestedGraph.startDestination = if (viewModel.isTraceLocationOnboardingDone.value == false) {
+            R.id.checkInsConsentFragment
+        } else {
+            R.id.checkInsFragment
+        }
     }
 
     private fun goToContactJournal() {
