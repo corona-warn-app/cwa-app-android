@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings.Companion.PERSONS_SETTINGS_MAP
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
@@ -63,11 +64,15 @@ class PersonCertificatesStorageTest : BaseTest() {
             setCurrentCwaUser(personIdentifier1)
             setBoosterNotifiedAt(personIdentifier1)
             setDccReissuanceNotifiedAt(personIdentifier1)
-            clear()
-        }
 
-        fakeDataStore[CURRENT_PERSON_KEY] shouldBe null
-        fakeDataStore[PERSONS_SETTINGS_MAP] shouldBe null
+            fakeDataStore[CURRENT_PERSON_KEY] shouldNotBe null
+            fakeDataStore[PERSONS_SETTINGS_MAP] shouldNotBe null
+
+            clear()
+
+            fakeDataStore[CURRENT_PERSON_KEY] shouldBe null
+            fakeDataStore[PERSONS_SETTINGS_MAP] shouldBe null
+        }
     }
 
     @Test
