@@ -39,7 +39,7 @@ class TestCertificateCard(parent: ViewGroup) :
         certificateInfoLine1.isGone = false
         certificateInfoLine2.text = context.getString(
             R.string.test_certificate_sampled_on,
-            certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
+            certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: certificate.rawCertificate.test.sc
         )
 
         when (certificate.rawCertificate.test.testType) {
