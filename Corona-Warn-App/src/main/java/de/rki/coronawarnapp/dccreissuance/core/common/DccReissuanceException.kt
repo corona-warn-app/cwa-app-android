@@ -65,7 +65,9 @@ class DccReissuanceException(
     //TODO: Added error messages
     val errorMessage: LazyString
         get() = when (errorCode.textKey) {
-            else -> R.string.errors_generic_text_unknown_error_cause
+            TextKey.TBD,
+            TextKey.CLIENT_ERROR,
+            TextKey.SERVER_ERROR -> R.string.errors_generic_text_unknown_error_cause
         }.toResolvingString()
 
     override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
