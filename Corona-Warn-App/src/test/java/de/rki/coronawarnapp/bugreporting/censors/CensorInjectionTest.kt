@@ -20,7 +20,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.preferences.mockFlowPreference
 import timber.log.Timber
 import javax.inject.Singleton
 
@@ -117,6 +116,6 @@ class MockProvider {
     @Singleton
     @Provides
     fun personCertificatesSettings(): PersonCertificatesSettings = mockk {
-        every { currentCwaUser } returns mockFlowPreference(null)
+        every { currentCwaUser } returns flowOf(null)
     }
 }
