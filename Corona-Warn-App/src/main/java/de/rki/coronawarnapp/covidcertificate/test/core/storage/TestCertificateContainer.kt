@@ -121,7 +121,7 @@ data class TestCertificateContainer(
                 get() = testCertificate.testName?.let { valueSet?.getDisplayText(it) ?: it }
             override val testNameAndManufacturer: String?
                 get() = testCertificate.testNameAndManufacturer?.let { valueSet?.getDisplayText(it) ?: it }
-            override val sampleCollectedAt: Instant
+            override val sampleCollectedAt: Instant?
                 get() = testCertificate.sampleCollectedAt
             override val sampleCollectedAtFormatted: String
                 get() = testCertificate.sampleCollectedAtFormatted
