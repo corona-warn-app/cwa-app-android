@@ -50,8 +50,11 @@ class PersonCertificatesStorageTest : BaseTest() {
     )
 
     @Test
-    fun `init is sideeffect free`() {
-        createInstance()
+    fun `init is sideeffect free`() = runBlockingTest {
+        createInstance().apply {
+            currentCwaUser.first() shouldBe null
+            personsSettings.first() shouldBe emptyMap()
+        }
     }
 
     @Test
