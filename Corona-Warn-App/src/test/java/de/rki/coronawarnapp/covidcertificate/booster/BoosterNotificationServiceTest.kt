@@ -59,7 +59,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun service() = BoosterNotificationService(
-        boosterNotificationSender = personNotificationSender,
+        personNotificationSender = personNotificationSender,
         vaccinationRepository = vaccinationRepository,
         timeStamper = timeStamper
     )
