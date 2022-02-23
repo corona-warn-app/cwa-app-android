@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util.preferences
 
 import com.google.gson.Gson
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
@@ -175,6 +176,47 @@ class FlowPreferenceTest : BaseTest() {
             key = "testKey",
             reader = FlowPreference.gsonReader(Gson(), testData1),
             writer = FlowPreference.gsonWriter(Gson())
+        ).apply {
+            value shouldBe testData1
+            flow.first() shouldBe testData1
+            mockPreferences.dataMapPeek.values.isEmpty() shouldBe true
+
+            update {
+                it shouldBe testData1
+                it!!.copy(string = "update")
+            }
+
+            value shouldBe testData2
+            flow.first() shouldBe testData2
+            (mockPreferences.dataMapPeek.values.first() as String).toComparableJson() shouldBe """
+                {
+                    "string":"update",
+                    "boolean":true,
+                    "float":1.0,
+                    "int":1,
+                    "long":1
+                }
+            """.toComparableJson()
+
+            update {
+                it shouldBe testData2
+                null
+            }
+            value shouldBe testData1
+            flow.first() shouldBe testData1
+            mockPreferences.dataMapPeek.values.isEmpty() shouldBe true
+        }
+    }
+
+    @Test
+    fun `reading and writing Jackson`() = runBlockingTest {
+        val testData1 = TestGson(string = "teststring")
+        val testData2 = TestGson(string = "update")
+        FlowPreference<TestGson?>(
+            preferences = mockPreferences,
+            key = "testKey",
+            reader = FlowPreference.jacksonReader(SerializationModule().jacksonObjectMapper(), testData1),
+            writer = FlowPreference.jacksonWriter(SerializationModule().jacksonObjectMapper())
         ).apply {
             value shouldBe testData1
             flow.first() shouldBe testData1
