@@ -17,8 +17,11 @@ data class CertificatePersonIdentifier(
 ) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    @JsonIgnore val sanitizedFamilyName: List<String> = lastNameStandardized.sanitizeName()
-    @JsonIgnore private val sanitizedGivenName: List<String> = firstNameStandardized?.sanitizeName() ?: emptyList()
+    @get:JsonIgnore
+    val sanitizedFamilyName: List<String> by lazy { lastNameStandardized.sanitizeName() }
+
+    @get:JsonIgnore
+    private val sanitizedGivenName: List<String> by lazy { firstNameStandardized?.sanitizeName() ?: emptyList() }
 
     /**
      Method shall decide whether the DGCs belong to the same holder.
