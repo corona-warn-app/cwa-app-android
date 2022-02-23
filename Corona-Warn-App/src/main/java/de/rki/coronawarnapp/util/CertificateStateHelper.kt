@@ -53,9 +53,9 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
     when (certificate) {
         is TestCertificate -> {
-            val dateTime = certificate.sampleCollectedAt.toLocalDateTimeUserTz().run {
+            val dateTime = certificate.sampleCollectedAt?.toLocalDateTimeUserTz()?.run {
                 "${toShortDayFormat()}, ${toShortTimeFormat()}"
-            }
+            } ?: certificate.rawCertificate.test.sc
 
             qrTitle.text = context.getString(R.string.test_certificate_name)
             qrSubtitle.text = context.getString(R.string.test_certificate_qrcode_card_sampled_on, dateTime)
@@ -64,14 +64,14 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             qrTitle.text = context.getString(R.string.vaccination_details_subtitle)
             qrSubtitle.text = context.getString(
                 R.string.vaccination_certificate_vaccinated_on,
-                certificate.vaccinatedOn.toShortDayFormat()
+                certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
             )
         }
         is RecoveryCertificate -> {
             qrTitle.text = context.getString(R.string.recovery_certificate_name)
             qrSubtitle.text = context.getString(
                 R.string.recovery_certificate_valid_until,
-                certificate.validUntil.toShortDayFormat()
+                certificate.validUntil?.toShortDayFormat() ?: certificate.rawCertificate.recovery.du
             )
         }
     }
