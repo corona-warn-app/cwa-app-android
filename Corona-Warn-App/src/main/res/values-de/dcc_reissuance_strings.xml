@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- DCC Reissuance: Success Screen -->
 
@@ -10,7 +10,7 @@
     <string name="dcc_reissuance_success_screen_headline">Ihr Zertifikat wurde erfolgreich aktualisiert</string>
 
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun im Zertifikate Tab.</string>
+    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun in der Zertifikate-Regist.</string>
 
     <!-- XBUT: DCC reissuance button complete -->
     <string name="dcc_reissuance_success_screen_complete_button">Fertig</string>
