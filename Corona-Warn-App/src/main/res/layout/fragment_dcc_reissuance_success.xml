@@ -58,7 +58,7 @@
 
             <TextView
                 android:id="@+id/dcc_reissuance_success_body"
-                style="@style/body1"
+                style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
