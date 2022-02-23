@@ -147,7 +147,7 @@ class EnvironmentSetup @Inject constructor(
 
     val dccServerUrl: String
         get() = getEnvironmentValue(DCC).asString
-    val dccReissuanceServerURL: String
+    val dccReissuanceServerUrl: String
         get() = getEnvironmentValue(EnvKey.DCC_REISSUANCE_SERVER_URL).asString
 
     companion object {

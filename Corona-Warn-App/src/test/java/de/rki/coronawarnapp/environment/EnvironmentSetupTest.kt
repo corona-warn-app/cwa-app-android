@@ -72,6 +72,7 @@ class EnvironmentSetupTest : BaseTest() {
                 logUploadServerUrl shouldBe "https://logupload-${env.rawKey}"
                 crowdNotifierPublicKey shouldBe "123_abc-${env.rawKey}"
                 dccServerUrl shouldBe "https://dcc-${env.rawKey}"
+                dccReissuanceServerUrl shouldBe "https://dc_reissuance-${env.rawKey}"
             }
         }
     }

@@ -14,6 +14,6 @@ object DccReissuanceCDNServerModule : BaseEnvironmentModule() {
     @DccReissuanceServerURL
     @Provides
     fun provideDccReissuanceServerURL(environmentSetup: EnvironmentSetup): String = environmentSetup
-        .dccReissuanceServerURL
+        .dccReissuanceServerUrl
         .let { requireValidUrl(it) }
 }
