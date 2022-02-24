@@ -25,8 +25,11 @@ class DccReissuanceBulletPoint @JvmOverloads constructor(
             R.styleable.DccReissuanceBulletPoint,
         ) {
             getResourceId(R.styleable.DccReissuanceBulletPoint_android_text, 0).let {
-                bulletPointText.text = if (it != 0) resources.getString(it)
-                else getString(R.styleable.DccReissuanceBulletPoint_android_text)
+                bulletPointText.text = if (it != 0) {
+                    resources.getString(it)
+                } else {
+                    getString(R.styleable.DccReissuanceBulletPoint_android_text)
+                }
             }
             if (getBoolean(R.styleable.DccReissuanceBulletPoint_bold, false))
                 bulletPointText.setTypeface(bulletPointText.typeface, Typeface.BOLD)

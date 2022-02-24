@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.RecoveryDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.databinding.DccReissuanceCardBinding
+import de.rki.coronawarnapp.databinding.DccReissuanceCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 
@@ -21,10 +21,11 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    val itemView: View = LayoutInflater.from(context).inflate(R.layout.dcc_reissuance_card, this, true)
+    private val itemView: View =
+        LayoutInflater.from(context).inflate(R.layout.dcc_reissuance_certificate_card, this, true)
 
-    val viewBinding: Lazy<DccReissuanceCardBinding> = lazy {
-        DccReissuanceCardBinding.bind(itemView)
+    private val viewBinding by lazy {
+        DccReissuanceCertificateCardBinding.bind(itemView)
     }
 
     var certificate: DccV1.MetaData? = null
@@ -74,27 +75,27 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
         }
 
     private fun setVaccination(body: String) {
-        viewBinding.value.dccReissuanceCertificateIcon.setImageDrawable(
+        viewBinding.dccReissuanceCertificateIcon.setImageDrawable(
             AppCompatResources.getDrawable(context, vaccinationIcon)
         )
-        viewBinding.value.dccReissuanceHeader.text = context.getString(R.string.vaccination_certificate_name)
-        viewBinding.value.dccReissuanceBody.text = body
+        viewBinding.dccReissuanceHeader.text = context.getString(R.string.vaccination_certificate_name)
+        viewBinding.dccReissuanceBody.text = body
     }
 
     private fun setRecovery(body: String) {
-        viewBinding.value.dccReissuanceCertificateIcon.setImageDrawable(
+        viewBinding.dccReissuanceCertificateIcon.setImageDrawable(
             AppCompatResources.getDrawable(context, recoveryIcon)
         )
-        viewBinding.value.dccReissuanceHeader.text = context.getString(R.string.recovery_certificate_name)
-        viewBinding.value.dccReissuanceBody.text = body
+        viewBinding.dccReissuanceHeader.text = context.getString(R.string.recovery_certificate_name)
+        viewBinding.dccReissuanceBody.text = body
     }
 
     private fun setTest(body: String) {
-        viewBinding.value.dccReissuanceCertificateIcon.setImageDrawable(
+        viewBinding.dccReissuanceCertificateIcon.setImageDrawable(
             AppCompatResources.getDrawable(context, testIcon)
         )
-        viewBinding.value.dccReissuanceHeader.text = context.getString(R.string.test_certificate_name)
-        viewBinding.value.dccReissuanceBody.text = body
+        viewBinding.dccReissuanceHeader.text = context.getString(R.string.test_certificate_name)
+        viewBinding.dccReissuanceBody.text = body
     }
 
     companion object {

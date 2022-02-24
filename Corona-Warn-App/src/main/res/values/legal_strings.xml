@@ -227,5 +227,7 @@
     <string name="dcc_reissuance_legal_one" translatable="false">The app will transmit the vaccination certificate to the RKI for verification.</string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
     <string name="dcc_reissuance_legal_two" translatable="false">The RKI will check the vaccination certificate, issue an updated certificate and send this to your app.</string>
+    <!-- XTXT: DCC Reissuance button text-->
+    <string name="dcc_reissuance_legal_button" translatable="false">Accept</string>
 
 </resources>

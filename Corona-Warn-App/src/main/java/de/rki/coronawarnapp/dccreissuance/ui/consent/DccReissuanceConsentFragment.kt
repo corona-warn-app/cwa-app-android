@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccreissuance.ui.consent
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
@@ -32,13 +33,13 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
 
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
-                    binding.dccReissuanceTitle.text = it.title
-                    binding.dccReissuanceSubtitle.text = it.subtitle
-                    binding.dccReissuanceContent.text = it.content
+                    dccReissuanceTitle.text = it.title
+                    dccReissuanceSubtitle.text = it.subtitle
+                    dccReissuanceContent.text = it.content
+                    dccReissuanceLink.isVisible = !it.url.isNullOrEmpty()
                     it.url?.let { url ->
-                        binding.dccReissuanceLink.visibility = View.VISIBLE
                         val text = getString(R.string.dcc_reissuance_faq)
-                        binding.dccReissuanceLink.setTextWithUrl(
+                        dccReissuanceLink.setTextWithUrl(
                             content = text,
                             label = text,
                             url = url
@@ -47,18 +48,18 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                 }
 
                 certificateLiveData.observe2(this@DccReissuanceConsentFragment) {
-                    binding.dccReissuanceCertificateCard.certificate = it
+                    dccReissuanceCertificateCard.certificate = it
                 }
 
                 event.observe2(this@DccReissuanceConsentFragment) {
                     when (it) {
                         DccReissuanceConsentViewModel.ReissuanceError -> {
-                            binding.agreeButton.isLoading = false
+                            agreeButton.isLoading = false
                             // show error dialog
                         }
-                        DccReissuanceConsentViewModel.ReissuanceInProgress -> binding.agreeButton.isLoading = true
+                        DccReissuanceConsentViewModel.ReissuanceInProgress -> agreeButton.isLoading = true
                         DccReissuanceConsentViewModel.ReissuanceSuccess -> {
-                            binding.agreeButton.isLoading = false
+                            agreeButton.isLoading = false
                             findNavController().navigate(
                                 R.id.action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment
                             )
