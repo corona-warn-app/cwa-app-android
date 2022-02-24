@@ -82,7 +82,7 @@ class PersonCertificatesProvider @Inject constructor(
                         localizedText = mapOf("de" to "Long Text"),
                         parameters = listOf()
                     ),
-                    faqAnchor = "dcc_admission_state"
+                    faqAnchor = "https://www.coronawarnapp.de"
                 ),
                 certificateToReissue = Certificate(
                     certificateRef = CertificateRef(

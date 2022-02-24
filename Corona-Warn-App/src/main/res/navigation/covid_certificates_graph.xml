@@ -310,6 +310,10 @@
             android:id="@+id/action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment"
             app:destination="@id/dccReissuanceSuccessFragment" />
 
+        <action
+            android:id="@+id/action_dccReissuanceConsentFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+
     </fragment>
 
     <fragment

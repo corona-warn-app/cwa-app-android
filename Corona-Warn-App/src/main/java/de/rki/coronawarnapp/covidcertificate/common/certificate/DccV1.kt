@@ -184,6 +184,14 @@ data class TestDccV1(
 ) : DccV1.MetaData {
     override val payload: DccV1.Payload
         get() = test
+
+    val isPCRTestCertificate: Boolean get() = test.testType == PCR_TEST
+    val isRapidAntigenTestCertificate: Boolean get() = test.testType == RAT_TEST
+
+    companion object {
+        const val PCR_TEST = "LP6464-4"
+        const val RAT_TEST = "LP217198-3"
+    }
 }
 
 data class RecoveryDccV1(
