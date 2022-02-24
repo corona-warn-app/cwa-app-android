@@ -208,20 +208,22 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun goToCertificates() {
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.covid_certificates_graph
-        val nestedGraph = navController.findNestedGraph(R.id.covid_certificates_graph)
-        nestedGraph.startDestination =
-            if (viewModel.isCertificatesConsentGiven.value == true) {
-                R.id.personOverviewFragment
-            } else {
-                R.id.covidCertificateOnboardingFragment
-            }
+
+        navController
+            .findNestedGraph(R.id.covid_certificates_graph)
+            .startDestination = if (viewModel.isCertificatesConsentGiven.value == false) {
+            R.id.covidCertificateOnboardingFragment
+        } else {
+            R.id.personOverviewFragment
+        }
     }
 
     private fun goToCheckIns() {
         findViewById<BottomNavigationView>(R.id.main_bottom_navigation).selectedItemId =
             R.id.trace_location_attendee_nav_graph
-        val nestedGraph = navController.findNestedGraph(R.id.trace_location_attendee_nav_graph)
-        nestedGraph.startDestination = if (viewModel.isTraceLocationOnboardingDone.value == false) {
+        navController
+            .findNestedGraph(R.id.trace_location_attendee_nav_graph)
+            .startDestination = if (viewModel.isTraceLocationOnboardingDone.value == false) {
             R.id.checkInsConsentFragment
         } else {
             R.id.checkInsFragment

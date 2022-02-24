@@ -303,7 +303,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun initAppShortcuts() {
-        appShortcutsHelper.initAppShortcuts()
+        appShortcutsHelper.initShortcuts()
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {

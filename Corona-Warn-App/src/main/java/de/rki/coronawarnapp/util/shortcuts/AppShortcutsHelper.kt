@@ -27,73 +27,108 @@ class AppShortcutsHelper @Inject constructor(
     @AppScope private val appScope: CoroutineScope
 ) {
 
-    fun initAppShortcuts() = appScope.launch {
-
-        // No shortcuts if not onboarded
-        if (!onboardingSettings.isOnboarded) {
-            Timber.i("[AppShortcuts] Remove all shortcut items since onboarding is not done yet")
-            removeAppShortcuts()
-            return@launch
-        }
-
-        val shortcutScanner = ShortcutInfoCompat.Builder(context, QR_CODE_SCANNER_SHORTCUT_ID)
+    private val scannerShortcut by lazy {
+        ShortcutInfoCompat.Builder(context, QR_CODE_SCANNER_SHORTCUT_ID)
             .setShortLabel(context.getString(R.string.app_shortcut_scanner_title))
             .setLongLabel(context.getString(R.string.app_shortcut_scanner_title))
             .setIcon(IconCompat.createWithResource(context, R.drawable.ic_qr_code_scanner_shortcut_icon))
             .setIntent(createShortcutIntent(AppShortcuts.QR_CODE_SCANNER.toString()))
             .setRank(0)
             .build()
+    }
 
-        val shortcutCertificates = ShortcutInfoCompat.Builder(context, CERTIFICATES_SHORTCUT_ID)
+    private val certificatesShortcut by lazy {
+        ShortcutInfoCompat.Builder(context, CERTIFICATES_SHORTCUT_ID)
             .setShortLabel(context.getString(R.string.app_shortcut_certificates_title))
             .setLongLabel(context.getString(R.string.app_shortcut_certificates_title))
             .setIcon(IconCompat.createWithResource(context, R.drawable.ic_certificates_shortcut_icon))
             .setIntent(createShortcutIntent(AppShortcuts.CERTIFICATES.toString()))
             .setRank(1)
             .build()
+    }
 
-        val shortcutCheckIns = ShortcutInfoCompat.Builder(context, CHECK_INS_SHORTCUT_ID)
+    private val checkInShortcut by lazy {
+        ShortcutInfoCompat.Builder(context, CHECK_INS_SHORTCUT_ID)
             .setShortLabel(context.getString(R.string.app_shortcut_check_ins_title))
             .setLongLabel(context.getString(R.string.app_shortcut_check_ins_title))
             .setIcon(IconCompat.createWithResource(context, R.drawable.ic_check_ins_shortcut_icon))
             .setIntent(createShortcutIntent(AppShortcuts.CHECK_INS.toString()))
             .setRank(2)
             .build()
+    }
 
-        val shortcutDiary = ShortcutInfoCompat.Builder(context, CONTACT_DIARY_SHORTCUT_ID)
+    private val diaryShortcut by lazy {
+        ShortcutInfoCompat.Builder(context, CONTACT_DIARY_SHORTCUT_ID)
             .setShortLabel(context.getString(R.string.app_shortcut_contact_diary_title))
             .setLongLabel(context.getString(R.string.app_shortcut_contact_diary_title))
             .setIcon(IconCompat.createWithResource(context, R.drawable.ic_contact_diary_shortcut_icon))
             .setIntent(createShortcutIntent(AppShortcuts.CONTACT_DIARY.toString()))
             .setRank(3)
             .build()
+    }
 
-        buildList {
-            add(shortcutDiary)
-            add(shortcutCheckIns)
-            add(shortcutCertificates)
+    private val allShortcuts = listOf(scannerShortcut, certificatesShortcut, checkInShortcut, diaryShortcut)
 
-            if (isCameraPermissionGranted()) {
-                add(shortcutScanner)
-            }
-        }.forEach { shortcut ->
+    fun initShortcuts() = appScope.launch {
+        if (!shortcutsAdded()) {
+            addShortcuts()
+        }
+
+        maybeDisableShortcuts()
+    }
+
+    private fun shortcutsAdded() = ShortcutManagerCompat.getDynamicShortcuts(context).containsAll(allShortcuts)
+
+    private fun addShortcuts() {
+        allShortcuts.forEach { shortcut ->
             ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
         }
     }
 
-    private fun isCameraPermissionGranted() =
-        PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED
+    private fun maybeDisableShortcuts() {
+        if (!isOnboarded()) {
+            Timber.i("Disable all shortcut items since user is not onboarded yet")
+            disableAllShortcuts()
+        }
 
-    fun removeAppShortcuts() {
-        ShortcutManagerCompat.removeDynamicShortcuts(
+        if (isCameraPermissionGranted()) {
+            enableQrCodeScannerShortcut()
+        } else {
+            disableQrCodeScannerShortcut()
+        }
+    }
+
+    private fun isOnboarded() = onboardingSettings.isOnboarded
+
+    fun disableAllShortcuts() = runCatching {
+        ShortcutManagerCompat.disableShortcuts(
             context,
             listOf(
                 QR_CODE_SCANNER_SHORTCUT_ID,
                 CERTIFICATES_SHORTCUT_ID,
                 CHECK_INS_SHORTCUT_ID,
                 CONTACT_DIARY_SHORTCUT_ID
-            )
+            ),
+            null
         )
+    }.onFailure { throwable ->
+        Timber.e(throwable, "Failed to disable all Shortcuts")
+    }
+
+    private fun isCameraPermissionGranted() =
+        PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED
+
+    private fun enableQrCodeScannerShortcut() =
+        runCatching {
+            ShortcutManagerCompat.enableShortcuts(context, listOf(scannerShortcut))
+        }.onFailure { throwable ->
+            Timber.e(throwable, "Failed to enable QrCodeScanner Shortcut")
+        }
+
+    private fun disableQrCodeScannerShortcut() = runCatching {
+        ShortcutManagerCompat.disableShortcuts(context, listOf(QR_CODE_SCANNER_SHORTCUT_ID), null)
+    }.onFailure { throwable ->
+        Timber.e(throwable, "Failed to disable QrCodeScanner Shortcut")
     }
 
     private fun createShortcutIntent(shortcut: String) = Intent(context, LauncherActivity::class.java).apply {
