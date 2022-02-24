@@ -31,10 +31,16 @@ class DccReissuanceServer @Inject constructor(
     private val dccReissuanceApi
         get() = dccReissuanceApiLazy.get()
 
-    suspend fun requestDccReissuance(): List<DccReissuanceResponse> = withContext(dispatcherProvider.IO) {
+    suspend fun requestDccReissuance(
+        action: String,
+        certificates: List<String>
+    ): List<DccReissuanceResponse> = withContext(dispatcherProvider.IO) {
+        Timber.tag(TAG).d("requestDccReissuance(action=%s, certificates=%s)", action, certificates)
         try {
-            val dccReissuanceRequestBody = DccReissuanceRequestBody("combine", listOf("cert"))
-            dccReissuanceApi.requestReissuance(dccReissuanceRequestBody).parseAndValidate()
+            val dccReissuanceRequestBody = DccReissuanceRequestBody(action = action, certificates = certificates)
+            dccReissuanceApi.requestReissuance(dccReissuanceRequestBody = dccReissuanceRequestBody)
+                .parseAndValidate()
+                .also { Timber.tag(TAG).d("Returning %s", it) }
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Failed to request Dcc Reissuance")
             throw when (e) {
@@ -48,7 +54,7 @@ class DccReissuanceServer @Inject constructor(
     }
 
     private fun Response<ResponseBody>.throwIfFailed() {
-        Timber.tag(TAG).d("Checking if response=%s failed", this)
+        Timber.tag(TAG).d("Check if response=%s failed", this)
 
         if (isSuccessful) {
             Timber.d("Response is successful")
@@ -66,11 +72,12 @@ class DccReissuanceServer @Inject constructor(
         }.also { throw DccReissuanceException(errorCode = it) }
     }
 
-    private fun Response<*>.validate() = dccReissuanceServerCertificateValidator.validate(raw().serverCertificateChain)
-
-    private fun Response<ResponseBody>.parseAndValidate(): List<DccReissuanceResponse> {
+    private suspend fun Response<ResponseBody>.parseAndValidate(): List<DccReissuanceResponse> {
+        Timber.tag(TAG).d("Parse and validate response=%s", this)
         throwIfFailed()
-        validate()
+
+        val serverCertificateChain = raw().serverCertificateChain
+        dccReissuanceServerCertificateValidator.checkCertificateChain(certificateChain = serverCertificateChain)
 
         return try {
             val body = checkNotNull(body()) { "Response body was null" }
