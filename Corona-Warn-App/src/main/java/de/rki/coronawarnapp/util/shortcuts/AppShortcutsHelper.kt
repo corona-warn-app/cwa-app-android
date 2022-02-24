@@ -1,10 +1,7 @@
 package de.rki.coronawarnapp.util.shortcuts
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.PermissionChecker
-import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -14,6 +11,7 @@ import de.rki.coronawarnapp.ui.launcher.LauncherActivity
 import de.rki.coronawarnapp.util.AppShortcuts
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.permission.CameraPermissionHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -70,6 +68,8 @@ class AppShortcutsHelper @Inject constructor(
     private val allShortcuts = listOf(scannerShortcut, certificatesShortcut, checkInShortcut, diaryShortcut)
 
     fun initShortcuts() = appScope.launch {
+        Timber.d("initShortcuts()")
+
         if (!shortcutsAdded()) {
             addShortcuts()
         }
@@ -87,7 +87,7 @@ class AppShortcutsHelper @Inject constructor(
 
     private fun maybeDisableShortcuts() {
         if (!isOnboarded()) {
-            Timber.i("Disable all shortcut items since user is not onboarded yet")
+            Timber.i("User is not onboarded yet")
             disableAllShortcuts()
         }
 
@@ -101,6 +101,7 @@ class AppShortcutsHelper @Inject constructor(
     private fun isOnboarded() = onboardingSettings.isOnboarded
 
     fun disableAllShortcuts() = runCatching {
+        Timber.d("Disable all shortcuts.")
         ShortcutManagerCompat.disableShortcuts(
             context,
             listOf(
@@ -116,16 +117,18 @@ class AppShortcutsHelper @Inject constructor(
     }
 
     private fun isCameraPermissionGranted() =
-        PermissionChecker.checkSelfPermission(context, Manifest.permission.CAMERA) == PERMISSION_GRANTED
+        CameraPermissionHelper.hasCameraPermission(context)
 
     private fun enableQrCodeScannerShortcut() =
         runCatching {
+            Timber.d("Enable QrCodeScanner Shortcut")
             ShortcutManagerCompat.enableShortcuts(context, listOf(scannerShortcut))
         }.onFailure { throwable ->
             Timber.e(throwable, "Failed to enable QrCodeScanner Shortcut")
         }
 
     private fun disableQrCodeScannerShortcut() = runCatching {
+        Timber.d("Disable QrCodeScanner Shortcut")
         ShortcutManagerCompat.disableShortcuts(context, listOf(QR_CODE_SCANNER_SHORTCUT_ID), null)
     }.onFailure { throwable ->
         Timber.e(throwable, "Failed to disable QrCodeScanner Shortcut")
