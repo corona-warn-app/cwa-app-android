@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
+import de.rki.coronawarnapp.util.dcc.groupByPerson
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -38,29 +40,27 @@ class PersonCertificatesProvider @Inject constructor(
         dccWalletInfoRepository.personWallets
     ) { certificateContainer, cwaUser, personWallets ->
 
-        val allCerts = certificateContainer.allCwaCertificates
         val vaccPersons = certificateContainer.vaccinationInfos
-
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
+        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
-        val personCertificatesMap = allCerts.groupBy {
-            it.personIdentifier
-        }
-
-        if (!personCertificatesMap.containsKey(cwaUser)) {
+        if (groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
             personCertificatesSettings.removeCurrentCwaUser()
         }
 
-        personCertificatesMap.entries.map { (personIdentifier, certs) ->
-            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
+        groupedCerts.map { certs ->
+            val firstPersonIdentifier = certs.first().personIdentifier
+            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", firstPersonIdentifier, certs.size)
 
-            val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
+            val dccWalletInfo =
+                personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo
 
+            // TODO: booster badge & vaccination repository should be updated in (EXPOSUREAPP-11724)
             val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
-                vaccPersons.boosterBadgeCount(personIdentifier, dccWalletInfo?.boosterNotification)
+                vaccPersons.boosterBadgeCount(firstPersonIdentifier, dccWalletInfo?.boosterNotification)
 
-            Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
+            Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
 
             // dummy reissuance data so that we can start working on the tile
             // TODO: remove once we get actual reissuance data from CCL
@@ -94,7 +94,7 @@ class PersonCertificatesProvider @Inject constructor(
 
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
-                isCwaUser = personIdentifier == cwaUser,
+                isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
                 badgeCount = badgeCount,
                 dccWalletInfo = dccWalletInfo?.copy(
                     certificateReissuance = dummyCertificateReissuance
