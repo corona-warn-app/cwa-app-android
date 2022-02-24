@@ -49,15 +49,4 @@ data class VaccinatedPerson(
 
     val fullName: String?
         get() = allVaccinationCertificates.firstOrNull()?.fullName
-
-    enum class Status {
-        INCOMPLETE,
-        COMPLETE,
-        IMMUNITY,
-        BOOSTER_ELIGIBLE
-    }
-
-    companion object {
-        private const val IMMUNITY_WAITING_DAYS = 15
-    }
 }
