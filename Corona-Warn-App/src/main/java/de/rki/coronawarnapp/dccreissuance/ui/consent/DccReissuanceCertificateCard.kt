@@ -52,20 +52,22 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
                     setRecovery("$fullName\n$info")
                 }
                 is TestDccV1 -> {
-                    val headerRes = when {
+                    var testType = ""
+                    when {
                         // PCR Test
                         value.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
                         // RAT Test
                         value.isRapidAntigenTestCertificate -> R.string.test_certificate_rapid_test_type
-                        // else unknown
                         else -> null
+                    }?.let {
+                        testType = context.getString(it)
                     }
 
                     val info = context.getString(
                         R.string.test_certificate_sampled_on,
                         value.test.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: value.test.sc
                     )
-                    setTest(headerRes, "$fullName\n$info")
+                    setTest("$fullName\n$testType\n$info")
                 }
             }
             field = value
@@ -87,13 +89,11 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
         viewBinding.value.dccReissuanceBody.text = body
     }
 
-    private fun setTest(headerRes: Int?, body: String) {
+    private fun setTest(body: String) {
         viewBinding.value.dccReissuanceCertificateIcon.setImageDrawable(
             AppCompatResources.getDrawable(context, testIcon)
         )
-        headerRes?.let {
-            viewBinding.value.dccReissuanceHeader.setText(it)
-        }
+        viewBinding.value.dccReissuanceHeader.text = context.getString(R.string.test_certificate_name)
         viewBinding.value.dccReissuanceBody.text = body
     }
 
