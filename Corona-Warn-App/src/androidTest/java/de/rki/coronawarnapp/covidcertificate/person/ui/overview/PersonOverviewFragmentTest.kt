@@ -100,7 +100,16 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment_empty() = takeSelfie("empty")
+    fun capture_fragment_empty() {
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = false,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Berlin"
+            )
+        )
+        takeSelfie("empty")
+    }
 
     @Test
     @Screenshot
@@ -121,6 +130,22 @@ class PersonOverviewFragmentTest : BaseUITest() {
     fun capture_fragment_one_person() {
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(onePersonItem()))
         takeSelfie("one_person")
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_one_person_admission_berlin() {
+
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Berlin"
+            )
+        )
+
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(onePersonItem()))
+        takeSelfie("one_person_berlin")
     }
 
     @Test

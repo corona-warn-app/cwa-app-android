@@ -24,7 +24,7 @@ import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
-class PersonDetailsFragmentTest : BaseUITest() {
+class BoosterInfoDetailsFragmentTest : BaseUITest() {
     @MockK lateinit var viewModel: BoosterInfoDetailsViewModel
     private val args = BoosterInfoDetailsFragmentArgs("code").toBundle()
 

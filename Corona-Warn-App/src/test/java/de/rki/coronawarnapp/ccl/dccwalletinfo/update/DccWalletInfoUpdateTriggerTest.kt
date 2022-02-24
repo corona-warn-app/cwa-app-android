@@ -7,19 +7,17 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.task.TaskController
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -35,9 +33,10 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     @MockK lateinit var dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
     @MockK lateinit var dccWalletInfoCleaner: DccWalletInfoCleaner
     @MockK lateinit var personCertificateProvider: PersonCertificatesProvider
-    @MockK lateinit var taskController: TaskController
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var cclSettings: CclSettings
+    @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+
     private val vc1 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash1"
     }
@@ -49,19 +48,20 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { taskController.submit(any()) } just Runs
-        coEvery { dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any()) } returns
+        coEvery { dccWalletInfoCalculationManager.triggerNow(any()) } returns
             DccWalletInfoCalculationManager.Result.Success
-        coEvery { dccWalletInfoCalculationManager.triggerCalculationAfterConfigChange(any()) } returns
+        coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange(any()) } returns
             DccWalletInfoCalculationManager.Result.Success
 
-        coEvery { dccWalletInfoCleaner.clean() } just Runs
+        coEvery { dccWalletInfoCleaner.clean() } returns Result.success(Unit)
         every { personCertificateProvider.personCertificates } returns flowOf(setOf())
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { admissionScenariosEnabled } returns true
         }
 
         coEvery { cclSettings.getAdmissionScenarioId() } returns ""
+
+        every { personCertificatesSettings.cleanSettingsNotIn(any()) } returns Job()
     }
 
     @Test
@@ -76,7 +76,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
             coVerify(exactly = 1) {
-                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any())
+                dccWalletInfoCalculationManager.triggerNow(any())
                 dccWalletInfoCleaner.clean()
             }
         }
@@ -92,7 +92,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
         coVerify(exactly = 0) {
-            dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any())
+            dccWalletInfoCalculationManager.triggerNow(any())
             dccWalletInfoCleaner.clean()
         }
     }
@@ -109,7 +109,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
 
             coVerify(exactly = 1) {
-                dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any())
+                dccWalletInfoCalculationManager.triggerNow(any())
                 dccWalletInfoCleaner.clean()
             }
         }
@@ -125,14 +125,14 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
 
         coVerify(exactly = 1) {
-            dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any())
+            dccWalletInfoCalculationManager.triggerNow(any())
             dccWalletInfoCleaner.clean()
         }
     }
 
     @Test
     fun `No crash when update manager throw error`() = runBlockingTest2(true) {
-        coEvery { dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any()) } throws
+        coEvery { dccWalletInfoCalculationManager.triggerNow(any()) } throws
             RuntimeException("error")
         val flow = MutableStateFlow(setOf(PersonCertificates(certificates = listOf(vc1, vc2))))
         every { personCertificateProvider.personCertificates } returns flow
@@ -141,7 +141,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
             flow.emit(setOf(PersonCertificates(certificates = listOf(vc1))))
         }
 
-        coVerify { dccWalletInfoCalculationManager.triggerCalculationAfterCertificateChange(any()) }
+        coVerify { dccWalletInfoCalculationManager.triggerNow(any()) }
     }
 
     @Test
@@ -158,24 +158,58 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     }
 
     @Test
-    fun `triggerDccWalletInfoUpdateAfterConfigUpdate false`() = runBlockingTest {
-        instance(this).triggerDccWalletInfoUpdateAfterConfigUpdate(false)
-        verify { taskController.submit(any()) }
+    fun `triggerAfterConfigChange - feature is on and config update`() = runBlockingTest {
+        coEvery { cclSettings.getAdmissionScenarioId() } returns "BW"
+        coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true) } returns
+            DccWalletInfoCalculationManager.Result.Success
+
+        instance(this).triggerAfterConfigChange(true)
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true)
+            dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
+        }
     }
 
     @Test
-    fun `triggerDccWalletInfoUpdateAfterConfigUpdate true`() = runBlockingTest {
-        instance(this).triggerDccWalletInfoUpdateAfterConfigUpdate(true)
-        verify { taskController.submit(any()) }
+    fun `triggerAfterConfigChange - feature is off and no config update`() = runBlockingTest {
+        coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
+            every { admissionScenariosEnabled } returns false
+        }
+        coEvery { dccWalletInfoCalculationManager.triggerAfterConfigChange("", false) } returns
+            DccWalletInfoCalculationManager.Result.Success
+
+        instance(this).triggerAfterConfigChange(false)
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerAfterConfigChange("", false)
+            dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
+        }
+    }
+
+    @Test
+    fun triggerNow() = runBlockingTest {
+        coEvery { dccWalletInfoCalculationManager.triggerNow("BW") } returns
+            DccWalletInfoCalculationManager.Result.Success
+
+        instance(this).triggerNow("BW")
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerNow("BW")
+            dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
+        }
     }
 
     private fun instance(scope: CoroutineScope) = DccWalletInfoUpdateTrigger(
-        dccWalletInfoCalculationManager = dccWalletInfoCalculationManager,
-        dccWalletInfoCleaner = dccWalletInfoCleaner,
-        personCertificateProvider = personCertificateProvider,
         appScope = scope,
-        taskController = taskController,
+        cclSettings = cclSettings,
+        dccWalletInfoCleaner = dccWalletInfoCleaner,
         appConfigProvider = appConfigProvider,
-        cclSettings = cclSettings
+        personCertificateProvider = personCertificateProvider,
+        personCertificatesSettings = personCertificatesSettings,
+        dccWalletInfoCalculationManager = dccWalletInfoCalculationManager
     )
 }

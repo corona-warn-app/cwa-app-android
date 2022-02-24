@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.dccadmission.model.Scenario
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -37,8 +38,9 @@ class CclSettings @Inject constructor(
             }
         }
 
-    val admissionScenarioId = dataStoreFlow
-        .map { prefs -> prefs[ADMISSION_SCENARIO_ID_KEY].orEmpty() }
+    val admissionScenarioId = dataStoreFlow.map { prefs ->
+        prefs[ADMISSION_SCENARIO_ID_KEY] ?: Scenario.DEFAULT_ID
+    }
 
     /**
      * @returns the instant of the last time the CCL Settings were updated, or null if they haven't been updated yet
