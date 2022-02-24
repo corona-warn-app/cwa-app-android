@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccreissuance.core.server.validation
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.dccreissuance.core.common.DccReissuanceException
+import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
 import de.rki.coronawarnapp.tag
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
@@ -13,17 +14,27 @@ class DccReissuanceServerCertificateValidator @Inject constructor(
 ) {
 
     /**
-     *
-     * @throws [DccReissuanceException] if the check fails
+     * Checks the SHA-256 hash of the public key of the leaf certificate (first certificate in the chain) and compares
+     * it against the hash from App Config parameter [CovidCertificateConfig.reissueServicePublicKeyDigest].
      *
      * Note that the absence of an error code indicates a successful check
+     *
+     * @throws [DccReissuanceException] if the hashes to not match
      */
-    suspend fun validate(certificateChain: List<Certificate>) = try {
+    suspend fun checkCertificateChain(certificateChain: List<Certificate>) = try {
+        Timber.tag(TAG).d("checkCertificateChain(certificateChain=%s)", certificateChain)
         val leafCertificate = certificateChain.first()
-        //TODO: Add reissueServicePublicKeyDigest to app config
         val reissueServicePublicKeyDigest = appConfigProvider.getAppConfig()
+            .covidCertificateParameters
+            .reissueServicePublicKeyDigest
 
         val publicKeyHash256 = leafCertificate.publicKey.encoded.toByteString().sha256()
+
+        Timber.tag(TAG).d(
+            "Comparing publicKeyHash256=%s and reissueServicePublicKeyDigest=%s",
+            publicKeyHash256,
+            reissueServicePublicKeyDigest
+        )
 
         if (publicKeyHash256 != reissueServicePublicKeyDigest) throw DccReissuanceException(
             errorCode = DccReissuanceException.ErrorCode.DCC_RI_PIN_MISMATCH
