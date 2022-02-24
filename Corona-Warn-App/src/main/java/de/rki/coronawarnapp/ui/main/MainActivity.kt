@@ -42,6 +42,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener {
                     val time = System.currentTimeMillis()
-                    if (time - lastFabClickTime >= 1000) {
+                    if (abs(time - lastFabClickTime) >= 1000) {
                         lastFabClickTime = time
                         viewModel.openScanner()
                     }
