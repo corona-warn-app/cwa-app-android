@@ -12,6 +12,7 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
+// TODO: delete
 @Reusable
 class ContainerPostProcessor @Inject constructor(
     private val vaccinationQrCodeExtractor: DccQrCodeExtractor,
@@ -30,7 +31,6 @@ class ContainerPostProcessor @Inject constructor(
                 when (obj) {
                     is VaccinationContainer -> {
                         Timber.v("Injecting VaccinationContainer %s", obj.hashCode())
-                        obj.qrCodeExtractor = vaccinationQrCodeExtractor
                     }
                 }
 

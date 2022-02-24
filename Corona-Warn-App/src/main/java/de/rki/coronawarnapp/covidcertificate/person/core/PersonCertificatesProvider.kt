@@ -40,7 +40,6 @@ class PersonCertificatesProvider @Inject constructor(
         dccWalletInfoRepository.personWallets
     ) { certificateContainer, cwaUser, personWallets ->
 
-        val vaccPersons = certificateContainer.vaccinationInfos
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
@@ -57,8 +56,7 @@ class PersonCertificatesProvider @Inject constructor(
                 personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo
 
             // TODO: booster badge & vaccination repository should be updated in (EXPOSUREAPP-11724)
-            val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
-                vaccPersons.boosterBadgeCount(firstPersonIdentifier, dccWalletInfo?.boosterNotification)
+            val badgeCount = certs.filter { it.hasNotificationBadge }.count()
 
             Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
 
