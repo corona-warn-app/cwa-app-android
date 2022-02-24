@@ -78,9 +78,10 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
     }
 
     private fun DgcParameters.DGCParameters.mapReissueServicePublicKeyDigest(): ByteString = try {
-        this.reissueServicePublicKeyDigest.toOkioByteString()
+        if (reissueServicePublicKeyDigest.isEmpty) throw IllegalStateException("reissueServicePublicKeyDigest is empty")
+        reissueServicePublicKeyDigest.toOkioByteString()
     } catch (e: Exception) {
-        Timber.w("Failed to map 'reissueServicePublicKeyDigest' from %s", this)
+        Timber.w(e, "Failed to map 'reissueServicePublicKeyDigest' from %s", this)
         throw e
     }
 
