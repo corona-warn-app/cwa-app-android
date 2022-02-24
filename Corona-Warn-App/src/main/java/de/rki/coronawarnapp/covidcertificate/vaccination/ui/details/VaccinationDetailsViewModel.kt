@@ -31,11 +31,11 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     private var qrCode: CoilQrCode? = null
 
-    val vaccinationCertificate = vaccinationRepository.vaccinationInfos
-        .map { persons ->
-            val findVaccinationDetails = findVaccinationDetails(persons)
-            qrCode = findVaccinationDetails.certificate?.qrCodeToDisplay
-            findVaccinationDetails
+    val vaccinationCertificate = vaccinationRepository.certificates
+        .map { certificates ->
+            certificates.find { it.containerId == containerId }?.vaccinationCertificate?.also {
+                qrCode = it.qrCodeToDisplay
+            }
         }
         .asLiveData(context = dispatcherProvider.Default)
 
@@ -82,7 +82,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     }
 
     fun onExport() {
-        if (vaccinationCertificate.value?.certificate?.canBeExported() == false) {
+        if (vaccinationCertificate.value?.canBeExported() == false) {
             exportError.postValue(null)
         } else {
             events.postValue(VaccinationDetailsNavigation.Export(containerId))

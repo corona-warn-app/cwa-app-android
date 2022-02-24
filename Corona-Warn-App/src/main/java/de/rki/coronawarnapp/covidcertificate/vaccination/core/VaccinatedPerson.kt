@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 
+// TODO: replace with wrapper
 data class VaccinatedPerson(
     internal val data: VaccinatedPersonData,
     private val valueSet: VaccinationValueSets?,

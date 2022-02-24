@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -33,6 +34,28 @@ class VaccinationStorage @Inject constructor(
         }.create()
     }
 
+    suspend fun load2(): Set<StoredVaccinationCertificateData> = mutex.withLock {
+        Timber.tag(TAG).d("load()")
+        return gson
+            .fromJson<Set<StoredVaccinationCertificateData>>(
+                prefs.getString(PKEY_VACCINATION_CERT, null) ?: return emptySet(),
+                TYPE_TOKEN
+            )
+    }
+
+    suspend fun save2(certificates: Set<StoredVaccinationCertificateData>) = mutex.withLock {
+        Timber.tag(TAG).d("save(%s)", certificates.size)
+        prefs.edit(commit = true) {
+            if (certificates.isEmpty()) {
+                remove(PKEY_VACCINATION_CERT)
+            } else {
+                val rawJson = gson.toJson(certificates, TYPE_TOKEN)
+                putString(PKEY_VACCINATION_CERT, rawJson)
+            }
+        }
+    }
+
+    // Legacy implementation
     suspend fun load(): Set<VaccinatedPersonData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
         val persons = prefs.all.mapNotNull { (key, value) ->
@@ -48,6 +71,7 @@ class VaccinationStorage @Inject constructor(
         return persons.toSet().groupDataByIdentifier()
     }
 
+    // Legacy implementation
     suspend fun save(persons: Set<VaccinatedPersonData>) = mutex.withLock {
         Timber.tag(TAG).d("save(%s)", persons.size)
 
@@ -71,9 +95,12 @@ class VaccinationStorage @Inject constructor(
     companion object {
         private const val TAG = "VaccinationStorage"
         private const val PKEY_PERSON_PREFIX = "vaccination.person."
+        private const val PKEY_VACCINATION_CERT = "vaccination.certificate"
+        private val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }
 }
 
+// TODO: this could be removed
 internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> =
     filterNot { it.vaccinations.isNullOrEmpty() }
         .groupBy { it.identifier }

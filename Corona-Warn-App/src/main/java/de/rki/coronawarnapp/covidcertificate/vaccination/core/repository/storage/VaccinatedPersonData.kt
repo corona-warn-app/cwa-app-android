@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import org.joda.time.Instant
 
+// TODO: remove
 data class VaccinatedPersonData(
     @SerializedName("vaccinationData")
     val vaccinations: Set<VaccinationContainer> = emptySet(),

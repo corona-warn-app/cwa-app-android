@@ -8,7 +8,11 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -27,6 +31,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -50,29 +55,52 @@ class VaccinationRepository @Inject constructor(
     dscRepository: DscRepository
 ) {
 
-    private val internalData: HotDataFlow<Set<VaccinatedPerson>> = HotDataFlow(
+    private val internalData: HotDataFlow<Set<VaccinationContainer>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        storage.load()
-            .map { personContainer ->
-                VaccinatedPerson(
-                    data = personContainer,
-                    certificateStates = personContainer.getStates(),
-                    valueSet = null,
+        storage.load2()
+            .map {
+                VaccinationContainer(
+                    data = it,
+                    qrCodeExtractor = qrCodeExtractor
                 )
             }
             .toSet()
             .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
     }
 
+    val freshCertificates: Flow<Set<VaccinationCertificateWrapper>> = de.rki.coronawarnapp.util.flow.combine(
+        internalData.data,
+        valueSetsRepository.latestVaccinationValueSets,
+        dscRepository.dscData
+    ) { set, valueSets, _ ->
+        set
+            .filter { it.isNotRecycled }
+            .map { container ->
+                val state = dccStateChecker.checkState(container.certificateData).first()
+                VaccinationCertificateWrapper(
+                    valueSets = valueSets,
+                    container = container,
+                    certificateState = state
+                )
+            }.toSet()
+    }
+
+    val certificates: Flow<Set<VaccinationCertificateWrapper>> = freshCertificates
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
-            .onEach { vaccinatedPersons ->
-                Timber.tag(TAG).v("Vaccination data changed, %d items", vaccinatedPersons.size)
-                storage.save(vaccinatedPersons.map { it.data }.toSet())
+            .drop(1) // Initial emission, restored from storage.
+            .onEach { certificates ->
+                Timber.tag(TAG).v("Vaccination data changed, %d items", certificates.size)
+                storage.save2(certificates.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot vaccination data to storage.")
@@ -81,35 +109,16 @@ class VaccinationRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
-        internalData.data,
-        valueSetsRepository.latestVaccinationValueSets,
-        dscRepository.dscData
-    ) { personDatas, currentValueSet, _ ->
-        personDatas.map { person ->
-            val stateMap = person.data.getStates()
-            person.copy(
-                valueSet = currentValueSet,
-                certificateStates = stateMap,
-                data = person.data
-            )
-        }.toSet().also { Timber.d("Tests: ${it.size}") }
-    }
-
-    val vaccinationInfos: Flow<Set<VaccinatedPerson>> = freshVaccinationInfos
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
-
     /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<VaccinationCertificate>> = vaccinationInfos
-        .map { persons ->
-            persons
-                .map { it.recycledVaccinationCertificates }
-                .flatten()
+    val recycledCertificates: Flow<Set<VaccinationCertificate>> = internalData.data
+        .map { container ->
+            container
+                .filter { it.isRecycled }
+                .map {
+                    it.toVaccinationCertificate(certificateState = CwaCovidCertificate.State.Recycled)
+                }
                 .toSet()
         }
         .shareLatest(
@@ -172,6 +181,7 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
+    // TODO: remove
     suspend fun deleteCertificate(containerId: VaccinationCertificateContainerId): VaccinationContainer? {
         Timber.tag(TAG).w("deleteCertificate(containerId=%s)", containerId)
         var deletedVaccination: VaccinationContainer? = null

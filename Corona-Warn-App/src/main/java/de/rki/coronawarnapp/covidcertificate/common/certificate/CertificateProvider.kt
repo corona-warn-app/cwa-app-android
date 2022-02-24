@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -35,7 +36,7 @@ class CertificateProvider @Inject constructor(
     val certificateContainer: Flow<CertificateContainer> = combine(
         rcRepo.certificates,
         tcRepo.certificates,
-        vcRepo.vaccinationInfos
+        vcRepo.certificates
     ) { recoveries, tests, vaccinations -> CertificateContainer(recoveries, tests, vaccinations) }
         .conflate()
         .distinctUntilChanged()
@@ -53,7 +54,7 @@ class CertificateProvider @Inject constructor(
     data class CertificateContainer(
         val recoveryCertificates: Set<RecoveryCertificateWrapper>,
         val testCertificates: Set<TestCertificateWrapper>,
-        val vaccinationInfos: Set<VaccinatedPerson>
+        val vaccinationCertificates: Set<VaccinationCertificateWrapper>
     ) {
 
         val recoveryCwaCertificates: Set<RecoveryCertificate> by lazy {
@@ -65,7 +66,7 @@ class CertificateProvider @Inject constructor(
         }
 
         val vaccinationCwaCertificates: Set<VaccinationCertificate> by lazy {
-            vaccinationInfos.flatMap { it.vaccinationCertificates }.toSet()
+            vaccinationCertificates.map { it.vaccinationCertificate }.toSet()
         }
 
         val allCwaCertificates by lazy {

@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,22 +30,16 @@ class BoosterNotificationService @Inject constructor(
         }
         val oldRuleId = oldWalletInfo?.boosterNotification?.identifier
 
-        // In versions prior to 2.18, the booster rule identifier was stored in VaccinatedPerson.data. From 2.18 onwards,
-        // storing this identifier there is not necessary anymore, since this information is kept in the DccWalletInfo.
-        // However, we need to check if the user already saw the booster notification in a version prior to 2.18
-        val legacyBoosterRuleId = getLegacyRuleId(personIdentifier)
-
         val codeSHA256 = personIdentifier.codeSHA256
         Timber.tag(TAG)
             .d(
-                "BoosterRule of person=%s  ruleIdOldWalletInfo=%s, ruleIdNewWalletInfo=%s, legacyBoosterRuleId=%s",
+                "BoosterRule of person=%s  ruleIdOldWalletInfo=%s, ruleIdNewWalletInfo=%s",
                 codeSHA256,
                 oldRuleId,
-                newRuleId,
-                legacyBoosterRuleId
+                newRuleId
             )
 
-        if (newRuleId != oldRuleId && newRuleId != legacyBoosterRuleId) {
+        if (newRuleId != oldRuleId) {
             Timber.tag(TAG).d("Notifying person=%s about rule=%s", codeSHA256, newRuleId)
             boosterNotificationSender.showBoosterNotification(personIdentifier)
             // Clears booster rule last seen badge, to be shown in conjunction with notification
@@ -58,11 +51,6 @@ class BoosterNotificationService @Inject constructor(
         }
 
         Timber.tag(TAG).v("notifyIfNecessary() - Finished")
-    }
-
-    private suspend fun getLegacyRuleId(personIdentifier: CertificatePersonIdentifier): String? {
-        val vaccinatedPersonsMap = vaccinationRepository.vaccinationInfos.first().associateBy { it.identifier }
-        return vaccinatedPersonsMap[personIdentifier]?.data?.boosterRuleIdentifier
     }
 
     companion object {

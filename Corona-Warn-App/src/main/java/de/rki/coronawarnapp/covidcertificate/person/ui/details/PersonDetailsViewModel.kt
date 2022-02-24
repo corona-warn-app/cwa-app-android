@@ -161,15 +161,18 @@ class PersonDetailsViewModel @AssistedInject constructor(
         return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)
     }
 
+    // This is moved to person settings
     private suspend fun checkBoosterNotificationBadge(
         personCertificates: PersonCertificates,
         boosterNotification: BoosterNotification
     ): Boolean {
         personCertificates.certificates.find { it is VaccinationCertificate }?.let { certificate ->
-            val vaccinatedPerson = vaccinatedPerson(certificate)
-            if (vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier) {
-                return true
-            }
+            // TODO: use person settings
+
+//            val vaccinatedPerson = vaccinatedPerson(certificate)
+//            if (vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier) {
+//                return true
+//            }
         }
         return false
     }
@@ -247,9 +250,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
         isValid && isCurrentCertificate -> colorShade
         else -> PersonColorShade.COLOR_INVALID
     }
-
-    private suspend fun vaccinatedPerson(certificate: CwaCovidCertificate): VaccinatedPerson? =
-        vaccinationRepository.vaccinationInfos.firstOrNull()?.find { it.identifier == certificate.personIdentifier }
 
     data class UiState(
         val name: String,
