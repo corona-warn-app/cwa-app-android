@@ -1,0 +1,150 @@
+{
+  "$comment": "Generated at Mon Feb 07 2022 14:34:07 GMT+0100 (Central European Standard Time)",
+  "$sourceHash": "0f6b3ffcb4b5d81c692817c3f451a9c0aec7dd56aa0f9121c8d6e4ecff3818c3",
+  "data": [
+    {
+      "description": "a proper ICAO name is not sanitized",
+      "actName": "ERIKA",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "a proper ICAO name with multiple components is not sanitized",
+      "actName": "ERIKA<MARIA",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "a lower-case name is transformed to upper case",
+      "actName": "Erika",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "space separators are replaced",
+      "actName": "ERIKA MARIA",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "leading and trailing whitespace is trimmed",
+      "actName": "  ERIKA  ",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "leading and trailing chevrons are trimmed",
+      "actName": "<<<ERIKA<<<",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "multiple chevrons are normalized",
+      "actName": "ERIKA<<<MARIA",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "multiple space separators are normalized",
+      "actName": "ERIKA    MARIA",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "a dash separator is normalized",
+      "actName": "ERIKA-MARIA",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "a leading doctor's degree is filtered out (one separator)",
+      "actName": "DR<ERIKA",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "a leading doctor's degree is filtered out (two separators)",
+      "actName": "DR<<ERIKA",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "a trailing doctor's degree is filtered out (one separator)",
+      "actName": "ERIKA<DR",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "a trailing doctor's degree is filtered out (two separators)",
+      "actName": "ERIKA<<DR",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "a doctor's degree somewhere in the middle is filtered out",
+      "actName": "ERIKA<DR<MARIA",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "a doctor's degree with dot",
+      "actName": "Dr. Erika",
+      "expNameComponents": [
+        "ERIKA"
+      ]
+    },
+    {
+      "description": "dots treated as separator",
+      "actName": "Erika.Maria",
+      "expNameComponents": [
+        "ERIKA",
+        "MARIA"
+      ]
+    },
+    {
+      "description": "German umlauts are sanitized (upper-case input)",
+      "actName": "CÄCILIE<BÖRGE<YÜSRA<SIßI",
+      "expNameComponents": [
+        "CAECILIE",
+        "BOERGE",
+        "YUESRA",
+        "SISSI"
+      ]
+    },
+    {
+      "description": "German umlauts are sanitized (lower-case input)",
+      "actName": "Cäcilie<Börge<Yüsra<Sißi",
+      "expNameComponents": [
+        "CAECILIE",
+        "BOERGE",
+        "YUESRA",
+        "SISSI"
+      ]
+    },
+    {
+      "description": "empty name results in empty components",
+      "actName": "",
+      "expNameComponents": []
+    }
+  ]
+}
