@@ -1,0 +1,600 @@
+{
+  "$comment": "Generated at Mon Feb 07 2022 14:33:50 GMT+0100 (Central European Standard Time)",
+  "$sourceHash": "7237e59ac249676777277bdb1573aba3b0eacc16f3f585ff082f3ec2b0fc9492",
+  "data": [
+    {
+      "description": "happy path - match",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "happy path - no match - different dob",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1970-01-01"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "happy path - no match - no matches in gnt",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "happy path - no match - no matches in fnt",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "BEISPIELFRAU"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match despite optional middle name",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match despite last name addendum",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN<GABLER"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "no match for twins",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match for twins with same middle name (false positive)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "no match for siblings with same middle name (different dob)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1970-01-01"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match despite leading and trailing chevron (<)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "<ERIKA<",
+          "fnt": "<MUSTERMANN<"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "no match because of matching chevrons (<)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "<ERIKA<",
+          "fnt": "<MUSTERMANN<"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "<ANGELIKA<",
+          "fnt": "<MUSTERMANN<"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match despite leading and trailing whitespace",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": " ERIKA ",
+          "fnt": " MUSTERMANN "
+        },
+        "dob": "  1980-02-03  "
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "no match because of matching whitespace",
+      "actHolderA": {
+        "nam": {
+          "gnt": " ERIKA ",
+          "fnt": " MUSTERMANN "
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": " ANGELIKA ",
+          "fnt": " MUSTERMANN "
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match despite doctor's degree in fnt (no space)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "DR<MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match despite doctor's degree in fnt (with space)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "DR<<MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match despite doctor's degree in gnt (no space)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "DR<ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match despite doctor's degree in gnt (with space)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "DR<<ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "no match because of matching doctor's degree in gnt",
+      "actHolderA": {
+        "nam": {
+          "gnt": "DR<<ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "DR<<ANGELIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "no match because of matching doctor's degree in fnt",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "DR<<MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "DR<<BEISPIELFRAU"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match if first and last name are swapped",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MUSTERMANN",
+          "fnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "no match if first name is duplicated for one holder",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "no match if last name is duplicated for one holder",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MUSTERMANN",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": false
+    },
+    {
+      "description": "match if both first names are empty (gnt is optional)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match double chevron (<)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA<<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match triple chevron (<)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA<<<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match dot",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA.MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match dash",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA-MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "german Ä",
+      "actHolderA": {
+        "nam": {
+          "gnt": "MÄRTHE<täve",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MAERTHE<TAEVE",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "german Ö",
+      "actHolderA": {
+        "nam": {
+          "gnt": "VÖLKER<völker",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "VOELKER<voelker",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "german Ü",
+      "actHolderA": {
+        "nam": {
+          "gnt": "GÜNTHER<Jürgen",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "GUENTHER<Juergen",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "german ß",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "STRAUß"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ANGELIKA<MARIA",
+          "fnt": "STRAUSS"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "mars adventurer (unusual name)",
+      "actHolderA": {
+        "nam": {
+          "gnt": "X Æ A-12",
+          "fnt": "ROCKET"
+        },
+        "dob": "2010-01-01"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "ROCKET",
+          "fnt": "X Æ A-12"
+        },
+        "dob": "2010-01-01"
+      },
+      "expIsSameHolder": true
+    },
+    {
+      "description": "match if partly swaped",
+      "actHolderA": {
+        "nam": {
+          "gnt": "ERIKA<MARIA",
+          "fnt": "MUSTERMANN"
+        },
+        "dob": "1980-02-03"
+      },
+      "actHolderB": {
+        "nam": {
+          "gnt": "MUSTERMANN<MARIA",
+          "fnt": "ERIKA"
+        },
+        "dob": "1980-02-03"
+      },
+      "expIsSameHolder": true
+    }
+  ]
+}

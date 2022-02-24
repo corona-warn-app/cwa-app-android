@@ -91,10 +91,13 @@ data class RecoveryCertificateContainer(
 
             override val firstName: String?
                 get() = certificate.nameData.firstName
+
             override val lastName: String
                 get() = certificate.nameData.lastName
+
             override val fullName: String
                 get() = certificate.nameData.fullName
+
             override val fullNameFormatted: String
                 get() = certificate.nameData.fullNameFormatted
 
