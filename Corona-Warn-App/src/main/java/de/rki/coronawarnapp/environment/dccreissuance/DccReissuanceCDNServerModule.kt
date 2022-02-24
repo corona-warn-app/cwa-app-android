@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.environment.BaseEnvironmentModule
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module

@@ -12,7 +12,7 @@ class DccReissuanceException(
     cause: Throwable? = null
 ) : Exception(errorCode.message, cause), HasHumanReadableError {
 
-    //TODO: W8 for tech spec updates
+    // TODO: W8 for tech spec updates
     enum class TextKey {
         TBD,
         CLIENT_ERROR,
@@ -62,7 +62,7 @@ class DccReissuanceException(
         )
     }
 
-    //TODO: Added error messages
+    // TODO: Added error messages
     val errorMessage: LazyString
         get() = when (errorCode.textKey) {
             TextKey.TBD,

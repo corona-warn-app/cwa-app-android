@@ -10,7 +10,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import javax.inject.Qualifier
 
 @Module
 object DccReissuanceServerModule {
@@ -23,7 +22,7 @@ object DccReissuanceServerModule {
     ): DccReissuanceApi {
         val client = defaultClient.newBuilder()
             .apply {
-                //Remove http error parser for custom error handling
+                // Remove http error parser for custom error handling
                 interceptors()
                     .removeAll { it is HttpErrorParser }
                     .also { Timber.tag(TAG).d("Removed %s? %b", tag<HttpErrorParser>(), it) }
