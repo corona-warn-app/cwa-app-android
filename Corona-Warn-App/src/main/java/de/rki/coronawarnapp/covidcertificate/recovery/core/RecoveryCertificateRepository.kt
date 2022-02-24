@@ -279,7 +279,15 @@ class RecoveryCertificateRepository @Inject constructor(
         certificateToReplace: RecoveryCertificateContainerId,
         newCertificateQrCode: RecoveryCertificateQRCode
     ) {
-        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+        val newContainer = newCertificateQrCode.toContainer()
+        internalData.updateBlocking {
+            if (any { it.qrCodeHash == newContainer.qrCodeHash }) {
+                throw InvalidRecoveryCertificateException(
+                    InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
+                )
+            }
+            plus(newContainer).mapNotNull { if (it.containerId == certificateToReplace) null else it }.toSet()
+        }
     }
 
     companion object {

@@ -535,7 +535,30 @@ class TestCertificateRepository @Inject constructor(
         certificateToReplace: TestCertificateContainerId,
         newCertificateQrCode: TestCertificateQRCode
     ) {
-        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+        internalData.updateBlocking {
+
+            val nowUtc = timeStamper.nowUTC
+
+            val data = GenericTestCertificateData(
+                identifier = UUID.randomUUID().toString(),
+                registeredAt = nowUtc,
+                certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
+                testCertificateQrCode = newCertificateQrCode.qrCode,
+                certificateSeenByUser = false // Just scanned, Should show badge
+            )
+            val container = TestCertificateContainer(
+                data = data,
+                qrCodeExtractor = qrCodeExtractor,
+            )
+            Timber.tag(TAG).d("Adding test certificate entry: %s", container)
+            mutate {
+                // recylce old
+                remove(certificateToReplace)
+                // add new
+                this[container.containerId] = container
+            }
+
+        }
     }
 
     private fun updateLastSeenStateData(
