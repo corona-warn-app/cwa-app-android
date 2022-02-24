@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.dccreissuance.ui.consent
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import de.rki.coronawarnapp.R
@@ -20,7 +21,7 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    val itemView = LayoutInflater.from(context).inflate(R.layout.dcc_reissuance_card, this, true)
+    val itemView: View = LayoutInflater.from(context).inflate(R.layout.dcc_reissuance_card, this, true)
 
     val viewBinding: Lazy<DccReissuanceCardBinding> = lazy {
         DccReissuanceCardBinding.bind(itemView)
@@ -39,14 +40,14 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
 
                     val certificateDate = context.getString(
                         R.string.vaccination_certificate_vaccinated_on,
-                        value.vaccination.vaccinatedOn.toShortDayFormat()
+                        value.vaccination.vaccinatedOn?.toShortDayFormat() ?: value.vaccination.dt
                     )
                     setVaccination("$fullName\n$vaccinationDosesInfo\n$certificateDate")
                 }
                 is RecoveryDccV1 -> {
                     val info = context.getString(
                         R.string.recovery_certificate_valid_until,
-                        value.recovery.validUntil.toShortDayFormat()
+                        value.recovery.validUntil?.toShortDayFormat() ?: value.recovery.du
                     )
                     setRecovery("$fullName\n$info")
                 }
@@ -62,7 +63,7 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
 
                     val info = context.getString(
                         R.string.test_certificate_sampled_on,
-                        value.test.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
+                        value.test.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: value.test.sc
                     )
                     setTest(headerRes, "$fullName\n$info")
                 }
@@ -95,8 +96,10 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
         }
         viewBinding.value.dccReissuanceBody.text = body
     }
-}
 
-private const val vaccinationIcon = R.drawable.ic_vaccination_immune
-private const val recoveryIcon = R.drawable.ic_recovery_certificate
-private const val testIcon = R.drawable.ic_test_certificate
+    companion object {
+        private const val vaccinationIcon = R.drawable.ic_vaccination_immune
+        private const val recoveryIcon = R.drawable.ic_recovery_certificate
+        private const val testIcon = R.drawable.ic_test_certificate
+    }
+}
