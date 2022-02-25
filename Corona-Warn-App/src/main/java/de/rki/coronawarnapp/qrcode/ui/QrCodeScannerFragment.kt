@@ -148,8 +148,14 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         false -> requestCameraPermission()
     }
 
-    private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
-        viewModel.onParseResult(parseResult = parseResult)
+    private fun startDecode() {
+        runCatching {
+            binding.scannerPreview.decodeSingle { parseResult ->
+                viewModel.onParseResult(parseResult = parseResult)
+            }
+        }.onFailure {
+            Timber.tag(TAG).d(it, "startDecode() failed")
+        }
     }
 
     private fun showCameraPermissionDeniedDialog() {
