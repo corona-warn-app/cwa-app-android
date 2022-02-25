@@ -78,6 +78,15 @@ class PersonCertificatesProvider @Inject constructor(
 
     val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
 
+    /**
+     * Find specific person by [CertificatePersonIdentifier.codeSHA256]
+     * @param personIdentifierCode [String]
+     */
+    fun findPersonByIdentifierCode(personIdentifierCode: String): Flow<PersonCertificates?> =
+        personCertificates.map { persons ->
+            persons.find { it.personIdentifier?.codeSHA256 == personIdentifierCode }
+        }
+
     private fun Set<VaccinatedPerson>.hasBoosterBadge(
         personIdentifier: CertificatePersonIdentifier,
         boosterNotification: BoosterNotification?
