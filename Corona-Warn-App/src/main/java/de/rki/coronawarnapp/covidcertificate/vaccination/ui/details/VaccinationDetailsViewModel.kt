@@ -6,7 +6,6 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
@@ -47,17 +46,6 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
     fun onClose() = events.postValue(VaccinationDetailsNavigation.Back)
 
     fun openFullScreen() = qrCode?.let { events.postValue(VaccinationDetailsNavigation.FullQrCode(it)) }
-
-    private fun findVaccinationDetails(
-        vaccinatedPersons: Set<VaccinatedPerson>
-    ): VaccinationDetails {
-        val person = vaccinatedPersons.find { p ->
-            p.vaccinationContainers.any { it.containerId == containerId }
-        }
-
-        val certificate = person?.vaccinationCertificates?.find { it.containerId == containerId }
-        return VaccinationDetails(certificate = certificate)
-    }
 
     fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")

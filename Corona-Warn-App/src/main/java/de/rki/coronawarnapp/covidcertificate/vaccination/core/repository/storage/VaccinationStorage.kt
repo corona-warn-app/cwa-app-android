@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +18,6 @@ import javax.inject.Singleton
 class VaccinationStorage @Inject constructor(
     @AppContext val context: Context,
     @BaseGson val baseGson: Gson,
-    private val containerPostProcessor: ContainerPostProcessor,
 ) {
     private val mutex = Mutex()
     private val prefs by lazy {
@@ -29,7 +27,6 @@ class VaccinationStorage @Inject constructor(
     private val gson by lazy {
         // Allow for custom type adapter.
         baseGson.newBuilder().apply {
-            registerTypeAdapterFactory(containerPostProcessor)
             registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
         }.create()
     }
@@ -63,31 +60,19 @@ class VaccinationStorage @Inject constructor(
                 return@mapNotNull null
             }
             value as String
-            gson.fromJson<VaccinatedPersonData>(value).also { personData ->
-                Timber.tag(TAG).v("Person loaded: %s", personData.identifier)
-                requireNotNull(personData.identifier)
+            gson.fromJson<VaccinatedPersonData>(value).also { _ ->
+                Timber.tag(TAG).v("Person loaded: %s", key)
             }
         }
-        return persons.toSet().groupDataByIdentifier()
+        return persons.toSet()
     }
 
-    // Legacy implementation
-    suspend fun save(persons: Set<VaccinatedPersonData>) = mutex.withLock {
-        Timber.tag(TAG).d("save(%s)", persons.size)
-
+    suspend fun clearLegacyData() = mutex.withLock {
+        Timber.tag(TAG).d("saveLegacyData()")
         prefs.edit(commit = true) {
             prefs.all.keys.filter { it.startsWith(PKEY_PERSON_PREFIX) }.forEach {
                 Timber.tag(TAG).v("Removing data for %s", it)
                 remove(it)
-            }
-            persons.forEach {
-                if (it.vaccinations.isNotEmpty()) {
-                    val raw = gson.toJson(it)
-                    val identifier = it.identifier
-                    Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, it.vaccinations.size)
-                    putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
-                    // TODO: migration should be implemented in (EXPOSUREAPP-11724)
-                }
             }
         }
     }
@@ -99,21 +84,3 @@ class VaccinationStorage @Inject constructor(
         private val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }
 }
-
-// TODO: this could be removed
-internal fun Set<VaccinatedPersonData>.groupDataByIdentifier(): Set<VaccinatedPersonData> =
-    filterNot { it.vaccinations.isNullOrEmpty() }
-        .groupBy { it.identifier }
-        .mapNotNull { entry ->
-            val personDataList = entry.value
-            if (personDataList.isEmpty()) {
-                Timber.v("Person data list was empty, returning early")
-                return@mapNotNull null
-            }
-
-            val newestData = personDataList.maxByOrNull {
-                it.lastBoosterNotifiedAt ?: Instant.EPOCH
-            }
-            val vaccinations = personDataList.flatMap { it.vaccinations }.toSet()
-            newestData?.copy(vaccinations = vaccinations)
-        }.toSet()

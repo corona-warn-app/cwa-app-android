@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.ContainerPostProcessor
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

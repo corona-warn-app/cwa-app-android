@@ -25,7 +25,6 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
 
-// TODO: create VaccinationCertificateData, and wrap it into this containter
 
 data class VaccinationContainer(
     internal val data: StoredVaccinationCertificateData,

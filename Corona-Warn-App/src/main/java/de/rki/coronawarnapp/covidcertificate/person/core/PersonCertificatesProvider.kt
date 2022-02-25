@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateReissuance
@@ -10,7 +9,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.SingleText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
 import de.rki.coronawarnapp.util.dcc.groupByPerson
@@ -113,25 +111,6 @@ class PersonCertificatesProvider @Inject constructor(
 
     val personsBadgeCount: Flow<Int> = personCertificates
         .map { persons -> persons.sumOf { it.badgeCount } }
-
-    private fun Set<VaccinatedPerson>.boosterBadgeCount(
-        personIdentifier: CertificatePersonIdentifier,
-        boosterNotification: BoosterNotification?
-    ): Int {
-        if (boosterNotification == null) {
-            return 0
-        }
-        val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
-        return when (hasBoosterRuleNotYetSeen(vaccinatedPerson, boosterNotification)) {
-            true -> 1
-            else -> 0
-        }
-    }
-
-    private fun hasBoosterRuleNotYetSeen(
-        vaccinatedPerson: VaccinatedPerson?,
-        boosterNotification: BoosterNotification
-    ) = vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
 
     companion object {
         private val TAG = PersonCertificatesProvider::class.simpleName!!

@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWr
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
