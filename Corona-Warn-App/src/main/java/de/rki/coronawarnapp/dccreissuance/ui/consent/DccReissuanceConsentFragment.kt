@@ -19,7 +19,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         constructorCall = { factory, _ ->
             factory as DccReissuanceConsentViewModel.Factory
             factory.create(
-                personIdentifierCode = args.personCode,
+                personIdentifierCode = args.personIdentifierCode,
             )
         }
     )
