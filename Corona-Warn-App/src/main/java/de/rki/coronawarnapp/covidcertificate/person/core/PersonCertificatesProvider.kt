@@ -37,7 +37,7 @@ class PersonCertificatesProvider @Inject constructor(
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
-        if (groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
+        if (cwaUser != null && groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
             personCertificatesSettings.removeCurrentCwaUser()
         }
