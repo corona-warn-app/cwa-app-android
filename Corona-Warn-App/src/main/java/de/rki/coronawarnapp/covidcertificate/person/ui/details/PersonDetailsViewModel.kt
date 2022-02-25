@@ -94,7 +94,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                         CertificateReissuanceCard.Item(
                             title = format(division.titleText),
                             subtitle = format(division.subtitleText),
-                            badgeVisible = personCertificates.hasDccReissuance,
+                            badgeVisible = personCertificates.hasDccReissuanceBadge,
                             onClick = { events.postValue(OpenCertificateReissuanceConsent(personIdentifierCode)) }
                         )
                     )
@@ -107,7 +107,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
                         BoosterCard.Item(
                             title = format(boosterNotification.titleText),
                             subtitle = format(boosterNotification.subtitleText),
-                            badgeVisible = personCertificates.hasBooster,
+                            badgeVisible = personCertificates.hasBoosterBadge,
                             onClick = { events.postValue(OpenBoosterInfoDetails(personIdentifierCode)) }
                         )
                     )

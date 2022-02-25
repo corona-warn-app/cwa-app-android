@@ -60,8 +60,8 @@ class PersonCertificatesProvider @Inject constructor(
                 isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
                 badgeCount = badgeCount,
                 dccWalletInfo = dccWalletInfo,
-                hasBooster = hasBooster,
-                hasDccReissuance = hasDccReissuance
+                hasBoosterBadge = hasBooster,
+                hasDccReissuanceBadge = hasDccReissuance
             )
         }.toSet()
     }.shareLatest(scope = appScope)

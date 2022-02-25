@@ -10,8 +10,8 @@ data class PersonCertificates(
     val isCwaUser: Boolean = false,
     val badgeCount: Int = 0,
     val dccWalletInfo: DccWalletInfo? = null,
-    val hasBooster: Boolean = false,
-    val hasDccReissuance: Boolean = false,
+    val hasBoosterBadge: Boolean = false,
+    val hasDccReissuanceBadge: Boolean = false,
 ) {
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier
