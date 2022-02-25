@@ -158,7 +158,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set dcc reissuance for a person has not settings`() {
+    fun `set dcc reissuance for a person has not settings`() = runBlockingTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -174,6 +174,13 @@ class PersonCertificatesStorageTest : BaseTest() {
                 }
             """.trimIndent()
                 .toComparableJsonPretty()
+
+            personsSettings.first() shouldBe mapOf(
+                personIdentifier1 to PersonSettings(
+                    showDccReissuanceBadge = true,
+                    lastDccReissuanceNotifiedAt = Instant.EPOCH
+                )
+            )
         }
     }
 
