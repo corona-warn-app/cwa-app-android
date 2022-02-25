@@ -10,8 +10,8 @@ class VaccinationMigration @Inject constructor(val vaccinationStorage: Vaccinati
 
     suspend fun doMigration() {
         Timber.d("Migration start")
-        val vaccinatedPersonData = vaccinationStorage.load()
-        vaccinationStorage.save2(vaccinatedPersonData.flatMap { it.vaccinations }.toSet())
+        val vaccinatedPersonData = vaccinationStorage.loadLegacyData()
+        vaccinationStorage.save(vaccinatedPersonData.flatMap { it.vaccinations }.toSet())
         vaccinationStorage.clearLegacyData()
     }
 }

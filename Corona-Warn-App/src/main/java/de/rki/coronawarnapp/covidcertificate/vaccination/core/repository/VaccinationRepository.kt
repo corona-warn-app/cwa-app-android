@@ -53,7 +53,7 @@ class VaccinationRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        storage.load2()
+        storage.load()
             .map {
                 VaccinationContainer(
                     data = it,
@@ -93,7 +93,7 @@ class VaccinationRepository @Inject constructor(
             .drop(1) // Initial emission, restored from storage.
             .onEach { certificates ->
                 Timber.tag(TAG).v("Vaccination data changed, %d items", certificates.size)
-                storage.save2(certificates.map { it.data }.toSet())
+                storage.save(certificates.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot vaccination data to storage.")

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -107,7 +106,7 @@ class VaccinationStorageTest : BaseTest() {
                 }
             """.toComparableJsonPretty()
 
-            instance.load().single().apply {
+            instance.loadLegacyData().single().apply {
                 this shouldBe personData
                 this.vaccinations shouldBe setOf(
                     testData.personAVac1Container,
@@ -162,7 +161,7 @@ class VaccinationStorageTest : BaseTest() {
                 }
             """.toComparableJsonPretty()
 
-            instance.load().single().apply {
+            instance.loadLegacyData().single().apply {
                 this shouldBe personData
                 this.vaccinations shouldBe setOf(
                     testData.personAVac1Container,
@@ -176,13 +175,13 @@ class VaccinationStorageTest : BaseTest() {
     fun `post processor injects data extractors`() = runBlockingTest {
         createInstance().save(setOf(testData.personAData2Vac))
 
-        createInstance().load().single().vaccinations.first().qrCodeExtractor shouldNotBe null
+        createInstance().loadLegacyData().single().vaccinations.first().qrCodeExtractor shouldNotBe null
     }
 
     @Test
     fun `data migration no changes`() = runBlockingTest {
         val instance = createInstance()
         instance.save(setOf(testData.personAData2Vac))
-        instance.load() shouldBe setOf(testData.personAData2Vac)
+        instance.loadLegacyData() shouldBe setOf(testData.personAData2Vac)
     }
 }

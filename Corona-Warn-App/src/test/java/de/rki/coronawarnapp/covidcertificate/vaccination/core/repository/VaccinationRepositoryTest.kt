@@ -25,7 +25,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
@@ -72,7 +71,7 @@ class VaccinationRepositoryTest : BaseTest() {
         every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
 
         storage.apply {
-            coEvery { load() } answers { testStorage }
+            coEvery { loadLegacyData() } answers { testStorage }
             coEvery { save(any()) } answers { testStorage = arg(0) }
         }
     }
@@ -248,7 +247,7 @@ class VaccinationRepositoryTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify {
-            storage.load()
+            storage.loadLegacyData()
             storage.save(any())
         }
     }
@@ -265,7 +264,7 @@ class VaccinationRepositoryTest : BaseTest() {
                 }
             )
         )
-        coEvery { storage.load() } returns setOf(storedVaccinatedPerson)
+        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
         val instance = createInstance(this)
 
         instance.setNotifiedState(
@@ -295,7 +294,7 @@ class VaccinationRepositoryTest : BaseTest() {
                 }
             )
         )
-        coEvery { storage.load() } returns setOf(storedVaccinatedPerson)
+        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
         val instance = createInstance(this)
 
         instance.setNotifiedState(
@@ -325,7 +324,7 @@ class VaccinationRepositoryTest : BaseTest() {
                 }
             )
         )
-        coEvery { storage.load() } returns setOf(storedVaccinatedPerson)
+        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
         val instance = createInstance(this)
 
         instance.setNotifiedState(
@@ -355,7 +354,7 @@ class VaccinationRepositoryTest : BaseTest() {
                 }
             )
         )
-        coEvery { storage.load() } returns setOf(storedVaccinatedPerson)
+        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
         val instance = createInstance(this)
 
         instance.setNotifiedState(
@@ -385,7 +384,7 @@ class VaccinationRepositoryTest : BaseTest() {
                 }
             )
         )
-        coEvery { storage.load() } returns setOf(storedVaccinatedPerson)
+        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
         val instance = createInstance(this)
 
         instance.setNotifiedState(
@@ -415,7 +414,7 @@ class VaccinationRepositoryTest : BaseTest() {
                 }
             )
         )
-        coEvery { storage.load() } returns setOf(storedVaccinatedPerson)
+        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
         val instance = createInstance(this)
 
         shouldThrow<UnsupportedOperationException> {

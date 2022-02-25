@@ -25,13 +25,12 @@ class VaccinationStorage @Inject constructor(
     }
 
     private val gson by lazy {
-        // Allow for custom type adapter.
         baseGson.newBuilder().apply {
             registerTypeAdapterFactory(CwaCovidCertificate.State.typeAdapter)
         }.create()
     }
 
-    suspend fun load2(): Set<StoredVaccinationCertificateData> = mutex.withLock {
+    suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
         return gson
             .fromJson<Set<StoredVaccinationCertificateData>>(
@@ -40,7 +39,7 @@ class VaccinationStorage @Inject constructor(
             )
     }
 
-    suspend fun save2(certificates: Set<StoredVaccinationCertificateData>) = mutex.withLock {
+    suspend fun save(certificates: Set<StoredVaccinationCertificateData>) = mutex.withLock {
         Timber.tag(TAG).d("save(%s)", certificates.size)
         prefs.edit(commit = true) {
             if (certificates.isEmpty()) {
@@ -52,8 +51,7 @@ class VaccinationStorage @Inject constructor(
         }
     }
 
-    // Legacy implementation
-    suspend fun load(): Set<VaccinatedPersonData> = mutex.withLock {
+    suspend fun loadLegacyData(): Set<VaccinatedPersonData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
         val persons = prefs.all.mapNotNull { (key, value) ->
             if (!key.startsWith(PKEY_PERSON_PREFIX)) {
