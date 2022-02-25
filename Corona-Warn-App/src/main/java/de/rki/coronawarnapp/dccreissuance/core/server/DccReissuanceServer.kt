@@ -66,6 +66,7 @@ class DccReissuanceServer @Inject constructor(
             401 -> ErrorCode.DCC_RI_401
             403 -> ErrorCode.DCC_RI_403
             406 -> ErrorCode.DCC_RI_406
+            429 -> ErrorCode.DCC_RI_429
             500 -> ErrorCode.DCC_RI_500
             in 400..499 -> ErrorCode.DCC_RI_CLIENT_ERR
             else -> ErrorCode.DCC_RI_SERVER_ERR
