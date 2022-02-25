@@ -1,7 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
-import androidx.annotation.Keep
-import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -10,11 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
-import de.rki.coronawarnapp.covidcertificate.common.qrcode.QrCodeString
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateRepoContainer
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
@@ -24,7 +19,6 @@ import kotlinx.coroutines.runBlocking
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import java.util.Locale
-
 
 data class VaccinationContainer(
     internal val data: StoredVaccinationCertificateData,
