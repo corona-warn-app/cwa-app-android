@@ -71,7 +71,7 @@ class PersonCertificatesProvider @Inject constructor(
      * After calling this [personCertificates] will emit new values.
      * Setting it to null deletes it.
      */
-    fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
+    suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.d("setCurrentCwaUser(personIdentifier=%s)", personIdentifier)
         personCertificatesSettings.setCurrentCwaUser(personIdentifier)
     }

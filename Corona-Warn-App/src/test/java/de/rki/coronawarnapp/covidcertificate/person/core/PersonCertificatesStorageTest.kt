@@ -10,13 +10,11 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
 import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 
@@ -45,9 +43,7 @@ class PersonCertificatesStorageTest : BaseTest() {
 
     private fun createInstance() = PersonCertificatesSettings(
         dataStore = fakeDataStore,
-        mapper = SerializationModule.jacksonBaseMapper,
-        appScope = TestCoroutineScope(),
-        dispatcherProvider = TestDispatcherProvider()
+        mapper = SerializationModule.jacksonBaseMapper
     )
 
     @Test
@@ -59,7 +55,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clearing deletes all data`() {
+    fun `clearing deletes all data`() = runBlockingTest {
         createInstance().apply {
             setCurrentCwaUser(personIdentifier1)
             setBoosterNotifiedAt(personIdentifier1)
@@ -117,7 +113,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set booster for a person has not settings`() {
+    fun `set booster for a person has not settings`() = runBlockingTest {
         createInstance().apply {
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -137,7 +133,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set booster for a person has settings`() {
+    fun `set booster for a person has settings`() = runBlockingTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -185,7 +181,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `set dcc reissuance for a person has settings`() {
+    fun `set dcc reissuance for a person has settings`() = runBlockingTest {
         createInstance().apply {
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -206,7 +202,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss dcc reissuance for a person has not settings`() {
+    fun `dismiss dcc reissuance for a person has not settings`() = runBlockingTest {
         createInstance().apply {
             dismissReissuanceBadge(personIdentifier1)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -226,7 +222,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `dismiss dcc reissuance for a person has settings`() {
+    fun `dismiss dcc reissuance for a person has settings`() = runBlockingTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -248,7 +244,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `acknowledge booster for a person has not settings`() {
+    fun `acknowledge booster for a person has not settings`() = runBlockingTest {
         createInstance().apply {
             acknowledgeBoosterRule(personIdentifier1, "BRN-123")
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -268,7 +264,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `acknowledge booster for a person has settings`() {
+    fun `acknowledge booster for a person has settings`() = runBlockingTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -291,7 +287,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clear booster for a person has settings`() {
+    fun `clear booster for a person has settings`() = runBlockingTest {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -313,7 +309,7 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
-    fun `clear booster for a person has not settings`() {
+    fun `clear booster for a person has not settings`() = runBlockingTest {
         createInstance().apply {
             clearBoosterRuleInfo(personIdentifier1)
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """

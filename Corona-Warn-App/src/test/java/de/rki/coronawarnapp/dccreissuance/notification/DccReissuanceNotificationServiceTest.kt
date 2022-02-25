@@ -6,12 +6,12 @@ import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSend
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -32,7 +32,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { personCertificatesSettings.setDccReissuanceNotifiedAt(any(), any()) } returns Job()
+        coEvery { personCertificatesSettings.setDccReissuanceNotifiedAt(any(), any()) } just Runs
         every { personNotificationSender.showNotification(any()) } just Runs
         every { dccWalletInfo.certificateReissuance } returns mockk()
     }
