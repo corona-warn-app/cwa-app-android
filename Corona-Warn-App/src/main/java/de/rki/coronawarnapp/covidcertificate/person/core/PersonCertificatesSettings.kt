@@ -43,18 +43,22 @@ class PersonCertificatesSettings @Inject constructor(
 
     val currentCwaUser: Flow<CertificatePersonIdentifier?> = dataStoreFlow
         .map { prefs ->
-            mapper.readValue<CertificatePersonIdentifier?>(prefs[CURRENT_PERSON_KEY].orEmpty())
-        }.catch {
-            Timber.tag(TAG).d(it, "currentCwaUser failed to parse")
-            emit(null)
+            try {
+                mapper.readValue(prefs[CURRENT_PERSON_KEY].orEmpty())
+            } catch (e: Exception) {
+                Timber.tag(TAG).d(e, "currentCwaUser failed to parse")
+                null
+            }
         }
 
     val personsSettings: Flow<Map<CertificatePersonIdentifier, PersonSettings>> = dataStoreFlow
         .map { prefs ->
-            mapper.readValue<SettingsMap>(prefs[PERSONS_SETTINGS_MAP].orEmpty()).settings
-        }.catch {
-            Timber.tag(TAG).d(it, "personsSettings failed to parse")
-            emit(emptyMap())
+            try {
+                mapper.readValue<SettingsMap>(prefs[PERSONS_SETTINGS_MAP].orEmpty()).settings
+            } catch (e: Exception) {
+                Timber.tag(TAG).d(e, "personsSettings failed to parse")
+                emptyMap()
+            }
         }
 
     fun setDccReissuanceNotifiedAt(
