@@ -34,7 +34,7 @@ class DccReissuanceServer @Inject constructor(
     suspend fun requestDccReissuance(
         action: String,
         certificates: List<String>
-    ): List<DccReissuanceResponse> = withContext(dispatcherProvider.IO) {
+    ): DccReissuanceResponse = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).d("requestDccReissuance(action=%s, certificates=%s)", action, certificates)
         try {
             val dccReissuanceRequestBody = DccReissuanceRequestBody(action = action, certificates = certificates)
@@ -73,7 +73,7 @@ class DccReissuanceServer @Inject constructor(
         }.also { throw DccReissuanceException(errorCode = it) }
     }
 
-    private suspend fun Response<ResponseBody>.parseAndValidate(): List<DccReissuanceResponse> {
+    private suspend fun Response<ResponseBody>.parseAndValidate(): DccReissuanceResponse {
         Timber.tag(TAG).d("Parse and validate response=%s", this)
         throwIfFailed()
 
@@ -82,7 +82,8 @@ class DccReissuanceServer @Inject constructor(
 
         return try {
             val body = checkNotNull(body()) { "Response body was null" }
-            body.charStream().use { gson.fromJson(it) }
+            val dccReissuances: List<DccReissuanceResponse.DccReissuance> = body.charStream().use { gson.fromJson(it) }
+            DccReissuanceResponse(dccReissuances = dccReissuances)
         } catch (e: Exception) {
             throw DccReissuanceException(errorCode = ErrorCode.DCC_RI_PARSE_ERR, cause = e)
         }
