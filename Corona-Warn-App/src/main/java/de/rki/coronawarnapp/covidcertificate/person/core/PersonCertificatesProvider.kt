@@ -50,7 +50,7 @@ class PersonCertificatesProvider @Inject constructor(
                 personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo
 
             // TODO: booster badge & vaccination repository should be updated in (EXPOSUREAPP-11724)
-            val hasBooster = vaccPersons.boosterBadgeCount(firstPersonIdentifier, dccWalletInfo?.boosterNotification)
+            val hasBooster = vaccPersons.hasBoosterBadge(firstPersonIdentifier, dccWalletInfo?.boosterNotification)
             val hasDccReissuance = personSettings[firstPersonIdentifier]?.showDccReissuanceBadge ?: false
             val badgeCount = certs.count { it.hasNotificationBadge } + hasBooster.toInt() + hasDccReissuance.toInt()
             Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
@@ -78,7 +78,7 @@ class PersonCertificatesProvider @Inject constructor(
 
     val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
 
-    private fun Set<VaccinatedPerson>.boosterBadgeCount(
+    private fun Set<VaccinatedPerson>.hasBoosterBadge(
         personIdentifier: CertificatePersonIdentifier,
         boosterNotification: BoosterNotification?
     ): Boolean {
