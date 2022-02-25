@@ -12,7 +12,6 @@ class DccReissuanceException(
     cause: Throwable? = null
 ) : Exception(errorCode.message, cause), HasHumanReadableError {
 
-    //TODO: W8 for tech spec updates
     enum class TextKey {
         CONTACT_SUPPORT,
         NO_NETWORK,
@@ -67,13 +66,12 @@ class DccReissuanceException(
         )
     }
 
-    //TODO: Added error messages
     val errorMessage: LazyString
         get() = when (errorCode.textKey) {
-            TextKey.CONTACT_SUPPORT -> R.string.errors_generic_text_unknown_error_cause
-            TextKey.NO_NETWORK -> R.string.errors_generic_text_unknown_error_cause
-            TextKey.TRY_AGAIN -> R.string.errors_generic_text_unknown_error_cause
-            TextKey.REISSUANCE_NOT_SUPPORTED -> R.string.errors_generic_text_unknown_error_cause
+            TextKey.CONTACT_SUPPORT -> R.string.dcc_reissuance_error_handling_text_key_contact_support
+            TextKey.NO_NETWORK -> R.string.dcc_reissuance_error_handling_text_key_no_network
+            TextKey.TRY_AGAIN -> R.string.dcc_reissuance_error_handling_text_key_try_again
+            TextKey.REISSUANCE_NOT_SUPPORTED -> R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported
         }.toResolvingString()
 
     override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
