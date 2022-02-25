@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.dccreissuance.core.server
 
 import com.google.gson.Gson
 import dagger.Lazy
-import de.rki.coronawarnapp.dccreissuance.core.common.DccReissuanceException
-import de.rki.coronawarnapp.dccreissuance.core.common.DccReissuanceException.ErrorCode
+import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
+import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.ErrorCode
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.validation.DccReissuanceServerCertificateValidator

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccreissuance.core.common
+package de.rki.coronawarnapp.dccreissuance.core.error
 
 import android.content.Context
 import de.rki.coronawarnapp.R
