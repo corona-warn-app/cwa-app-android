@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.util.preferences
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
@@ -50,6 +51,19 @@ class FlowPreference<T> constructor(
     }
 
     companion object {
+        inline fun <reified T> jacksonReader(
+            mapper: ObjectMapper,
+            defaultValue: T,
+        ): SharedPreferences.(key: String) -> T = { key ->
+            getString(key, null)?.let { mapper.readValue(it, T::class.java) } ?: defaultValue
+        }
+
+        inline fun <reified T> jacksonWriter(
+            mapper: ObjectMapper,
+        ): SharedPreferences.Editor.(key: String, value: T) -> Unit = { key, value ->
+            putString(key, value?.let { mapper.writeValueAsString(it) })
+        }
+
         inline fun <reified T> gsonReader(
             gson: Gson,
             defaultValue: T,

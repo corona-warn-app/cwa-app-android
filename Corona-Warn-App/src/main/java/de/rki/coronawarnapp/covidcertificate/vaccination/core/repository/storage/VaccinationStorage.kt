@@ -62,6 +62,7 @@ class VaccinationStorage @Inject constructor(
                     val identifier = it.identifier
                     Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, it.vaccinations.size)
                     putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                    // TODO: migration should be implemented in (EXPOSUREAPP-11724)
                 }
             }
         }
