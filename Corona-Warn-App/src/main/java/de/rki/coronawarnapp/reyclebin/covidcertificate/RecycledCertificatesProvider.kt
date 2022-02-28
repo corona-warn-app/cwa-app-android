@@ -51,6 +51,15 @@ class RecycledCertificatesProvider @Inject constructor(
         return recycledCertificates.first().find { it.qrCodeToDisplay.content == dccRawQrCode }?.containerId
     }
 
+    suspend fun recycleCertificate(containerId: CertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=%s)", containerId)
+        when (containerId) {
+            is VaccinationCertificateContainerId -> vaccinationRepository.recycleCertificate(containerId)
+            is RecoveryCertificateContainerId -> recoveryCertificateRepository.recycleCertificate(containerId)
+            is TestCertificateContainerId -> testCertificateRepository.recycleCertificate(containerId)
+        }
+    }
+
     suspend fun restoreCertificate(containerId: CertificateContainerId) {
         Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
         when (containerId) {

@@ -36,6 +36,7 @@ class DebugOptionsFragmentViewModelTest : BaseTestInstrumentation() {
         every { environmentSetup.crowdNotifierPublicKey } returns "crowdNotifierPublicKey"
         every { environmentSetup.appConfigPublicKey } returns "appConfigPublicKey"
         every { environmentSetup.dccServerUrl } returns "dccServerUrl"
+        every { environmentSetup.dccReissuanceServerUrl } returns "dccReissuanceServerUrl"
 
         every { environmentSetup.currentEnvironment = any() } answers { currentEnvironment = arg(0) }
         every { environmentSetup.currentEnvironment } answers { currentEnvironment }

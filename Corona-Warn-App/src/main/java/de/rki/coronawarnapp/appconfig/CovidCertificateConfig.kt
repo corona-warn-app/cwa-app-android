@@ -12,6 +12,8 @@ interface CovidCertificateConfig {
 
     val blockListParameters: List<BlockedChunk>
 
+    val reissueServicePublicKeyDigest: ByteString
+
     interface TestCertificate {
         val waitAfterPublicKeyRegistration: Duration
         val waitForRetry: Duration
