@@ -54,8 +54,10 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
             val response = reissuanceProcessor.requestDccReissuance(dccReissuanceDescriptor)
             dccSwapper.swap(response, dccReissuanceDescriptor.certificateToReissue)
         }.onFailure { e ->
+            Timber.d(e, "startReissuance() failed")
             event.postValue(ReissuanceError(e))
         }.onSuccess {
+            Timber.d("startReissuance() succeeded")
             event.postValue(ReissuanceSuccess)
         }
     }
