@@ -33,7 +33,7 @@ class VaccinationStorage @Inject constructor(
     suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
         return gson
-            .fromJson<Set<StoredVaccinationCertificateData>>(
+            .fromJson(
                 prefs.getString(PKEY_VACCINATION_CERT, null) ?: return emptySet(),
                 TYPE_TOKEN
             )
@@ -52,7 +52,7 @@ class VaccinationStorage @Inject constructor(
     }
 
     suspend fun loadLegacyData(): Set<VaccinatedPersonData> = mutex.withLock {
-        Timber.tag(TAG).d("load()")
+        Timber.tag(TAG).d("loadLegacyData()")
         val persons = prefs.all.mapNotNull { (key, value) ->
             if (!key.startsWith(PKEY_PERSON_PREFIX)) {
                 return@mapNotNull null
@@ -66,7 +66,7 @@ class VaccinationStorage @Inject constructor(
     }
 
     suspend fun clearLegacyData() = mutex.withLock {
-        Timber.tag(TAG).d("saveLegacyData()")
+        Timber.tag(TAG).d("clearLegacyData()")
         prefs.edit(commit = true) {
             prefs.all.keys.filter { it.startsWith(PKEY_PERSON_PREFIX) }.forEach {
                 Timber.tag(TAG).v("Removing data for %s", it)

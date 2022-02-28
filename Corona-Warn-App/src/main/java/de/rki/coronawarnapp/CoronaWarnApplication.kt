@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultSched
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -55,7 +54,6 @@ import de.rki.coronawarnapp.util.hasAPILevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -96,7 +94,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var imageLoaderFactory: ImageLoaderFactory
     @Inject lateinit var dccStateCheckScheduler: DccStateCheckScheduler
     @Inject lateinit var securityProvider: SecurityProvider
-    @Inject lateinit var vaccinationMigration: VaccinationMigration
     @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @Inject lateinit var vaccinationStorage: VaccinationStorage
     @Inject lateinit var cclConfigurationUpdaterScheduler: CclConfigurationUpdateScheduler
@@ -121,10 +118,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
 
             Timber.v("Completing application injection")
             compPreview.inject(this)
-        }
-
-        appScope.launch {
-            vaccinationMigration.doMigration()
         }
 
         Timber.plant(rollingLogHistory)

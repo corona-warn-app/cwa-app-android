@@ -10,8 +10,16 @@ class VaccinationMigration @Inject constructor(val vaccinationStorage: Vaccinati
 
     suspend fun doMigration() {
         Timber.d("Migration start")
-        val vaccinatedPersonData = vaccinationStorage.loadLegacyData()
-        vaccinationStorage.save(vaccinatedPersonData.flatMap { it.vaccinations }.toSet())
-        vaccinationStorage.clearLegacyData()
+        try {
+            val vaccinatedPersonData = vaccinationStorage.loadLegacyData()
+            if (vaccinatedPersonData.isNotEmpty()) {
+                Timber.d("Migrating %d vaccination certificates", vaccinatedPersonData.size)
+                vaccinationStorage.save(vaccinatedPersonData.flatMap { it.vaccinations }.toSet())
+                vaccinationStorage.clearLegacyData()
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Can't migrate vaccination certificates")
+        }
+        Timber.d("Migration end")
     }
 }
