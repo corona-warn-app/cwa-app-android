@@ -76,8 +76,12 @@ class CovidCertificateConfigMapperTest : BaseTest() {
         }.cause should beInstanceOf(IllegalStateException::class)
     }
 
+    /*
+    disable temporary
+
     @Test
     fun `throws if reissueServicePublicKeyDigest is empty`() {
+
         val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.newBuilder()
             .setDgcParameters(DgcParameters.DGCParameters.getDefaultInstance())
             .build()
@@ -88,6 +92,8 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             createInstance().map(rawConfig = rawConfig)
         }.cause should beInstanceOf(IllegalStateException::class)
     }
+
+     */
 
     @Test
     fun `defaults are returned if test certificate parameters are missing`() {
