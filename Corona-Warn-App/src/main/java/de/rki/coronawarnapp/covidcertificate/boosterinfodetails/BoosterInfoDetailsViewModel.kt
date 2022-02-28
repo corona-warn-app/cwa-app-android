@@ -5,7 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -17,9 +17,9 @@ import timber.log.Timber
 class BoosterInfoDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
-    private val vaccinationRepository: VaccinationRepository,
     @Assisted private val personIdentifierCode: String,
     private val format: CclTextFormatter,
+    private val personCertificatesSettings: PersonCertificatesSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
     val shouldClose = SingleLiveEvent<Unit>()
@@ -28,8 +28,8 @@ class BoosterInfoDetailsViewModel @AssistedInject constructor(
         personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode).map { person ->
             val boosterNotification = person!!.dccWalletInfo!!.boosterNotification
             boosterNotification.identifier?.let { id ->
-                vaccinationRepository.acknowledgeBoosterRule(
-                    personIdentifierCode = personIdentifierCode,
+                personCertificatesSettings.acknowledgeBoosterRule(
+                    personIdentifier = person.personIdentifier!!,
                     boosterIdentifier = id
                 )
             }

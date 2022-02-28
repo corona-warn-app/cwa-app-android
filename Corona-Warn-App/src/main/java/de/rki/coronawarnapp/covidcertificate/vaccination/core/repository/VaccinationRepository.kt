@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -235,30 +234,6 @@ class VaccinationRepository @Inject constructor(
                 }
             )
         }
-    }
-
-    suspend fun acknowledgeBoosterRule(personIdentifierCode: String, boosterIdentifier: String) {
-        Timber.tag(TAG).d("acknowledgeBoosterRule(personIdentifierCode=%s)", personIdentifierCode)
-
-        // TODO:
-    }
-
-    suspend fun clearBoosterRuleInfo(
-        personIdentifier: CertificatePersonIdentifier
-    ) {
-        Timber.tag(TAG)
-            .d("clearBoosterRuleInfo(personIdentifier=%s)", personIdentifier)
-
-        // TODO:
-    }
-
-    suspend fun updateBoosterNotifiedAt(
-        personIdentifier: CertificatePersonIdentifier,
-        time: Instant
-    ) {
-        Timber.tag(TAG).d("updateBoosterNotifiedAt(personIdentifier=%s, time=%s)", personIdentifier.codeSHA256, time)
-
-        // TODO:
     }
 
     /**
