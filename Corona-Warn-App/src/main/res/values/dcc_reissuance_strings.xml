@@ -19,6 +19,6 @@
     <string name="dcc_reissuance_deletion_hint">Das alte Zertifikat wird automatisch in den Papierkorb geschoben und nach 30 Tagen gelöscht. Das Zertifikat kann innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Aktualisierung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
-    <!-- XTXT: DCC Reissuance faq link label-->
-    <string name="dcc_reissuance_faq">Mehr Informationen finden Sie in den FAQ.</string>
+    <!-- XTXT: DCC Reissuance error dialog try again-->
+    <string name="dcc_reissuance_try_again">Wiederholen</string>
 </resources>
