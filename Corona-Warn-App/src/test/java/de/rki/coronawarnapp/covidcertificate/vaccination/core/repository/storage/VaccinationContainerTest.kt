@@ -34,7 +34,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `person identifier calculation`() {
-        testData.personAVac1Container.personIdentifier shouldBe CertificatePersonIdentifier(
+        testData.personAVac11Container.personIdentifier shouldBe CertificatePersonIdentifier(
             dateOfBirthFormatted = "1966-11-11",
             firstNameStandardized = "ANDREAS",
             lastNameStandardized = "ASTRA<EINS"
@@ -43,7 +43,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `header decoding`() {
-        testData.personAVac1Container.header.apply {
+        testData.personAVac11Container.header.apply {
             issuer shouldBe "DE"
             issuedAt shouldBe Instant.parse("2021-05-11T09:25:00.000Z")
             expiresAt shouldBe Instant.parse("2022-05-11T09:25:00.000Z")
@@ -52,7 +52,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `full property decoding - 1 of 2`() {
-        testData.personAVac1Container.apply {
+        testData.personAVac11Container.apply {
             certificate shouldBe testData.personAVac1Certificate
             qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
         }
@@ -60,7 +60,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `full property decoding - 2 of 2`() {
-        testData.personAVac2Container.apply {
+        testData.personAVac11Container.apply {
             certificate shouldBe testData.personAVac2Certificate
             qrCodeHash shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
         }
@@ -68,7 +68,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `mapping to user facing data - valueset is null`() {
-        testData.personAVac1Container.toVaccinationCertificate(
+        testData.personAVac11Container.toVaccinationCertificate(
             valueSet = null,
             certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN
@@ -87,7 +87,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateCountry shouldBe "Deutschland"
             qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
             uniqueCertificateIdentifier shouldBe
-                testData.personAVac1Container.certificate.vaccination.uniqueCertificateIdentifier
+                testData.personAVac11Container.certificate.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
@@ -121,7 +121,7 @@ class VaccinationContainerTest : BaseTest() {
             ma = DefaultValueSet(items = listOf(maItem))
         )
 
-        testData.personAVac1Container.toVaccinationCertificate(
+        testData.personAVac11Container.toVaccinationCertificate(
             valueSet = vaccinationValueSets,
             certificateState = CwaCovidCertificate.State.Invalid(),
             userLocale = Locale.GERMAN,
@@ -140,7 +140,7 @@ class VaccinationContainerTest : BaseTest() {
             certificateCountry shouldBe "Deutschland"
             qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
             uniqueCertificateIdentifier shouldBe
-                testData.personAVac1Container.vaccination.uniqueCertificateIdentifier
+                testData.personAVac11Container.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
                 dateOfBirthFormatted = "1966-11-11",
                 firstNameStandardized = "ANDREAS",
@@ -164,10 +164,6 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `default parsing mode for containers is lenient`() {
-        val container = VaccinationContainer(
-            vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
-            scannedAt = Instant.EPOCH
-        )
         val extractor = mockk<DccQrCodeExtractor>().apply {
             coEvery {
                 extract(
@@ -178,7 +174,14 @@ class VaccinationContainerTest : BaseTest() {
                 every { data } returns mockk()
             }
         }
-        container.qrCodeExtractor = extractor
+
+        val container = VaccinationContainer(
+            data = StoredVaccinationCertificateData(
+                vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
+                scannedAt = Instant.EPOCH
+            ),
+            qrCodeExtractor = extractor
+        )
 
         container.certificateData shouldNotBe null
 

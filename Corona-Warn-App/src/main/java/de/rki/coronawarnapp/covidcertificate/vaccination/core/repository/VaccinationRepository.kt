@@ -90,7 +90,7 @@ class VaccinationRepository @Inject constructor(
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
-            .drop(1) // Initial emission, restored from storage.
+//            .drop(1) // Initial emission, restored from storage. // TODO: check what is better
             .onEach { certificates ->
                 Timber.tag(TAG).v("Vaccination data changed, %d items", certificates.size)
                 storage.save(certificates.map { it.data }.toSet())

@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotifica
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import timber.log.Timber
@@ -15,7 +14,6 @@ import javax.inject.Singleton
 @Singleton
 class BoosterNotificationService @Inject constructor(
     private val personNotificationSender: PersonNotificationSender,
-    private val vaccinationRepository: VaccinationRepository,
     private val timeStamper: TimeStamper,
     private val personCertificatesSettings: PersonCertificatesSettings,
 ) : DccWalletInfoNotificationService {

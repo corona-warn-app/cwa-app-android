@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import android.content.Context
 import androidx.core.content.edit
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
@@ -23,13 +22,10 @@ class TestCertificateStorageTest : BaseTest() {
     @MockK lateinit var context: Context
     private lateinit var mockPreferences: MockSharedPreferences
     @Inject lateinit var certificateTestData: TestCertificateTestData
-    @Inject lateinit var postProcessor: ContainerPostProcessor
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         mockPreferences = MockSharedPreferences()
 

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
-import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -15,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
+import de.rki.coronawarnapp.dccticketing.core.qrcode.toHash
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
@@ -25,6 +25,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
@@ -60,8 +61,6 @@ class VaccinationRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        DaggerCovidCertificateTestComponent.factory().create().inject(this)
-
         coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
 
         every { timeStamper.nowUTC } returns nowUTC
@@ -94,7 +93,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac1QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.personIdentifier
+            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.vaccinationQrCode.toSHA256()
         }
 
         advanceUntilIdle()
@@ -120,7 +119,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac2Container.personIdentifier
+            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.vaccinationQrCode.toSHA256()
         }
 
         testStorage.first() shouldBe dataAfter
@@ -175,13 +174,13 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
+        instance.certificates.first() shouldBe vaccinationTestData.personAData2Vac
 
         instance.clear()
         advanceUntilIdle()
 
         testStorage shouldBe emptySet()
-        instance.vaccinationInfos.first() shouldBe emptySet()
+        instance.certificates.first() shouldBe emptySet()
     }
 
     @Test
@@ -197,15 +196,15 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
+        instance.certificates.first() shouldBe vaccinationTestData.personAData2Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(toRemove.qrCodeHash)
+            VaccinationCertificateContainerId(toRemove.vaccinationQrCode)
         ) shouldBe vaccinationTestData.personAVac2Container
         advanceUntilIdle()
 
         testStorage shouldBe setOf(after)
-        instance.vaccinationInfos.first().single().data shouldBe after
+        instance.certificates.first().single() shouldBe after
     }
 
     @Test
@@ -215,10 +214,10 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personAData2Vac
+        instance.certificates.first().single() shouldBe vaccinationTestData.personAData2Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.qrCodeHash)
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.vaccinationQrCode)
         ) shouldBe null
     }
 
@@ -229,200 +228,26 @@ class VaccinationRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         advanceUntilIdle()
 
-        instance.vaccinationInfos.first().single().data shouldBe vaccinationTestData.personBData1Vac
+        instance.certificates.first().single() shouldBe vaccinationTestData.personBData1Vac
 
         instance.deleteCertificate(
-            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.qrCodeHash)
+            VaccinationCertificateContainerId(vaccinationTestData.personBVac1Container.vaccinationQrCode)
         )
         advanceUntilIdle()
 
-        instance.vaccinationInfos.first() shouldBe emptySet()
+        instance.certificates.first() shouldBe emptySet()
         testStorage shouldBe emptySet()
     }
 
     @Test
     fun `storage is not written on init`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
-        instance.vaccinationInfos.first()
+        instance.certificates.first()
         advanceUntilIdle()
 
         coVerify {
             storage.loadLegacyData()
             storage.save(any())
-        }
-    }
-
-    @Test
-    fun `setNotifiedState - Cert is not existing`() = runBlockingTest2(ignoreActive = true) {
-        val storedVaccinatedPerson = VaccinatedPersonData(
-            vaccinations = setOf(
-                VaccinationContainer(
-                    vaccinationQrCode = VaccinationTestData.Vac1QRCodeString,
-                    scannedAt = Instant.EPOCH
-                ).apply {
-                    qrCodeExtractor = dccQrCodeExtractor
-                }
-            )
-        )
-        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
-        val instance = createInstance(this)
-
-        instance.setNotifiedState(
-            VaccinationCertificateContainerId("Not there"),
-            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.vaccinationInfos.first().first()
-        firstCert.vaccinationCertificates.first().apply {
-            notifiedExpiresSoonAt shouldBe null
-            notifiedInvalidAt shouldBe null
-            notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
-        }
-    }
-
-    @Test
-    fun `setNotifiedState - ExpiringSoon`() = runBlockingTest2(ignoreActive = true) {
-        val storedVaccinatedPerson = VaccinatedPersonData(
-            vaccinations = setOf(
-                VaccinationContainer(
-                    vaccinationQrCode = VaccinationTestData.Vac1QRCodeString,
-                    scannedAt = Instant.EPOCH
-                ).apply {
-                    qrCodeExtractor = dccQrCodeExtractor
-                }
-            )
-        )
-        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
-        val instance = createInstance(this)
-
-        instance.setNotifiedState(
-            VaccinationCertificateContainerId(containerId),
-            CwaCovidCertificate.State.ExpiringSoon(Instant.EPOCH),
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.vaccinationInfos.first().first()
-        firstCert.vaccinationCertificates.first().apply {
-            notifiedInvalidAt shouldBe null
-            notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
-            notifiedExpiresSoonAt shouldBe Instant.EPOCH
-        }
-    }
-
-    @Test
-    fun `setNotifiedState - Expired`() = runBlockingTest2(ignoreActive = true) {
-        val storedVaccinatedPerson = VaccinatedPersonData(
-            vaccinations = setOf(
-                VaccinationContainer(
-                    vaccinationQrCode = VaccinationTestData.Vac1QRCodeString,
-                    scannedAt = Instant.EPOCH
-                ).apply {
-                    qrCodeExtractor = dccQrCodeExtractor
-                }
-            )
-        )
-        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
-        val instance = createInstance(this)
-
-        instance.setNotifiedState(
-            VaccinationCertificateContainerId(containerId),
-            CwaCovidCertificate.State.Expired(Instant.EPOCH),
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.vaccinationInfos.first().first()
-        firstCert.vaccinationCertificates.first().apply {
-            notifiedExpiresSoonAt shouldBe null
-            notifiedInvalidAt shouldBe null
-            notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe Instant.EPOCH
-        }
-    }
-
-    @Test
-    fun `setNotifiedState - Invalid`() = runBlockingTest2(ignoreActive = true) {
-        val storedVaccinatedPerson = VaccinatedPersonData(
-            vaccinations = setOf(
-                VaccinationContainer(
-                    vaccinationQrCode = VaccinationTestData.Vac1QRCodeString,
-                    scannedAt = Instant.EPOCH
-                ).apply {
-                    qrCodeExtractor = dccQrCodeExtractor
-                }
-            )
-        )
-        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
-        val instance = createInstance(this)
-
-        instance.setNotifiedState(
-            VaccinationCertificateContainerId(containerId),
-            CwaCovidCertificate.State.Invalid(),
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.vaccinationInfos.first().first()
-        firstCert.vaccinationCertificates.first().apply {
-            notifiedExpiresSoonAt shouldBe null
-            notifiedBlockedAt shouldBe null
-            notifiedExpiredAt shouldBe null
-            notifiedInvalidAt shouldBe Instant.EPOCH
-        }
-    }
-
-    @Test
-    fun `setNotifiedState - Blocked`() = runBlockingTest2(ignoreActive = true) {
-        val storedVaccinatedPerson = VaccinatedPersonData(
-            vaccinations = setOf(
-                VaccinationContainer(
-                    vaccinationQrCode = VaccinationTestData.Vac1QRCodeString,
-                    scannedAt = Instant.EPOCH
-                ).apply {
-                    qrCodeExtractor = dccQrCodeExtractor
-                }
-            )
-        )
-        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
-        val instance = createInstance(this)
-
-        instance.setNotifiedState(
-            VaccinationCertificateContainerId(containerId),
-            CwaCovidCertificate.State.Blocked,
-            Instant.EPOCH
-        )
-
-        val firstCert = instance.vaccinationInfos.first().first()
-        firstCert.vaccinationCertificates.first().apply {
-            notifiedExpiresSoonAt shouldBe null
-            notifiedInvalidAt shouldBe null
-            notifiedExpiredAt shouldBe null
-            notifiedBlockedAt shouldBe Instant.EPOCH
-        }
-    }
-
-    @Test
-    fun `setNotifiedState - Valid`() = runBlockingTest2(ignoreActive = true) {
-        val storedVaccinatedPerson = VaccinatedPersonData(
-            vaccinations = setOf(
-                VaccinationContainer(
-                    vaccinationQrCode = VaccinationTestData.Vac1QRCodeString,
-                    scannedAt = Instant.EPOCH
-                ).apply {
-                    qrCodeExtractor = dccQrCodeExtractor
-                }
-            )
-        )
-        coEvery { storage.loadLegacyData() } returns setOf(storedVaccinatedPerson)
-        val instance = createInstance(this)
-
-        shouldThrow<UnsupportedOperationException> {
-            instance.setNotifiedState(
-                VaccinationCertificateContainerId(containerId),
-                CwaCovidCertificate.State.Valid(Instant.EPOCH),
-                Instant.EPOCH
-            )
         }
     }
 }

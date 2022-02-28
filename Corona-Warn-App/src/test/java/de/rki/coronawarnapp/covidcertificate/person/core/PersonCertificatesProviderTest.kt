@@ -48,9 +48,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { hasNotificationBadge } returns false
         every { headerIssuedAt } returns Instant.EPOCH
     }
-    private val vaccinatedPersonA = mockk<VaccinatedPerson>().apply {
-        every { vaccinationCertificates } returns setOf(vaccinatedPersonACertificate1)
-    }
+
     private val testCertA = mockk<TestCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { sampleCollectedAt } returns Instant.EPOCH
@@ -78,11 +76,11 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val rcSet = setOf(recoveryCertA, recoveryCertB)
     private val tcSet = setOf(testCertA, testCertB)
-    private val vcInfoSet = setOf(vaccinatedPersonA)
-    private val vcSet = vcInfoSet.flatMap { it.vaccinationCertificates }.toSet()
+//    private val vcInfoSet = setOf(vaccinatedPersonA)
+    private val vcSet = setOf(vaccinatedPersonACertificate1)
 
     private val certificateContainer: CertificateProvider.CertificateContainer = mockk {
-        every { vaccinationInfos } returns vcInfoSet
+//        every { vaccinationInfos } returns vcInfoSet
         every { vaccinationCwaCertificates } returns vcSet
         every { testCwaCertificates } returns tcSet
         every { recoveryCwaCertificates } returns rcSet
@@ -121,7 +119,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         val emptyCertificateContainer = CertificateProvider.CertificateContainer(
             recoveryCertificates = emptySet(),
             testCertificates = emptySet(),
-            vaccinationInfos = emptySet()
+            vaccinationCertificates = emptySet()
         )
 
         certificateContainerFlow.value = emptyCertificateContainer
