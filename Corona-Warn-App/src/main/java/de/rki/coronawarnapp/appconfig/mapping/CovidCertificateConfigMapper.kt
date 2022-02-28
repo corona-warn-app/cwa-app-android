@@ -23,10 +23,15 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
             reissueServicePublicKeyDigest = rawConfig.dgcParameters.mapReissueServicePublicKeyDigest()
         )
     } catch (e: Exception) {
+        //TODO: temporary return an empty bytestring until we have a proper default config
+        CovidCertificateConfigContainer(reissueServicePublicKeyDigest = ByteString.EMPTY)
+        /*
         throw ApplicationConfigurationInvalidException(
             cause = e,
             message = "Failed to create 'CovidCertificateConfigContainer' from rawConfig=$rawConfig"
         )
+
+         */
     }
 
     private fun DgcParameters.DGCParameters.mapBlockList(): List<CovidCertificateConfig.BlockedChunk> {
@@ -82,7 +87,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         reissueServicePublicKeyDigest.toOkioByteString()
     } catch (e: Exception) {
         Timber.w(e, "Failed to map 'reissueServicePublicKeyDigest' from %s", this)
-        // TODO: temporary return an empty bytestring until we have a proper default config
+        //TODO: temporary return an empty bytestring until we have a proper default config
         ByteString.EMPTY
     }
 
