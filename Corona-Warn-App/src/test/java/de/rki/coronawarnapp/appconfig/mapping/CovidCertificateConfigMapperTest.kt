@@ -1,14 +1,10 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import com.google.protobuf.ByteString
-import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.DgcParameters
 import de.rki.coronawarnapp.util.toProtoByteString
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.beInstanceOf
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.junit.jupiter.api.Test
@@ -94,7 +90,6 @@ class CovidCertificateConfigMapperTest : BaseTest() {
     }
 
      */
-
 
     @Test
     fun `defaults are returned if test certificate parameters are missing`() {
