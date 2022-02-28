@@ -27,7 +27,7 @@ class RecoveryCertificateContainerTest : BaseTest() {
     fun `default parsing mode for containers is lenient`() {
         val container = RecoveryCertificateContainer(
             data = StoredRecoveryCertificateData(
-                recoveryCertificateQrCode = RecoveryQrCodeTestData.validRecovery
+                recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode2
             ),
             qrCodeExtractor = extractorSpy
         )
@@ -36,7 +36,7 @@ class RecoveryCertificateContainerTest : BaseTest() {
         container.personIdentifier shouldNotBe null
 
         coVerify {
-            extractorSpy.extract(RecoveryQrCodeTestData.validRecovery, DccV1Parser.Mode.CERT_REC_LENIENT)
+            extractorSpy.extract(RecoveryQrCodeTestData.recoveryQrCode2, DccV1Parser.Mode.CERT_REC_LENIENT)
         }
     }
 }
