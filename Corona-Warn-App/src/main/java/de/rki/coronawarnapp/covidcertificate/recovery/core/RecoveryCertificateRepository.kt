@@ -247,10 +247,14 @@ class RecoveryCertificateRepository @Inject constructor(
             }
 
             this.minus(toUpdate).plus(
-                toUpdate.copy(data = toUpdate.data.copy(recycledAt = timeStamper.nowUTC)).also {
-                    Timber.tag(TAG).d("recycleCertificate updated %s", it)
-                }
+                toUpdate.setRecycled()
             )
+        }
+    }
+
+    private fun RecoveryCertificateContainer.setRecycled(): RecoveryCertificateContainer {
+        return copy(data = data.copy(recycledAt = timeStamper.nowUTC)).also {
+            Timber.tag(TAG).d("recycleCertificate updated %s", it)
         }
     }
 
@@ -281,12 +285,11 @@ class RecoveryCertificateRepository @Inject constructor(
     ) {
         val newContainer = newCertificateQrCode.toContainer()
         internalData.updateBlocking {
-            if (any { it.qrCodeHash == newContainer.qrCodeHash }) {
-                throw InvalidRecoveryCertificateException(
-                    InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
-                )
-            }
-            plus(newContainer).mapNotNull { if (it.containerId == certificateToReplace) null else it }.toSet()
+            map {
+                // set old to recycled
+                if (it.containerId == certificateToReplace) it.setRecycled() else it
+            } // add new
+                .plus(newContainer).toSet()
         }
     }
 

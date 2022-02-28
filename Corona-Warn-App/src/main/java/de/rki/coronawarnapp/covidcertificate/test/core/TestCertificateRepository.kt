@@ -492,17 +492,21 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            if (current.isCertificateRetrievalPending) {
-                Timber.tag(TAG).w("recycleCertificate couldn't recycle pending TC %s", containerId)
-                return@updateBlocking this
-            }
-
-            val updated = current.copy(
-                data = updateRecycledAt(current.data, timeStamper.nowUTC)
-            )
+            val updated = current.setRecycled()
 
             mutate { this[containerId] = updated }
         }
+    }
+
+    private fun TestCertificateContainer.setRecycled(): TestCertificateContainer {
+        if (isCertificateRetrievalPending) {
+            Timber.tag(TAG).w("recycleCertificate couldn't recycle pending TC %s", containerId)
+            return this
+        }
+
+        return copy(
+            data = updateRecycledAt(data, timeStamper.nowUTC)
+        )
     }
 
     /**
@@ -537,8 +541,9 @@ class TestCertificateRepository @Inject constructor(
     ) {
         internalData.updateBlocking {
 
-            val nowUtc = timeStamper.nowUTC
+            val recycledCertificate = this[certificateToReplace]?.setRecycled()
 
+            val nowUtc = timeStamper.nowUTC
             val data = GenericTestCertificateData(
                 identifier = UUID.randomUUID().toString(),
                 registeredAt = nowUtc,
@@ -546,16 +551,18 @@ class TestCertificateRepository @Inject constructor(
                 testCertificateQrCode = newCertificateQrCode.qrCode,
                 certificateSeenByUser = false // Just scanned, Should show badge
             )
-            val container = TestCertificateContainer(
+            val newCertificate = TestCertificateContainer(
                 data = data,
                 qrCodeExtractor = qrCodeExtractor,
             )
-            Timber.tag(TAG).d("Adding test certificate entry: %s", container)
+            Timber.tag(TAG).d("Adding test certificate entry: %s", newCertificate)
             mutate {
                 // recylce old
-                remove(certificateToReplace)
+                recycledCertificate?.let {
+                    this[certificateToReplace] = it
+                }
                 // add new
-                this[container.containerId] = container
+                this[newCertificate.containerId] = newCertificate
             }
 
         }
