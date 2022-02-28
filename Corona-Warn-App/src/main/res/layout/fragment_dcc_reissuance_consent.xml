@@ -243,7 +243,7 @@
         style="@style/buttonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:buttonText="@string/dcc_reissuance_legal_button"
+        app:buttonText="@string/dcc_ticketing_consent_two_consent_btn"
         app:isLoading="false"
         app:layout_constraintBottom_toTopOf="@id/cancel_button"
         app:layout_constraintEnd_toEndOf="parent"

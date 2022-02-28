@@ -229,6 +229,4 @@
     <string name="dcc_reissuance_legal_one" translatable="false">Die App übermittelt das Impfzertifikat zur Überprüfung an das RKI. </string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
     <string name="dcc_reissuance_legal_two" translatable="false">Das RKI überprüft das Impfzertifikat und stellt ein aktualisiertes Zertifikat aus und übermittelt dieses an Ihre App.</string>
-    <!-- XTXT: DCC Reissuance button text-->
-    <string name="dcc_reissuance_legal_button" translatable="false">Einverstanden</string>
 </resources>
