@@ -16,7 +16,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -97,17 +96,15 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val certificateContainerFlow = MutableStateFlow(certificateContainer)
 
-    private lateinit var currentCwaUserPref: Flow<CertificatePersonIdentifier?>
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { certificateProvider.certificateContainer } returns certificateContainerFlow
 
-        currentCwaUserPref = flowOf(identifierA)
         personCertificatesSettings.apply {
-            every { currentCwaUser } returns currentCwaUserPref
+            every { currentCwaUser } returns flowOf(identifierA)
+            every { personsSettings } returns flowOf(mapOf())
         }
 
         every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
@@ -164,7 +161,6 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         instance.personsBadgeCount.first() shouldBe 4
-        currentCwaUserPref.first() shouldBe identifierA
 
         verify {
             certificateProvider.certificateContainer
@@ -173,7 +169,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     @Test
     fun `data combination and cwa user is not in the list`() = runBlockingTest2(ignoreActive = true) {
-        currentCwaUserPref = flowOf(identifierC)
+        every { personCertificatesSettings.currentCwaUser } returns flowOf(identifierC)
         val instance = createInstance(this)
 
         instance.personCertificates.first() shouldBe listOf(
@@ -197,7 +193,6 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         instance.personsBadgeCount.first() shouldBe 4
-        currentCwaUserPref.first() shouldBe null
 
         verify {
             certificateProvider.certificateContainer

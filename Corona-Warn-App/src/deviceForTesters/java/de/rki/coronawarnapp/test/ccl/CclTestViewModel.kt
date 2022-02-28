@@ -6,13 +6,15 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 
 class CclTestViewModel @AssistedInject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
-    private val cclConfigurationUpdater: CclConfigurationUpdater
+    private val cclConfigurationUpdater: CclConfigurationUpdater,
+    private val personCertificatesSettings: PersonCertificatesSettings,
 ) : CWAViewModel() {
 
     val dccWalletInfoList = dccWalletInfoRepository.personWallets.asLiveData2()
@@ -21,6 +23,7 @@ class CclTestViewModel @AssistedInject constructor(
 
     fun clearDccWallet() = launch {
         dccWalletInfoRepository.clear()
+        personCertificatesSettings.clear()
     }
 
     fun triggerCalculation() = launch {

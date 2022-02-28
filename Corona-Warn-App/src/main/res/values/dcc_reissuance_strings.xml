@@ -10,7 +10,7 @@
     <string name="dcc_reissuance_success_screen_headline">Ihr Zertifikat wurde erfolgreich aktualisiert</string>
 
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun im Zertifikate Tab.</string>
+    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun in der Zertifikate-Registerkarte.</string>
 
     <!-- XBUT: DCC reissuance button complete -->
     <string name="dcc_reissuance_success_screen_complete_button">Fertig</string>
@@ -25,6 +25,5 @@
     <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Aktualisierung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
     <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht aktualisiert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
-
 
 </resources>

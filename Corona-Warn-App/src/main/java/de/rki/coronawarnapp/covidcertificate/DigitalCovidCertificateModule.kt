@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.multibindings.IntoSet
+import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
+import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonSettingsDataStore
@@ -45,6 +48,12 @@ class DigitalCovidCertificateModule {
         ),
         DefaultJsonLogicValidator()
     )
+
+    @IntoSet
+    @Provides
+    fun boosterNotificationService(
+        service: BoosterNotificationService
+    ): DccWalletInfoNotificationService = service
 
     @PersonSettingsDataStore
     @Provides
