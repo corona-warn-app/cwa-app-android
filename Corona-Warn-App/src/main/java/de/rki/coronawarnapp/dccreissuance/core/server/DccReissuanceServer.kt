@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccreissuance.core.server
 
 import com.google.gson.Gson
 import dagger.Lazy
+import dagger.Reusable
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.ErrorCode
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
@@ -21,6 +22,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
+@Reusable
 class DccReissuanceServer @Inject constructor(
     private val dccReissuanceApiLazy: Lazy<DccReissuanceApi>,
     private val dispatcherProvider: DispatcherProvider,
