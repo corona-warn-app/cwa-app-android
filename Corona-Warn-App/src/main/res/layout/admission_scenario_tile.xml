@@ -14,7 +14,7 @@
     android:visibility="gone"
     app:cardCornerRadius="@dimen/radius_card"
     app:cardElevation="0dp"
-    app:layout_scrollFlags="noScroll"
+    app:layout_scrollFlags="scroll|enterAlways"
     tools:visibility="visible">
 
     <androidx.constraintlayout.widget.ConstraintLayout

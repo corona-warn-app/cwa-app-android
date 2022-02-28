@@ -291,7 +291,7 @@
         android:label="BoosterInfoDetailsFragment"
         tools:layout="@layout/fragment_booster_information_details">
         <argument
-            android:name="personCode"
+            android:name="personIdentifierCode"
             app:argType="string" />
     </fragment>
     <fragment
@@ -309,6 +309,10 @@
         <action
             android:id="@+id/action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment"
             app:destination="@id/dccReissuanceSuccessFragment" />
+
+        <argument
+            android:name="personIdentifierCode"
+            app:argType="string" />
 
         <action
             android:id="@+id/action_dccReissuanceConsentFragment_to_informationPrivacyFragment"
