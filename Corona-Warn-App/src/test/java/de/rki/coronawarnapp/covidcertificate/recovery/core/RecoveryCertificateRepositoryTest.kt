@@ -284,4 +284,21 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode2)
         }
     }
+
+    @Test
+    fun `replace certificate works  if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf()
+        val instance = createInstance(this)
+        instance.replaceCertificate(
+            certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
+            qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as RecoveryCertificateQRCode
+        )
+        with(instance.certificates.first()) {
+            size shouldBe 1
+            this.first().containerId shouldBe RecoveryCertificateContainerId(containerIdRecoveryQrCode1)
+        }
+        with(instance.recycledCertificates.first()) {
+            size shouldBe 0
+        }
+    }
 }
