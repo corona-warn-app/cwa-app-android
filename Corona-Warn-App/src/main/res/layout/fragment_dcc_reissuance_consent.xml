@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -75,6 +75,12 @@
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_subtitle"
                 tools:text="Die Spezifikationen der EU für Booster-Impfzertifikate wurden geändert..." />
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/reissuance_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="dcc_reissuance_title,dcc_reissuance_subtitle,dcc_reissuance_consent" />
+
             <ImageView
                 android:id="@+id/dcc_reissuance_deletion_icon"
                 android:layout_width="wrap_content"
@@ -91,10 +97,10 @@
                 style="@style/body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="40dp"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginEnd="@dimen/spacing_normal"
+                android:minHeight="40dp"
                 android:text="@string/dcc_reissuance_deletion_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/dcc_reissuance_update_icon"
@@ -116,10 +122,10 @@
                 style="@style/body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="40dp"
                 android:layout_marginStart="@dimen/spacing_small"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="@dimen/spacing_normal"
+                android:minHeight="40dp"
                 android:text="@string/dcc_reissuance_update_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/dcc_reissuance_update_icon"
@@ -228,8 +234,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_normal"
-                android:paddingBottom="@dimen/spacing_small"
                 android:focusable="true"
+                android:paddingBottom="@dimen/spacing_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_link"

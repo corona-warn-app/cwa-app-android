@@ -43,10 +43,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
 
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
-                    dccReissuanceTitle.isVisible = it.divisionVisible
-                    dccReissuanceSubtitle.isVisible = it.divisionVisible
-                    dccReissuanceContent.isVisible = it.divisionVisible
-                    dccReissuanceLink.isVisible = it.divisionVisible
+                    reissuanceGroup.isVisible = it.divisionVisible
                     dccReissuanceTitle.text = it.title
                     dccReissuanceSubtitle.text = it.subtitle
                     dccReissuanceContent.text = it.content
