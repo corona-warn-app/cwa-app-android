@@ -82,7 +82,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         reissueServicePublicKeyDigest.toOkioByteString()
     } catch (e: Exception) {
         Timber.w(e, "Failed to map 'reissueServicePublicKeyDigest' from %s", this)
-        //TODO: temporary return an empty bytestring until we have a proper default config
+        // TODO: temporary return an empty bytestring until we have a proper default config
         ByteString.EMPTY
     }
 
