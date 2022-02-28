@@ -2,15 +2,266 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:expandedTitleGravity="top"
+        app:layout_collapseMode="pin"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="🪚 DCC Reissuance Consent Screen: TODO 🪚" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/dcc_reissuance_consent_title" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/agree_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceCertificateCard
+                android:id="@+id/dcc_reissuance_certificate_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dcc_reissuance_title"
+                style="@style/headline5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_certificate_card"
+                tools:text="Zertifikat aktualisieren" />
+
+            <TextView
+                android:id="@+id/dcc_reissuance_subtitle"
+                style="@style/body1Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_title"
+                tools:text="Neuausstellung direkt über die App vornehmen" />
+
+            <TextView
+                android:id="@+id/dcc_reissuance_content"
+                style="@style/body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_subtitle"
+                tools:text="Die Spezifikationen der EU für Booster-Impfzertifikate wurden geändert..." />
+
+            <ImageView
+                android:id="@+id/dcc_reissuance_deletion_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_content"
+                app:srcCompat="@drawable/ic_deletion" />
+
+            <TextView
+                android:id="@+id/dcc_reissuance_deletion_hint"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/dcc_reissuance_deletion_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dcc_reissuance_update_icon"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_content" />
+
+            <ImageView
+                android:id="@+id/dcc_reissuance_update_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_deletion_hint"
+                app:srcCompat="@drawable/ic_update" />
+
+            <TextView
+                android:id="@+id/dcc_reissuance_update_hint"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/dcc_reissuance_update_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dcc_reissuance_update_icon"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_deletion_hint" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/dcc_reissuance_consent"
+                style="@style/GreyCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_update_hint">
+
+                <TextView
+                    android:id="@+id/dcc_reissuance_consent_title"
+                    style="@style/headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/dcc_reissuance_consent_title" />
+
+                <TextView
+                    android:id="@+id/dcc_reissuance_consent_header"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/dcc_reissuance_legal_header"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                    android:id="@+id/dcc_reissuance_legal_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/dcc_reissuance_legal_one"
+                    app:bold="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                    android:id="@+id/dcc_reissuance_legal_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    android:text="@string/dcc_reissuance_legal_two"
+                    app:bold="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_legal_one" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                android:id="@+id/dcc_reissuance_bulletpoint_one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/dcc_reissuance_bulletpoint_one"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_consent" />
+
+            <de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceBulletPoint
+                android:id="@+id/dcc_reissuance_bulletpoint_two"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/dcc_reissuance_bulletpoint_two"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_one" />
+
+            <TextView
+                android:id="@+id/dcc_reissuance_link"
+                style="@style/body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:focusable="true"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_bulletpoint_two"
+                tools:text="@string/dcc_reissuance_faq"
+                tools:visibility="visible" />
+
+            <de.rki.coronawarnapp.ui.view.MoreInformationView
+                android:id="@+id/privacy_information"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_normal"
+                android:paddingBottom="@dimen/spacing_small"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dcc_reissuance_link"
+                app:titleText="@string/dcc_ticketing_consent_two_data_protection" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+        android:id="@+id/agree_button"
+        style="@style/buttonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/dcc_reissuance_legal_button"
+        app:isLoading="false"
+        app:layout_constraintBottom_toTopOf="@id/cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scrollview" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:paddingStart="@dimen/button_padding_start_end"
+        android:paddingEnd="@dimen/button_padding_start_end"
+        android:text="@string/dcc_ticketing_consent_two_cancel_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

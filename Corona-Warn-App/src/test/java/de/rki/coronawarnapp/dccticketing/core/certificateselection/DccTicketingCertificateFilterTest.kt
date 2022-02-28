@@ -325,6 +325,8 @@ internal class DccTicketingCertificateFilterTest : BaseTest() {
         date: String,
         isPCRCertificate: Boolean = false
     ) = mockk<TestCertificate>().apply {
+        every { isPCRTestCertificate } returns isPCRCertificate
+        every { isRapidAntigenTestCertificate } returns !isPCRCertificate
         every { rawCertificate } returns mockk<TestDccV1>().apply {
             every { dob } returns date
             every { isPCRTestCertificate } returns isPCRCertificate
