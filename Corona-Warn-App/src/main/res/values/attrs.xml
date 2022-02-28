@@ -67,4 +67,9 @@
     <declare-styleable name="TraceLocationHighlightView">
         <attr name="android:text" />
     </declare-styleable>
+
+    <declare-styleable name="DccReissuanceBulletPoint">
+        <attr name="android:text" />
+        <attr name="bold" format="boolean" />
+    </declare-styleable>
 </resources>
