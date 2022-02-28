@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.ui.consent
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,8 +28,6 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     @Assisted private val personIdentifierCode: String,
     private val personCertificatesSettings: PersonCertificatesSettings,
 ) : CWAViewModel(dispatcherProvider) {
-
-    internal val certificateLiveData: MutableLiveData<DccV1.MetaData> = MutableLiveData()
 
     internal val event = SingleLiveEvent<Event>()
 

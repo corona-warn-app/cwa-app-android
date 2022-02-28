@@ -62,10 +62,6 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     dccReissuanceCertificateCard.certificate = it.certificate
                 }
 
-                certificateLiveData.observe2(this@DccReissuanceConsentFragment) {
-
-                }
-
                 event.observe2(this@DccReissuanceConsentFragment) {
                     when (it) {
                         DccReissuanceConsentViewModel.ReissuanceError -> {
