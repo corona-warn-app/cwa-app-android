@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.notification
 
 import android.app.PendingIntent
 import android.content.Context
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -21,14 +22,15 @@ class PersonNotificationSender @Inject constructor(
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
     fun showNotification(
-        personIdentifier: CertificatePersonIdentifier
+        personIdentifier: CertificatePersonIdentifier,
+        @StringRes messageRes: Int = R.string.notification_body,
     ) {
         Timber.tag(TAG).d("showNotification(personIdentifier=${personIdentifier.codeSHA256})")
         val pendingIntent = buildPendingIntent(personIdentifier)
         val notification = notificationHelper.newBaseBuilder().apply {
             setContentIntent(pendingIntent)
             setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            setContentTextExpandable(context.getString(R.string.notification_body))
+            setContentTextExpandable(context.getString(messageRes))
         }.build()
 
         notificationHelper.sendNotification(

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.notification
 
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -25,7 +26,10 @@ class DccReissuanceNotificationService @Inject constructor(
         val newCertReissuance = newWalletInfo.certificateReissuance
         if (newCertReissuance != null && oldCertReissuance == null) {
             Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
-            personNotificationSender.showNotification(personIdentifier)
+            personNotificationSender.showNotification(
+                personIdentifier = personIdentifier,
+                messageRes = R.string.notification_body_certificate
+            )
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
         } else {
             Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
