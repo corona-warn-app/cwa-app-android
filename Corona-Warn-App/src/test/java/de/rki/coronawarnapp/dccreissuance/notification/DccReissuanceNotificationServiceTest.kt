@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.dccreissuance.notification
 
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
@@ -33,7 +34,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         coEvery { personCertificatesSettings.setDccReissuanceNotifiedAt(any(), any()) } just Runs
-        every { personNotificationSender.showNotification(any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any()) } just Runs
         every { dccWalletInfo.certificateReissuance } returns mockk()
     }
 
@@ -49,7 +50,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         )
 
         coVerify {
-            personNotificationSender.showNotification(personIdentifier)
+            personNotificationSender.showNotification(personIdentifier, R.string.notification_body_certificate)
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
         }
     }
@@ -66,7 +67,7 @@ internal class DccReissuanceNotificationServiceTest : BaseTest() {
         )
 
         coVerify(exactly = 0) {
-            personNotificationSender.showNotification(personIdentifier)
+            personNotificationSender.showNotification(personIdentifier, R.string.notification_body_certificate)
             personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier, any())
         }
     }

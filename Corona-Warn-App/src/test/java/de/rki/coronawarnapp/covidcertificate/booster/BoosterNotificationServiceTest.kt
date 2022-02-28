@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
@@ -44,7 +45,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
-        every { personNotificationSender.showNotification(any(),any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any()) } just Runs
 
         coEvery { vaccinationRepository.updateBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { vaccinationRepository.clearBoosterRuleInfo(any()) } just Runs
@@ -160,7 +161,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatBoosterNotificationIsShown() {
-        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier) }
+        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier, R.string.notification_body) }
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
