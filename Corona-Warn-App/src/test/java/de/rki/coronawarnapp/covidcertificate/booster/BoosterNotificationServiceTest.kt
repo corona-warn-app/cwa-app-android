@@ -44,7 +44,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
-        every { personNotificationSender.showNotification(any()) } just Runs
+        every { personNotificationSender.showNotification(any(),any()) } just Runs
 
         coEvery { vaccinationRepository.updateBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { vaccinationRepository.clearBoosterRuleInfo(any()) } just Runs
