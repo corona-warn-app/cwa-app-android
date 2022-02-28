@@ -11,16 +11,11 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.serialization.BaseJackson
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.joda.time.Instant
 import timber.log.Timber
 import java.io.IOException
@@ -30,9 +25,7 @@ import javax.inject.Singleton
 @Singleton
 class PersonCertificatesSettings @Inject constructor(
     @PersonSettingsDataStore private val dataStore: DataStore<Preferences>,
-    @BaseJackson private val mapper: ObjectMapper,
-    @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider
+    @BaseJackson private val mapper: ObjectMapper
 ) {
 
     private val dataStoreFlow = dataStore.data
@@ -43,24 +36,26 @@ class PersonCertificatesSettings @Inject constructor(
 
     val currentCwaUser: Flow<CertificatePersonIdentifier?> = dataStoreFlow
         .map { prefs ->
-            mapper.readValue<CertificatePersonIdentifier?>(prefs[CURRENT_PERSON_KEY].orEmpty())
-        }.catch {
-            Timber.tag(TAG).d(it, "currentCwaUser failed to parse")
-            emit(null)
+            runCatching {
+                mapper.readValue<CertificatePersonIdentifier?>(prefs[CURRENT_PERSON_KEY].orEmpty())
+            }.onFailure {
+                Timber.tag(TAG).d(it, "currentCwaUser failed to parse")
+            }.getOrNull()
         }
 
     val personsSettings: Flow<Map<CertificatePersonIdentifier, PersonSettings>> = dataStoreFlow
         .map { prefs ->
-            mapper.readValue<SettingsMap>(prefs[PERSONS_SETTINGS_MAP].orEmpty()).settings
-        }.catch {
-            Timber.tag(TAG).d(it, "personsSettings failed to parse")
-            emit(emptyMap())
+            runCatching {
+                mapper.readValue<SettingsMap>(prefs[PERSONS_SETTINGS_MAP].orEmpty()).settings
+            }.onFailure {
+                Timber.tag(TAG).d(it, "personsSettings failed to parse")
+            }.getOrDefault(emptyMap())
         }
 
-    fun setDccReissuanceNotifiedAt(
+    suspend fun setDccReissuanceNotifiedAt(
         personIdentifier: CertificatePersonIdentifier,
         time: Instant = Instant.now()
-    ) = appScope.launch {
+    ) {
         Timber.tag(TAG).d("setDccReissuanceNotifiedAt()")
         settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
@@ -70,9 +65,9 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun dismissReissuanceBadge(
+    suspend fun dismissReissuanceBadge(
         personIdentifier: CertificatePersonIdentifier
-    ) = appScope.launch {
+    ) {
         Timber.tag(TAG).d("dismissReissuanceBadge()")
         settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
@@ -82,10 +77,10 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun setBoosterNotifiedAt(
+    suspend fun setBoosterNotifiedAt(
         personIdentifier: CertificatePersonIdentifier,
         time: Instant = Instant.now()
-    ) = appScope.launch {
+    ) {
         Timber.tag(TAG).d("setBoosterNotifiedAt()")
         settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
@@ -95,10 +90,10 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun acknowledgeBoosterRule(
+    suspend fun acknowledgeBoosterRule(
         personIdentifier: CertificatePersonIdentifier,
         boosterIdentifier: String
-    ) = appScope.launch {
+    ) {
         Timber.tag(TAG).d("acknowledgeBoosterRule()")
         settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
@@ -108,9 +103,9 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun clearBoosterRuleInfo(
+    suspend fun clearBoosterRuleInfo(
         personIdentifier: CertificatePersonIdentifier
-    ) = appScope.launch {
+    ) {
         Timber.tag(TAG).d("clearBoosterRuleInfo()")
         settings().mutate {
             val personSettings = get(personIdentifier) ?: PersonSettings()
@@ -120,7 +115,7 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun cleanSettingsNotIn(personIdentifiers: Set<CertificatePersonIdentifier>) = appScope.launch {
+    suspend fun cleanSettingsNotIn(personIdentifiers: Set<CertificatePersonIdentifier>) {
         Timber.tag(TAG).d("cleanSettingsNotIn()")
         settings().mutate {
             val personsToClean = keys subtract personIdentifiers
@@ -129,35 +124,32 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-    fun clear() = appScope.launch {
+    suspend fun clear() {
         Timber.d("clear()")
         dataStore.edit { preferences -> preferences.clear() }
     }
 
-    fun removeCurrentCwaUser() = appScope.launch {
+    suspend fun removeCurrentCwaUser() {
         Timber.tag(TAG).d("removeCurrentCwaUser()")
         dataStore.edit { prefs -> prefs.remove(CURRENT_PERSON_KEY) }
     }
 
-    fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) =
-        appScope.launch(context = dispatcherProvider.IO) {
-            Timber.tag(TAG).d("setCurrentCwaUser()")
-            dataStore.edit { prefs ->
-                prefs[CURRENT_PERSON_KEY] = runCatching { mapper.writeValueAsString(personIdentifier) }
-                    .onFailure { Timber.tag(TAG).d(it, "setCurrentCwaUser failed") }
-                    .getOrDefault("")
-            }
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
+        Timber.tag(TAG).d("setCurrentCwaUser()")
+        dataStore.edit { prefs ->
+            prefs[CURRENT_PERSON_KEY] = mapper.writeValueAsString(personIdentifier)
         }
+    }
 
     private suspend fun settings() = personsSettings.first()
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     private suspend fun saveSettings(
         map: Map<CertificatePersonIdentifier, PersonSettings>
-    ) = withContext(dispatcherProvider.IO) {
+    ) {
         dataStore.edit { prefs ->
-            prefs[PERSONS_SETTINGS_MAP] = runCatching { mapper.writeValueAsString(SettingsMap(map)) }
-                .onFailure { Timber.tag(TAG).d(it, "cleanOutdatedPerson failed") }
-                .getOrDefault("")
+            prefs[PERSONS_SETTINGS_MAP] = mapper.writeValueAsString(SettingsMap(map))
         }
     }
 

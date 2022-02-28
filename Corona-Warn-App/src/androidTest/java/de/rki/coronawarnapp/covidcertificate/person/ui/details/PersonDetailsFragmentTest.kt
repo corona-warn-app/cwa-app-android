@@ -19,7 +19,9 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
@@ -31,7 +33,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -143,6 +144,21 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
+            val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
+                "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
+            } else {
+                "Update certificate" to "Reissue directly via the app"
+            }
+
+            add(
+                CertificateReissuanceCard.Item(
+                    title = title,
+                    subtitle = subtitle,
+                    badgeVisible = true,
+                    onClick = {}
+                )
+            )
+
             add(
                 when (Locale.getDefault()) {
                     Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
@@ -156,7 +172,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     else -> ConfirmedStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Proof of Status",
-                        subtitleText = "2G+ PCR-Test",
+                        subtitleText = admissionSubtitle,
                         badgeText = "2G+",
                         longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
                         faqAnchor = "FAQ"
@@ -232,21 +248,22 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            val ruleDescriptionDE = mockk<DccValidationRule.Description> {
-                Locale.GERMAN.also {
-                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
-                    every { languageCode } returns it.language
-                }
-            }
-
-            val ruleDescriptionEN = mockk<DccValidationRule.Description> {
-                Locale.ENGLISH.also {
-                    every { description } returns "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
-                    every { languageCode } returns it.language
-                }
-            }
-
             add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
+
+            val subtitle = if (Locale.getDefault().language == Locale.GERMAN.language) {
+                "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
+            } else {
+                "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
+            }
+
+            add(
+                BoosterCard.Item(
+                    title = "Booster",
+                    subtitle = subtitle,
+                    badgeVisible = true,
+                    onClick = {}
+                )
+            )
 
             add(
                 when (Locale.getDefault()) {

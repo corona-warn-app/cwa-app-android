@@ -6,6 +6,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
+import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -20,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class BoosterNotificationSenderTest : BaseTest() {
+class PersonNotificationSenderTest : BaseTest() {
     @MockK(relaxed = true) lateinit var context: Context
     @MockK(relaxed = true) lateinit var navDeepLinkBuilder: NavDeepLinkBuilder
     @MockK lateinit var pendingIntent: PendingIntent
@@ -45,7 +46,7 @@ class BoosterNotificationSenderTest : BaseTest() {
         } just Runs
     }
 
-    fun createInstance() = BoosterNotificationSender(
+    fun createInstance() = PersonNotificationSender(
         context = context,
         deepLinkBuilderFactory = deepLinkBuilderFactory,
         notificationHelper = notificationHelper,
@@ -58,7 +59,7 @@ class BoosterNotificationSenderTest : BaseTest() {
             firstNameStandardized = "firstNameStandardized",
             lastNameStandardized = "lastNameStandardized"
         )
-        createInstance().showBoosterNotification(personIdentifier)
+        createInstance().showNotification(personIdentifier)
         verify { notificationHelper.sendNotification(any(), any()) }
     }
 }
