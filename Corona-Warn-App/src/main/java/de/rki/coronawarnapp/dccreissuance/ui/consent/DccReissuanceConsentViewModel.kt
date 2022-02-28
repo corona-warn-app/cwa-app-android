@@ -46,6 +46,8 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         // navigate
     }
 
+    fun navigateBack() = event.postValue(Back)
+
     private suspend fun CertificateReissuance?.toState(): State {
         var certificate: DccV1.MetaData? = null
         this?.certificateToReissue?.certificateRef?.barcodeData?.let {
@@ -64,6 +66,8 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         )
     }
 
+    fun openPrivacyScreen() = event.postValue(OpenPrivacyScreen)
+
     internal data class State(
         val certificate: DccV1.MetaData?,
         val divisionVisible: Boolean = false,
@@ -76,6 +80,8 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal sealed class Event
     internal object ReissuanceInProgress : Event()
     internal object ReissuanceSuccess : Event()
+    internal object Back : Event()
+    internal object OpenPrivacyScreen : Event()
     internal data class ReissuanceError(val error: Throwable) : Event()
 
     @AssistedFactory

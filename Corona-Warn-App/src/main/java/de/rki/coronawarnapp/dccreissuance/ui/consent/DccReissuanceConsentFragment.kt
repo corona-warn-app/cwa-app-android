@@ -45,9 +45,9 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            toolbar.setNavigationOnClickListener { popBackStack() }
-            cancelButton.setOnClickListener { popBackStack() }
-            privacyInformation.setOnClickListener { findNavController().navigate(R.id.informationPrivacyFragment) }
+            toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
+            cancelButton.setOnClickListener { viewModel.navigateBack() }
+            privacyInformation.setOnClickListener { viewModel.openPrivacyScreen() }
             agreeButton.setOnClickListener { viewModel.startReissuance() }
 
             viewModel.apply {
@@ -86,6 +86,10 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                                 R.id.action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment
                             )
                         }
+                        DccReissuanceConsentViewModel.Back -> popBackStack()
+                        DccReissuanceConsentViewModel.OpenPrivacyScreen -> findNavController().navigate(
+                            R.id.informationPrivacyFragment
+                        )
                     }
                 }
             }
