@@ -25,11 +25,12 @@ import timber.log.Timber
 class DccReissuanceConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
-    private val dccQrCodeExtractor: DccQrCodeExtractor,
-    private val format: CclTextFormatter,
     @Assisted private val personIdentifierCode: String,
+    private val format: CclTextFormatter,
+    private val dccQrCodeExtractor: DccQrCodeExtractor,
+    private val reissuanceProcessor: DccReissuanceProcessor,
     private val personCertificatesSettings: PersonCertificatesSettings,
-    private val reissuanceProcessor: DccReissuanceProcessor
+    private val dccSwapper: DccSwapper,
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val event = SingleLiveEvent<Event>()
@@ -48,11 +49,13 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal fun startReissuance() = launch {
         runCatching {
             event.postValue(ReissuanceInProgress)
-            reissuanceProcessor.requestDccReissuance(reissuanceData.first()!!)
+            val dccReissuanceDescriptor = reissuanceData.first()!!
+            reissuanceData.first()?.certificateToReissue
+            val response = reissuanceProcessor.requestDccReissuance(dccReissuanceDescriptor)
+            dccSwapper.swap(response, dccReissuanceDescriptor.certificateToReissue)
         }.onFailure { e ->
             event.postValue(ReissuanceError(e))
-        }.onSuccess { reissuanceResponse ->
-            // TODO
+        }.onSuccess {
             event.postValue(ReissuanceSuccess)
         }
     }
