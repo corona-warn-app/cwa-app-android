@@ -314,6 +314,10 @@
             android:name="personIdentifierCode"
             app:argType="string" />
 
+        <action
+            android:id="@+id/action_dccReissuanceConsentFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+
     </fragment>
 
     <fragment

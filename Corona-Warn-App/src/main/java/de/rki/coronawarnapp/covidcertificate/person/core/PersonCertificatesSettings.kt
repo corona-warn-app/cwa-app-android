@@ -38,8 +38,6 @@ class PersonCertificatesSettings @Inject constructor(
         .map { prefs ->
             runCatching {
                 mapper.readValue<CertificatePersonIdentifier?>(prefs[CURRENT_PERSON_KEY].orEmpty())
-            }.onFailure {
-                Timber.tag(TAG).d(it, "currentCwaUser failed to parse")
             }.getOrNull()
         }
 
