@@ -11,13 +11,14 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSetti
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -61,7 +62,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
 
         coEvery { cclSettings.getAdmissionScenarioId() } returns ""
 
-        every { personCertificatesSettings.cleanSettingsNotIn(any()) } returns Job()
+        coEvery { personCertificatesSettings.cleanSettingsNotIn(any()) } just Runs
     }
 
     @Test

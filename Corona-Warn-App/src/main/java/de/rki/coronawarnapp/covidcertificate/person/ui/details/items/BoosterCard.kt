@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
@@ -17,7 +16,6 @@ class BoosterCard(parent: ViewGroup) :
         PersonDetailsBoosterCardBinding.bind(itemView)
     }
 
-    @SuppressLint("SetTextI18n")
     override val onBindData: PersonDetailsBoosterCardBinding.(
         item: Item,
         payloads: List<Any>
@@ -27,13 +25,13 @@ class BoosterCard(parent: ViewGroup) :
 
         title.text = curItem.title
         subtitle.text = curItem.subtitle
-        boosterBadge.isVisible = curItem.isNew
+        boosterBadge.isVisible = curItem.badgeVisible
     }
 
     data class Item(
         val title: String,
         val subtitle: String,
-        val isNew: Boolean = true,
+        val badgeVisible: Boolean = true,
         val onClick: () -> Unit
     ) : CertificateItem, HasPayloadDiffer {
 
