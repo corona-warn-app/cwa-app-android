@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
@@ -44,6 +45,7 @@ class VaccinationRepository @Inject constructor(
     private val storage: VaccinationStorage,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
+    private val vaccinationMigration: VaccinationMigration,
     @AppScope private val appScope: CoroutineScope,
     dscRepository: DscRepository
 ) {
@@ -53,7 +55,7 @@ class VaccinationRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        storage.load()
+        (storage.load() + vaccinationMigration.doMigration())
             .map {
                 VaccinationContainer(
                     data = it,
@@ -90,7 +92,7 @@ class VaccinationRepository @Inject constructor(
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
-//            .drop(1) // Initial emission, restored from storage. // TODO: check what is better
+            .drop(1) // Initial emission, restored from storage.
             .onEach { certificates ->
                 Timber.tag(TAG).v("Vaccination data changed, %d items", certificates.size)
                 storage.save(certificates.map { it.data }.toSet())

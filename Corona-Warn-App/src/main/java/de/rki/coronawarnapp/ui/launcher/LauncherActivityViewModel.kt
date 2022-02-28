@@ -8,7 +8,6 @@ import com.google.android.play.core.install.model.UpdateAvailability.DEVELOPER_T
 import com.google.android.play.core.install.model.UpdateAvailability.UPDATE_AVAILABLE
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.rootdetection.core.RootDetectionCheck
@@ -28,18 +27,14 @@ class LauncherActivityViewModel @AssistedInject constructor(
     private val cwaSettings: CWASettings,
     private val onboardingSettings: OnboardingSettings,
     private val rootDetectionCheck: RootDetectionCheck,
-    private val appUpdateManager: AppUpdateManager,
-    private val vaccinationMigration: VaccinationMigration,
+    private val appUpdateManager: AppUpdateManager
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val events = SingleLiveEvent<LauncherEvent>()
 
     init {
         Timber.tag(TAG).d("init()")
-        launch {
-            vaccinationMigration.doMigration()
-            checkForRoot()
-        }
+        checkForRoot()
     }
 
     fun onRootedDialogDismiss() {
@@ -86,7 +81,7 @@ class LauncherActivityViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun checkForRoot() {
+    private fun checkForRoot() = launch {
         Timber.tag(TAG).d("checkForRoot()")
         when (rootDetectionCheck.shouldShowRootInfo()) {
             true -> events.postValue(LauncherEvent.ShowRootedDialog)
