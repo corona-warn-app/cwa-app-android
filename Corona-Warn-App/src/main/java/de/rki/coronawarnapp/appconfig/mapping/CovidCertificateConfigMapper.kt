@@ -12,17 +12,25 @@ import javax.inject.Inject
 
 @Reusable
 class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfig.Mapper {
-    override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): CovidCertificateConfig {
-        if (!rawConfig.hasDgcParameters()) {
-            Timber.w("Config has no DCC parameters.")
-            return CovidCertificateConfigContainer()
-        }
+    override fun map(rawConfig: AppConfigAndroid.ApplicationConfigurationAndroid): CovidCertificateConfig = try {
+        if (!rawConfig.hasDgcParameters()) throw IllegalStateException("Config has no DCC parameters.")
 
-        return CovidCertificateConfigContainer(
+        CovidCertificateConfigContainer(
             testCertificate = rawConfig.dgcParameters.mapCovidCertificateConfig(),
             expirationThreshold = rawConfig.dgcParameters.mapExpirationThreshold(),
-            blockListParameters = rawConfig.dgcParameters.mapBlockList()
+            blockListParameters = rawConfig.dgcParameters.mapBlockList(),
+            reissueServicePublicKeyDigest = rawConfig.dgcParameters.mapReissueServicePublicKeyDigest()
         )
+    } catch (e: Exception) {
+        // TODO: temporary return an empty bytestring until we have a proper default config
+        CovidCertificateConfigContainer(reissueServicePublicKeyDigest = ByteString.EMPTY)
+        /*
+        throw ApplicationConfigurationInvalidException(
+            cause = e,
+            message = "Failed to create 'CovidCertificateConfigContainer' from rawConfig=$rawConfig"
+        )
+
+         */
     }
 
     private fun DgcParameters.DGCParameters.mapBlockList(): List<CovidCertificateConfig.BlockedChunk> {
@@ -67,16 +75,26 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
 
     private fun DgcParameters.DGCParameters.mapExpirationThreshold(): Duration {
         if (this.expirationThresholdInDays == 0) {
-            return CovidCertificateConfigContainer().expirationThreshold
+            return DEFAULT_EXPIRATION_THRESHOLD
         }
 
         return Duration.standardDays(expirationThresholdInDays.toLong())
     }
 
+    private fun DgcParameters.DGCParameters.mapReissueServicePublicKeyDigest(): ByteString = try {
+        if (reissueServicePublicKeyDigest.isEmpty) throw IllegalStateException("reissueServicePublicKeyDigest is empty")
+        reissueServicePublicKeyDigest.toOkioByteString()
+    } catch (e: Exception) {
+        Timber.w(e, "Failed to map 'reissueServicePublicKeyDigest' from %s", this)
+        // TODO: temporary return an empty bytestring until we have a proper default config
+        ByteString.EMPTY
+    }
+
     data class CovidCertificateConfigContainer(
         override val testCertificate: CovidCertificateConfig.TestCertificate = TestCertificateConfigContainer(),
-        override val expirationThreshold: Duration = Duration.standardDays(14),
-        override val blockListParameters: List<CovidCertificateConfig.BlockedChunk> = emptyList()
+        override val expirationThreshold: Duration = DEFAULT_EXPIRATION_THRESHOLD,
+        override val blockListParameters: List<CovidCertificateConfig.BlockedChunk> = emptyList(),
+        override val reissueServicePublicKeyDigest: ByteString
     ) : CovidCertificateConfig
 
     data class BlockedUvciChunk(
@@ -88,4 +106,8 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         override val waitAfterPublicKeyRegistration: Duration = Duration.standardSeconds(10),
         override val waitForRetry: Duration = Duration.standardSeconds(10),
     ) : CovidCertificateConfig.TestCertificate
+
+    companion object {
+        private val DEFAULT_EXPIRATION_THRESHOLD: Duration get() = Duration.standardDays(14)
+    }
 }

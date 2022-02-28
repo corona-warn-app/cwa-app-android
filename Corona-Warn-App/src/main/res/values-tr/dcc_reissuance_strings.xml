@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    <!-- XTXT: DCC Reissuance title-->
+    <string name="dcc_reissuance_consent_title"> </string>
+    <!-- XTXT: DCC Reissuance first bullet point-->
+    <string name="dcc_reissuance_bulletpoint_one"> </string>
+    <!-- XTXT: DCC Reissuance second bullet point-->
+    <string name="dcc_reissuance_bulletpoint_two"> </string>
+    <!-- XTXT: DCC Reissuance deletion hint-->
+    <string name="dcc_reissuance_deletion_hint"> </string>
+    <!-- XTXT: DCC Reissuance update hint-->
+    <string name="dcc_reissuance_update_hint"> </string>
+    <!-- XTXT: DCC Reissuance faq link label-->
+    <string name="dcc_reissuance_faq"> </string>
+</resources>
