@@ -65,7 +65,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
             title = format(this?.reissuanceDivision?.titleText),
             subtitle = format(this?.reissuanceDivision?.subtitleText),
             content = format(this?.reissuanceDivision?.longText),
-            url = this?.reissuanceDivision?.faqAnchor
+            url = format(this?.reissuanceDivision?.faqAnchor)
         )
     }
 
