@@ -76,7 +76,6 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    // use someting like this in VaccinationRepository
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,

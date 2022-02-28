@@ -7,8 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 
-// Replacement for VaccinatedPerson
-
 data class VaccinationCertificateWrapper(
     private val valueSets: VaccinationValueSets,
     private val container: VaccinationContainer,
@@ -17,6 +15,7 @@ data class VaccinationCertificateWrapper(
 
     val containerId: VaccinationCertificateContainerId get() = container.containerId
 
+    // TODO: test recycling
     val recycleInfo: Recyclable get() = container
 
     val vaccinationCertificate: VaccinationCertificate by lazy {

@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -64,7 +65,7 @@ class VaccinationRepository @Inject constructor(
             .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
     }
 
-    val freshCertificates: Flow<Set<VaccinationCertificateWrapper>> = de.rki.coronawarnapp.util.flow.combine(
+    val freshCertificates: Flow<Set<VaccinationCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
         dscRepository.dscData
