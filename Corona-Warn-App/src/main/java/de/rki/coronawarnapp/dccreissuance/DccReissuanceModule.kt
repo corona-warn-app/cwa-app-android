@@ -4,9 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.ccl.dccwalletinfo.notification.DccWalletInfoNotificationService
+import de.rki.coronawarnapp.dccreissuance.core.server.DccReissuanceServerModule
 import de.rki.coronawarnapp.dccreissuance.notification.DccReissuanceNotificationService
 
-@Module
+@Module(includes = [DccReissuanceServerModule::class])
 object DccReissuanceModule {
 
     @IntoSet
