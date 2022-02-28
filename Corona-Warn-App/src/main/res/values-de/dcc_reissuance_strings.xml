@@ -10,7 +10,7 @@
     <string name="dcc_reissuance_success_screen_headline">Ihr Zertifikat wurde erfolgreich aktualisiert</string>
 
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun im Zertifikate Tab.</string>
+    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun in der Zertifikate-Registerkarte.</string>
 
     <!-- XBUT: DCC reissuance button complete -->
     <string name="dcc_reissuance_success_screen_complete_button">Fertig</string>
