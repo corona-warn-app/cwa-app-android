@@ -210,26 +210,12 @@ class TestCertificateRepository @Inject constructor(
         Timber.tag(TAG).v("registerTestCertificate(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
-
             if (values.any { it.qrCodeHash == qrCode.hash }) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
                 throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
             }
-
-            val nowUtc = timeStamper.nowUTC
-
-            val data = GenericTestCertificateData(
-                identifier = UUID.randomUUID().toString(),
-                registeredAt = nowUtc,
-                certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
-                testCertificateQrCode = qrCode.qrCode,
-                certificateSeenByUser = false // Just scanned, Should show badge
-            )
-            val container = TestCertificateContainer(
-                data = data,
-                qrCodeExtractor = qrCodeExtractor,
-            )
-            Timber.tag(TAG).d("Adding test certificate entry: %s", container)
+            val container = qrCode.createContainer()
+            Timber.tag(TAG).d("Adding test certificate entry: %s", container.containerId)
             mutate { this[container.containerId] = container }
         }
 
@@ -327,7 +313,11 @@ class TestCertificateRepository @Inject constructor(
                             val updatedData = processor.obtainCertificate(cert.data)
                             RefreshResult(cert.copy(data = updatedData))
                         } catch (e: Exception) {
-                            Timber.tag(TAG).e(e, "Failed to retrieve certificate components for %s", cert)
+                            Timber.tag(TAG).e(
+                                e,
+                                "Failed to retrieve certificate components for %s",
+                                cert.containerId
+                            )
                             RefreshResult(cert, e)
                         }
                     }
@@ -542,20 +532,10 @@ class TestCertificateRepository @Inject constructor(
         internalData.updateBlocking {
 
             val recycledCertificate = this[certificateToReplace]?.setRecycled()
+            val newCertificate = newCertificateQrCode.createContainer()
 
-            val nowUtc = timeStamper.nowUTC
-            val data = GenericTestCertificateData(
-                identifier = UUID.randomUUID().toString(),
-                registeredAt = nowUtc,
-                certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
-                testCertificateQrCode = newCertificateQrCode.qrCode,
-                certificateSeenByUser = false // Just scanned, Should show badge
-            )
-            val newCertificate = TestCertificateContainer(
-                data = data,
-                qrCodeExtractor = qrCodeExtractor,
-            )
-            Timber.tag(TAG).d("Adding test certificate entry: %s", newCertificate)
+            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
+
             mutate {
                 // recylce old
                 recycledCertificate?.let {
@@ -564,7 +544,6 @@ class TestCertificateRepository @Inject constructor(
                 // add new
                 this[newCertificate.containerId] = newCertificate
             }
-
         }
     }
 
@@ -618,6 +597,20 @@ class TestCertificateRepository @Inject constructor(
             is RACertificateData -> data.copy(recycledAt = time)
             is GenericTestCertificateData -> data.copy(recycledAt = time)
         }
+    }
+
+    private fun TestCertificateQRCode.createContainer(nowUtc: Instant = timeStamper.nowUTC): TestCertificateContainer {
+        val data = GenericTestCertificateData(
+            identifier = UUID.randomUUID().toString(),
+            registeredAt = nowUtc,
+            certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
+            testCertificateQrCode = qrCode,
+            certificateSeenByUser = false // Newly added, should show badge
+        )
+        return TestCertificateContainer(
+            data = data,
+            qrCodeExtractor = qrCodeExtractor,
+        )
     }
 
     companion object {
