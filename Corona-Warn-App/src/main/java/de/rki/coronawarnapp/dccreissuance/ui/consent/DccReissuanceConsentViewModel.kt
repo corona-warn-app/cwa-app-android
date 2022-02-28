@@ -32,14 +32,9 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal val event = SingleLiveEvent<Event>()
 
     internal val stateLiveData: LiveData<State> =
-        personCertificatesProvider.personCertificates.map { certificates ->
-            val person = certificates.find { it.personIdentifier?.codeSHA256 == personIdentifierCode }
-            person?.personIdentifier?.let {
-                personCertificatesSettings.dismissReissuanceBadge(it)
-            }
-            person?.dccWalletInfo?.certificateReissuance
-        }.map { certificateReissuance ->
-            certificateReissuance.toState()
+        personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode).map { person ->
+            person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
+            person?.dccWalletInfo?.certificateReissuance.toState()
         }.catch {
             Timber.tag(TAG).d(it, "dccReissuanceData failed")
         }.asLiveData2()
