@@ -17,8 +17,8 @@
             "recycler_bin_strings.xml",
             "notifications_strings.xml",
             "dcc_ticketing_strings.xml",
-            "dcc_reissuance_strings.xml",
-            "risk_details_strings.xml"
+            "risk_details_strings.xml",
+            "dcc_reissuance_strings.xml"
           ],
           "targetFolderPath": "../[langCode]"
         }
