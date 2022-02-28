@@ -76,7 +76,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal sealed class Event
     internal object ReissuanceInProgress : Event()
     internal object ReissuanceSuccess : Event()
-    internal object ReissuanceError : Event()
+    internal data class ReissuanceError(val error: Throwable) : Event()
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccReissuanceConsentViewModel> {

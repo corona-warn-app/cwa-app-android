@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -57,7 +58,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     dccReissuanceContent.text = it.content
                     dccReissuanceLink.isVisible = !it.url.isNullOrEmpty()
                     it.url?.let { url ->
-                        val text = getString(R.string.dcc_reissuance_faq)
+                        val text = getString(R.string.confirmed_status_faq_text)
                         dccReissuanceLink.setTextWithUrl(
                             content = text,
                             label = text,
@@ -67,11 +68,16 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     dccReissuanceCertificateCard.certificate = it.certificate
                 }
 
-                event.observe2(this@DccReissuanceConsentFragment) {
-                    when (it) {
-                        DccReissuanceConsentViewModel.ReissuanceError -> {
+                event.observe2(this@DccReissuanceConsentFragment) { event ->
+                    when (event) {
+                        is DccReissuanceConsentViewModel.ReissuanceError -> {
                             agreeButton.isLoading = false
-                            // show error dialog
+                            event.error.toErrorDialogBuilder(requireContext())
+                                .setNegativeButton(R.string.errors_generic_button_positive) { _, _ -> }
+                                .setPositiveButton(R.string.dcc_reissuance_try_again) { _, _ ->
+                                    viewModel.startReissuance()
+                                }
+                                .show()
                         }
                         DccReissuanceConsentViewModel.ReissuanceInProgress -> agreeButton.isLoading = true
                         DccReissuanceConsentViewModel.ReissuanceSuccess -> {
