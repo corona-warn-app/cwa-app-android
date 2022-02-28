@@ -1,8 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.booster
 
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
+import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
 import de.rki.coronawarnapp.util.TimeStamper
@@ -25,7 +28,7 @@ import testhelpers.BaseTest
 @Suppress("MaxLineLength")
 class BoosterNotificationServiceTest : BaseTest() {
 
-    @MockK lateinit var boosterNotificationSender: BoosterNotificationSender
+    @MockK lateinit var personNotificationSender: PersonNotificationSender
     @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -42,7 +45,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
-        every { boosterNotificationSender.showBoosterNotification(any()) } just Runs
+        every { personNotificationSender.showNotification(any(), any()) } just Runs
 
         coEvery { vaccinationRepository.updateBoosterNotifiedAt(any(), any()) } just Runs
         coEvery { vaccinationRepository.clearBoosterRuleInfo(any()) } just Runs
@@ -57,7 +60,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun service() = BoosterNotificationService(
-        boosterNotificationSender = boosterNotificationSender,
+        personNotificationSender = personNotificationSender,
         vaccinationRepository = vaccinationRepository,
         timeStamper = timeStamper
     )
@@ -150,7 +153,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatNotificationWasNotSent() {
-        verify { boosterNotificationSender wasNot Called }
+        verify { personNotificationSender wasNot Called }
     }
 
     private fun verifyThatBoosterNotificationTimeIsUpdated() {
@@ -158,7 +161,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatBoosterNotificationIsShown() {
-        verify(exactly = 1) { boosterNotificationSender.showBoosterNotification(personIdentifier) }
+        verify(exactly = 1) { personNotificationSender.showNotification(personIdentifier, R.string.notification_body) }
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
