@@ -11,12 +11,14 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.dccreissuance.core.processor.DccReissuanceProcessor
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
@@ -27,23 +29,32 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     private val format: CclTextFormatter,
     @Assisted private val personIdentifierCode: String,
     private val personCertificatesSettings: PersonCertificatesSettings,
+    private val reissuanceProcessor: DccReissuanceProcessor
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val event = SingleLiveEvent<Event>()
 
-    internal val stateLiveData: LiveData<State> =
-        personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode).map { person ->
+    private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+        .map { person ->
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
-            person?.dccWalletInfo?.certificateReissuance.toState()
-        }.catch {
+            person?.dccWalletInfo?.certificateReissuance
+        }
+    internal val stateLiveData: LiveData<State> = reissuanceData.map { it.toState() }
+        .catch {
             Timber.tag(TAG).d(it, "dccReissuanceData failed")
+            event.postValue(Back) // Should not happen ¯\_(ツ)_/¯
         }.asLiveData2()
 
-    internal fun startReissuance() {
-        event.postValue(ReissuanceInProgress)
-        // call api
-        // replace certificate
-        // navigate
+    internal fun startReissuance() = launch {
+        runCatching {
+            event.postValue(ReissuanceInProgress)
+            reissuanceProcessor.requestDccReissuance(reissuanceData.first()!!)
+        }.onFailure { e ->
+            event.postValue(ReissuanceError(e))
+        }.onSuccess { reissuanceResponse ->
+            // TODO
+            event.postValue(ReissuanceSuccess)
+        }
     }
 
     fun navigateBack() = event.postValue(Back)
