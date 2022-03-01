@@ -39,13 +39,15 @@ internal class MigrationCheckTest {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = "2020-01-01",
                 lastNameStandardized = "Surname1",
-                firstNameStandardized = "Name1")
+                firstNameStandardized = "Name1"
+            )
         }
         val certificate2 = mockk<CwaCovidCertificate>().apply {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = "2020-01-01",
                 lastNameStandardized = "Surname2",
-                firstNameStandardized = "Name2")
+                firstNameStandardized = "Name2"
+            )
         }
         val person1 = mockk<PersonCertificates>().apply {
             every { certificates } returns listOf(certificate1)
@@ -64,13 +66,15 @@ internal class MigrationCheckTest {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = "2020-01-01",
                 lastNameStandardized = "Surname",
-                firstNameStandardized = "Name")
+                firstNameStandardized = "Name"
+            )
         }
         val certificate2 = mockk<CwaCovidCertificate>().apply {
             every { personIdentifier } returns CertificatePersonIdentifier(
                 dateOfBirthFormatted = "2020-01-01",
                 lastNameStandardized = "Name",
-                firstNameStandardized = "Surname")
+                firstNameStandardized = "Surname"
+            )
         }
         val person1 = mockk<PersonCertificates>().apply {
             every { certificates } returns listOf(certificate1, certificate2)
