@@ -39,11 +39,13 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
             person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
             person?.dccWalletInfo?.certificateReissuance
         }
-    internal val stateLiveData: LiveData<State> = reissuanceData.map { it.toState() }
-        .catch {
-            Timber.tag(TAG).d(it, "dccReissuanceData failed")
-            event.postValue(Back) // Should not happen ¯\_(ツ)_/¯
-        }.asLiveData2()
+    internal val stateLiveData: LiveData<State> = reissuanceData.map {
+        // Make sure DccReissuance exist, otherwise screen is dismissed
+        it!!.toState()
+    }.catch {
+        Timber.tag(TAG).d(it, "dccReissuanceData failed")
+        event.postValue(Back) // Could happen when DccReissuance is gone while user is here for a long time
+    }.asLiveData2()
 
     internal fun startReissuance() = launch {
         runCatching {
