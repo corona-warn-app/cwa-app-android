@@ -44,7 +44,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
         it!!.toState()
     }.catch {
         Timber.tag(TAG).d(it, "dccReissuanceData failed")
-        event.postValue(Back) // Could happen when DccReissuance is gone while user is here for a long time
+        event.postValue(Back) // Fallback: Could happen when DccReissuance is gone while user is here for a long time
     }.asLiveData2()
 
     internal fun startReissuance() = launch {
