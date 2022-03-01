@@ -31,7 +31,7 @@ class TestCertificateCard(parent: ViewGroup) :
         root.setOnClickListener { curItem.onClick() }
         certificateDate.text = context.getString(
             R.string.test_certificate_sampled_on,
-            certificate.sampleCollectedAt.toUserTimeZone().toShortDayFormat()
+            certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: certificate.rawCertificate.test.sc
         )
 
         when (certificate.rawCertificate.test.testType) {

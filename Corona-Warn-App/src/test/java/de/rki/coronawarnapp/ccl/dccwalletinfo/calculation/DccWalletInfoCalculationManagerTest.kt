@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.dccreissuance.notification.DccReissuanceNotificationService
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -27,6 +28,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     @MockK lateinit var boosterRulesRepository: BoosterRulesRepository
     @MockK lateinit var boosterNotificationService: BoosterNotificationService
+    @MockK lateinit var dccReissuanceNotificationService: DccReissuanceNotificationService
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var calculation: DccWalletInfoCalculation
@@ -57,9 +59,10 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         coEvery { calculation.getDccWalletInfo(any(), "", any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs
         coEvery { boosterNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
+        coEvery { dccReissuanceNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
         instance = DccWalletInfoCalculationManager(
             boosterRulesRepository = boosterRulesRepository,
-            boosterNotificationService = boosterNotificationService,
+            notificationServices = setOf(boosterNotificationService, dccReissuanceNotificationService),
             personCertificatesProvider = personCertificatesProvider,
             dccWalletInfoRepository = dccWalletInfoRepository,
             calculation = calculation,
@@ -129,6 +132,16 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
         }
         coVerify(exactly = 1) {
             dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
+            boosterNotificationService.notifyIfNecessary(
+                personIdentifier = certificatePersonIdentifier1,
+                oldWalletInfo = null,
+                newWalletInfo = dccWalletInfo1
+            )
+            dccReissuanceNotificationService.notifyIfNecessary(
+                personIdentifier = certificatePersonIdentifier1,
+                oldWalletInfo = null,
+                newWalletInfo = dccWalletInfo1
+            )
         }
         coVerify(exactly = 0) {
             dccWalletInfoRepository.save(certificatePersonIdentifier2, dccWalletInfo1)

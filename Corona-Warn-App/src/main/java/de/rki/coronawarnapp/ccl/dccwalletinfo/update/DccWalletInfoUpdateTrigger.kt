@@ -7,12 +7,14 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,12 +22,13 @@ import javax.inject.Singleton
 
 @Singleton
 class DccWalletInfoUpdateTrigger @Inject constructor(
-    personCertificateProvider: PersonCertificatesProvider,
     @AppScope appScope: CoroutineScope,
     private val cclSettings: CclSettings,
     private val appConfigProvider: AppConfigProvider,
     private val dccWalletInfoCleaner: DccWalletInfoCleaner,
-    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager
+    private val personCertificateProvider: PersonCertificatesProvider,
+    private val personCertificatesSettings: PersonCertificatesSettings,
+    private val dccWalletInfoCalculationManager: DccWalletInfoCalculationManager,
 ) {
 
     init {
@@ -51,19 +54,30 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
 
     suspend fun triggerAfterConfigChange(configurationChanged: Boolean = false) {
         Timber.tag(TAG).d("triggerAfterConfigChange()")
-
         dccWalletInfoCalculationManager.triggerAfterConfigChange(
             admissionScenarioId = admissionScenarioId(),
             configurationChanged = configurationChanged
         )
-        dccWalletInfoCleaner.clean()
+        cleanupAfterCalculation()
     }
 
     suspend fun triggerNow(admissionScenarioId: String) {
         Timber.tag(TAG).d("triggerNow()")
-
         dccWalletInfoCalculationManager.triggerNow(admissionScenarioId = admissionScenarioId)
+        cleanupAfterCalculation()
+    }
+
+    private suspend fun cleanupAfterCalculation() {
         dccWalletInfoCleaner.clean()
+
+        val personIdentifiers = personCertificateProvider.personCertificates.first()
+            .mapNotNull { it.personIdentifier }.toSet()
+
+        /*
+        After person certificates change a merge or a split could happen and this will lead to outdated PersonSettings,
+        therefore we need to clean after the calculation which is triggering person notifications / badges
+         */
+        personCertificatesSettings.cleanSettingsNotIn(personIdentifiers)
     }
 
     private val Set<PersonCertificates>.sortedQrCodeHashSet: Set<String>

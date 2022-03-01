@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @Reusable
@@ -15,7 +16,7 @@ class CwaUserCensor @Inject constructor(
     override suspend fun checkLog(message: String): CensorContainer? {
         var newMessage = CensorContainer(message)
 
-        personCertificatesSettings.currentCwaUser.value?.let { cwaUser ->
+        personCertificatesSettings.currentCwaUser.first()?.let { cwaUser ->
             newMessage = censorCwaUserData(cwaUser, newMessage)
         }
 

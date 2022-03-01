@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
-import de.rki.coronawarnapp.util.preferences.FlowPreference
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -25,7 +24,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
-import testhelpers.preferences.mockFlowPreference
 
 class PersonCertificatesProviderTest : BaseTest() {
     @MockK lateinit var certificateProvider: CertificateProvider
@@ -98,17 +96,15 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val certificateContainerFlow = MutableStateFlow(certificateContainer)
 
-    private lateinit var currentCwaUserPref: FlowPreference<CertificatePersonIdentifier?>
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { certificateProvider.certificateContainer } returns certificateContainerFlow
 
-        currentCwaUserPref = mockFlowPreference(identifierA)
         personCertificatesSettings.apply {
-            every { currentCwaUser } returns currentCwaUserPref
+            every { currentCwaUser } returns flowOf(identifierA)
+            every { personsSettings } returns flowOf(mapOf())
         }
 
         every { dccWalletInfoRepository.personWallets } returns flowOf(emptySet())
@@ -165,7 +161,6 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         instance.personsBadgeCount.first() shouldBe 4
-        currentCwaUserPref.value shouldBe identifierA
 
         verify {
             certificateProvider.certificateContainer
@@ -174,7 +169,7 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     @Test
     fun `data combination and cwa user is not in the list`() = runBlockingTest2(ignoreActive = true) {
-        currentCwaUserPref.update { identifierC }
+        every { personCertificatesSettings.currentCwaUser } returns flowOf(identifierC)
         val instance = createInstance(this)
 
         instance.personCertificates.first() shouldBe listOf(
@@ -198,7 +193,6 @@ class PersonCertificatesProviderTest : BaseTest() {
         )
 
         instance.personsBadgeCount.first() shouldBe 4
-        currentCwaUserPref.value shouldBe null
 
         verify {
             certificateProvider.certificateContainer

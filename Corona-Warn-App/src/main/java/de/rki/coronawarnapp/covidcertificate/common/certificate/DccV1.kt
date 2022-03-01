@@ -85,7 +85,7 @@ data class DccV1(
         // Unique Certificate Identifier, e.g.  "ci": "urn:uvci:01:NL:PlA8UWS60Z4RZXVALl6GAZ"
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
-        val testedPositiveOn: LocalDate
+        val testedPositiveOn: LocalDate?
             get() = fr.parseLocalDate()
 
         val testedPositiveOnFormatted: String
@@ -93,12 +93,12 @@ data class DccV1(
 
         val validFromFormatted: String
             get() = df.formatDate()
-        val validFrom: LocalDate
+        val validFrom: LocalDate?
             get() = validFromFormatted.parseLocalDate()
 
         val validUntilFormatted: String
             get() = du.formatDate()
-        val validUntil: LocalDate
+        val validUntil: LocalDate?
             get() = validUntilFormatted.parseLocalDate()
     }
 
@@ -127,7 +127,7 @@ data class DccV1(
         val vaccinatedOnFormatted: String
             get() = dt.formatDate()
 
-        val vaccinatedOn: LocalDate
+        val vaccinatedOn: LocalDate?
             get() = vaccinatedOnFormatted.parseLocalDate()
     }
 
@@ -154,8 +154,8 @@ data class DccV1(
         @SerializedName("ci") override val uniqueCertificateIdentifier: String
     ) : Payload {
 
-        val sampleCollectedAt: Instant
-            get() = Instant.parse(sc)
+        val sampleCollectedAt: Instant?
+            get() = sc.parseInstant()
 
         val sampleCollectedAtFormatted: String
             get() = sc.formatDateTime()
@@ -184,6 +184,14 @@ data class TestDccV1(
 ) : DccV1.MetaData {
     override val payload: DccV1.Payload
         get() = test
+
+    val isPCRTestCertificate: Boolean get() = test.testType == PCR_TEST
+    val isRapidAntigenTestCertificate: Boolean get() = test.testType == RAT_TEST
+
+    companion object {
+        const val PCR_TEST = "LP6464-4"
+        const val RAT_TEST = "LP217198-3"
+    }
 }
 
 data class RecoveryDccV1(

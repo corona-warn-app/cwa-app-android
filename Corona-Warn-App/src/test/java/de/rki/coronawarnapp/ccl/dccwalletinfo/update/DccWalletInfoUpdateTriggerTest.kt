@@ -7,13 +7,16 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.DccWalletInfoCleaner
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.DccWalletInfoCalculationManager
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import io.kotest.assertions.throwables.shouldNotThrow
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -33,6 +36,8 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
     @MockK lateinit var personCertificateProvider: PersonCertificatesProvider
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var cclSettings: CclSettings
+    @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
+
     private val vc1 = mockk<VaccinationCertificate>().apply {
         every { qrCodeHash } returns "hash1"
     }
@@ -56,6 +61,8 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         }
 
         coEvery { cclSettings.getAdmissionScenarioId() } returns ""
+
+        coEvery { personCertificatesSettings.cleanSettingsNotIn(any()) } just Runs
     }
 
     @Test
@@ -162,6 +169,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         coVerify {
             dccWalletInfoCalculationManager.triggerAfterConfigChange("BW", true)
             dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
         }
     }
 
@@ -178,6 +186,7 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         coVerify {
             dccWalletInfoCalculationManager.triggerAfterConfigChange("", false)
             dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
         }
     }
 
@@ -191,15 +200,17 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         coVerify {
             dccWalletInfoCalculationManager.triggerNow("BW")
             dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
         }
     }
 
     private fun instance(scope: CoroutineScope) = DccWalletInfoUpdateTrigger(
-        dccWalletInfoCalculationManager = dccWalletInfoCalculationManager,
-        dccWalletInfoCleaner = dccWalletInfoCleaner,
-        personCertificateProvider = personCertificateProvider,
         appScope = scope,
+        cclSettings = cclSettings,
+        dccWalletInfoCleaner = dccWalletInfoCleaner,
         appConfigProvider = appConfigProvider,
-        cclSettings = cclSettings
+        personCertificateProvider = personCertificateProvider,
+        personCertificatesSettings = personCertificatesSettings,
+        dccWalletInfoCalculationManager = dccWalletInfoCalculationManager
     )
 }

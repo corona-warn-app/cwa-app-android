@@ -19,7 +19,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
             dccPersonCountMax = rawConfig.dccPersonCountMax(),
             dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
-            admissionScenariosEnabled = !rawConfig.dccAdmissionCheckScenariosDisabled()
+            admissionScenariosEnabled = rawConfig.dccAdmissionCheckScenariosEnabled()
         )
     }
 
@@ -82,8 +82,8 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
-    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosDisabled() = findBoolean(
-        labelValue = "dcc-admission-check-scenarios-disabled"
+    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosEnabled() = findBoolean(
+        labelValue = "dcc-admission-check-scenarios-enabled"
     )
 
     private fun ApplicationConfigurationAndroid.findBoolean(
