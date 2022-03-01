@@ -23,7 +23,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationGroupingTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
@@ -69,7 +68,6 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: QrCodeValidatorTest)
     fun inject(testClass: QrCodeScannerViewModelTest)
     fun inject(testClass: CwaUserCensorTest)
-    fun inject(testClass: VaccinationGroupingTest)
     fun inject(testClass: AnalyticsTestResultSettingsTest)
     fun inject(testClass: DccTicketingQrCodeExtractorTest)
     fun inject(testClass: DccHolderComparisonTest)

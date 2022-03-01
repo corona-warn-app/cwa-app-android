@@ -8,13 +8,12 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
-import de.rki.coronawarnapp.dccticketing.core.qrcode.toHash
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
@@ -46,6 +45,7 @@ class VaccinationRepositoryTest : BaseTest() {
     @MockK lateinit var vaccinationValueSet: VaccinationValueSets
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dscRepository: DscRepository
+    @MockK lateinit var vaccinationMigration: VaccinationMigration
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
@@ -83,7 +83,8 @@ class VaccinationRepositoryTest : BaseTest() {
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = dccQrCodeExtractor,
         dccStateChecker = dccStateChecker,
-        dscRepository = dscRepository
+        dscRepository = dscRepository,
+        vaccinationMigration = vaccinationMigration
     )
 
     @Test

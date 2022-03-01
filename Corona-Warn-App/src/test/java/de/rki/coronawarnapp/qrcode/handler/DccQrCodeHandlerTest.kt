@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidato
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -36,7 +36,7 @@ class DccQrCodeHandlerTest : BaseTest() {
 
     @MockK lateinit var testCertificateContainer: TestCertificateContainer
     @MockK lateinit var recoveryCertificateContainer: RecoveryCertificateContainer
-    @MockK lateinit var vaccinationCertificate: VaccinationCertificate
+    @MockK lateinit var vaccinationContainer: VaccinationContainer
 
     @MockK lateinit var testCertID: TestCertificateContainerId
     @MockK lateinit var recoveryCertID: RecoveryCertificateContainerId
@@ -49,7 +49,7 @@ class DccQrCodeHandlerTest : BaseTest() {
 
         coEvery { testCertificateRepository.registerCertificate(any()) } returns testCertificateContainer
             .apply { every { containerId } returns testCertID }
-        coEvery { vaccinationRepository.registerCertificate(any()) } returns vaccinationCertificate
+        coEvery { vaccinationRepository.registerCertificate(any()) } returns vaccinationContainer
             .apply { every { containerId } returns vaccinationCertID }
         coEvery { recoverCertificateRepository.registerCertificate(any()) } returns recoveryCertificateContainer
             .apply { every { containerId } returns recoveryCertID }
