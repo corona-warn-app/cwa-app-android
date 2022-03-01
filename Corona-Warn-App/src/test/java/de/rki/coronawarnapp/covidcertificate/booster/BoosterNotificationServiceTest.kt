@@ -30,8 +30,6 @@ class BoosterNotificationServiceTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
 
-    @MockK lateinit var vaccinatedPersonData: VaccinatedPersonData
-
     @MockK lateinit var oldWalletInfo: DccWalletInfo
     @MockK lateinit var newWalletInfo: DccWalletInfo
 
@@ -49,8 +47,6 @@ class BoosterNotificationServiceTest : BaseTest() {
 
         every { oldWalletInfo.boosterNotification } returns oldBoosterNotification
         every { newWalletInfo.boosterNotification } returns newBoosterNotification
-
-        every { vaccinatedPersonData.boosterRuleIdentifier } returns null
     }
 
     private fun service() = BoosterNotificationService(
@@ -114,21 +110,6 @@ class BoosterNotificationServiceTest : BaseTest() {
         runBlockingTest {
             every { newBoosterNotification.identifier } returns "1"
             every { oldBoosterNotification.identifier } returns "1"
-
-            service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
-
-            verifyThatNotificationWasNotSent()
-            verifyThatBoosterNotificationTimeIsNotUpdated()
-        }
-
-    @Test
-    fun `notifyIfNecessary() should NOT send notification if the new booster rule id is the same than the legacy booster rule id`() =
-        runBlockingTest {
-            every { newBoosterNotification.identifier } returns "2"
-            every { oldBoosterNotification.identifier } returns "1"
-
-            // legacy booster rule id
-            every { vaccinatedPersonData.boosterRuleIdentifier } returns "2"
 
             service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
 

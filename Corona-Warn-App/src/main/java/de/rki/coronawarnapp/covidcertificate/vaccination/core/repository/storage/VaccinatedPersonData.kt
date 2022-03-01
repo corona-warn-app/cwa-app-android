@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 import com.google.gson.annotations.SerializedName
 import org.joda.time.Instant
 
-@Deprecated("Used only for migration for legacy data")
+@Deprecated("Used only for migration of legacy data")
 data class VaccinatedPersonData(
     @SerializedName("vaccinationData")
     val vaccinations: Set<StoredVaccinationCertificateData> = emptySet(),
