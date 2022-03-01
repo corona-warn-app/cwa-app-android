@@ -111,7 +111,7 @@ internal class DccReissuerTest : BaseTest() {
                     certificate = "HC1:6BFOXN...",
                     relations = listOf(
                         DccReissuanceResponse.Relation(
-                            index = 1,
+                            index = 0,
                             action = "combine"
                         )
                     )
