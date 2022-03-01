@@ -37,12 +37,10 @@ class DccReissuanceServer @Inject constructor(
         action: String,
         certificates: List<String>
     ): DccReissuanceResponse = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).d("requestDccReissuance(action=%s, certificates=%s)", action, certificates)
         try {
             val dccReissuanceRequestBody = DccReissuanceRequestBody(action = action, certificates = certificates)
             dccReissuanceApi.requestReissuance(dccReissuanceRequestBody = dccReissuanceRequestBody)
                 .parseAndValidate()
-                .also { Timber.tag(TAG).d("Returning %s", it) }
         } catch (e: Exception) {
             Timber.tag(TAG).w(e, "Failed to request Dcc Reissuance")
             throw when (e) {
