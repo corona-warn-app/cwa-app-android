@@ -308,7 +308,9 @@
 
         <action
             android:id="@+id/action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment"
-            app:destination="@id/dccReissuanceSuccessFragment" />
+            app:destination="@id/dccReissuanceSuccessFragment"
+            app:popUpTo="@id/personDetailsFragment"
+            app:popUpToInclusive="false" />
 
         <argument
             android:name="personIdentifierCode"

@@ -6,7 +6,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentDccReissuanceConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -32,27 +34,31 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
         }
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
-            toolbar.setNavigationOnClickListener { popBackStack() }
-            cancelButton.setOnClickListener { popBackStack() }
-            privacyInformation.setOnClickListener { findNavController().navigate(R.id.informationPrivacyFragment) }
+            toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
+            cancelButton.setOnClickListener { viewModel.navigateBack() }
+            privacyInformation.setOnClickListener { viewModel.openPrivacyScreen() }
             agreeButton.setOnClickListener { viewModel.startReissuance() }
 
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
-                    dccReissuanceTitle.isVisible = it.divisionVisible
-                    dccReissuanceSubtitle.isVisible = it.divisionVisible
-                    dccReissuanceContent.isVisible = it.divisionVisible
-                    dccReissuanceLink.isVisible = it.divisionVisible
+                    reissuanceGroup.isVisible = it.divisionVisible
                     dccReissuanceTitle.text = it.title
                     dccReissuanceSubtitle.text = it.subtitle
                     dccReissuanceContent.text = it.content
                     dccReissuanceLink.isVisible = !it.url.isNullOrEmpty()
                     it.url?.let { url ->
-                        val text = getString(R.string.dcc_reissuance_faq)
+                        val text = getString(R.string.confirmed_status_faq_text)
                         dccReissuanceLink.setTextWithUrl(
                             content = text,
                             label = text,
@@ -62,11 +68,11 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     dccReissuanceCertificateCard.certificate = it.certificate
                 }
 
-                event.observe2(this@DccReissuanceConsentFragment) {
-                    when (it) {
-                        DccReissuanceConsentViewModel.ReissuanceError -> {
+                event.observe2(this@DccReissuanceConsentFragment) { event ->
+                    when (event) {
+                        is DccReissuanceConsentViewModel.ReissuanceError -> {
                             agreeButton.isLoading = false
-                            // show error dialog
+                            event.error.toErrorDialogBuilder(requireContext()).show()
                         }
                         DccReissuanceConsentViewModel.ReissuanceInProgress -> agreeButton.isLoading = true
                         DccReissuanceConsentViewModel.ReissuanceSuccess -> {
@@ -75,6 +81,10 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                                 R.id.action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment
                             )
                         }
+                        DccReissuanceConsentViewModel.Back -> popBackStack()
+                        DccReissuanceConsentViewModel.OpenPrivacyScreen -> findNavController().navigate(
+                            R.id.informationPrivacyFragment
+                        )
                     }
                 }
             }
