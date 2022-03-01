@@ -20,10 +20,8 @@ class DccReissuer @Inject constructor(
     )
     suspend fun startReissuance(dccReissuanceDescriptor: CertificateReissuance) {
         val response = dccReissuanceProcessor.requestDccReissuance(dccReissuanceDescriptor)
-        val dccReissuance = response.dccReissuances.find { dccReissuance ->
-            dccReissuance.relations.any { relation ->
-                relation.action == "replace" && relation.index == 0
-            }
+        val dccReissuance = response.dccReissuances.find { issuance ->
+            issuance.relations.any { r -> r.action == "replace" && r.index == 0 }
         } ?: throw DccReissuanceException(DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION)
 
         dccSwapper.swap(
