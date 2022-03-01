@@ -9,6 +9,4 @@
     <string name="dcc_reissuance_deletion_hint"> </string>
     <!-- XTXT: DCC Reissuance update hint-->
     <string name="dcc_reissuance_update_hint"> </string>
-    <!-- XTXT: DCC Reissuance faq link label-->
-    <string name="dcc_reissuance_faq"> </string>
 </resources>

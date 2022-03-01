@@ -9,7 +9,6 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.color
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestCclBinding
 import de.rki.coronawarnapp.test.ccl.CclTestViewModel.ForceUpdateUiState.Loading
@@ -36,8 +35,6 @@ class CclTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
             calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
-            openSuccessScreen.setOnClickListener { findNavController().navigate(R.id.action_cclTestFragment_to_dccReissuanceSuccessFragment) }
-
             viewModel.dccWalletInfoList.observe2(this@CclTestFragment) { infoList ->
                 dccWalletInfoList.text = buildSpannedString {
                     infoList.forEachIndexed { index, info ->

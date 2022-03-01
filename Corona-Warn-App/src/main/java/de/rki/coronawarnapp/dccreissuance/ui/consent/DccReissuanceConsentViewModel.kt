@@ -11,45 +11,56 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class DccReissuanceConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
-    private val dccQrCodeExtractor: DccQrCodeExtractor,
-    private val format: CclTextFormatter,
     @Assisted private val personIdentifierCode: String,
+    private val dccReissuer: DccReissuer,
+    private val format: CclTextFormatter,
+    private val dccQrCodeExtractor: DccQrCodeExtractor,
     private val personCertificatesSettings: PersonCertificatesSettings,
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val event = SingleLiveEvent<Event>()
 
-    internal val stateLiveData: LiveData<State> =
-        personCertificatesProvider.personCertificates.map { certificates ->
-            val person = certificates.find { it.personIdentifier?.codeSHA256 == personIdentifierCode }
-            person?.personIdentifier?.let {
-                personCertificatesSettings.dismissReissuanceBadge(it)
-            }
+    private val reissuanceData = personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+        .map { person ->
+            person?.personIdentifier?.let { personCertificatesSettings.dismissReissuanceBadge(it) }
             person?.dccWalletInfo?.certificateReissuance
-        }.map { certificateReissuance ->
-            certificateReissuance.toState()
-        }.catch {
-            Timber.tag(TAG).d(it, "dccReissuanceData failed")
-        }.asLiveData2()
+        }
+    internal val stateLiveData: LiveData<State> = reissuanceData.map {
+        // Make sure DccReissuance exist, otherwise screen is dismissed
+        it!!.toState()
+    }.catch {
+        Timber.tag(TAG).d(it, "dccReissuanceData failed")
+        event.postValue(Back) // Fallback: Could happen when DccReissuance is gone while user is here for a long time
+    }.asLiveData2()
 
-    internal fun startReissuance() {
-        event.postValue(ReissuanceInProgress)
-        // call api
-        // replace certificate
-        // navigate
+    internal fun startReissuance() = launch {
+        runCatching {
+            event.postValue(ReissuanceInProgress)
+            dccReissuer.startReissuance(reissuanceData.first()!!)
+        }.onFailure { e ->
+            Timber.d(e, "startReissuance() failed")
+            event.postValue(ReissuanceError(e))
+        }.onSuccess {
+            Timber.d("startReissuance() succeeded")
+            event.postValue(ReissuanceSuccess)
+        }
     }
+
+    fun navigateBack() = event.postValue(Back)
 
     private suspend fun CertificateReissuance?.toState(): State {
         var certificate: DccV1.MetaData? = null
@@ -65,9 +76,11 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
             title = format(this?.reissuanceDivision?.titleText),
             subtitle = format(this?.reissuanceDivision?.subtitleText),
             content = format(this?.reissuanceDivision?.longText),
-            url = this?.reissuanceDivision?.faqAnchor
+            url = format(this?.reissuanceDivision?.faqAnchor)
         )
     }
+
+    fun openPrivacyScreen() = event.postValue(OpenPrivacyScreen)
 
     internal data class State(
         val certificate: DccV1.MetaData?,
@@ -81,7 +94,9 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal sealed class Event
     internal object ReissuanceInProgress : Event()
     internal object ReissuanceSuccess : Event()
-    internal object ReissuanceError : Event()
+    internal object Back : Event()
+    internal object OpenPrivacyScreen : Event()
+    internal data class ReissuanceError(val error: Throwable) : Event()
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<DccReissuanceConsentViewModel> {

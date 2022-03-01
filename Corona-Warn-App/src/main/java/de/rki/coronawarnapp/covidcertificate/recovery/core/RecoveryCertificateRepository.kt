@@ -247,10 +247,14 @@ class RecoveryCertificateRepository @Inject constructor(
             }
 
             this.minus(toUpdate).plus(
-                toUpdate.copy(data = toUpdate.data.copy(recycledAt = timeStamper.nowUTC)).also {
-                    Timber.tag(TAG).d("recycleCertificate updated %s", it)
-                }
+                toUpdate.setRecycled()
             )
+        }
+    }
+
+    private fun RecoveryCertificateContainer.setRecycled(): RecoveryCertificateContainer {
+        return copy(data = data.copy(recycledAt = timeStamper.nowUTC)).also {
+            Timber.tag(TAG).d("recycleCertificate updated %s", it)
         }
     }
 
@@ -279,7 +283,14 @@ class RecoveryCertificateRepository @Inject constructor(
         certificateToReplace: RecoveryCertificateContainerId,
         newCertificateQrCode: RecoveryCertificateQRCode
     ) {
-        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
+        val newContainer = newCertificateQrCode.toContainer()
+        internalData.updateBlocking {
+            map {
+                // set old to recycled
+                if (it.containerId == certificateToReplace) it.setRecycled() else it
+            } // add new
+                .plus(newContainer).toSet()
+        }
     }
 
     companion object {

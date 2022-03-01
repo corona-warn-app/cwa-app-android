@@ -222,11 +222,9 @@
 
     <!-- DCC Reissuance Consent Screen -->
     <!-- XTXT: DCC Reissuance legal header-->
-    <string name="dcc_reissuance_legal_header" translatable="false">„Onay“ üzerine tıklayarak aşağıdaki adımları kabul edersiniz:</string>
+    <string name="dcc_reissuance_legal_header" translatable="false">„Kabul Et“ üzerine tıklayarak aşağıdaki adımları kabul edersiniz:</string>
     <!-- XTXT: DCC Reissuance legal first bullet point-->
     <string name="dcc_reissuance_legal_one" translatable="false">Uygulama, kontrol amaçlı olarak aşı sertifikasını RKI’ya iletir.</string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
     <string name="dcc_reissuance_legal_two" translatable="false">RKI aşı sertifikasını kontrol eder ve güncel bir sertifika oluşturur ve bunu uygulamanıza aktarır.</string>
-    !-- XTXT: DCC Reissuance button text-->
-    <string name="dcc_reissuance_legal_button" translatable="false">Onay</string>
 </resources>

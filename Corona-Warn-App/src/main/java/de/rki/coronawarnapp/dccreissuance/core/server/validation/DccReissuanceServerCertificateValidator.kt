@@ -22,7 +22,7 @@ class DccReissuanceServerCertificateValidator @Inject constructor(
      * @throws [DccReissuanceException] if the hashes to not match
      */
     suspend fun checkCertificateChain(certificateChain: List<Certificate>) = try {
-        Timber.tag(TAG).d("checkCertificateChain(certificateChain=%s)", certificateChain)
+        Timber.tag(TAG).d("Check Certificate Chain")
         val leafCertificate = certificateChain.first()
         val reissueServicePublicKeyDigest = appConfigProvider.getAppConfig()
             .covidCertificateParameters
