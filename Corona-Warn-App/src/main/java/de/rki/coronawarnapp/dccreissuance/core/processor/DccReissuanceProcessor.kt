@@ -14,8 +14,8 @@ class DccReissuanceProcessor @Inject constructor(
 
     @Throws(DccReissuanceException::class)
     suspend fun requestDccReissuance(dccReissuanceDescriptor: CertificateReissuance): DccReissuanceResponse {
-        Timber.tag(TAG).d("requestDccReissuance(dccReissuanceDescriptor=%s)", dccReissuanceDescriptor)
-        return dccReissuanceDescriptor.callApi().also { Timber.tag(TAG).d("Returning %s", it) }
+        Timber.tag(TAG).d("Requesting Dcc Reissuance")
+        return dccReissuanceDescriptor.callApi().also { Timber.tag(TAG).d("Returning response") }
     }
 
     private suspend fun CertificateReissuance.callApi(): DccReissuanceResponse {
