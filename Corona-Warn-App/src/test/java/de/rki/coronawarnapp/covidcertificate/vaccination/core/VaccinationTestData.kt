@@ -242,7 +242,8 @@ class VaccinationTestData @Inject constructor(
         data = StoredVaccinationCertificateData(
             scannedAt = Instant.ofEpochMilli(1620062834471),
             vaccinationQrCode = personYVacTwoEntriesQrCode,
-        ), qrCodeExtractor = qrCodeExtractor
+        ),
+        qrCodeExtractor = qrCodeExtractor
     )
 
     companion object {
