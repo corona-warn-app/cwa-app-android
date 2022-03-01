@@ -18,6 +18,7 @@ data class OpenPersonDetailsFragment(
     val colorShade: PersonColorShade
 ) : PersonOverviewFragmentEvents()
 
+object ShowMigrationInfoDialog: PersonOverviewFragmentEvents()
 object OpenCovPassInfo : PersonOverviewFragmentEvents()
 object OpenAdmissionScenarioScreen : PersonOverviewFragmentEvents()
 data class ShowAdmissionScenarioError(val error: Throwable) : PersonOverviewFragmentEvents()
