@@ -89,6 +89,9 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
         }
+        binding.informationAccessibilityStatement.mainRow.setOnClickListener {
+            openUrl(getString(R.string.accessibility_statement_link))
+        }
         binding.informationContact.mainRow.setOnClickListener {
             doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationContactFragment()
