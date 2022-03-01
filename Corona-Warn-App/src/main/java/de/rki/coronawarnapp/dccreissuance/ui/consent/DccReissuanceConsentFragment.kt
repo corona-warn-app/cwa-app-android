@@ -72,12 +72,7 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
                     when (event) {
                         is DccReissuanceConsentViewModel.ReissuanceError -> {
                             agreeButton.isLoading = false
-                            event.error.toErrorDialogBuilder(requireContext())
-                                .setNegativeButton(R.string.errors_generic_button_positive) { _, _ -> }
-                                .setPositiveButton(R.string.dcc_reissuance_try_again) { _, _ ->
-                                    viewModel.startReissuance()
-                                }
-                                .show()
+                            event.error.toErrorDialogBuilder(requireContext()).show()
                         }
                         DccReissuanceConsentViewModel.ReissuanceInProgress -> agreeButton.isLoading = true
                         DccReissuanceConsentViewModel.ReissuanceSuccess -> {
