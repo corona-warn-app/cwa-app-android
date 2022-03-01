@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import android.content.Context
 import androidx.core.content.edit
+import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -30,6 +31,8 @@ class VaccinationStorageTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
+        DaggerCovidCertificateTestComponent.factory().create().inject(this)
+
         mockPreferences = MockSharedPreferences()
 
         every {
@@ -51,7 +54,7 @@ class VaccinationStorageTest : BaseTest() {
     fun `storing empty set deletes data`() = runBlockingTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
-            putString("vaccination.person.test", "test")
+            putString("vaccination.certificate", "test")
         }
         createInstance().save(emptySet())
 
@@ -72,34 +75,33 @@ class VaccinationStorageTest : BaseTest() {
             instance.save(setOf(testData.personAVac1Container, vaccinationContainer2))
 
             val json =
-                (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
+                (mockPreferences.dataMapPeek["vaccination.certificate"] as String)
 
             json.toComparableJsonPretty() shouldBe """
-                {
-                    "vaccinationData": [
-                        {
-                            "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
-                            "scannedAt": 1620062834471,
-                            "lastSeenStateChange": {
-                                "expiresAt": 1620062834471,
-                                "type": "ExpiringSoon"
-                            },
-                            "lastSeenStateChangeAt": 1620062834471,
-                            "certificateSeenByUser": true
-                        }, {
-                            "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
-                            "scannedAt": 1620069934471,
-                            "notifiedExpiresSoonAt": 1234000,
-                            "notifiedExpiredAt": 1234000,
-                            "notifiedInvalidAt": 1234000,
-                            "notifiedBlockedAt": 1234000,
-                            "certificateSeenByUser": true
-                        }
-                    ]
-                }
+                [
+                    {
+                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "scannedAt": 1620062834471,
+                      "lastSeenStateChange": {
+                        "expiresAt": 1620062834471,
+                        "type": "ExpiringSoon"
+                      },
+                      "lastSeenStateChangeAt": 1620062834471,
+                      "certificateSeenByUser": true
+                    },
+                    {
+                      "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
+                      "scannedAt": 1620069934471,
+                      "notifiedExpiresSoonAt": 1234000,
+                      "notifiedExpiredAt": 1234000,
+                      "notifiedInvalidAt": 1234000,
+                      "notifiedBlockedAt": 1234000,
+                      "certificateSeenByUser": true
+                    }
+                  ]
             """.toComparableJsonPretty()
 
-            instance.load().single().apply {
+            instance.load().apply {
                 this shouldBe personData
             }
         }

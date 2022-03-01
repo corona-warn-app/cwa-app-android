@@ -73,6 +73,17 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
 
+        every { vaccinationCertificateWrapper.vaccinationCertificate } returns vaccinationCertificate
+
+        vaccinationCertificate.apply {
+            every { getState() } returns State.Valid(expiresAt = Instant.EPOCH)
+            every { containerId } returns vaccinationContainerId
+            every { notifiedExpiresSoonAt } returns null
+            every { notifiedExpiredAt } returns null
+            every { notifiedInvalidAt } returns null
+            every { notifiedBlockedAt } returns null
+        }
+
         recoveryRepository.apply {
             coEvery { freshCertificates } returns flowOf(setOf(recoveryCertificateWrapper))
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
