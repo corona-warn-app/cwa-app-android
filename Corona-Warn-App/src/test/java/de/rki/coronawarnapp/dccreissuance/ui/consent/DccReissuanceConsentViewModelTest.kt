@@ -19,11 +19,14 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
+import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
+@ExtendWith(InstantExecutorExtension::class)
 internal class DccReissuanceConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
