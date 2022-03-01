@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
+import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -70,7 +71,7 @@ class DccV1Parser @Inject constructor(
                 vaccinations.isNullOrEmpty() -> throw InvalidHealthCertificateException(ErrorCode.NO_VACCINATION_ENTRY)
                 vaccinations.size > 1 -> {
                     Timber.w("Lenient: Vaccination data contained multiple entries.")
-                    copy(vaccinations = listOf(vaccinations.maxByOrNull { it.vaccinatedOn }!!))
+                    copy(vaccinations = listOfNotNull(vaccinations.maxByOrNull { it.vaccinatedOn ?: LocalDate(0L) }))
                 }
                 else -> this
             }

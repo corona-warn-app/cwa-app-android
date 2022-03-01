@@ -8,13 +8,12 @@
     <!-- XTXT: Request green certificate body section 2 -->
     <string name="request_green_certificate_body_2">"Certificatul de test este o dovadă valabilă a unui rezultat de test negativ în UE (de exemplu, în scop de călătorie)."</string>
     <!-- XTXT: Request green certificate body section 3 -->
-    <string name="request_green_certificate_body_3">"Certificatul de test conține date care îi permit aplicației de verificare să vă verifice certificatul."</string>
     <!-- XBUT: Request green certificate agree button -->
     <string name="request_green_certificate_agree_button">"Solicitare certificat de test"</string>
     <!-- XBUT: Request green certificate disagree button -->
     <string name="request_green_certificate_disagree_button">"Nu, mulțumesc"</string>
     <!-- XTXT: Request green certificate birth date description -->
-    <string name="request_green_certificate_birthdate_description">"În scop de securitate, rezultatul testului dvs. este protejat cu data nașterii dvs. Rezultatul de test poate fi emis doar dacă specificați data corectă a nașterii."</string>
+    <string name="request_green_certificate_birthdate_description">"În scop de securitate, certificatul dvs. de test este protejat cu data nașterii dvs. Certificatul de test poate fi emis doar dacă specificați data corectă a nașterii."</string>
     <!-- XTXT: Request green certificate birth date hint -->
     <string name="request_green_certificate_birthdate_hint">"Data nașterii"</string>
     <!-- XTXT: Request green certificate exit dialog title -->
@@ -26,9 +25,7 @@
     <!-- XBUT: Request green certificate exit dialog negative button -->
     <string name="request_gc_dialog_negative_button">"Continuare înregistrare"</string>
     <!-- XTXT: Detail green certificate title -->
-    <string name="detail_green_certificate_title">"Certificat de test COVID digital UE"</string>
     <!-- XTXT: Detail green certificate test type -->
-    <string name="detail_green_certificate_test_type">"Test SARS-CoV-2"</string>
     <!-- XTXT: Detail green certificate menu item: delete -->
     <string name="green_certificate_details_menu_item_delete">"Ștergere certificat"</string>
     <!-- XTXT: Detail green certificate menu item: print -->
@@ -39,16 +36,11 @@
     <!-- XTXT: Green certificate menu item -->
     <string name="menu_certification_information">"Informații"</string>
     <!-- XTXT: Green certificate main screen header text -->
-    <string name="green_certification_header_info">"Certificatele dvs. de vaccinare digitale și certificatele de test digitale sunt afișate aici."</string>
     <!-- XTXT: Green certificate info card title 1st line -->
-    <string name="info_banner_title_1">"Digital"</string>
     <!-- XTXT: Green certificate info card title 2nd line  -->
-    <string name="info_banner_title_2">"Certificat de test COVID UE"</string>
     <!-- XTXT: Green certificate info card body  -->
-    <string name="info_banner_body">"Înregistrați un test pe ecranul inițial și consimțiți să primiți un certificat de test digital. De îndată ce este disponibil certificatul, acesta este afișat aici."</string>
 
     <!-- XTXT: Test certificate time -->
-    <string name="test_certificate_time">"Test efectuat pe %1$s, %2$s"</string>
     <!-- XTXT: Test certificate registration time -->
     <string name="test_certificate_registration_time">"Înregistrat pe %1$s, %2$s"</string>
     <!-- XTXT: Test error label -->

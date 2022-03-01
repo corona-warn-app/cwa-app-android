@@ -6,9 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.AdmissionState
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.MostRelevantCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.OutputCertificates
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.PluralText
@@ -33,7 +33,7 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
     private lateinit var dao: DccWalletInfoDao
     private lateinit var db: DccWalletInfoDatabase
 
-    private val mostRelevantCertificate = MostRelevantCertificate(
+    private val mostRelevantCertificate = Certificate(
         certificateRef = CertificateRef(
             barcodeData = "HC1:6..."
         )
@@ -205,6 +205,17 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
 
         dao.insert(personWallet)
         dao.delete(personWallet)
+        dao.getAll().first() shouldBe listOf()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun deleteBy() = runBlocking {
+        val personId = personIdentifier.groupingKey
+        val personWallet = DccWalletInfoEntity(personId, dccWalletInfo)
+
+        dao.insert(personWallet)
+        dao.deleteBy(setOf(personId))
         dao.getAll().first() shouldBe listOf()
     }
 }

@@ -42,7 +42,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         )
         certificateInfoLine2.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn.toShortDayFormat()
+            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
         )
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.vaccination_certificate_name)

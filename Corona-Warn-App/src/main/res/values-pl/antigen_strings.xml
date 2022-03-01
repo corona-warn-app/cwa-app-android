@@ -105,14 +105,8 @@
     <string name="submission_test_result_negative_message">"Nie zdiagnozowano u Ciebie wirusa SARS-CoV-2."</string>
     <!-- XHED: submission result antigen fragment negative result proof title -->
     <string name="submission_test_result_antigen_negative_proof_title">"Funkcja weryfikacji"</string>
-    <!-- XHED: submission result antigen fragment negative result proof title for anonymous tests-->
-    <string name="submission_test_result_antigen_negative_proof_title_anonymous">"Brak funkcji weryfikacji"</string>
     <!-- XHED: submission result antigen fragment negative result proof body -->
     <string name="submission_test_result_antigen_negative_proof_body">"Do rzetelnej weryfikacji wyświetlanego tutaj wyniku wymagany jest unijny cyfrowy certyfikat Covid. Jeśli podczas rejestracji testu zażądałeś(-aś) cyfrowego certyfikatu testu, a punkt testowy wydaje cyfrowe certyfikaty, możesz znaleźć swój cyfrowy certyfikat testu, korzystając z linku podanego powyżej. Znajdziesz go również na karcie „Certyfikaty”.\nProsimy również o zapoznanie się z kryteriami uznawania i ważności certyfikatów testów w kontekście celu, dla którego potrzebujesz dowodu."</string>
-    <!-- XHED: submission result antigen fragment negative result proof body anonymous -->
-    <string name="submission_test_result_antigen_negative_proof_body_anonymous">"Ponieważ ten wynik testu jest anonimizowany, nie może służyć jako dowód negatywnego wyniku szybkiego testu."</string>
-    <!-- XHED: submission result antigen fragment negative result proof additional information -->
-    <string name="submission_test_result_antigen_negative_proof_additional_information">"Pamiętaj, że wynik szybkiego testu musisz przedstawić tylko wtedy, gdy jest to wymagane przez prawo. Jeśli to wymagane, możesz go udostępnić za pomocą aplikacji lub na jeden z podanych sposobów. Aby uzyskać więcej informacji, zapoznaj się z kryteriami akceptacji dowodu przeprowadzenia testów w swoim kraju związkowym."</string>
     <!-- XHED: submission result antigen negative result counter title -->
     <string name="submission_test_result_antigen_negative_counter_title">"Wynik dostępny od"</string>
     <!-- XHED: coronatest negative antigen result first info title -->

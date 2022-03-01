@@ -44,6 +44,10 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             binding.informationVersion.text = it
         }
 
+        vm.cclConfigVersion.observe2(this) {
+            binding.cclVersion.text = it
+        }
+
         binding.informationEnfVersion.setOnClickListener {
             try {
                 startActivity(Intent(ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS))

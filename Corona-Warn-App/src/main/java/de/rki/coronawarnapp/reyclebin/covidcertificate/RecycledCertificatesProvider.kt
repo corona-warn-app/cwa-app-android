@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.reyclebin.covidcertificate
 
 import dagger.Reusable
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -25,7 +24,6 @@ class RecycledCertificatesProvider @Inject constructor(
     private val vaccinationRepository: VaccinationRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
     @AppScope appScope: CoroutineScope
 ) {
 
@@ -53,6 +51,15 @@ class RecycledCertificatesProvider @Inject constructor(
         return recycledCertificates.first().find { it.qrCodeToDisplay.content == dccRawQrCode }?.containerId
     }
 
+    suspend fun recycleCertificate(containerId: CertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=%s)", containerId)
+        when (containerId) {
+            is VaccinationCertificateContainerId -> vaccinationRepository.recycleCertificate(containerId)
+            is RecoveryCertificateContainerId -> recoveryCertificateRepository.recycleCertificate(containerId)
+            is TestCertificateContainerId -> testCertificateRepository.recycleCertificate(containerId)
+        }
+    }
+
     suspend fun restoreCertificate(containerId: CertificateContainerId) {
         Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
         when (containerId) {
@@ -60,7 +67,6 @@ class RecycledCertificatesProvider @Inject constructor(
             is TestCertificateContainerId -> testCertificateRepository.restoreCertificate(containerId)
             is VaccinationCertificateContainerId -> vaccinationRepository.restoreCertificate(containerId)
         }
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
     }
 
     suspend fun deleteCertificate(containerId: CertificateContainerId) {

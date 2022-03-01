@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import de.rki.coronawarnapp.ccl.configuration.model.CclDateTime
+import de.rki.coronawarnapp.ccl.configuration.model.CclInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
@@ -32,7 +34,7 @@ import testhelpers.TestDispatcherProvider
 class DccWalletInfoCalculationTest : BaseTest() {
 
     @MockK lateinit var walletInfo: DccWalletInfo
-    @MockK lateinit var CCLJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
 
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
@@ -64,7 +66,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        coEvery { CCLJsonFunctions.evaluateFunction("getDccWalletInfo", any()) } returns NullNode.instance
+        coEvery { cclJsonFunctions.evaluateFunction("getDccWalletInfo", any()) } returns NullNode.instance
         every { mapper.treeToValue(any(), DccWalletInfo::class.java) } returns walletInfo
         every { mapper.readTree(any<String>()) } returns ObjectNode(JsonNodeFactory.instance)
         every { mapper.valueToTree<JsonNode>(any()) } returns NullNode.instance
@@ -72,7 +74,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
         instance = DccWalletInfoCalculation(
             gson = SerializationModule().baseGson(),
             mapper = mapper,
-            cclJsonFunctions = CCLJsonFunctions,
+            cclJsonFunctions = cclJsonFunctions,
             dispatcherProvider = TestDispatcherProvider()
         )
     }
@@ -83,7 +85,8 @@ class DccWalletInfoCalculationTest : BaseTest() {
         val dccWalletInfoInput = instance.getDccWalletInfoInput(
             defaultInputParameters = defaultInputParameters,
             dccList = listOf(certificate),
-            boosterNotificationRules = NullNode.instance
+            boosterNotificationRules = NullNode.instance,
+            scenarioIdentifier = "",
         )
         dccWalletInfoInput.language shouldBe "de"
         dccWalletInfoInput.os shouldBe "android"

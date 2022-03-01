@@ -6,8 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
-import de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment
-import de.rki.coronawarnapp.test.ccl.CCLTestFragment
+import de.rki.coronawarnapp.test.ccl.CclTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
@@ -32,11 +31,14 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
     personCertificatesProvider: PersonCertificatesProvider
 ) : CWAViewModel() {
 
-    val personsCount = personCertificatesProvider.personCertificates.map { it.size }.asLiveData2()
+    val personsCount =
+        personCertificatesProvider.personCertificates.map {
+            it.size to it.sumOf { certs -> certs.certificates.size }
+        }.asLiveData2()
 
     val testMenuData by lazy {
         listOf(
-            CCLTestFragment.MENU_ITEM,
+            CclTestFragment.MENU_ITEM,
             DebugOptionsFragment.MENU_ITEM,
             SettingsCrashReportFragment.MENU_ITEM,
             AppConfigTestFragment.MENU_ITEM,
@@ -53,7 +55,6 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
             HomeTestCardsFragment.MENU_ITEM,
             QrCodeTestFragment.MENU_ITEM,
             DscTestFragment.MENU_ITEM,
-            BoosterTestFragment.MENU_ITEM,
             DccTicketingTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }

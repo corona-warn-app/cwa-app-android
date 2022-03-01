@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/bulletpoint"
+        layout="@layout/include_bullet_point"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        app:layout_constraintBaseline_toBaselineOf="@id/bulletpoint_text"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/bulletpoint_text"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/bulletpoint"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="bullet point content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,11 +12,12 @@ import de.rki.coronawarnapp.bugreporting.BugReporter
 import de.rki.coronawarnapp.bugreporting.BugReportingModule
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.bugreporting.debuglog.DebugLogger
-import de.rki.coronawarnapp.ccl.CCLModule
+import de.rki.coronawarnapp.ccl.CclModule
 import de.rki.coronawarnapp.coronatest.CoronaTestModule
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateModule
 import de.rki.coronawarnapp.datadonation.DataDonationModule
+import de.rki.coronawarnapp.dccreissuance.DccReissuanceModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingModule
 import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
@@ -92,7 +93,8 @@ import javax.inject.Singleton
         RootDetectionModule::class,
         InAppUpdateModule::class,
         DccTicketingModule::class,
-        CCLModule::class,
+        CclModule::class,
+        DccReissuanceModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

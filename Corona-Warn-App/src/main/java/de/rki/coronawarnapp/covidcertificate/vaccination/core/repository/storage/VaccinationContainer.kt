@@ -128,7 +128,7 @@ data class VaccinationContainer internal constructor(
         override val dateOfBirthFormatted: String
             get() = certificate.dateOfBirthFormatted
 
-        override val vaccinatedOn: LocalDate
+        override val vaccinatedOn: LocalDate?
             get() = vaccination.vaccinatedOn
         override val vaccinatedOnFormatted: String
             get() = vaccination.vaccinatedOnFormatted
@@ -162,8 +162,7 @@ data class VaccinationContainer internal constructor(
                 vaccination.certificateCountry.uppercase()
             ).getDisplayCountry(userLocale)
 
-        override val qrCodeHash: String
-            get() = this@VaccinationContainer.qrCodeHash
+        override val qrCodeHash: String by lazy { this@VaccinationContainer.qrCodeHash }
 
         override val uniqueCertificateIdentifier: String
             get() = vaccination.uniqueCertificateIdentifier

@@ -14,9 +14,8 @@ inline fun <reified VM : CWAViewModel> Fragment.cwaViewModels(
 ) = createViewModelLazyKeyed(
     VM::class,
     keyProducer,
-    ownerProducer,
-    { factoryProducer.invoke().create(this, arguments) }
-)
+    ownerProducer
+) { factoryProducer.invoke().create(this, arguments) }
 
 @MainThread
 inline fun <reified VM : CWAViewModel> Fragment.cwaViewModelsAssisted(
@@ -27,9 +26,8 @@ inline fun <reified VM : CWAViewModel> Fragment.cwaViewModelsAssisted(
 ) = createViewModelLazyKeyed(
     VM::class,
     keyProducer,
-    ownerProducer,
-    { factoryProducer.invoke().create(this, arguments, constructorCall) }
-)
+    ownerProducer
+) { factoryProducer.invoke().create(this, arguments, constructorCall) }
 
 @MainThread
 inline fun <reified VM : CWAViewModel> ComponentActivity.cwaViewModels(
@@ -39,9 +37,8 @@ inline fun <reified VM : CWAViewModel> ComponentActivity.cwaViewModels(
 ) = createViewModelLazyKeyed(
     VM::class,
     keyProducer,
-    ownerProducer,
-    { factoryProducer.invoke().create(this, intent.extras) }
-)
+    ownerProducer
+) { factoryProducer.invoke().create(this, intent.extras) }
 
 @MainThread
 inline fun <reified VM : CWAViewModel> ComponentActivity.cwaViewModelsAssisted(
@@ -52,6 +49,5 @@ inline fun <reified VM : CWAViewModel> ComponentActivity.cwaViewModelsAssisted(
 ) = createViewModelLazyKeyed(
     VM::class,
     keyProducer,
-    ownerProducer,
-    { factoryProducer.invoke().create(this, intent.extras, constructorCall) }
-)
+    ownerProducer
+) { factoryProducer.invoke().create(this, intent.extras, constructorCall) }

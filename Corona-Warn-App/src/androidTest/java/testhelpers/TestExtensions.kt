@@ -16,7 +16,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.launchActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.FakeEmptyActivity
@@ -72,14 +71,35 @@ inline fun <reified F : Fragment> launchFragment2(
  * takeScreenshot<HomeFragment>()
  * ```
  */
-inline fun <reified F : Fragment> launchInMainActivity(): ActivityScenario<FakeMainActivity> {
-    val intent = Intent(
-        ApplicationProvider.getApplicationContext(),
-        FakeMainActivity::class.java
-    ).apply {
-        putExtra(FakeMainActivity.FRAGMENT_CLASS, F::class.qualifiedName)
+inline fun <reified F : Fragment> launchInMainActivity(
+    fragmentArgs: Bundle? = null,
+    testNavHostController: TestNavHostController? = null
+): ActivityScenario<FakeMainActivity> {
+    val startActivityIntent = Intent.makeMainActivity(
+        ComponentName(
+            ApplicationProvider.getApplicationContext(),
+            FakeMainActivity::class.java
+        )
+    ).putExtra(EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY, R.style.AppTheme_Main)
+
+    return ActivityScenario.launch<FakeMainActivity>(startActivityIntent).onActivity { activity ->
+        val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
+            Preconditions.checkNotNull(F::class.java.classLoader),
+            F::class.java.name
+        )
+        fragment.arguments = fragmentArgs
+        fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
+            if (viewLifecycleOwner != null) {
+                testNavHostController?.let {
+                    Navigation.setViewNavController(fragment.requireView(), it)
+                }
+            }
+        }
+        activity.supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fake_host_fragment, fragment, F::class.java.name)
+            .commitNow()
     }
-    return launchActivity(intent)
 }
 
 /**
@@ -105,7 +125,7 @@ inline fun <reified F : Fragment> launchInMainActivity(): ActivityScenario<FakeM
 inline fun <reified F : Fragment> launchInEmptyActivity(
     fragmentArgs: Bundle? = null,
     testNavHostController: TestNavHostController? = null
-): ActivityScenario<FakeEmptyActivity>? {
+): ActivityScenario<FakeEmptyActivity> {
     val startActivityIntent = Intent.makeMainActivity(
         ComponentName(
             ApplicationProvider.getApplicationContext(),

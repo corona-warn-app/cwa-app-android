@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
@@ -89,8 +90,9 @@ class DataReset @Inject constructor(
     private val exposureWindowsSettings: AnalyticsExposureWindowsSettings,
     private val dccTicketingAllowListRepository: DccTicketingAllowListRepository,
     private val dccTicketingQrCodeSettings: DccTicketingQrCodeSettings,
-    private val cclConfigurationRepository: CCLConfigurationRepository,
+    private val cclConfigurationRepository: CclConfigurationRepository,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
+    private val cclSettings: CclSettings,
 ) {
 
     private val mutex = Mutex()
@@ -154,6 +156,7 @@ class DataReset @Inject constructor(
 
         dccTicketingQrCodeSettings.clear()
 
+        cclSettings.clear()
         cclConfigurationRepository.clear()
 
         dccWalletInfoRepository.clear()

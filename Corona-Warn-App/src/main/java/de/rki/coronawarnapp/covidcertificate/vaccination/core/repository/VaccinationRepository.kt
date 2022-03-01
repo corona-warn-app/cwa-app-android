@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -17,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -49,7 +47,6 @@ class VaccinationRepository @Inject constructor(
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val dccStateChecker: DccStateChecker,
     @AppScope private val appScope: CoroutineScope,
-    private val boosterRulesRepository: BoosterRulesRepository,
     dscRepository: DscRepository
 ) {
 
@@ -67,14 +64,14 @@ class VaccinationRepository @Inject constructor(
                 )
             }
             .toSet()
-            .also { Timber.tag(TAG).v("Restored vaccination data: %s", it) }
+            .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
     }
 
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
             .onEach { vaccinatedPersons ->
-                Timber.tag(TAG).v("Vaccination data changed: %s", vaccinatedPersons)
+                Timber.tag(TAG).v("Vaccination data changed, %d items", vaccinatedPersons.size)
                 storage.save(vaccinatedPersons.map { it.data }.toSet())
             }
             .catch {
@@ -87,18 +84,16 @@ class VaccinationRepository @Inject constructor(
     val freshVaccinationInfos: Flow<Set<VaccinatedPerson>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
-        dscRepository.dscData,
-        boosterRulesRepository.rules
-    ) { personDatas, currentValueSet, _, boosterRules ->
-        val rulesMap = boosterRules.associateBy { it.identifier }
+        dscRepository.dscData
+    ) { personDatas, currentValueSet, _ ->
         personDatas.map { person ->
             val stateMap = person.data.getStates()
             person.copy(
                 valueSet = currentValueSet,
                 certificateStates = stateMap,
-                data = person.data.copy(boosterRule = dccValidationRule(rulesMap, person.data))
+                data = person.data
             )
-        }.toSet().also { Timber.d("Test: $it") }
+        }.toSet().also { Timber.d("Tests: ${it.size}") }
     }
 
     val vaccinationInfos: Flow<Set<VaccinatedPerson>> = freshVaccinationInfos
@@ -106,8 +101,6 @@ class VaccinationRepository @Inject constructor(
             tag = TAG,
             scope = appScope
         )
-
-    val cwaCertificates = vaccinationInfos.map { persons -> persons.flatMap { it.vaccinationCertificates }.toSet() }
 
     /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
@@ -174,7 +167,7 @@ class VaccinationRepository @Inject constructor(
     suspend fun clear() {
         Timber.tag(TAG).w("Clearing vaccination data.")
         internalData.updateBlocking {
-            Timber.tag(TAG).v("Deleting: %s", this)
+            Timber.tag(TAG).v("Deleting %d items", this.size)
             emptySet()
         }
     }
@@ -333,39 +326,32 @@ class VaccinationRepository @Inject constructor(
                 )
             )
 
-            Timber.tag(TAG).d("acknowledgeBoosterRule updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("acknowledgeBoosterRule updatedPerson=%s", updatedPerson.identifier)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
     }
 
-    suspend fun updateBoosterRule(
-        personIdentifier: CertificatePersonIdentifier,
-        rule: DccValidationRule?
+    suspend fun clearBoosterRuleInfo(
+        personIdentifier: CertificatePersonIdentifier
     ) {
         Timber.tag(TAG)
-            .d("updateBoosterRule(personIdentifier=%s, ruleIdentifier=%s)", personIdentifier, rule?.identifier)
+            .d("clearBoosterRuleInfo(personIdentifier=%s)", personIdentifier)
+
         internalData.updateBlocking {
+
             val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
 
             if (vaccinatedPerson == null) {
-                Timber.tag(TAG).w("updateBoosterRule couldn't find person %s", personIdentifier.codeSHA256)
+                Timber.tag(TAG).w("clearBoosterRuleInfo couldn't find person %s", personIdentifier.codeSHA256)
                 return@updateBlocking this
             }
 
-            val data = when (rule) {
-                // Clear notification badge if user is not eligible for booster anymore
-                null -> vaccinatedPerson.data.copy(
-                    boosterRuleIdentifier = null,
-                    lastSeenBoosterRuleIdentifier = null
-                )
-                else -> vaccinatedPerson.data.copy(
-                    boosterRuleIdentifier = rule.identifier
-                )
-            }
+            val data =
+                vaccinatedPerson.data.copy(boosterRuleIdentifier = null, lastSeenBoosterRuleIdentifier = null)
             val updatedPerson = vaccinatedPerson.copy(data = data)
 
-            Timber.tag(TAG).d("updateBoosterRule updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("clearBoosterRuleInfo updatedPerson=%s", data.identifier)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
@@ -388,7 +374,7 @@ class VaccinationRepository @Inject constructor(
                 data = vaccinatedPerson.data.copy(lastBoosterNotifiedAt = time)
             )
 
-            Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson)
+            Timber.tag(TAG).d("updateBoosterNotifiedAt updatedPerson=%s", updatedPerson.identifier)
 
             this.minus(vaccinatedPerson).plus(updatedPerson)
         }
@@ -446,16 +432,11 @@ class VaccinationRepository @Inject constructor(
         }
     }
 
-    private fun dccValidationRule(
-        boosterRules: Map<String, DccValidationRule>,
-        personContainer: VaccinatedPersonData
-    ): DccValidationRule? {
-        val boosterRuleIdentifier = personContainer.boosterRuleIdentifier
-        return if (boosterRuleIdentifier == null) {
-            null
-        } else {
-            boosterRules.getOrDefault(boosterRuleIdentifier, null)
-        }
+    suspend fun replaceCertificate(
+        certificateToReplace: VaccinationCertificateContainerId,
+        newCertificateQrCodeQrCode: VaccinationCertificateQRCode
+    ) {
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     companion object {

@@ -35,7 +35,7 @@ import javax.inject.Singleton
 @Singleton
 class DccValidationRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
     @BaseGson private val gson: Gson,
     private val server: DccValidationServer,
     private val localCache: DccValidationCache,
@@ -92,16 +92,18 @@ class DccValidationRepository @Inject constructor(
                 localCache.saveCountryJson(it)
                 mapCountries(it)
             }
-            val newAcceptanceData = server.ruleSetJson(Type.ACCEPTANCE).let { rawJson ->
+            val newAcceptanceData = server.ruleSetJson(Type.ACCEPTANCE).let { ruleSetResult ->
                 try {
-                    rawJson.toRuleSet().also { localCache.saveAcceptanceRulesJson(rawJson) }
+                    ruleSetResult.ruleSetJson.toRuleSet()
+                        .also { localCache.saveAcceptanceRulesJson(ruleSetResult.ruleSetJson) }
                 } catch (e: Exception) {
                     throw DccValidationException(ErrorCode.ACCEPTANCE_RULE_JSON_DECODING_FAILED, e)
                 }
             }
-            val newInvalidationData = server.ruleSetJson(Type.INVALIDATION).let { rawJson ->
+            val newInvalidationData = server.ruleSetJson(Type.INVALIDATION).let { ruleSetResult ->
                 try {
-                    rawJson.toRuleSet().also { localCache.saveInvalidationRulesJson(rawJson) }
+                    ruleSetResult.ruleSetJson.toRuleSet()
+                        .also { localCache.saveInvalidationRulesJson(ruleSetResult.ruleSetJson) }
                 } catch (e: Exception) {
                     throw DccValidationException(ErrorCode.INVALIDATION_RULE_JSON_DECODING_FAILED, e)
                 }

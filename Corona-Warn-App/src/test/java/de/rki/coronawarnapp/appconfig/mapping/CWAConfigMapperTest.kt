@@ -8,7 +8,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockkObject
-import io.mockk.spyk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -62,69 +61,87 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `feature, device time check is disabled`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "disable-device-time-check"
-                            value = 1
-                        }.build()
-                    )
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe false
-            isUnencryptedCheckInsEnabled shouldBe false
-        }
-    }
+    fun `test boolean app config flags - should return true on 1`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "disable-device-time-check"
+                value = 1
+            },
+            AppFeature.newBuilder().apply {
+                label = "unencrypted-checkins-enabled"
+                value = 1
+            },
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-enabled"
+                value = 1
+            },
+        )
 
-    @Test
-    fun `feature, device time check is enabled`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "disable-device-time-check"
-                            value = 0
-                        }.build()
-                    )
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe true
-            isUnencryptedCheckInsEnabled shouldBe false
-        }
-    }
-
-    @Test
-    fun `feature, unencrypted checkins enabled`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "disable-device-time-check"
-                            value = 1
-                        }.build()
-                    )
-
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "unencrypted-checkins-enabled"
-                            value = 1
-                        }.build()
-                    )
-                }
-            )
-            .build()
         createInstance().map(rawConfig).apply {
             isDeviceTimeCheckEnabled shouldBe false
             isUnencryptedCheckInsEnabled shouldBe true
+            admissionScenariosEnabled shouldBe true
+        }
+    }
+
+    @Test
+    fun `test boolean app config flags - should return default value on 0`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "disable-device-time-check"
+                value = 0
+            },
+            AppFeature.newBuilder().apply {
+                label = "unencrypted-checkins-enabled"
+                value = 0
+            },
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-enabled"
+                value = 0
+            },
+        )
+
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+            admissionScenariosEnabled shouldBe false
+        }
+    }
+
+    @Test
+    fun `test boolean app config flags should return default value on invalid integer value`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            AppFeature.newBuilder().apply {
+                label = "disable-device-time-check"
+                value = 2
+            },
+            AppFeature.newBuilder().apply {
+                label = "unencrypted-checkins-enabled"
+                value = 99
+            },
+            AppFeature.newBuilder().apply {
+                label = "dcc-admission-check-scenarios-enabled"
+                value = -1
+            },
+        )
+
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+            admissionScenariosEnabled shouldBe false
+        }
+    }
+
+    @Test
+    fun `test boolean app config flags should return default value if flag is not available`() {
+        val rawConfig = buildConfigWithAppFeatures(
+            // flags not available, default values should be used
+        )
+
+        createInstance().map(rawConfig).apply {
+            isDeviceTimeCheckEnabled shouldBe true
+            isUnencryptedCheckInsEnabled shouldBe false
+            admissionScenariosEnabled shouldBe false
         }
     }
 
@@ -237,108 +254,6 @@ class CWAConfigMapperTest : BaseTest() {
     }
 
     @Test
-    fun `feature, unencrypted checkins disabled`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "disable-device-time-check"
-                            value = 0
-                        }.build()
-                    )
-
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "unencrypted-checkins-enabled"
-                            value = 0
-                        }.build()
-                    )
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe true
-            isUnencryptedCheckInsEnabled shouldBe false
-        }
-    }
-
-    @Test
-    fun `feature, unencrypted checkins disabled - value is not 1`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "disable-device-time-check"
-                            value = 0
-                        }.build()
-                    )
-
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "unencrypted-checkins-enabled"
-                            value = 11
-                        }.build()
-                    )
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe true
-            isUnencryptedCheckInsEnabled shouldBe false
-        }
-    }
-
-    @Test
-    fun `feature, device time check with unknown value`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(
-                        AppFeature.newBuilder().apply {
-                            label = "disable-device-time-check"
-                            value = 99
-                        }.build()
-                    )
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe true
-            isUnencryptedCheckInsEnabled shouldBe false
-        }
-    }
-
-    @Test
-    fun `feature, device time check default value`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                AppFeatures.newBuilder().apply {
-                    addAppFeatures(AppFeature.newBuilder().build())
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe true
-        }
-    }
-
-    @Test
-    fun `feature, device time check exception`() {
-        val rawConfig = ApplicationConfigurationAndroid.newBuilder()
-            .setAppFeatures(
-                spyk(AppFeatures.newBuilder().build()).apply {
-                    every { appFeaturesCount } throws IllegalArgumentException()
-                }
-            )
-            .build()
-        createInstance().map(rawConfig).apply {
-            isDeviceTimeCheckEnabled shouldBe true
-        }
-    }
-
-    @Test
     fun `disable-time-check-disabled feature can not be set via test settings`() {
         val rawConfig = ApplicationConfigurationAndroid.newBuilder()
             .setAppFeatures(
@@ -363,4 +278,14 @@ class CWAConfigMapperTest : BaseTest() {
             isDeviceTimeCheckEnabled shouldBe true
         }
     }
+
+    private fun buildConfigWithAppFeatures(vararg appFeature: AppFeature.Builder) =
+        ApplicationConfigurationAndroid.newBuilder()
+            .setAppFeatures(
+                AppFeatures.newBuilder().apply {
+                    appFeature.forEach {
+                        addAppFeatures(it.build())
+                    }
+                }
+            ).build()
 }

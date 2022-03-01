@@ -47,7 +47,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         every { autoSubmission.isSubmissionRunning } returns flowOf(false)
         every { autoSubmission.updateMode(any()) } just Runs
-        coEvery { autoSubmission.runSubmissionNow() } just Runs
+        coEvery { autoSubmission.runSubmissionNow(any()) } just Runs
         every { submissionRepository.currentSymptoms } returns currentSymptoms
     }
 
@@ -84,7 +84,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
         coVerifySequence {
             autoSubmission.isSubmissionRunning
             submissionRepository.currentSymptoms
-            autoSubmission.runSubmissionNow()
+            autoSubmission.runSubmissionNow(any())
         }
 
         currentSymptoms.value shouldBe Symptoms(
@@ -99,7 +99,7 @@ class SubmissionSymptomCalendarViewModelTest : BaseTest() {
 
         coVerifySequence {
             autoSubmission.isSubmissionRunning
-            autoSubmission.runSubmissionNow()
+            autoSubmission.runSubmissionNow(any())
         }
     }
 

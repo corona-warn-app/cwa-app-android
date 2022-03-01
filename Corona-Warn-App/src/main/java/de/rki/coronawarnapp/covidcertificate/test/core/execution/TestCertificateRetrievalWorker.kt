@@ -6,7 +6,6 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -16,7 +15,6 @@ class TestCertificateRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val testCertificateRepository: TestCertificateRepository,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -36,7 +34,6 @@ class TestCertificateRetrievalWorker @AssistedInject constructor(
                 Result.retry()
             } else {
                 Timber.tag(TAG).d("No errors during test certificate refresh :).")
-                dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
                 Result.success()
             }
         } catch (e: Exception) {

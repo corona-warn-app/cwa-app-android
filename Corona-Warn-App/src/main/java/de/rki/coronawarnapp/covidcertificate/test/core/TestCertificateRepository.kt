@@ -72,7 +72,7 @@ class TestCertificateRepository @Inject constructor(
                 )
             }.associateBy { it.containerId }
             .also {
-                Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
+                Timber.tag(TAG).v("Restored TestCertificate data: %d items", it.size)
             }
     }
 
@@ -103,8 +103,6 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    val cwaCertificates = certificates.map { set -> set.mapNotNull { it.testCertificate }.toSet() }
-
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
@@ -126,7 +124,7 @@ class TestCertificateRepository @Inject constructor(
             .drop(1) // Initial emission, restored from storage.
             .onEach { entrySets ->
                 val values = entrySets.values
-                Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
+                Timber.tag(TAG).v("TestCertificateContainer data changed: %d items", values.size)
                 storage.save(values.map { it.data }.toSet())
             }
             .catch {
@@ -531,6 +529,13 @@ class TestCertificateRepository @Inject constructor(
 
             mutate { this[containerId] = updated }
         }
+    }
+
+    suspend fun replaceCertificate(
+        certificateToReplace: TestCertificateContainerId,
+        newCertificateQrCode: TestCertificateQRCode
+    ) {
+        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
     }
 
     private fun updateLastSeenStateData(

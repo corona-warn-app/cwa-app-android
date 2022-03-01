@@ -77,6 +77,7 @@ class DebugOptionsFragment : Fragment(R.layout.fragment_test_debugoptions), Auto
                 environmentPubkeyCrowdnotifier.text = "CrowdNotifierPubKey" styleTo state.pubKeyCrowdNotifier
                 environmentPubkeyAppconfig.text = "AppConfigPubKey" styleTo state.pubKeyAppConfig
                 environmentDccServerUrl.text = "DccServerUrl" styleTo state.dccServerUrl
+                environmentDccReissuanceServerUrl.text = "DccReissuanceServerUrl" styleTo state.dccReissuanceServerUrl
             }
         }
         vm.environmentStateChange.observe2(this) {

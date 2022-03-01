@@ -104,7 +104,7 @@ class SubmissionSymptomCalendarViewModel @AssistedInject constructor(
     private fun performSubmission(onSubmitted: () -> Unit) {
         launch {
             try {
-                autoSubmission.runSubmissionNow()
+                autoSubmission.runSubmissionNow(testType)
                 onSubmitted()
             } catch (e: Exception) {
                 Timber.tag(TAG).e(e, "performSubmission() failed.")

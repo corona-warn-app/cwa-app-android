@@ -121,7 +121,7 @@ data class TestCertificateContainer(
                 get() = testCertificate.testName?.let { valueSet?.getDisplayText(it) ?: it }
             override val testNameAndManufacturer: String?
                 get() = testCertificate.testNameAndManufacturer?.let { valueSet?.getDisplayText(it) ?: it }
-            override val sampleCollectedAt: Instant
+            override val sampleCollectedAt: Instant?
                 get() = testCertificate.sampleCollectedAt
             override val sampleCollectedAtFormatted: String
                 get() = testCertificate.sampleCollectedAtFormatted
@@ -133,8 +133,7 @@ data class TestCertificateContainer(
             override val certificateCountry: String
                 get() = Locale(userLocale.language, testCertificate.certificateCountry.uppercase())
                     .getDisplayCountry(userLocale)
-            override val qrCodeHash: String
-                get() = this@TestCertificateContainer.qrCodeHash
+            override val qrCodeHash: String by lazy { this@TestCertificateContainer.qrCodeHash }
 
             override val uniqueCertificateIdentifier: String
                 get() = testCertificate.uniqueCertificateIdentifier

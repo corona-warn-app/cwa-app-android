@@ -41,7 +41,7 @@ class VaccinationStorage @Inject constructor(
             }
             value as String
             gson.fromJson<VaccinatedPersonData>(value).also { personData ->
-                Timber.tag(TAG).v("Person loaded: %s", personData)
+                Timber.tag(TAG).v("Person loaded: %s", personData.identifier)
                 requireNotNull(personData.identifier)
             }
         }
@@ -49,7 +49,7 @@ class VaccinationStorage @Inject constructor(
     }
 
     suspend fun save(persons: Set<VaccinatedPersonData>) = mutex.withLock {
-        Timber.tag(TAG).d("save(%s)", persons)
+        Timber.tag(TAG).d("save(%s)", persons.size)
 
         prefs.edit(commit = true) {
             prefs.all.keys.filter { it.startsWith(PKEY_PERSON_PREFIX) }.forEach {
@@ -60,8 +60,9 @@ class VaccinationStorage @Inject constructor(
                 if (it.vaccinations.isNotEmpty()) {
                     val raw = gson.toJson(it)
                     val identifier = it.identifier
-                    Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, raw)
+                    Timber.tag(TAG).v("Storing vaccinatedPerson %s -> %s", identifier, it.vaccinations.size)
                     putString("$PKEY_PERSON_PREFIX${identifier.groupingKey}", raw)
+                    // TODO: migration should be implemented in (EXPOSUREAPP-11724)
                 }
             }
         }

@@ -6,6 +6,7 @@ import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
+import de.rki.coronawarnapp.dccreissuance.DccReissuanceUiModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingUIModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
@@ -21,13 +22,13 @@ import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFra
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
+import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsModule
 import de.rki.coronawarnapp.ui.presencetracing.PresenceTracingUIModule
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragment
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentModule
 import de.rki.coronawarnapp.ui.settings.SettingFragmentsModule
 import de.rki.coronawarnapp.ui.settings.SettingsResetFragment
 import de.rki.coronawarnapp.ui.settings.SettingsResetModule
-import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsModule
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionFragmentModule
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -51,6 +52,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         DigitalCovidCertificateUIModule::class,
         RecyclerBinUIModule::class,
         DccTicketingUIModule::class,
+        DccReissuanceUiModule::class
     ]
 )
 abstract class MainActivityModule {

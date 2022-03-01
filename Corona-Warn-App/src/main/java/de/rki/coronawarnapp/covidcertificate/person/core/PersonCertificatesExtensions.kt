@@ -20,7 +20,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
             {
                 when (it) {
                     is VaccinationCertificate -> it.vaccinatedOn
-                    is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+                    is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()
                     is RecoveryCertificate -> it.validFrom
                     else -> throw IllegalStateException("Can't sort $it")
                 }
@@ -28,7 +28,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
             {
                 when (it) {
                     is VaccinationCertificate -> it.headerIssuedAt.toLocalDateUserTz()
-                    is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+                    is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()
                     is RecoveryCertificate -> it.validFrom
                     else -> throw IllegalStateException("Can't sort $it")
                 }
@@ -37,6 +37,12 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
     ).reversed()
 }
 
+/**
+ * Finds Fallback DCC according to:
+ *  - First VC or RC in valid sorted certificates, if not ⏎
+ *  - First Dcc in valid sorted certificates, if not ⏎
+ *  - First or `null` from the original certificates list
+ */
 fun List<CwaCovidCertificate>.findFallbackDcc(): CwaCovidCertificate? {
     val validCerts = filter {
         when (it.getState()) {

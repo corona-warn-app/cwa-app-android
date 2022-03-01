@@ -1,13 +1,20 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -20,8 +27,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
-import io.mockk.verify
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
@@ -39,7 +44,11 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
-    @MockK lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
+    @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var admissionTileProvider: AdmissionTileProvider
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
     fun setup() {
@@ -47,12 +56,27 @@ class PersonOverviewViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
-        every { personCertificatesProvider.personCertificates } returns emptyFlow()
+        every { personCertificatesProvider.personCertificates } returns flowOf(
+            setOf(
+                PersonCertificates(
+                    certificates = listOf(),
+                    isCwaUser = true,
+                    dccWalletInfo = null
+                )
+            )
+        )
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
-        every { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() } just Runs
+        every { admissionTileProvider.admissionTile } returns flowOf(
+            AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        )
+        coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
     }
 
     @Test
@@ -64,16 +88,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             refreshCertificate(TestCertificateContainerId("Identifier"))
             events.getOrAwaitValue() shouldBe ShowRefreshErrorDialog(error)
         }
-
-        verify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
-    }
-
-    @Test
-    fun `refreshCertificate with no errors trigger DccWalletInfo calculation`() {
-        instance.apply {
-            refreshCertificate(TestCertificateContainerId("Identifier"))
-        }
-        verify { dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate() }
     }
 
     @Test
@@ -117,10 +131,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                     )
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
             }
         }
@@ -151,10 +165,10 @@ class PersonOverviewViewModelTest : BaseTest() {
                     )
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
             }
         }
@@ -178,13 +192,13 @@ class PersonOverviewViewModelTest : BaseTest() {
             getOrAwaitValue().apply {
                 this as PersonOverviewViewModel.UiState.Done
                 (personCertificates[0] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
                 }
             }
         }
@@ -207,19 +221,19 @@ class PersonOverviewViewModelTest : BaseTest() {
             getOrAwaitValue().apply {
                 this as PersonOverviewViewModel.UiState.Done
                 (personCertificates[0] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
                 } // CWA user
                 (personCertificates[1] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
                 }
                 (personCertificates[2] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
                 }
                 (personCertificates[3] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
                 }
                 (personCertificates[4] as PersonCertificateCard.Item).apply {
-                    verificationCertificates[0].cwaCertificate.fullName shouldBe "Zeebee A"
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee A"
                 }
             }
         }
@@ -236,6 +250,50 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `admission tile is visible`() {
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - success`() {
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } returns
+            dccAdmissionCheckScenarios
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe OpenAdmissionScenarioScreen
+        }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - error`() {
+        val exception = Exception("Crash!")
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } throws exception
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe ShowAdmissionScenarioError(exception)
+        }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+        }
+
+        coVerify(exactly = 0) {
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
+    }
+
     private val instance
         get() = PersonOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
@@ -243,6 +301,9 @@ class PersonOverviewViewModelTest : BaseTest() {
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
-            dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger,
+            format = CclTextFormatter(cclJsonFunctions, mapper),
+            admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
+            admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
+            dccAdmissionTileProvider = admissionTileProvider
         )
 }

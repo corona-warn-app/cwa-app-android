@@ -170,18 +170,25 @@
         tools:layout="@layout/fragment_test_dsc" />
 
     <fragment
-        android:id="@+id/boosterTestFragment"
-        android:name="de.rki.coronawarnapp.test.booster.ui.BoosterTestFragment"
-        android:label="BoosterTestFragment"
-        tools:layout="@layout/fragment_test_booster" />
-    <fragment
         android:id="@+id/dccTicketingTestFragment"
         android:name="de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment"
         android:label="DccTicketingTestFragment" />
 
     <fragment
         android:id="@+id/cclTestFragment"
-        android:name="de.rki.coronawarnapp.test.ccl.CCLTestFragment"
-        android:label="CCLTestFragment" />
+        android:name="de.rki.coronawarnapp.test.ccl.CclTestFragment"
+        android:label="CclTestFragment">
+
+        <action
+            android:id="@+id/action_cclTestFragment_to_dccReissuanceSuccessFragment"
+            app:destination="@id/dccReissuanceSuccessFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/dccReissuanceSuccessFragment"
+        android:name="de.rki.coronawarnapp.dccreissuance.ui.success.DccReissuanceSuccessFragment"
+        android:label="fragment_dcc_reissuance_success"
+        tools:layout="@layout/fragment_dcc_reissuance_success" />
 
 </navigation>

@@ -4,7 +4,6 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -26,7 +25,6 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     private val testCertificateRepository: TestCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCode: CoilQrCode? = null
@@ -48,7 +46,6 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     fun recycleTestCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Test Certificate=$containerId")
         testCertificateRepository.recycleCertificate(containerId)
-        dccWalletInfoUpdateTrigger.triggerDccWalletInfoUpdate()
         events.postValue(TestCertificateDetailsNavigation.Back)
     }
 

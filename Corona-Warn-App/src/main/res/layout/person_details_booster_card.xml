@@ -27,7 +27,8 @@
         android:layout_gravity="center"
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
-        android:src="@drawable/ic_booster_badge"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_badge"
         app:layout_constraintStart_toEndOf="@id/title"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -45,11 +46,8 @@
 
     <TextView
         android:id="@+id/subtitle"
-        style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/title"

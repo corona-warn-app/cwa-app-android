@@ -10,7 +10,7 @@ import testhelpers.extensions.toComparableJsonPretty
 @Suppress("MaxLineLength")
 internal class DccWalletInfoParserTest : BaseTest() {
 
-    private val mapper = SerializationModule().jacksonObjectMapper()
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     private val boosterNotification = BoosterNotification(
         visible = true,
@@ -33,7 +33,7 @@ internal class DccWalletInfoParserTest : BaseTest() {
         identifier = "booster_rule_identifier"
     )
 
-    private val mostRelevantCertificate = MostRelevantCertificate(
+    private val mostRelevantCertificate = Certificate(
         certificateRef = CertificateRef(
             barcodeData = "HC1:6BFOXN*TS0BI\$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE \$CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C\$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98\$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-\$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
         )
@@ -134,19 +134,71 @@ internal class DccWalletInfoParserTest : BaseTest() {
         validUntil = "2022-01-14T18:43:00Z"
     )
 
+    private val certificateReissuance = CertificateReissuance(
+        reissuanceDivision = ReissuanceDivision(
+            visible = true,
+            titleText = SingleText(
+                type = "string",
+                localizedText = mapOf("de" to "Zertifikat ersetzen"),
+                parameters = listOf()
+            ),
+            subtitleText = SingleText(
+                type = "string",
+                localizedText = mapOf("de" to "Text"),
+                parameters = listOf()
+            ),
+            longText = SingleText(
+                type = "string",
+                localizedText = mapOf("de" to "Langer Text"),
+                parameters = listOf()
+            ),
+            faqAnchor = "dcc_admission_state"
+        ),
+        certificateToReissue = Certificate(
+            certificateRef = CertificateRef(
+                barcodeData = "HC1:6BFOXN*TS0BI\$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE \$CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C\$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98\$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-\$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0",
+            )
+        ),
+        accompanyingCertificates = listOf(
+            Certificate(
+                certificateRef = CertificateRef(
+                    barcodeData = "HC1:6BFOXN*TS0BI\$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE \$CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C\$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98\$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-\$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
+                )
+            )
+        )
+    )
+
+    private val dccWalletInfoWithReissuance = dccWalletInfo.copy(certificateReissuance = certificateReissuance)
+
     @Test
     fun `Deserialize DCCWalletInfo`() {
-        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").use {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output.json").use {
             mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfo
         }
     }
 
     @Test
     fun `Serialize DCCWalletInfo`() {
-        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info.json").bufferedReader().use {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output.json").bufferedReader().use {
             mapper.writeValueAsString(dccWalletInfo).toComparableJsonPretty() shouldBe
                 it.readText().toComparableJsonPretty()
         }
+    }
+
+    @Test
+    fun `Deserialize DCCWalletInfo with Reissuance`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output_with_reissuance.json").use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfoWithReissuance
+        }
+    }
+
+    @Test
+    fun `Serialize DCCWalletInfo with Reissuance`() {
+        javaClass.classLoader!!.getResourceAsStream("ccl/dcc_wallet_info_output_with_reissuance.json").bufferedReader()
+            .use {
+                mapper.writeValueAsString(dccWalletInfoWithReissuance).toComparableJsonPretty() shouldBe
+                    it.readText().toComparableJsonPretty()
+            }
     }
 
     private val pluralTextIndexed = PluralText(

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ccl.dccwalletinfo.calculation
 
+import de.rki.coronawarnapp.ccl.configuration.model.CclDateTime
 import io.kotest.matchers.shouldBe
 import org.joda.time.DateTime
 import org.junit.jupiter.api.Test
