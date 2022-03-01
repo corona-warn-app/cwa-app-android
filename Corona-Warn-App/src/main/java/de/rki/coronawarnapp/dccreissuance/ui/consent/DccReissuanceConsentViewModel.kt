@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1Parser
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
-import de.rki.coronawarnapp.dccreissuance.core.processor.DccReissuanceProcessor
+import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -26,11 +26,10 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     personCertificatesProvider: PersonCertificatesProvider,
     @Assisted private val personIdentifierCode: String,
+    private val dccReissuer: DccReissuer,
     private val format: CclTextFormatter,
     private val dccQrCodeExtractor: DccQrCodeExtractor,
-    private val reissuanceProcessor: DccReissuanceProcessor,
     private val personCertificatesSettings: PersonCertificatesSettings,
-    private val dccSwapper: DccSwapper,
 ) : CWAViewModel(dispatcherProvider) {
 
     internal val event = SingleLiveEvent<Event>()
@@ -49,10 +48,7 @@ class DccReissuanceConsentViewModel @AssistedInject constructor(
     internal fun startReissuance() = launch {
         runCatching {
             event.postValue(ReissuanceInProgress)
-            val dccReissuanceDescriptor = reissuanceData.first()!!
-            reissuanceData.first()?.certificateToReissue
-            val response = reissuanceProcessor.requestDccReissuance(dccReissuanceDescriptor)
-            dccSwapper.swap(response, dccReissuanceDescriptor.certificateToReissue)
+            dccReissuer.startReissuance(reissuanceData.first()!!)
         }.onFailure { e ->
             Timber.d(e, "startReissuance() failed")
             event.postValue(ReissuanceError(e))

@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.dccreissuance.ui.consent
+package de.rki.coronawarnapp.dccreissuance.core.reissuer
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
@@ -25,18 +24,11 @@ class DccSwapper @Inject constructor(
 ) {
 
     suspend fun swap(
-        response: DccReissuanceResponse,
+        dccReissuance: DccReissuanceResponse.DccReissuance,
         certificateToRecycle: Certificate
     ) {
         Timber.tag(TAG).d("swap()")
-        val dccReissuance = response.dccReissuances.find { dccReissuance ->
-            dccReissuance.relations.any { relation ->
-                relation.action == "replace" && relation.index == 0
-            }
-        } ?: throw DccReissuanceException(DccReissuanceException.ErrorCode.DCC_RI_NO_RELATION)
-
         val qrCodeHash = certificateToRecycle.certificateRef.qrCodeHash()
-
         when (val qrcode = dccQrCodeExtractor.extract(dccReissuance.certificate)) {
             is RecoveryCertificateQRCode -> rcRepo.replaceCertificate(
                 certificateToReplace = RecoveryCertificateContainerId(qrCodeHash),
