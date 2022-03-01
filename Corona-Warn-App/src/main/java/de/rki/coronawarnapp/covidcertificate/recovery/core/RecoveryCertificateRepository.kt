@@ -285,9 +285,13 @@ class RecoveryCertificateRepository @Inject constructor(
     ) {
         val newContainer = newCertificateQrCode.toContainer()
         internalData.updateBlocking {
-            map {
+            mapNotNull {
                 // set old to recycled
-                if (it.containerId == certificateToReplace) it.setRecycled() else it
+                when {
+                    it.containerId == certificateToReplace -> it.setRecycled()
+                    it.data.recoveryCertificateQrCode == newCertificateQrCode.qrCode -> null
+                    else -> it
+                }
             } // add new
                 .plus(newContainer).toSet()
         }

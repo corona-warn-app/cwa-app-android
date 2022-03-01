@@ -23,7 +23,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
     private lateinit var mockPreferences: MockSharedPreferences
     private val testData = setOf(
         StoredRecoveryCertificateData(
-            recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode2,
+            recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode1,
             notifiedExpiresSoonAt = null,
             notifiedExpiredAt = null,
             lastSeenStateChange = CwaCovidCertificate.State.Invalid(),
@@ -32,7 +32,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
             notifiedInvalidAt = null,
         ),
         StoredRecoveryCertificateData(
-            recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode1,
+            recoveryCertificateQrCode = RecoveryQrCodeTestData.recoveryQrCode2,
             notifiedExpiresSoonAt = Instant.ofEpochMilli(876),
             notifiedExpiredAt = Instant.ofEpochMilli(924),
             lastSeenStateChange = CwaCovidCertificate.State.ExpiringSoon(Instant.ofEpochMilli(456)),
@@ -81,7 +81,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
         (mockPreferences.dataMapPeek["recovery.certificate"] as String).toComparableJsonPretty() shouldBe """
             [
               {
-                "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.recoveryQrCode2}",
+                "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.recoveryQrCode1}",
                 "lastSeenStateChange": {
                   "isInvalidSignature": true,
                   "type": "Invalid"
@@ -89,7 +89,7 @@ class RecoveryCertificateStorageTest : BaseTest() {
                 "lastSeenStateChangeAt": 123,
                 "certificateSeenByUser": true
               }, {
-                "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.recoveryQrCode1}",
+                "recoveryCertificateQrCode": "${RecoveryQrCodeTestData.recoveryQrCode2}",
                 "notifiedExpiresSoonAt": 876,
                 "notifiedExpiredAt": 924,
                 "notifiedInvalidAt": 123,

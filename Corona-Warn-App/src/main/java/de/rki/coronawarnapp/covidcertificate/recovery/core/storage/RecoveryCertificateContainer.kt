@@ -50,6 +50,15 @@ data class RecoveryCertificateContainer(
 
     override val recycledAt: Instant? = data.recycledAt
 
+//    override fun equals(other: Any?): Boolean {
+//        if (other !is RecoveryCertificateContainer) return false
+//        return data.recoveryCertificateQrCode == other.data.recoveryCertificateQrCode
+//    }
+//
+//    override fun hashCode(): Int {
+//        return data.recoveryCertificateQrCode.hashCode()
+//    }
+
     fun toRecoveryCertificate(
         valueSet: VaccinationValueSets? = null,
         certificateState: State,
