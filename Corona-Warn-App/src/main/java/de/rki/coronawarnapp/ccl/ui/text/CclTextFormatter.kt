@@ -72,9 +72,7 @@ class CclTextFormatter @Inject constructor(
             ?: localizedText[EN] // Default for other languages
             ?: localizedText[DE] // Default for EN
 
-        return text
-            ?.replace("%@", "%s")
-            ?.format(*parameters.convertValues(locale))
+        return text?.cleanText()?.format(*parameters.convertValues(locale))
     }
 
     private fun PluralText.formatPlural(
@@ -88,10 +86,12 @@ class CclTextFormatter @Inject constructor(
             ?: return null
 
         val text = pluralText(quantity, quantityText, locale)
-        return text
-            .replace("%@", "%s")
-            .format(*parameters.convertValues(locale))
+        return text.cleanText().format(*parameters.convertValues(locale))
     }
+
+    private fun String.cleanText() = this
+        .replace("%@", "%s")
+        .replace("\\n", "\n")
 
     private fun PluralText.quantity(): Int = quantity ?: quantityFromIndex()
 
