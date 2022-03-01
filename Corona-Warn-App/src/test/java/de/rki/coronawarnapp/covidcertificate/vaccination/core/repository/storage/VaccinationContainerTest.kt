@@ -60,7 +60,7 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `full property decoding - 2 of 2`() {
-        testData.personAVac11Container.apply {
+        testData.personAVac22Container.apply {
             certificate shouldBe testData.personAVac2Certificate
             qrCodeHash shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
         }

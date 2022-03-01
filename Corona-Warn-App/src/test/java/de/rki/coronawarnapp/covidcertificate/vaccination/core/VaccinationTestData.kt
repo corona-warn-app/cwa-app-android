@@ -150,9 +150,9 @@ class VaccinationTestData @Inject constructor(
     val personAVac2Container = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620069934471),
         vaccinationQrCode = personAVac2QRCodeString,
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    )
+
+    val personAVac22Container = VaccinationContainer(data = personAVac2Container, qrCodeExtractor = qrCodeExtractor)
 
     val personAData2Vac = VaccinatedPersonData(
         vaccinations = setOf(personAVac1Container, personAVac2Container)

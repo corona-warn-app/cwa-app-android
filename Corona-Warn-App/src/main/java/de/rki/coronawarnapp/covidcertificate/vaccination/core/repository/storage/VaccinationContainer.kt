@@ -31,7 +31,7 @@ data class VaccinationContainer(
                 (
                     qrCodeExtractor.extract(
                         it,
-                        parserMode = DccV1Parser.Mode.CERT_REC_LENIENT
+                        parserMode = DccV1Parser.Mode.CERT_VAC_LENIENT
                     ) as VaccinationCertificateQRCode
                     ).data
             }
