@@ -24,6 +24,8 @@ import java.security.cert.Certificate
 
 class DccReissuanceServerCertificateValidatorTest : BaseTest() {
 
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+
     private val publicKeyEncodedBase64 =
         "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA9UPAy/WbQh/4QaEY18LrEffsbFZQlCxtLpMeXRKGkUsnP21eEJtZIkoGhPAubKNV0xtHmd/AN4vYcOMLdRLwARjQ0uz2MC1UgOStClwD/Aeq8oIvawYgrRKrY5WoiN8kqEONAGecTsHRv/ypDEy6OeZATGQktyFGnuBzGdObbCX97yOYEw1BslSNlO0JC7B7p9by/xPR/1Efa38z6fkXam0lwqKBZ0APVJUkQ/VUQbnPAqgMTGmHMRDf7Mq+nHtrV4zyymwhOOiFrbcgYZ096LO26/+R2GnCPx2p79v4ZJ0/aR/2FdFfnJSqpfppxW54UvxFgRE5/YMqGDPJw7lrT91LoGfR217YJkyveD4g7HOnQaTq7NaOyFURdgDxhngVPgLwNCaW1xV60AvMr3FFCdXd5+Vl4G79bvDPxkwjS0bZlfo6PV2CUVotfvTos4N11/iaLTYZRohdJmwHdYeS2YPHNvEIbMwHA7AZubmIuHjnm3SBRK1GSy/Ats1AG3IMYVdZ6WnD/xfiXMX0knygn+eLx7H7o4t5yGY1YsNMpvGKruVTXR/g1euofK4m/ZWEbwbsPDXjYE4/d6bUGWZc7vUc/X0wW0iMxHVE8Ra4xAhBDc/p/gWB2kN6NzInFTVBERyw5WozDwOW+/8qsBtQYoNPK+I8iao6uEISLOcCXr8CAwEAAQ=="
     private val publicKeyEncoded: ByteArray by lazy { publicKeyEncodedBase64.decodeBase64()!!.toByteArray() }
@@ -35,9 +37,6 @@ class DccReissuanceServerCertificateValidatorTest : BaseTest() {
     private val serverCert: Certificate = mockk {
         every { publicKey } returns mockedPublicKey
     }
-
-    @MockK
-    lateinit var appConfigProvider: AppConfigProvider
 
     private val instance: DccReissuanceServerCertificateValidator
         get() = DccReissuanceServerCertificateValidator(appConfigProvider = appConfigProvider)
