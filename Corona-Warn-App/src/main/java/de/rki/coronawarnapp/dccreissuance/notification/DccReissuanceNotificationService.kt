@@ -24,15 +24,25 @@ class DccReissuanceNotificationService @Inject constructor(
     ) {
         val oldCertReissuance = oldWalletInfo?.certificateReissuance
         val newCertReissuance = newWalletInfo.certificateReissuance
-        if (newCertReissuance != null && oldCertReissuance == null) {
-            Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
-            personNotificationSender.showNotification(
-                personIdentifier = personIdentifier,
-                messageRes = R.string.notification_body_certificate
-            )
-            personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
-        } else {
-            Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
+        when {
+            newCertReissuance != null && oldCertReissuance == null -> {
+                Timber.tag(TAG).d("Notify person=%s about Dcc reissuance", personIdentifier.codeSHA256)
+                personNotificationSender.showNotification(
+                    personIdentifier = personIdentifier,
+                    messageRes = R.string.notification_body_certificate
+                )
+                personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
+            }
+            // New calculation says not Dcc Reissuance anymore
+            newCertReissuance == null -> {
+                Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
+                Timber.tag(TAG).d("Dismiss badge of Dcc reissuance for person=%s", personIdentifier.codeSHA256)
+                personCertificatesSettings.dismissReissuanceBadge(personIdentifier)
+            }
+            // Otherwise nothing
+            else -> {
+                Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
+            }
         }
     }
 
