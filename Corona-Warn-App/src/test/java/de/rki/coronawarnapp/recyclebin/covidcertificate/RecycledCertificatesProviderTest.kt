@@ -132,7 +132,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
     fun provider() = RecycledCertificatesProvider(
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
-        vaccinationRepository = vaccinationCertificateRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         appScope = TestCoroutineScope()
     )
 }

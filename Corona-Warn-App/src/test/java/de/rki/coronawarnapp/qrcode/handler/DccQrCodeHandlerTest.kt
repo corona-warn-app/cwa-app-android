@@ -93,7 +93,7 @@ class DccQrCodeHandlerTest : BaseTest() {
 
     private fun handler() = DccQrCodeHandler(
         testCertificateRepository = testCertificateRepository,
-        vaccinationRepository = vaccinationCertificateRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         recoveryCertificateRepository = recoverCertificateRepository,
         dscSignatureValidator = dscSignatureValidator,
     )

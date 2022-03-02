@@ -116,7 +116,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     fun createInstance() = DccExpirationNotificationService(
         dscCheckNotification = expirationNotification,
-        vaccinationRepository = vaccinationCertificateRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         recoveryRepository = recoveryRepository,
         covidCertificateSettings = covidCertificateSettings,
         testCertificateRepository = testCertificateRepository,
