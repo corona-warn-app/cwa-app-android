@@ -23,11 +23,11 @@ class MigrationCheck @Inject constructor(private val cwaSettings: CWASettings) {
         return numberOfPersons != numberOfPersonIdentifiers
     }
 
-    fun CertificatePersonIdentifier.getLegacyGroupingKey(): String {
+    private fun CertificatePersonIdentifier.getLegacyGroupingKey(): String {
         val lastName = lastNameStandardized.trim()
         val firstName = firstNameStandardized?.trim()
         return "$dateOfBirthFormatted#$lastName#$firstName".condense()
     }
 
-    internal fun String.condense() = this.replace("\\s+".toRegex(), " ").replace("<+".toRegex(), "<")
+    private fun String.condense() = this.replace("\\s+".toRegex(), " ").replace("<+".toRegex(), "<")
 }
