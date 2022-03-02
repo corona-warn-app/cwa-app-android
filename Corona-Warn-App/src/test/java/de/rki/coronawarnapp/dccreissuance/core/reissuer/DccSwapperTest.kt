@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.mockk.MockKAnnotations
@@ -29,7 +29,7 @@ import testhelpers.BaseTest
 
 internal class DccSwapperTest : BaseTest() {
     @MockK lateinit var dccQrCodeExtractor: DccQrCodeExtractor
-    @MockK lateinit var vcRepo: VaccinationRepository
+    @MockK lateinit var vcRepo: VaccinationCertificateRepository
     @MockK lateinit var tcRepo: TestCertificateRepository
     @MockK lateinit var rcRepo: RecoveryCertificateRepository
 

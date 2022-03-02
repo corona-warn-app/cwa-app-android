@@ -9,8 +9,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateWrapper
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @Reusable
 class CertificateProvider @Inject constructor(
-    vcRepo: VaccinationRepository,
+    vcRepo: VaccinationCertificateRepository,
     tcRepo: TestCertificateRepository,
     rcRepo: RecoveryCertificateRepository,
     @AppScope appScope: CoroutineScope,

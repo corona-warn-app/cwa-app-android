@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -80,7 +80,7 @@ class DataReset @Inject constructor(
     private val ratProfileSettings: RATProfileSettingsDataStore,
     private val valueSetsRepository: ValueSetsRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
-    private val vaccinationRepository: VaccinationRepository,
+    private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val validationRepository: DccValidationRepository,
@@ -141,7 +141,7 @@ class DataReset @Inject constructor(
 
         valueSetsRepository.clear()
 
-        vaccinationRepository.clear()
+        vaccinationCertificateRepository.clear()
         testCertificateRepository.clear()
         recoveryCertificateRepository.clear()
 
