@@ -100,9 +100,12 @@ class DccExpirationNotificationService @Inject constructor(
         val now = timeStamper.nowUTC
         val state = certificate.getState()
         when (certificate) {
-            is RecoveryCertificate -> recoveryRepository.setNotifiedState(certificate.containerId, state, now)
-            is VaccinationCertificate -> vaccinationCertificateRepository.setNotifiedState(certificate.containerId, state, now)
-            is TestCertificate -> testCertificateRepository.setNotifiedState(certificate.containerId, state, now)
+            is RecoveryCertificate ->
+                recoveryRepository.setNotifiedState(certificate.containerId, state, now)
+            is VaccinationCertificate ->
+                vaccinationCertificateRepository.setNotifiedState(certificate.containerId, state, now)
+            is TestCertificate ->
+                testCertificateRepository.setNotifiedState(certificate.containerId, state, now)
             else -> throw UnsupportedOperationException("Class: ${certificate.javaClass.simpleName}")
         }
     }
