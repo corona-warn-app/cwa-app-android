@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidato
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
@@ -51,7 +51,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: VaccinationStorageTest)
     fun inject(testClass: VaccinationCertificateContainerTest)
     fun inject(testClass: DccQrCodeExtractorTest)
-    fun inject(testClass: VaccinationRepositoryTest)
+    fun inject(testClass: VaccinationCertificateRepositoryTest)
     fun inject(testClass: TestCertificateContainerTest)
     fun inject(testClass: RecoveryCertificateContainerTest)
     fun inject(testClass: DccQrCodeCensorTest)

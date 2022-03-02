@@ -41,7 +41,7 @@ class QrCodeValidatorTest : BaseTest() {
     fun `validator uses recognises DccQrCode`() = runBlockingTest {
         qrCodeValidator.validate(testData.personAVac1QRCodeString).apply {
             this as DccQrCode
-            hash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            hash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 
