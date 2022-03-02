@@ -17,21 +17,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Zentrale Verwaltung von Regeln</item>
+        <item>Registrierung von PCR-Schnelltests</item>
+        <item>Zuordnung von Zertifikaten </item>
+        <item>Zertifikate aktualisieren</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Die Regeln für Zertifikate (z.B. hinsichtlich ihrer Gültigkeit oder Priorisierung, wenn mehrere Zertifikate vorhanden sind) und für die Ermittlung des G-Status wurden aus der Corona-Warn-App herausgelöst. Diese Regeln sind jetzt zentral abgelegt und können daher unabhängig von den App-Releases angepasst werden. Damit kann schneller auf Regeländerungen reagiert werden. Nach einer Änderung werden die aktualisierten Regeln an die App übertragen. Für Sie ändert sich an der Benutzung der Corona-Warn-App nichts durch diese zentrale Verwaltung der Regeln.</item>
+        <item>Sie können jetzt PCR-Schnelltests in der Corona-Warn-App registrieren und das Ergebnis sowie das Testzertifikat über die App erhalten.</item>
+        <item>Die Zuordnung von Zertifikaten zu Personen wurde fehlertoleranter gestaltet. Kleine Unterschiede in der Schreibweise von Vor- und Nachnamen werden ignoriert, sodass die Zertifikate trotzdem derselben Person zugeordnet werden können. </item>
+        <item>Die Spezifikationen der EU für Impfzertifikate für Auffrischimpfungen wurden geändert. Entspricht Ihr Zertifikat nicht mehr den aktuellen Spezifikationen, so können Sie direkt über die Corona-Warn-App ein neues anfordern. </item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item />
+        <item />
+        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item />
+        <item />
         <item />
     </string-array>
 

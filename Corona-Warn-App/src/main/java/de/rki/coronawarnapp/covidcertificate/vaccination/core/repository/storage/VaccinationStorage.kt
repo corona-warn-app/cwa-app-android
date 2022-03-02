@@ -33,10 +33,13 @@ class VaccinationStorage @Inject constructor(
     suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
         return gson
-            .fromJson(
+            .fromJson<Set<StoredVaccinationCertificateData>?>(
                 prefs.getString(PKEY_VACCINATION_CERT, null) ?: return emptySet(),
                 TYPE_TOKEN
             )
+            .associateBy { it.vaccinationQrCode }
+            .map { it.value }
+            .toSet()
     }
 
     suspend fun save(certificates: Set<StoredVaccinationCertificateData>) = mutex.withLock {
@@ -54,11 +57,11 @@ class VaccinationStorage @Inject constructor(
     suspend fun loadLegacyData(): Set<VaccinatedPersonData> = mutex.withLock {
         Timber.tag(TAG).d("loadLegacyData()")
         val persons = prefs.all.mapNotNull { (key, value) ->
-            if (!key.startsWith(PKEY_PERSON_PREFIX)) {
+            if (!key.startsWith("vaccination.person.")) {
                 return@mapNotNull null
             }
             value as String
-            gson.fromJson<VaccinatedPersonData>(value).also { _ ->
+            gson.fromJson<VaccinatedPersonData>(value).also {
                 Timber.tag(TAG).v("Person loaded: %s", key)
             }
         }
@@ -68,7 +71,7 @@ class VaccinationStorage @Inject constructor(
     suspend fun clearLegacyData() = mutex.withLock {
         Timber.tag(TAG).d("clearLegacyData()")
         prefs.edit(commit = true) {
-            prefs.all.keys.filter { it.startsWith(PKEY_PERSON_PREFIX) }.forEach {
+            prefs.all.keys.filter { it.startsWith("vaccination.person.") }.forEach {
                 Timber.tag(TAG).v("Removing data for %s", it)
                 remove(it)
             }
@@ -77,7 +80,6 @@ class VaccinationStorage @Inject constructor(
 
     companion object {
         private const val TAG = "VaccinationStorage"
-        private const val PKEY_PERSON_PREFIX = "vaccination.person."
         private const val PKEY_VACCINATION_CERT = "vaccination.certificate"
         private val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }

@@ -23,7 +23,7 @@ import testhelpers.BaseTest
 import java.util.Locale
 import javax.inject.Inject
 
-class VaccinationContainerTest : BaseTest() {
+class VaccinationCertificateContainerTest : BaseTest() {
 
     @Inject lateinit var testData: VaccinationTestData
 
@@ -175,7 +175,7 @@ class VaccinationContainerTest : BaseTest() {
             }
         }
 
-        val container = VaccinationContainer(
+        val container = VaccinationCertificateContainer(
             data = StoredVaccinationCertificateData(
                 vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
                 scannedAt = Instant.EPOCH

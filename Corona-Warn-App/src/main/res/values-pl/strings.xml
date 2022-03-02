@@ -1441,7 +1441,7 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Do %s"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"Nowe zakażenia"</string>
+    <string name="statistics_primary_value_description">"nowe zakażenia"</string>
     <!-- XTXT: Statistics secondary value description -->
     <string name="statistics_secondary_value_description">"hospitalizacje"</string>
 
@@ -1451,13 +1451,13 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Objaśnienie statystyk"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Potwierdzone nowe zakażenia"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"potwierdzone nowe zakażenia"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Liczba osób ze zdiagnozowanym zakażeniem koronawirusem zgłoszonych do RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Ostrzeżenia od użytkowników aplikacji"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym za pomocą testu PCR zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji."</string>
+    <string name="statistics_explanation_warned_persons_text">"Liczba użytkowników aplikacji ze zdiagnozowanym zakażeniem koronawirusem, którzy ostrzegli innych za pomocą aplikacji"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Lokalna 7-dniowa zapadalność"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
