@@ -77,7 +77,7 @@ class VaccinationStorage @Inject constructor(
 
     companion object {
         private const val TAG = "VaccinationStorage"
-        private const val PKEY_PERSON_PREFIX = "vaccination.person."
+        @Deprecated("Legacy KEY") private const val PKEY_PERSON_PREFIX = "vaccination.person."
         private const val PKEY_VACCINATION_CERT = "vaccination.certificate"
         private val TYPE_TOKEN = object : TypeToken<Set<StoredVaccinationCertificateData>>() {}.type
     }
