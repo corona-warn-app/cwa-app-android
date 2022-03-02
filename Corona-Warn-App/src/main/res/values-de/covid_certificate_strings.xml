@@ -342,5 +342,5 @@
     <!-- XTXT: Certificate Migratiomn Dialog Title -->
     <string name="certificate_migration_dialog_title">Zuordnung von Zertifikaten</string>
     <!-- XTXT: Certificate Migratiomn Dialog Message -->
-    <string name="certificate_migration_dialog_message">Wir haben die Gruppierung der Zertifikate verbessert. Zertifikate mit geringen Namensunterschieden werden nicht mehr verschiedenen Personen zugeordnet.</string>
+    <string name="certificate_migration_dialog_message">Die Gruppierung von Zertifikaten wurde verbessert. Zertifikate mit geringen Namensunterschieden werden nicht mehr verschiedenen Personen zugeordnet.</string>
 </resources>
