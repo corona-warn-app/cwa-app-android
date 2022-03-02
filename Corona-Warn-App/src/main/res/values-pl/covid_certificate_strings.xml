@@ -194,13 +194,13 @@
     <string name="validation_rules_result_valid_result_country_and_time">"Wprowadzono %1$s dnia %2$s, zweryfikowano dnia %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">"Twój certyfikat jest ważny w wybranym kraju"</string>
+    <string name="validation_rules_result_valid_result_title">"Twój certyfikat jest ważny na wjazd do wybranego kraju"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
     <string name="validation_rules_result_no_rules_title">"Twój certyfikat nie mógł zostać zweryfikowany"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">"Twój certyfikat nie mógł zostać całkowicie zweryfikowany"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
-    <string name="validation_rules_result_not_valid_result_title">"Twój certyfikat nie jest ważny w wybranym kraju"</string>
+    <string name="validation_rules_result_not_valid_result_title">"Twój certyfikat nie jest ważny na wjazd do wybranego kraju"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
     <string name="validation_rules_open_header_title">"Weryfikacja nie jest możliwa"</string>
@@ -331,4 +331,10 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Więcej informacji znajduje się na naszej stronie „Często zadawane pytania”."</string>
 
+    <!-- XTXT: CCL Admission scenario tile title -->
+    <string name="ccl_admission_state_tile_title">"Status dla następujących krajów związkowych"</string>
+    <!-- XTXT: CCL Admission scenario tile subtitle -->
+    <string name="ccl_admission_state_tile_subtitle">"Przepisy władz federalnych"</string>
+    <!-- XTXT: CCL Admission calculation progress message-->
+    <string name="admission_calculation_message">"Ustalanie statusu..."</string>
 </resources>
