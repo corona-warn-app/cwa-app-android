@@ -123,7 +123,7 @@ internal class DataResetTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         ratProfileSettings = ratProfileSettings,
         covidCertificateSettings = covidCertificateSettings,
-        vaccinationRepository = vaccinationCertificateRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         valueSetsRepository = valueSetsRepository,
         testCertificateRepository = testCertificateRepository,
         personCertificatesSettings = personCertificatesSettings,
