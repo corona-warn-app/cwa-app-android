@@ -59,6 +59,8 @@
     <string name="root_dialog_faq_link_url">"https://www.coronawarn.app/en/faq/#root_detection_android"</string>
     <!-- XTXT: FAQ link, should be translated with https://www.coronawarn.app/en/faq/ for languages other than de -->
     <string name="main_about_link">"https://www.coronawarn.app/en/faq/"</string>
+    <!-- XTXT: Accessibility Statement link in App Information fragment -->
+    <string name="accessibility_statement_link">"https://www.coronawarn.app/en/accessibility"</string>
     <!-- XMSG: risk details - contact your doctor, bullet point link url -->
     <string name="risk_details_behavior_increased_body_1_link">"https://www.coronawarn.app/en/faq/#where_can_i_get_tested"</string>
     <!-- XMSG: risk details - panel doctor on-call service, bullet point link url -->
