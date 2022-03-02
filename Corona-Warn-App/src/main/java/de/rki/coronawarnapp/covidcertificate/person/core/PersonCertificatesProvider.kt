@@ -5,7 +5,6 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
@@ -33,7 +32,6 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.personsSettings
     ) { certificateContainer, cwaUser, personWallets, personSettings ->
 
-        val vaccPersons = certificateContainer.vaccinationInfos
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
@@ -49,8 +47,7 @@ class PersonCertificatesProvider @Inject constructor(
             val dccWalletInfo =
                 personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo
 
-            // TODO: booster badge & vaccination repository should be updated in (EXPOSUREAPP-11724)
-            val hasBooster = vaccPersons.hasBoosterBadge(firstPersonIdentifier, dccWalletInfo?.boosterNotification)
+            val hasBooster = personSettings[firstPersonIdentifier].hasBoosterBadge(dccWalletInfo?.boosterNotification)
             val hasDccReissuance = personSettings[firstPersonIdentifier]?.showDccReissuanceBadge ?: false
             val badgeCount = certs.count { it.hasNotificationBadge } + hasBooster.toInt() + hasDccReissuance.toInt()
             Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
@@ -87,19 +84,15 @@ class PersonCertificatesProvider @Inject constructor(
             persons.find { it.personIdentifier?.codeSHA256 == personIdentifierCode }
         }
 
-    private fun Set<VaccinatedPerson>.hasBoosterBadge(
-        personIdentifier: CertificatePersonIdentifier,
-        boosterNotification: BoosterNotification?
-    ): Boolean {
+    private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
         if (boosterNotification == null) return false
-        val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
-        return hasBoosterRuleNotYetSeen(vaccinatedPerson, boosterNotification)
+        return hasBoosterRuleNotYetSeen(this, boosterNotification)
     }
 
     private fun hasBoosterRuleNotYetSeen(
-        vaccinatedPerson: VaccinatedPerson?,
+        personSettings: PersonSettings?,
         boosterNotification: BoosterNotification
-    ) = vaccinatedPerson?.data?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
+    ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
 
     private fun Boolean?.toInt(): Int = if (this == true) 1 else 0
 

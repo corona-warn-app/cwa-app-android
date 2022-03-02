@@ -5,9 +5,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.notification.PersonNotificationSender
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.Called
 import io.mockk.MockKAnnotations
@@ -18,7 +16,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.verify
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -29,11 +26,8 @@ import testhelpers.BaseTest
 class BoosterNotificationServiceTest : BaseTest() {
 
     @MockK lateinit var personNotificationSender: PersonNotificationSender
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var timeStamper: TimeStamper
-
-    @MockK lateinit var vaccinatedPerson: VaccinatedPerson
-    @MockK lateinit var vaccinatedPersonData: VaccinatedPersonData
+    @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
 
     @MockK lateinit var oldWalletInfo: DccWalletInfo
     @MockK lateinit var newWalletInfo: DccWalletInfo
@@ -47,21 +41,16 @@ class BoosterNotificationServiceTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T00:00:00.000Z")
         every { personNotificationSender.showNotification(any(), any()) } just Runs
 
-        coEvery { vaccinationRepository.updateBoosterNotifiedAt(any(), any()) } just Runs
-        coEvery { vaccinationRepository.clearBoosterRuleInfo(any()) } just Runs
+        coEvery { personCertificatesSettings.setBoosterNotifiedAt(any(), any()) } just Runs
+        coEvery { personCertificatesSettings.clearBoosterRuleInfo(any()) } just Runs
 
         every { oldWalletInfo.boosterNotification } returns oldBoosterNotification
         every { newWalletInfo.boosterNotification } returns newBoosterNotification
-
-        every { vaccinatedPersonData.boosterRuleIdentifier } returns null
-        every { vaccinatedPerson.identifier } returns personIdentifier
-        every { vaccinatedPerson.data } returns vaccinatedPersonData
-        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
     }
 
     private fun service() = BoosterNotificationService(
         personNotificationSender = personNotificationSender,
-        vaccinationRepository = vaccinationRepository,
+        personCertificatesSettings = personCertificatesSettings,
         timeStamper = timeStamper
     )
 
@@ -127,21 +116,6 @@ class BoosterNotificationServiceTest : BaseTest() {
             verifyThatBoosterNotificationTimeIsNotUpdated()
         }
 
-    @Test
-    fun `notifyIfNecessary() should NOT send notification if the new booster rule id is the same than the legacy booster rule id`() =
-        runBlockingTest {
-            every { newBoosterNotification.identifier } returns "2"
-            every { oldBoosterNotification.identifier } returns "1"
-
-            // legacy booster rule id
-            every { vaccinatedPersonData.boosterRuleIdentifier } returns "2"
-
-            service().notifyIfNecessary(personIdentifier, oldWalletInfo, newWalletInfo)
-
-            verifyThatNotificationWasNotSent()
-            verifyThatBoosterNotificationTimeIsNotUpdated()
-        }
-
     private val personIdentifier = CertificatePersonIdentifier(
         firstNameStandardized = "Erika",
         lastNameStandardized = "MusterFrau",
@@ -149,7 +123,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     )
 
     private fun verifyThatBoosterNotificationTimeIsNotUpdated() {
-        coVerify(exactly = 0) { vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, any()) }
+        coVerify(exactly = 0) { personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, any()) }
     }
 
     private fun verifyThatNotificationWasNotSent() {
@@ -157,7 +131,7 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatBoosterNotificationTimeIsUpdated() {
-        coVerify(exactly = 1) { vaccinationRepository.updateBoosterNotifiedAt(personIdentifier, any()) }
+        coVerify(exactly = 1) { personCertificatesSettings.setBoosterNotifiedAt(personIdentifier, any()) }
     }
 
     private fun verifyThatBoosterNotificationIsShown() {
@@ -165,6 +139,6 @@ class BoosterNotificationServiceTest : BaseTest() {
     }
 
     private fun verifyThatLegacyBoosterRuleIsCleared() {
-        coVerify(exactly = 1) { vaccinationRepository.clearBoosterRuleInfo(personIdentifier) }
+        coVerify(exactly = 1) { personCertificatesSettings.clearBoosterRuleInfo(personIdentifier) }
     }
 }
