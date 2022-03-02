@@ -33,7 +33,7 @@ class DccReissuanceNotificationService @Inject constructor(
                 )
                 personCertificatesSettings.setDccReissuanceNotifiedAt(personIdentifier)
             }
-            // New calculation says not Dcc Reissuance anymore
+            // New calculation says no Dcc Reissuance anymore
             newCertReissuance == null -> {
                 Timber.tag(TAG).d("Person=%s shouldn't be notified about Dcc reissuance", personIdentifier.codeSHA256)
                 Timber.tag(TAG).d("Dismiss badge of Dcc reissuance for person=%s", personIdentifier.codeSHA256)
