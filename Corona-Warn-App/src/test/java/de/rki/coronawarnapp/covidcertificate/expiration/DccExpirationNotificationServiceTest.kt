@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.Called
@@ -41,7 +41,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var timeStamper: TimeStamper
 
-    @MockK lateinit var vaccinatedPerson: VaccinatedPerson
+    @MockK lateinit var vaccinationCertificateWrapper: VaccinationCertificateWrapper
     @MockK lateinit var vaccinationCertificate: VaccinationCertificate
     private val vaccinationContainerId = VaccinationCertificateContainerId("vac")
 
@@ -69,10 +69,12 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         }
 
         vaccinationRepository.apply {
-            every { freshVaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
+            every { freshCertificates } returns flowOf(setOf(vaccinationCertificateWrapper))
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
-        every { vaccinatedPerson.vaccinationCertificates } returns setOf(vaccinationCertificate)
+
+        every { vaccinationCertificateWrapper.vaccinationCertificate } returns vaccinationCertificate
+
         vaccinationCertificate.apply {
             every { getState() } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns vaccinationContainerId
@@ -142,7 +144,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             showNotificationIfStateChanged(ignoreLastCheck = true)
 
             verify {
-                vaccinationRepository.freshVaccinationInfos
+                vaccinationRepository.freshCertificates
                 recoveryRepository.freshCertificates
             }
         }
@@ -150,13 +152,13 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `no certificates at all`() = runBlockingTest {
-        every { vaccinationRepository.freshVaccinationInfos } returns flowOf(emptySet())
+        every { vaccinationRepository.freshCertificates } returns flowOf(emptySet())
         every { recoveryRepository.freshCertificates } returns flowOf(emptySet())
 
         createInstance().showNotificationIfStateChanged()
 
         verify {
-            vaccinationRepository.freshVaccinationInfos
+            vaccinationRepository.freshCertificates
             recoveryRepository.freshCertificates
             expirationNotification wasNot Called
         }

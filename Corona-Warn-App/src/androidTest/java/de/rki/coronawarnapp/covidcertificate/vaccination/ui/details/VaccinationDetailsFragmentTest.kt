@@ -101,33 +101,33 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         takeScreenshot<VaccinationDetailsFragment>("expired_2")
     }
 
-    private fun validVaccinationDetailsData(complete: Boolean): LiveData<VaccinationDetails> {
+    private fun validVaccinationDetailsData(complete: Boolean): LiveData<VaccinationCertificate?> {
         val vaccinationCertificate = vaccinationCertificate().apply {
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
             every { isDisplayValid } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
         }
-        return MutableLiveData(VaccinationDetails(vaccinationCertificate, complete))
+        return MutableLiveData(vaccinationCertificate)
     }
 
-    private fun invalidVaccinationDetailsData(): LiveData<VaccinationDetails> {
+    private fun invalidVaccinationDetailsData(): LiveData<VaccinationCertificate?> {
         val vaccinationCertificate = vaccinationCertificate().apply {
             every { doseNumber } returns 2
             every { isDisplayValid } returns false
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Invalid()
         }
-        return MutableLiveData(VaccinationDetails(vaccinationCertificate, false))
+        return MutableLiveData(vaccinationCertificate)
     }
 
-    private fun expiredVaccinationDetailsData(): LiveData<VaccinationDetails> {
+    private fun expiredVaccinationDetailsData(): LiveData<VaccinationCertificate?> {
         val vaccinationCertificate = vaccinationCertificate().apply {
             every { doseNumber } returns 2
             every { isDisplayValid } returns false
             every { isNotBlocked } returns true
             every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
-        return MutableLiveData(VaccinationDetails(vaccinationCertificate, false))
+        return MutableLiveData(vaccinationCertificate)
     }
 
     private fun vaccinationCertificate(): VaccinationCertificate {

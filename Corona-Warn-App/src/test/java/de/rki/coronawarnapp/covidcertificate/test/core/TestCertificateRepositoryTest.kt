@@ -346,4 +346,39 @@ class TestCertificateRepositoryTest : BaseTest() {
             notifiedExpiredAt shouldBe null
         }
     }
+
+    @Test
+    fun `replace certificate works`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf(testData.personATest1StoredData)
+        val instance = createInstance(this)
+        instance.replaceCertificate(
+            certificateToReplace = testData.personATest1Container.containerId,
+            testData.personATest2CertContainer.testCertificateQRCode!!
+        )
+        with(instance.certificates.first()) {
+            size shouldBe 1
+            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
+        }
+        with(instance.recycledCertificates.first()) {
+            size shouldBe 1
+            this.first().containerId shouldBe testData.personATest1Container.containerId
+        }
+    }
+
+    @Test
+    fun `replace certificate works if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
+        coEvery { storage.load() } returns setOf()
+        val instance = createInstance(this)
+        instance.replaceCertificate(
+            certificateToReplace = testData.personATest1Container.containerId,
+            testData.personATest2CertContainer.testCertificateQRCode!!
+        )
+        with(instance.certificates.first()) {
+            size shouldBe 1
+            this.first().containerId shouldBe testData.personATest2CertContainer.containerId
+        }
+        with(instance.recycledCertificates.first()) {
+            size shouldBe 0
+        }
+    }
 }

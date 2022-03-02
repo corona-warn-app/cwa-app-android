@@ -27,7 +27,8 @@
         android:layout_gravity="center"
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
-        android:src="@drawable/ic_booster_badge"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_badge"
         app:layout_constraintStart_toEndOf="@id/title"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
