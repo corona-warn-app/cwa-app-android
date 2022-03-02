@@ -56,8 +56,6 @@ class VaccinationRepositoryTest : BaseTest() {
     // Few days after issued dates of person A in test data.
     private var nowUTC = Instant.parse("2021-05-13T09:25:00.000Z")
 
-    private val containerId = VaccinationTestData.Vac1QRCodeString.toSHA256()
-
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -97,7 +95,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac1QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.vaccinationQrCode.toSHA256()
+            this.personIdentifier shouldBe vaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
 
         advanceUntilIdle()
@@ -108,12 +106,15 @@ class VaccinationRepositoryTest : BaseTest() {
     @Test
     fun `add new certificate - existing data`() = runBlockingTest2(ignoreActive = true) {
         val dataBefore = vaccinationTestData.personAData2Vac.copy(
-            vaccinations = setOf(vaccinationTestData.personAVac1Container),
+            vaccinations = setOf(vaccinationTestData.personAVac1StoredCertificateData),
         )
         val dataAfter = vaccinationTestData.personAData2Vac.copy(
             vaccinations = setOf(
-                vaccinationTestData.personAVac1Container,
-                vaccinationTestData.personAVac2Container.copy(scannedAt = nowUTC, certificateSeenByUser = false)
+                vaccinationTestData.personAVac1StoredCertificateData,
+                vaccinationTestData.personAVac2StoredCertificateData.copy(
+                    scannedAt = nowUTC,
+                    certificateSeenByUser = false
+                )
             ),
         )
         testStorage = setOf(dataBefore)
@@ -123,7 +124,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac1Container.vaccinationQrCode.toSHA256()
+            this.personIdentifier shouldBe vaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
 
         testStorage.first() shouldBe dataAfter
@@ -156,7 +157,7 @@ class VaccinationRepositoryTest : BaseTest() {
     @Test
     fun `add new certificate - duplicate certificate`() = runBlockingTest2(ignoreActive = true) {
         val dataBefore = vaccinationTestData.personAData2Vac.copy(
-            vaccinations = setOf(vaccinationTestData.personAVac1Container),
+            vaccinations = setOf(vaccinationTestData.personAVac1StoredCertificateData),
         )
 
         testStorage = setOf(dataBefore)
@@ -191,9 +192,9 @@ class VaccinationRepositoryTest : BaseTest() {
     fun `remove certificate`() = runBlockingTest2(ignoreActive = true) {
         val before = vaccinationTestData.personAData2Vac
         val after = vaccinationTestData.personAData2Vac.copy(
-            vaccinations = setOf(vaccinationTestData.personAVac1Container)
+            vaccinations = setOf(vaccinationTestData.personAVac1StoredCertificateData)
         )
-        val toRemove = vaccinationTestData.personAVac2Container
+        val toRemove = vaccinationTestData.personAVac2StoredCertificateData
 
         testStorage = setOf(before)
 
@@ -204,7 +205,7 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.deleteCertificate(
             VaccinationCertificateContainerId(toRemove.vaccinationQrCode)
-        ) shouldBe vaccinationTestData.personAVac2Container
+        ) shouldBe vaccinationTestData.personAVac2StoredCertificateData
         advanceUntilIdle()
 
         testStorage shouldBe setOf(after)
@@ -257,10 +258,12 @@ class VaccinationRepositoryTest : BaseTest() {
 
     @Test
     fun `replace certificate works`() = runBlockingTest2(ignoreActive = true) {
-        testStorage = setOf(vaccinationTestData.personAVac11Container)
+        storage.apply {
+            coEvery { load() } returns setOf(vaccinationTestData.personAVac1StoredCertificateData)
+        }
         val instance = createInstance(this)
         instance.replaceCertificate(
-            certificateToReplace = vaccinationTestData.personAVac11Container.containerId,
+            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
             newCertificateQrCode = vaccinationTestData.personAVac2QRCode
         )
         with(instance.certificates.first()) {
@@ -269,16 +272,18 @@ class VaccinationRepositoryTest : BaseTest() {
         }
         with(instance.recycledCertificates.first()) {
             size shouldBe 1
-            this.first().containerId shouldBe vaccinationTestData.personAVac11Container.containerId
+            this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
         }
     }
 
     @Test
     fun `replace certificate works if old certificate does not exist`() = runBlockingTest2(ignoreActive = true) {
-        testStorage = setOf()
+        storage.apply {
+            coEvery { load() } returns setOf()
+        }
         val instance = createInstance(this)
         instance.replaceCertificate(
-            certificateToReplace = vaccinationTestData.personAVac11Container.containerId,
+            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
             newCertificateQrCode = vaccinationTestData.personAVac2QRCode
         )
         with(instance.certificates.first()) {
@@ -292,42 +297,46 @@ class VaccinationRepositoryTest : BaseTest() {
 
     @Test
     fun `replace certificate works if new certificate already exists`() = runBlockingTest2(ignoreActive = true) {
-        testStorage = setOf(vaccinationTestData.personBData1Vac, vaccinationTestData.personBData2Vac)
+        storage.apply {
+            coEvery { load() } returns setOf(
+                vaccinationTestData.personAVac1StoredCertificateData,
+                vaccinationTestData.personAVac2StoredCertificateData
+            )
+        }
         val instance = createInstance(this)
         instance.replaceCertificate(
-            certificateToReplace = VaccinationCertificateContainerId(containerIdRecoveryQrCode1),
-            newCertificateQrCode = dccQrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode2) as
-                RecoveryCertificateQRCode
+            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
+            newCertificateQrCode = vaccinationTestData.personAVac2QRCode
         )
         with(instance.certificates.first()) {
             size shouldBe 1
-            this.first().containerId shouldBe VaccinationCertificateContainerId(containerIdRecoveryQrCode2)
+            this.first().containerId shouldBe vaccinationTestData.personAVac22Container.containerId
         }
         with(instance.recycledCertificates.first()) {
             size shouldBe 1
-            this.first().containerId shouldBe VaccinationCertificateContainerId(containerIdRecoveryQrCode1)
+            this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
         }
     }
 
     @Test
     fun `replace certificate works if old certificate is already recycled`() = runBlockingTest2(ignoreActive = true) {
-        val storedRecoveryCertificate = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode1)
-        val storedRecoveryCertificate2 = StoredRecoveryCertificateData(RecoveryQrCodeTestData.recoveryQrCode2)
-            .copy(recycledAt = nowUTC)
-        testStorage = setOf(storedRecoveryCertificate, storedRecoveryCertificate2)
+        storage.apply {
+            coEvery { load() } returns setOf(
+                vaccinationTestData.personAVac1StoredCertificateData.copy(recycledAt = nowUTC)
+            )
+        }
         val instance = createInstance(this)
         instance.replaceCertificate(
-            certificateToReplace = VaccinationCertificateContainerId(containerIdRecoveryQrCode1),
-            newCertificateQrCode = dccQrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode2) as
-                RecoveryCertificateQRCode
+            certificateToReplace = vaccinationTestData.personAVac1Container.containerId,
+            newCertificateQrCode = vaccinationTestData.personAVac2QRCode
         )
         with(instance.certificates.first()) {
             size shouldBe 1
-            this.first().containerId shouldBe VaccinationCertificateContainerId(containerIdRecoveryQrCode2)
+            this.first().containerId shouldBe vaccinationTestData.personAVac22Container.containerId
         }
         with(instance.recycledCertificates.first()) {
             size shouldBe 1
-            this.first().containerId shouldBe VaccinationCertificateContainerId(containerIdRecoveryQrCode1)
+            this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
         }
     }
 }
