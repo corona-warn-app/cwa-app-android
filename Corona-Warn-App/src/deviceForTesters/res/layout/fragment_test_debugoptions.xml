@@ -118,6 +118,14 @@
                     tools:text="Dcc Server Url: ?" />
 
                 <TextView
+                    android:id="@+id/environment_dcc_reissuance_server_url"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    tools:text="Dcc Reissuance Server Url: ?" />
+
+                <TextView
                     android:id="@+id/environment_pubkey_appconfig"
                     style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="match_parent"

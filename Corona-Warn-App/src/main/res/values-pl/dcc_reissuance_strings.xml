@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- DCC Reissuance: Success Screen -->
+    <!-- XHED: DCC reissuance success screen title -->
+    <string name="dcc_reissuance_success_screen_title">"Zaktualizowano certyfikat"</string>
+    <!-- YTXT: Headline for DCC reissuance success screen -->
+    <string name="dcc_reissuance_success_screen_headline">"Twój certyfikat został pomyślnie zaktualizowany"</string>
+    <!-- YTXT: Body for DCC reissuance success screen -->
+    <string name="dcc_reissuance_success_screen_body">"Zaktualizowany certyfikat jest teraz dostępny w karcie „Certyfikaty”. "</string>
+    <!-- XBUT: DCC reissuance button complete -->
+    <string name="dcc_reissuance_success_screen_complete_button">"Gotowe"</string>
+
+    <!-- DCC Reissuance: Error Handling Text Keys -->
+    <!-- XTXT: Text Key - Contact Support -->
+    <string name="dcc_reissuance_error_handling_text_key_contact_support">"Wystąpił błąd techniczny. Skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+    <!-- XTXT: Text Key - No Network -->
+    <string name="dcc_reissuance_error_handling_text_key_no_network">"Połączenie internetowe mogło zostać utracone. Sprawdź połączenie i spróbuj ponownie."</string>
+    <!-- XTXT: Text Key - Try Again -->
+    <string name="dcc_reissuance_error_handling_text_key_try_again">"Podczas aktualizacji certyfikatu wystąpił błąd. Spróbuj ponownie. Jeśli błąd będzie nadal występował, skontaktuj się z infolinią techniczną, korzystając z opcji: Informacje o aplikacji -&gt; Infolinia techniczna. "</string>
+    <!-- XTXT: Text Key - Reissuance Not Supported -->
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Nie można aktualizować certyfikatu. Skontaktuj się z infolinią techniczną, wybierając opcje: Informacje o aplikacji -&gt; Infolinia techniczna."</string>
+
+    <!-- XTXT: DCC Reissuance title-->
+    <string name="dcc_reissuance_consent_title">"Twoja zgoda"</string>
+    <!-- XTXT: DCC Reissuance first bullet point-->
+    <string name="dcc_reissuance_bulletpoint_one">"Aktualizacja certyfikatu jest dobrowolna i bezpłatna."</string>
+    <!-- XTXT: DCC Reissuance second bullet point-->
+    <string name="dcc_reissuance_bulletpoint_two">"W celu zapewnienia, by certyfikaty mogły być aktualizowane tylko raz, identyfikator starego certyfikatu jest dokumentowany przez RKI."</string>
+    <!-- XTXT: DCC Reissuance deletion hint-->
+    <string name="dcc_reissuance_deletion_hint">"Stary certyfikat zostanie automatycznie przeniesiony do kosza i usunięty po 30 dniach. Certyfikat można odzyskać w dowolnym momencie w ciągu tych 30 dni."</string>
+    <!-- XTXT: DCC Reissuance update hint-->
+    <string name="dcc_reissuance_update_hint">"Jeśli teraz zrezygnujesz, możesz w każdej chwili zażądać aktualizacji w przeglądzie certyfikatów."</string>
+</resources>

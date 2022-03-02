@@ -75,7 +75,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         with(vaccinationRepository) {
             every { recycledCertificates } returns flowOf(setOf(vc))
             coEvery { restoreCertificate(any()) } just Runs
-            coEvery { deleteCertificate(any()) } returns null
+            coEvery { deleteCertificate(any()) } just Runs
         }
     }
 

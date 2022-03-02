@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.dccticketing.core.transaction.DccJWK
 import de.rki.coronawarnapp.dccticketing.core.check.DccTicketingServerCertificateCheckException.ErrorCode
 import de.rki.coronawarnapp.dccticketing.core.common.DccJWKConverter
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.http.serverCertificateChain
 import okhttp3.Response
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
@@ -157,9 +158,6 @@ class DccTicketingServerCertificateChecker @Inject constructor(
 
         return requiredJwkSet
     }
-
-    private val Response.serverCertificateChain: List<Certificate>
-        get() = handshake?.peerCertificates.orEmpty()
 
     private val Response.hostname: String
         get() = request.url.host

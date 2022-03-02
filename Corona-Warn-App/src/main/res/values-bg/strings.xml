@@ -1457,7 +1457,7 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Брой потребители, които са диагностицирани с коронавирус с помощта на PCR тест и са предупредили другите потребители чрез приложението."</string>
+    <string name="statistics_explanation_warned_persons_text">"Брой потребители, диагностицирани с коронавирус, които са предупредили другите потребители чрез приложението"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
     <!-- XHED: Explanation screen seven day incidence title -->

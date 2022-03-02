@@ -220,4 +220,11 @@
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
     <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"Further certificate requirements on the part of the provider (e.g. which vaccines or test procedures are accepted)"</string>
 
+    <!-- DCC Reissuance Consent Screen -->
+    <!-- XTXT: DCC Reissuance legal header-->
+    <string name="dcc_reissuance_legal_header" translatable="false">By tapping on “Accept”, you consent to the following steps:</string>
+    <!-- XTXT: DCC Reissuance legal first bullet point-->
+    <string name="dcc_reissuance_legal_one" translatable="false">The app will transmit the vaccination certificate to the RKI for verification.</string>
+    <!-- XTXT: DCC Reissuance legal second bullet point-->
+    <string name="dcc_reissuance_legal_two" translatable="false">The RKI will check the vaccination certificate, issue an updated certificate and send this to your app.</string>
 </resources>

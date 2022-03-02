@@ -35,7 +35,6 @@ class CclTestFragment : Fragment(R.layout.fragment_test_ccl), AutoInject {
             calcDccWalletInfo.setOnClickListener { viewModel.triggerCalculation() }
             binding.forceUpdateCclConfiguration.setOnClickListener { viewModel.forceUpdateCclConfiguration() }
             clearDccWalletInfo.setOnClickListener { viewModel.clearDccWallet() }
-
             viewModel.dccWalletInfoList.observe2(this@CclTestFragment) { infoList ->
                 dccWalletInfoList.text = buildSpannedString {
                     infoList.forEachIndexed { index, info ->

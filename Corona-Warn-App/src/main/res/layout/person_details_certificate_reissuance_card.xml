@@ -16,18 +16,19 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:text="TODO: Certificate Reissuance Tile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Zertifikat aktualisieren" />
 
     <ImageView
-        android:id="@+id/booster_badge"
+        android:id="@+id/reissuance_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
-        android:src="@drawable/ic_booster_badge"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_badge"
         app:layout_constraintStart_toEndOf="@id/title"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -50,6 +51,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/title"
-        android:text="TODO: Subtitle" />
+        tools:text="Neuausstellung direkt über die App vornehmen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
