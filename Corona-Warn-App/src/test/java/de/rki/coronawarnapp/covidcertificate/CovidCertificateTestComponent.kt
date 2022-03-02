@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
@@ -49,7 +49,7 @@ import javax.inject.Singleton
 interface CovidCertificateTestComponent {
 
     fun inject(testClass: VaccinationStorageTest)
-    fun inject(testClass: VaccinationContainerTest)
+    fun inject(testClass: VaccinationCertificateContainerTest)
     fun inject(testClass: DccQrCodeExtractorTest)
     fun inject(testClass: VaccinationRepositoryTest)
     fun inject(testClass: TestCertificateContainerTest)

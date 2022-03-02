@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -50,14 +50,14 @@ class VaccinationRepository @Inject constructor(
     dscRepository: DscRepository
 ) {
 
-    private val internalData: HotDataFlow<Set<VaccinationContainer>> = HotDataFlow(
+    private val internalData: HotDataFlow<Set<VaccinationCertificateContainer>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
         (storage.load() + vaccinationMigration.doMigration())
             .map {
-                VaccinationContainer(
+                VaccinationCertificateContainer(
                     data = it,
                     qrCodeExtractor = qrCodeExtractor
                 )
@@ -126,7 +126,7 @@ class VaccinationRepository @Inject constructor(
 
     suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode,
-    ): VaccinationContainer {
+    ): VaccinationCertificateContainer {
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
         val newCertificate = qrCode.toVaccinationContainer(
