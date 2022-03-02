@@ -33,10 +33,13 @@ class VaccinationStorage @Inject constructor(
     suspend fun load(): Set<StoredVaccinationCertificateData> = mutex.withLock {
         Timber.tag(TAG).d("load()")
         return gson
-            .fromJson(
+            .fromJson<Set<StoredVaccinationCertificateData>?>(
                 prefs.getString(PKEY_VACCINATION_CERT, null) ?: return emptySet(),
                 TYPE_TOKEN
             )
+            .associateBy { it.vaccinationQrCode }
+            .map { it.value }
+            .toSet()
     }
 
     suspend fun save(certificates: Set<StoredVaccinationCertificateData>) = mutex.withLock {
@@ -58,7 +61,7 @@ class VaccinationStorage @Inject constructor(
                 return@mapNotNull null
             }
             value as String
-            gson.fromJson<VaccinatedPersonData>(value).also { _ ->
+            gson.fromJson<VaccinatedPersonData>(value).also {
                 Timber.tag(TAG).v("Person loaded: %s", key)
             }
         }

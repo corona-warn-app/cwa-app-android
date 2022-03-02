@@ -72,7 +72,7 @@ class VaccinationStorageTest : BaseTest() {
         val personData = setOf(testData.personAVac1Container, vaccinationContainer2)
         runBlockingTest {
             val instance = createInstance()
-            instance.save(setOf(testData.personAVac1Container, vaccinationContainer2))
+            instance.save(personData)
 
             val json =
                 (mockPreferences.dataMapPeek["vaccination.certificate"] as String)
@@ -103,6 +103,48 @@ class VaccinationStorageTest : BaseTest() {
 
             instance.load().apply {
                 this shouldBe personData
+            }
+        }
+    }
+
+    @Test
+    fun `test json set with same certificates`() {
+        val personData = setOf(testData.personAVac1Container)
+        runBlockingTest {
+            val instance = createInstance()
+
+            val json = """
+                [
+                    {
+                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "scannedAt": 1620062834471,
+                      "lastSeenStateChange": {
+                        "expiresAt": 1620062834471,
+                        "type": "ExpiringSoon"
+                      },
+                      "lastSeenStateChangeAt": 1620062834471,
+                      "certificateSeenByUser": false
+                    },
+                    {
+                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "scannedAt": 1620062834471,
+                      "lastSeenStateChange": {
+                        "expiresAt": 1620062834471,
+                        "type": "ExpiringSoon"
+                      },
+                      "lastSeenStateChangeAt": 1620062834471,
+                      "certificateSeenByUser": true
+                    }
+                ]
+            """.trimIndent()
+
+            mockPreferences.edit {
+                putString("vaccination.certificate", json)
+            }
+
+            instance.load().apply {
+                this shouldBe personData
+                this.size shouldBe 1
             }
         }
     }

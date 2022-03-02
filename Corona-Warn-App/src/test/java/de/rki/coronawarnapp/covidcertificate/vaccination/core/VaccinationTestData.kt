@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class VaccinationTestData @Inject constructor(
-    private var qrCodeExtractor: DccQrCodeExtractor,
+    qrCodeExtractor: DccQrCodeExtractor,
 ) {
 
     // AndreasAstra1.pdf
@@ -219,9 +219,7 @@ class VaccinationTestData @Inject constructor(
     val personBVac1Container = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620069934471),
         vaccinationQrCode = personBVac1QRCodeString,
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    )
 
     val personBData1Vac = VaccinatedPersonData(
         vaccinations = setOf(personBVac1Container)
