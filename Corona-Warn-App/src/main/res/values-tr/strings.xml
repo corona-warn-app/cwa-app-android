@@ -1441,7 +1441,7 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"%s tarihine kadar"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"Yeni Enfeksiyon Sayısı"</string>
+    <string name="statistics_primary_value_description">"yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Statistics secondary value description -->
     <string name="statistics_secondary_value_description">"hastaneye yatış sayısı"</string>
 
@@ -1451,13 +1451,13 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"onaylanan yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"PCR testi ile koronavirüs tanısı alan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı."</string>
+    <string name="statistics_explanation_warned_persons_text">"Koronavirüs tanısı koyulan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Yerel 7 Günlük Olay"</string>
     <!-- XHED: Explanation screen seven day incidence title -->
