@@ -67,6 +67,14 @@
                     app:subtitle="@{@string/information_terms_title}" />
 
                 <include
+                    android:id="@+id/information_accessibility_statement"
+                    layout="@layout/include_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:icon="@{@drawable/ic_link}"
+                    app:subtitle="@{@string/information_accessibility_statement}"/>
+
+                <include
                     android:id="@+id/information_privacy"
                     layout="@layout/include_row"
                     android:layout_width="match_parent"
