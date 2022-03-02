@@ -15,7 +15,6 @@ data class VaccinationCertificateWrapper(
 
     val containerId: VaccinationCertificateContainerId get() = container.containerId
 
-    // TODO: test recycling
     val recycleInfo: Recyclable get() = container
 
     val vaccinationCertificate: VaccinationCertificate by lazy {
