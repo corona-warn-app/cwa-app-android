@@ -38,7 +38,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VaccinationRepository @Inject constructor(
+class VaccinationCertificateRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     valueSetsRepository: ValueSetsRepository,
     private val timeStamper: TimeStamper,

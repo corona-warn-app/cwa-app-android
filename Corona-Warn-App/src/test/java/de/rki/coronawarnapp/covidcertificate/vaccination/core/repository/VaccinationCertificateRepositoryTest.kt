@@ -37,7 +37,7 @@ import testhelpers.coroutines.runBlockingTest2
 import timber.log.Timber
 import javax.inject.Inject
 
-class VaccinationRepositoryTest : BaseTest() {
+class VaccinationCertificateRepositoryTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
 
@@ -76,7 +76,7 @@ class VaccinationRepositoryTest : BaseTest() {
         }
     }
 
-    private fun createInstance(scope: CoroutineScope) = VaccinationRepository(
+    private fun createInstance(scope: CoroutineScope) = VaccinationCertificateRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
         timeStamper = timeStamper,
@@ -95,7 +95,8 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac1QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+            this.personIdentifier shouldBe
+                vaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
 
         advanceUntilIdle()
@@ -124,7 +125,8 @@ class VaccinationRepositoryTest : BaseTest() {
 
         instance.registerCertificate(vaccinationTestData.personAVac2QRCode).apply {
             Timber.i("Returned cert is %s", this)
-            this.personIdentifier shouldBe vaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
+            this.personIdentifier shouldBe
+                vaccinationTestData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
 
         testStorage.first() shouldBe dataAfter

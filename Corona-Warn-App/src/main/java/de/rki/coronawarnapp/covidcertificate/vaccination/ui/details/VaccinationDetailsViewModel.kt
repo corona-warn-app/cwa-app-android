@@ -7,7 +7,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.pdf.ui.canBeExported
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -22,7 +22,7 @@ import timber.log.Timber
 class VaccinationDetailsViewModel @AssistedInject constructor(
     @Assisted private val containerId: VaccinationCertificateContainerId,
     @Assisted private val fromScanner: Boolean,
-    private val vaccinationRepository: VaccinationRepository,
+    private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
@@ -30,7 +30,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     private var qrCode: CoilQrCode? = null
 
-    val vaccinationCertificate = vaccinationRepository.certificates
+    val vaccinationCertificate = vaccinationCertificateRepository.certificates
         .map { certificates ->
             certificates.find { it.containerId == containerId }?.vaccinationCertificate?.also {
                 qrCode = it.qrCodeToDisplay
@@ -49,7 +49,7 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun recycleVaccinationCertificateConfirmed() = launch(scope = appScope) {
         Timber.d("Recycling Vaccination Certificate=$containerId")
-        vaccinationRepository.recycleCertificate(containerId)
+        vaccinationCertificateRepository.recycleCertificate(containerId)
         events.postValue(VaccinationDetailsNavigation.Back)
     }
 
@@ -65,8 +65,8 @@ class VaccinationDetailsViewModel @AssistedInject constructor(
 
     fun refreshCertState() = launch(scope = appScope) {
         Timber.v("refreshCertState()")
-        vaccinationRepository.acknowledgeState(containerId)
-        if (!fromScanner) vaccinationRepository.markAsSeenByUser(containerId)
+        vaccinationCertificateRepository.acknowledgeState(containerId)
+        if (!fromScanner) vaccinationCertificateRepository.markAsSeenByUser(containerId)
     }
 
     fun onExport() {
