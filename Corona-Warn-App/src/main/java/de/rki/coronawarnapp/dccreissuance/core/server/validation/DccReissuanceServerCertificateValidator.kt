@@ -19,7 +19,7 @@ class DccReissuanceServerCertificateValidator @Inject constructor(
      *
      * Note that the absence of an error code indicates a successful check
      *
-     * @throws [DccReissuanceException] if the hashes to not match
+     * @throws [DccReissuanceException] if the hashes do not match
      */
     suspend fun checkCertificateChain(certificateChain: List<Certificate>) = try {
         Timber.tag(TAG).d("Check Certificate Chain")
