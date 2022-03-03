@@ -18,7 +18,7 @@ data class CoronaRapidAntigenTestParametersContainer(
 ) {
     companion object {
         const val DEFAULT_HOURS: Long = 48
-        const val DEFAULT_HOURS_SINCE_SAMPLE_COLLECTION: Long = 48
+        const val DEFAULT_HOURS_SINCE_SAMPLE_COLLECTION: Long = 168L // 7 days x 24 hours
     }
 }
 
@@ -28,7 +28,7 @@ data class CoronaPCRTestParametersContainer(
     ),
 ) {
     companion object {
-        const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION = 264L // 11 days x 24 hours
+        const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION = 168L // 7 days x 24 hours
     }
 }
 
