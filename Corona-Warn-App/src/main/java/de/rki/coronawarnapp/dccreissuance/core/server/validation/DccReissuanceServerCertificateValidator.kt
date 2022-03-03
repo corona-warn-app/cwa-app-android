@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.dccreissuance.core.server.validation
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
+import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.tag
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
