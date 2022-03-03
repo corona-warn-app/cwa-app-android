@@ -82,5 +82,6 @@
     <color name="tipTitleColor">#000000</color>
     <color name="admissionItemDisabledColor">#80FFFFFF</color>
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardBorder</color>
+    <color name="contactDiaryUnClickableColor">#BF000000</color>
 
 </resources>

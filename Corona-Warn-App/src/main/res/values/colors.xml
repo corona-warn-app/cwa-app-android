@@ -112,4 +112,5 @@
     <color name="dim_color">#80000000</color>
     <color name="admissionItemDisabledColor">#8017191A</color>
     <color name="admissionTileBackground">@color/colorPersonOverviewQrCardGrey</color>
+    <color name="contactDiaryUnClickableColor">#FFFFFF</color>
 </resources>

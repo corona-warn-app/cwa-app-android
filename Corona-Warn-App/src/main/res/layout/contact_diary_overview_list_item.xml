@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/day_element_body"
     style="@style/contactDiaryCardRipple"
     android:layout_width="match_parent"
@@ -13,15 +14,27 @@
 
     <include
         android:id="@+id/day_risk_enf"
-        layout="@layout/contact_diary_overview_day_list_item_risk_enf" />
+        layout="@layout/contact_diary_overview_day_list_item_risk_enf"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/day_risk_event"
-        layout="@layout/contact_diary_overview_day_list_item_risk_event" />
+        layout="@layout/contact_diary_overview_day_list_item_risk_event"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/day_test_result"
-        layout="@layout/contact_diary_overview_day_list_item_test_results" />
+        layout="@layout/contact_diary_overview_day_list_item_test_results"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
         android:id="@+id/day_contact"
