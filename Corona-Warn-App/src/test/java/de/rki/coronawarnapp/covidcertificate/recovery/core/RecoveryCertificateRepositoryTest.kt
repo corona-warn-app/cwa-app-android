@@ -116,7 +116,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @Test
     fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
         val notRecycled = mockk<StoredRecoveryCertificateData> {
-            every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.recoveryQrCode2
+            every { recoveryCertificateQrCode } returns RecoveryQrCodeTestData.recoveryQrCode1
             every { recycledAt } returns null
         }
 
