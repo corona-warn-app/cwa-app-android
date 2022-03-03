@@ -66,11 +66,14 @@ class DccReissuanceProcessorTest : BaseTest() {
         instance.requestDccReissuance(dccReissuanceDescriptor = dccReissuanceDescriptor) shouldBe response
 
         coVerify {
-            dccReissuanceServer.requestDccReissuance(action = "renew", certificates = listOf(
-                testAccompanyingCertificate1.certificateRef.barcodeData,
-                testAccompanyingCertificate2.certificateRef.barcodeData,
-                testCertificateToReissue.certificateRef.barcodeData
-            ))
+            dccReissuanceServer.requestDccReissuance(
+                action = "renew",
+                certificates = listOf(
+                    testAccompanyingCertificate1.certificateRef.barcodeData,
+                    testAccompanyingCertificate2.certificateRef.barcodeData,
+                    testCertificateToReissue.certificateRef.barcodeData
+                )
+            )
         }
     }
 

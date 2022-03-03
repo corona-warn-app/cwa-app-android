@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 
+@Suppress("MaxLineLength")
 class DccReissuanceExceptionTest : BaseTest() {
 
     @Test
@@ -39,10 +40,18 @@ class DccReissuanceExceptionTest : BaseTest() {
         val reissuanceNotSupported = "reissuance not supported"
 
         val context: Context = mockk {
-            every { getString(R.string.dcc_reissuance_error_handling_text_key_contact_support) } returns contactSupport
-            every { getString(R.string.dcc_reissuance_error_handling_text_key_no_network) } returns noNetwork
-            every { getString(R.string.dcc_reissuance_error_handling_text_key_try_again) } returns tryAgain
-            every { getString(R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported) } returns reissuanceNotSupported
+            every {
+                getString(R.string.dcc_reissuance_error_handling_text_key_contact_support)
+            } returns contactSupport
+            every {
+                getString(R.string.dcc_reissuance_error_handling_text_key_no_network)
+            } returns noNetwork
+            every {
+                getString(R.string.dcc_reissuance_error_handling_text_key_try_again)
+            } returns tryAgain
+            every {
+                getString(R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported)
+            } returns reissuanceNotSupported
         }
 
         DccReissuanceException(errorCode = ErrorCode.DCC_RI_PIN_MISMATCH).errorMessage.get(context) shouldBe contactSupport
