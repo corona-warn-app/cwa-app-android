@@ -338,4 +338,9 @@
     <string name="ccl_admission_state_tile_subtitle">Regeln des Bundes</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">Status wird ermittelt...</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">Zuordnung von Zertifikaten</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">Die Gruppierung von Zertifikaten wurde verbessert. Zertifikate mit geringen Namensunterschieden werden nicht mehr verschiedenen Personen zugeordnet.</string>
 </resources>
