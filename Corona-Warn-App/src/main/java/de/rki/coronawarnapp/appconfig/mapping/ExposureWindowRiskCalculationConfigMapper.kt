@@ -47,7 +47,7 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
             transmissionRiskValueMapping = riskCalculationParameters.transmissionRiskValueMappingList,
             diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping(),
-            maxEncounterAgeInDays = 10 // todo riskCalculationParameters.maxEncounterAgeInDays
+            maxEncounterAgeInDays = riskCalculationParameters.maxEncounterAgeInDays
         )
     }
 
