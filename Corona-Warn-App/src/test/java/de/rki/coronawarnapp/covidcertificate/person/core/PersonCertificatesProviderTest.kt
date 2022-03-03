@@ -76,7 +76,8 @@ class PersonCertificatesProviderTest : BaseTest() {
 
     private val rcSet = setOf(recoveryCertA, recoveryCertB)
     private val tcSet = setOf(testCertA, testCertB)
-//    private val vcInfoSet = setOf(vaccinatedPersonA)
+
+    //    private val vcInfoSet = setOf(vaccinatedPersonA)
     private val vcSet = setOf(vaccinatedPersonACertificate1)
 
     private val certificateContainer: CertificateProvider.CertificateContainer = mockk {
