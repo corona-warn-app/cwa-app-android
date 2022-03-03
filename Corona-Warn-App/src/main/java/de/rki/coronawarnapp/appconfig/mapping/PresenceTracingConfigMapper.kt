@@ -42,7 +42,8 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
         PresenceTracingRiskCalculationParamContainer(
             transmissionRiskValueMapping = transmissionRiskValueMappingList,
             normalizedTimePerCheckInToRiskLevelMapping = normalizedTimePerCheckInToRiskLevelMappingList,
-            normalizedTimePerDayToRiskLevelMapping = normalizedTimePerDayToRiskLevelMappingList
+            normalizedTimePerDayToRiskLevelMapping = normalizedTimePerDayToRiskLevelMappingList,
+            maxCheckInAgeInDays = 10 // todo maxCheckInAgeInDays
         )
 
     private fun QRCodeErrorCorrectionLevel.mapErrorCorrection(): ErrorCorrectionLevel =

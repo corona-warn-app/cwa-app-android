@@ -46,7 +46,8 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             normalizedTimePerDayToRiskLevelMappingList =
             riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
             transmissionRiskValueMapping = riskCalculationParameters.transmissionRiskValueMappingList,
-            diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
+            diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping(),
+            maxEncounterAgeInDays = 10 // todo riskCalculationParameters.maxEncounterAgeInDays
         )
     }
 
@@ -69,15 +70,16 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
         override val minutesAtAttenuationWeights:
             List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
         override val transmissionRiskLevelEncoding:
-            RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
+        RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
         override val transmissionRiskLevelFilters:
-            List<RiskCalculationParametersOuterClass.TrlFilter>,
+        List<RiskCalculationParametersOuterClass.TrlFilter>,
         override val normalizedTimePerExposureWindowToRiskLevelMapping:
-            List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val normalizedTimePerDayToRiskLevelMappingList:
-            List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
+        List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val transmissionRiskValueMapping:
-            List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
-        override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
+        List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
+        override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping,
+        override val maxEncounterAgeInDays: Int
     ) : ExposureWindowRiskCalculationConfig
 }
