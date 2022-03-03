@@ -273,7 +273,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         instance.replaceCertificate(
             certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
-            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as RecoveryCertificateQRCode
+            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as
+                RecoveryCertificateQRCode
         )
         with(instance.certificates.first()) {
             size shouldBe 1
@@ -291,7 +292,8 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         instance.replaceCertificate(
             certificateToReplace = RecoveryCertificateContainerId(containerIdRecoveryQrCode2),
-            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as RecoveryCertificateQRCode
+            newCertificateQrCode = qrCodeExtractor.extract(RecoveryQrCodeTestData.recoveryQrCode1) as
+                RecoveryCertificateQRCode
         )
         with(instance.certificates.first()) {
             size shouldBe 1
