@@ -16,6 +16,7 @@ class DccReissuanceExceptionTest : BaseTest() {
     fun `check error code text key mapping`() {
         ErrorCode.DCC_RI_PIN_MISMATCH.textKey shouldBe TextKey.CONTACT_SUPPORT
         ErrorCode.DCC_RI_PARSE_ERR.textKey shouldBe TextKey.CONTACT_SUPPORT
+        ErrorCode.DCC_RI_NO_RELATION.textKey shouldBe TextKey.CONTACT_SUPPORT
 
         ErrorCode.DCC_RI_NO_NETWORK.textKey shouldBe TextKey.NO_NETWORK
 
