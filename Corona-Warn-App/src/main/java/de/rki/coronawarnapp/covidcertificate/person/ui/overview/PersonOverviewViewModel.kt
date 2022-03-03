@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenar
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
@@ -40,6 +41,7 @@ class PersonOverviewViewModel @AssistedInject constructor(
     private val expirationNotificationService: DccExpirationNotificationService,
     private val format: CclTextFormatter,
     private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
+    private val migrationCheck: MigrationCheck
 ) : CWAViewModel(dispatcherProvider) {
 
     val admissionTile = dccAdmissionTileProvider.admissionTile.asLiveData2()
@@ -48,6 +50,11 @@ class PersonOverviewViewModel @AssistedInject constructor(
         certificatesProvider.personCertificates,
         testCertificateRepository.certificates,
     ) { persons, tcWrappers ->
+
+        if (migrationCheck.shouldShowMigrationInfo(persons)) {
+            events.postValue(ShowMigrationInfoDialog)
+        }
+
         UiState.Done(
             mutableListOf<PersonCertificatesItem>().apply {
                 addPersonItems(persons, tcWrappers)
