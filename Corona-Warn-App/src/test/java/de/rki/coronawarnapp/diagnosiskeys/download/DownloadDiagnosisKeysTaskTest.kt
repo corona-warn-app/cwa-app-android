@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -18,10 +17,8 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -48,12 +45,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @MockK lateinit var newKey1: CachedKey
 
     @MockK lateinit var latestTrackedDetection: TrackedExposureDetection
-
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply { every { isPositive } returns false }
-        )
-    )
 
     @BeforeEach
     fun setup() {
@@ -225,24 +216,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         coVerifySequence {
             enfClient.isTracingEnabled
-        }
-
-        coVerify(exactly = 0) {
-            enfClient.provideDiagnosisKeys(any(), any())
-        }
-    }
-
-    @Test
-    fun `we do not submit keys if user got positive test results`() = runBlockingTest {
-        coronaTests.value = setOf(
-            mockk<CoronaTest>().apply { every { isPositive } returns true }
-        )
-
-        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
-
-        coVerifySequence {
-            enfClient.isTracingEnabled
-            enfClient.latestTrackedExposureDetection()
         }
 
         coVerify(exactly = 0) {
