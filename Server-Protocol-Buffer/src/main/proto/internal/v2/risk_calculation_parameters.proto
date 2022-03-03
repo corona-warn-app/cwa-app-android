@@ -20,6 +20,8 @@ message RiskCalculationParameters {
   double transmissionRiskLevelMultiplier = 7 [deprecated = true];
 
   repeated TransmissionRiskValueMapping transmissionRiskValueMapping = 8;
+
+  uint32 maxEncounterAgeInDays = 9;
 }
 
 message Range {
