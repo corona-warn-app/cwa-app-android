@@ -537,7 +537,7 @@ class TestCertificateRepository @Inject constructor(
             Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
 
             mutate {
-                // recylce old
+                // recycle old
                 recycledCertificate?.let {
                     this[certificateToReplace] = it
                 }
