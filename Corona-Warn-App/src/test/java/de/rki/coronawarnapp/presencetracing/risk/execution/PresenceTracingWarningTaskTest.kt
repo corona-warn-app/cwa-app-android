@@ -118,9 +118,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
-
-            coronaTestRepository.coronaTests
-
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
@@ -267,8 +264,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             syncTool.syncPackages(any())
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
-
-            coronaTestRepository.coronaTests
         }
 
         coVerify(exactly = 0) {
