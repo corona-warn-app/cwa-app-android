@@ -49,7 +49,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @MockK lateinit var newKey1: CachedKey
 
     @MockK lateinit var latestTrackedDetection: TrackedExposureDetection
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
         setOf(
@@ -63,9 +62,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1080005
-
-        every { coronaTestRepository.coronaTests } returns coronaTests
-
         availableKey1.apply {
             every { path } returns File("availableKey1")
         }
@@ -112,7 +108,6 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         keyPackageSyncTool = keyPackageSyncTool,
         timeStamper = timeStamper,
         settings = downloadSettings,
-        coronaTestRepository = coronaTestRepository,
     )
 
     @Test

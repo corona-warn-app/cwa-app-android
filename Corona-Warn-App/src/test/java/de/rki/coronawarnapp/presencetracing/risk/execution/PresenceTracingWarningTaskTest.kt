@@ -48,7 +48,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
     @MockK lateinit var autoCheckOut: AutoCheckOut
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var appConfigProvider: AppConfigProvider
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
@@ -62,9 +61,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        every { coronaTestRepository.coronaTests } returns coronaTests
-
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { isUnencryptedCheckInsEnabled } returns true
         }
@@ -108,7 +104,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         traceWarningRepository = traceWarningRepository,
         checkInsRepository = checkInsRepository,
         presenceTracingRiskMapper = presenceTracingRiskMapper,
-        coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
         appConfigProvider = appConfigProvider
     )

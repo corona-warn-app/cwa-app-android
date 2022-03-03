@@ -32,7 +32,6 @@ class PresenceTracingWarningTask @Inject constructor(
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
     private val presenceTracingRiskMapper: PresenceTracingRiskMapper,
-    private val coronaTestRepository: CoronaTestRepository,
     private val autoCheckOut: AutoCheckOut,
     private val appConfigProvider: AppConfigProvider,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
@@ -104,12 +103,6 @@ class PresenceTracingWarningTask @Inject constructor(
 
             presenceTracingRiskRepository.reportCalculation(successful = true)
 
-            return Result()
-        }
-
-        val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
-        if (isPositive) {
-            Timber.tag(TAG).i("PT risk calculation aborted, positive test result available.")
             return Result()
         }
 

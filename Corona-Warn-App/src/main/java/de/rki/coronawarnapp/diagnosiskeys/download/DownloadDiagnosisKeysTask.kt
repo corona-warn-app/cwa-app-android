@@ -34,7 +34,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
-    private val coronaTestRepository: CoronaTestRepository,
 ) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
     private val internalProgress = MutableStateFlow<Progress>(Progress.Started)
@@ -108,12 +107,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
-
-            val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
-            if (isPositive) {
-                Timber.tag(TAG).i("EW risk calculation aborted, positive test result available.")
-                return Result()
-            }
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
