@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
 import de.rki.coronawarnapp.environment.BuildConfigWrap
