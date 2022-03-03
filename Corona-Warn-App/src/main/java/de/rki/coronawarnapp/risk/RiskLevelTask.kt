@@ -25,11 +25,13 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import org.joda.time.DateTimeZone.UTC
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -81,7 +83,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
-        val nowUTC = timeStamper.nowUTC.also {
+        val nowUtc = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
         }
 
@@ -90,14 +92,14 @@ class RiskLevelTask @Inject constructor(
         if (isAllowedToSubmitKeys && hasViewedTestResult) {
             Timber.i("Positive test result and user has seen it, skip risk calculation")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
+                calculatedAt = nowUtc,
                 failureReason = FailureReason.POSITIVE_TEST_RESULT
             )
         }
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            val currentServerTime = nowUTC.minus(configData.localOffset)
+            val currentServerTime = nowUtc.minus(configData.localOffset)
             Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
                 calculatedAt = currentServerTime,
@@ -108,15 +110,15 @@ class RiskLevelTask @Inject constructor(
         if (!enfClient.isTracingEnabled.first()) {
             Timber.i("Risk not calculated, tracing is disabled.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
+                calculatedAt = nowUtc,
                 failureReason = FailureReason.TRACING_OFF
             )
         }
 
-        if (areKeyPkgsOutDated(nowUTC)) {
+        if (areKeyPkgsOutDated(nowUtc)) {
             Timber.i("Risk not calculated, results are outdated.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
+                calculatedAt = nowUtc,
                 failureReason = when (backgroundJobsEnabled()) {
                     true -> FailureReason.OUTDATED_RESULTS
                     false -> FailureReason.OUTDATED_RESULTS_MANUAL
@@ -125,7 +127,7 @@ class RiskLevelTask @Inject constructor(
         }
         checkCancel()
 
-        return calculateRiskLevel(configData)
+        return calculateRiskLevel(configData, nowUtc)
     }
 
     @VisibleForTesting
@@ -153,9 +155,15 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    private suspend fun calculateRiskLevel(configData: ExposureWindowRiskCalculationConfig): EwRiskLevelTaskResult {
+    private suspend fun calculateRiskLevel(
+        configData: ExposureWindowRiskCalculationConfig,
+        nowUtc: Instant
+    ): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
-        val exposureWindows = enfClient.exposureWindows()
+        val exposureWindows = enfClient.exposureWindows().filterByAge(
+            maxAgeInDays = configData.maxEncounterAgeInDays,
+            nowUtc = nowUtc
+        )
 
         return determineRisk(configData, exposureWindows).let {
             Timber.tag(TAG).d("Risklevel calculated: %s", it)
@@ -240,3 +248,16 @@ class RiskLevelTask @Inject constructor(
         private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
     }
 }
+
+@VisibleForTesting
+internal fun List<ExposureWindow>.filterByAge(
+    maxAgeInDays: Int,
+    nowUtc: Instant
+): List<ExposureWindow> {
+    val deadline = nowUtc.minusDays(maxAgeInDays).millis
+    return filter {
+        it.dateMillisSinceEpoch >= deadline
+    }
+}
+
+private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(UTC)
