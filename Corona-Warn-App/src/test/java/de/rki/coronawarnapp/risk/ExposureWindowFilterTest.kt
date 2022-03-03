@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class ExposureWindowFilterTest: BaseTest() {
+class ExposureWindowFilterTest : BaseTest() {
 
     @MockK lateinit var exposureWindow1: ExposureWindow
     @MockK lateinit var exposureWindow2: ExposureWindow
