@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.dccreissuance.core.server.validation
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
+import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.tag
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
@@ -22,7 +22,7 @@ class DccReissuanceServerCertificateValidator @Inject constructor(
      * @throws [DccReissuanceException] if the hashes to not match
      */
     suspend fun checkCertificateChain(certificateChain: List<Certificate>) = try {
-        Timber.tag(TAG).d("checkCertificateChain(certificateChain=%s)", certificateChain)
+        Timber.tag(TAG).d("Check Certificate Chain")
         val leafCertificate = certificateChain.first()
         val reissueServicePublicKeyDigest = appConfigProvider.getAppConfig()
             .covidCertificateParameters

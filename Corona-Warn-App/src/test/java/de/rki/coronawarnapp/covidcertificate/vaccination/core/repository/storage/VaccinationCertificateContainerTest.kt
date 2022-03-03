@@ -23,7 +23,7 @@ import testhelpers.BaseTest
 import java.util.Locale
 import javax.inject.Inject
 
-class VaccinationContainerTest : BaseTest() {
+class VaccinationCertificateContainerTest : BaseTest() {
 
     @Inject lateinit var testData: VaccinationTestData
 
@@ -54,15 +54,15 @@ class VaccinationContainerTest : BaseTest() {
     fun `full property decoding - 1 of 2`() {
         testData.personAVac1Container.apply {
             certificate shouldBe testData.personAVac1Certificate
-            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 
     @Test
     fun `full property decoding - 2 of 2`() {
-        testData.personAVac2Container.apply {
+        testData.personAVac22Container.apply {
             certificate shouldBe testData.personAVac2Certificate
-            qrCodeHash shouldBe testData.personAVac2Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac2StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 
@@ -85,7 +85,7 @@ class VaccinationContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
             uniqueCertificateIdentifier shouldBe
                 testData.personAVac1Container.certificate.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
@@ -138,7 +138,7 @@ class VaccinationContainerTest : BaseTest() {
             totalSeriesOfDoses shouldBe 2
             certificateIssuer shouldBe "Bundesministerium für Gesundheit - Test01"
             certificateCountry shouldBe "Deutschland"
-            qrCodeHash shouldBe testData.personAVac1Container.vaccinationQrCode.toSHA256()
+            qrCodeHash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
             uniqueCertificateIdentifier shouldBe
                 testData.personAVac1Container.vaccination.uniqueCertificateIdentifier
             personIdentifier shouldBe CertificatePersonIdentifier(
@@ -164,10 +164,6 @@ class VaccinationContainerTest : BaseTest() {
 
     @Test
     fun `default parsing mode for containers is lenient`() {
-        val container = VaccinationContainer(
-            vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
-            scannedAt = Instant.EPOCH
-        )
         val extractor = mockk<DccQrCodeExtractor>().apply {
             coEvery {
                 extract(
@@ -178,7 +174,14 @@ class VaccinationContainerTest : BaseTest() {
                 every { data } returns mockk()
             }
         }
-        container.qrCodeExtractor = extractor
+
+        val container = VaccinationCertificateContainer(
+            data = StoredVaccinationCertificateData(
+                vaccinationQrCode = testData.personYVacTwoEntriesQrCode,
+                scannedAt = Instant.EPOCH
+            ),
+            qrCodeExtractor = extractor
+        )
 
         container.certificateData shouldNotBe null
 

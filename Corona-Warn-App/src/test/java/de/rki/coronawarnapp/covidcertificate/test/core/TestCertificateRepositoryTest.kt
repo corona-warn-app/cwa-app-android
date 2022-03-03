@@ -353,7 +353,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         instance.replaceCertificate(
             certificateToReplace = testData.personATest1Container.containerId,
-            newCertificateQrCode = testData.personATest2CertContainer.testCertificateQRCode!!
+            testData.personATest2CertContainer.testCertificateQRCode!!
         )
         with(instance.certificates.first()) {
             size shouldBe 1
@@ -371,7 +371,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(this)
         instance.replaceCertificate(
             certificateToReplace = testData.personATest1Container.containerId,
-            newCertificateQrCode = testData.personATest2CertContainer.testCertificateQRCode!!
+            testData.personATest2CertContainer.testCertificateQRCode!!
         )
         with(instance.certificates.first()) {
             size shouldBe 1

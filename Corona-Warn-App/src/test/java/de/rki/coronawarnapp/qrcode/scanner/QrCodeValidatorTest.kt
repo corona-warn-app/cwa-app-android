@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
@@ -40,7 +41,7 @@ class QrCodeValidatorTest : BaseTest() {
     fun `validator uses recognises DccQrCode`() = runBlockingTest {
         qrCodeValidator.validate(testData.personAVac1QRCodeString).apply {
             this as DccQrCode
-            hash shouldBe testData.personAVac1Container.qrCodeHash
+            hash shouldBe testData.personAVac1StoredCertificateData.vaccinationQrCode.toSHA256()
         }
     }
 

@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -24,7 +23,6 @@ import javax.inject.Inject
 class VaccinationStorageTest : BaseTest() {
 
     @MockK lateinit var context: Context
-    @Inject lateinit var postProcessor: ContainerPostProcessor
     @Inject lateinit var testData: VaccinationTestData
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
     private lateinit var mockPreferences: MockSharedPreferences
@@ -45,7 +43,6 @@ class VaccinationStorageTest : BaseTest() {
     private fun createInstance() = VaccinationStorage(
         context = context,
         baseGson = SerializationModule().baseGson(),
-        containerPostProcessor = postProcessor,
     )
 
     @Test
@@ -57,7 +54,7 @@ class VaccinationStorageTest : BaseTest() {
     fun `storing empty set deletes data`() = runBlockingTest {
         mockPreferences.edit {
             putString("dontdeleteme", "test")
-            putString("vaccination.person.test", "test")
+            putString("vaccination.certificate", "test")
         }
         createInstance().save(emptySet())
 
@@ -66,123 +63,89 @@ class VaccinationStorageTest : BaseTest() {
 
     @Test
     fun `store one person`() {
-        val vaccinationContainer2 = testData.personAVac2Container.copy(
+        val vaccinationContainer2 = testData.personAVac2StoredCertificateData.copy(
             notifiedInvalidAt = Instant.ofEpochSecond(1234),
             notifiedBlockedAt = Instant.ofEpochSecond(1234),
             notifiedExpiredAt = Instant.ofEpochSecond(1234),
             notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
         )
-        val personData = testData.personAData2Vac.copy(
-            vaccinations = setOf(testData.personAVac1Container, vaccinationContainer2)
-        )
+        val personData = setOf(testData.personAVac1StoredCertificateData, vaccinationContainer2)
         runBlockingTest {
             val instance = createInstance()
-            instance.save(setOf(personData))
+            instance.save(personData)
 
             val json =
-                (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
+                (mockPreferences.dataMapPeek["vaccination.certificate"] as String)
 
             json.toComparableJsonPretty() shouldBe """
-                {
-                    "vaccinationData": [
-                        {
-                            "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
-                            "scannedAt": 1620062834471,
-                            "lastSeenStateChange": {
-                                "expiresAt": 1620062834471,
-                                "type": "ExpiringSoon"
-                            },
-                            "lastSeenStateChangeAt": 1620062834471,
-                            "certificateSeenByUser": true
-                        }, {
-                            "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
-                            "scannedAt": 1620069934471,
-                            "notifiedExpiresSoonAt": 1234000,
-                            "notifiedExpiredAt": 1234000,
-                            "notifiedInvalidAt": 1234000,
-                            "notifiedBlockedAt": 1234000,
-                            "certificateSeenByUser": true
-                        }
-                    ]
-                }
+                [
+                    {
+                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "scannedAt": 1620062834471,
+                      "lastSeenStateChange": {
+                        "expiresAt": 1620062834471,
+                        "type": "ExpiringSoon"
+                      },
+                      "lastSeenStateChangeAt": 1620062834471,
+                      "certificateSeenByUser": true
+                    },
+                    {
+                      "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
+                      "scannedAt": 1620069934471,
+                      "notifiedExpiresSoonAt": 1234000,
+                      "notifiedExpiredAt": 1234000,
+                      "notifiedInvalidAt": 1234000,
+                      "notifiedBlockedAt": 1234000,
+                      "certificateSeenByUser": true
+                    }
+                  ]
             """.toComparableJsonPretty()
 
-            instance.load().single().apply {
+            instance.load().apply {
                 this shouldBe personData
-                this.vaccinations shouldBe setOf(
-                    testData.personAVac1Container,
-                    vaccinationContainer2
-                )
             }
         }
     }
 
     @Test
-    fun `store one person has booster`() {
-        val vaccinationContainer2 = testData.personAVac2Container.copy(
-            notifiedInvalidAt = Instant.ofEpochSecond(1234),
-            notifiedBlockedAt = Instant.ofEpochSecond(1234),
-            notifiedExpiredAt = Instant.ofEpochSecond(1234),
-            notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
-        )
-        val personData = testData.personAData2Vac.copy(
-            vaccinations = setOf(testData.personAVac1Container, vaccinationContainer2),
-            boosterRuleIdentifier = "boosterRuleIdentifier"
-        )
+    fun `test json set with same certificates`() {
+        val personData = setOf(testData.personAVac1StoredCertificateData)
         runBlockingTest {
             val instance = createInstance()
-            instance.save(setOf(personData))
 
-            val json =
-                (mockPreferences.dataMapPeek["vaccination.person.1966-11-11#ASTRA<EINS#ANDREAS"] as String)
+            val json = """
+                [
+                    {
+                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "scannedAt": 1620062834471,
+                      "lastSeenStateChange": {
+                        "expiresAt": 1620062834471,
+                        "type": "ExpiringSoon"
+                      },
+                      "lastSeenStateChangeAt": 1620062834471,
+                      "certificateSeenByUser": false
+                    },
+                    {
+                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
+                      "scannedAt": 1620062834471,
+                      "lastSeenStateChange": {
+                        "expiresAt": 1620062834471,
+                        "type": "ExpiringSoon"
+                      },
+                      "lastSeenStateChangeAt": 1620062834471,
+                      "certificateSeenByUser": true
+                    }
+                ]
+            """.trimIndent()
 
-            json.toComparableJsonPretty() shouldBe """
-                {
-                    "vaccinationData": [
-                        {
-                            "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
-                            "scannedAt": 1620062834471,
-                            "lastSeenStateChange": {
-                                "expiresAt": 1620062834471,
-                                "type": "ExpiringSoon"
-                            },
-                            "lastSeenStateChangeAt": 1620062834471,
-                            "certificateSeenByUser": true
-                        }, {
-                            "vaccinationQrCode": "${testData.personAVac2QRCodeString}",
-                            "scannedAt": 1620069934471,
-                            "notifiedExpiresSoonAt": 1234000,
-                            "notifiedExpiredAt": 1234000,
-                            "notifiedInvalidAt": 1234000,
-                            "notifiedBlockedAt": 1234000,
-                            "certificateSeenByUser": true
-                        }
-                    ],
-                    "boosterRuleIdentifier": "boosterRuleIdentifier"
-                }
-            """.toComparableJsonPretty()
+            mockPreferences.edit {
+                putString("vaccination.certificate", json)
+            }
 
-            instance.load().single().apply {
+            instance.load().apply {
                 this shouldBe personData
-                this.vaccinations shouldBe setOf(
-                    testData.personAVac1Container,
-                    vaccinationContainer2
-                )
+                this.size shouldBe 1
             }
         }
-    }
-
-    @Test
-    fun `post processor injects data extractors`() = runBlockingTest {
-        createInstance().save(setOf(testData.personAData2Vac))
-
-        createInstance().load().single().vaccinations.first().qrCodeExtractor shouldNotBe null
-    }
-
-    @Test
-    fun `data migration no changes`() = runBlockingTest {
-        val instance = createInstance()
-        instance.save(setOf(testData.personAData2Vac))
-        instance.load() shouldBe setOf(testData.personAData2Vac)
     }
 }
