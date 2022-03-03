@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotification
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
@@ -177,7 +177,7 @@ class MockProvider {
     fun ratResultScheduler(): RAResultScheduler = mockk()
 
     @Provides
-    fun vaccinationRepository(): VaccinationRepository = mockk()
+    fun vaccinationRepository(): VaccinationCertificateRepository = mockk()
 
     @Provides
     fun testCertificateRepository(): TestCertificateRepository = mockk()

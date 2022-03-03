@@ -1441,7 +1441,7 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Până %s"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"Infectări noi"</string>
+    <string name="statistics_primary_value_description">"infectări noi"</string>
     <!-- XTXT: Statistics secondary value description -->
     <string name="statistics_secondary_value_description">"spitalizări"</string>
 
@@ -1451,13 +1451,13 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explicarea statisticii"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Infecții noi confirmate"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"infectări noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus prin test PCR și care i-au avertizat pe ceilalți prin aplicație."</string>
+    <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus și care i-au avertizat pe ceilalți prin aplicație"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
     <!-- XHED: Explanation screen seven day incidence title -->

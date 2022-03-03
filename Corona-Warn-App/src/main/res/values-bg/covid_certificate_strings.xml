@@ -194,13 +194,13 @@
     <string name="validation_rules_result_valid_result_country_and_time">"Влизане в %1$s на %2$s, валидирано на %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">"Сертификатът ви е валиден в избраната държава"</string>
+    <string name="validation_rules_result_valid_result_title">"Сертификатът ви е валиден за влизане в избраната държава"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
     <string name="validation_rules_result_no_rules_title">"Сертификатът Ви не беше валидиран"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">"Сертификатът Ви не беше валидиран напълно"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
-    <string name="validation_rules_result_not_valid_result_title">"Сертификатът ви не е валиден в избраната държава"</string>
+    <string name="validation_rules_result_not_valid_result_title">"Сертификатът ви не е валиден за влизане в избраната държава"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
     <string name="validation_rules_open_header_title">"Валидирането е невъзможно"</string>
@@ -331,4 +331,10 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"За повече информация вижте страницата „ЧЗВ“."</string>
 
+    <!-- XTXT: CCL Admission scenario tile title -->
+    <string name="ccl_admission_state_tile_title">"Статус за следните федерални провинции"</string>
+    <!-- XTXT: CCL Admission scenario tile subtitle -->
+    <string name="ccl_admission_state_tile_subtitle">"Разпоредби на федералните правителства"</string>
+    <!-- XTXT: CCL Admission calculation progress message-->
+    <string name="admission_calculation_message">"Определяне на статус..."</string>
 </resources>

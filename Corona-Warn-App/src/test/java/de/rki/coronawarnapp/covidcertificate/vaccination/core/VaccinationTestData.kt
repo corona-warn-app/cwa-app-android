@@ -9,8 +9,9 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.common.certificate.VaccinationDccV1
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.StoredVaccinationCertificateData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainer
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainer
 import okio.ByteString.Companion.EMPTY
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @Suppress("MaxLineLength")
 class VaccinationTestData @Inject constructor(
-    private var qrCodeExtractor: DccQrCodeExtractor,
+    qrCodeExtractor: DccQrCodeExtractor,
 ) {
 
     // AndreasAstra1.pdf
@@ -79,14 +80,15 @@ class VaccinationTestData @Inject constructor(
         data = personAVac1CertificateData,
     )
 
-    val personAVac1Container = VaccinationContainer(
+    val personAVac1StoredCertificateData = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationQrCode = personAVac1QRCodeString,
         lastSeenStateChangeAt = Instant.ofEpochMilli(1620062834471),
         lastSeenStateChange = CwaCovidCertificate.State.ExpiringSoon(Instant.ofEpochMilli(1620062834471))
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    )
+
+    val personAVac1Container =
+        VaccinationCertificateContainer(data = personAVac1StoredCertificateData, qrCodeExtractor = qrCodeExtractor)
 
     // AndreasAstra2.pdf
     val personAVac2QRCodeString =
@@ -146,15 +148,16 @@ class VaccinationTestData @Inject constructor(
         data = personAVac2CertificateData,
     )
 
-    val personAVac2Container = VaccinationContainer(
+    val personAVac2StoredCertificateData = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620069934471),
         vaccinationQrCode = personAVac2QRCodeString,
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    )
+
+    val personAVac22Container =
+        VaccinationCertificateContainer(data = personAVac2StoredCertificateData, qrCodeExtractor = qrCodeExtractor)
 
     val personAData2Vac = VaccinatedPersonData(
-        vaccinations = setOf(personAVac1Container, personAVac2Container)
+        vaccinations = setOf(personAVac1StoredCertificateData, personAVac2StoredCertificateData)
     )
 
     // BorisJohnson1.pdf
@@ -215,33 +218,33 @@ class VaccinationTestData @Inject constructor(
         data = personBVac1CertificateData,
     )
 
-    val personBVac1Container = VaccinationContainer(
+    val personBVac1Container = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620069934471),
         vaccinationQrCode = personBVac1QRCodeString,
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    )
 
     val personBData1Vac = VaccinatedPersonData(
         vaccinations = setOf(personBVac1Container)
     )
 
-    val personXVac1ContainerBadCountryData = VaccinationContainer(
-        scannedAt = Instant.ofEpochMilli(1620062834471),
-        vaccinationQrCode = VaccinationQrCodeTestData.qrCodeWithNonsenseCountry,
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    val personXVac1ContainerBadCountryData = VaccinationCertificateContainer(
+        data = StoredVaccinationCertificateData(
+            scannedAt = Instant.ofEpochMilli(1620062834471),
+            vaccinationQrCode = VaccinationQrCodeTestData.qrCodeWithNonsenseCountry,
+        ),
+        qrCodeExtractor = qrCodeExtractor
+    )
 
     val personYVacTwoEntriesQrCode =
         "HC1:6BFOXN%TSMAHN-HVN8J7UQMJ4/36 L-AHQ+R1WG%MP8*ICG5QKM0658WAULO8NASA3/-2E%5G%5TW5A 6YO6XL6Q3QR\$P*NI92KV6TKOJ06JYZJV1JJ7UGOJUTIJ7J:ZJ83BL8TFVTV9T.ZJC0J*PIZ.TJ STPT*IJ5OI9YI:8DJ:D%PDDIKIWCHAB.YMAHLW 70SO:GOLIROGO3T59YLY1S7HOPC5NDOEC5/64ND7BT5PE4D/5:/6N9R%EPXCROGO+GOVIR-PQ395R4IUHLW\$G-B5ET42HPPEPHCR6W97DON95N14Q6SP+PJD1W9L \$N3-Q.VBAO8MN9*QHAO96Y2/*13A5-8E6V59I9BZK6:IZW4I:A6J3ARN QT1BGL4OMJKR.K\$A1EB14UVC2O+5T3.CE1M33KS2JKA8Y*99CCLLOR/CH0GRP8 GLY 1LA7551DC2U.NVOTJOII:8DKEK%N92T9YQ$0MK%P6\$G9K7QQUY9KI.EK*8XRS-DPA5W64SMVR1NF6D0 2S0.7R:ASENTI094PIDS:T32DRE8N"
 
-    val personYVacTwoEntriesContainer = VaccinationContainer(
-        scannedAt = Instant.ofEpochMilli(1620062834471),
-        vaccinationQrCode = personYVacTwoEntriesQrCode,
-    ).apply {
-        qrCodeExtractor = this@VaccinationTestData.qrCodeExtractor
-    }
+    val personYVacTwoEntriesContainer = VaccinationCertificateContainer(
+        data = StoredVaccinationCertificateData(
+            scannedAt = Instant.ofEpochMilli(1620062834471),
+            vaccinationQrCode = personYVacTwoEntriesQrCode,
+        ),
+        qrCodeExtractor = qrCodeExtractor
+    )
 
     companion object {
         const val Vac1QRCodeString =
