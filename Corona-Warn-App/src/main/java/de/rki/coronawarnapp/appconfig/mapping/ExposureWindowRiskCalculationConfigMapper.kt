@@ -62,13 +62,13 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
                     )
                     setReportTypeWhenMissing(diagnosisKeysDataMapping.reportTypeWhenMissing)
                 }.build()
-        }
+    }
 
     data class ExposureWindowRiskCalculationContainer(
         override val minutesAtAttenuationFilters:
-            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
+        List<RiskCalculationParametersOuterClass.MinutesAtAttenuationFilter>,
         override val minutesAtAttenuationWeights:
-            List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
+        List<RiskCalculationParametersOuterClass.MinutesAtAttenuationWeight>,
         override val transmissionRiskLevelEncoding:
         RiskCalculationParametersOuterClass.TransmissionRiskLevelEncoding,
         override val transmissionRiskLevelFilters:
