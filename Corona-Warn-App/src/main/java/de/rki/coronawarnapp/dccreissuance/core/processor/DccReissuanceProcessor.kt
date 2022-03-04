@@ -27,7 +27,11 @@ class DccReissuanceProcessor @Inject constructor(
     }
 
     private val CertificateReissuance.certificates: List<String>
-        get() = accompanyingCertificates.plusElement(certificateToReissue).map { it.certificateRef.barcodeData }
+        get() {
+            val certs = mutableListOf(certificateToReissue)
+            certs.addAll(accompanyingCertificates)
+            return certs.map { it.certificateRef.barcodeData }
+        }
 
     companion object {
         private val TAG = tag<DccReissuanceProcessor>()
