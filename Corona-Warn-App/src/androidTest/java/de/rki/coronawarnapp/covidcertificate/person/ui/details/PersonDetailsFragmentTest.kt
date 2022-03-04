@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Certificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -142,7 +141,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
 
             val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
                 "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
@@ -247,8 +245,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 listOf(vaccinationCertificate1),
                 isCwaUser = isCwa
             )
-
-            add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
 
             val subtitle = if (Locale.getDefault().language == Locale.GERMAN.language) {
                 "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
