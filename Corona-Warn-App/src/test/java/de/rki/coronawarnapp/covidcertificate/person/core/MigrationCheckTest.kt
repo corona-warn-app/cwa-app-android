@@ -10,11 +10,13 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
+import testhelpers.BaseTest
 
-internal class MigrationCheckTest {
+class MigrationCheckTest : BaseTest() {
 
     @MockK private lateinit var cwaSettings: CWASettings
 
@@ -31,6 +33,7 @@ internal class MigrationCheckTest {
         val persons = emptySet<PersonCertificates>()
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe false
+        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
     }
 
     @Test
@@ -58,6 +61,7 @@ internal class MigrationCheckTest {
         val persons = setOf(person1, person2)
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe false
+        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
     }
 
     @Test
@@ -83,6 +87,7 @@ internal class MigrationCheckTest {
         val persons = setOf(person1)
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe true
+        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
     }
 
     private fun getInstance() = MigrationCheck(cwaSettings)
