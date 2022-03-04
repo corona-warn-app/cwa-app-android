@@ -32,7 +32,8 @@ class CheckInWarningMatcher @Inject constructor(
     ): Result {
         Timber.tag(TAG).d("Processing ${checkIns.size} checkins and ${warningPackages.size} warning pkgs.")
 
-        val splitCheckIns = checkIns.flatMap { it.splitByMidnightUTC() }
+        val splitCheckIns = checkIns
+            .flatMap { it.splitByMidnightUTC() }
 
         val matchLists: List<List<MatchesPerPackage>?> = runMatchingLaunchers(
             splitCheckIns,
@@ -57,6 +58,8 @@ class CheckInWarningMatcher @Inject constructor(
         val successful: Boolean,
         val processedPackages: Collection<MatchesPerPackage> = emptyList(),
     )
+
+
 
     @VisibleForTesting(otherwise = PRIVATE)
     internal suspend fun runMatchingLaunchers(

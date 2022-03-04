@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
+import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -18,6 +20,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldNotBe
@@ -34,6 +37,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -50,6 +54,9 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var autoCheckOut: AutoCheckOut
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var appConfigProvider: AppConfigProvider
+    @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var presenceTracingConfig: PresenceTracingConfig
+    @MockK lateinit var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
         setOf(
@@ -65,8 +72,13 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
         every { coronaTestRepository.coronaTests } returns coronaTests
 
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-17T00:17+01:00")
+        every { presenceTracingRiskCalculationParamContainer.maxCheckInAgeInDays } returns 14
+        every { presenceTracingConfig.riskCalculationParameters } returns presenceTracingRiskCalculationParamContainer
+
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { isUnencryptedCheckInsEnabled } returns true
+            every { presenceTracing } returns presenceTracingConfig
         }
 
         coEvery { syncTool.syncPackages(any()) } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
@@ -110,7 +122,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         presenceTracingRiskMapper = presenceTracingRiskMapper,
         coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
-        appConfigProvider = appConfigProvider
+        appConfigProvider = appConfigProvider,
+        timeStamper = timeStamper
     )
 
     @Test
@@ -151,6 +164,28 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = true,
+                overlaps = any()
+            )
+            traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
+        }
+    }
+
+    @Test
+    fun `filter respects max checkIn age`() = runBlockingTest {
+        every { timeStamper.nowUTC } returns Instant.parse("2021-03-18T10:17+01:00")
+        createInstance().run(mockk()) shouldNotBe null
+
+        coVerifySequence {
+            presenceTracingRiskMapper.clearConfig()
+            syncTool.syncPackages(mode)
+            presenceTracingRiskRepository.deleteStaleData()
+            checkInsRepository.checkInsWithinRetention
+            traceWarningRepository.unprocessedWarningPackages
+
+            checkInWarningMatcher.process(listOf(CHECKIN_1), listOf(WARNING_PKG))
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = true,
