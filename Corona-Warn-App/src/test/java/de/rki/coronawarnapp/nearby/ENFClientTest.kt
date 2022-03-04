@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.nearby
 
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
@@ -34,8 +33,6 @@ import java.io.File
 
 class ENFClientTest : BaseTest() {
 
-    @MockK lateinit var googleENFClient: ExposureNotificationClient
-
     @MockK lateinit var diagnosisKeyProvider: DiagnosisKeyProvider
     @MockK lateinit var tracingStatus: TracingStatus
     @MockK lateinit var scanningSupport: ScanningSupport
@@ -52,7 +49,6 @@ class ENFClientTest : BaseTest() {
     }
 
     private fun createClient() = ENFClient(
-        googleENFClient = googleENFClient,
         diagnosisKeyProvider = diagnosisKeyProvider,
         tracingStatus = tracingStatus,
         scanningSupport = scanningSupport,
