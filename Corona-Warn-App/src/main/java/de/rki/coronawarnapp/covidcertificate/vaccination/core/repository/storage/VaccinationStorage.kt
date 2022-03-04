@@ -37,8 +37,6 @@ class VaccinationStorage @Inject constructor(
                 prefs.getString(PKEY_VACCINATION_CERT, null) ?: return emptySet(),
                 TYPE_TOKEN
             )
-            .associateBy { it.vaccinationQrCode }
-            .map { it.value }
             .toSet()
     }
 
