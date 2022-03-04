@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:padding="@dimen/card_divider">
+    android:paddingStart="@dimen/card_divider"
+    android:paddingEnd="@dimen/card_divider"
+    android:paddingBottom="2dp">
 
     <include
         android:id="@+id/day_header"
