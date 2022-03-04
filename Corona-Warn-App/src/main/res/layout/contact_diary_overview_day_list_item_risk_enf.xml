@@ -5,7 +5,8 @@
     android:id="@+id/contact_diary_overview_risk_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/contactDiaryUnClickableColor"
+    android:layout_marginHorizontal="1dp"
+    android:background="@color/contactDiaryOverviewUnClickableColor"
     android:clickable="true"
     android:focusable="true"
     android:paddingBottom="@dimen/spacing_small">
