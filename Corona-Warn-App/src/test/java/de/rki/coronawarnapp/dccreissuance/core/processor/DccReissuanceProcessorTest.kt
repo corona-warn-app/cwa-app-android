@@ -26,6 +26,12 @@ class DccReissuanceProcessorTest : BaseTest() {
     private val instance: DccReissuanceProcessor
         get() = DccReissuanceProcessor(dccReissuanceServer = dccReissuanceServer)
 
+    private val testCertificateToReissue = Certificate(
+        certificateRef = CertificateRef(
+            barcodeData = "HC1:6789...",
+        )
+    )
+
     private val testAccompanyingCertificate1 = Certificate(
         certificateRef = CertificateRef(
             barcodeData = "HC1:1235....",
@@ -35,12 +41,6 @@ class DccReissuanceProcessorTest : BaseTest() {
     private val testAccompanyingCertificate2 = Certificate(
         certificateRef = CertificateRef(
             barcodeData = "HC1:ABCD...",
-        )
-    )
-
-    private val testCertificateToReissue = Certificate(
-        certificateRef = CertificateRef(
-            barcodeData = "HC1:6789...",
         )
     )
 
@@ -69,9 +69,9 @@ class DccReissuanceProcessorTest : BaseTest() {
             dccReissuanceServer.requestDccReissuance(
                 action = "renew",
                 certificates = listOf(
+                    testCertificateToReissue.certificateRef.barcodeData,
                     testAccompanyingCertificate1.certificateRef.barcodeData,
-                    testAccompanyingCertificate2.certificateRef.barcodeData,
-                    testCertificateToReissue.certificateRef.barcodeData
+                    testAccompanyingCertificate2.certificateRef.barcodeData
                 )
             )
         }
