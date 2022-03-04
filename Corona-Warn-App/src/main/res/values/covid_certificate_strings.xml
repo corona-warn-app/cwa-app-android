@@ -194,13 +194,13 @@
     <string name="validation_rules_result_valid_result_country_and_time">"Entering %1$s on %2$s, verified on %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">"Your certificate is valid in the selected country"</string>
+    <string name="validation_rules_result_valid_result_title">"Your certificate is valid for entry into the selected country"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
     <string name="validation_rules_result_no_rules_title">"Your certificate could not be verified"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">"Your certificate could not be verified completely"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
-    <string name="validation_rules_result_not_valid_result_title">"Your certificate is not valid in the selected country"</string>
+    <string name="validation_rules_result_not_valid_result_title">"Your certificate is not valid for entry into the selected country"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
     <string name="validation_rules_open_header_title">"Verification is not possible"</string>
@@ -332,9 +332,14 @@
     <string name="confirmed_status_faq_text">"For further information, please see our FAQ page."</string>
 
     <!-- XTXT: CCL Admission scenario tile title -->
-    <string name="ccl_admission_state_tile_title">Status für folgendes Bundesland</string>
+    <string name="ccl_admission_state_tile_title">"Status for the following federal state"</string>
     <!-- XTXT: CCL Admission scenario tile subtitle -->
-    <string name="ccl_admission_state_tile_subtitle">Regeln des Bundes</string>
+    <string name="ccl_admission_state_tile_subtitle">"Federal government regulations"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
-    <string name="admission_calculation_message">Status wird ermittelt...</string>
+    <string name="admission_calculation_message">"Determining status..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">Zuordnung von Zertifikaten</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">Die Gruppierung von Zertifikaten wurde verbessert. Zertifikate mit geringen Namensunterschieden werden nicht mehr verschiedenen Personen zugeordnet.</string>
 </resources>

@@ -1,12 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>    <!-- XTXT: DCC Reissuance title-->
-    <string name="dcc_reissuance_consent_title"> </string>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- DCC Reissuance: Success Screen -->
+    <!-- XHED: DCC reissuance success screen title -->
+    <string name="dcc_reissuance_success_screen_title">"Сертификатът е актуализиран"</string>
+    <!-- YTXT: Headline for DCC reissuance success screen -->
+    <string name="dcc_reissuance_success_screen_headline">"Сертификатът Ви е успешно актуализиран"</string>
+    <!-- YTXT: Body for DCC reissuance success screen -->
+    <string name="dcc_reissuance_success_screen_body">"Актуализираният сертификат вече е наличен в таб „Сертификати“."</string>
+    <!-- XBUT: DCC reissuance button complete -->
+    <string name="dcc_reissuance_success_screen_complete_button">"Готово"</string>
+
+    <!-- DCC Reissuance: Error Handling Text Keys -->
+    <!-- XTXT: Text Key - Contact Support -->
+    <string name="dcc_reissuance_error_handling_text_key_contact_support">"Възникна техническа грешка. Моля, свържете се с горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“."</string>
+    <!-- XTXT: Text Key - No Network -->
+    <string name="dcc_reissuance_error_handling_text_key_no_network">"Възможно е да няма връзка с интернет. Моля, проверете я и опитайте отново."</string>
+    <!-- XTXT: Text Key - Try Again -->
+    <string name="dcc_reissuance_error_handling_text_key_try_again">"Възникна грешка при актуализирането на Вашия сертификат. Моля, опитайте отново. Ако грешката продължи да възниква, се обърнете към горещата линия за технически проблеми, посочена в „Информация за приложението“ -&gt; „Технически въпроси“. "</string>
+    <!-- XTXT: Text Key - Reissuance Not Supported -->
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Сертификатът Ви не може да бъде актуализиран. Моля, обадете се на горещата линия за технически въпроси, която можете да намерите в раздел „Информация за приложението“."</string>
+
+    <!-- XTXT: DCC Reissuance title-->
+    <string name="dcc_reissuance_consent_title">"Вашето съгласие"</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one"> </string>
+    <string name="dcc_reissuance_bulletpoint_one">"Актуализирането на сертификата е доброволно и безплатно."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two"> </string>
+    <string name="dcc_reissuance_bulletpoint_two">"За да се гарантира, че сертификатът може да се актуализира само веднъж, институтът „Роберт Кох“ документира идентификатора на стария сертификат."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint"> </string>
+    <string name="dcc_reissuance_deletion_hint">"Старият сертификат ще бъде автоматично преместен в кошчето и изтрит след 30 дни. Той може да бъде възстановен по всяко време в рамките на тези 30 дни."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint"> </string>
+    <string name="dcc_reissuance_update_hint">"Ако откажете сега, може да заявите актуализация в прегледа за сертификата по всяко време."</string>
 </resources>

@@ -69,8 +69,8 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
-                it.certificate?.let { certificate -> bindCertificateViews(certificate) }
-                val stateInValid = it.certificate?.isDisplayValid == false
+                it?.let { certificate -> bindCertificateViews(certificate) }
+                val stateInValid = it?.isDisplayValid == false
                 val isColorDefined = args.colorShade != PersonColorShade.COLOR_UNDEFINED
 
                 val (background, starsTint) = when {
@@ -88,7 +88,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 )
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.getValidQrCode(showBlocked = true)
+                    val request = it?.getValidQrCode(showBlocked = true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)

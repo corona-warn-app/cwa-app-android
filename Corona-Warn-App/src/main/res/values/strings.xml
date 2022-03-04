@@ -1443,7 +1443,7 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Up to %s"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"New Infections"</string>
+    <string name="statistics_primary_value_description">"new infections"</string>
     <!-- XTXT: Statistics secondary value description -->
     <string name="statistics_secondary_value_description">"hospitalizations"</string>
 
@@ -1453,13 +1453,13 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explanation of Statistics"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Confirmed New Infections"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"confirmed new infections"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Number of persons who have been diagnosed with coronavirus and reported to the RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app."</string>
+    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus and have warned others through the app"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XHED: Explanation screen seven day incidence title -->

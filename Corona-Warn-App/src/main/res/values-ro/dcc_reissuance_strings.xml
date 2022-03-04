@@ -1,12 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>    <!-- XTXT: DCC Reissuance title-->
-    <string name="dcc_reissuance_consent_title"> </string>
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- DCC Reissuance: Success Screen -->
+    <!-- XHED: DCC reissuance success screen title -->
+    <string name="dcc_reissuance_success_screen_title">"Certificat actualizat"</string>
+    <!-- YTXT: Headline for DCC reissuance success screen -->
+    <string name="dcc_reissuance_success_screen_headline">"Certificatul dvs. a fost actualizat cu succes"</string>
+    <!-- YTXT: Body for DCC reissuance success screen -->
+    <string name="dcc_reissuance_success_screen_body">"Certificatul actualizat este disponibil acum pe tabul „Certificate”."</string>
+    <!-- XBUT: DCC reissuance button complete -->
+    <string name="dcc_reissuance_success_screen_complete_button">"Gata"</string>
+
+    <!-- DCC Reissuance: Error Handling Text Keys -->
+    <!-- XTXT: Text Key - Contact Support -->
+    <string name="dcc_reissuance_error_handling_text_key_contact_support">"A apărut o eroare tehnică. Contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
+    <!-- XTXT: Text Key - No Network -->
+    <string name="dcc_reissuance_error_handling_text_key_no_network">"Conexiunea dvs. la internet se poate să fi fost pierdută. Verificați conexiunea și încercați din nou."</string>
+    <!-- XTXT: Text Key - Try Again -->
+    <string name="dcc_reissuance_error_handling_text_key_try_again">"A apărut o eroare la actualizarea certificatului dvs. Încercați din nou. Dacă eroarea persistă, contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic. "</string>
+    <!-- XTXT: Text Key - Reissuance Not Supported -->
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Certificatul dvs. nu poate fi actualizat. Contactați hotline-ul tehnic accesând Informații aplicație -&gt; Hotline tehnic."</string>
+
+    <!-- XTXT: DCC Reissuance title-->
+    <string name="dcc_reissuance_consent_title">"Consimțământul dvs."</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one"> </string>
+    <string name="dcc_reissuance_bulletpoint_one">"Actualizarea certificatului dvs. este voluntară și gratuită."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two"> </string>
+    <string name="dcc_reissuance_bulletpoint_two">"Pentru a vă asigura că certificatele pot fi actualizate o singură dată, identificatorul certificatului vechi este păstrat ca evidență de către RKI."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint"> </string>
+    <string name="dcc_reissuance_deletion_hint">"Certificatul vechi va fi mutat automat în coșul de reciclare și va fi șters după 30 de zile. Certificatul poate fi restaurat oricând în aceste 30 de zile."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint"> </string>
+    <string name="dcc_reissuance_update_hint">"Dacă anulați acum, puteți solicita oricând o actualizare în sumarul certificatului."</string>
 </resources>

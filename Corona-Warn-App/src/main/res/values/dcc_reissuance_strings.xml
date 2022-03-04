@@ -1,33 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
-    <string name="dcc_reissuance_success_screen_title">Zertifikat aktualisiert</string>
+    <string name="dcc_reissuance_success_screen_title">"Certificate Updated"</string>
     <!-- YTXT: Headline for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_headline">Ihr Zertifikat wurde erfolgreich aktualisiert</string>
+    <string name="dcc_reissuance_success_screen_headline">"Your certificate has been updated successfully"</string>
     <!-- YTXT: Body for DCC reissuance success screen -->
-    <string name="dcc_reissuance_success_screen_body">Sie finden das aktualisierte Zertifikat nun in der Zertifikate-Registerkarte.</string>
+    <string name="dcc_reissuance_success_screen_body">"The updated certificate is now available on the “Certificates” tab."</string>
     <!-- XBUT: DCC reissuance button complete -->
-    <string name="dcc_reissuance_success_screen_complete_button">Fertig</string>
+    <string name="dcc_reissuance_success_screen_complete_button">"Done"</string>
 
     <!-- DCC Reissuance: Error Handling Text Keys -->
     <!-- XTXT: Text Key - Contact Support -->
-    <string name="dcc_reissuance_error_handling_text_key_contact_support">Es ist ein technischer Fehler aufgetreten. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_contact_support">"An technical error has occurred. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
     <!-- XTXT: Text Key - No Network -->
-    <string name="dcc_reissuance_error_handling_text_key_no_network">Möglicherweise wurde Ihre Internet-Verbindung unterbrochen. Bitte prüfen Sie die Verbindung und versuchen Sie es erneut.</string>
+    <string name="dcc_reissuance_error_handling_text_key_no_network">"Your Internet connection may have been lost. Please check the connection and try again."</string>
     <!-- XTXT: Text Key - Try Again -->
-    <string name="dcc_reissuance_error_handling_text_key_try_again">Es ist ein Fehler bei der Aktualisierung Ihres Zertifikats aufgetreten. Bitte versuchen Sie es erneut. Wenn der Fehler weiterhin auftritt, kontaktieren Sie bitte die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_try_again">"An error occurred during the update of your certificate. Please try again. If the error persists, please contact the technical hotline via App Information -&gt; Technical Hotline. "</string>
     <!-- XTXT: Text Key - Reissuance Not Supported -->
-    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">Ihr Zertifikat kann nicht aktualisiert werden. Bitte kontaktieren Sie die technische Hotline über App-Informationen -> Technische Hotline.</string>
+    <string name="dcc_reissuance_error_handling_text_key_reissuance_not_supported">"Your certificate cannot be updated. Please contact the technical hotline via App Information -&gt; Technical Hotline."</string>
 
     <!-- XTXT: DCC Reissuance title-->
-    <string name="dcc_reissuance_consent_title">Ihr Einverständnis</string>
+    <string name="dcc_reissuance_consent_title">"Your Consent"</string>
     <!-- XTXT: DCC Reissuance first bullet point-->
-    <string name="dcc_reissuance_bulletpoint_one">Die Aktualisierung des Zertifikats ist freiwillig und kostenlos.</string>
+    <string name="dcc_reissuance_bulletpoint_one">"Updating your certificate is voluntary and free of charge."</string>
     <!-- XTXT: DCC Reissuance second bullet point-->
-    <string name="dcc_reissuance_bulletpoint_two">Um sicherzustellen, dass Zertifikate nur einmalig aktualisiert werden können, wird die Kennung des alten Zertifikats durch das RKI dokumentiert.</string>
+    <string name="dcc_reissuance_bulletpoint_two">"To ensure that certificates can only be updated once, the identifier of the old certificate is documented by the RKI."</string>
     <!-- XTXT: DCC Reissuance deletion hint-->
-    <string name="dcc_reissuance_deletion_hint">Das alte Zertifikat wird automatisch in den Papierkorb geschoben und nach 30 Tagen gelöscht. Das Zertifikat kann innerhalb der 30 Tage jederzeit wiederhergestellt werden.</string>
+    <string name="dcc_reissuance_deletion_hint">"The old certificate will be moved automatically to the recycle bin and deleted after 30 days. The certificate can be restored at any time within these 30 days."</string>
     <!-- XTXT: DCC Reissuance update hint-->
-    <string name="dcc_reissuance_update_hint">Falls Sie hier abbrechen, können Sie die Aktualisierung jederzeit in Ihrer Zertifikatsübersicht anfordern.</string>
+    <string name="dcc_reissuance_update_hint">"If you cancel now, you can request an update in the certificate overview at any time."</string>
 </resources>
