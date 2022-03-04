@@ -84,7 +84,7 @@
     verilerinin, sertifikaların geçerliliğinin “Geçerliliğinin kontrol edilmesi” ve güçlendirici aşı
     tavsiyelerine ilişkin kuralların kontrol edilmesi bağlamında işlenmesi ve sertifikaların
     güncellenmesi için bilgilerin sunulması DSGVO Md. 6 Par. 1 Bent e ve BDSG Md. 3 uyarınca
-    gerçekleştirilir. Güncellenen sertifikanın (bkz. Madde 6.o) imzasının Hash-değerinin geçici
+    gerçekleştirilir. Güncellenen sertifikaların (bkz. Madde 6.o) imzasının Hash-değerinin geçici
     olarak kaydedilmesi BDSG Madde 11 Fıkra 1 Bent c ve DSGVO Madde 9 Fıkra 2 Bent i uyarınca
     gerçekleştirilir.
 </p>
@@ -1225,13 +1225,16 @@ Lütfen Covid sertifikalarının kare kodunda sağlık bilgilerinin (korona aş�
     işlenir. Güncellenen COVID sertifikası ardından tekrar uygulamanıza aktarılır.
 </p>
 <p>
-    Güncelleme işlevinin kötü amaçlı olarak birden fazla kullanmasını önlemek amacıyla güncellenen
-    dijital COVID sertifikasının elektronik imzası özel tek kullanımlık kodlama (yani Hash değeri)
-    şeklinde geçici olarak uygulamanın sunucu sistemine kaydedilir. Bu, elektronik imzanın belli
-    matematiksel yöntemlerle tekrar anlaşılmayacak şekilde farklılaştırılması anlamına gelir. Hash
-    değeri ile ilgili dijital COVID sertifikasındaki verilerle ya da diğer kişisel verilerle
-    ilişkilendirilmesi ihtimal dışı bırakılır. Hash değerinin güncel COVID sertifikasına nihai
-    olarak atanması hala mümkün olur. 365 gün sonra Hash değeri tekrar silinir.
+    Güncelleme işlevinin kötüye kullanım amaçlı çoklu kullanımını önlemek için, güncellenen ve yeni
+    sertifikaların imzaları geçici olarak özel tek yönlü şifreleme (yani Hash değeri) biçiminde
+    depolanır. Güncelleme işlevinin kötü amaçlı olarak birden fazla kullanmasını önlemek amacıyla
+    güncellenen dijital COVID sertifikasının elektronik imzası özel tek kullanımlık kodlama (yani
+    Hash değeri) şeklinde geçici olarak uygulamanın sunucu sistemine kaydedilir. Bu, elektronik
+    imzanın belli matematiksel yöntemlerle tekrar anlaşılmayacak şekilde farklılaştırılması anlamına
+    gelir. Hash değeri ile ilgili dijital COVID sertifikasındaki verilerle ya da diğer kişisel
+    verilerle ilişkilendirilmesi ihtimal dışı bırakılır. Hash değerinin güncel COVID sertifikasına
+    nihai olarak atanması hala mümkün olur. Karma değerler güncellemeden 365 gün sonra tekrar
+    silinir.
 </p>
 <h2>
     7. Sınır ötesi uyarı sistemi nasıl çalışır?
@@ -1427,8 +1430,8 @@ Lütfen Covid sertifikalarının kare kodunda sağlık bilgilerinin (korona aş�
 <p>
     Dijital COVID sertifikasının (bkz. Bölüm 6.o) güncellenmesi durumunda güncelleme için
     uygulamanın sunucu sistemine aktarılan dijital COVID sertifikaları güncelleme işlemi
-    tamamlandıktan sonra tekrar silinir. Güncellenen dijital COVID sertifikanın elektronik imzasının
-    Hash değeri X SÜRE sonra silinir.
+    tamamlandıktan sonra tekrar silinir. Güncellenen dijital COVID sertifikalarının elektronik
+    imzasının Hash değeri X SÜRE sonra silinir.
 </p>
 <p>
     Pozitif listeler, 14 gün sonra tüm sunucu sistemlerinden (değişim sunucuları dahil) silinir.
@@ -1705,6 +1708,11 @@ Diğer insanları uyarmak için test sonucunuzun ( (daha doğrusu, son 14 güne 
 </p>
 <p>
     Dijital COVID sertifikasının güncellenmesi sebebiyle elektronik imzanın Hash değeri geçici
+    olarak kaydedilmeliyse bu RKI’ya sertifika sahibinin kimliğini belirleme olanağı sunmaz (bkz.
+    Bölüm 6.o).
+</p>
+<p>
+    Dijital COVID sertifikalarının güncellenmesi sebebiyle elektronik imzanın Hash değeri geçici
     olarak kaydedilmeliyse bu RKI’ya sertifika sahibinin kimliğini belirleme olanağı sunmaz (bkz.
     Bölüm 6.o).
 </p>

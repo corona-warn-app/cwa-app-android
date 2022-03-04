@@ -90,8 +90,8 @@
     for verifying certificates, for checking the rules on booster vaccination recommendations, and
     for providing information about updating certificates is based on Art. 6(1) Sentence 1(e) GDPR
     in conjunction with Sect. 3 of the German Federal Data Protection Act (BDSG). Temporary storage
-    of the hash value of the signature of an updated certificate (see Section 6 o.) is carried out
-    on the basis of Sect. 22(1)(c) BDSG and Art. 9(2)(i) GDPR.
+    of the hash values of the signatures of the updated and new certificates (see Section 6 o.) is
+    carried out on the basis of Sect. 22(1)(c) BDSG and Art. 9(2)(i) GDPR.
 </p>
 <p>
     On the basis of Art. 6(1) Sentence 1(e) GDPR in conjunction with Sect. 3 of the German Federal
@@ -1273,13 +1273,14 @@
 </p>
 <p>
     In order to be able to prevent users from using the update feature several times, which is not
-    permitted, the electronic signature of the updated digital COVID certificate is temporarily
-    stored on the app’s server system by means of special one-way encryption (what’s known as a hash
-    value). This means that the app performs a certain mathematical procedure in order to convert
-    the electronic signature in such a way that it can no longer be identified. The hash value
-    cannot be used to infer the data in the relevant digital COVID certificate or other information
-    about you. However, it is still possible to clearly assign the hash value to the updated digital
-    COVID certificate. The hash value will be deleted after 365 days.
+    permitted, the electronic signatures of the updated and new digital COVID certificates are
+    temporarily stored on the app’s server system by means of special one-way encryption (what’s
+    known as a hash value). This means that the app performs a certain mathematical procedure in
+    order to convert the electronic signature in such a way that it can no longer be identified. The
+    hash value cannot be used to infer the data in the relevant digital COVID certificate or other
+    information about you. However, it is still possible to clearly assign the hash value to the
+    updated digital COVID certificate. The hash values will be deleted again 365 days after the
+    update.
 </p>
 
 <h2>
@@ -1499,8 +1500,8 @@
 <p>
     In the case of updating a digital COVID certificate (see Section 6 o.), the digital COVID
     certificates transmitted to the app’s server system for the update will be deleted again after
-    the update process is completed. The hash value of the electronic signature of the updated
-    digital COVID certificate will be deleted after X TIME INTERVALS.
+    the update process is completed. The hash values of the electronic signatures of the updated and
+    new digital COVID certificates will be deleted after 365 days.
 </p>
 <p>
     Positive lists are deleted from all server systems (including the exchange server) after 14
@@ -1807,6 +1808,11 @@
 </p>
 <p>
     If the hash value of the electronic signature is temporarily stored when a digital COVID
+    certificate is updated, this does not enable the RKI to determine the identity of certificate
+    holders (see Section 6 o.).
+</p>
+<p>
+    If the hash values of the electronic signatures are temporarily stored when a digital COVID
     certificate is updated, this does not enable the RKI to determine the identity of certificate
     holders (see Section 6 o.).
 </p>

@@ -88,8 +88,8 @@
     Funktion „Gültigkeit prüfen“, der Prüfung der Regeln für die Empfehlungen für
     Auffrischungsimpfungen sowie der Bereitstellung von Informationen zur Aktualisierung von
     Zertifikaten erfolgt auf Basis von Art. 6 Abs. 1 lit. e DSGVO i.V.m § 3 BDSG. Die vorübergehende
-    Speicherung des Hash-Wertes der Signatur eines aktualisierten Zertifikats (siehe Punkt 6.o.)
-    erfolgt auf Grundlage von § 22 Abs. 1 lit. c BDSG und Art. 9 Abs. 2 lit. i DSGVO.
+    Speicherung der Hash-Wertes der Signatur bei der Aktualisierung von Zertifikaten (siehe Punkt
+    6.o.) erfolgt auf Grundlage von § 22 Abs. 1 lit. c BDSG und Art. 9 Abs. 2 lit. i DSGVO.
 </p>
 <p>
     Die Verarbeitung von Zugriffsdaten für die Bereitstellung der täglichen Statistiken (siehe
@@ -1298,13 +1298,14 @@ Voraussetzung hierfür ist, dass Sie in der App ein digitales COVID-Zertifikat h
 </p>
 <p>
     Um eine missbräuchliche mehrfache Verwendung der Aktualisierungsfunktion verhindern zu können,
-    wird die elektronische Signatur des aktualisierten digitalen COVID-Zertifikats in Form einer
-    speziellen Einwegverschlüsselung (sog. Hash-Wert) vorübergehend auf dem Serversystem der App
+    werden die elektronischen Signaturen des aktualisierten und des neuen digitalen
+    COVID-Zertifikats in Form spezieller Einwegverschlüsselungen (sog. Hash-Werte) vorübergehend
     gespeichert. Das bedeutet, dass die elektronische Signatur nach einem bestimmten mathematischen
     Verfahren so verfremdet wird, dass sie nicht mehr erkennbar ist. Aus dem Hash-Wert kann nicht
     auf die Daten im betreffenden digitalen COVID-Zertifikat oder andere Angaben zu Ihrer Person
     geschlossen werden. Die eindeutige Zuordnung des Hash-Werts zu dem aktualisierten digitalen
-    COVID-Zertifikat ist aber weiterhin möglich. Nach 365 Tagen wird der Hash-Wert wieder gelöscht.
+    COVID-Zertifikat ist aber weiterhin möglich. 365 Tage nach der Aktualisierung werden die
+    Hash-Werte wieder gelöscht.
 </p>
 <h2>
 
@@ -1529,8 +1530,9 @@ Voraussetzung hierfür ist, dass Sie in der App ein digitales COVID-Zertifikat h
 <p>
     Im Falle der Aktualisierung eines digitalen COVID-Zertifikats (siehe Abschnitt 6.o) werden die
     für die Aktualisierung an das Serversystem der App übermittelten digitalen COVID-Zertifikate
-    nach Abschluss des Aktualisierungsvorgangs wieder gelöscht. Der Hash-Wert der elektronischen
-    Signatur des aktualisierten digitalen COVID-Zertifikats wird nach X ZEITABSCHNITTE gelöscht.
+    nach Abschluss des Aktualisierungsvorgangs wieder gelöscht. Die Hash-Werte der elektronischen
+    Signaturen des aktualisierten und des neuen digitalen COVID-Zertifikats werden nach 365 Tagen
+    gelöscht.
 </p>
 <p>
     Positiv-Listen werden nach 14 Tagen von allen Serversystemen (einschließlich dem
@@ -1824,6 +1826,11 @@ Voraussetzung hierfür ist, dass Sie in der App ein digitales COVID-Zertifikat h
     Wenn anlässlich der Aktualisierung eines digitalen COVID-Zertifikats der Hash-Wert der
     elektronischen Signatur vorübergehend gespeichert wird, ermöglicht es dieser dem RKI nicht, die
     Identität von Zertifikatsinhabern zu ermitteln (siehe Abschnitt 6.o.).
+</p>
+<p>
+    Wenn anlässlich der Aktualisierung eines digitalen COVID-Zertifikats die Hash-Werte der
+    elektronischen Signaturen vorübergehend gespeichert werden, ermöglichen es diese dem RKI nicht,
+    die Identität von Zertifikatsinhabern zu ermitteln (siehe Abschnitt 6.o.).
 </p>
 <h2>
     14. Datenschutzbeauftragte und Kontakt
