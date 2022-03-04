@@ -9,7 +9,7 @@
     android:focusable="true">
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/card_divider"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,7 @@
             <solid android:color="@color/colorContactDiaryListItemPressed" />
             <corners android:radius="@dimen/radius_card" />
             <stroke
-                android:width="1dp"
+                android:width="@dimen/card_divider"
                 android:color="@color/contactDiaryOverviewBorderColor" />
         </shape>
     </item>
@@ -15,7 +15,7 @@
             <corners android:radius="@dimen/radius_card" />
             <solid android:color="@color/colorContactDiaryListItem" />
             <stroke
-                android:width="1dp"
+                android:width="@dimen/card_divider"
                 android:color="@color/contactDiaryOverviewBorderColor" />
         </shape>
     </item>
