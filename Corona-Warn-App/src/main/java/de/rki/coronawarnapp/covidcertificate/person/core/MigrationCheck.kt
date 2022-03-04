@@ -14,13 +14,13 @@ class MigrationCheck @Inject constructor(private val cwaSettings: CWASettings) {
 
         val numberOfPersons = persons.size
 
-        val numberOfPersonIdentifiers = persons
+        val numberOfPersonsWithLegacyGrouping = persons
             .flatMap { it.certificates }
             .map { it.personIdentifier.getLegacyGroupingKey() }
             .toSet()
             .size
 
-        return numberOfPersons != numberOfPersonIdentifiers
+        return numberOfPersons != numberOfPersonsWithLegacyGrouping
     }
 
     private fun CertificatePersonIdentifier.getLegacyGroupingKey(): String {
