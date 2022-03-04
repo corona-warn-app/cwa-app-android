@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Certificate
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -143,7 +142,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
             add(cwaUserCard(personCertificates))
 
-            personCertificates.certificates.forEach { addCardItem(it, priorityCertificate) }
+            personCertificates.certificates.forEach { addCardItem(it, priorityCertificate, isLoading) }
         }
 
         return UiState(name = priorityCertificate.fullName, certificateItems = certificateItems)
@@ -174,34 +173,45 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private fun MutableList<CertificateItem>.addCardItem(
         certificate: CwaCovidCertificate,
-        priorityCertificate: CwaCovidCertificate
+        priorityCertificate: CwaCovidCertificate,
+        isLoading: Boolean
     ) {
         val isCurrentCertificate = certificate.containerId == priorityCertificate.containerId
         when (certificate) {
             is TestCertificate -> add(
-                TestCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
-                    events.postValue(
-                        OpenTestCertificateDetails(
-                            containerId = certificate.containerId,
-                            colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                TestCertificateCard.Item(
+                    certificate = certificate,
+                    isCurrentCertificate = isCurrentCertificate,
+                    colorShade = colorShade,
+                    isLoading = isLoading,
+                    validateCertificate = { onValidateCertificate(it) },
+                    onClick = {
+                        events.postValue(
+                            OpenTestCertificateDetails(
+                                containerId = certificate.containerId,
+                                colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                            )
                         )
-                    )
-                }
+                    }
+                )
             )
             is VaccinationCertificate -> {
                 add(
                     VaccinationCertificateCard.Item(
                         certificate = certificate,
                         isCurrentCertificate = isCurrentCertificate,
-                        colorShade = colorShade
-                    ) {
-                        events.postValue(
-                            OpenVaccinationCertificateDetails(
-                                containerId = certificate.containerId,
-                                colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                        colorShade = colorShade,
+                        isLoading = isLoading,
+                        validateCertificate = { onValidateCertificate(it) },
+                        onClick = {
+                            events.postValue(
+                                OpenVaccinationCertificateDetails(
+                                    containerId = certificate.containerId,
+                                    colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                                )
                             )
-                        )
-                    }
+                        }
+                    )
                 )
             }
 
@@ -210,8 +220,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     certificate = certificate,
                     isCurrentCertificate = isCurrentCertificate,
                     colorShade = colorShade,
-                    isLoading = false,
-                    validateCertificate = {},
+                    isLoading = isLoading,
+                    validateCertificate = { onValidateCertificate(it) },
                     onClick = {
                         events.postValue(
                             OpenRecoveryCertificateDetails(
