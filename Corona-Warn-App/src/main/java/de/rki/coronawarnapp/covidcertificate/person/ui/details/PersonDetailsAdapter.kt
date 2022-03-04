@@ -32,7 +32,6 @@ class PersonDetailsAdapter :
             listOf(
                 StableIdMod(data),
                 DataBinderMod<CertificateItem, PersonDetailsItemVH<CertificateItem, ViewBinding>>(data),
-                TypedVHCreatorMod({ data[it] is PersonDetailsQrCard.Item }) { PersonDetailsQrCard(it) },
                 TypedVHCreatorMod({ data[it] is CertificateReissuanceCard.Item }) { CertificateReissuanceCard(it) },
                 TypedVHCreatorMod({ data[it] is BoosterCard.Item }) { BoosterCard(it) },
                 TypedVHCreatorMod({ data[it] is ConfirmedStatusCard.Item }) { ConfirmedStatusCard(it) },

@@ -79,15 +79,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 else -> PersonColorShade.COLOR_INVALID
             }.also { colorShadeData.postValue(it) }
 
-            add(
-                PersonDetailsQrCard.Item(
-                    priorityCertificate,
-                    isLoading,
-                    validateCertificate = { onValidateCertificate(it) },
-                    onCovPassInfoAction = { events.postValue(OpenCovPassInfo) }
-                )
-            )
-
             dccWalletInfo?.certificateReissuance?.reissuanceDivision?.let { division ->
                 if (division.visible) {
                     add(
