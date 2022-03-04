@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -58,14 +59,24 @@ class RecoveryCertificateCard(parent: ViewGroup) :
 
         certificateExpiration.displayExpirationState(curItem.certificate)
 
-        startValidationCheckButton.isVisible = curItem.isCurrentCertificate
+        startValidationCheckButton.apply {
+            defaultButton.isEnabled = certificate.isNotBlocked
+            isEnabled = certificate.isNotBlocked
+            isVisible = curItem.isCurrentCertificate
+            isLoading = curItem.isLoading
+            defaultButton.setOnClickListener {
+                curItem.validateCertificate(certificate.containerId)
+            }
+        }
     }
 
     data class Item(
         val certificate: RecoveryCertificate,
         val isCurrentCertificate: Boolean,
         val colorShade: PersonColorShade,
-        val onClick: () -> Unit
+        val isLoading: Boolean = false,
+        val onClick: () -> Unit,
+        val validateCertificate: (CertificateContainerId) -> Unit,
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId: Long = certificate.containerId.hashCode().toLong()
     }

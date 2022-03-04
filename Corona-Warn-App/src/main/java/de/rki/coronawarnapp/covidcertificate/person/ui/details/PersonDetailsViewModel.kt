@@ -206,14 +206,21 @@ class PersonDetailsViewModel @AssistedInject constructor(
             }
 
             is RecoveryCertificate -> add(
-                RecoveryCertificateCard.Item(certificate, isCurrentCertificate, colorShade) {
-                    events.postValue(
-                        OpenRecoveryCertificateDetails(
-                            containerId = certificate.containerId,
-                            colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                RecoveryCertificateCard.Item(
+                    certificate = certificate,
+                    isCurrentCertificate = isCurrentCertificate,
+                    colorShade = colorShade,
+                    isLoading = false,
+                    validateCertificate = {},
+                    onClick = {
+                        events.postValue(
+                            OpenRecoveryCertificateDetails(
+                                containerId = certificate.containerId,
+                                colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
+                            )
                         )
-                    )
-                }
+                    }
+                )
             )
         }
     }
