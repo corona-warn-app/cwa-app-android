@@ -63,12 +63,6 @@ class ENFClientTest : BaseTest() {
     )
 
     @Test
-    fun `internal enf client is available as workaround`() {
-        val client = createClient()
-        client.internalClient shouldBe googleENFClient
-    }
-
-    @Test
     fun `provide diagnosis key call is forwarded to the right module`() {
         val client = createClient()
         val keyFiles = listOf(File("test"))

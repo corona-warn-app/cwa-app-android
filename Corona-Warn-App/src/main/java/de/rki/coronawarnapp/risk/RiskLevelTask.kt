@@ -160,8 +160,9 @@ class RiskLevelTask @Inject constructor(
         nowUtc: Instant
     ): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
+
         val exposureWindows = enfClient.exposureWindows().filterByAge(
-            maxAgeInDays = configData.maxEncounterAgeInDays,
+            maxAgeInDays = configData.getMaxEwAgeInDays(),
             nowUtc = nowUtc
         )
 
@@ -261,3 +262,8 @@ internal fun List<ExposureWindow>.filterByAge(
 }
 
 private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(UTC)
+
+private fun ExposureWindowRiskCalculationConfig.getMaxEwAgeInDays() =
+    if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays else DEFAULT_EW_AGE_IN_DAYS
+
+private const val DEFAULT_EW_AGE_IN_DAYS = 14
