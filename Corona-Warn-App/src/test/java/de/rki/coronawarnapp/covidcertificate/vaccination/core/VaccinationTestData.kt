@@ -80,14 +80,15 @@ class VaccinationTestData @Inject constructor(
         data = personAVac1CertificateData,
     )
 
-    val personAVac1Container = StoredVaccinationCertificateData(
+    val personAVac1StoredCertificateData = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620062834471),
         vaccinationQrCode = personAVac1QRCodeString,
         lastSeenStateChangeAt = Instant.ofEpochMilli(1620062834471),
         lastSeenStateChange = CwaCovidCertificate.State.ExpiringSoon(Instant.ofEpochMilli(1620062834471))
     )
 
-    val personAVac11Container = VaccinationCertificateContainer(data = personAVac1Container, qrCodeExtractor = qrCodeExtractor)
+    val personAVac1Container =
+        VaccinationCertificateContainer(data = personAVac1StoredCertificateData, qrCodeExtractor = qrCodeExtractor)
 
     // AndreasAstra2.pdf
     val personAVac2QRCodeString =
@@ -147,15 +148,16 @@ class VaccinationTestData @Inject constructor(
         data = personAVac2CertificateData,
     )
 
-    val personAVac2Container = StoredVaccinationCertificateData(
+    val personAVac2StoredCertificateData = StoredVaccinationCertificateData(
         scannedAt = Instant.ofEpochMilli(1620069934471),
         vaccinationQrCode = personAVac2QRCodeString,
     )
 
-    val personAVac22Container = VaccinationCertificateContainer(data = personAVac2Container, qrCodeExtractor = qrCodeExtractor)
+    val personAVac22Container =
+        VaccinationCertificateContainer(data = personAVac2StoredCertificateData, qrCodeExtractor = qrCodeExtractor)
 
     val personAData2Vac = VaccinatedPersonData(
-        vaccinations = setOf(personAVac1Container, personAVac2Container)
+        vaccinations = setOf(personAVac1StoredCertificateData, personAVac2StoredCertificateData)
     )
 
     // BorisJohnson1.pdf

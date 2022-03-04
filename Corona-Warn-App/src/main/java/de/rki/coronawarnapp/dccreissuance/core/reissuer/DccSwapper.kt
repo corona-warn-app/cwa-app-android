@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertif
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class DccSwapper @Inject constructor(
     private val dccQrCodeExtractor: DccQrCodeExtractor,
-    private val vcRepo: VaccinationRepository,
+    private val vcRepo: VaccinationCertificateRepository,
     private val tcRepo: TestCertificateRepository,
     private val rcRepo: RecoveryCertificateRepository,
 ) {
