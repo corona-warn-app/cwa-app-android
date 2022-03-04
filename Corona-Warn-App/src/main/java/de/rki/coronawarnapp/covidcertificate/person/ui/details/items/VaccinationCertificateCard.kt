@@ -68,6 +68,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
 
         certificateExpiration.displayExpirationState(curItem.certificate)
+        startValidationCheckButton.isVisible = curItem.isCurrentCertificate
     }
 
     data class Item(

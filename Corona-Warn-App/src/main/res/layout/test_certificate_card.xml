@@ -72,9 +72,9 @@
         android:id="@+id/test_certificate_type"
         style="@style/body2Medium"
         android:layout_width="0dp"
-        android:layout_marginTop="6dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/test_certificate_name"
@@ -140,13 +140,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_bg,certificate_date"
-        tools:layout_editor_absoluteY="117dp" />
+        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_bg,certificate_date" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+        android:id="@+id/start_validation_check_button"
+        style="@style/checkValidityButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:buttonText="@string/start_validation_rule_check_button"
+        app:isLoading="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier" />
+        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:loadingText="@string/start_validation_rule_check_loading_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
