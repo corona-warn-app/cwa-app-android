@@ -46,7 +46,8 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             normalizedTimePerDayToRiskLevelMappingList =
             riskCalculationParameters.normalizedTimePerDayToRiskLevelMappingList,
             transmissionRiskValueMapping = riskCalculationParameters.transmissionRiskValueMappingList,
-            diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping()
+            diagnosisKeysDataMapping = rawConfig.diagnosisKeysDataMapping(),
+            maxEncounterAgeInDays = riskCalculationParameters.maxEncounterAgeInDays
         )
     }
 
@@ -78,6 +79,7 @@ class ExposureWindowRiskCalculationConfigMapper @Inject constructor() :
             List<RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping>,
         override val transmissionRiskValueMapping:
             List<RiskCalculationParametersOuterClass.TransmissionRiskValueMapping>,
-        override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping
+        override val diagnosisKeysDataMapping: DiagnosisKeysDataMapping,
+        override val maxEncounterAgeInDays: Int
     ) : ExposureWindowRiskCalculationConfig
 }
