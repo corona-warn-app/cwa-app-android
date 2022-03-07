@@ -35,16 +35,16 @@ class TestCertificateCard(parent: ViewGroup) :
             certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: certificate.rawCertificate.test.sc
         )
 
-        when (certificate.rawCertificate.test.testType) {
+        when {
             // PCR Test
-            "LP6464-4" -> R.string.test_certificate_pcr_test_type
+            certificate.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
             // RAT Test
             else -> R.string.test_certificate_rapid_test_type
         }.also { testCertificateType.setText(it) }
 
         val bookmarkIcon =
             if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificate.isVisible = curItem.isCurrentCertificate
+        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
         val color = when {
             curItem.certificate.isDisplayValid -> curItem.colorShade
@@ -69,7 +69,6 @@ class TestCertificateCard(parent: ViewGroup) :
         startValidationCheckButton.apply {
             defaultButton.isEnabled = certificate.isNotBlocked
             isEnabled = certificate.isNotBlocked
-            isVisible = curItem.isCurrentCertificate
             isLoading = curItem.isLoading
             defaultButton.setOnClickListener {
                 curItem.validateCertificate(certificate.containerId)

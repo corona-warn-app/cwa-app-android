@@ -12,11 +12,13 @@
         android:id="@+id/certificate_bg"
         android:layout_width="88dp"
         android:layout_height="95dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginVertical="@dimen/spacing_small"
+        android:layout_marginStart="@dimen/spacing_small"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/bg_certificate_grey" />
 
     <ImageView
@@ -130,17 +132,17 @@
         app:layout_constraintTop_toBottomOf="@id/certificate_expiration" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/current_certificate"
+        android:id="@+id/current_certificate_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="bookmark,bookmark_info" />
+        app:constraint_referenced_ids="bookmark,bookmark_info,start_validation_check_button" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/bottom_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_bg,certificate_date" />
+        app:constraint_referenced_ids="current_certificate_group,bookmark,bookmark_info,certificate_bg,certificate_date" />
 
     <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
         android:id="@+id/start_validation_check_button"

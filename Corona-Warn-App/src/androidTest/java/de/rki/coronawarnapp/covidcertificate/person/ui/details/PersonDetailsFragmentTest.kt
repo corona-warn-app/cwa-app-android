@@ -141,7 +141,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-
             val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
                 "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
             } else {

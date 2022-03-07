@@ -42,7 +42,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         )
         val bookmarkIcon =
             if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificate.isVisible = curItem.isCurrentCertificate
+        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 
         val color = when {
@@ -72,7 +72,6 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         startValidationCheckButton.apply {
             defaultButton.isEnabled = certificate.isNotBlocked
             isEnabled = certificate.isNotBlocked
-            isVisible = curItem.isCurrentCertificate
             isLoading = curItem.isLoading
             defaultButton.setOnClickListener {
                 curItem.validateCertificate(certificate.containerId)
