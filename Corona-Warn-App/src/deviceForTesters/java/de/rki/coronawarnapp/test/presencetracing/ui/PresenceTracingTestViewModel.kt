@@ -10,10 +10,10 @@ import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.TraceLocation
 import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionPayload
 import de.rki.coronawarnapp.presencetracing.organizer.submission.OrganizerSubmissionRepository
-import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
+import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceLocationOuterClass
 import de.rki.coronawarnapp.task.TaskController
@@ -79,7 +79,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
         taskRunTime.postValue(duration)
 
         val warningPackages = traceWarningRepository.allMetaData.first()
-        val overlaps = presenceTracingRiskRepository.overlapsOfLast14DaysPlusToday.first()
+        val overlaps = presenceTracingRiskRepository.allOverlaps.first()
         val lastResult = presenceTracingRiskRepository.latestEntries(1).first().singleOrNull()
 
         val infoText = when {
@@ -110,7 +110,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
                     riskCalculationRuntime.postValue(it)
                 },
                 {
-                    val checkInWarningOverlaps = presenceTracingRiskRepository.overlapsOfLast14DaysPlusToday.first()
+                    val checkInWarningOverlaps = presenceTracingRiskRepository.allOverlaps.first()
                     val normalizedTimePerCheckInDayList =
                         presenceTracingRiskCalculator.calculateNormalizedTime(checkInWarningOverlaps)
                     val riskStates =
