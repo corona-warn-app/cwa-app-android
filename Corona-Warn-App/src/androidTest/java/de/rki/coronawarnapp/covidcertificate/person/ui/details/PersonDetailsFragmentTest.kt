@@ -141,21 +141,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
-                "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
-            } else {
-                "Update certificate" to "Reissue directly via the app"
-            }
-
-            add(
-                CertificateReissuanceCard.Item(
-                    title = title,
-                    subtitle = subtitle,
-                    badgeVisible = true,
-                    onClick = {}
-                )
-            )
-
             add(
                 when (Locale.getDefault()) {
                     Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
@@ -175,6 +160,21 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         faqAnchor = "FAQ"
                     )
                 }
+            )
+
+            val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
+                "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
+            } else {
+                "Update certificate" to "Reissue directly via the app"
+            }
+
+            add(
+                CertificateReissuanceCard.Item(
+                    title = title,
+                    subtitle = subtitle,
+                    badgeVisible = true,
+                    onClick = {}
+                )
             )
 
             add(
@@ -198,34 +198,50 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate1,
+                    certificate = vaccinationCertificate1,
                     isCurrentCertificate = false,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate2,
+                    certificate = vaccinationCertificate2,
                     isCurrentCertificate = false,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
 
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate3,
+                    certificate = vaccinationCertificate3,
                     isCurrentCertificate = false,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
 
-            add(TestCertificateCard.Item(testCertificate, isCurrentCertificate = true, PersonColorShade.COLOR_1) {})
+            add(
+                TestCertificateCard.Item(
+                    certificate = testCertificate,
+                    isCurrentCertificate = true,
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
+            )
             add(
                 RecoveryCertificateCard.Item(
-                    recoveryCertificate,
+                    certificate = recoveryCertificate,
                     isCurrentCertificate = false,
-                    PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
         }
 
@@ -245,21 +261,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            val subtitle = if (Locale.getDefault().language == Locale.GERMAN.language) {
-                "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
-            } else {
-                "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
-            }
-
-            add(
-                BoosterCard.Item(
-                    title = "Booster",
-                    subtitle = subtitle,
-                    badgeVisible = true,
-                    onClick = {}
-                )
-            )
-
             add(
                 when (Locale.getDefault()) {
                     Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
@@ -279,6 +280,21 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         faqAnchor = "FAQ"
                     )
                 }
+            )
+
+            val subtitle = if (Locale.getDefault().language == Locale.GERMAN.language) {
+                "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
+            } else {
+                "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
+            }
+
+            add(
+                BoosterCard.Item(
+                    title = "Booster",
+                    subtitle = subtitle,
+                    badgeVisible = true,
+                    onClick = {}
+                )
             )
 
             add(
@@ -302,10 +318,12 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate1,
+                    certificate = vaccinationCertificate1,
                     isCurrentCertificate = true,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
         }
 
@@ -341,6 +359,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { hasNotificationBadge } returns false
         every { isNotBlocked } returns true
         every { qrCodeHash } returns "TC"
+        every { isPCRTestCertificate } returns true
     }
 
     private fun mockVaccinationCertificate(
