@@ -28,7 +28,6 @@ import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
-@Suppress("MaxLineLength")
 @RunWith(AndroidJUnit4::class)
 class DccReissuanceConsentFragmentTest : BaseUITest() {
 
