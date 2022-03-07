@@ -72,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:icon="@{@drawable/ic_link}"
-                    app:subtitle="@{@string/information_accessibility_statement}"/>
+                    app:subtitle="@{@string/information_accessibility_statement}" />
 
                 <include
                     android:id="@+id/information_privacy"
