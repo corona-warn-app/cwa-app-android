@@ -10,17 +10,24 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.RelevantCheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
+import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInNormalizedTime
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.HotDataFlow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.plus
 import org.joda.time.Days
 import org.joda.time.Instant
 import timber.log.Timber
@@ -31,7 +38,10 @@ import javax.inject.Singleton
 class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
-    private val timeStamper: TimeStamper
+    private val timeStamper: TimeStamper,
+    private val relevantCheckInsFilter: RelevantCheckInsFilter,
+    @AppScope private val appScope: CoroutineScope,
+    private val dispatcherProvider: DispatcherProvider,
 ) {
 
     private val database by lazy {
@@ -46,29 +56,35 @@ class PresenceTracingRiskRepository @Inject constructor(
         database.presenceTracingRiskLevelResultDao()
     }
 
-    val overlapsOfLast14DaysPlusToday = traceTimeIntervalMatchDao.allMatches().map { entities ->
-        entities
-            .map { it.toCheckInWarningOverlap() }
-            .filter { it.localDateUtc.isAfter(fifteenDaysAgo.toLocalDateUtc()) }
+    val allOverlaps = traceTimeIntervalMatchDao.allMatches().map { entities ->
+        entities.map { it.toCheckInWarningOverlap() }
     }
 
-    private val normalizedTimeOfLast14DaysPlusToday = overlapsOfLast14DaysPlusToday.map {
-        presenceTracingRiskCalculator.calculateNormalizedTime(it)
+    private val normalizedTime: HotDataFlow<List<CheckInNormalizedTime>> = HotDataFlow(
+        loggingTag = "PresenceTracingRiskRepository",
+        scope = appScope + dispatcherProvider.Default,
+        sharingBehavior = SharingStarted.Lazily,
+    ) {
+        calculateNormalizedTime()
+    }
+
+    private suspend fun calculateNormalizedTime(): List<CheckInNormalizedTime> {
+        val relevantWarnings = relevantCheckInsFilter.filterCheckInWarnings(allOverlaps.first())
+        return presenceTracingRiskCalculator.calculateNormalizedTime(relevantWarnings)
     }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
-        normalizedTimeOfLast14DaysPlusToday.map {
+        normalizedTime.data.map {
             presenceTracingRiskCalculator.calculateCheckInRiskPerDay(it)
         }
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
-        normalizedTimeOfLast14DaysPlusToday.map {
+        normalizedTime.data.map {
             presenceTracingRiskCalculator.calculateDayRisk(it)
         }
 
     /**
      * We delete warning packages after processing, we need to store the latest matches independent of success state
-     * For a future update we should look into partial processing.
      */
     internal suspend fun reportCalculation(
         successful: Boolean,
@@ -88,8 +104,10 @@ class PresenceTracingRiskRepository @Inject constructor(
         }
 
         val result = if (successful) {
-            val last14daysPlusToday = normalizedTimeOfLast14DaysPlusToday.first()
-            val risk = presenceTracingRiskCalculator.calculateTotalRisk(last14daysPlusToday)
+            normalizedTime.updateBlocking {
+                calculateNormalizedTime()
+            }
+            val risk = presenceTracingRiskCalculator.calculateTotalRisk(normalizedTime.data.first())
             PtRiskLevelResult(nowUTC, risk)
         } else {
             PtRiskLevelResult(nowUTC, RiskState.CALCULATION_FAILED)
@@ -125,7 +143,7 @@ class PresenceTracingRiskRepository @Inject constructor(
                     // add risk per day to the latest result
                     entity.toRiskLevelResult(
                         presenceTracingDayRisks = presenceTracingDayRisk.first(),
-                        checkInWarningOverlaps = overlapsOfLast14DaysPlusToday.first(),
+                        checkInWarningOverlaps = allOverlaps.first(),
                     )
                 } else {
                     entity.toRiskLevelResult(
@@ -274,5 +292,6 @@ class RiskStateConverter {
         private const val CALCULATION_FAILED = 0
         private const val LOW_RISK = 1
         private const val INCREASED_RISK = 2
+        private const val TAG = "PresenceTracingRiskRepository"
     }
 }

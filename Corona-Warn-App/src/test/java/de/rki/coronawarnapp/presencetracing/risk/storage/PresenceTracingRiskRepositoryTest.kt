@@ -77,7 +77,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity, entity2))
         runBlockingTest {
-            val overlaps = createInstance().overlapsOfLast14DaysPlusToday.first()
+            val overlaps = createInstance().allOverlaps.first()
             overlaps.size shouldBe 1
             overlaps[0].checkInId shouldBe 2L
         }
