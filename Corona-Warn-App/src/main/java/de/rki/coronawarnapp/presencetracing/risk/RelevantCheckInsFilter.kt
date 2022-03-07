@@ -41,4 +41,4 @@ fun List<CheckIn>.filterByAge(
 internal fun Instant.calculateDeadline(maxAgeInDays: Int): Instant = this - Days.days(maxAgeInDays).toStandardDuration()
 
 internal val ConfigData.maxCheckInAgeInDays
-    get()= presenceTracing.riskCalculationParameters.maxCheckInAgeInDays
+    get() = presenceTracing.riskCalculationParameters.maxCheckInAgeInDays
