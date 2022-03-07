@@ -6,16 +6,26 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
 import de.rki.coronawarnapp.databinding.FragmentOnboardingBinding
+import de.rki.coronawarnapp.ui.main.overview.MainOverviewViewModel
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import java.util.Locale
+import javax.inject.Inject
 
 /**
  * Onboarding starting point.
  */
-class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
+class OnboardingFragment : Fragment(R.layout.fragment_onboarding), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: OnboardingViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentOnboardingBinding by viewBinding()
 
@@ -29,6 +39,9 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
                 onboardingEasyLanguage.setOnClickListener { openEasyLanguageLink() }
             } else {
                 onboardingEasyLanguage.visibility = View.GONE
+            }
+            viewModel.maxEncounterAgeInDays.observe2(this@OnboardingFragment) {
+                setExposureLoggingPeriod(it)
             }
         }
     }
@@ -47,6 +60,10 @@ class OnboardingFragment : Fragment(R.layout.fragment_onboarding) {
     override fun onResume() {
         super.onResume()
         binding.onboardingContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+    }
+
+    private fun FragmentOnboardingBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Int) {
+        onboardingBody2.text = getString(R.string.onboarding_body_2, maxEncounterAgeInDays)
     }
 }
 
