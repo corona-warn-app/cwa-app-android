@@ -188,7 +188,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 coronaTestParameters
                                     .coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard,
                                 testPCR.registeredAt
-                            )
+                            ) || tracingItem is IncreasedRiskCard.Item
                         ) {
                             add(tracingItem)
                         }
@@ -201,7 +201,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                                 coronaTestParameters
                                     .coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard,
                                 testRAT.testTakenAt
-                            )
+                            ) || tracingItem is IncreasedRiskCard.Item
                         ) {
                             add(tracingItem)
                         }
@@ -220,7 +220,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
-            
+
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
