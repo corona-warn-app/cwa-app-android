@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings.Companion.CURRENT_PERSON_KEY
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings.Companion.PERSONS_SETTINGS_MAP
+import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
