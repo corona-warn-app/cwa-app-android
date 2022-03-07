@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last 14 days."</string>
+    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last %d days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"The Corona-Warn-App was installed today. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->

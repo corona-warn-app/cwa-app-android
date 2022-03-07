@@ -300,7 +300,7 @@
     <string name="risk_details_subtitle_period_logged">"Dieser Zeitraum wird berücksichtigt."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko- Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten 14 Tage betrachtet."</string>
+    <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko- Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten %d Tage betrachtet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Die Corona-Warn-App wurde heute installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->

@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Ten okres jest uwzględniony w obliczeniu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje 14 ostatnich dni."</string>
+    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje %d ostatnich dni."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Aplikacja Corona-Warn-App została zainstalowana dzisiaj. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
