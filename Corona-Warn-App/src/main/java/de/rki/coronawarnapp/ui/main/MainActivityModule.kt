@@ -22,7 +22,6 @@ import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFra
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
 import de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment
 import de.rki.coronawarnapp.ui.main.overview.MainOverviewFragmentModule
-import de.rki.coronawarnapp.ui.main.overview.MainOverviewViewModel
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsModule
