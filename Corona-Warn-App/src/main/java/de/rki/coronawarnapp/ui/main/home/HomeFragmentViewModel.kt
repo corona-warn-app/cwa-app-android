@@ -85,6 +85,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import org.joda.time.Days
+import org.joda.time.Duration
+import org.joda.time.Instant
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -180,9 +183,29 @@ class HomeFragmentViewModel @AssistedInject constructor(
         mutableListOf<HomeItem>().apply {
             when {
                 statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
-                    // Don't show risk card
+                    if (testPCR != null) {
+                        if (isOlderThanThreshold(
+                                coronaTestParameters
+                                    .coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard,
+                                testPCR.registeredAt
+                            )
+                        ) {
+                            add(tracingItem)
+                        }
+                        // Don't show risk card
+                    }
                 }
                 stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
+                    if (testRAT != null) {
+                        if (isOlderThanThreshold(
+                                coronaTestParameters
+                                    .coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard,
+                                testRAT.testTakenAt
+                            )
+                        ) {
+                            add(tracingItem)
+                        }
+                    }
                     // Don't show risk card
                 }
                 else -> add(tracingItem)
@@ -197,8 +220,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     )
                 )
             }
-
-            // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
+            
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
@@ -320,6 +342,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun tracingExplanationWasShown() {
         cwaSettings.wasTracingExplanationDialogShown = true
     }
+
+    private fun isOlderThanThreshold(hours: Duration, testTimestamp: Instant): Boolean =
+        Days.daysBetween(testTimestamp, Instant.now()).toStandardDuration().standardHours >= hours.standardHours
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState()) {
