@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class ConfirmedStatusCard(parent: ViewGroup) :
-    PersonDetailsAdapter.PersonDetailsItemVH<ConfirmedStatusCard.Item, ConfirmedStatusCardBinding>(
+class AdmissionStatusCard(parent: ViewGroup) :
+    PersonDetailsAdapter.PersonDetailsItemVH<AdmissionStatusCard.Item, ConfirmedStatusCardBinding>(
         layoutRes = R.layout.confirmed_status_card,
         parent = parent
     ) {
