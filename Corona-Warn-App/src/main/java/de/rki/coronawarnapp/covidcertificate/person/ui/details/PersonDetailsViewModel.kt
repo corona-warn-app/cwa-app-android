@@ -67,7 +67,6 @@ class PersonDetailsViewModel @AssistedInject constructor(
         createUiState(personSpecificCertificates, isLoading)
     }.asLiveData2()
 
-    @Suppress("NestedBlockDepth", "ComplexMethod")
     private suspend fun createUiState(personCertificates: PersonCertificates, isLoading: Boolean): UiState {
         val priorityCertificate = personCertificates.highestPriorityCertificate
         if (priorityCertificate == null) {
