@@ -22,7 +22,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
@@ -159,7 +159,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             add(
                 when (Locale.getDefault()) {
-                    Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
+                    Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Status-Nachweis",
                         subtitleText = admissionSubtitle,
@@ -167,7 +167,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
                         faqAnchor = "FAQ"
                     )
-                    else -> ConfirmedStatusCard.Item(
+                    else -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Proof of Status",
                         subtitleText = admissionSubtitle,
@@ -263,7 +263,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
             add(
                 when (Locale.getDefault()) {
-                    Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
+                    Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Status-Nachweis",
                         subtitleText = "2G+ PCR-Test",
@@ -271,7 +271,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
                         faqAnchor = "FAQ"
                     )
-                    else -> ConfirmedStatusCard.Item(
+                    else -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
                         titleText = "Proof of Status",
                         subtitleText = "2G+ PCR-Test",
