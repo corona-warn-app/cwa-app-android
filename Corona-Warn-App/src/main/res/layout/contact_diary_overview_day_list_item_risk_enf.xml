@@ -5,16 +5,18 @@
     android:id="@+id/contact_diary_overview_risk_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/contactDiaryOverviewUnClickableColor"
+    android:clickable="true"
     android:focusable="true"
     android:paddingBottom="@dimen/spacing_small">
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/card_divider"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/contact_diary_overview_risk_item_image"

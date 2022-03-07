@@ -3,10 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/contactDiaryOverviewUnClickableColor"
+    android:clickable="true"
+    android:focusable="true">
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/card_divider"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
