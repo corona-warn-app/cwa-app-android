@@ -12,11 +12,13 @@
         android:id="@+id/certificate_bg"
         android:layout_width="88dp"
         android:layout_height="95dp"
+        android:layout_marginVertical="@dimen/spacing_small"
         android:layout_marginStart="@dimen/spacing_small"
-        android:layout_marginTop="@dimen/spacing_small"
         android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
         app:srcCompat="@drawable/bg_certificate_grey" />
 
     <ImageView
@@ -73,8 +75,8 @@
         style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/vaccination_certificate_name"
@@ -129,23 +131,31 @@
         app:layout_constraintTop_toBottomOf="@id/certificate_expiration" />
 
     <androidx.constraintlayout.widget.Group
-        android:id="@+id/current_certificate"
+        android:id="@+id/current_certificate_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="bookmark,bookmark_info" />
+        app:constraint_referenced_ids="bookmark,bookmark_info,start_validation_check_button" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/bottom_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="current_certificate,bookmark,bookmark_info,certificate_bg,certificate_date"
+        app:constraint_referenced_ids="current_certificate_group,bookmark,bookmark_info,certificate_bg,certificate_date"
         tools:layout_editor_absoluteY="117dp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/spacing_small"
+    <de.rki.coronawarnapp.ui.view.ProgressLoadingButton
+        android:id="@+id/start_validation_check_button"
+        style="@style/checkValidityButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:buttonText="@string/start_validation_rule_check_button"
+        app:isLoading="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_barrier" />
+        app:layout_constraintTop_toBottomOf="@id/bottom_barrier"
+        app:loadingText="@string/start_validation_rule_check_loading_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
