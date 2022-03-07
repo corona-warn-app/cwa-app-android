@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.certificate.parseLocalDate
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
@@ -43,15 +44,9 @@ class CwaUserCard(parent: ViewGroup) :
 
     private fun formatBirthDate(dateOfBirthFormatted: String): String =
         try {
-            val delimiter = LocalDate().toShortDayFormat()
-                .find { char -> !Character.isDigit(char) }
-                .toString()
-            when (delimiter) {
-                "/" -> dateOfBirthFormatted.split("-").run {
-                    listOfNotNull(getOrNull(1), getOrNull(2), getOrNull(0))
-                }.joinToString(delimiter)
-                else -> dateOfBirthFormatted.split("-").reversed().joinToString(delimiter)
-            }
+            // Formatted dob should be in the form of `yyyy-MM-dd` -> short day format like any other date in the screen
+            // if failed display the original provided value , please note that dob can be YYYY-MM or YYYY only
+            dateOfBirthFormatted.parseLocalDate()?.toShortDayFormat()!!
         } catch (e: Exception) {
             Timber.d(e, "Formatting to local format failed, falling back to $dateOfBirthFormatted")
             dateOfBirthFormatted
