@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
+import de.rki.coronawarnapp.presencetracing.risk.filterByAge
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.every

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.presencetracing.risk.storage
 
+import de.rki.coronawarnapp.presencetracing.risk.RelevantCheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInNormalizedTime
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInRiskPerDay
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
@@ -18,12 +19,14 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 
 class PresenceTracingRiskRepositoryTest : BaseTest() {
 
@@ -33,6 +36,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     @MockK lateinit var traceTimeIntervalMatchDao: TraceTimeIntervalMatchDao
     @MockK lateinit var riskLevelResultDao: PresenceTracingRiskLevelResultDao
     @MockK lateinit var database: PresenceTracingRiskDatabase
+    @MockK lateinit var relevantCheckInsFilter: RelevantCheckInsFilter
+    val dispatcherProvider = TestDispatcherProvider()
 
     private val now = Instant.ofEpochMilli(9999999)
     private val fifteenDaysAgo = now.minus(Days.days(15).toStandardDuration())
@@ -57,10 +62,12 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
         coEvery { presenceTracingRiskCalculator.calculateNormalizedTime(any()) } returns listOf()
         coEvery { presenceTracingRiskCalculator.calculateTotalRisk(any()) } returns RiskState.LOW_RISK
+
+        coEvery { relevantCheckInsFilter.filterCheckInWarnings(any()) } returns emptyList()
     }
 
     @Test
-    fun `overlapsOfLast14DaysPlusToday works`() {
+    fun `all overlaps works`() {
         val entity = TraceTimeIntervalMatchEntity(
             checkInId = 1L,
             traceWarningPackageId = "traceWarningPackageId",
@@ -78,21 +85,24 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity, entity2))
         runBlockingTest {
             val overlaps = createInstance().allOverlaps.first()
-            overlaps.size shouldBe 1
-            overlaps[0].checkInId shouldBe 2L
+            overlaps.size shouldBe 2
+            overlaps[0].checkInId shouldBe 1L
+            overlaps[1].checkInId shouldBe 2L
         }
     }
 
     @Test
     fun `traceLocationCheckInRiskStates works`() {
-        val entity2 = TraceTimeIntervalMatchEntity(
+        val entity = TraceTimeIntervalMatchEntity(
             checkInId = 2L,
             traceWarningPackageId = "traceWarningPackageId",
             transmissionRiskLevel = 1,
             startTimeMillis = now.minus(100000).millis,
             endTimeMillis = now.minus(80000).millis
         )
-        every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity2))
+        every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
+        coEvery { relevantCheckInsFilter.filterCheckInWarnings(any()) } returns
+            listOf(entity.toCheckInWarningOverlap())
         val time = CheckInNormalizedTime(
             checkInId = 2L,
             localDateUtc = now.minus(100000).toLocalDateUtc(),
@@ -104,7 +114,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             riskState = RiskState.LOW_RISK
         )
         coEvery {
-            presenceTracingRiskCalculator.calculateNormalizedTime(listOf(entity2.toCheckInWarningOverlap()))
+            presenceTracingRiskCalculator.calculateNormalizedTime(listOf(entity.toCheckInWarningOverlap()))
         } returns listOf(time)
 
         coEvery { presenceTracingRiskCalculator.calculateCheckInRiskPerDay(listOf(time)) } returns listOf(riskPerDay)
@@ -251,6 +261,9 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     private fun createInstance() = PresenceTracingRiskRepository(
         presenceTracingRiskCalculator,
         databaseFactory,
-        timeStamper
+        timeStamper,
+        relevantCheckInsFilter,
+        TestCoroutineScope(),
+        dispatcherProvider
     )
 }

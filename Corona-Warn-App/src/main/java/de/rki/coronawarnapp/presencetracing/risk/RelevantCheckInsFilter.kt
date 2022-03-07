@@ -30,7 +30,7 @@ class RelevantCheckInsFilter @Inject constructor(
         now.calculateDeadline(getMaxAgeInDays())
 }
 
-internal fun List<CheckIn>.filterByAge(
+fun List<CheckIn>.filterByAge(
     maxAgeInDays: Int,
     now: Instant,
 ): List<CheckIn> {
