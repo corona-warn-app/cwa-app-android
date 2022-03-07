@@ -3,8 +3,6 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 import android.annotation.SuppressLint
 import androidx.work.WorkManager
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.isRiskCalculationNecessary
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.risk.execution.RiskWorkScheduler
 import de.rki.coronawarnapp.task.TaskController
@@ -27,7 +25,6 @@ class PresenceTracingRiskWorkScheduler @Inject constructor(
     private val presenceWorkBuilder: PresenceTracingWarningWorkBuilder,
     private val backgroundModeStatus: BackgroundModeStatus,
     private val presenceTracingSettings: TraceLocationSettings,
-    private val coronaTestRepository: CoronaTestRepository,
 ) : RiskWorkScheduler(
     workManager = workManager,
     logTag = TAG,
@@ -38,21 +35,17 @@ class PresenceTracingRiskWorkScheduler @Inject constructor(
         Timber.tag(TAG).i("setup() PresenceTracingRiskWorkScheduler")
         combine(
             backgroundModeStatus.isAutoModeEnabled,
-            presenceTracingSettings.isOnboardingDoneFlow,
-            coronaTestRepository.isRiskCalculationNecessary,
-        ) { isAutoMode, isPresenceTracingOnboarded, isRiskCalculationNecessesary ->
+            presenceTracingSettings.isOnboardingDoneFlow
+        ) { isAutoMode, isPresenceTracingOnboarded ->
             Timber.tag(TAG).d(
                 "isAutoMode=$isAutoMode, " +
-                    "isPresenceTracingOnboarded=$isPresenceTracingOnboarded, " +
-                    "isRiskCalculationNecessesary=$isRiskCalculationNecessesary"
+                    "isPresenceTracingOnboarded=$isPresenceTracingOnboarded"
             )
-            isAutoMode && isPresenceTracingOnboarded && isRiskCalculationNecessesary
-        }
-            .onEach { runPeriodicWorker ->
-                Timber.tag(TAG).v("runPeriodicWorker=$runPeriodicWorker")
-                setPeriodicRiskCalculation(enabled = runPeriodicWorker)
-            }
-            .launchIn(appScope)
+            isAutoMode && isPresenceTracingOnboarded
+        }.onEach { runPeriodicWorker ->
+            Timber.tag(TAG).v("runPeriodicWorker=$runPeriodicWorker")
+            setPeriodicRiskCalculation(enabled = runPeriodicWorker)
+        }.launchIn(appScope)
     }
 
     fun runRiskTaskNow(sourceTag: String) = taskController.submit(

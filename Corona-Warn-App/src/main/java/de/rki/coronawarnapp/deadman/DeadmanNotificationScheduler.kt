@@ -41,16 +41,14 @@ class DeadmanNotificationScheduler @Inject constructor(
                     "isTracingEnabled = $isTracingEnabled"
             )
             isOnboarded && noPositiveTestRegistered && isTracingEnabled
-        }
-            .onEach { shouldSchedulePeriodic ->
-                Timber.d("shouldSchedulePeriodic: $shouldSchedulePeriodic")
-                if (shouldSchedulePeriodic) {
-                    schedulePeriodic()
-                } else {
-                    cancelScheduledWork()
-                }
+        }.onEach { shouldSchedulePeriodic ->
+            Timber.d("shouldSchedulePeriodic: $shouldSchedulePeriodic")
+            if (shouldSchedulePeriodic) {
+                schedulePeriodic()
+            } else {
+                cancelScheduledWork()
             }
-            .launchIn(appScope)
+        }.launchIn(appScope)
     }
 
     /**
@@ -102,6 +100,7 @@ class DeadmanNotificationScheduler @Inject constructor(
          * Deadman notification one time work
          */
         const val ONE_TIME_WORK_NAME = "DeadmanNotificationOneTimeWork"
+
         /**
          * Deadman notification periodic work
          */
