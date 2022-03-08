@@ -193,7 +193,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     }
 
     @Test
-    fun ` positive test respect threshold`() {
+    fun `Test date respects threshold`() {
         createInstance().isOlderThanThreshold(
             Duration.standardHours(168),
             Instant.parse("2022-03-03T23:00:00.000Z"),
