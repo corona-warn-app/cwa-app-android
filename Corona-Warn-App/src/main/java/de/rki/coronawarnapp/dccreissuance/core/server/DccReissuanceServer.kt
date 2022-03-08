@@ -1,12 +1,11 @@
 package de.rki.coronawarnapp.dccreissuance.core.server
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.contains
 import com.google.gson.Gson
 import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.ErrorCode
+import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.validation.DccReissuanceServerCertificateValidator
@@ -15,7 +14,6 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.http.serverCertificateChain
 import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -30,8 +28,7 @@ class DccReissuanceServer @Inject constructor(
     private val dccReissuanceApiLazy: Lazy<DccReissuanceApi>,
     private val dispatcherProvider: DispatcherProvider,
     private val dccReissuanceServerCertificateValidator: DccReissuanceServerCertificateValidator,
-    @BaseGson private val gson: Gson,
-    @BaseJackson private val objectMapper: ObjectMapper
+    @BaseGson private val gson: Gson
 ) {
 
     private val dccReissuanceApi
@@ -65,25 +62,24 @@ class DccReissuanceServer @Inject constructor(
             return
         }
 
-        val serverErrorCode = errorBody()?.charStream().use {
-            val errorResponse = objectMapper.readTree(it)
-            Timber.tag(TAG).w("Server errorResponse=%s", errorResponse)
-            when (errorResponse.contains(SERVER_ERROR_CODE)) {
-                true -> errorResponse[SERVER_ERROR_CODE].asText()
-                false -> null
-            }
-        }
+        val serverErrorCode = tryGetServerErrorCode()
 
-        when (code()) {
-            400 -> ErrorCode.DCC_RI_400
-            401 -> ErrorCode.DCC_RI_401
-            403 -> ErrorCode.DCC_RI_403
-            406 -> ErrorCode.DCC_RI_406
-            429 -> ErrorCode.DCC_RI_429
-            500 -> ErrorCode.DCC_RI_500
-            in 400..499 -> ErrorCode.DCC_RI_CLIENT_ERR
-            else -> ErrorCode.DCC_RI_SERVER_ERR
-        }.also { throw DccReissuanceException(errorCode = it, serverErrorCode = serverErrorCode) }
+        throw when (code()) {
+            400 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_400, serverErrorResponse = serverErrorCode)
+            401 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_401, serverErrorResponse = serverErrorCode)
+            403 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_403, serverErrorResponse = serverErrorCode)
+            406 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_406, serverErrorResponse = serverErrorCode)
+            429 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_429, serverErrorResponse = serverErrorCode)
+            500 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_500, serverErrorResponse = serverErrorCode)
+            in 400..499 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_CLIENT_ERR)
+            else -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_SERVER_ERR)
+        }
+    }
+
+    private fun Response<ResponseBody>.tryGetServerErrorCode(): DccReissuanceErrorResponse? = try {
+        errorBody()?.charStream()?.use { gson.fromJson(it) }
+    } catch (e: Exception) {
+        null
     }
 
     private suspend fun Response<ResponseBody>.parseAndValidate(): DccReissuanceResponse {
@@ -104,6 +100,5 @@ class DccReissuanceServer @Inject constructor(
 
     companion object {
         private val TAG = tag<DccReissuanceServer>()
-        private const val SERVER_ERROR_CODE = "errorCode"
     }
 }
