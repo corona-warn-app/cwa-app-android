@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -41,6 +42,8 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
     fun launch() {
         Timber.v("Monitoring combined risk level changes.")
+
+        // send notifications when risk changes from LOW to HIGH or HIGH TO LOW
         riskLevelStorage.allCombinedEwPtRiskLevelResults
             .map { results ->
                 results
@@ -53,7 +56,41 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 Timber.v("Checking for combined risklevel change.")
                 results.checkForRiskLevelChanges()
             }
-            .catch { Timber.e(it, "App config change checks failed.") }
+            .catch { Timber.e(it, "RiskLevel checks failed.") }
+            .launchIn(appScope)
+
+        // send notifications for additional HIGH risks after an initial HIGH risk
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
+            .map { it.lastSuccessfullyCalculated }
+            .filter { it.lastRiskEncounterAt != null }
+            .map {
+                when (it.riskState) {
+                    RiskState.INCREASED_RISK -> {
+                        when (val lastHighRiskDate = tracingSettings.lastHighRiskDate) {
+                            null -> {
+                                // initial HIGH risk - no notification
+                                tracingSettings.lastHighRiskDate = it.lastRiskEncounterAt
+                            }
+                            else -> {
+                                if (it.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                                    // additional HIGH risk - trigger notification
+                                    sendNotification()
+                                    tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { true }
+                                    tracingSettings.lastHighRiskDate = it.lastRiskEncounterAt
+                                } else {
+                                    // HIGH risk is older than the stored one - do nothing
+                                }
+                            }
+                        }
+                    }
+                    RiskState.LOW_RISK -> {
+                        tracingSettings.lastHighRiskDate = null
+                    }
+                    RiskState.CALCULATION_FAILED -> {
+                        // can't happen, since we filter for successful results in the upstream
+                    }
+                }
+            }.catch { Timber.e(it, "RiskLevel checks failed.") }
             .launchIn(appScope)
     }
 
@@ -88,20 +125,25 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         Timber.d("Risk changed=%s from=%s to=%s", riskChanged, oldRiskState, newRiskState)
         if (!isSubmissionSuccessful && riskChanged) {
-            Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
-            val notification = notificationHelper.newBaseBuilder()
-                .setContentTitle(context.getString(R.string.notification_headline))
-                .setContentTextExpandable(context.getString(R.string.notification_body))
-                .build()
-
-            notificationHelper.sendNotification(
-                notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
-                notification = notification,
-            )
+            sendNotification()
             tracingSettings.showRiskLevelBadge.update { true }
 
             Timber.d("Risk level changed and notification/badge sent. Current Risk level is $newRiskState")
         }
+    }
+
+    private fun sendNotification() {
+        Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
+
+        val notification = notificationHelper.newBaseBuilder()
+            .setContentTitle(context.getString(R.string.notification_headline))
+            .setContentTextExpandable(context.getString(R.string.notification_body))
+            .build()
+
+        notificationHelper.sendNotification(
+            notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
+            notification = notification,
+        )
     }
 }
