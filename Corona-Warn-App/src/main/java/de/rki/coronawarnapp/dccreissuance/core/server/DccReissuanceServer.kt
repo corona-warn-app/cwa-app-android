@@ -1,5 +1,7 @@
 package de.rki.coronawarnapp.dccreissuance.core.server
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.contains
 import com.google.gson.Gson
 import dagger.Lazy
 import dagger.Reusable
@@ -13,6 +15,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.http.serverCertificateChain
 import de.rki.coronawarnapp.util.serialization.BaseGson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -27,7 +30,8 @@ class DccReissuanceServer @Inject constructor(
     private val dccReissuanceApiLazy: Lazy<DccReissuanceApi>,
     private val dispatcherProvider: DispatcherProvider,
     private val dccReissuanceServerCertificateValidator: DccReissuanceServerCertificateValidator,
-    @BaseGson private val gson: Gson
+    @BaseGson private val gson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper
 ) {
 
     private val dccReissuanceApi
@@ -61,6 +65,15 @@ class DccReissuanceServer @Inject constructor(
             return
         }
 
+        val serverErrorCode = errorBody()?.charStream().use {
+            val errorResponse = objectMapper.readTree(it)
+            Timber.tag(TAG).w("Server errorResponse=%s", errorResponse)
+            when (errorResponse.contains(SERVER_ERROR_CODE)) {
+                true -> errorResponse[SERVER_ERROR_CODE].asText()
+                false -> null
+            }
+        }
+
         when (code()) {
             400 -> ErrorCode.DCC_RI_400
             401 -> ErrorCode.DCC_RI_401
@@ -70,7 +83,7 @@ class DccReissuanceServer @Inject constructor(
             500 -> ErrorCode.DCC_RI_500
             in 400..499 -> ErrorCode.DCC_RI_CLIENT_ERR
             else -> ErrorCode.DCC_RI_SERVER_ERR
-        }.also { throw DccReissuanceException(errorCode = it) }
+        }.also { throw DccReissuanceException(errorCode = it, serverErrorCode = serverErrorCode) }
     }
 
     private suspend fun Response<ResponseBody>.parseAndValidate(): DccReissuanceResponse {
@@ -91,5 +104,6 @@ class DccReissuanceServer @Inject constructor(
 
     companion object {
         private val TAG = tag<DccReissuanceServer>()
+        private const val SERVER_ERROR_CODE = "errorCode"
     }
 }

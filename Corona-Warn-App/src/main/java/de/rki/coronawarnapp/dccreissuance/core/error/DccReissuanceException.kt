@@ -9,7 +9,8 @@ import de.rki.coronawarnapp.util.ui.toResolvingString
 
 class DccReissuanceException(
     val errorCode: ErrorCode,
-    cause: Throwable? = null
+    cause: Throwable? = null,
+    val serverErrorCode: String? = null
 ) : Exception(errorCode.message, cause), HasHumanReadableError {
 
     enum class TextKey {
@@ -78,9 +79,12 @@ class DccReissuanceException(
             TextKey.REISSUANCE_NOT_SUPPORTED -> R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported
         }.toResolvingString()
 
-    override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
-        description = "${errorMessage.get(context)} ($errorCode)"
-    )
+    override fun toHumanReadableError(context: Context): HumanReadableError {
+        val errorCodeMsg = if (serverErrorCode == null) errorCode.name else "$errorCode & $serverErrorCode"
+        return HumanReadableError(
+            description = "${errorMessage.get(context)} ($errorCodeMsg)"
+        )
+    }
 }
 
 private fun statusCodeMsg(code: Int) = "DCC Reissuance request failed with status code $code"
