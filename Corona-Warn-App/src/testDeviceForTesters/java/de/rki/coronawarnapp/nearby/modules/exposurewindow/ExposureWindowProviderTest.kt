@@ -11,14 +11,11 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTestInstrumentation
 import testhelpers.gms.MockGMSTask
-import java.io.File
 
 class ExposureWindowProviderTest : BaseTestInstrumentation() {
     @MockK lateinit var googleENFClient: ExposureNotificationClient
     @MockK lateinit var testSettings: TestSettings
     @MockK lateinit var fakeExposureWindowProvider: FakeExposureWindowProvider
-
-    private val exampleKeyFiles = listOf(File("file1"), File("file2"))
 
     @BeforeEach
     fun setup() {
