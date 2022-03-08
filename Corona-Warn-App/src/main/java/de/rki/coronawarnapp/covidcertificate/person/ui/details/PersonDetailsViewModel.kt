@@ -97,13 +97,16 @@ class PersonDetailsViewModel @AssistedInject constructor(
             // Person details tile
             add(cwaUserCard(personCertificates))
             // Certificates tiles
-            personCertificates.certificates.forEach {
-                addCardItem(
-                    certificate = it,
-                    priorityCertificate = priorityCertificate,
-                    isLoading = isLoading
-                )
-            }
+            personCertificates.certificates // `certificates` are already sorted by date
+                // Sorting by `whether it is high prio certificate` will bring this certificate to the top
+                .sortedByDescending { it.containerId == priorityCertificate.containerId }
+                .forEach { cwaCert ->
+                    addCardItem(
+                        certificate = cwaCert,
+                        priorityCertificate = priorityCertificate,
+                        isLoading = isLoading
+                    )
+                }
         }
 
         return UiState(
