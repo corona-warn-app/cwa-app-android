@@ -44,7 +44,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
@@ -172,7 +171,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
             coVerifySequence {
                 tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
-                coronaTestRepository.coronaTests
                 notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())
                 tracingSettings.showRiskLevelBadge
@@ -199,7 +197,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             coVerifySequence {
-                coronaTestRepository.coronaTests
                 notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())
                 tracingSettings.showRiskLevelBadge
