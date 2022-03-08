@@ -62,21 +62,21 @@ class DccReissuanceServer @Inject constructor(
             return
         }
 
-        val serverErrorCode = tryGetServerErrorCode()
+        val serverError = tryGetServerError()
 
         throw when (code()) {
-            400 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_400, serverErrorResponse = serverErrorCode)
-            401 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_401, serverErrorResponse = serverErrorCode)
-            403 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_403, serverErrorResponse = serverErrorCode)
-            406 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_406, serverErrorResponse = serverErrorCode)
-            429 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_429, serverErrorResponse = serverErrorCode)
-            500 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_500, serverErrorResponse = serverErrorCode)
+            400 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_400, serverErrorResponse = serverError)
+            401 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_401, serverErrorResponse = serverError)
+            403 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_403, serverErrorResponse = serverError)
+            406 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_406, serverErrorResponse = serverError)
+            429 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_429, serverErrorResponse = serverError)
+            500 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_500, serverErrorResponse = serverError)
             in 400..499 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_CLIENT_ERR)
             else -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_SERVER_ERR)
         }
     }
 
-    private fun Response<ResponseBody>.tryGetServerErrorCode(): DccReissuanceErrorResponse? = try {
+    private fun Response<ResponseBody>.tryGetServerError(): DccReissuanceErrorResponse? = try {
         errorBody()?.charStream()?.use { gson.fromJson(it) }
     } catch (e: Exception) {
         null
