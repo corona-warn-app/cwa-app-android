@@ -100,7 +100,6 @@ class DeadmanNotificationScheduler @Inject constructor(
          * Deadman notification one time work
          */
         const val ONE_TIME_WORK_NAME = "DeadmanNotificationOneTimeWork"
-
         /**
          * Deadman notification periodic work
          */
