@@ -41,7 +41,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val relevantCheckInsFilter: RelevantCheckInsFilter,
     @AppScope private val appScope: CoroutineScope,
-    private val dispatcherProvider: DispatcherProvider,
+    dispatcherProvider: DispatcherProvider,
 ) {
 
     private val database by lazy {
@@ -65,11 +65,11 @@ class PresenceTracingRiskRepository @Inject constructor(
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        calculateNormalizedTime()
+        calculateNormalizedTime(allOverlaps.first())
     }
 
-    private suspend fun calculateNormalizedTime(): List<CheckInNormalizedTime> {
-        val relevantWarnings = relevantCheckInsFilter.filterCheckInWarnings(allOverlaps.first())
+    private suspend fun calculateNormalizedTime(list: List<CheckInWarningOverlap>): List<CheckInNormalizedTime> {
+        val relevantWarnings = relevantCheckInsFilter.filterCheckInWarnings(list)
         return presenceTracingRiskCalculator.calculateNormalizedTime(relevantWarnings)
     }
 
@@ -104,10 +104,11 @@ class PresenceTracingRiskRepository @Inject constructor(
         }
 
         val result = if (successful) {
+            val newNormalizedTime = calculateNormalizedTime(allOverlaps.first())
+            val risk = presenceTracingRiskCalculator.calculateTotalRisk(newNormalizedTime)
             normalizedTime.updateBlocking {
-                calculateNormalizedTime()
+                newNormalizedTime
             }
-            val risk = presenceTracingRiskCalculator.calculateTotalRisk(normalizedTime.data.first())
             PtRiskLevelResult(nowUTC, risk)
         } else {
             PtRiskLevelResult(nowUTC, RiskState.CALCULATION_FAILED)
