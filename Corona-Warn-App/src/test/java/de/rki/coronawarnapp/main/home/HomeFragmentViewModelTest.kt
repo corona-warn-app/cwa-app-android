@@ -210,6 +210,5 @@ class HomeFragmentViewModelTest : BaseTest() {
             Instant.parse("2022-03-03T23:00:00.000Z"),
             Instant.parse("2022-03-10T23:00:00.000Z")
         ) shouldBe true
-
     }
 }
