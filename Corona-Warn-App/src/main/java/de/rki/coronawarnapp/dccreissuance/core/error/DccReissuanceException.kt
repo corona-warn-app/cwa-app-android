@@ -84,7 +84,7 @@ class DccReissuanceException(
         var errorCodeMsg = errorCode.name
 
         if (serverErrorResponse != null) {
-            errorCodeMsg += " ${serverErrorResponse.error}"
+            errorCodeMsg += " & ${serverErrorResponse.error}"
         }
 
         return HumanReadableError(
