@@ -4,8 +4,9 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
-import org.joda.time.Days
+import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import javax.inject.Inject
 
@@ -27,18 +28,18 @@ class RelevantCheckInsFilter @Inject constructor(
     private suspend fun getMaxAgeInDays() = appConfigProvider.getAppConfig().maxCheckInAgeInDays
 
     private suspend fun getDeadline(now: Instant = timeStamper.nowUTC): Instant =
-        now.calculateDeadline(getMaxAgeInDays())
+        now.minusDays(getMaxAgeInDays()).toInstant()
 }
 
 fun List<CheckIn>.filterByAge(
     maxAgeInDays: Int,
     now: Instant,
 ): List<CheckIn> {
-    val deadline = now.calculateDeadline(maxAgeInDays).millis
+    val deadline = now.minusDays(maxAgeInDays).millis
     return filter { it.checkInEnd.millis >= deadline }
 }
 
-internal fun Instant.calculateDeadline(maxAgeInDays: Int): Instant = this - Days.days(maxAgeInDays).toStandardDuration()
+private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(DateTimeZone.UTC)
 
 internal val ConfigData.maxCheckInAgeInDays
     get() = presenceTracing.riskCalculationParameters.maxCheckInAgeInDays
