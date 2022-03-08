@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFr
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationResultFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
@@ -123,6 +124,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         PersonOverviewFragmentTestModule::class,
         PersonDetailsFragmentTestModule::class,
         BoosterInfoDetailsFragmentTestModule::class,
+        DccReissuanceConsentFragmentTestModule::class,
 
         // -------- RAT profile ------------
         RATProfileCreateFragmentTestModule::class,
