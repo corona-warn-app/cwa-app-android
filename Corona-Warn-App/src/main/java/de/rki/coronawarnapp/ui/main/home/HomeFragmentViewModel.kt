@@ -194,11 +194,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     }
                 }
                 stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
-                    if (testRAT != null && (isOlderThanThreshold(
+                    if (testRAT != null && isOlderThanThreshold(
                             coronaTestParameters
                                 .coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard,
                             testRAT.testTakenAt
-                        ) || tracingItem is IncreasedRiskCard.Item)
+                        ) || tracingItem is IncreasedRiskCard.Item
                     ) {
                         add(tracingItem)
                     }
