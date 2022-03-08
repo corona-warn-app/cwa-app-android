@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
@@ -48,6 +49,7 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var admissionTileProvider: AdmissionTileProvider
+    @MockK lateinit var migrationCheck: MigrationCheck
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -65,6 +67,7 @@ class PersonOverviewViewModelTest : BaseTest() {
                 )
             )
         )
+        every { migrationCheck.shouldShowMigrationInfo(any()) } returns false
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
@@ -304,6 +307,7 @@ class PersonOverviewViewModelTest : BaseTest() {
             format = CclTextFormatter(cclJsonFunctions, mapper),
             admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
-            dccAdmissionTileProvider = admissionTileProvider
+            dccAdmissionTileProvider = admissionTileProvider,
+            migrationCheck = migrationCheck
         )
 }

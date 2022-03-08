@@ -63,13 +63,13 @@ class VaccinationStorageTest : BaseTest() {
 
     @Test
     fun `store one person`() {
-        val vaccinationContainer2 = testData.personAVac2Container.copy(
+        val vaccinationContainer2 = testData.personAVac2StoredCertificateData.copy(
             notifiedInvalidAt = Instant.ofEpochSecond(1234),
             notifiedBlockedAt = Instant.ofEpochSecond(1234),
             notifiedExpiredAt = Instant.ofEpochSecond(1234),
             notifiedExpiresSoonAt = Instant.ofEpochSecond(1234),
         )
-        val personData = setOf(testData.personAVac1Container, vaccinationContainer2)
+        val personData = setOf(testData.personAVac1StoredCertificateData, vaccinationContainer2)
         runBlockingTest {
             val instance = createInstance()
             instance.save(personData)
@@ -103,48 +103,6 @@ class VaccinationStorageTest : BaseTest() {
 
             instance.load().apply {
                 this shouldBe personData
-            }
-        }
-    }
-
-    @Test
-    fun `test json set with same certificates`() {
-        val personData = setOf(testData.personAVac1Container)
-        runBlockingTest {
-            val instance = createInstance()
-
-            val json = """
-                [
-                    {
-                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
-                      "scannedAt": 1620062834471,
-                      "lastSeenStateChange": {
-                        "expiresAt": 1620062834471,
-                        "type": "ExpiringSoon"
-                      },
-                      "lastSeenStateChangeAt": 1620062834471,
-                      "certificateSeenByUser": false
-                    },
-                    {
-                      "vaccinationQrCode": "${testData.personAVac1QRCodeString}",
-                      "scannedAt": 1620062834471,
-                      "lastSeenStateChange": {
-                        "expiresAt": 1620062834471,
-                        "type": "ExpiringSoon"
-                      },
-                      "lastSeenStateChangeAt": 1620062834471,
-                      "certificateSeenByUser": true
-                    }
-                ]
-            """.trimIndent()
-
-            mockPreferences.edit {
-                putString("vaccination.certificate", json)
-            }
-
-            instance.load().apply {
-                this shouldBe personData
-                this.size shouldBe 1
             }
         }
     }

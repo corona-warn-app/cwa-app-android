@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainer
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -30,7 +30,7 @@ import testhelpers.BaseTest
 class DccQrCodeHandlerTest : BaseTest() {
 
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
     @MockK lateinit var recoverCertificateRepository: RecoveryCertificateRepository
     @MockK lateinit var dscSignatureValidator: DscSignatureValidator
 
@@ -49,7 +49,7 @@ class DccQrCodeHandlerTest : BaseTest() {
 
         coEvery { testCertificateRepository.registerCertificate(any()) } returns testCertificateContainer
             .apply { every { containerId } returns testCertID }
-        coEvery { vaccinationRepository.registerCertificate(any()) } returns vaccinationCertificateContainer
+        coEvery { vaccinationCertificateRepository.registerCertificate(any()) } returns vaccinationCertificateContainer
             .apply { every { containerId } returns vaccinationCertID }
         coEvery { recoverCertificateRepository.registerCertificate(any()) } returns recoveryCertificateContainer
             .apply { every { containerId } returns recoveryCertID }
@@ -63,7 +63,7 @@ class DccQrCodeHandlerTest : BaseTest() {
         handler().handleQrCode(dccQrCode) shouldBe vaccinationCertID
         coVerifySequence {
             dscSignatureValidator.validateSignature(any(), any(), any())
-            vaccinationRepository.registerCertificate(any())
+            vaccinationCertificateRepository.registerCertificate(any())
         }
     }
 
@@ -93,7 +93,7 @@ class DccQrCodeHandlerTest : BaseTest() {
 
     private fun handler() = DccQrCodeHandler(
         testCertificateRepository = testCertificateRepository,
-        vaccinationRepository = vaccinationRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         recoveryCertificateRepository = recoverCertificateRepository,
         dscSignatureValidator = dscSignatureValidator,
     )

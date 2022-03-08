@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -75,7 +75,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
@@ -123,7 +123,7 @@ internal class DataResetTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         ratProfileSettings = ratProfileSettings,
         covidCertificateSettings = covidCertificateSettings,
-        vaccinationRepository = vaccinationRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         valueSetsRepository = valueSetsRepository,
         testCertificateRepository = testCertificateRepository,
         personCertificatesSettings = personCertificatesSettings,
@@ -170,7 +170,7 @@ internal class DataResetTest : BaseTest() {
             checkInRepository.clear()
             coronaTestRepository.clear()
             ratProfileSettings.clear()
-            vaccinationRepository.clear()
+            vaccinationCertificateRepository.clear()
             covidCertificateSettings.clear()
             valueSetsRepository.clear()
             personCertificatesSettings.clear()

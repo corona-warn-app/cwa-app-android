@@ -98,6 +98,13 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
                     }
             }.show()
 
+            is ShowMigrationInfoDialog -> MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.certificate_migration_dialog_title)
+                .setMessage(R.string.certificate_migration_dialog_message)
+                .setPositiveButton(R.string.errors_generic_button_positive) { _, _ -> }
+                .setCancelable(true)
+                .show()
+
             OpenCovPassInfo -> doNavigate(
                 PersonOverviewFragmentDirections.actionPersonOverviewFragmentToCovPassInfoFragment()
             )

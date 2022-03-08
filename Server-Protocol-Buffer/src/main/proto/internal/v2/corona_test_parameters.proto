@@ -6,8 +6,13 @@ package de.rki.coronawarnapp.server.protocols.internal.v2;
 message CoronaTestParameters {
 
   CoronaRapidAntigenTestParameters coronaRapidAntigenTestParameters = 1;
+  CoronaPCRTestParameters coronaPCRTestParameters = 2;
 }
 
 message CoronaRapidAntigenTestParameters {
   uint32 hoursToDeemTestOutdated = 1;
+  uint32 hoursSinceSampleCollectionToShowRiskCard = 2;
+}
+message CoronaPCRTestParameters {
+  uint32 hoursSinceTestRegistrationToShowRiskCard = 1;
 }

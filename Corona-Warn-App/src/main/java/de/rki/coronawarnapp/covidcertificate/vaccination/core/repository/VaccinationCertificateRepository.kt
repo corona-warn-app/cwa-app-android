@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
 import de.rki.coronawarnapp.util.flow.shareLatest
+import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,7 +39,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class VaccinationRepository @Inject constructor(
+class VaccinationCertificateRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     valueSetsRepository: ValueSetsRepository,
     private val timeStamper: TimeStamper,
@@ -50,28 +51,30 @@ class VaccinationRepository @Inject constructor(
     dscRepository: DscRepository
 ) {
 
-    private val internalData: HotDataFlow<Set<VaccinationCertificateContainer>> = HotDataFlow(
-        loggingTag = TAG,
-        scope = appScope + dispatcherProvider.Default,
-        sharingBehavior = SharingStarted.Lazily,
-    ) {
-        (storage.load() + vaccinationMigration.doMigration())
-            .map {
-                VaccinationCertificateContainer(
-                    data = it,
-                    qrCodeExtractor = qrCodeExtractor
-                )
-            }
-            .toSet()
-            .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
-    }
+    private val internalData: HotDataFlow<Map<VaccinationCertificateContainerId, VaccinationCertificateContainer>> =
+        HotDataFlow(
+            loggingTag = TAG,
+            scope = appScope + dispatcherProvider.Default,
+            sharingBehavior = SharingStarted.Lazily,
+        ) {
+            (storage.load() + vaccinationMigration.doMigration())
+                .map {
+                    VaccinationCertificateContainer(
+                        data = it,
+                        qrCodeExtractor = qrCodeExtractor
+                    )
+                }.associateBy {
+                    it.containerId
+                }
+                .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
+        }
 
     val freshCertificates: Flow<Set<VaccinationCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
         dscRepository.dscData
-    ) { set, valueSets, _ ->
-        set
+    ) { certMap, valueSets, _ ->
+        certMap.values
             .filter { it.isNotRecycled }
             .map { container ->
                 val state = dccStateChecker.checkState(container.certificateData).first()
@@ -95,7 +98,7 @@ class VaccinationRepository @Inject constructor(
             .drop(1) // Initial emission, restored from storage.
             .onEach { certificates ->
                 Timber.tag(TAG).v("Vaccination data changed, %d items", certificates.size)
-                storage.save(certificates.map { it.data }.toSet())
+                storage.save(certificates.values.map { it.data }.toSet())
             }
             .catch {
                 it.reportProblem(TAG, "Failed to snapshot vaccination data to storage.")
@@ -108,8 +111,8 @@ class VaccinationRepository @Inject constructor(
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
      */
     val recycledCertificates: Flow<Set<VaccinationCertificate>> = internalData.data
-        .map { container ->
-            container
+        .map { certMap ->
+            certMap.values
                 .filter { it.isRecycled }
                 .map {
                     it.toVaccinationCertificate(
@@ -129,18 +132,14 @@ class VaccinationRepository @Inject constructor(
     ): VaccinationCertificateContainer {
         Timber.tag(TAG).v("registerVaccination(qrCode=%s)", qrCode)
 
-        val newCertificate = qrCode.toVaccinationContainer(
-            scannedAt = timeStamper.nowUTC,
-            qrCodeExtractor = qrCodeExtractor,
-            certificateSeenByUser = false,
-        )
+        val newCertificate = qrCode.createContainer()
 
         internalData.updateBlocking {
-            if (any { it.qrCodeHash == qrCode.hash }) {
+            if (values.any { it.qrCodeHash == qrCode.hash }) {
                 Timber.tag(TAG).e("Certificate is already registered: %s", qrCode.hash)
                 throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)
             }
-            plus(newCertificate)
+            mutate { this[newCertificate.containerId] = newCertificate }
         }
 
         return newCertificate
@@ -150,14 +149,14 @@ class VaccinationRepository @Inject constructor(
         Timber.tag(TAG).w("Clearing vaccination data.")
         internalData.updateBlocking {
             Timber.tag(TAG).v("Deleting %d items", this.size)
-            emptySet()
+            emptyMap()
         }
     }
 
     suspend fun deleteCertificate(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).w("deleteCertificate(containerId=%s)", containerId)
         internalData.updateBlocking {
-            mapNotNull { if (it.containerId == containerId) null else it }.toSet()
+            mutate { remove(containerId) }
         }
     }
 
@@ -168,7 +167,7 @@ class VaccinationRepository @Inject constructor(
     ) {
         Timber.tag(TAG).d("setNotifiedAboutState(containerId=$containerId, time=$time)")
         internalData.updateBlocking {
-            val toUpdate = singleOrNull { it.containerId == containerId }
+            val toUpdate = this[containerId]
             if (toUpdate == null) {
                 Timber.tag(TAG).w("Couldn't find %s", containerId)
                 return@updateBlocking this
@@ -182,18 +181,17 @@ class VaccinationRepository @Inject constructor(
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 
-            this.minus(toUpdate).plus(
-                toUpdate.copy(data = newData).also {
-                    Timber.tag(TAG).d("Updated %s", it)
-                }
-            )
+            Timber.tag(TAG).d("Updated %s", containerId)
+            mutate {
+                this[containerId] = toUpdate.copy(data = newData)
+            }
         }
     }
 
     suspend fun acknowledgeState(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("acknowledgeStateChange(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdate = singleOrNull { it.containerId == containerId }
+            val toUpdate = this[containerId]
             if (toUpdate == null) {
                 Timber.tag(TAG).w("Couldn't find %s", containerId)
                 return@updateBlocking this
@@ -213,28 +211,25 @@ class VaccinationRepository @Inject constructor(
                 lastSeenStateChangeAt = timeStamper.nowUTC,
             )
 
-            this.minus(toUpdate).plus(
-                toUpdate.copy(data = newData).also {
-                    Timber.tag(TAG).d("Updated %s", it)
-                }
-            )
+            Timber.tag(TAG).d("Updated %s", containerId)
+            mutate {
+                this[containerId] = toUpdate.copy(data = newData)
+            }
         }
     }
 
     suspend fun markAsSeenByUser(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("markAsSeenByUser(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdate = singleOrNull { it.containerId == containerId }
+            val toUpdate = this[containerId]
             if (toUpdate == null) {
                 Timber.tag(TAG).w("markAsSeenByUser Couldn't find %s", containerId)
                 return@updateBlocking this
             }
 
-            this.minus(toUpdate).plus(
-                toUpdate.copy(data = toUpdate.data.copy(certificateSeenByUser = true)).also {
-                    Timber.tag(TAG).d("markAsSeenByUser Updated %s", it)
-                }
-            )
+            mutate {
+                this[containerId] = toUpdate.markAsSeenByUser()
+            }
         }
     }
 
@@ -245,17 +240,15 @@ class VaccinationRepository @Inject constructor(
     suspend fun recycleCertificate(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("recycleCertificate(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdate = singleOrNull { it.containerId == containerId }
+            val toUpdate = this[containerId]
             if (toUpdate == null) {
                 Timber.tag(TAG).w("recycleCertificate couldn't find %s", containerId)
                 return@updateBlocking this
             }
 
-            this.minus(toUpdate).plus(
-                toUpdate.copy(data = toUpdate.data.copy(recycledAt = timeStamper.nowUTC)).also {
-                    Timber.tag(TAG).d("recycleCertificate updated %s", it)
-                }
-            )
+            mutate {
+                this[containerId] = toUpdate.setRecycled(true)
+            }
         }
     }
 
@@ -266,17 +259,15 @@ class VaccinationRepository @Inject constructor(
     suspend fun restoreCertificate(containerId: VaccinationCertificateContainerId) {
         Timber.tag(TAG).d("restoreCertificate(containerId=$containerId)")
         internalData.updateBlocking {
-            val toUpdate = singleOrNull { it.containerId == containerId }
+            val toUpdate = this[containerId]
             if (toUpdate == null) {
                 Timber.tag(TAG).w("restoreCertificate couldn't find %s", containerId)
                 return@updateBlocking this
             }
 
-            this.minus(toUpdate).plus(
-                toUpdate.copy(data = toUpdate.data.copy(recycledAt = null)).also {
-                    Timber.tag(TAG).d("restoreCertificate updated %s", it)
-                }
-            )
+            mutate {
+                this[containerId] = toUpdate.setRecycled(false)
+            }
         }
     }
 
@@ -284,49 +275,49 @@ class VaccinationRepository @Inject constructor(
         certificateToReplace: VaccinationCertificateContainerId,
         newCertificateQrCode: VaccinationCertificateQRCode
     ) {
-        // TO_DO("https://jira-ibs.wbs.net.sap/browse/EXPOSUREAPP-11940")
-        // TODO Update after migration
-//        internalData.updateBlocking {
-//            // Recycle
-//            val matchingPerson = singleOrNull { it.findVaccination(certificateToReplace) != null }
-//
-//            if (matchingPerson == null) {
-//                Timber.tag(TAG).w("recycleCertificate couldn't find %s", certificateToReplace)
-//                return@updateBlocking this
-//            }
-//
-//            val toUpdateVaccination = matchingPerson.findVaccination(certificateToReplace)!!
-//            val newVaccination = toUpdateVaccination.copy(recycledAt = timeStamper.nowUTC)
-//            newVaccination.qrCodeExtractor = qrCodeExtractor
-//
-//            if (matchingPerson.data.vaccinations.any { it.qrCodeHash == newCertificateQrCode.hash }) {
-//                Timber.tag(TAG).e("Certificate is already registered: %s", newCertificateQrCode.hash)
-//                throw InvalidVaccinationCertificateException(ALREADY_REGISTERED)
-//            }
-//
-//            val newCertificate = newCertificateQrCode.toVaccinationContainer(
-//                scannedAt = timeStamper.nowUTC,
-//                qrCodeExtractor = qrCodeExtractor,
-//                certificateSeenByUser = false,
-//            )
-//
-//            val newPersonData = matchingPerson.data.copy(
-//                vaccinations = matchingPerson.data.vaccinations.minus(toUpdateVaccination)
-//                    .plus(newVaccination)
-//                    .plus(newCertificate)
-//            )
-//
-//            val modifiedPerson = matchingPerson.copy(
-//                data = newPersonData,
-//                certificateStates = newPersonData.getStates()
-//            )
-//
-//            this.toMutableSet().apply {
-//                remove(matchingPerson)
-//                add(modifiedPerson)
-//            }
-//        }
+        val newContainer = newCertificateQrCode.toVaccinationContainer(
+            scannedAt = timeStamper.nowUTC,
+            qrCodeExtractor = qrCodeExtractor,
+            certificateSeenByUser = false,
+        )
+
+        internalData.updateBlocking {
+            val recycledCertificate = this[certificateToReplace]?.setRecycled(true)
+            val newCertificate = newCertificateQrCode.createContainer()
+
+            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
+
+            mutate {
+                // recycle old
+                recycledCertificate?.let {
+                    this[certificateToReplace] = it
+                }
+                // add new
+                this[newCertificate.containerId] = newCertificate
+            }
+        }
     }
+
+    private fun VaccinationCertificateContainer.setRecycled(value: Boolean): VaccinationCertificateContainer {
+        return copy(data = data.copy(recycledAt = if (value) timeStamper.nowUTC else null)).also {
+            Timber.tag(TAG).d("recycleCertificate %s %s", value, it.containerId)
+        }
+    }
+
+    private fun VaccinationCertificateContainer.markAsSeenByUser(): VaccinationCertificateContainer {
+        return copy(data = data.copy(certificateSeenByUser = true)).also {
+            Timber.tag(TAG).d("markAsSeenByUser %s", it.containerId)
+        }
+    }
+
+    private fun VaccinationCertificateQRCode.createContainer(
+        nowUtc: Instant = timeStamper.nowUTC
+    ): VaccinationCertificateContainer =
+        toVaccinationContainer(
+            scannedAt = nowUtc,
+            qrCodeExtractor = qrCodeExtractor,
+            certificateSeenByUser = false,
+        )
 
     companion object {
         private const val TAG = "VaccinationRepository"

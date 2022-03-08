@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -116,14 +115,12 @@ class PersonDetailsViewModelTest : BaseTest() {
                     it.name shouldBe vaccCert1.fullName
 
                     it.certificateItems.run {
-                        get(0) as PersonDetailsQrCard.Item
-
-                        (get(1) as CwaUserCard.Item).apply {
+                        (get(0) as CwaUserCard.Item).apply {
                             onSwitch(true)
                             coVerify { personCertificatesProvider.setCurrentCwaUser(any()) }
                         }
 
-                        (get(2) as RecoveryCertificateCard.Item).apply {
+                        (get(1) as RecoveryCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenRecoveryCertificateDetails(
                                 rcContainerId,
@@ -131,7 +128,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(3) as TestCertificateCard.Item).apply {
+                        (get(2) as TestCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenTestCertificateDetails(
                                 tcsContainerId,
@@ -139,7 +136,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(4) as VaccinationCertificateCard.Item).apply {
+                        (get(3) as VaccinationCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
@@ -147,7 +144,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                             )
                         }
 
-                        (get(5) as VaccinationCertificateCard.Item).apply {
+                        (get(4) as VaccinationCertificateCard.Item).apply {
                             onClick()
                             events.getOrAwaitValue() shouldBe OpenVaccinationCertificateDetails(
                                 vcContainerId,
