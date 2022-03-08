@@ -183,28 +183,24 @@ class HomeFragmentViewModel @AssistedInject constructor(
         mutableListOf<HomeItem>().apply {
             when {
                 statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
-                    if (testPCR != null) {
-                        if (isOlderThanThreshold(
-                                coronaTestParameters
-                                    .coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard,
-                                testPCR.registeredAt
-                            ) || tracingItem is IncreasedRiskCard.Item
-                        ) {
-                            add(tracingItem)
-                        }
+                    if (testPCR != null && isOlderThanThreshold(
+                            coronaTestParameters
+                                .coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard,
+                            testPCR.registeredAt
+                        ) || tracingItem is IncreasedRiskCard.Item
+                    ) {
+                        add(tracingItem)
                         // Don't show risk card
                     }
                 }
                 stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
-                    if (testRAT != null) {
-                        if (isOlderThanThreshold(
-                                coronaTestParameters
-                                    .coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard,
-                                testRAT.testTakenAt
-                            ) || tracingItem is IncreasedRiskCard.Item
-                        ) {
-                            add(tracingItem)
-                        }
+                    if (testRAT != null && (isOlderThanThreshold(
+                            coronaTestParameters
+                                .coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard,
+                            testRAT.testTakenAt
+                        ) || tracingItem is IncreasedRiskCard.Item)
+                    ) {
+                        add(tracingItem)
                     }
                     // Don't show risk card
                 }
@@ -343,8 +339,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasTracingExplanationDialogShown = true
     }
 
-    private fun isOlderThanThreshold(hours: Duration, testTimestamp: Instant): Boolean =
-        Days.daysBetween(testTimestamp, Instant.now()).toStandardDuration().standardHours >= hours.standardHours
+    fun isOlderThanThreshold(
+        hours: Duration,
+        testTimestamp: Instant,
+        timeNow: Instant = Instant.now()
+    ): Boolean =
+        Days.daysBetween(testTimestamp, timeNow).toStandardDuration() >= hours
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState()) {
