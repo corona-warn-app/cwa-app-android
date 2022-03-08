@@ -44,11 +44,7 @@ class ExposureWindowRiskWorkScheduler @Inject constructor(
             onboardingSettings.isOnboardedFlow,
             enfClient.isTracingEnabled
         ) { isAutoMode, isOnboarded, isTracing ->
-            Timber.tag(TAG).d(
-                "isAutoMode=$isAutoMode, " +
-                    "isOnBoarded=$isOnboarded, " +
-                    "isTracing=$isTracing"
-            )
+            Timber.tag(TAG).d("isAutoMode=$isAutoMode, isOnBoarded=$isOnboarded, isTracing=$isTracing")
             isAutoMode && isOnboarded && isTracing
         }.onEach { runPeriodicWorker ->
             Timber.tag(TAG).v("runPeriodicWorker=$runPeriodicWorker")

@@ -37,10 +37,7 @@ class PresenceTracingRiskWorkScheduler @Inject constructor(
             backgroundModeStatus.isAutoModeEnabled,
             presenceTracingSettings.isOnboardingDoneFlow
         ) { isAutoMode, isPresenceTracingOnboarded ->
-            Timber.tag(TAG).d(
-                "isAutoMode=$isAutoMode, " +
-                    "isPresenceTracingOnboarded=$isPresenceTracingOnboarded"
-            )
+            Timber.tag(TAG).d("isAutoMode=$isAutoMode, isPresenceTracingOnboarded=$isPresenceTracingOnboarded")
             isAutoMode && isPresenceTracingOnboarded
         }.onEach { runPeriodicWorker ->
             Timber.tag(TAG).v("runPeriodicWorker=$runPeriodicWorker")
