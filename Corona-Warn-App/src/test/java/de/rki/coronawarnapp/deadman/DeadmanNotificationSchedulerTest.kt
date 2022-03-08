@@ -34,7 +34,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     @MockK lateinit var oneTimeWorkRequest: OneTimeWorkRequest
     @MockK lateinit var onboardingSettings: OnboardingSettings
     @MockK lateinit var enfClient: ENFClient
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setup() {
@@ -60,7 +59,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         } returns operation
 
         every { onboardingSettings.isOnboardedFlow } returns flowOf(true)
-        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
         every { enfClient.isTracingEnabled } returns flowOf(true)
     }
 
@@ -70,8 +68,7 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
         workManager = workManager,
         workBuilder = workBuilder,
         onboardingSettings = onboardingSettings,
-        enfClient = enfClient,
-        coronaTestRepository = coronaTestRepository
+        enfClient = enfClient
     )
 
     @Test
@@ -122,48 +119,6 @@ class DeadmanNotificationSchedulerTest : BaseTest() {
     @Test
     fun `scheduled work should be cancelled if onboarding wasn't yet done `() = runBlockingTest {
         every { onboardingSettings.isOnboardedFlow } returns flowOf(false)
-
-        createScheduler(this).apply { setup() }
-
-        verifyCancelScheduledWork(exactly = 1)
-        verifyPeriodicWorkScheduled(exactly = 0)
-    }
-
-    @Test
-    fun `work should be scheduled if no test is registered`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
-
-        createScheduler(this).apply { setup() }
-
-        verifyCancelScheduledWork(exactly = 0)
-        verifyPeriodicWorkScheduled(exactly = 1)
-    }
-
-    @Test
-    fun `work should be scheduled if only negative test is registered`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(
-            setOf(
-                mockk<CoronaTest>().apply {
-                    every { isPositive } returns false
-                }
-            )
-        )
-
-        createScheduler(this).apply { setup() }
-
-        verifyCancelScheduledWork(exactly = 0)
-        verifyPeriodicWorkScheduled(exactly = 1)
-    }
-
-    @Test
-    fun `scheduled work should be cancelled if positive test is registered`() = runBlockingTest {
-        every { coronaTestRepository.coronaTests } returns flowOf(
-            setOf(
-                mockk<CoronaTest>().apply {
-                    every { isPositive } returns true
-                }
-            )
-        )
 
         createScheduler(this).apply { setup() }
 
