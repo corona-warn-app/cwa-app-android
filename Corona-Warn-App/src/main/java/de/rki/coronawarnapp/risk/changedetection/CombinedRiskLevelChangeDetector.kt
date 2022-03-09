@@ -95,6 +95,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                         if (riskResult.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
                             Timber.d("LOW risk - Resetting lastHighRiskDate")
                             tracingSettings.lastHighRiskDate = null
+                            tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
                         } else {
                             Timber.d("LOW risk before HIGH risk - do nothing")
                         }
