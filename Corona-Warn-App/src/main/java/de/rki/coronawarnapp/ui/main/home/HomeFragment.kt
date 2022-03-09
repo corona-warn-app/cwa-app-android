@@ -248,7 +248,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
     private fun openPresenceTracingOrganizerGraph(event: HomeFragmentEvents.OpenTraceLocationOrganizerGraph) {
         if (event.qrInfoAcknowledged) {
-            findNestedGraph(R.id.trace_location_organizer_nav_graph).startDestination = R.id.traceLocationsFragment
+            findNestedGraph(R.id.trace_location_organizer_nav_graph).setStartDestination(R.id.traceLocationsFragment)
         }
         doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
     }
