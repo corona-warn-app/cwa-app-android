@@ -255,14 +255,7 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevels.calculateRisk(any(), any()) } returns null
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
-
-        coronaTests.value = setOf(
-            mockk<CoronaTest>().apply {
-                every { isSubmissionAllowed } returns true
-                every { isViewed } returns false
-            }
-        )
-
+        
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
             failureReason = null,
