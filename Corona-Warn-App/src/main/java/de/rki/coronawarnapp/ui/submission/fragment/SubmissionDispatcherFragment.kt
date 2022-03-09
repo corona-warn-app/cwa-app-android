@@ -53,9 +53,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
 
                 is SubmissionNavigationEvents.NavigateToCreateProfile -> {
                     val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
-                    ratGraph.startDestination = if (it.onboarded)
-                        R.id.ratProfileCreateFragment
-                    else R.id.ratProfileOnboardingFragment
+                    val startDestination =
+                        if (it.onboarded) R.id.ratProfileCreateFragment else R.id.ratProfileOnboardingFragment
+                    ratGraph.setStartDestination(startDestination)
 
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
@@ -63,7 +63,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     )
                 }
                 is SubmissionNavigationEvents.NavigateToOpenProfile -> {
-                    findNestedGraph(R.id.rapid_test_profile_nav_graph).startDestination = R.id.ratProfileQrCodeFragment
+                    findNestedGraph(R.id.rapid_test_profile_nav_graph).setStartDestination(
+                        R.id.ratProfileQrCodeFragment
+                    )
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
