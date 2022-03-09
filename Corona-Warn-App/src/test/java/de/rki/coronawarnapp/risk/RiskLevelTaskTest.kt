@@ -255,7 +255,7 @@ class RiskLevelTaskTest : BaseTest() {
         every { riskLevels.calculateRisk(any(), any()) } returns null
         every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
         every { timeStamper.nowUTC } returns now
-        
+
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = now,
             failureReason = null,
