@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.dccreissuance.core.server
 
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
+import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.validation.DccReissuanceServerCertificateValidator
@@ -61,7 +62,8 @@ class DccReissuanceServerTest : BaseTest() {
         ]
     """.trimIndent()
 
-    private val body: ResponseBody by lazy { testDccReissuanceListJson.toResponseBody() }
+    private val body: ResponseBody
+        get() = testDccReissuanceListJson.toResponseBody()
 
     private val instance: DccReissuanceServer
         get() = DccReissuanceServer(
@@ -153,6 +155,21 @@ class DccReissuanceServerTest : BaseTest() {
         shouldThrow<DccReissuanceException> {
             instance.requestDccReissuance()
         }.errorCode shouldBe DccReissuanceException.ErrorCode.DCC_RI_PARSE_ERR
+    }
+
+    @Test
+    fun `adds server error response`() = runBlockingTest {
+        val dccReissuanceErrorResponse = DccReissuanceErrorResponse(
+            error = "RI400-1200",
+            message = "certificates not acceptable for action"
+        )
+        val errorResponseJson = gson.toJson(dccReissuanceErrorResponse)
+        val errorResponse = Response.error<ResponseBody>(400, errorResponseJson.toResponseBody())
+        coEvery { dccReissuanceApi.requestReissuance(any()) } returns errorResponse
+
+        shouldThrow<DccReissuanceException> {
+            instance.requestDccReissuance()
+        }.serverErrorResponse shouldBe dccReissuanceErrorResponse
     }
 
     private suspend fun checkStatusToErrorCodeMapping(statusCode: Int, errorCode: DccReissuanceException.ErrorCode) {
