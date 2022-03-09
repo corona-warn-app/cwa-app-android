@@ -36,7 +36,6 @@ import io.mockk.mockkObject
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -190,47 +189,5 @@ class HomeFragmentViewModelTest : BaseTest() {
         coVerify {
             tracingSettings.showRiskLevelBadge
         }
-    }
-
-    @Test
-    fun `Test date respects threshold`() {
-        val instance = createInstance()
-        // 3 hours age
-        instance.isOlderThanDuration(
-            Duration.standardHours(1),
-            Instant.parse("2022-03-03T20:00:00.000Z"),
-            Instant.parse("2022-03-03T23:00:00.000Z")
-        ) shouldBe true
-
-        // 1 hour age
-        instance.isOlderThanDuration(
-            Duration.standardHours(1),
-            Instant.parse("2022-03-03T20:00:00.000Z"),
-            Instant.parse("2022-03-03T21:00:00.000Z")
-        ) shouldBe true
-
-        // 1/2 hour age
-        instance.isOlderThanDuration(
-            Duration.standardHours(1),
-            Instant.parse("2022-03-03T20:00:00.000Z"),
-            Instant.parse("2022-03-03T20:30:00.000Z")
-        ) shouldBe false
-
-        instance.isOlderThanDuration(
-            Duration.standardHours(168),
-            Instant.parse("2022-03-03T23:00:00.000Z"),
-            Instant.parse("2022-03-08T23:00:00.000Z")
-        ) shouldBe false
-        instance.isOlderThanDuration(
-            Duration.standardHours(168),
-            Instant.parse("2022-03-03T23:00:00.000Z"),
-            Instant.parse("2022-03-10T22:59:00.000Z")
-        ) shouldBe false
-
-        instance.isOlderThanDuration(
-            Duration.standardHours(168),
-            Instant.parse("2022-03-03T23:00:00.000Z"),
-            Instant.parse("2022-03-10T23:00:00.000Z")
-        ) shouldBe true
     }
 }

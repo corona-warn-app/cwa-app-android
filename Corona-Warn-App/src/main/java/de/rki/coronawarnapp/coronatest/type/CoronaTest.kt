@@ -1,8 +1,12 @@
 package de.rki.coronawarnapp.coronatest.type
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
+import org.joda.time.Duration
 import org.joda.time.Instant
 
 interface CoronaTest : Recyclable {
@@ -65,3 +69,18 @@ interface CoronaTest : Recyclable {
 
 typealias RegistrationToken = String
 typealias TestIdentifier = String
+
+/**
+ * Tells if a [CoronaTest] age is older than the duration defined by [CoronaTestConfig]
+ */
+fun CoronaTest.didPassConfigDuration(
+    coronaTestConfig: CoronaTestConfig,
+    now: Instant = Instant.now()
+): Boolean {
+    val (testTimestamp, thresholdDuration) = when (this) {
+        is PCRCoronaTest -> registeredAt to coronaTestConfig.pcrParameters.hoursToShowRiskCard
+        is RACoronaTest -> testTakenAt to coronaTestConfig.ratParameters.hoursToShowRiskCard
+        else -> error("Unsupported test type=$type")
+    }
+    return Duration(testTimestamp, now) >= thresholdDuration
+}

@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.coronatest.type.didPassConfigDuration
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
@@ -85,8 +86,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import org.joda.time.Duration
-import org.joda.time.Instant
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -179,28 +178,25 @@ class HomeFragmentViewModel @AssistedInject constructor(
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val pcrIdentifier = testPCR?.identifier ?: ""
         val ratIdentifier = testRAT?.identifier ?: ""
+
+        val positiveCoronaTests = listOfNotNull(testRAT, testPCR).filter { it.isPositive && it.isViewed }
+
         mutableListOf<HomeItem>().apply {
             when {
-                statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
-                    if (testPCR != null && isOlderThanDuration(
-                            duration = coronaTestParameters.pcrParameters.hoursToShowRiskCard,
-                            testTimestamp = testPCR.registeredAt,
-                            now = timeStamper.nowUTC
-                        ) || tracingItem is IncreasedRiskCard.Item
+                // High risk is always visible regardless of test result
+                tracingItem is IncreasedRiskCard.Item -> add(tracingItem)
+
+                // No high risk card -> check corona test age against config duration
+                positiveCoronaTests.isNotEmpty() -> {
+                    if (positiveCoronaTests.all {
+                        it.didPassConfigDuration(coronaTestParameters, timeStamper.nowUTC)
+                    }
                     ) {
                         add(tracingItem)
-                    } // else -> Don't show risk card
+                    } // else -> // Don't show risk card
                 }
-                stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
-                    if (testRAT != null && isOlderThanDuration(
-                            duration = coronaTestParameters.ratParameters.hoursToShowRiskCard,
-                            testTimestamp = testRAT.testTakenAt,
-                            now = timeStamper.nowUTC
-                        ) || tracingItem is IncreasedRiskCard.Item
-                    ) {
-                        add(tracingItem)
-                    } // else -> Don't show risk card
-                }
+
+                // Otherwise show risk card
                 else -> add(tracingItem)
             }
 
@@ -335,12 +331,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun tracingExplanationWasShown() {
         cwaSettings.wasTracingExplanationDialogShown = true
     }
-
-    internal fun isOlderThanDuration(
-        duration: Duration,
-        testTimestamp: Instant,
-        now: Instant = Instant.now()
-    ): Boolean = Duration(testTimestamp, now) >= duration
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState()) {
