@@ -5,6 +5,7 @@ import dagger.Lazy
 import dagger.Reusable
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException
 import de.rki.coronawarnapp.dccreissuance.core.error.DccReissuanceException.ErrorCode
+import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceRequestBody
 import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceResponse
 import de.rki.coronawarnapp.dccreissuance.core.server.validation.DccReissuanceServerCertificateValidator
@@ -61,16 +62,24 @@ class DccReissuanceServer @Inject constructor(
             return
         }
 
-        when (code()) {
-            400 -> ErrorCode.DCC_RI_400
-            401 -> ErrorCode.DCC_RI_401
-            403 -> ErrorCode.DCC_RI_403
-            406 -> ErrorCode.DCC_RI_406
-            429 -> ErrorCode.DCC_RI_429
-            500 -> ErrorCode.DCC_RI_500
-            in 400..499 -> ErrorCode.DCC_RI_CLIENT_ERR
-            else -> ErrorCode.DCC_RI_SERVER_ERR
-        }.also { throw DccReissuanceException(errorCode = it) }
+        val serverError = tryGetServerError()
+
+        throw when (code()) {
+            400 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_400, serverErrorResponse = serverError)
+            401 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_401, serverErrorResponse = serverError)
+            403 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_403, serverErrorResponse = serverError)
+            406 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_406, serverErrorResponse = serverError)
+            429 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_429, serverErrorResponse = serverError)
+            500 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_500, serverErrorResponse = serverError)
+            in 400..499 -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_CLIENT_ERR)
+            else -> DccReissuanceException(errorCode = ErrorCode.DCC_RI_SERVER_ERR)
+        }
+    }
+
+    private fun Response<ResponseBody>.tryGetServerError(): DccReissuanceErrorResponse? = try {
+        errorBody()?.charStream()?.use { gson.fromJson(it) }
+    } catch (e: Exception) {
+        null
     }
 
     private suspend fun Response<ResponseBody>.parseAndValidate(): DccReissuanceResponse {

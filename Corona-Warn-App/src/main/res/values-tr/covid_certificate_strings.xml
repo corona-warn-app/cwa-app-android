@@ -337,4 +337,9 @@
     <string name="ccl_admission_state_tile_subtitle">"Federal hükûmet düzenlemeleri"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Durum belirleniyor..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">"Sertifika Ataması"</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">"Sertifikaları gruplama özelliği iyileştirildi. Yalnızca ufak ad farklılıkları olan sertifikalar artık farklı kişilere atanmayacak."</string>
 </resources>

@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Ryzyko zakażenia"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Jeśli rejestrowanie narażenia jest aktywne, aplikacja oblicza Twoje osobiste ryzyko zakażenia poprzez pomiar czasu trwania i bliskości Twojego kontaktu z osobami, u których zdiagnozowano koronawirusa w ciągu ostatnich 14 dni."</string>
+    <string name="main_overview_body_risk">"Jeśli rejestrowanie narażenia jest aktywne, aplikacja oblicza Twoje osobiste ryzyko zakażenia poprzez pomiar czasu trwania i bliskości Twojego kontaktu z osobami, u których zdiagnozowano koronawirusa w ciągu ostatnich 14 dni. Rejestrowanie narażenia uwzględnia również Twoje zameldowania. Otrzymasz ostrzeżenie, jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie, co osoba, u której zdiagnozowano koronawirusa, lub do 30 minut po opuszczeniu pomieszczenia przez taką osobę."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Może wyświetlić się następujący status ryzyka:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -747,6 +747,8 @@
     <string name="information_contact_illustration_description">"Mężczyzna korzystający z zestawu słuchawkowego prowadzi rozmowę telefoniczną."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"Często zadawane pytania"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Deklaracja dostępności"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Często zadawane pytania. Zostaniesz przekierowany(-a) na zewnętrzną stronę internetową."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->

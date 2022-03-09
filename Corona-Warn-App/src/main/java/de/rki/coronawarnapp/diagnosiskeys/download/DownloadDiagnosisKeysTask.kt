@@ -100,7 +100,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             }
 
             val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
-            val totalFileSize = availableKeyFiles.fold(0L, { acc, file -> file.length() + acc })
+            val totalFileSize = availableKeyFiles.fold(0L) { acc, file -> file.length() + acc }
 
             internalProgress.value = Progress.KeyFilesDownloadFinished(availableKeyFiles.size, totalFileSize)
 
