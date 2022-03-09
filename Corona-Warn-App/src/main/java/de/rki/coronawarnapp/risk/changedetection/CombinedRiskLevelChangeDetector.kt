@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
@@ -53,7 +54,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
             }
             .filter { it.size == 2 }
             .onEach { results ->
-                Timber.v("Checking for combined risklevel change.")
+                Timber.v("Checking for low-to-high or high-to-low risklevel change.")
                 results.checkForRiskLevelChanges()
             }
             .catch { Timber.e(it, "RiskLevel checks failed.") }
@@ -63,31 +64,43 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
             .map { it.lastSuccessfullyCalculated }
             .filter { it.lastRiskEncounterAt != null }
-            .map {
-                when (it.riskState) {
+            .onEach { riskResult ->
+                Timber.d("Checking for additional high risk after an initial high risk")
+                Timber.d(
+                    "New Risk State: ${riskResult.riskState} " +
+                        "with lastRiskEncounterAt: ${riskResult.lastRiskEncounterAt}"
+                )
+                val lastHighRiskDate = tracingSettings.lastHighRiskDate
+                Timber.d("Last high risk date: ${lastHighRiskDate?.toDayFormat()}")
+                when (riskResult.riskState) {
                     RiskState.INCREASED_RISK -> {
-                        when (val lastHighRiskDate = tracingSettings.lastHighRiskDate) {
+                        when (lastHighRiskDate) {
                             null -> {
-                                // initial HIGH risk - no notification
-                                tracingSettings.lastHighRiskDate = it.lastRiskEncounterAt
+                                Timber.d("initial HIGH risk - no notification")
+                                tracingSettings.lastHighRiskDate = riskResult.lastRiskEncounterAt
                             }
                             else -> {
-                                if (it.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
-                                    // additional HIGH risk - trigger notification
+                                if (riskResult.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                                    Timber.d("additional HIGH risk - trigger notification")
                                     sendNotification()
                                     tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { true }
-                                    tracingSettings.lastHighRiskDate = it.lastRiskEncounterAt
+                                    tracingSettings.lastHighRiskDate = riskResult.lastRiskEncounterAt
                                 } else {
-                                    // HIGH risk is older than the stored one - do nothing
+                                    Timber.d("HIGH risk is older than the stored one - do nothing")
                                 }
                             }
                         }
                     }
                     RiskState.LOW_RISK -> {
-                        tracingSettings.lastHighRiskDate = null
+                        if (riskResult.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                            Timber.d("LOW risk - Resetting lastHighRiskDate")
+                            tracingSettings.lastHighRiskDate = null
+                        } else {
+                            Timber.d("LOW risk before HIGH risk - do nothing")
+                        }
                     }
                     RiskState.CALCULATION_FAILED -> {
-                        // can't happen, since we filter for successful results in the upstream
+                        // can't happen, since we only receive successful calculations
                     }
                 }
             }.catch { Timber.e(it, "RiskLevel checks failed.") }
