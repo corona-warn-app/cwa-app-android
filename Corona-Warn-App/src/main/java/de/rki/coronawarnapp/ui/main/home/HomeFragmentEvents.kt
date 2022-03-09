@@ -11,6 +11,8 @@ sealed class HomeFragmentEvents {
 
     object ShowErrorResetDialog : HomeFragmentEvents()
 
+    object ShowAdditionalHighRiskDialog : HomeFragmentEvents()
+
     object GoToStatisticsExplanation : HomeFragmentEvents()
 
     object GoToFederalStateSelection : HomeFragmentEvents()

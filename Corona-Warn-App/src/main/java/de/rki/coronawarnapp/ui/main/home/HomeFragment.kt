@@ -181,6 +181,22 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
+    private fun showAdditionalHighRiskLevelDialog() {
+        val additionalHighRiskLevelDialog = DialogHelper.DialogInstance(
+            context = requireActivity(),
+            title = R.string.additional_high_risk_dialog_headline,
+            message = R.string.additional_high_risk_dialog_body,
+            positiveButton = R.string.additional_high_risk_dialog_button_confirm,
+            negativeButton = null,
+            cancelable = false,
+            positiveButtonFunction = { viewModel.userHasAcklowledgedAdditionalHighRiskLevel() }
+        )
+
+        DialogHelper.showDialog(additionalHighRiskLevelDialog).apply {
+            getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
+        }
+    }
+
     private fun navigate(event: HomeFragmentEvents) {
         resetTransitions()
         when (event) {
@@ -243,6 +259,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
+            is HomeFragmentEvents.ShowAdditionalHighRiskDialog -> showAdditionalHighRiskLevelDialog()
         }
     }
 

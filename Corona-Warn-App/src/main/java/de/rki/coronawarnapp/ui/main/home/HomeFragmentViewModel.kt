@@ -64,6 +64,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
+import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowAdditionalHighRiskDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
@@ -300,6 +301,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun showPopUps() = launch {
         if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
         if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(ShowTracingExplanation)
+        if (tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.value) events.postValue(
+            ShowAdditionalHighRiskDialog
+        )
     }
 
     fun restoreAppShortcuts() {
@@ -311,6 +315,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
+    }
+
+    fun userHasAcklowledgedAdditionalHighRiskLevel() {
+        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {

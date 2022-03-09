@@ -97,6 +97,10 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { networkStateProvider.networkState } returns emptyFlow()
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+
+        every { errorResetTool.isResetNoticeToBeShown } returns false
+        every { cwaSettings.wasTracingExplanationDialogShown } returns true
+        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(false)
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -189,5 +193,21 @@ class HomeFragmentViewModelTest : BaseTest() {
         coVerify {
             tracingSettings.showRiskLevelBadge
         }
+    }
+
+    @Test
+    fun `additional high risk dialog should be shown when flag in tracingSettings is set`() {
+        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(true)
+        with(createInstance()) {
+            showPopUps()
+            events.getOrAwaitValue() shouldBe HomeFragmentEvents.ShowAdditionalHighRiskDialog
+        }
+    }
+
+    @Test
+    fun `flag in tracingSettings should be removed once the user dismisses the additional high risk dialog`() {
+        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(true)
+        createInstance().userHasAcklowledgedAdditionalHighRiskLevel()
+        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.value shouldBe false
     }
 }
