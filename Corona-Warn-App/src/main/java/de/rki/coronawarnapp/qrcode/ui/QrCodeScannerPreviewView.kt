@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.Surface
+import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
@@ -18,7 +19,6 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.window.WindowManager
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.tag
@@ -42,14 +42,12 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private var cameraProvider: ProcessCameraProvider? = null
     private var camera: Camera? = null
     private val cameraExecutor by lazy { Executors.newSingleThreadExecutor() }
-    private val windowManager: WindowManager
     private val qrCodeBoofCVParser by lazy { QrCodeBoofCVParser() }
     private var parseResultCallback: ParseResultCallback? = null
 
     init {
         inflate(context, R.layout.qr_code_scanner_preview_view, this)
         cameraPreview = findViewById(R.id.camera_preview)
-        windowManager = WindowManager(context)
         cameraPreview.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
     }
 
@@ -98,10 +96,10 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private fun bindUseCases(lifecycleOwner: LifecycleOwner) {
         Timber.tag(TAG).d("Binding camera use cases")
         // Get screen metrics used to setup camera for full screen resolution
-        val metrics = windowManager.getCurrentWindowMetrics().bounds
-        Timber.tag(TAG).d("Screen metrics: %d x %d", metrics.width(), metrics.height())
+        val metrics = context.resources.displayMetrics
+        Timber.tag(TAG).d("Screen metrics: %d x %d", metrics.widthPixels, metrics.heightPixels)
 
-        val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
+        val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
         Timber.tag(TAG).d("Preview aspect ratio: %d", screenAspectRatio)
 
         val rotation = cameraPreview.display?.rotation ?: Surface.ROTATION_0
@@ -175,13 +173,13 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     }
 
     private suspend fun autoFocus() {
-        val bounds = windowManager.getCurrentWindowMetrics().bounds
+        val metrics = context.resources.displayMetrics
         val focusPoint = SurfaceOrientedMeteringPointFactory(
-            bounds.width().toFloat(),
-            bounds.height().toFloat()
+            metrics.widthPixels.toFloat(),
+            metrics.heightPixels.toFloat()
         ).createPoint(
-            bounds.exactCenterX(),
-            bounds.exactCenterY()
+            metrics.widthPixels / 2f,
+            metrics.heightPixels / 2f
         )
 
         val focusAction = FocusMeteringAction.Builder(focusPoint, FocusMeteringAction.FLAG_AF).build()
