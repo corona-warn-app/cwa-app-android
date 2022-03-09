@@ -64,7 +64,6 @@ import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
-import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowAdditionalHighRiskDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowTracingExplanation
 import de.rki.coronawarnapp.ui.main.home.items.CreateTraceLocationCard
@@ -282,6 +281,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .asLiveData(context = dispatcherProvider.Default)
     }
 
+    val showAdditionalHighRiskLevelDialog: LiveData<Boolean> by lazy {
+        tracingSettings
+            .isUserToBeNotifiedOfAdditionalHighRiskLevel
+            .flow
+            .asLiveData(context = dispatcherProvider.Default)
+    }
+
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }
@@ -301,9 +307,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun showPopUps() = launch {
         if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
         if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(ShowTracingExplanation)
-        if (tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.value) events.postValue(
-            ShowAdditionalHighRiskDialog
-        )
     }
 
     fun restoreAppShortcuts() {
@@ -317,7 +320,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
     }
 
-    fun userHasAcklowledgedAdditionalHighRiskLevel() {
+    fun userHasAcknowledgedAdditionalHighRiskLevel() {
         tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
     }
 

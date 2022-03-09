@@ -86,7 +86,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                                     tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { true }
                                     tracingSettings.lastHighRiskDate = riskResult.lastRiskEncounterAt
                                 } else {
-                                    Timber.d("HIGH risk is older than the stored one - do nothing")
+                                    Timber.d("HIGH risk is not newer than the stored one - do nothing")
                                 }
                             }
                         }

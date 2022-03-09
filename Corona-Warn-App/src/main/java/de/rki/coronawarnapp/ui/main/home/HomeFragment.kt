@@ -86,6 +86,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showLoweredRiskLevelDialog.observe2(this) { if (it) showRiskLevelLoweredDialog() }
+        viewModel.showAdditionalHighRiskLevelDialog.observe2(this) { if (it) showAdditionalHighRiskLevelDialog() }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
@@ -189,7 +190,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             positiveButton = R.string.additional_high_risk_dialog_button_confirm,
             negativeButton = null,
             cancelable = false,
-            positiveButtonFunction = { viewModel.userHasAcklowledgedAdditionalHighRiskLevel() }
+            positiveButtonFunction = { viewModel.userHasAcknowledgedAdditionalHighRiskLevel() }
         )
 
         DialogHelper.showDialog(additionalHighRiskLevelDialog).apply {
@@ -259,7 +260,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
-            is HomeFragmentEvents.ShowAdditionalHighRiskDialog -> showAdditionalHighRiskLevelDialog()
         }
     }
 
