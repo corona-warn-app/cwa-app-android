@@ -16,21 +16,29 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Central Administration of Rules"</item>
+        <item>"Registration of Rapid PCR Tests"</item>
+        <item>"Certificate Assignment"</item>
+        <item>"Certificate Update"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"The rules for certificates (with regard to their validity, for example, or their prioritization when several certificates are available) and for determining your “G” status (vaccinated, recovered, tested) have been separated from the Corona-Warn-App. These rules are now stored centrally and can therefore be adjusted independently of app releases, which will make it possible to react to rule changes more quickly. After a change, the updated rules will be transferred to the app automatically. This central administration of rules does not change how you use the Corona-Warn-App."</item>
+        <item>"You can now register rapid PCR tests in the Corona-Warn-App and receive the result and your test certificate through the app."</item>
+        <item>"The assignment of certificates to people has been made more error-tolerant. Minor differences in the spelling of first and last names are ignored, so affected certificates can still be assigned to the same person."</item>
+        <item>"The EU specifications for vaccination certificates for booster vaccinations have changed. If your certificate no longer matches the current specifications, you can request a new one directly in the Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
         <item/>
     </string-array>
 
