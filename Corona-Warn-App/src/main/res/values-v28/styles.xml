@@ -16,17 +16,17 @@
         <item name="android:lineHeight">@dimen/line_height_normal</item>
     </style>
 
-    <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
+    <style name="body1" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:lineHeight">@dimen/line_height_large</item>
     </style>
 
-    <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
+    <style name="body2" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:lineHeight">@dimen/line_height_small</item>
     </style>
 
-    <style name="body2Medium" parent="@style/TextAppearance.MaterialComponents.Body2">
+    <style name="body2Medium" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
         <item name="android:lineHeight">@dimen/line_height_small</item>
     </style>
