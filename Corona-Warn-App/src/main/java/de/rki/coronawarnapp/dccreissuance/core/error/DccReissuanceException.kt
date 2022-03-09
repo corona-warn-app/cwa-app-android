@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.dccreissuance.core.error
 
 import android.content.Context
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.dccreissuance.core.server.data.DccReissuanceErrorResponse
 import de.rki.coronawarnapp.util.HasHumanReadableError
 import de.rki.coronawarnapp.util.HumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -9,8 +10,9 @@ import de.rki.coronawarnapp.util.ui.toResolvingString
 
 class DccReissuanceException(
     val errorCode: ErrorCode,
-    cause: Throwable? = null
-) : Exception(errorCode.message, cause), HasHumanReadableError {
+    cause: Throwable? = null,
+    val serverErrorResponse: DccReissuanceErrorResponse? = null
+) : Exception(combine(errorCode.message, serverErrorResponse), cause), HasHumanReadableError {
 
     enum class TextKey {
         CONTACT_SUPPORT,
@@ -78,9 +80,22 @@ class DccReissuanceException(
             TextKey.REISSUANCE_NOT_SUPPORTED -> R.string.dcc_reissuance_error_handling_text_key_reissuance_not_supported
         }.toResolvingString()
 
-    override fun toHumanReadableError(context: Context): HumanReadableError = HumanReadableError(
-        description = "${errorMessage.get(context)} ($errorCode)"
-    )
+    override fun toHumanReadableError(context: Context): HumanReadableError {
+        var errorCodeMsg = errorCode.name
+
+        if (serverErrorResponse != null) {
+            errorCodeMsg += " & ${serverErrorResponse.error}"
+        }
+
+        return HumanReadableError(
+            description = "${errorMessage.get(context)} ($errorCodeMsg)"
+        )
+    }
 }
 
 private fun statusCodeMsg(code: Int) = "DCC Reissuance request failed with status code $code"
+
+private fun combine(message: String, serverErrorResponse: DccReissuanceErrorResponse?): String = when {
+    serverErrorResponse != null -> "$message - $serverErrorResponse"
+    else -> message
+}
