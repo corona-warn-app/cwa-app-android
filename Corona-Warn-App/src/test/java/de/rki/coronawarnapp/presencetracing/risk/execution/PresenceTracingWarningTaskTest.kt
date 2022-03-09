@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
-import de.rki.coronawarnapp.presencetracing.risk.RelevantCheckInsFilter
+import de.rki.coronawarnapp.presencetracing.risk.CheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createCheckIn
@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldNotBe
@@ -37,6 +38,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -53,9 +55,10 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var autoCheckOut: AutoCheckOut
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var relevantCheckInsFilter: RelevantCheckInsFilter
+    @MockK lateinit var checkInsFilter: CheckInsFilter
     @MockK lateinit var presenceTracingConfig: PresenceTracingConfig
     @MockK lateinit var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
         setOf(
@@ -64,13 +67,16 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     )
 
     private val mode = TraceWarningApi.Mode.UNENCRYPTED
+    private val now = Instant.parse("2021-03-05T10:15+01:00")
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        coEvery { relevantCheckInsFilter.filterCheckIns(emptyList()) } returns emptyList()
-        coEvery { relevantCheckInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2)) } returns
+        every { timeStamper.nowUTC } returns now
+
+        coEvery { checkInsFilter.filterCheckIns(emptyList(), now) } returns emptyList()
+        coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2), now) } returns
             listOf(CHECKIN_1, CHECKIN_2)
 
         every { coronaTestRepository.coronaTests } returns coronaTests
@@ -125,7 +131,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
         appConfigProvider = appConfigProvider,
-        relevantCheckInsFilter = relevantCheckInsFilter,
+        checkInsFilter = checkInsFilter,
+        timeStamper = timeStamper
     )
 
     @Test
@@ -177,7 +184,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `filter respects max checkIn age`() = runBlockingTest {
-        coEvery { relevantCheckInsFilter.filterCheckIns(any()) } returns listOf(CHECKIN_1)
+        coEvery { checkInsFilter.filterCheckIns(any(), now) } returns listOf(CHECKIN_1)
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {

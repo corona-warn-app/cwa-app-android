@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -101,7 +102,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = calculatedAt,
-        riskState = riskState
+        riskState = riskState,
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(

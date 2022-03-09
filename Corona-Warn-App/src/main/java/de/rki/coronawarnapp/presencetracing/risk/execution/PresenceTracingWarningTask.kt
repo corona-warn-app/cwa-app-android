@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
-import de.rki.coronawarnapp.presencetracing.risk.RelevantCheckInsFilter
+import de.rki.coronawarnapp.presencetracing.risk.CheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
+import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -37,7 +38,8 @@ class PresenceTracingWarningTask @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
     private val autoCheckOut: AutoCheckOut,
     private val appConfigProvider: AppConfigProvider,
-    private val relevantCheckInsFilter: RelevantCheckInsFilter
+    private val checkInsFilter: CheckInsFilter,
+    private val timeStamper: TimeStamper,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress =
@@ -101,7 +103,7 @@ class PresenceTracingWarningTask @Inject constructor(
         presenceTracingRiskRepository.deleteStaleData()
 
         val checkInsRetention = checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
-        val checkIns = relevantCheckInsFilter.filterCheckIns(checkInsRetention)
+        val checkIns = checkInsFilter.filterCheckIns(checkInsRetention, timeStamper.nowUTC)
 
         Timber.tag(TAG).d("There are %d check-ins to match against.", checkIns.size)
 

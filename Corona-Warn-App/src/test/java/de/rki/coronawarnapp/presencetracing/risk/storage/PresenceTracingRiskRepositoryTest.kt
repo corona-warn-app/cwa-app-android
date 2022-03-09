@@ -1,11 +1,12 @@
 package de.rki.coronawarnapp.presencetracing.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.risk.RelevantCheckInsFilter
+import de.rki.coronawarnapp.presencetracing.risk.CheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInNormalizedTime
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInRiskPerDay
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -36,11 +37,12 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     @MockK lateinit var traceTimeIntervalMatchDao: TraceTimeIntervalMatchDao
     @MockK lateinit var riskLevelResultDao: PresenceTracingRiskLevelResultDao
     @MockK lateinit var database: PresenceTracingRiskDatabase
-    @MockK lateinit var relevantCheckInsFilter: RelevantCheckInsFilter
+    @MockK lateinit var checkInsFilter: CheckInsFilter
     val dispatcherProvider = TestDispatcherProvider()
 
-    private val now = Instant.ofEpochMilli(9999999)
+    private val now = Instant.parse("2022-02-02T11:59:59Z")
     private val fifteenDaysAgo = now.minus(Days.days(15).toStandardDuration())
+    private val maxCheckInAgeInDays = 10
 
     @BeforeEach
     fun setup() {
@@ -63,7 +65,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         coEvery { presenceTracingRiskCalculator.calculateNormalizedTime(any()) } returns listOf()
         coEvery { presenceTracingRiskCalculator.calculateTotalRisk(any()) } returns RiskState.LOW_RISK
 
-        coEvery { relevantCheckInsFilter.filterCheckInWarnings(any()) } returns emptyList()
+        coEvery { checkInsFilter.filterCheckInWarningsByAge(any(), any()) } returns emptyList()
+        coEvery { riskLevelResultDao.allEntries() } returns flowOf(emptyList())
     }
 
     @Test
@@ -101,7 +104,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
             endTimeMillis = now.minus(80000).millis
         )
         every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
-        coEvery { relevantCheckInsFilter.filterCheckInWarnings(any()) } returns
+        coEvery { checkInsFilter.filterCheckInWarningsByAge(any(), any()) } returns
             listOf(entity.toCheckInWarningOverlap())
         val time = CheckInNormalizedTime(
             checkInId = 2L,
@@ -141,47 +144,6 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `latestEntries works`() {
-        val resultEntity = PresenceTracingRiskLevelResultEntity(
-            calculatedAtMillis = now.minus(100000).millis,
-            riskState = RiskState.LOW_RISK
-        )
-        val resultEntity2 = PresenceTracingRiskLevelResultEntity(
-            calculatedAtMillis = now.minus(10000).millis,
-            riskState = RiskState.LOW_RISK
-        )
-        coEvery { riskLevelResultDao.latestEntries(2) } returns flowOf(listOf(resultEntity, resultEntity2))
-        val matchEntity = TraceTimeIntervalMatchEntity(
-            checkInId = 1L,
-            traceWarningPackageId = "traceWarningPackageId",
-            transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).millis,
-            endTimeMillis = now.millis
-        )
-        val matchEntity2 = TraceTimeIntervalMatchEntity(
-            checkInId = 2L,
-            traceWarningPackageId = "traceWarningPackageId",
-            transmissionRiskLevel = 1,
-            startTimeMillis = now.minus(100000).millis,
-            endTimeMillis = now.minus(80000).millis
-        )
-        every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(matchEntity, matchEntity2))
-        val dayRisk = PresenceTracingDayRisk(
-            localDateUtc = now.minus(100000).toLocalDateUtc(),
-            riskState = RiskState.LOW_RISK
-        )
-        coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf(dayRisk)
-        runBlockingTest {
-            val latest = createInstance().latestEntries(2).first()
-            latest.size shouldBe 2
-            latest[0].calculatedAt shouldBe now.minus(10000)
-            latest[0].checkInOverlapCount shouldBe 2
-            latest[1].calculatedAt shouldBe now.minus(100000)
-            latest[1].checkInOverlapCount shouldBe 0
-        }
-    }
-
-    @Test
     fun `deleteStaleData works`() {
         runBlockingTest {
             createInstance().deleteStaleData()
@@ -202,6 +164,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
     @Test
     fun `report successful calculation works`() {
+        val deadline = now.minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
+        coEvery { checkInsFilter.getDeadline(any()) } returns deadline
         val traceWarningPackageId = "traceWarningPackageId"
         val overlap = CheckInWarningOverlap(
             checkInId = 1L,
@@ -213,7 +177,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
         val result = PresenceTracingRiskLevelResultEntity(
             calculatedAtMillis = now.millis,
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFromMillis = deadline.millis
         )
         runBlockingTest {
             createInstance().reportCalculation(
@@ -231,6 +196,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
     @Test
     fun `report failed calculation works`() {
+        val deadline = now.minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
+        coEvery { checkInsFilter.getDeadline(any()) } returns deadline
         val traceWarningPackageId = "traceWarningPackageId"
         val overlap = CheckInWarningOverlap(
             checkInId = 1L,
@@ -242,7 +209,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
         val result = PresenceTracingRiskLevelResultEntity(
             calculatedAtMillis = now.millis,
-            riskState = RiskState.CALCULATION_FAILED
+            riskState = RiskState.CALCULATION_FAILED,
+            calculatedFromMillis = deadline.millis
         )
         runBlockingTest {
             createInstance().reportCalculation(
@@ -262,7 +230,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         presenceTracingRiskCalculator,
         databaseFactory,
         timeStamper,
-        relevantCheckInsFilter,
+        checkInsFilter,
         TestCoroutineScope(),
         dispatcherProvider
     )

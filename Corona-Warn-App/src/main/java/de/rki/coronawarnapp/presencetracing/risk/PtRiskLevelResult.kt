@@ -12,6 +12,7 @@ import org.joda.time.LocalDate
  */
 data class PtRiskLevelResult(
     val calculatedAt: Instant,
+    val calculatedFrom: Instant,
     val riskState: RiskState,
     private val presenceTracingDayRisk: List<PresenceTracingDayRisk>? = null,
     private val checkInWarningOverlaps: List<CheckInWarningOverlap>? = null,

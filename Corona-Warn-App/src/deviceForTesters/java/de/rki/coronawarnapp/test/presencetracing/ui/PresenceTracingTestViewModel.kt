@@ -80,7 +80,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
 
         val warningPackages = traceWarningRepository.allMetaData.first()
         val overlaps = presenceTracingRiskRepository.allOverlaps.first()
-        val lastResult = presenceTracingRiskRepository.latestEntries(1).first().singleOrNull()
+        val lastResult = presenceTracingRiskRepository.allEntries().first().singleOrNull()
 
         val infoText = when {
             !lastResult!!.wasSuccessfullyCalculated -> "Last calculation failed"

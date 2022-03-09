@@ -1,22 +1,12 @@
 package de.rki.coronawarnapp.presencetracing.risk.storage
 
-import androidx.room.ColumnInfo
-import androidx.room.Dao
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.PrimaryKey
-import androidx.room.Query
-import androidx.room.TypeConverter
+import de.rki.coronawarnapp.presencetracing.risk.CheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
-import de.rki.coronawarnapp.presencetracing.risk.RelevantCheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInNormalizedTime
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
-import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -39,7 +29,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
     private val timeStamper: TimeStamper,
-    private val relevantCheckInsFilter: RelevantCheckInsFilter,
+    private val checkInsFilter: CheckInsFilter,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider,
 ) {
@@ -60,26 +50,35 @@ class PresenceTracingRiskRepository @Inject constructor(
         entities.map { it.toCheckInWarningOverlap() }
     }
 
-    private val normalizedTime: HotDataFlow<List<CheckInNormalizedTime>> = HotDataFlow(
+    private val relevantNormalizedTime: HotDataFlow<List<CheckInNormalizedTime>> = HotDataFlow(
         loggingTag = "PresenceTracingRiskRepository",
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.Lazily,
     ) {
-        calculateNormalizedTime(allOverlaps.first())
+        val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
+            allOverlaps.first(),
+            lastSuccessfulRiskResult.first()?.calculatedFrom ?: Instant.EPOCH
+        )
+        calculateNormalizedTime(relevantWarnings)
     }
 
     private suspend fun calculateNormalizedTime(list: List<CheckInWarningOverlap>): List<CheckInNormalizedTime> {
-        val relevantWarnings = relevantCheckInsFilter.filterCheckInWarnings(list)
-        return presenceTracingRiskCalculator.calculateNormalizedTime(relevantWarnings)
+        return presenceTracingRiskCalculator.calculateNormalizedTime(list)
+    }
+
+    val lastSuccessfulRiskResult: Flow<PtRiskLevelResult?> = riskLevelResultDao.allEntries().map { list ->
+        list.filter {
+            it.riskState.isSuccessfulCalculation()
+        }.sortAndComplementLatestResult().firstOrNull()
     }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
-        normalizedTime.data.map {
+        relevantNormalizedTime.data.map {
             presenceTracingRiskCalculator.calculateCheckInRiskPerDay(it)
         }
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
-        normalizedTime.data.map {
+        relevantNormalizedTime.data.map {
             presenceTracingRiskCalculator.calculateDayRisk(it)
         }
 
@@ -92,7 +91,7 @@ class PresenceTracingRiskRepository @Inject constructor(
     ) {
         Timber.v("reportCalculation(successful=%b, overlaps=%s)", successful, overlaps)
 
-        val nowUTC = timeStamper.nowUTC
+        val nowUtc = timeStamper.nowUTC
 
         // delete stale matches from new packages, old matches are superseeded
         overlaps.map { it.traceWarningPackageId }.forEach {
@@ -103,15 +102,29 @@ class PresenceTracingRiskRepository @Inject constructor(
             traceTimeIntervalMatchDao.insert(overlaps.map { it.toTraceTimeIntervalMatchEntity() })
         }
 
+        val deadline = checkInsFilter.getDeadline(nowUtc)
+
         val result = if (successful) {
-            val newNormalizedTime = calculateNormalizedTime(allOverlaps.first())
-            val risk = presenceTracingRiskCalculator.calculateTotalRisk(newNormalizedTime)
-            normalizedTime.updateBlocking {
-                newNormalizedTime
+            val filteredOverlaps = checkInsFilter.filterCheckInWarningsByAge(
+                allOverlaps.first(),
+                deadline
+            )
+            val normalizedTime = calculateNormalizedTime(
+                filteredOverlaps
+            )
+            val risk = presenceTracingRiskCalculator.calculateTotalRisk(normalizedTime)
+            relevantNormalizedTime.updateBlocking {
+                normalizedTime
             }
-            PtRiskLevelResult(nowUTC, risk)
+            PtRiskLevelResult(
+                calculatedAt = nowUtc,
+                calculatedFrom = deadline,
+                riskState = risk)
         } else {
-            PtRiskLevelResult(nowUTC, RiskState.CALCULATION_FAILED)
+            PtRiskLevelResult(
+                calculatedAt = nowUtc,
+                calculatedFrom = deadline,
+                riskState = RiskState.CALCULATION_FAILED)
         }
         addResult(result)
     }
@@ -127,12 +140,15 @@ class PresenceTracingRiskRepository @Inject constructor(
         traceTimeIntervalMatchDao.deleteAll()
     }
 
-    fun latestEntries(limit: Int) = riskLevelResultDao.latestEntries(limit).map { list ->
-        list.sortAndComplementLatestResult()
-    }
-
     fun allEntries() = riskLevelResultDao.allEntries().map { list ->
-        list.sortAndComplementLatestResult()
+        list.sortedByDescending {
+            it.calculatedAtMillis
+        }.map {
+            it.toRiskLevelResult(
+                presenceTracingDayRisks = null,
+                checkInWarningOverlaps = null,
+            )
+        }
     }
 
     private suspend fun List<PresenceTracingRiskLevelResultEntity>.sortAndComplementLatestResult() =
@@ -144,7 +160,10 @@ class PresenceTracingRiskRepository @Inject constructor(
                     // add risk per day to the latest result
                     entity.toRiskLevelResult(
                         presenceTracingDayRisks = presenceTracingDayRisk.first(),
-                        checkInWarningOverlaps = allOverlaps.first(),
+                        checkInWarningOverlaps = checkInsFilter.filterCheckInWarningsByAge(
+                            allOverlaps.first(),
+                            Instant.ofEpochMilli(entity.calculatedAtMillis)
+                        ),
                     )
                 } else {
                     entity.toRiskLevelResult(
@@ -171,128 +190,5 @@ class PresenceTracingRiskRepository @Inject constructor(
     suspend fun clearResults() {
         Timber.i("Deleting all results.")
         riskLevelResultDao.deleteAll()
-    }
-}
-
-/*
-* Stores matches from the last successful execution
-* */
-@Dao
-interface TraceTimeIntervalMatchDao {
-
-    @Query("SELECT * FROM TraceTimeIntervalMatchEntity")
-    fun allMatches(): Flow<List<TraceTimeIntervalMatchEntity>>
-
-    @Query("DELETE FROM TraceTimeIntervalMatchEntity")
-    suspend fun deleteAll()
-
-    @Query("DELETE FROM TraceTimeIntervalMatchEntity WHERE endTimeMillis < :endTimeMillis")
-    suspend fun deleteOlderThan(endTimeMillis: Long)
-
-    @Query("DELETE FROM TraceTimeIntervalMatchEntity WHERE traceWarningPackageId = :warningPackageId")
-    suspend fun deleteMatchesForPackage(warningPackageId: String)
-
-    @Insert
-    suspend fun insert(entities: List<TraceTimeIntervalMatchEntity>)
-}
-
-@Entity
-data class TraceTimeIntervalMatchEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long? = null,
-    @ForeignKey(
-        entity = TraceLocationCheckInEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["checkInId"],
-        onDelete = ForeignKey.CASCADE
-    )
-    @ColumnInfo(name = "checkInId") val checkInId: Long,
-    @ColumnInfo(name = "traceWarningPackageId") val traceWarningPackageId: String,
-    @ColumnInfo(name = "transmissionRiskLevel") val transmissionRiskLevel: Int,
-    @ColumnInfo(name = "startTimeMillis") val startTimeMillis: Long,
-    @ColumnInfo(name = "endTimeMillis") val endTimeMillis: Long
-)
-
-internal fun CheckInWarningOverlap.toTraceTimeIntervalMatchEntity() = TraceTimeIntervalMatchEntity(
-    checkInId = checkInId,
-    traceWarningPackageId = traceWarningPackageId,
-    transmissionRiskLevel = transmissionRiskLevel,
-    startTimeMillis = startTime.millis,
-    endTimeMillis = endTime.millis
-)
-
-internal fun TraceTimeIntervalMatchEntity.toCheckInWarningOverlap() = CheckInWarningOverlap(
-    checkInId = checkInId,
-    traceWarningPackageId = traceWarningPackageId,
-    transmissionRiskLevel = transmissionRiskLevel,
-    startTime = Instant.ofEpochMilli(startTimeMillis),
-    endTime = Instant.ofEpochMilli(endTimeMillis)
-)
-
-@Suppress("MaxLineLength")
-@Dao
-interface PresenceTracingRiskLevelResultDao {
-
-    @Query("SELECT * FROM PresenceTracingRiskLevelResultEntity ORDER BY calculatedAtMillis DESC LIMIT :limit")
-    fun latestEntries(limit: Int): Flow<List<PresenceTracingRiskLevelResultEntity>>
-
-    @Query("SELECT * FROM PresenceTracingRiskLevelResultEntity")
-    fun allEntries(): Flow<List<PresenceTracingRiskLevelResultEntity>>
-
-    @Insert(onConflict = REPLACE)
-    fun insert(entity: PresenceTracingRiskLevelResultEntity)
-
-    @Query("DELETE FROM PresenceTracingRiskLevelResultEntity WHERE calculatedAtMillis < :calculatedAtMillis")
-    suspend fun deleteOlderThan(calculatedAtMillis: Long)
-
-    @Query("DELETE FROM PresenceTracingRiskLevelResultEntity")
-    suspend fun deleteAll()
-}
-
-@Entity
-data class PresenceTracingRiskLevelResultEntity(
-    @PrimaryKey @ColumnInfo(name = "calculatedAtMillis") val calculatedAtMillis: Long,
-    @ColumnInfo(name = "riskStateCode") val riskState: RiskState
-)
-
-private fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
-    presenceTracingDayRisks: List<PresenceTracingDayRisk>?,
-    checkInWarningOverlaps: List<CheckInWarningOverlap>?
-) = PtRiskLevelResult(
-    calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
-    riskState = riskState,
-    presenceTracingDayRisk = presenceTracingDayRisks,
-    checkInWarningOverlaps = checkInWarningOverlaps,
-)
-
-private fun PtRiskLevelResult.toRiskLevelEntity() = PresenceTracingRiskLevelResultEntity(
-    calculatedAtMillis = calculatedAt.millis,
-    riskState = riskState
-)
-
-class RiskStateConverter {
-    @TypeConverter
-    fun toRiskStateCode(value: Int?): RiskState? = value?.toRiskState()
-
-    @TypeConverter
-    fun fromRiskStateCode(code: RiskState?): Int? = code?.toCode()
-
-    private fun RiskState.toCode() = when (this) {
-        RiskState.CALCULATION_FAILED -> CALCULATION_FAILED
-        RiskState.LOW_RISK -> LOW_RISK
-        RiskState.INCREASED_RISK -> INCREASED_RISK
-    }
-
-    private fun Int.toRiskState() = when (this) {
-        CALCULATION_FAILED -> RiskState.CALCULATION_FAILED
-        LOW_RISK -> RiskState.LOW_RISK
-        INCREASED_RISK -> RiskState.INCREASED_RISK
-        else -> null
-    }
-
-    companion object {
-        private const val CALCULATION_FAILED = 0
-        private const val LOW_RISK = 1
-        private const val INCREASED_RISK = 2
-        private const val TAG = "PresenceTracingRiskRepository"
     }
 }

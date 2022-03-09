@@ -92,7 +92,6 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         every { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         every { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
         every { presenceTracingRiskRepository.allEntries() } returns emptyFlow()
-        every { presenceTracingRiskRepository.latestEntries(any()) } returns emptyFlow()
     }
 
     private fun createInstance(

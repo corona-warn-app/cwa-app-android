@@ -31,7 +31,8 @@ class RiskCombinator @Inject constructor(
 
     private val initialPTRiskLevelResult: PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = Instant.EPOCH,
-        riskState = RiskState.LOW_RISK
+        riskState = RiskState.LOW_RISK,
+        calculatedFrom = Instant.EPOCH
     )
 
     internal val initialCombinedResult = CombinedEwPtRiskLevelResult(
@@ -50,10 +51,14 @@ class RiskCombinator @Inject constructor(
         }
 
     private val ptCurrentLowRiskLevelResult: PtRiskLevelResult
-        get() = PtRiskLevelResult(
-            calculatedAt = timeStamper.nowUTC,
-            riskState = RiskState.LOW_RISK
-        )
+        get() {
+            val now = timeStamper.nowUTC
+            return PtRiskLevelResult(
+                calculatedAt = now,
+                riskState = RiskState.LOW_RISK,
+                calculatedFrom = now
+            )
+        }
 
     internal val latestCombinedResult: CombinedEwPtRiskLevelResult
         get() = CombinedEwPtRiskLevelResult(
