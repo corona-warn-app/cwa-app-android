@@ -89,7 +89,7 @@ data class RACoronaTest(
         get() = CoronaTest.Type.RAPID_ANTIGEN
 
     private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
-        testTakenAt.plus(testConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+        testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
     fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
         isRecycled -> State.RECYCLED

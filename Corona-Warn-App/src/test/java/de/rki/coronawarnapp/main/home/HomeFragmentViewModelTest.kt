@@ -194,18 +194,40 @@ class HomeFragmentViewModelTest : BaseTest() {
 
     @Test
     fun `Test date respects threshold`() {
-        createInstance().isOlderThanThreshold(
+        val instance = createInstance()
+        // 3 hours age
+        instance.isOlderThanDuration(
+            Duration.standardHours(1),
+            Instant.parse("2022-03-03T20:00:00.000Z"),
+            Instant.parse("2022-03-03T23:00:00.000Z")
+        ) shouldBe true
+
+        // 1 hour age
+        instance.isOlderThanDuration(
+            Duration.standardHours(1),
+            Instant.parse("2022-03-03T20:00:00.000Z"),
+            Instant.parse("2022-03-03T21:00:00.000Z")
+        ) shouldBe true
+
+        // 1/2 hour age
+        instance.isOlderThanDuration(
+            Duration.standardHours(1),
+            Instant.parse("2022-03-03T20:00:00.000Z"),
+            Instant.parse("2022-03-03T20:30:00.000Z")
+        ) shouldBe false
+
+        instance.isOlderThanDuration(
             Duration.standardHours(168),
             Instant.parse("2022-03-03T23:00:00.000Z"),
             Instant.parse("2022-03-08T23:00:00.000Z")
         ) shouldBe false
-        createInstance().isOlderThanThreshold(
+        instance.isOlderThanDuration(
             Duration.standardHours(168),
             Instant.parse("2022-03-03T23:00:00.000Z"),
             Instant.parse("2022-03-10T22:59:00.000Z")
         ) shouldBe false
 
-        createInstance().isOlderThanThreshold(
+        instance.isOlderThanDuration(
             Duration.standardHours(168),
             Instant.parse("2022-03-03T23:00:00.000Z"),
             Instant.parse("2022-03-10T23:00:00.000Z")

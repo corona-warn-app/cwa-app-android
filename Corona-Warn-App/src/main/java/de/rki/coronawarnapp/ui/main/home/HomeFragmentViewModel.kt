@@ -85,7 +85,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import org.joda.time.Days
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -183,26 +182,24 @@ class HomeFragmentViewModel @AssistedInject constructor(
         mutableListOf<HomeItem>().apply {
             when {
                 statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
-                    if (testPCR != null && isOlderThanThreshold(
-                            coronaTestParameters
-                                .coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard,
-                            testPCR.registeredAt
+                    if (testPCR != null && isOlderThanDuration(
+                            duration = coronaTestParameters.pcrParameters.hoursToShowRiskCard,
+                            testTimestamp = testPCR.registeredAt,
+                            now = timeStamper.nowUTC
                         ) || tracingItem is IncreasedRiskCard.Item
                     ) {
                         add(tracingItem)
-                        // Don't show risk card
-                    }
+                    } // else -> Don't show risk card
                 }
                 stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
-                    if (testRAT != null && isOlderThanThreshold(
-                            coronaTestParameters
-                                .coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard,
-                            testRAT.testTakenAt
+                    if (testRAT != null && isOlderThanDuration(
+                            duration = coronaTestParameters.ratParameters.hoursToShowRiskCard,
+                            testTimestamp = testRAT.testTakenAt,
+                            now = timeStamper.nowUTC
                         ) || tracingItem is IncreasedRiskCard.Item
                     ) {
                         add(tracingItem)
-                    }
-                    // Don't show risk card
+                    } // else -> Don't show risk card
                 }
                 else -> add(tracingItem)
             }
@@ -339,12 +336,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
         cwaSettings.wasTracingExplanationDialogShown = true
     }
 
-    fun isOlderThanThreshold(
-        hours: Duration,
+    internal fun isOlderThanDuration(
+        duration: Duration,
         testTimestamp: Instant,
-        timeNow: Instant = Instant.now()
-    ): Boolean =
-        Days.daysBetween(testTimestamp, timeNow).toStandardDuration() >= hours
+        now: Instant = Instant.now()
+    ): Boolean = Duration(testTimestamp, now) >= duration
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
         when (val state = this.toSubmissionState()) {
