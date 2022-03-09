@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Риск от заразяване"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните 14 дни."</string>
+    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните 14 дни. Данните за излагане вземат предвид и вашите регистрации. Ще бъдете предупредени, ако сте били в едно помещение по едно и също време с лице, което е било диагностицирано с коронавирус, или до 30 минути след това."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Възможни са следните нива на риск:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -747,6 +747,8 @@
     <string name="information_contact_illustration_description">"Мъж със слушалки провежда телефонен разговор."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"ЧЗВ"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Декларация за достъпност"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Често задавани въпроси. Ще Ви пренасочим към външен уебсайт."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
