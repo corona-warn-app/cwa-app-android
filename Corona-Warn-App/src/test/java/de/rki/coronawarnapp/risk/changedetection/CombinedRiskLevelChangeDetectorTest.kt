@@ -210,7 +210,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
-            *riskSequence.map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }.toTypedArray()
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
         )
 
         runBlockingTest {
@@ -234,7 +237,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
-            *riskSequence.map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }.toTypedArray()
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
         )
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.parse("2022-01-03")
@@ -262,7 +268,10 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
-            *riskSequence.map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }.toTypedArray()
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
         )
 
         runBlockingTest {
@@ -296,7 +305,9 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
         every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
-            *riskSequence.map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }.reversed()
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
                 .toTypedArray()
         )
 
