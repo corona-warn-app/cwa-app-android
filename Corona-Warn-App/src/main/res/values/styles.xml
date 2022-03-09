@@ -10,7 +10,6 @@
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
-        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
         <item name="materialCalendarTheme">@style/DatePickerTheme</item>
         <item name="materialTimePickerTheme">@style/TimePickerTheme</item>
@@ -152,17 +151,7 @@
         <item name="android:backgroundTint">@color/button_back</item>
     </style>
 
-    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
-        <item name="colorSecondary">@color/colorPrimary</item>
-        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
         <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
-    </style>
-
-    <style name="ExtendedFloatingActionButton" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
-        <item name="materialThemeOverlay">
-            @style/ThemeOverlay.App.ExtendedFloatingActionButton
-        </item>
-    </style>
 
     <!-- ####################################
                   Row
