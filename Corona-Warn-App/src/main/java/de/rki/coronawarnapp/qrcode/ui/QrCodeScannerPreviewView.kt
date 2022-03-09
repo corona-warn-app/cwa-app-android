@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.Surface
-import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.Camera
