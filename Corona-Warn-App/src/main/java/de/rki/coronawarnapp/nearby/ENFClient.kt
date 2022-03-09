@@ -3,7 +3,6 @@
 package de.rki.coronawarnapp.nearby
 
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
-import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
@@ -24,7 +23,6 @@ import javax.inject.Singleton
 
 @Singleton
 class ENFClient @Inject constructor(
-    private val googleENFClient: ExposureNotificationClient,
     private val diagnosisKeyProvider: DiagnosisKeyProvider,
     private val tracingStatus: TracingStatus,
     private val scanningSupport: ScanningSupport,
@@ -38,11 +36,6 @@ class ENFClient @Inject constructor(
     ExposureWindowProvider,
     ENFVersion by enfVersion,
     TEKHistoryProvider by tekHistoryProvider {
-
-    // TODO Remove this once we no longer need direct access to the ENF Client,
-    // i.e. in **[InternalExposureNotificationClient]**
-    internal val internalClient: ExposureNotificationClient
-        get() = googleENFClient
 
     override suspend fun provideDiagnosisKeys(
         keyFiles: Collection<File>,
