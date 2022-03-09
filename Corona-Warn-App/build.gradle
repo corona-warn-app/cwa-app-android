@@ -22,12 +22,12 @@ android {
     println("Current VERSION_PATCH: ${VERSION_PATCH}")
     println("Current VERSION_BUILD: ${VERSION_BUILD}")
 
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "32.0.0"
     defaultConfig {
         applicationId 'de.rki.coronawarnapp'
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         ndkVersion "21.2.6472646"
 
@@ -339,29 +339,29 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
 
     // ANDROID STANDARD
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.work:work-runtime-ktx:2.5.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
-    def activity_version = "1.3.1"
+    def activity_version = "1.4.0"
     implementation "androidx.activity:activity-ktx:$activity_version"
-    def fragment_version = "1.3.6"
+    def fragment_version = "1.4.1"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-process:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
-    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.annotation:annotation:1.3.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
@@ -402,15 +402,15 @@ dependencies {
     testImplementation('org.robolectric:robolectric:4.5.1') {
         exclude group: 'com.google.protobuf'
     }
-    testImplementation "io.mockk:mockk:1.11.0"
+    testImplementation "io.mockk:mockk:1.12.2"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
     testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
     // Testing - jUnit4
-    def junit_version = "4.13.1"
+    def junit_version = "4.13.2"
     testImplementation "junit:junit:$junit_version"
-    testImplementation "org.junit.vintage:junit-vintage-engine:5.7.0"
-    testImplementation "androidx.test:core-ktx:1.3.0"
+    testImplementation "org.junit.vintage:junit-vintage-engine:5.8.2"
+    testImplementation "androidx.test:core-ktx:1.4.0"
 
 
     // Testing - jUnit5
@@ -419,35 +419,35 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiter_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$jupiter_version"
 
-    def kotest_version = "4.3.2"
+    def kotest_version = "5.1.0"
     testImplementation "io.kotest:kotest-runner-junit5:$kotest_version"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     androidTestImplementation "io.kotest:kotest-property-jvm:$kotest_version"
 
-    testImplementation "io.github.classgraph:classgraph:4.8.90"
+    testImplementation "io.github.classgraph:classgraph:4.8.138"
 
     // Testing - Instrumentation
     androidTestImplementation "junit:junit:$junit_version"
-    androidTestImplementation 'androidx.test:runner:1.3.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestImplementation 'androidx.test.ext:truth:1.3.0'
-    androidTestImplementation 'androidx.work:work-testing:2.5.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.4.0'
+    androidTestImplementation 'androidx.work:work-testing:2.7.1'
     androidTestImplementation "io.mockk:mockk-android:1.11.0"
-    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
-    debugImplementation 'androidx.test:core-ktx:1.3.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
+    debugImplementation 'androidx.test:core-ktx:1.4.0'
 
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Play Services
-    implementation 'com.google.android.play:core:1.10.1'
-    implementation 'com.google.android.gms:play-services-base:17.6.0'
-    implementation 'com.google.android.gms:play-services-basement:17.6.0'
-    implementation 'com.google.android.gms:play-services-safetynet:17.0.1'
-    implementation 'com.google.android.gms:play-services-tasks:17.2.1'
+    implementation 'com.google.android.play:core:1.10.3'
+    implementation 'com.google.android.gms:play-services-base:18.0.1'
+    implementation 'com.google.android.gms:play-services-basement:18.0.0'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
+    implementation 'com.google.android.gms:play-services-tasks:18.0.1'
 
     // HTTP
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
