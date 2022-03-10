@@ -55,7 +55,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as VaccinationDetailsViewModel.Factory
-            Timber.d("args=$args")
             factory.create(
                 containerId = VaccinationCertificateContainerId(args.certIdentifier),
                 fromScanner = args.fromScanner
