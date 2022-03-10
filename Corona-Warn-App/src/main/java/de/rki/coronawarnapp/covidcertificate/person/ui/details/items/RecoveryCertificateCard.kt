@@ -1,71 +1,82 @@
-package de.rki.coronawarnapp.reyclebin.ui.adapter
+package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
-import androidx.core.view.isGone
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
-import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
-import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
+import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
-import de.rki.coronawarnapp.util.list.Swipeable
+import de.rki.coronawarnapp.util.displayExpirationState
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RecoveryCertificateCard(parent: ViewGroup) :
-    RecyclerBinAdapter.ItemVH<RecoveryCertificateCard.Item, RecyclerBinCertificateItemBinding>(
-        layoutRes = R.layout.recycler_bin_certificate_item,
+    PersonDetailsAdapter.PersonDetailsItemVH<RecoveryCertificateCard.Item, RecoveryCertificateCardBinding>(
+        layoutRes = R.layout.recovery_certificate_card,
         parent = parent
-    ),
-    Swipeable {
+    ) {
 
-    private var latestItem: Item? = null
-
-    override val viewBinding: Lazy<RecyclerBinCertificateItemBinding> = lazy {
-        RecyclerBinCertificateItemBinding.bind(itemView)
+    override val viewBinding: Lazy<RecoveryCertificateCardBinding> = lazy {
+        RecoveryCertificateCardBinding.bind(itemView)
     }
-    override val onBindData: RecyclerBinCertificateItemBinding.(
+    override val onBindData: RecoveryCertificateCardBinding.(
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = latestItem!!.certificate
+        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        val certificate = curItem.certificate
+        root.setOnClickListener { curItem.onClick() }
 
-        certificateIcon.setImageResource(R.drawable.ic_certificates_filled_white)
-        certificatePersonName.isGone = false
-        certificateInfoLine1.isGone = true
-        certificateInfoLine2.text = context.getString(
+        certificateDate.text = context.getString(
             R.string.recovery_certificate_sample_collection,
             certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
         )
-        certificatePersonName.text = certificate.fullName
-        certificateType.setText(R.string.recovery_certificate_name)
 
-        addDeletionInfoIfExists(item = certificate)
+        val bookmarkIcon =
+            if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
+        bookmark.setImageResource(bookmarkIcon)
 
-        root.setOnClickListener { item.onRestore(item.certificate) }
+        val color = when {
+            curItem.certificate.isDisplayValid -> curItem.colorShade
+            else -> PersonColorShade.COLOR_INVALID
+        }
 
-        menuAction.setupMenu(R.menu.menu_recycler_bin_list_item) {
-            when (it.itemId) {
-                R.id.menu_remove_permanently -> item.onRemove(item.certificate, null).let { true }
-                R.id.menu_restore -> item.onRestore(item.certificate).let { true }
-                else -> false
+        when {
+            curItem.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
+            else -> R.drawable.ic_certificate_invalid
+        }.also { certificateIcon.setImageResource(it) }
+
+        when {
+            curItem.isCurrentCertificate -> color.currentCertificateBg
+            else -> color.defaultCertificateBg
+        }.also { certificateBg.setImageResource(it) }
+
+        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
+
+        certificateExpiration.displayExpirationState(curItem.certificate)
+
+        startValidationCheckButton.apply {
+            defaultButton.isEnabled = certificate.isNotBlocked
+            isEnabled = certificate.isNotBlocked
+            isLoading = curItem.isLoading
+            defaultButton.setOnClickListener {
+                curItem.validateCertificate(certificate.containerId)
             }
         }
     }
 
     data class Item(
         val certificate: RecoveryCertificate,
-        val onRemove: (RecoveryCertificate, Int?) -> Unit,
-        val onRestore: (RecoveryCertificate) -> Unit
-    ) : RecyclerBinItem, HasPayloadDiffer {
+        val isCurrentCertificate: Boolean,
+        val colorShade: PersonColorShade,
+        val isLoading: Boolean = false,
+        val onClick: () -> Unit,
+        val validateCertificate: (CertificateContainerId) -> Unit,
+    ) : CertificateItem, HasPayloadDiffer {
         override val stableId: Long = certificate.containerId.hashCode().toLong()
-    }
-
-    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
-        latestItem?.let {
-            it.onRemove(it.certificate, holder.absoluteAdapterPosition)
-        }
     }
 }
