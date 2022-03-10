@@ -53,7 +53,6 @@ class ExposureWindowsFilter @Inject constructor(
 
     private fun ExposureWindowRiskCalculationConfig.getMaxEwAgeInDays() =
         if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays else DEFAULT_EW_AGE_IN_DAYS
-
 }
 
 private const val DEFAULT_EW_AGE_IN_DAYS = 14

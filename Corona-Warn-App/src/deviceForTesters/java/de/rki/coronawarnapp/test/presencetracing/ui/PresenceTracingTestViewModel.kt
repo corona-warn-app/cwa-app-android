@@ -79,8 +79,8 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
         taskRunTime.postValue(duration)
 
         val warningPackages = traceWarningRepository.allMetaData.first()
-        val overlaps = presenceTracingRiskRepository.allOverlaps.first()
-        val lastResult = presenceTracingRiskRepository.allEntries().first().singleOrNull()
+        val overlaps = presenceTracingRiskRepository.allCheckInWarningOverlaps.first()
+        val lastResult = presenceTracingRiskRepository.allRiskLevelResults.first().singleOrNull()
 
         val infoText = when {
             !lastResult!!.wasSuccessfullyCalculated -> "Last calculation failed"
@@ -110,7 +110,7 @@ class PresenceTracingTestViewModel @AssistedInject constructor(
                     riskCalculationRuntime.postValue(it)
                 },
                 {
-                    val checkInWarningOverlaps = presenceTracingRiskRepository.allOverlaps.first()
+                    val checkInWarningOverlaps = presenceTracingRiskRepository.allCheckInWarningOverlaps.first()
                     val normalizedTimePerCheckInDayList =
                         presenceTracingRiskCalculator.calculateNormalizedTime(checkInWarningOverlaps)
                     val riskStates =

@@ -52,8 +52,9 @@ object PresenceTracingRiskDatabaseMigration1To2 : Migration(1, 2) {
     }
 
     private fun performMigration(database: SupportSQLiteDatabase) = with(database) {
-        execSQL("ALTER TABLE `PresenceTracingRiskLevelResultEntity` " +
-            "ADD COLUMN `calculatedFromMillis` INTEGER NOT NULL DEFAULT 0")
+        execSQL(
+            "ALTER TABLE `PresenceTracingRiskLevelResultEntity` " +
+                "ADD COLUMN `calculatedFromMillis` INTEGER NOT NULL DEFAULT 0"
+        )
     }
 }
-

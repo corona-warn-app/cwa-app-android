@@ -142,7 +142,7 @@ abstract class BaseRiskLevelStorage constructor(
         combine(
             latestAndLastSuccessfulEwRiskLevelResult,
             aggregatedRiskPerDateResultTables.allEntries()
-    ) { latestAndLastSuccessful, riskPerDate ->
+        ) { latestAndLastSuccessful, riskPerDate ->
             val latest = latestAndLastSuccessful.firstOrNull()
             val dayRisks = riskPerDate.map { riskPerDateResult ->
                 riskPerDateResult.toExposureWindowDayRisk()
@@ -194,7 +194,7 @@ abstract class BaseRiskLevelStorage constructor(
 
     override val allPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
         presenceTracingRiskRepository
-            .allEntries()
+            .allRiskLevelResults
             .shareLatest(tag = TAG, scope = scope)
 
     // used for risk level change detector to trigger notification

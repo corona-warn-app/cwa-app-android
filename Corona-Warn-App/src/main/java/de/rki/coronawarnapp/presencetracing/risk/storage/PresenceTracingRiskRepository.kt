@@ -39,20 +39,28 @@ class PresenceTracingRiskRepository @Inject constructor(
         database.presenceTracingRiskLevelResultDao()
     }
 
-    val allOverlaps = traceTimeIntervalMatchDao.allMatches().map { entities ->
+    val allCheckInWarningOverlaps = traceTimeIntervalMatchDao.allMatches().map { entities ->
         entities.map { it.toCheckInWarningOverlap() }
     }
+
+    val allRiskLevelResults = riskLevelResultDao.allEntries().map { list ->
+            list.sortedByDescending {
+                it.calculatedAtMillis
+            }.map {
+                it.toRiskLevelResult()
+            }
+        }
 
     val latestRiskLevelResult: Flow<PtRiskLevelResult?> =
         combine(
             riskLevelResultDao.allEntries(),
-            allOverlaps,
+            allCheckInWarningOverlaps,
         ) { resultList, overlaps ->
             val latestResult = resultList.maxByOrNull {
                 it.calculatedAtMillis
             }
             val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
-                allOverlaps.first(),
+                allCheckInWarningOverlaps.first(),
                 Instant.ofEpochMilli(latestResult?.calculatedFromMillis ?: 0)
             )
             val normalizedTime = relevantWarnings.calculateNormalizedTime()
@@ -83,8 +91,6 @@ class PresenceTracingRiskRepository @Inject constructor(
     ) {
         Timber.v("reportCalculation(successful=%b, newOverlaps=%s)", successful, newOverlaps)
 
-        val nowUtc = timeStamper.nowUTC
-
         // delete stale matches from new packages, old matches are superseeded
         newOverlaps.map { it.traceWarningPackageId }.distinct().forEach {
             traceTimeIntervalMatchDao.deleteMatchesForPackage(it)
@@ -94,11 +100,17 @@ class PresenceTracingRiskRepository @Inject constructor(
             traceTimeIntervalMatchDao.insert(newOverlaps.map { it.toTraceTimeIntervalMatchEntity() })
         }
 
+        val result = calculateRiskResult(successful)
+        addResultToDb(result)
+    }
+
+    private suspend fun calculateRiskResult(successful: Boolean): PtRiskLevelResult {
+        val nowUtc = timeStamper.nowUTC
         val deadline = checkInsFilter.calculateDeadline(nowUtc)
 
         val riskState = if (successful) {
             val filteredOverlaps = checkInsFilter.filterCheckInWarningsByAge(
-                allOverlaps.first(),
+                allCheckInWarningOverlaps.first(),
                 deadline
             )
             ptRiskCalculator.calculateTotalRisk(filteredOverlaps.calculateNormalizedTime())
@@ -106,12 +118,11 @@ class PresenceTracingRiskRepository @Inject constructor(
             RiskState.CALCULATION_FAILED
         }
 
-        val result = PtRiskLevelResult(
+        return PtRiskLevelResult(
             calculatedAt = nowUtc,
             calculatedFrom = deadline,
             riskState = riskState
         )
-        addResultToDb(result)
     }
 
     internal suspend fun deleteStaleData() {
@@ -126,14 +137,6 @@ class PresenceTracingRiskRepository @Inject constructor(
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")
         traceTimeIntervalMatchDao.deleteAll()
-    }
-
-    fun allEntries() = riskLevelResultDao.allEntries().map { list ->
-        list.sortedByDescending {
-            it.calculatedAtMillis
-        }.map {
-            it.toRiskLevelResult()
-        }
     }
 
     private fun addResultToDb(result: PtRiskLevelResult) {

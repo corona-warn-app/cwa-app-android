@@ -91,7 +91,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         // TODO proper tests
         coEvery { presenceTracingRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
-        coEvery { presenceTracingRiskRepository.allEntries() } returns emptyFlow()
+        coEvery { presenceTracingRiskRepository.allRiskLevelResults } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.clearAllTables() } just Runs
     }
 
@@ -105,7 +105,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = riskCombinator,
-        timeStamper = timeStamper,
     ) {
         override val storedResultLimit: Int = storedResultLimit
 
@@ -325,7 +324,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @Test
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined`() {
         val calculatedAt = ewCalculatedAt.plus(6000L)
-        every { presenceTracingRiskRepository.allEntries() } returns flowOf(
+        every { presenceTracingRiskRepository.allRiskLevelResults } returns flowOf(
             listOf(
                 PtRiskLevelResult(
                     calculatedAt = calculatedAt,
@@ -359,7 +358,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
 
             verify {
-                presenceTracingRiskRepository.allEntries()
+                presenceTracingRiskRepository.allRiskLevelResults
                 presenceTracingRiskRepository.presenceTracingDayRisk
             }
         }
@@ -367,7 +366,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined 2`() {
-        every { presenceTracingRiskRepository.allEntries() } returns flowOf(
+        every { presenceTracingRiskRepository.allRiskLevelResults } returns flowOf(
             listOf(
                 PtRiskLevelResult(
                     calculatedAt = ewCalculatedAt.plus(6000L),
@@ -423,7 +422,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
 
             verify {
-                presenceTracingRiskRepository.allEntries()
+                presenceTracingRiskRepository.allRiskLevelResults
                 presenceTracingRiskRepository.presenceTracingDayRisk
             }
         }
@@ -431,7 +430,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined 3`() {
-        every { presenceTracingRiskRepository.allEntries() } returns flowOf(
+        every { presenceTracingRiskRepository.allRiskLevelResults } returns flowOf(
             listOf(
                 PtRiskLevelResult(
                     calculatedAt = ewCalculatedAt.plus(6000L),
@@ -487,7 +486,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
             riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.LOW_RISK
 
             verify {
-                presenceTracingRiskRepository.allEntries()
+                presenceTracingRiskRepository.allRiskLevelResults
                 presenceTracingRiskRepository.presenceTracingDayRisk
             }
         }
@@ -496,7 +495,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @Test
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult works when no pt result yet`() {
 
-        every { presenceTracingRiskRepository.allEntries() } returns flowOf(listOf())
+        every { presenceTracingRiskRepository.allRiskLevelResults } returns flowOf(listOf())
         every { presenceTracingRiskRepository.presenceTracingDayRisk } returns flowOf(listOf())
 
         val ewResultDao1 = PersistedRiskLevelResultDao(
