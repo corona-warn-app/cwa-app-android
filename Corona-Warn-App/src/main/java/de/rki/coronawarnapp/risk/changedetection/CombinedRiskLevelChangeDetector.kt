@@ -65,7 +65,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
             .filter { it.lastRiskEncounterAt != null }
             .onEach { riskResult ->
                 Timber.d("Checking for additional high risk after an initial high risk")
-                checkForAdditionalHighRisks(riskResult)
+                riskResult.checkForAdditionalHighRisks()
             }.catch { Timber.e(it, "RiskLevel checks failed.") }
             .launchIn(appScope)
     }
@@ -109,26 +109,26 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         }
     }
 
-    private fun checkForAdditionalHighRisks(riskResult: CombinedEwPtRiskLevelResult) {
+    private fun CombinedEwPtRiskLevelResult.checkForAdditionalHighRisks() {
         Timber.d(
-            "New Risk State: ${riskResult.riskState} " +
-                "with lastRiskEncounterAt: ${riskResult.lastRiskEncounterAt}"
+            "New Risk State: $riskState " +
+                "with lastRiskEncounterAt: $lastRiskEncounterAt"
         )
         val lastHighRiskDate = tracingSettings.lastHighRiskDate
         Timber.d("Last high risk date: ${lastHighRiskDate?.toDayFormat()}")
-        when (riskResult.riskState) {
+        when (riskState) {
             RiskState.INCREASED_RISK -> {
                 when (lastHighRiskDate) {
                     null -> {
                         Timber.d("initial HIGH risk - no notification")
-                        tracingSettings.lastHighRiskDate = riskResult.lastRiskEncounterAt
+                        tracingSettings.lastHighRiskDate = lastRiskEncounterAt
                     }
                     else -> {
-                        if (riskResult.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                        if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
                             Timber.d("additional HIGH risk - trigger notification")
                             sendNotification()
                             tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { true }
-                            tracingSettings.lastHighRiskDate = riskResult.lastRiskEncounterAt
+                            tracingSettings.lastHighRiskDate = lastRiskEncounterAt
                         } else {
                             Timber.d("HIGH risk is not newer than the stored one - do nothing")
                         }
@@ -136,7 +136,11 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 }
             }
             RiskState.LOW_RISK -> {
-                if (riskResult.lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
+                if (lastHighRiskDate == null) {
+                    Timber.d("lastHighRiskDate is null, do nothing")
+                    return
+                }
+                if (lastRiskEncounterAt!!.isAfter(lastHighRiskDate)) {
                     Timber.d("LOW risk - Resetting lastHighRiskDate")
                     tracingSettings.lastHighRiskDate = null
                     tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
@@ -145,7 +149,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 }
             }
             RiskState.CALCULATION_FAILED -> {
-                // can't happen, since we only receive successful calculations
+                // can't happen, since we only receive successful calculations (lastSuccessfullyCalculated)
             }
         }
     }
