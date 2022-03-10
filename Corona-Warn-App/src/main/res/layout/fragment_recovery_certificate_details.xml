@@ -241,37 +241,6 @@
                         android:layout_marginTop="2dp"
                         tools:text="G05930482748454836478695764787840" />
 
-
-                    <TextView
-                        style="@style/body1Medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/recovery_certificate_attribute_certificate_certification_period_start" />
-
-                    <TextView
-                        android:id="@+id/certification_period_start"
-                        style="@style/body1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        tools:text="2021-05-23" />
-
-                    <TextView
-                        style="@style/body1Medium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/recovery_certificate_attribute_certificate_certification_period_end" />
-
-                    <TextView
-                        android:id="@+id/certification_period_end"
-                        style="@style/body1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        tools:text="2021-11-23" />
-
                     <TextView
                         style="@style/body1Medium"
                         android:layout_width="match_parent"
