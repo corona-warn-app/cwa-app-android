@@ -86,7 +86,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showLoweredRiskLevelDialog.observe2(this) { if (it) showRiskLevelLoweredDialog() }
-        viewModel.showAdditionalHighRiskLevelDialog.observe2(this) { if (it) showAdditionalHighRiskLevelDialog() }
+        viewModel.showAdditionalHighRiskLevelDialog.observe2(this) {
+            if (it.show) showAdditionalHighRiskLevelDialog(it.maxEncounterAgeInDays)
+        }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
@@ -182,11 +184,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
-    private fun showAdditionalHighRiskLevelDialog() {
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) {
         val additionalHighRiskLevelDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
             title = R.string.additional_high_risk_dialog_headline,
-            message = R.string.additional_high_risk_dialog_body,
+            message = getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays),
             positiveButton = R.string.additional_high_risk_dialog_button_confirm,
             negativeButton = null,
             cancelable = false,

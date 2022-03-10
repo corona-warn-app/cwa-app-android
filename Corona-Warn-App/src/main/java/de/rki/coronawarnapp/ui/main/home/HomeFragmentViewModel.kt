@@ -281,10 +281,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .asLiveData(context = dispatcherProvider.Default)
     }
 
-    val showAdditionalHighRiskLevelDialog: LiveData<Boolean> by lazy {
+    data class ShowAdditionalHighRiskLevelDialogEvent(
+        val show: Boolean,
+        val maxEncounterAgeInDays: Int
+    )
+
+    val showAdditionalHighRiskLevelDialog: LiveData<ShowAdditionalHighRiskLevelDialogEvent> by lazy {
         tracingSettings
             .isUserToBeNotifiedOfAdditionalHighRiskLevel
             .flow
+            .map {
+                ShowAdditionalHighRiskLevelDialogEvent(
+                    show = it,
+                    maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                )
+            }
             .asLiveData(context = dispatcherProvider.Default)
     }
 
