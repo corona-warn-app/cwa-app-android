@@ -335,6 +335,12 @@ jobs:
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
             --form "camera=true"
+      - run:
+          name: trigger App Automation Testing
+          command: |
+            curl -u $CIRCLE_API_USER_TOKEN: \
+            -d 'build_parameters[CIRCLE_JOB]=build' \
+            https://circleci.com/api/v1.1/project/github/corona-warn-app/cwa-app-automation/tree/main
 
   instrumentation_tests_device:
     resource_class: xlarge
