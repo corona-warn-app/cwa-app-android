@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.covidcertificate.person.core
+package de.rki.coronawarnapp.covidcertificate.person.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.joda.time.Instant
