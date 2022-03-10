@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningReposito
 import de.rki.coronawarnapp.task.Task
 import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
-import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -39,7 +38,6 @@ class PresenceTracingWarningTask @Inject constructor(
     private val autoCheckOut: AutoCheckOut,
     private val appConfigProvider: AppConfigProvider,
     private val checkInsFilter: CheckInsFilter,
-    private val timeStamper: TimeStamper,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress =
@@ -102,8 +100,9 @@ class PresenceTracingWarningTask @Inject constructor(
 
         presenceTracingRiskRepository.deleteStaleData()
 
-        val checkInsRetention = checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
-        val checkIns = checkInsFilter.filterCheckIns(checkInsRetention, timeStamper.nowUTC)
+        val checkIns = checkInsFilter.filterCheckIns(
+            checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
+        )
 
         Timber.tag(TAG).d("There are %d check-ins to match against.", checkIns.size)
 

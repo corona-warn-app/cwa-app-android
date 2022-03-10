@@ -5,13 +5,7 @@ import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParamete
 enum class RiskState {
     LOW_RISK,
     INCREASED_RISK,
-    CALCULATION_FAILED;
-    fun isSuccessfulCalculation(): Boolean {
-        return when(this) {
-            LOW_RISK, INCREASED_RISK -> true
-            else -> false
-        }
-    }
+    CALCULATION_FAILED
 }
 
 fun RiskLevel.mapToRiskState(): RiskState {

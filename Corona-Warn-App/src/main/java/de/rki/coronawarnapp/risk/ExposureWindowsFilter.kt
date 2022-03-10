@@ -2,13 +2,18 @@ package de.rki.coronawarnapp.risk
 
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
+import kotlinx.coroutines.flow.first
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
+import javax.inject.Inject
 
-class ExposureWindowsFilter {
+class ExposureWindowsFilter @Inject constructor(
+    private val appConfigProvider: AppConfigProvider,
+) {
 
     internal fun filterByAge(
         config: ExposureWindowRiskCalculationConfig,
@@ -19,12 +24,12 @@ class ExposureWindowsFilter {
         nowUtc = nowUtc
     )
 
-    internal fun filterDayRisksByAge(
-        config: ExposureWindowRiskCalculationConfig,
+    internal suspend fun filterDayRisksByAge(
         list: List<ExposureWindowDayRisk>,
-        nowUtc: Instant
+        calculatedAt: Instant
     ): List<ExposureWindowDayRisk> {
-        val deadline = config.getDeadline(nowUtc).toLocalDateUtc()
+        val config = appConfigProvider.currentConfig.first()
+        val deadline = config.getDeadline(calculatedAt).toLocalDateUtc()
         return list.filter { ewDayRisk ->
             !ewDayRisk.localDateUtc.isBefore(deadline)
         }

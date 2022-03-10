@@ -43,10 +43,6 @@ class PresenceTracingRiskRepository @Inject constructor(
         entities.map { it.toCheckInWarningOverlap() }
     }
 
-    private suspend fun calculateNormalizedTime(list: List<CheckInWarningOverlap>): List<CheckInNormalizedTime> {
-        return ptRiskCalculator.calculateNormalizedTime(list)
-    }
-
     val latestRiskLevelResult: Flow<PtRiskLevelResult?> =
         combine(
             riskLevelResultDao.allEntries(),
@@ -59,7 +55,7 @@ class PresenceTracingRiskRepository @Inject constructor(
                 allOverlaps.first(),
                 Instant.ofEpochMilli(latestResult?.calculatedFromMillis ?: 0)
             )
-            val normalizedTime = calculateNormalizedTime(relevantWarnings)
+            val normalizedTime = relevantWarnings.calculateNormalizedTime()
 
             latestResult?.toRiskLevelResult(
                 presenceTracingDayRisks = ptRiskCalculator.calculateDayRisk(normalizedTime),
@@ -105,10 +101,7 @@ class PresenceTracingRiskRepository @Inject constructor(
                 allOverlaps.first(),
                 deadline
             )
-            val normalizedTime = calculateNormalizedTime(
-                filteredOverlaps
-            )
-            val risk = ptRiskCalculator.calculateTotalRisk(normalizedTime)
+            val risk = ptRiskCalculator.calculateTotalRisk(filteredOverlaps.calculateNormalizedTime())
             PtRiskLevelResult(
                 calculatedAt = nowUtc,
                 calculatedFrom = deadline,
@@ -124,9 +117,12 @@ class PresenceTracingRiskRepository @Inject constructor(
 
     internal suspend fun deleteStaleData() {
         Timber.d("deleteStaleData()")
-        traceTimeIntervalMatchDao.deleteOlderThan(fifteenDaysAgo.millis)
-        riskLevelResultDao.deleteOlderThan(fifteenDaysAgo.millis)
+        traceTimeIntervalMatchDao.deleteOlderThan(retentionTime.millis)
+        riskLevelResultDao.deleteOlderThan(retentionTime.millis)
     }
+
+    private val retentionTime: Instant
+        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
 
     suspend fun deleteAllMatches() {
         Timber.d("deleteAllMatches()")
@@ -149,8 +145,9 @@ class PresenceTracingRiskRepository @Inject constructor(
         riskLevelResultDao.insert(result.toRiskLevelEntity())
     }
 
-    private val fifteenDaysAgo: Instant
-        get() = timeStamper.nowUTC.minus(Days.days(15).toStandardDuration())
+    private suspend fun List<CheckInWarningOverlap>.calculateNormalizedTime(): List<CheckInNormalizedTime> {
+        return ptRiskCalculator.calculateNormalizedTime(this)
+    }
 
     suspend fun clearAllTables() {
         Timber.i("Deleting all matches and results.")
