@@ -31,7 +31,7 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
                 hoursToDeemTestOutdated = Duration.standardHours(
                     coronaRapidAntigenTestParameters.hoursToDeemTestOutdated.toLong()
                 ),
-                hoursSinceSampleCollectionToShowRiskCard = Duration.standardHours(
+                durationToShowRiskCard = Duration.standardHours(
                     coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard.toLong()
                 )
             )
@@ -42,7 +42,7 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
 
         val coronaPCRTestParameters = if (coronaTestParameters.hasCoronaPCRTestParameters()) {
             CoronaPCRTestParametersContainer(
-                hoursSinceTestRegistrationToShowRiskCard = Duration.standardHours(
+                durationToShowRiskCard = Duration.standardHours(
                     coronaTestParameters.coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard.toLong()
                 )
             )
@@ -52,8 +52,8 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
         }
 
         return CoronaTestConfigContainer(
-            coronaRapidAntigenTestParameters = coronaRapidAntigenTestParameters,
-            coronaPCRTestParameters = coronaPCRTestParameters
+            ratParameters = coronaRapidAntigenTestParameters,
+            pcrParameters = coronaPCRTestParameters
         )
     }
 }
