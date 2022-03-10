@@ -71,7 +71,7 @@
                         android:text="@string/test_certificate_name"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -79,12 +79,12 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/Theme.MaterialComponents"
+                    android:theme="@style/Theme.Material3.Light"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_covid_certificate_detail"
                     app:navigationIcon="@drawable/ic_back"
-                    app:popupTheme="@style/Theme.MaterialComponents.DayNight">
+                    app:popupTheme="@style/Theme.Material3.DayNight">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"

@@ -64,12 +64,12 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/Theme.MaterialComponents"
+                    android:theme="@style/Theme.Material3.Light"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_rat_qr_code_profile"
                     app:navigationIcon="@drawable/ic_close_white"
-                    app:popupTheme="@style/Theme.MaterialComponents.DayNight">
+                    app:popupTheme="@style/Theme.Material3.DayNight">
 
                     <FrameLayout
                         android:layout_width="match_parent"
