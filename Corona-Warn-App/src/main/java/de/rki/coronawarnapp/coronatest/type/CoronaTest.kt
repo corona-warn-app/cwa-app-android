@@ -73,13 +73,13 @@ typealias TestIdentifier = String
 /**
  * Tells if a [CoronaTest] age is older than the duration defined by [CoronaTestConfig]
  */
-fun CoronaTest.didPassConfigDuration(
+fun CoronaTest.shouldShowRiskCard(
     coronaTestConfig: CoronaTestConfig,
     now: Instant = Instant.now()
 ): Boolean {
     val (testTimestamp, thresholdDuration) = when (this) {
-        is PCRCoronaTest -> registeredAt to coronaTestConfig.pcrParameters.hoursToShowRiskCard
-        is RACoronaTest -> testTakenAt to coronaTestConfig.ratParameters.hoursToShowRiskCard
+        is PCRCoronaTest -> registeredAt to coronaTestConfig.pcrParameters.durationToShowRiskCard
+        is RACoronaTest -> testTakenAt to coronaTestConfig.ratParameters.durationToShowRiskCard
         else -> error("Unsupported test type=$type")
     }
     return Duration(testTimestamp, now) >= thresholdDuration

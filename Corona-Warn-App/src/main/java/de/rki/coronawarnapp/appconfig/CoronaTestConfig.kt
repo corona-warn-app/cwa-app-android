@@ -12,7 +12,7 @@ interface CoronaTestConfig {
 
 data class CoronaRapidAntigenTestParametersContainer(
     val hoursToDeemTestOutdated: Duration = Duration.standardHours(DEFAULT_HOURS),
-    val hoursToShowRiskCard: Duration = Duration.standardHours(DEFAULT_HOURS_SINCE_SAMPLE_COLLECTION),
+    val durationToShowRiskCard: Duration = Duration.standardHours(DEFAULT_HOURS_SINCE_SAMPLE_COLLECTION),
 ) {
     companion object {
         const val DEFAULT_HOURS: Long = 48
@@ -21,7 +21,7 @@ data class CoronaRapidAntigenTestParametersContainer(
 }
 
 data class CoronaPCRTestParametersContainer(
-    val hoursToShowRiskCard: Duration = Duration.standardHours(DEFAULT_HOURS_SINCE_TEST_REGISTRATION),
+    val durationToShowRiskCard: Duration = Duration.standardHours(DEFAULT_HOURS_SINCE_TEST_REGISTRATION),
 ) {
     companion object {
         const val DEFAULT_HOURS_SINCE_TEST_REGISTRATION = 168L // 7 days x 24 hours

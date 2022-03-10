@@ -14,7 +14,7 @@ import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.didPassConfigDuration
+import de.rki.coronawarnapp.coronatest.type.shouldShowRiskCard
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
@@ -189,7 +189,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 // No high risk card -> check corona test age against config duration
                 positiveCoronaTests.isNotEmpty() -> {
                     if (positiveCoronaTests.all {
-                        it.didPassConfigDuration(coronaTestParameters, timeStamper.nowUTC)
+                        it.shouldShowRiskCard(coronaTestParameters, timeStamper.nowUTC)
                     }
                     ) {
                         add(tracingItem)
