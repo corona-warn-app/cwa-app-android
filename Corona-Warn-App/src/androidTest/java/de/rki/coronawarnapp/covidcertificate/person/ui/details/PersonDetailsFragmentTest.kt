@@ -22,9 +22,8 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -142,7 +141,26 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
+            add(
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Status-Nachweis",
+                        subtitleText = admissionSubtitle,
+                        badgeText = "2G+",
+                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                        faqAnchor = "FAQ"
+                    )
+                    else -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Proof of Status",
+                        subtitleText = admissionSubtitle,
+                        badgeText = "2G+",
+                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
+                        faqAnchor = "FAQ"
+                    )
+                }
+            )
 
             val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
                 "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
@@ -157,27 +175,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     badgeVisible = true,
                     onClick = {}
                 )
-            )
-
-            add(
-                when (Locale.getDefault()) {
-                    Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
-                        colorShade = PersonColorShade.COLOR_1,
-                        titleText = "Status-Nachweis",
-                        subtitleText = admissionSubtitle,
-                        badgeText = "2G+",
-                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
-                        faqAnchor = "FAQ"
-                    )
-                    else -> ConfirmedStatusCard.Item(
-                        colorShade = PersonColorShade.COLOR_1,
-                        titleText = "Proof of Status",
-                        subtitleText = admissionSubtitle,
-                        badgeText = "2G+",
-                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
-                        faqAnchor = "FAQ"
-                    )
-                }
             )
 
             add(
@@ -201,34 +198,50 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate1,
+                    certificate = vaccinationCertificate1,
                     isCurrentCertificate = false,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate2,
+                    certificate = vaccinationCertificate2,
                     isCurrentCertificate = false,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
 
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate3,
+                    certificate = vaccinationCertificate3,
                     isCurrentCertificate = false,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
 
-            add(TestCertificateCard.Item(testCertificate, isCurrentCertificate = true, PersonColorShade.COLOR_1) {})
+            add(
+                TestCertificateCard.Item(
+                    certificate = testCertificate,
+                    isCurrentCertificate = true,
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
+            )
             add(
                 RecoveryCertificateCard.Item(
-                    recoveryCertificate,
+                    certificate = recoveryCertificate,
                     isCurrentCertificate = false,
-                    PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
         }
 
@@ -248,7 +261,26 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
+            add(
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Status-Nachweis",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                        faqAnchor = "FAQ"
+                    )
+                    else -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Proof of Status",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
+                        faqAnchor = "FAQ"
+                    )
+                }
+            )
 
             val subtitle = if (Locale.getDefault().language == Locale.GERMAN.language) {
                 "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
@@ -263,27 +295,6 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     badgeVisible = true,
                     onClick = {}
                 )
-            )
-
-            add(
-                when (Locale.getDefault()) {
-                    Locale.GERMANY, Locale.GERMAN -> ConfirmedStatusCard.Item(
-                        colorShade = PersonColorShade.COLOR_1,
-                        titleText = "Status-Nachweis",
-                        subtitleText = "2G+ PCR-Test",
-                        badgeText = "2G+",
-                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
-                        faqAnchor = "FAQ"
-                    )
-                    else -> ConfirmedStatusCard.Item(
-                        colorShade = PersonColorShade.COLOR_1,
-                        titleText = "Proof of Status",
-                        subtitleText = "2G+ PCR-Test",
-                        badgeText = "2G+",
-                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
-                        faqAnchor = "FAQ"
-                    )
-                }
             )
 
             add(
@@ -307,10 +318,12 @@ class PersonDetailsFragmentTest : BaseUITest() {
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate1,
+                    certificate = vaccinationCertificate1,
                     isCurrentCertificate = true,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
         }
 
@@ -346,6 +359,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { hasNotificationBadge } returns false
         every { isNotBlocked } returns true
         every { qrCodeHash } returns "TC"
+        every { isPCRTestCertificate } returns true
     }
 
     private fun mockVaccinationCertificate(

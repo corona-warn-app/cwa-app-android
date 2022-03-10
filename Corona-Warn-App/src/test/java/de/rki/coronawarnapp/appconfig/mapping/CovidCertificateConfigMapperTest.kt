@@ -1,10 +1,14 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import com.google.protobuf.ByteString
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.DgcParameters
 import de.rki.coronawarnapp.util.toProtoByteString
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beInstanceOf
 import okio.ByteString.Companion.toByteString
 import org.joda.time.Duration
 import org.junit.jupiter.api.Test
@@ -14,11 +18,12 @@ class CovidCertificateConfigMapperTest : BaseTest() {
 
     private fun createInstance() = CovidCertificateConfigMapper()
 
-    private val testReissueServicePublicKeyDigestByteString = "reissueServicePublicKeyDigest".toByteArray()
-        .toByteString()
-        .sha256()
-    private val testReissueServicePublicKeyDigestProtoByteString = testReissueServicePublicKeyDigestByteString
-        .toProtoByteString()
+    private val testReissueServicePublicKeyDigestByteString by lazy {
+        "reissueServicePublicKeyDigest".toByteArray().toByteString().sha256()
+    }
+    private val testReissueServicePublicKeyDigestProtoByteString by lazy {
+        testReissueServicePublicKeyDigestByteString.toProtoByteString()
+    }
 
     @Test
     fun `values are mapped`() {
@@ -62,9 +67,6 @@ class CovidCertificateConfigMapperTest : BaseTest() {
         }
     }
 
-    /*
-    disable temporary
-
     @Test
     fun `throws if dcc parameters are missing`() {
         val rawConfig = AppConfigAndroid.ApplicationConfigurationAndroid.getDefaultInstance()
@@ -88,8 +90,6 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             createInstance().map(rawConfig = rawConfig)
         }.cause should beInstanceOf(IllegalStateException::class)
     }
-
-     */
 
     @Test
     fun `defaults are returned if test certificate parameters are missing`() {

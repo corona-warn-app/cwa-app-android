@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
+import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.server.protocols.internal.v2.AppConfigAndroid
 import de.rki.coronawarnapp.server.protocols.internal.v2.DgcParameters
 import de.rki.coronawarnapp.util.toOkioByteString
@@ -22,15 +23,10 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
             reissueServicePublicKeyDigest = rawConfig.dgcParameters.mapReissueServicePublicKeyDigest()
         )
     } catch (e: Exception) {
-        // TODO: temporary return an empty bytestring until we have a proper default config
-        CovidCertificateConfigContainer(reissueServicePublicKeyDigest = ByteString.EMPTY)
-        /*
         throw ApplicationConfigurationInvalidException(
             cause = e,
             message = "Failed to create 'CovidCertificateConfigContainer' from rawConfig=$rawConfig"
         )
-
-         */
     }
 
     private fun DgcParameters.DGCParameters.mapBlockList(): List<CovidCertificateConfig.BlockedChunk> {
@@ -86,8 +82,7 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         reissueServicePublicKeyDigest.toOkioByteString()
     } catch (e: Exception) {
         Timber.w(e, "Failed to map 'reissueServicePublicKeyDigest' from %s", this)
-        // TODO: temporary return an empty bytestring until we have a proper default config
-        ByteString.EMPTY
+        throw e
     }
 
     data class CovidCertificateConfigContainer(

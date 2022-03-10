@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.risk
 
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -51,6 +52,8 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
     @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
+    @MockK lateinit var exposureWindow1: ExposureWindow
+    @MockK lateinit var exposureWindow2: ExposureWindow
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -86,6 +89,7 @@ class RiskLevelTaskTest : BaseTest() {
         configData.apply {
             every { identifier } returns "config-identifier"
             every { isDeviceTimeCorrect } returns true
+            every { maxEncounterAgeInDays } returns 14
         }
 
         every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
@@ -303,5 +307,37 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey, cachedKey2)
 
         createTask().areKeyPkgsOutDated(now.toInstant()) shouldBe false
+    }
+
+    @Test
+    fun `risk calculation respects max age config parameter`() = runBlockingTest {
+        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
+        val now = Instant.parse("2020-12-28T00:00:00Z")
+        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
+            every { isIncreasedRisk() } returns true
+        }
+
+        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T00:00:00Z").millis
+        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T00:00:00Z").millis
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+        coEvery { enfClient.exposureWindows() } returns listOf(exposureWindow1, exposureWindow2)
+        every { riskLevels.calculateRisk(any(), any()) } returns null
+        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
+        every { timeStamper.nowUTC } returns now
+
+        coronaTests.value = setOf(
+            mockk<CoronaTest>().apply {
+                every { isSubmissionAllowed } returns true
+                every { isViewed } returns false
+            }
+        )
+
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
+            calculatedAt = now,
+            failureReason = null,
+            ewAggregatedRiskResult = aggregatedRiskResult,
+            listOf(exposureWindow2)
+        )
     }
 }

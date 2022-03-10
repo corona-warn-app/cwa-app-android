@@ -337,4 +337,9 @@
     <string name="ccl_admission_state_tile_subtitle">"Разпоредби на федералните правителства"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Определяне на статус..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">"Присъединяване на сертификат"</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">"Групирането на сертификати е подобрено. Сертификатите само с малки разлики в имената вече няма да се присъединяват към различни лица."</string>
 </resources>

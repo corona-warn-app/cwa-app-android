@@ -11,6 +11,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
+import de.rki.coronawarnapp.covidcertificate.person.model.SettingsMap
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

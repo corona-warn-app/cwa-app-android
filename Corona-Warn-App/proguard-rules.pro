@@ -116,3 +116,5 @@
 -keep class de.rki.coronawarnapp.ccl.configuration.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.dccwalletinfo.model.** { *; }
 -keep class de.rki.coronawarnapp.ccl.dccadmission.model.** { *; }
+-keep class de.rki.coronawarnapp.covidcertificate.person.model.** { *; }
+-keep class de.rki.coronawarnapp.covidcertificate.common.certificate.** { *; }
