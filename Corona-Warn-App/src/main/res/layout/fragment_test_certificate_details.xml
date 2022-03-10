@@ -79,7 +79,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/Theme.Material3.Light"
+                    android:theme="@style/Theme.Material3.Dark"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_covid_certificate_detail"
