@@ -73,10 +73,10 @@ class PersonDetailsViewModelTest : BaseTest() {
             setOf(
                 PersonCertificates(
                     listOf(
-                        mockRecoveryCertificate(),
                         mockTestCertificate(),
                         vaccCert1,
-                        vaccCert2
+                        vaccCert2,
+                        mockRecoveryCertificate()
                     )
                 )
             )
@@ -96,10 +96,10 @@ class PersonDetailsViewModelTest : BaseTest() {
             setOf(
                 PersonCertificates(
                     listOf(
-                        mockRecoveryCertificate(),
                         mockTestCertificate(),
                         vaccCert1,
-                        vaccCert2
+                        vaccCert2,
+                        mockRecoveryCertificate()
                     )
                 )
             )

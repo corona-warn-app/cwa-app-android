@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Enfeksiyon Riski"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son 14 günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir."</string>
+    <string name="main_overview_body_risk">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son 14 günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir. Maruz kalma günlüğü check-in\'lerinizi de hesaba katar. Koronavirüs tanısı almış bir kişiyle aynı anda ya da koronavirüs tanısı almış bir kişiden 30 dakika sonra aynı yerde bulunmuşsanız size uyarı verilir."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Şu risk durumu gösterilebilir:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -747,6 +747,8 @@
     <string name="information_contact_illustration_description">"Bir erkek kulaklıkla telefon görüşmesi yapıyor."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"SSS"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Erişilebilirlik Beyanı"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Sık sorulan sorular. Harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->

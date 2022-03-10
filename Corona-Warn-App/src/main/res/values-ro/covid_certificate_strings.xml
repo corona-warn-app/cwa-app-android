@@ -337,4 +337,9 @@
     <string name="ccl_admission_state_tile_subtitle">"Reglementările guvernului federal"</string>
     <!-- XTXT: CCL Admission calculation progress message-->
     <string name="admission_calculation_message">"Se determină starea..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">"Atribuirea certificatului"</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">"Gruparea certificatelor a fost îmbunătățită. Certificatele care au doar diferențe minore de nume nu vor mai fi atribuite altor persoane."</string>
 </resources>
