@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
+    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните %d дни."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Приложението Corona-Warn-App е инсталирано днес. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
