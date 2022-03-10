@@ -148,7 +148,7 @@ class PresenceTracingWarningTask @Inject constructor(
         // Partial processing: if calculation was not successful, but some packages were processed, we still save them
         presenceTracingRiskRepository.reportCalculation(
             successful = matcherResult.successful,
-            overlaps = overlapsDistinct,
+            newOverlaps = overlapsDistinct,
         )
 
         // markPackagesProcessed only after reportCalculation, if there is an exception, then we can process again.

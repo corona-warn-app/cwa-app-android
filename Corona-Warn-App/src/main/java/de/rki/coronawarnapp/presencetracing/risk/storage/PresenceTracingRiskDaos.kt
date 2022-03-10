@@ -100,9 +100,9 @@ data class PresenceTracingRiskLevelResultEntity(
 )
 
 internal fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
-    presenceTracingDayRisks: List<PresenceTracingDayRisk>?,
+    presenceTracingDayRisks: List<PresenceTracingDayRisk>? = null,
     traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>? = null,
-    checkInWarningOverlaps: List<CheckInWarningOverlap>?
+    checkInWarningOverlaps: List<CheckInWarningOverlap>? = null
 ) = PtRiskLevelResult(
     calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
     riskState = riskState,

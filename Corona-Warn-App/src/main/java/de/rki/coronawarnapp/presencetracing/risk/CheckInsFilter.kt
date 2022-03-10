@@ -33,7 +33,7 @@ class CheckInsFilter @Inject constructor(
 
     private suspend fun getMaxAgeInDays() = appConfigProvider.currentConfig.first().maxCheckInAgeInDays
 
-    suspend fun getDeadline(now: Instant): Instant =
+    suspend fun calculateDeadline(now: Instant): Instant =
         now.minusDaysAtStartOfDayUtc(getMaxAgeInDays()).toInstant()
 }
 

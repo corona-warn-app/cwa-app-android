@@ -79,40 +79,39 @@ class PresenceTracingRiskRepository @Inject constructor(
      */
     internal suspend fun reportCalculation(
         successful: Boolean,
-        overlaps: List<CheckInWarningOverlap> = emptyList()
+        newOverlaps: List<CheckInWarningOverlap> = emptyList()
     ) {
-        Timber.v("reportCalculation(successful=%b, overlaps=%s)", successful, overlaps)
+        Timber.v("reportCalculation(successful=%b, newOverlaps=%s)", successful, newOverlaps)
 
         val nowUtc = timeStamper.nowUTC
 
         // delete stale matches from new packages, old matches are superseeded
-        overlaps.map { it.traceWarningPackageId }.forEach {
+        newOverlaps.map { it.traceWarningPackageId }.distinct().forEach {
             traceTimeIntervalMatchDao.deleteMatchesForPackage(it)
         }
 
-        if (overlaps.isNotEmpty()) {
-            traceTimeIntervalMatchDao.insert(overlaps.map { it.toTraceTimeIntervalMatchEntity() })
+        if (newOverlaps.isNotEmpty()) {
+            traceTimeIntervalMatchDao.insert(newOverlaps.map { it.toTraceTimeIntervalMatchEntity() })
         }
 
-        val deadline = checkInsFilter.getDeadline(nowUtc)
+        val deadline = checkInsFilter.calculateDeadline(nowUtc)
 
-        val result = if (successful) {
+        val riskState = if (successful) {
             val filteredOverlaps = checkInsFilter.filterCheckInWarningsByAge(
                 allOverlaps.first(),
                 deadline
             )
-            val risk = ptRiskCalculator.calculateTotalRisk(filteredOverlaps.calculateNormalizedTime())
-            PtRiskLevelResult(
-                calculatedAt = nowUtc,
-                calculatedFrom = deadline,
-                riskState = risk)
+            ptRiskCalculator.calculateTotalRisk(filteredOverlaps.calculateNormalizedTime())
         } else {
-            PtRiskLevelResult(
-                calculatedAt = nowUtc,
-                calculatedFrom = deadline,
-                riskState = RiskState.CALCULATION_FAILED)
+            RiskState.CALCULATION_FAILED
         }
-        addResult(result)
+
+        val result = PtRiskLevelResult(
+            calculatedAt = nowUtc,
+            calculatedFrom = deadline,
+            riskState = riskState
+        )
+        addResultToDb(result)
     }
 
     internal suspend fun deleteStaleData() {
@@ -133,14 +132,11 @@ class PresenceTracingRiskRepository @Inject constructor(
         list.sortedByDescending {
             it.calculatedAtMillis
         }.map {
-            it.toRiskLevelResult(
-                presenceTracingDayRisks = null,
-                checkInWarningOverlaps = null,
-            )
+            it.toRiskLevelResult()
         }
     }
 
-    private fun addResult(result: PtRiskLevelResult) {
+    private fun addResultToDb(result: PtRiskLevelResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")
         riskLevelResultDao.insert(result.toRiskLevelEntity())
     }

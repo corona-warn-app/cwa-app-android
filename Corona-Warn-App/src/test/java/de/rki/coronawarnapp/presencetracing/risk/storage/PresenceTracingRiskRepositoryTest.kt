@@ -165,7 +165,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     @Test
     fun `report successful calculation works`() {
         val deadline = now.minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-        coEvery { checkInsFilter.getDeadline(any()) } returns deadline
+        coEvery { checkInsFilter.calculateDeadline(any()) } returns deadline
         val traceWarningPackageId = "traceWarningPackageId"
         val overlap = CheckInWarningOverlap(
             checkInId = 1L,
@@ -183,7 +183,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         runBlockingTest {
             createInstance().reportCalculation(
                 successful = true,
-                overlaps = listOf(overlap)
+                newOverlaps = listOf(overlap)
             )
 
             coVerify {
@@ -197,7 +197,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     @Test
     fun `report failed calculation works`() {
         val deadline = now.minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-        coEvery { checkInsFilter.getDeadline(any()) } returns deadline
+        coEvery { checkInsFilter.calculateDeadline(any()) } returns deadline
         val traceWarningPackageId = "traceWarningPackageId"
         val overlap = CheckInWarningOverlap(
             checkInId = 1L,
@@ -215,7 +215,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         runBlockingTest {
             createInstance().reportCalculation(
                 successful = false,
-                overlaps = listOf(overlap)
+                newOverlaps = listOf(overlap)
             )
 
             coVerify {

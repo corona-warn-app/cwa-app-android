@@ -155,7 +155,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = true,
-                overlaps = any()
+                newOverlaps = any()
             )
             traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
         }
@@ -176,7 +176,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = true,
-                overlaps = any()
+                newOverlaps = any()
             )
             traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
         }
@@ -198,7 +198,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = true,
-                overlaps = any()
+                newOverlaps = any()
             )
             traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
         }
@@ -215,7 +215,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerify {
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
-                overlaps = emptyList()
+                newOverlaps = emptyList()
             )
         }
     }
@@ -263,7 +263,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
-                overlaps = emptyList()
+                newOverlaps = emptyList()
             )
         }
 
@@ -289,7 +289,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
-                overlaps = any()
+                newOverlaps = any()
             )
         }
 
@@ -328,7 +328,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = any(),
-                overlaps = any()
+                newOverlaps = any()
             )
             traceWarningRepository.markPackagesProcessed(any())
         }
