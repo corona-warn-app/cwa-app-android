@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Риск от заразяване"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните %d дни."</string>
+    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните 14 дни. Данните за излагане вземат предвид и вашите регистрации. Ще бъдете предупредени, ако сте били в едно помещение по едно и също време с лице, което е било диагностицирано с коронавирус, или до 30 минути след това."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Възможни са следните нива на риск:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните %d дни."</string>
+    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Приложението Corona-Warn-App е инсталирано днес. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -380,7 +380,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Повече защита за Вас и за всички нас. С помощта на приложението Corona-Warn-App можем да прекъснем веригите на заразяване много по-бързо."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните %d дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
+    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните 14 дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Покажете резултатите си от теста (PCR тест или бърз антигенен тест) в приложението и предупредете останалите, ако Ви е поставена диагноза за коронавирусна инфекция."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
@@ -747,6 +747,8 @@
     <string name="information_contact_illustration_description">"Мъж със слушалки провежда телефонен разговор."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"ЧЗВ"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Декларация за достъпност"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Често задавани въпроси. Ще Ви пренасочим към външен уебсайт."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
