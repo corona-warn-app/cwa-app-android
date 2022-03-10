@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewViewModel.UiState
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
@@ -49,6 +50,7 @@ import testhelpers.recyclerScrollTo
 import testhelpers.selectBottomNavTab
 import testhelpers.setupFakeImageLoader
 import testhelpers.takeScreenshot
+import java.util.Locale
 
 @RunWith(AndroidJUnit4::class)
 class PersonOverviewFragmentTest : BaseUITest() {
@@ -221,7 +223,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "",
@@ -248,7 +253,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "",
@@ -267,7 +275,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockTestCertificate("Andrea Schneider"),
-                            "Testzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
+                                else -> "Test Certificate"
+                            }
                         ),
                     ),
                     admissionBadgeText = "3G",
@@ -283,7 +294,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockTestCertificate("Andrea Schneider"),
-                            "Testzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
+                                else -> "Test Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "3G",
@@ -299,7 +313,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "2G",
@@ -318,7 +335,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "2G",
@@ -337,7 +357,10 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "2G",
@@ -356,11 +379,17 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         ),
                         OverviewCertificate(
                             mockTestCertificate("Andrea Schneider"),
-                            buttonText = "Testzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
+                                else -> "Test Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "2G+",
@@ -379,11 +408,17 @@ class PersonOverviewFragmentTest : BaseUITest() {
                     overviewCertificates = listOf(
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
-                            "Impfzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
+                                else -> "2G Certificate"
+                            }
                         ),
                         OverviewCertificate(
                             mockTestCertificate("Andrea Schneider"),
-                            buttonText = "Testzertifikat"
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
+                                else -> "Test Certificate"
+                            }
                         )
                     ),
                     admissionBadgeText = "2G+",
