@@ -9,15 +9,10 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayR
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskCalculator
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.HotDataFlow
-import kotlinx.coroutines.CoroutineScope
+import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.plus
 import org.joda.time.Days
 import org.joda.time.Instant
 import timber.log.Timber
@@ -26,12 +21,10 @@ import javax.inject.Singleton
 
 @Singleton
 class PresenceTracingRiskRepository @Inject constructor(
-    private val presenceTracingRiskCalculator: PresenceTracingRiskCalculator,
+    private val ptRiskCalculator: PresenceTracingRiskCalculator,
     private val databaseFactory: PresenceTracingRiskDatabase.Factory,
     private val timeStamper: TimeStamper,
     private val checkInsFilter: CheckInsFilter,
-    @AppScope private val appScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
 ) {
 
     private val database by lazy {
@@ -50,36 +43,39 @@ class PresenceTracingRiskRepository @Inject constructor(
         entities.map { it.toCheckInWarningOverlap() }
     }
 
-    private val relevantNormalizedTime: HotDataFlow<List<CheckInNormalizedTime>> = HotDataFlow(
-        loggingTag = "PresenceTracingRiskRepository",
-        scope = appScope + dispatcherProvider.Default,
-        sharingBehavior = SharingStarted.Lazily,
-    ) {
-        val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
-            allOverlaps.first(),
-            lastSuccessfulRiskResult.first()?.calculatedFrom ?: Instant.EPOCH
-        )
-        calculateNormalizedTime(relevantWarnings)
-    }
-
     private suspend fun calculateNormalizedTime(list: List<CheckInWarningOverlap>): List<CheckInNormalizedTime> {
-        return presenceTracingRiskCalculator.calculateNormalizedTime(list)
+        return ptRiskCalculator.calculateNormalizedTime(list)
     }
 
-    val lastSuccessfulRiskResult: Flow<PtRiskLevelResult?> = riskLevelResultDao.allEntries().map { list ->
-        list.filter {
-            it.riskState.isSuccessfulCalculation()
-        }.sortAndComplementLatestResult().firstOrNull()
-    }
+    val latestRiskLevelResult: Flow<PtRiskLevelResult?> =
+        combine(
+            riskLevelResultDao.allEntries(),
+            allOverlaps,
+        ) { resultList, overlaps ->
+            val latestResult = resultList.maxByOrNull {
+                it.calculatedAtMillis
+            }
+            val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
+                allOverlaps.first(),
+                Instant.ofEpochMilli(latestResult?.calculatedFromMillis ?: 0)
+            )
+            val normalizedTime = calculateNormalizedTime(relevantWarnings)
+
+            latestResult?.toRiskLevelResult(
+                presenceTracingDayRisks = ptRiskCalculator.calculateDayRisk(normalizedTime),
+                traceLocationCheckInRiskStates = ptRiskCalculator.calculateCheckInRiskPerDay(normalizedTime),
+                checkInWarningOverlaps = relevantWarnings,
+            )
+        }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
-        relevantNormalizedTime.data.map {
-            presenceTracingRiskCalculator.calculateCheckInRiskPerDay(it)
+        latestRiskLevelResult.map {
+            it?.traceLocationCheckInRiskStates ?: emptyList()
         }
 
     val presenceTracingDayRisk: Flow<List<PresenceTracingDayRisk>> =
-        relevantNormalizedTime.data.map {
-            presenceTracingRiskCalculator.calculateDayRisk(it)
+        latestRiskLevelResult.map {
+            it?.presenceTracingDayRisk ?: emptyList()
         }
 
     /**
@@ -112,10 +108,7 @@ class PresenceTracingRiskRepository @Inject constructor(
             val normalizedTime = calculateNormalizedTime(
                 filteredOverlaps
             )
-            val risk = presenceTracingRiskCalculator.calculateTotalRisk(normalizedTime)
-            relevantNormalizedTime.updateBlocking {
-                normalizedTime
-            }
+            val risk = ptRiskCalculator.calculateTotalRisk(normalizedTime)
             PtRiskLevelResult(
                 calculatedAt = nowUtc,
                 calculatedFrom = deadline,
@@ -150,28 +143,6 @@ class PresenceTracingRiskRepository @Inject constructor(
             )
         }
     }
-
-    private suspend fun List<PresenceTracingRiskLevelResultEntity>.sortAndComplementLatestResult() =
-        sortedByDescending {
-            it.calculatedAtMillis
-        }
-            .mapIndexed { index, entity ->
-                if (index == 0) {
-                    // add risk per day to the latest result
-                    entity.toRiskLevelResult(
-                        presenceTracingDayRisks = presenceTracingDayRisk.first(),
-                        checkInWarningOverlaps = checkInsFilter.filterCheckInWarningsByAge(
-                            allOverlaps.first(),
-                            Instant.ofEpochMilli(entity.calculatedAtMillis)
-                        ),
-                    )
-                } else {
-                    entity.toRiskLevelResult(
-                        presenceTracingDayRisks = null,
-                        checkInWarningOverlaps = null,
-                    )
-                }
-            }
 
     private fun addResult(result: PtRiskLevelResult) {
         Timber.i("Saving risk calculation from ${result.calculatedAt} with result ${result.riskState}.")

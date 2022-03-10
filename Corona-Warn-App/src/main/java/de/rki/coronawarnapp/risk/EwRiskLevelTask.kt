@@ -25,13 +25,11 @@ import de.rki.coronawarnapp.task.TaskFactory
 import de.rki.coronawarnapp.task.common.DefaultProgress
 import de.rki.coronawarnapp.task.common.Finished
 import de.rki.coronawarnapp.task.common.Started
-import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import org.joda.time.DateTimeZone.UTC
 import org.joda.time.Duration
 import org.joda.time.Instant
 import timber.log.Timber
@@ -39,7 +37,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @Suppress("ReturnCount", "LongParameterList")
-class RiskLevelTask @Inject constructor(
+class EwRiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
@@ -50,7 +48,8 @@ class RiskLevelTask @Inject constructor(
     private val keyCacheRepository: KeyCacheRepository,
     private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
-    private val analyticsTestResultCollector: AnalyticsTestResultCollector
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector,
+    private val filter: ExposureWindowsFilter
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -161,8 +160,9 @@ class RiskLevelTask @Inject constructor(
     ): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
 
-        val exposureWindows = enfClient.exposureWindows().filterByAge(
-            maxAgeInDays = configData.getMaxEwAgeInDays(),
+        val exposureWindows = filter.filterByAge(
+            config = configData,
+            list = enfClient.exposureWindows(),
             nowUtc = nowUtc
         )
 
@@ -234,7 +234,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<RiskLevelTask>,
+        private val taskByDagger: Provider<EwRiskLevelTask>,
         private val exposureDetectionTracker: ExposureDetectionTracker
     ) : TaskFactory<DefaultProgress, EwRiskLevelTaskResult> {
 
@@ -245,25 +245,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<RiskLevelTask>()
+        private val TAG = tag<EwRiskLevelTask>()
         private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
     }
 }
-
-@VisibleForTesting
-internal fun List<ExposureWindow>.filterByAge(
-    maxAgeInDays: Int,
-    nowUtc: Instant
-): List<ExposureWindow> {
-    val deadline = nowUtc.minusDays(maxAgeInDays).millis
-    return filter {
-        it.dateMillisSinceEpoch >= deadline
-    }
-}
-
-private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(UTC)
-
-private fun ExposureWindowRiskCalculationConfig.getMaxEwAgeInDays() =
-    if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays else DEFAULT_EW_AGE_IN_DAYS
-
-private const val DEFAULT_EW_AGE_IN_DAYS = 14

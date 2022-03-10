@@ -13,6 +13,10 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.Durat
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter.DurationClassification.MORE_THAN_10_MINUTES
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryCleanTask
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.NEGATIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.contactdiary.ui.exporter.ContactDiaryExporter
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.DiaryOverviewItem
@@ -22,10 +26,6 @@ import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.coronatest.Coro
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskenf.RiskEnfItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.day.riskevent.RiskEventItem
 import de.rki.coronawarnapp.contactdiary.ui.overview.adapter.subheader.OverviewSubHeaderItem
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.NEGATIVE
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.locationName

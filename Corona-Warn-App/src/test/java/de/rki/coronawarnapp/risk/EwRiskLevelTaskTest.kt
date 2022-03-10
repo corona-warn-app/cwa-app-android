@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 
-class RiskLevelTaskTest : BaseTest() {
+class EwRiskLevelTaskTest : BaseTest() {
     @MockK lateinit var riskLevels: RiskLevels
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var timeStamper: TimeStamper
@@ -110,7 +110,7 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { analyticsTestResultCollector.reportRiskResultsPerWindow(any()) } just Runs
     }
 
-    private fun createTask() = RiskLevelTask(
+    private fun createTask() = EwRiskLevelTask(
         riskLevels = riskLevels,
         enfClient = enfClient,
         timeStamper = timeStamper,

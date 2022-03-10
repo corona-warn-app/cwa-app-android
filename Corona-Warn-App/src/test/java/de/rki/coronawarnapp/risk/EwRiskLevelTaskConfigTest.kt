@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RiskLevelTaskConfigTest : BaseTest() {
+class EwRiskLevelTaskConfigTest : BaseTest() {
 
     @MockK lateinit var exposureDetectionTracker: ExposureDetectionTracker
 
@@ -25,7 +25,7 @@ class RiskLevelTaskConfigTest : BaseTest() {
 
     @Test
     fun `risk level task max execution time is not above 9 minutes`() {
-        RiskLevelTask.Config(exposureDetectionTracker)
+        EwRiskLevelTask.Config(exposureDetectionTracker)
             .executionTimeout
             .isShorterThan(Duration.standardMinutes(9)) shouldBe true
     }
@@ -43,7 +43,7 @@ class RiskLevelTaskConfigTest : BaseTest() {
             )
         )
         runBlocking {
-            RiskLevelTask.Config(exposureDetectionTracker)
+            EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
                 } shouldBe true
@@ -54,7 +54,7 @@ class RiskLevelTaskConfigTest : BaseTest() {
     fun `risk level preconditions are not met, because there are no detections`() {
         every { exposureDetectionTracker.calculations } returns MutableStateFlow(emptyMap())
         runBlocking {
-            RiskLevelTask.Config(exposureDetectionTracker)
+            EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
                 } shouldBe false
@@ -74,7 +74,7 @@ class RiskLevelTaskConfigTest : BaseTest() {
             )
         )
         runBlocking {
-            RiskLevelTask.Config(exposureDetectionTracker)
+            EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
                 } shouldBe false
@@ -93,7 +93,7 @@ class RiskLevelTaskConfigTest : BaseTest() {
             )
         )
         runBlocking {
-            RiskLevelTask.Config(exposureDetectionTracker)
+            EwRiskLevelTask.Config(exposureDetectionTracker)
                 .preconditions.fold(true) { result, precondition ->
                     result && precondition()
                 } shouldBe false

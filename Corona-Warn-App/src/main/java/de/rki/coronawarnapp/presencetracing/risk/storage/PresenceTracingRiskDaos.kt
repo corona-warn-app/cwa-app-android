@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.TypeConverter
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
@@ -100,11 +101,13 @@ data class PresenceTracingRiskLevelResultEntity(
 
 internal fun PresenceTracingRiskLevelResultEntity.toRiskLevelResult(
     presenceTracingDayRisks: List<PresenceTracingDayRisk>?,
+    traceLocationCheckInRiskStates: List<TraceLocationCheckInRisk>? = null,
     checkInWarningOverlaps: List<CheckInWarningOverlap>?
 ) = PtRiskLevelResult(
     calculatedAt = Instant.ofEpochMilli((calculatedAtMillis)),
     riskState = riskState,
     presenceTracingDayRisk = presenceTracingDayRisks,
+    traceLocationCheckInRiskStates = traceLocationCheckInRiskStates,
     checkInWarningOverlaps = checkInWarningOverlaps,
     calculatedFrom = Instant.ofEpochMilli((calculatedFromMillis)),
 )
