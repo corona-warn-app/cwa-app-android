@@ -97,7 +97,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"

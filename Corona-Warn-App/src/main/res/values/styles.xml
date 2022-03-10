@@ -74,7 +74,7 @@
     <!-- ####################################
                     Button
     ###################################### -->
-    <style name="button">
+    <style name="button" parent="Widget.Material3.Button">
         <item name="android:paddingStart">@dimen/button_padding_start_end</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
         <item name="android:paddingBottom">12dp</item>
@@ -150,7 +150,7 @@
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
     </style>
-    
+
     <!-- ####################################
                   Row
   ###################################### -->
