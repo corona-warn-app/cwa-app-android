@@ -51,26 +51,25 @@ class PresenceTracingRiskRepository @Inject constructor(
             }
         }
 
-    val latestRiskLevelResult: Flow<PtRiskLevelResult?> =
-        combine(
-            riskLevelResultDao.allEntries(),
-            allCheckInWarningOverlaps,
-        ) { resultList, overlaps ->
-            val latestResult = resultList.maxByOrNull {
-                it.calculatedAtMillis
-            }
-            val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
-                allCheckInWarningOverlaps.first(),
-                Instant.ofEpochMilli(latestResult?.calculatedFromMillis ?: 0)
-            )
-            val normalizedTime = relevantWarnings.calculateNormalizedTime()
-
-            latestResult?.toRiskLevelResult(
-                presenceTracingDayRisks = ptRiskCalculator.calculateDayRisk(normalizedTime),
-                traceLocationCheckInRiskStates = ptRiskCalculator.calculateCheckInRiskPerDay(normalizedTime),
-                checkInWarningOverlaps = relevantWarnings,
-            )
+    val latestRiskLevelResult: Flow<PtRiskLevelResult?> = combine(
+        riskLevelResultDao.allEntries(),
+        allCheckInWarningOverlaps,
+    ) { resultList, overlaps ->
+        val latestResult = resultList.maxByOrNull {
+            it.calculatedAtMillis
         }
+        val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
+            overlaps,
+            Instant.ofEpochMilli(latestResult?.calculatedFromMillis ?: 0)
+        )
+        val normalizedTime = relevantWarnings.calculateNormalizedTime()
+
+        latestResult?.toRiskLevelResult(
+            presenceTracingDayRisks = ptRiskCalculator.calculateDayRisk(normalizedTime),
+            traceLocationCheckInRiskStates = ptRiskCalculator.calculateCheckInRiskPerDay(normalizedTime),
+            checkInWarningOverlaps = relevantWarnings,
+        )
+    }
 
     val traceLocationCheckInRiskStates: Flow<List<TraceLocationCheckInRisk>> =
         latestRiskLevelResult.map {

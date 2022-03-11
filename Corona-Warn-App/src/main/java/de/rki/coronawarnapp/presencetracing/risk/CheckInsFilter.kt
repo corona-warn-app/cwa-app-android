@@ -20,15 +20,14 @@ class CheckInsFilter @Inject constructor(
         list: List<CheckInWarningOverlap>,
         deadline: Instant
     ): List<CheckInWarningOverlap> {
-        return list.filter { it.startTime.isAfter(deadline) }
+        return list.filter { !it.endTime.isBefore(deadline) }
     }
 
     suspend fun filterCheckIns(
         list: List<CheckIn>,
-        now: Instant = timeStamper.nowUTC
     ): List<CheckIn> = list.filterByAge(
         getMaxAgeInDays(),
-        now
+        timeStamper.nowUTC
     )
 
     private suspend fun getMaxAgeInDays() = appConfigProvider.currentConfig.first().maxCheckInAgeInDays

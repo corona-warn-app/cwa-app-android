@@ -54,6 +54,7 @@ class EwRiskLevelTaskTest : BaseTest() {
     @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
     @MockK lateinit var exposureWindow1: ExposureWindow
     @MockK lateinit var exposureWindow2: ExposureWindow
+    @MockK lateinit var ewFilter: ExposureWindowsFilter
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
 
@@ -108,6 +109,8 @@ class EwRiskLevelTaskTest : BaseTest() {
         }
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
         coEvery { analyticsTestResultCollector.reportRiskResultsPerWindow(any()) } just Runs
+
+        every { ewFilter.filterByAge(any(), any(), any()) } returns emptyList()
     }
 
     private fun createTask() = EwRiskLevelTask(
@@ -121,7 +124,8 @@ class EwRiskLevelTaskTest : BaseTest() {
         keyCacheRepository = keyCacheRepository,
         coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
-        analyticsTestResultCollector = analyticsTestResultCollector
+        analyticsTestResultCollector = analyticsTestResultCollector,
+        filter = ewFilter
     )
 
     private fun mockCachedKey(
@@ -310,15 +314,14 @@ class EwRiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation respects max age config parameter`() = runBlockingTest {
+    fun `risk calculation applies filter`() = runBlockingTest {
         val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
         val now = Instant.parse("2020-12-28T00:00:00Z")
         val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
             every { isIncreasedRisk() } returns true
         }
 
-        every { exposureWindow1.dateMillisSinceEpoch } returns Instant.parse("2020-12-13T00:00:00Z").millis
-        every { exposureWindow2.dateMillisSinceEpoch } returns Instant.parse("2020-12-14T00:00:00Z").millis
+        every { ewFilter.filterByAge(any(), any(), any()) } returns listOf(exposureWindow2)
 
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
         coEvery { enfClient.exposureWindows() } returns listOf(exposureWindow1, exposureWindow2)

@@ -75,8 +75,8 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns now
 
-        coEvery { checkInsFilter.filterCheckIns(emptyList(), now) } returns emptyList()
-        coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2), now) } returns
+        coEvery { checkInsFilter.filterCheckIns(emptyList()) } returns emptyList()
+        coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2)) } returns
             listOf(CHECKIN_1, CHECKIN_2)
 
         every { coronaTestRepository.coronaTests } returns coronaTests
@@ -132,7 +132,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         autoCheckOut = autoCheckOut,
         appConfigProvider = appConfigProvider,
         checkInsFilter = checkInsFilter,
-        timeStamper = timeStamper
     )
 
     @Test
@@ -184,7 +183,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
     @Test
     fun `filter respects max checkIn age`() = runBlockingTest {
-        coEvery { checkInsFilter.filterCheckIns(any(), now) } returns listOf(CHECKIN_1)
+        coEvery { checkInsFilter.filterCheckIns(any()) } returns listOf(CHECKIN_1)
         createInstance().run(mockk()) shouldNotBe null
 
         coVerifySequence {

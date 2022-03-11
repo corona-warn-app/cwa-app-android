@@ -20,14 +20,12 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Days
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.TestDispatcherProvider
 
 class PresenceTracingRiskRepositoryTest : BaseTest() {
 
@@ -38,18 +36,22 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     @MockK lateinit var riskLevelResultDao: PresenceTracingRiskLevelResultDao
     @MockK lateinit var database: PresenceTracingRiskDatabase
     @MockK lateinit var checkInsFilter: CheckInsFilter
-    val dispatcherProvider = TestDispatcherProvider()
 
     private val now = Instant.parse("2022-02-02T11:59:59Z")
     private val fifteenDaysAgo = now.minus(Days.days(15).toStandardDuration())
     private val maxCheckInAgeInDays = 10
+
+    private val ptRiskLevelResultEntity = PresenceTracingRiskLevelResultEntity(
+        calculatedAtMillis = now.millis -1000,
+        calculatedFromMillis = now.millis -10000,
+        riskState = RiskState.LOW_RISK
+    )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { timeStamper.nowUTC } returns now
 
-        every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(emptyList())
         coEvery { traceTimeIntervalMatchDao.insert(any()) } just Runs
         coEvery { traceTimeIntervalMatchDao.deleteMatchesForPackage(any()) } just Runs
         coEvery { traceTimeIntervalMatchDao.deleteAll() } just Runs
@@ -57,6 +59,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
         every { riskLevelResultDao.insert(any()) } just Runs
         coEvery { riskLevelResultDao.deleteOlderThan(any()) } just Runs
+        coEvery { riskLevelResultDao.allEntries() } returns flowOf(listOf(ptRiskLevelResultEntity))
 
         coEvery { databaseFactory.create() } returns database
         every { database.traceTimeIntervalMatchDao() } returns traceTimeIntervalMatchDao
@@ -66,7 +69,6 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         coEvery { presenceTracingRiskCalculator.calculateTotalRisk(any()) } returns RiskState.LOW_RISK
 
         coEvery { checkInsFilter.filterCheckInWarningsByAge(any(), any()) } returns emptyList()
-        coEvery { riskLevelResultDao.allEntries() } returns flowOf(emptyList())
     }
 
     @Test
@@ -131,11 +133,20 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
     @Test
     fun `presenceTracingDayRisk works`() {
+        val entity = TraceTimeIntervalMatchEntity(
+            checkInId = 2L,
+            traceWarningPackageId = "traceWarningPackageId",
+            transmissionRiskLevel = 1,
+            startTimeMillis = now.minus(100000).millis,
+            endTimeMillis = now.minus(80000).millis
+        )
+        every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
         val dayRisk = PresenceTracingDayRisk(
             localDateUtc = now.minus(100000).toLocalDateUtc(),
             riskState = RiskState.LOW_RISK
         )
         coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf(dayRisk)
+        coEvery { presenceTracingRiskCalculator.calculateCheckInRiskPerDay(any()) } returns emptyList()
         runBlockingTest {
             val risks = createInstance().presenceTracingDayRisk.first()
             risks.size shouldBe 1
@@ -231,7 +242,5 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         databaseFactory,
         timeStamper,
         checkInsFilter,
-        TestCoroutineScope(),
-        dispatcherProvider
     )
 }

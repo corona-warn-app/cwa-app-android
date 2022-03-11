@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.test.risk.storage
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.DefaultRiskLevelStorage
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
@@ -34,6 +35,7 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
     @MockK lateinit var riskResultTables: RiskResultDatabase.RiskResultsDao
     @MockK lateinit var exposureWindowTables: RiskResultDatabase.ExposureWindowsDao
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
+    @MockK lateinit var ewFilter: ExposureWindowsFilter
 
     private val testRiskLevelResultDao = PersistedRiskLevelResultDao(
         id = "riskresult-id",
@@ -97,7 +99,7 @@ class DefaultRiskLevelStorageTest : BaseTestInstrumentation() {
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = RiskCombinator(TimeStamper()),
-        timeStamper = TimeStamper(),
+        ewFilter = ewFilter,
     )
 
     @Test

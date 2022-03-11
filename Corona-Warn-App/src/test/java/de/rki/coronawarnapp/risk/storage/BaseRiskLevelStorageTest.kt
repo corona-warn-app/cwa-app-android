@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayR
 import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewCalculatedAt
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testAggregatedRiskPerDateResult
@@ -57,16 +58,17 @@ class BaseRiskLevelStorageTest : BaseTest() {
     @MockK lateinit var aggregatedRiskPerDateResultDao: AggregatedRiskPerDateResultDao
     @MockK lateinit var presenceTracingRiskRepository: PresenceTracingRiskRepository
     @MockK lateinit var timeStamper: TimeStamper
+    @MockK lateinit var ewFilter: ExposureWindowsFilter
 
     private lateinit var riskCombinator: RiskCombinator
-
+    private val now = Instant.parse("2021-01-01T12:00:00.000Z")
     private val maxCheckInAgeInDays = 10
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns Instant.parse("2021-01-01T12:00:00.000Z")
+        every { timeStamper.nowUTC } returns now
         riskCombinator = RiskCombinator(
             timeStamper = timeStamper
         )
@@ -93,6 +95,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         coEvery { presenceTracingRiskRepository.presenceTracingDayRisk } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.allRiskLevelResults } returns emptyFlow()
         coEvery { presenceTracingRiskRepository.clearAllTables() } just Runs
+        coEvery { presenceTracingRiskRepository.latestRiskLevelResult } returns emptyFlow()
     }
 
     private fun createInstance(
@@ -105,6 +108,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = riskCombinator,
+        ewFilter = ewFilter,
     ) {
         override val storedResultLimit: Int = storedResultLimit
 

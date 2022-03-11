@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.risk
 
 import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
@@ -11,6 +12,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import javax.inject.Inject
 
+@Reusable
 class ExposureWindowsFilter @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
 ) {
@@ -35,24 +37,25 @@ class ExposureWindowsFilter @Inject constructor(
         }
     }
 
-    @VisibleForTesting
-    internal fun List<ExposureWindow>.filterByAge(
-        maxAgeInDays: Int,
-        nowUtc: Instant
-    ): List<ExposureWindow> {
-        val deadline = nowUtc.minusDays(maxAgeInDays).millis
-        return filter {
-            it.dateMillisSinceEpoch >= deadline
-        }
-    }
-
     private fun ExposureWindowRiskCalculationConfig.getDeadline(nowUtc: Instant): Instant =
         nowUtc.minusDays(getMaxEwAgeInDays()).toInstant()
 
-    private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(DateTimeZone.UTC)
 
     private fun ExposureWindowRiskCalculationConfig.getMaxEwAgeInDays() =
         if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays else DEFAULT_EW_AGE_IN_DAYS
 }
 
 private const val DEFAULT_EW_AGE_IN_DAYS = 14
+
+@VisibleForTesting
+internal fun List<ExposureWindow>.filterByAge(
+    maxAgeInDays: Int,
+    nowUtc: Instant
+): List<ExposureWindow> {
+    val deadline = nowUtc.minusDays(maxAgeInDays).millis
+    return filter {
+        it.dateMillisSinceEpoch >= deadline
+    }
+}
+
+private fun Instant.minusDays(days: Int) = toLocalDateUtc().minusDays(days).toDateTimeAtStartOfDay(DateTimeZone.UTC)
