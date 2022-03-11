@@ -15,4 +15,10 @@ data class PersonSettings(
 
     @JsonProperty("lastDccReissuanceNotifiedAt")
     val lastDccReissuanceNotifiedAt: Instant? = null,
+
+    @JsonProperty("showAdmissionStateChangedBadge")
+    val showAdmissionStateChangedBadge: Boolean = false,
+
+    @JsonProperty("lastAdmissionState")
+    val lastAdmissionStateNotifiedAt: Instant? = null,
 )

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -57,7 +58,10 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             root.transitionName = args.personCode
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener {
+                viewModel.dismissAdmissionStateBadge()
+                popBackStack()
+            }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
@@ -84,6 +88,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 )
             }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.dismissAdmissionStateBadge() }
     }
 
     private fun onNavEvent(event: PersonDetailsEvents) {

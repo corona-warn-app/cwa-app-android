@@ -27,10 +27,13 @@ class AdmissionStatusCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         title.text = curItem.titleText
+        admissionStateBadge.isVisible = curItem.redBadgeVisible
         subtitle.text = curItem.subtitleText
         badge.isVisible = curItem.badgeText.isNotBlank()
         badge.text = curItem.badgeText
-        body.text = curItem.longText
+        if (curItem.redBadgeVisible && curItem.longTextWithBadge != null) {
+            body.text = curItem.longTextWithBadge
+        } else body.text = curItem.longText
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)
         faq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
@@ -42,7 +45,9 @@ class AdmissionStatusCard(parent: ViewGroup) :
         val titleText: String,
         val subtitleText: String,
         val badgeText: String,
+        val redBadgeVisible: Boolean = false,
         val longText: String,
+        val longTextWithBadge: String?,
         val faqAnchor: String?,
         val colorShade: PersonColorShade,
     ) : CertificateItem, HasPayloadDiffer {

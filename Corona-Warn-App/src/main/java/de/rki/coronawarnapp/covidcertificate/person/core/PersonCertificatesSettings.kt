@@ -2,17 +2,17 @@ package de.rki.coronawarnapp.covidcertificate.person.core
 
 import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.stringPreferencesKey
-import com.fasterxml.jackson.databind.ObjectMapper
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.mutate
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
 import de.rki.coronawarnapp.covidcertificate.person.model.SettingsMap
+import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.mutate
 import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -76,6 +76,33 @@ class PersonCertificatesSettings @Inject constructor(
             saveSettings(toMap())
         }
     }
+
+    suspend fun setGStatusNotifiedAt(
+        personIdentifier: CertificatePersonIdentifier,
+        time: Instant = Instant.now()
+    ) {
+        Timber.tag(TAG).d("setCurrentAdmissionState()")
+        settings().mutate {
+            val personSettings = get(personIdentifier) ?: PersonSettings()
+            val badgeSettings =
+                personSettings.copy(showAdmissionStateChangedBadge = true, lastAdmissionStateNotifiedAt = time)
+            this[personIdentifier] = badgeSettings
+            saveSettings(toMap())
+        }
+    }
+
+    suspend fun dismissGStatusBadge(
+        personIdentifier: CertificatePersonIdentifier
+    ) {
+        Timber.tag(TAG).d("dismissGStatusBadge()")
+        settings().mutate {
+            val personSettings = get(personIdentifier) ?: PersonSettings()
+            val badgeSettings = personSettings.copy(showAdmissionStateChangedBadge = false)
+            this[personIdentifier] = badgeSettings
+            saveSettings(toMap())
+        }
+    }
+
 
     suspend fun setBoosterNotifiedAt(
         personIdentifier: CertificatePersonIdentifier,
