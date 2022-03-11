@@ -126,7 +126,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
         val testPersistedAggregatedRiskPerDateResultFlow = flowOf(listOf(testPersistedAggregatedRiskPerDateResult))
         every { aggregatedRiskPerDateResultDao.allEntries() } returns testPersistedAggregatedRiskPerDateResultFlow
 
-        runBlockingTest {
+        runBlockingTest2(true) {
             val instance = createInstance()
             val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
             allEntries shouldBe testPersistedAggregatedRiskPerDateResultFlow

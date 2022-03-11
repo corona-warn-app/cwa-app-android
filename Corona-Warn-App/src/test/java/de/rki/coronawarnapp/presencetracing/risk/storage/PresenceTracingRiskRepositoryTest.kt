@@ -47,6 +47,14 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         riskState = RiskState.LOW_RISK
     )
 
+    val entity = TraceTimeIntervalMatchEntity(
+        checkInId = 1L,
+        traceWarningPackageId = "traceWarningPackageId",
+        transmissionRiskLevel = 1,
+        startTimeMillis = fifteenDaysAgo.minus(100000).millis,
+        endTimeMillis = fifteenDaysAgo.millis
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -56,6 +64,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
         coEvery { traceTimeIntervalMatchDao.deleteMatchesForPackage(any()) } just Runs
         coEvery { traceTimeIntervalMatchDao.deleteAll() } just Runs
         coEvery { traceTimeIntervalMatchDao.deleteOlderThan(any()) } just Runs
+        every { traceTimeIntervalMatchDao.allMatches() } returns flowOf(listOf(entity))
 
         every { riskLevelResultDao.insert(any()) } just Runs
         coEvery { riskLevelResultDao.deleteOlderThan(any()) } just Runs
@@ -67,6 +76,7 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
 
         coEvery { presenceTracingRiskCalculator.calculateNormalizedTime(any()) } returns listOf()
         coEvery { presenceTracingRiskCalculator.calculateTotalRisk(any()) } returns RiskState.LOW_RISK
+        coEvery { presenceTracingRiskCalculator.calculateDayRisk(any()) } returns listOf()
 
         coEvery { checkInsFilter.filterCheckInWarningsByAge(any(), any()) } returns emptyList()
     }
