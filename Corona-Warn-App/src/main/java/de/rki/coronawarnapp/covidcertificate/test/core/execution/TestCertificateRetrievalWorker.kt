@@ -9,6 +9,8 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
+import kotlinx.coroutines.CancellationException
+
 import timber.log.Timber
 
 class TestCertificateRetrievalWorker @AssistedInject constructor(
@@ -38,6 +40,9 @@ class TestCertificateRetrievalWorker @AssistedInject constructor(
             }
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Test result retrieval worker failed.")
+            if (e is CancellationException) {
+                testCertificateRepository.refreshCleanup()
+            }
             Result.retry()
         }
     }
