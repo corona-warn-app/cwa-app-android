@@ -42,8 +42,8 @@ class PresenceTracingRiskRepositoryTest : BaseTest() {
     private val maxCheckInAgeInDays = 10
 
     private val ptRiskLevelResultEntity = PresenceTracingRiskLevelResultEntity(
-        calculatedAtMillis = now.millis -1000,
-        calculatedFromMillis = now.millis -10000,
+        calculatedAtMillis = now.millis - 1000,
+        calculatedFromMillis = now.millis - 10000,
         riskState = RiskState.LOW_RISK
     )
 

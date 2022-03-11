@@ -44,12 +44,12 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     val allRiskLevelResults = riskLevelResultDao.allEntries().map { list ->
-            list.sortedByDescending {
-                it.calculatedAtMillis
-            }.map {
-                it.toRiskLevelResult()
-            }
+        list.sortedByDescending {
+            it.calculatedAtMillis
+        }.map {
+            it.toRiskLevelResult()
         }
+    }
 
     val latestRiskLevelResult: Flow<PtRiskLevelResult?> = combine(
         riskLevelResultDao.allEntries(),

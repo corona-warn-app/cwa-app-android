@@ -15,7 +15,7 @@ class ExposureWindowFilterTest : BaseTest() {
     @MockK lateinit var exposureWindow1: ExposureWindow
     @MockK lateinit var exposureWindow2: ExposureWindow
 
-        @BeforeEach
+    @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
     }
