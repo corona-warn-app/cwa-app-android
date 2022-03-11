@@ -99,7 +99,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
             .launchIn(appScope)
     }
 
-    internal suspend fun scheduleWorker() {
+    private suspend fun scheduleWorker() {
         Timber.tag(TAG).i("scheduleWorker()")
 
         if (isScheduled(WORKER_ID)) {
