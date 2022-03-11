@@ -339,7 +339,7 @@ jobs:
           name: trigger App Automation Testing
           command: |
             curl -u $CIRCLE_API_USER_TOKEN: \
-            -d 'build_parameters[CIRCLE_JOB]=build' \
+            -d 'build_parameters[CIRCLE_JOB]=android' \
             https://circleci.com/api/v1.1/project/github/corona-warn-app/cwa-app-automation/tree/main
 
   instrumentation_tests_device:
