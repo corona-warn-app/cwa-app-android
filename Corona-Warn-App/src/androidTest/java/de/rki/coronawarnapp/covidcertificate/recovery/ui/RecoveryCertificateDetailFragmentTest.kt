@@ -125,8 +125,6 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         every { testedPositiveOnFormatted } returns "2021-05-24"
         every { certificateCountry } returns "Deutschland"
         every { certificateIssuer } returns "Robert Koch-Institut"
-        every { validFromFormatted } returns "2021-06-07"
-        every { validUntilFormatted } returns "2021-11-10"
         every { hasNotificationBadge } returns false
         every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)

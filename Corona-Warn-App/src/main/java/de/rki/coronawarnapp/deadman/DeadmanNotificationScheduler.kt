@@ -4,7 +4,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -22,8 +21,7 @@ class DeadmanNotificationScheduler @Inject constructor(
     val workManager: WorkManager,
     val workBuilder: DeadmanNotificationWorkBuilder,
     val onboardingSettings: OnboardingSettings,
-    val enfClient: ENFClient,
-    val coronaTestRepository: CoronaTestRepository
+    val enfClient: ENFClient
 ) {
 
     fun setup() {
@@ -31,26 +29,21 @@ class DeadmanNotificationScheduler @Inject constructor(
 
         combine(
             onboardingSettings.isOnboardedFlow,
-            coronaTestRepository.coronaTests,
             enfClient.isTracingEnabled
-        ) { isOnboarded, coronaTests, isTracingEnabled ->
-            val noPositiveTestRegistered = coronaTests.none { it.isPositive }
+        ) { isOnboarded, isTracingEnabled ->
             Timber.d(
                 "isOnboarded = $isOnboarded, " +
-                    "noPositiveTestRegistered = $noPositiveTestRegistered, " +
                     "isTracingEnabled = $isTracingEnabled"
             )
-            isOnboarded && noPositiveTestRegistered && isTracingEnabled
-        }
-            .onEach { shouldSchedulePeriodic ->
-                Timber.d("shouldSchedulePeriodic: $shouldSchedulePeriodic")
-                if (shouldSchedulePeriodic) {
-                    schedulePeriodic()
-                } else {
-                    cancelScheduledWork()
-                }
+            isOnboarded && isTracingEnabled
+        }.onEach { shouldSchedulePeriodic ->
+            Timber.d("shouldSchedulePeriodic: $shouldSchedulePeriodic")
+            if (shouldSchedulePeriodic) {
+                schedulePeriodic()
+            } else {
+                cancelScheduledWork()
             }
-            .launchIn(appScope)
+        }.launchIn(appScope)
     }
 
     /**
@@ -102,6 +95,7 @@ class DeadmanNotificationScheduler @Inject constructor(
          * Deadman notification one time work
          */
         const val ONE_TIME_WORK_NAME = "DeadmanNotificationOneTimeWork"
+
         /**
          * Deadman notification periodic work
          */
