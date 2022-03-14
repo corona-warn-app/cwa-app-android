@@ -274,7 +274,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             info = mockk<CachedKeyInfo>().apply {
                 every { location } returns LocationCode("NOT-EUR")
                 every { isDownloadComplete } returns true
-                every { checkedForExposures }  returns true
+                every { checkedForExposures } returns true
             },
             path = mockk<File>().apply {
                 every { exists() } returns true
@@ -284,7 +284,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             info = mockk<CachedKeyInfo>().apply {
                 every { location } returns LocationCode("EUR")
                 every { isDownloadComplete } returns true
-                every { checkedForExposures }  returns false
+                every { checkedForExposures } returns false
             },
             path = mockk<File>().apply {
                 every { exists() } returns true
