@@ -12,10 +12,10 @@ class TracingExplanationDialog @Inject constructor(
     private val context: Context
         get() = homeFragment.requireContext()
 
-    fun show(onPositive: () -> Unit) {
+    fun show(maxEncounterAgeInDays: Int, onPositive: () -> Unit) {
 
         val infoPeriodLogged =
-            context.getString(R.string.risk_details_information_body_period_logged)
+            context.getString(R.string.risk_details_information_body_period_logged, maxEncounterAgeInDays)
         val infoPeriodLoggedAssessment =
             context.getString(R.string.risk_details_information_body_period_logged_assessment)
         val infoFAQ = context.getString(R.string.risk_details_explanation_dialog_faq_body)
