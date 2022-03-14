@@ -90,8 +90,8 @@
     <string name="recovery_certificate_details_subtitle">"Unijny cyfrowy certyfikat COVID"</string>
     <!-- XTXT: Recovery certificate card name  -->
     <string name="recovery_certificate_name">"Certyfikat statusu ozdrowieńca"</string>
-    <!-- XTXT: Recovery certificate valid until -->
-    <string name="recovery_certificate_valid_until">"ważne do %s"</string>
+    <!-- XTXT: Recovery certificate the date of the sample collection -->
+    <string name="recovery_certificate_sample_collection">"Positiver Test vom %s"</string>
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
