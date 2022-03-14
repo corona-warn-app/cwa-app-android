@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Risk of Infection"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last 14 days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
+    <string name="main_overview_body_risk">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last %d days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"The following risk status can be shown:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"This period is included in the calculation."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last 14 days."</string>
+    <string name="risk_details_information_body_period_logged">"Your risk of infection can be calculated only for periods during which exposure logging was active. The logging feature should therefore remain active permanently. Exposure logging covers the last %d days."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"The Corona-Warn-App was installed today. Your risk of infection is calculated for the periods during which exposure logging was active. If you have encountered other people and exposure logging was active, your risk of infection is calculated."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -391,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break infection chains much quicker."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last 14 days."</string>
+    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last %d days."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Display your test results (PCR test or rapid antigen test) in the app and warn others if you are diagnosed with coronavirus."</string>
     <!-- YTXT: onboarding(together) - paragraph -->

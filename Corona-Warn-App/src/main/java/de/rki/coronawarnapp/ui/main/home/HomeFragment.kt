@@ -208,7 +208,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
             )
-            HomeFragmentEvents.ShowTracingExplanation -> tracingExplanationDialog.show {
+            is HomeFragmentEvents.ShowTracingExplanation -> tracingExplanationDialog.show(event.maxEncounterAgeInDays) {
                 viewModel.tracingExplanationWasShown()
             }
             HomeFragmentEvents.GoToRiskDetailsFragment -> doNavigate(
