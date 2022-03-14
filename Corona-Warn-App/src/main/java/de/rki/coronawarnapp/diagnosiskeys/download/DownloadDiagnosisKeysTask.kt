@@ -103,10 +103,10 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return Result()
             }
 
-            val availableKeyFiles = keySyncResult.deltaKeys.map { it.path }
-            val totalFileSize = availableKeyFiles.fold(0L, { acc, file -> file.length() + acc })
+            val deltaKeyFiles = keySyncResult.deltaKeys.map { it.path }
+            val totalFileSize = deltaKeyFiles.fold(0L, { acc, file -> file.length() + acc })
 
-            internalProgress.value = Progress.KeyFilesDownloadFinished(availableKeyFiles.size, totalFileSize)
+            internalProgress.value = Progress.KeyFilesDownloadFinished(deltaKeyFiles.size, totalFileSize)
 
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
@@ -119,7 +119,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                availableKeyFiles,
+                deltaKeyFiles,
                 exposureConfig.diagnosisKeysDataMapping
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
