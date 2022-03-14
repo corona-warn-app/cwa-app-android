@@ -149,7 +149,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
         titleText = format(admissionState.titleText),
         subtitleText = format(admissionState.subtitleText),
         badgeText = format(admissionState.badgeText),
-        redBadgeVisible = personCertificates.hasNewAdmissionState,
+        badgeVisible = personCertificates.hasNewAdmissionState,
         longText = format(admissionState.longText),
         longTextWithBadge = format(admissionState.stateChangeNotificationText),
         faqAnchor = format(admissionState.faqAnchor),

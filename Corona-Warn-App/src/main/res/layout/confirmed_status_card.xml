@@ -29,9 +29,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_badge"
         app:layout_constraintStart_toEndOf="@id/title"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_badge"
         tools:visibility="visible" />
 
     <TextView

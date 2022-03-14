@@ -27,11 +27,11 @@ class AdmissionStatusCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         title.text = curItem.titleText
-        admissionStateBadge.isVisible = curItem.redBadgeVisible
+        admissionStateBadge.isVisible = curItem.badgeVisible
         subtitle.text = curItem.subtitleText
         badge.isVisible = curItem.badgeText.isNotBlank()
         badge.text = curItem.badgeText
-        if (curItem.redBadgeVisible && curItem.longTextWithBadge != null) {
+        if (curItem.badgeVisible && curItem.longTextWithBadge != null) {
             body.text = curItem.longTextWithBadge
         } else body.text = curItem.longText
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)
@@ -45,7 +45,7 @@ class AdmissionStatusCard(parent: ViewGroup) :
         val titleText: String,
         val subtitleText: String,
         val badgeText: String,
-        val redBadgeVisible: Boolean = false,
+        val badgeVisible: Boolean = false,
         val longText: String,
         val longTextWithBadge: String?,
         val faqAnchor: String?,
