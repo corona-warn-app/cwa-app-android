@@ -26,7 +26,7 @@ class RapidAntigenCoronaTestExtensionsTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochMilli(1010010101)
-        every { coronaTestConfig.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated } returns
+        every { coronaTestConfig.ratParameters.hoursToDeemTestOutdated } returns
             Duration.standardHours(48)
     }
 
