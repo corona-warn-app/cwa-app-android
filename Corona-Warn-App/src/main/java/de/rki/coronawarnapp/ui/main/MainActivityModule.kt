@@ -20,6 +20,8 @@ import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentModule
+import de.rki.coronawarnapp.ui.main.overview.MainOverviewFragment
+import de.rki.coronawarnapp.ui.main.overview.MainOverviewFragmentModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaAnalyticsModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaInteroperabilityModule
 import de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsModule
@@ -70,6 +72,9 @@ abstract class MainActivityModule {
 
     @ContributesAndroidInjector(modules = [QrCodeScannerFragmentModule::class])
     abstract fun qrCodeScannerFragment(): QrCodeScannerFragment
+
+    @ContributesAndroidInjector(modules = [MainOverviewFragmentModule::class])
+    abstract fun mainOverviewFragment(): MainOverviewFragment
 
     @Binds
     @IntoMap
