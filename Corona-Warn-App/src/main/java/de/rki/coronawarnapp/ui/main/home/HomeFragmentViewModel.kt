@@ -310,7 +310,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun showPopUps() = launch {
         if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
-        if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(ShowTracingExplanation)
+        if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(
+            ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
+        )
     }
 
     fun restoreAppShortcuts() {

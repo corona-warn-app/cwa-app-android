@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
+import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -34,21 +36,26 @@ class SettingsTracingFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     installTimeProvider: InstallTimeProvider,
+    appConfigProvider: AppConfigProvider,
     private val backgroundStatus: BackgroundModeStatus,
     tracingPermissionHelperFactory: TracingPermissionHelper.Factory,
     private val exposureWindowRiskWorkScheduler: ExposureWindowRiskWorkScheduler,
     private val enfClient: ENFClient,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    val loggingPeriod: LiveData<PeriodLoggedBox.Item> =
-        tracingStatus.generalStatus.map {
-            PeriodLoggedBox.Item(
-                daysSinceInstallation = installTimeProvider.daysSinceInstallation,
-                tracingStatus = it
-            )
-        }
-            .onEach { Timber.v("logginPeriod onEach") }
-            .asLiveData(dispatcherProvider.Main)
+    val loggingPeriod: LiveData<PeriodLoggedBox.Item> = combine(
+        tracingStatus.generalStatus,
+        appConfigProvider.currentConfig
+    ) { status,
+        appConfig ->
+        PeriodLoggedBox.Item(
+            daysSinceInstallation = installTimeProvider.daysSinceInstallation,
+            tracingStatus = status,
+            maxEncounterAgeInDays = appConfig.maxEncounterAgeInDays
+        )
+    }
+        .onEach { Timber.v("logginPeriod onEach") }
+        .asLiveData(dispatcherProvider.Main)
 
     val tracingSettingsState: LiveData<TracingSettingsState> = tracingStatus.generalStatus
         .map { it.toTracingSettingsState() }
