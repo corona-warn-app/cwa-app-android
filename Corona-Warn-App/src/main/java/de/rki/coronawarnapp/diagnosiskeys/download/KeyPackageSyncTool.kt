@@ -38,9 +38,9 @@ class KeyPackageSyncTool @Inject constructor(
         }
 
         val deltaKeys = keyCache.getAllCachedKeys()
-            .filter { it.info.isDownloadComplete }
-            // exclude files that haven been checked
+            // exclude files that have been checked
             .filter { !it.info.checkedForExposures }
+            .filter { it.info.isDownloadComplete }
             .filter { (keyInfo, path) ->
                 path.exists().also {
                     if (!it) Timber.tag(TAG).w("Missing keyfile for : %s", keyInfo)
