@@ -11,7 +11,7 @@
     <color name="colorSurface2">#F5F5F5</color>
     <color name="colorSurface2Pressed">#D7D7D7</color>
     <color name="cwaGrayHighlight">#5D6F80</color>
-        <color name="colorSystemUI">#F5F5F5</color>
+    <color name="colorSystemUI">#F5F5F5</color>
 
     <color name="colorAccentTintButtonPressed">#02759E</color>
     <color name="colorAccentTintIcon">@color/colorPrimary</color>
@@ -80,7 +80,7 @@
 
     <!-- Bottom Nav bar-->
     <color name="navItemColorSelected">@color/colorSecondary</color>
-    <color name="navItemColorNormal">#76767B</color>
+    <color name="navItemColorNormal">#CC17191A</color>
 
     <!-- Trace location -->
     <color name="colorTraceLocationIconDateBackground">#FFFFFF</color>
