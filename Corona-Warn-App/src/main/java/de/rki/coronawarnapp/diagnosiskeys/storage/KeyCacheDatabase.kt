@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @Database(
     entities = [CachedKeyInfo::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(CommonConverters::class, CachedKeyInfo.Type.Converter::class)
@@ -54,11 +54,11 @@ abstract class KeyCacheDatabase : RoomDatabase() {
          */
         fun create(): KeyCacheDatabase = Room
             .databaseBuilder(context, KeyCacheDatabase::class.java, DATABASE_NAME)
-            .fallbackToDestructiveMigrationFrom()
+            .addMigrations(KeyCacheDatabaseMigration1To2)
             .build()
     }
 
     companion object {
-        private const val DATABASE_NAME = "keycache.db"
+        const val DATABASE_NAME = "keycache.db"
     }
 }
