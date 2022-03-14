@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.tracing.ui.details
 import android.content.Context
 import android.content.res.Resources
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -44,6 +46,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var installTimeProvider: InstallTimeProvider
     @MockK lateinit var surveys: Surveys
+    @MockK lateinit var appConfigProvider: AppConfigProvider
 
     @MockK(relaxed = true) lateinit var combinedResult: CombinedEwPtRiskLevelResult
 
@@ -51,13 +54,19 @@ class TracingDetailsItemProviderTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { context.resources } returns resources
+        every { appConfigProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { maxEncounterAgeInDays } returns 14
+            }
+        )
     }
 
     private fun createInstance() = TracingDetailsItemProvider(
         tracingStatus = tracingStatus,
         riskLevelStorage = riskLevelStorage,
         installTimeProvider = installTimeProvider,
-        surveys = surveys
+        surveys = surveys,
+        appConfigProvider = appConfigProvider,
     )
 
     private fun prepare(
