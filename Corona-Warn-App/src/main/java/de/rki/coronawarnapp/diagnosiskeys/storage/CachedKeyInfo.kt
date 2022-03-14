@@ -21,7 +21,8 @@ data class CachedKeyInfo(
     @ColumnInfo(name = "hour") val hour: LocalTime?, // i.e. 23
     @ColumnInfo(name = "createdAt") val createdAt: Instant,
     @ColumnInfo(name = "checksumMD5") val etag: String?, // ETag
-    @ColumnInfo(name = "completed") val isDownloadComplete: Boolean
+    @ColumnInfo(name = "completed") val isDownloadComplete: Boolean,
+    @ColumnInfo(name = "checkedForExposures") val checkedForExposures: Boolean = false
 ) {
 
     constructor(
