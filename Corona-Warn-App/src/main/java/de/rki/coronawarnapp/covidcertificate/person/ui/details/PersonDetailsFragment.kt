@@ -88,7 +88,9 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 )
             }
         }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.dismissAdmissionStateBadge() }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.dismissAdmissionStateBadge()
+        }
     }
 
     private fun onNavEvent(event: PersonDetailsEvents) {

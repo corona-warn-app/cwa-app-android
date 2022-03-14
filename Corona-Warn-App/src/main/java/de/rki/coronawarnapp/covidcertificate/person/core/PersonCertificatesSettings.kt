@@ -103,7 +103,6 @@ class PersonCertificatesSettings @Inject constructor(
         }
     }
 
-
     suspend fun setBoosterNotifiedAt(
         personIdentifier: CertificatePersonIdentifier,
         time: Instant = Instant.now()

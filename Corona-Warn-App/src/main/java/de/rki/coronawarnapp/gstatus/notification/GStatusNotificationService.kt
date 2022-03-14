@@ -25,7 +25,7 @@ class GStatusNotificationService @Inject constructor(
         val oldGStatusId = oldWalletInfo?.admissionState?.identifier
         val newGStatusId = newWalletInfo.admissionState.identifier
         when {
-            newGStatusId != null && newGStatusId != oldGStatusId -> {
+            newGStatusId != null && oldGStatusId != null && newGStatusId != oldGStatusId -> {
                 Timber.tag(TAG).d("Notifying person =%s about G status change", personIdentifier.codeSHA256)
                 personNotificationSender.showNotification(personIdentifier)
                 personCertificatesSettings.setGStatusNotifiedAt(personIdentifier)
