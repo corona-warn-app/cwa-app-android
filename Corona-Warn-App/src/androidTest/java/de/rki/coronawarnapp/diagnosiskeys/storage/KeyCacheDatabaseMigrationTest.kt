@@ -43,20 +43,20 @@ class KeyCacheDatabaseMigrationTest : BaseTestInstrumentation() {
             execSQL(
                 """
                     INSERT INTO "keyfiles" (
+                        "id",
                         "type",
                         "location",
                         "day",
                         "hour",
                         "createdAt",
-                        "checksumMD5",
                         "completed"
                     ) VALUES (
+                        '239015fe170a2f174ff15f115f7a462c888e6122',
                         'country_day',
                         'DE',
                         '2020-08-23',
                         '23',
-                        '9999999',
-                        'etag',
+                        '1970-01-01T02:46:39.999Z',
                         '0'
                     );
                 """.trimIndent()
