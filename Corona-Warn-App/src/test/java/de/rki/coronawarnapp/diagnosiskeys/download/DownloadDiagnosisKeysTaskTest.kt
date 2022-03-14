@@ -111,7 +111,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
             coEvery { provideDiagnosisKeys(any(), any()) } returns true
         }
 
-        coEvery {keyCacheRepository.markKeyChecked(any()) } just Runs
+        coEvery { keyCacheRepository.markKeyChecked(any()) } just Runs
     }
 
     fun createInstance() = DownloadDiagnosisKeysTask(
@@ -158,15 +158,13 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `not marked as checked if submission fails`() = runBlockingTest {
-
-        coEvery {  enfClient.provideDiagnosisKeys(any(), any()) } returns false
+        coEvery { enfClient.provideDiagnosisKeys(any(), any()) } returns false
         createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
         coVerifySequence {
             enfClient.isTracingEnabled
             enfClient.latestTrackedExposureDetection()
             enfClient.provideDiagnosisKeys(any(), any())
-
         }
         coVerify(exactly = 0) { keyCacheRepository.markKeyChecked(any()) }
     }
