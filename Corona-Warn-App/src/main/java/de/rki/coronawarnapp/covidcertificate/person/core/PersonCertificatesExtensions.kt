@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
     The list items shall be sorted descending by the following date attributes depending on the type of the DGC:
     for Vaccination Certificates (i.e. DGC with v[0]): the date of the vaccination v[0].dt and issuedAt date
     for Test Certificates (i.e. DGC with t[0]): the date of the sample collection t[0].sc
-    for Recovery Certificates (i.e. DGC with r[0]): the date of begin of the validity r[0].df
+    for Recovery Certificates (i.e. DGC with r[0]): the date of the sample collection r[0].fr
  */
 fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCertificate> {
     return this.sortedWith(
@@ -21,7 +21,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
                 when (it) {
                     is VaccinationCertificate -> it.vaccinatedOn
                     is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()
-                    is RecoveryCertificate -> it.validFrom
+                    is RecoveryCertificate -> it.testedPositiveOn
                     else -> throw IllegalStateException("Can't sort $it")
                 }
             },
@@ -29,7 +29,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
                 when (it) {
                     is VaccinationCertificate -> it.headerIssuedAt.toLocalDateUserTz()
                     is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()
-                    is RecoveryCertificate -> it.validFrom
+                    is RecoveryCertificate -> it.testedPositiveOn
                     else -> throw IllegalStateException("Can't sort $it")
                 }
             }
