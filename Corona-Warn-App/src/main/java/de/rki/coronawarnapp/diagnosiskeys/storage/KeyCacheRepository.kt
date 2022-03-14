@@ -131,8 +131,10 @@ class KeyCacheRepository @Inject constructor(
     }
 
     suspend fun markKeyChecked(cachedKeyInfos: List<CachedKeyInfo>) {
-        cachedKeyInfos.forEach {
-            getDao().setChecked(it.id)
+        with(getDao()) {
+            cachedKeyInfos.forEach {
+                setChecked(it.id)
+            }
         }
     }
 

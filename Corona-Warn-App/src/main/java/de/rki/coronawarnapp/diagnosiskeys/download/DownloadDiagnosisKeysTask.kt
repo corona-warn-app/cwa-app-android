@@ -125,7 +125,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
 
             if (isSubmissionSuccessful) {
-                //mark key files as checked
+                // mark key files as checked
                 keyCacheRepository.markKeyChecked(keySyncResult.deltaKeys.map { it.info }.toList())
             }
 
