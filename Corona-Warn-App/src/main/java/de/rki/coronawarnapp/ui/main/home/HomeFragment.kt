@@ -87,9 +87,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
         viewModel.showLoweredRiskLevelDialog.observe2(this) { if (it) showRiskLevelLoweredDialog() }
-        viewModel.showAdditionalHighRiskLevelDialog.observe2(this) {
-            if (it.show) showAdditionalHighRiskLevelDialog(it.maxEncounterAgeInDays)
-        }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
@@ -204,6 +201,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
                     onPositive = { viewModel.errorResetDialogDismissed() }
                 )
+            }
+            is HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent -> {
+                showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
             }
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
