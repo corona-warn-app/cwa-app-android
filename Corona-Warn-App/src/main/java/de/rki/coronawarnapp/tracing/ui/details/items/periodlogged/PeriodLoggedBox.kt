@@ -34,8 +34,12 @@ class PeriodLoggedBox(
 
     data class Item(
         val daysSinceInstallation: Int,
+        val maxEncounterAgeInDays: Int,
         val tracingStatus: GeneralTracingStatus.Status
     ) : DetailsItem {
+
+        fun getExposureLoggingPeriod(context: Context): String =
+            context.getString(R.string.risk_details_information_body_period_logged, maxEncounterAgeInDays)
 
         fun getInstallTimePeriodLogged(context: Context): String = when (daysSinceInstallation) {
             0 -> context.getString(

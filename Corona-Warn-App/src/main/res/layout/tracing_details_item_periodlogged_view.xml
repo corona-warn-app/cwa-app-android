@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:focusable="true"
-            android:text="@string/risk_details_information_body_period_logged"
+            android:text="@{loggedPeriod.getExposureLoggingPeriod(context)}"
+            tools:text="@string/risk_details_information_body_period_logged"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/risk_details_period_logged_subtitle" />
