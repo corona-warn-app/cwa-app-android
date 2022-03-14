@@ -137,7 +137,7 @@ class HourPackageSyncTool @Inject constructor(
         location: LocationCode,
         forceIndexLookup: Boolean
     ): LocationHours? {
-        val cachedHours = getDownloadedCachedKeys(location, Type.LOCATION_HOUR)
+        val cachedHours = getCachedKeys(location, Type.LOCATION_HOUR)
 
         val now = timeStamper.nowUTC
 
@@ -165,7 +165,7 @@ class HourPackageSyncTool @Inject constructor(
         }
 
         // If we have hours in covered by a day, delete the hours
-        val cachedDays = getDownloadedCachedKeys(location, Type.LOCATION_DAY).map {
+        val cachedDays = getCachedKeys(location, Type.LOCATION_DAY).map {
             it.info.day
         }.let { LocationDays(location, it) }
 

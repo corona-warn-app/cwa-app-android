@@ -87,7 +87,7 @@ open class BaseKeyPackageSyncTool(
         return@filter true
     }
 
-    internal suspend fun getDownloadedCachedKeys(
+    internal suspend fun getCachedKeys(
         location: LocationCode,
         type: CachedKeyInfo.Type
     ): List<CachedKey> = keyCache.getEntriesForType(type)
@@ -95,11 +95,12 @@ open class BaseKeyPackageSyncTool(
         .filter { key ->
             val complete = key.info.isDownloadComplete
             val exists = key.path.exists()
-            if (complete && !exists) {
+            val checked = key.info.checkedForExposures
+            if (complete && !exists && !checked) {
                 Timber.tag(tag).v("Incomplete download, will overwrite: %s", key)
             }
-            // We overwrite not completed ones
-            complete && exists
+            // We overwrite incomplete ones that have not been checked
+            complete && (exists || checked)
         }
 
     data class SyncResult(
