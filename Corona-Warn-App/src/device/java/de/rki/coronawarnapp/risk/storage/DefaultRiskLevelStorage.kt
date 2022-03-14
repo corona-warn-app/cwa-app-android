@@ -5,8 +5,6 @@ import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.storage.internal.RiskCombinator
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import kotlinx.coroutines.CoroutineScope
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,13 +13,11 @@ import javax.inject.Singleton
 class DefaultRiskLevelStorage @Inject constructor(
     riskResultDatabaseFactory: RiskResultDatabase.Factory,
     presenceTracingRiskRepository: PresenceTracingRiskRepository,
-    @AppScope scope: CoroutineScope,
     riskCombinator: RiskCombinator,
     ewFilter: ExposureWindowsFilter,
 ) : BaseRiskLevelStorage(
     riskResultDatabaseFactory,
     presenceTracingRiskRepository,
-    scope,
     riskCombinator,
     ewFilter,
 ) {

@@ -19,10 +19,8 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -96,10 +94,7 @@ class DefaultRiskLevelStorageTest : BaseTest() {
         every { presenceTracingRiskRepository.allRiskLevelResults } returns emptyFlow()
     }
 
-    private fun createInstance(
-        scope: CoroutineScope = TestCoroutineScope()
-    ) = DefaultRiskLevelStorage(
-        scope = scope,
+    private fun createInstance() = DefaultRiskLevelStorage(
         riskResultDatabaseFactory = databaseFactory,
         presenceTracingRiskRepository = presenceTracingRiskRepository,
         riskCombinator = RiskCombinator(timeStamper),

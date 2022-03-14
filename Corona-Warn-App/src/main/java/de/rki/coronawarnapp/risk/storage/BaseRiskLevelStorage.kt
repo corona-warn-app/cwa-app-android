@@ -17,8 +17,6 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.toPersistedRiskResult
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
-import de.rki.coronawarnapp.util.flow.shareLatest
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -30,7 +28,6 @@ import de.rki.coronawarnapp.util.flow.combine as flowCombine
 abstract class BaseRiskLevelStorage constructor(
     private val riskResultDatabaseFactory: RiskResultDatabase.Factory,
     private val presenceTracingRiskRepository: PresenceTracingRiskRepository,
-    scope: CoroutineScope,
     private val riskCombinator: RiskCombinator,
     private val ewFilter: ExposureWindowsFilter
 ) : RiskLevelStorage {
@@ -67,40 +64,30 @@ abstract class BaseRiskLevelStorage constructor(
         }
     }
 
+    // only for testers build
     final override val allEwRiskLevelResultsWithExposureWindows: Flow<List<EwRiskLevelResult>> = combine(
         riskResultsTables.allEntries(),
         exposureWindowsTables.allEntries()
     ) { allRiskResults, allWindows ->
-        Timber.v("Mapping all ${allWindows.size} windows to ${allRiskResults.size} risk results.")
-
-        val startTime = System.currentTimeMillis()
-        allRiskResults.combineWithWindows(allWindows).also {
-            Timber.v("Mapping took %dms", (System.currentTimeMillis() - startTime))
-        }
+        allRiskResults.combineWithWindows(allWindows)
     }
-        .shareLatest(tag = TAG, scope = scope)
 
     override val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.allEntries()
         .map { results ->
-            Timber.v("Mapping allEwRiskLevelResults:\n%s", results.joinToString("\n"))
             results.map { it.toRiskResult() }
         }
-        .shareLatest(tag = TAG, scope = scope)
 
     override suspend fun storeResult(resultEw: EwRiskLevelResult) {
         Timber.d("Storing result (exposureWindows.size=%s)", resultEw.exposureWindows?.size)
 
         val storedResultId = try {
-            val startTime = System.currentTimeMillis()
 
             require(resultEw.ewAggregatedRiskResult == null || resultEw.failureReason == null) {
                 "A result needs to have either an aggregatedRiskResult or a failureReason, not both!"
             }
 
             val resultToPersist = resultEw.toPersistedRiskResult()
-            riskResultsTables.insertEntry(resultToPersist).also {
-                Timber.d("Storing RiskLevelResult took %dms.", (System.currentTimeMillis() - startTime))
-            }
+            riskResultsTables.insertEntry(resultToPersist)
 
             resultEw.ewAggregatedRiskResult?.exposureWindowDayRisks?.let {
                 insertAggregatedRiskPerDateResults(it)
@@ -136,7 +123,6 @@ abstract class BaseRiskLevelStorage constructor(
             Timber.v("Mapping latestAndLastSuccessful:\n%s", results.joinToString("\n"))
             results.combineWithWindows(null)
         }
-        .shareLatest(tag = TAG, scope = scope)
 
     override val ewDayRiskStates: Flow<List<ExposureWindowDayRisk>> by lazy {
         combine(
@@ -195,7 +181,6 @@ abstract class BaseRiskLevelStorage constructor(
     override val allPtRiskLevelResults: Flow<List<PtRiskLevelResult>> =
         presenceTracingRiskRepository
             .allRiskLevelResults
-            .shareLatest(tag = TAG, scope = scope)
 
     // used for risk level change detector to trigger notification
     override val allCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
@@ -248,9 +233,5 @@ abstract class BaseRiskLevelStorage constructor(
         database.clearAllTables()
         Timber.w("clearResults() - Clearing stored presence tracing results.")
         presenceTracingRiskRepository.clearResults()
-    }
-
-    companion object {
-        private const val TAG = "RiskLevelStorage"
     }
 }
