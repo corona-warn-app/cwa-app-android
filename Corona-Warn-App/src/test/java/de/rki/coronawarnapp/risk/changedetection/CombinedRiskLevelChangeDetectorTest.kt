@@ -121,16 +121,16 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     )
 
     private fun createLastCombinedRiskResults(
-        lastSuccessfullyCalculated: CombinedEwPtRiskLevelResult,
+        lastCalculatedResult: CombinedEwPtRiskLevelResult,
         lastRiskEncounterAt: LocalDate
     ): LastCombinedRiskResults {
 
-        val lastSuccessfullyCalculatedSpy = spyk(lastSuccessfullyCalculated)
-        every { lastSuccessfullyCalculatedSpy.lastRiskEncounterAt } returns lastRiskEncounterAt
+        val lastCalculatedResultSpy = spyk(lastCalculatedResult)
+        every { lastCalculatedResultSpy.lastRiskEncounterAt } returns lastRiskEncounterAt
 
         return LastCombinedRiskResults(
-            lastCalculated = lastSuccessfullyCalculated,
-            lastSuccessfullyCalculated = lastSuccessfullyCalculatedSpy
+            lastCalculated = lastCalculatedResultSpy,
+            lastSuccessfullyCalculated = mockk()
         )
     }
 

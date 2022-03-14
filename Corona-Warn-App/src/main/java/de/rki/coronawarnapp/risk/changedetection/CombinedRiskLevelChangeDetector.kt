@@ -61,7 +61,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         // send notifications for additional HIGH risks after an initial HIGH risk
         riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult
-            .map { it.lastSuccessfullyCalculated }
+            .map { it.lastCalculated }
             .filter { it.lastRiskEncounterAt != null }
             .onEach { riskResult ->
                 Timber.d("Checking for additional high risk after an initial high risk")
@@ -149,7 +149,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
                 }
             }
             RiskState.CALCULATION_FAILED -> {
-                // can't happen, since we only receive successful calculations (lastSuccessfullyCalculated)
+                Timber.d("Calculation failed - do nothing")
             }
         }
     }
