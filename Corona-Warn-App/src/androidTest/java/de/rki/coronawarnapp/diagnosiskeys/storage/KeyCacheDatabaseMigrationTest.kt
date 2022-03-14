@@ -77,6 +77,5 @@ class KeyCacheDatabaseMigrationTest : BaseTestInstrumentation() {
         ).create()
 
         runBlocking { daoDb.cachedKeyFiles().allEntries().first() }.single() shouldBe keyHour
-
     }
 }
