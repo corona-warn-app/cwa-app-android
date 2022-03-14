@@ -57,10 +57,6 @@
     <string name="recovery_certificate_attribute_recovered_from" translatable="false">"Genesen von / Recovered from"</string>
     <!-- XTXT: Recovery Certificate Detail Screen Attribute: First Positive Test Result -->
     <string name="recovery_certificate_attribute_first_positive_test_result" translatable="false">"Datum des ersten positiven Testergebnisses / Date of first positive test result (YYYY-MM-DD)"</string>
-    <!-- XTXT: Recovery Certificate Detail Screen Attribute: Start of Certification Period -->
-    <string name="recovery_certificate_attribute_certificate_certification_period_start" translatable="false">"Zertifikat gültig ab / Certificate valid from (YYYY-MM-DD)"</string>
-    <!-- XTXT: Recovery Certificate Detail Screen Attribute: End of Certification Period -->
-    <string name="recovery_certificate_attribute_certificate_certification_period_end" translatable="false">"Zertifikat gültig bis / Certificate valid until (YYYY-MM-DD)"</string>
 
 
     <!-- #####################################################

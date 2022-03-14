@@ -37,7 +37,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val certificateThird = mockk<RecoveryCertificate>().apply {
-            every { validFrom } returns time.minus(oneDayDuration).toLocalDateUtc()
+            every { testedPositiveOn } returns time.minus(oneDayDuration).toLocalDateUtc()
         }
 
         val certificateWithoutDate = mockk<TestCertificate>().apply {
@@ -66,7 +66,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
     }
 
     @Test
-    fun `certificate sort order -  crash EXPOSUREAPP-9880`() {
+    fun `certificate sort order - crash EXPOSUREAPP-9880`() {
         val vc1 = mockk<VaccinationCertificate>().apply {
             every { headerIssuedAt } returns Instant.parse("2021-09-20T10:00:00.000Z")
             every { vaccinatedOn } returns Instant.parse("2021-06-24T14:00:00.000Z").toLocalDateUtc()
@@ -78,7 +78,7 @@ class PersonCertificatesExtensionsTest : BaseTest() {
         }
 
         val rc1 = mockk<RecoveryCertificate>().apply {
-            every { validFrom } returns Instant.parse("2021-04-25T14:00:00.000Z").toLocalDateUtc()
+            every { testedPositiveOn } returns Instant.parse("2021-04-25T14:00:00.000Z").toLocalDateUtc()
         }
 
         val tc2 = mockk<TestCertificate>().apply {
