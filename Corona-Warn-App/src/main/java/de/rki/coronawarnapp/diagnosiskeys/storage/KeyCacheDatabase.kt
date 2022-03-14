@@ -59,6 +59,6 @@ abstract class KeyCacheDatabase : RoomDatabase() {
     }
 
     companion object {
-        private const val DATABASE_NAME = "keycache.db"
+        const val DATABASE_NAME = "keycache.db"
     }
 }
