@@ -130,6 +130,12 @@ class KeyCacheRepository @Inject constructor(
         getDao().updateDownloadState(update)
     }
 
+    suspend fun markKeyChecked(cachedKeyInfos: List<CachedKeyInfo>) {
+        cachedKeyInfos.forEach {
+            getDao().setChecked(it.id)
+        }
+    }
+
     suspend fun delete(keyInfos: Collection<CachedKeyInfo>) {
         Timber.d("delete(keyFiles=%s)", keyInfos)
         keyInfos.forEach { key ->

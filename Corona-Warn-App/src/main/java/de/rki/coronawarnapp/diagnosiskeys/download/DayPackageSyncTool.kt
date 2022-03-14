@@ -92,7 +92,7 @@ class DayPackageSyncTool @Inject constructor(
         location: LocationCode,
         forceIndexLookup: Boolean
     ): LocationDays? {
-        // existing or checked files
+        // existing or checked files -> no download needed
         val cachedKeys = getCachedKeys(location, Type.LOCATION_DAY)
 
         if (!forceIndexLookup && !expectNewDayPackages(cachedKeys)) {

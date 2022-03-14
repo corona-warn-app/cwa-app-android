@@ -107,7 +107,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
@@ -139,7 +139,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = false
         )
@@ -170,7 +170,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
@@ -216,7 +216,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
@@ -249,7 +249,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey),
             wasDaySyncSucccessful = true
         )

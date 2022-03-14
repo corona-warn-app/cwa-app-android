@@ -91,7 +91,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         every { environmentSetup.useEuropeKeyPackageFiles } returns true
 
         coEvery { keyPackageSyncTool.syncKeyFiles(any()) } returns syncResult.apply {
-            every { availableKeys } returns listOf(availableKey1)
+            every { deltaKeys } returns listOf(availableKey1)
             every { newKeys } returns listOf(newKey1)
         }
 
