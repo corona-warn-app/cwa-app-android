@@ -15,6 +15,7 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -185,19 +186,14 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
     }
 
     private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) {
-        val additionalHighRiskLevelDialog = DialogHelper.DialogInstance(
-            context = requireActivity(),
-            title = R.string.additional_high_risk_dialog_headline,
-            message = getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays),
-            positiveButton = R.string.additional_high_risk_dialog_button_confirm,
-            negativeButton = null,
-            cancelable = false,
-            positiveButtonFunction = { viewModel.userHasAcknowledgedAdditionalHighRiskLevel() }
-        )
-
-        DialogHelper.showDialog(additionalHighRiskLevelDialog).apply {
-            getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getColorCompat(R.color.colorTextTint))
-        }
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.additional_high_risk_dialog_headline)
+            setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
+            setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
+                viewModel.userHasAcknowledgedAdditionalHighRiskLevel()
+            }
+            setCancelable(false)
+        }.show()
     }
 
     private fun navigate(event: HomeFragmentEvents) {

@@ -286,18 +286,16 @@ class HomeFragmentViewModel @AssistedInject constructor(
         val maxEncounterAgeInDays: Int
     )
 
-    val showAdditionalHighRiskLevelDialog: LiveData<ShowAdditionalHighRiskLevelDialogEvent> by lazy {
-        tracingSettings
-            .isUserToBeNotifiedOfAdditionalHighRiskLevel
-            .flow
-            .map {
-                ShowAdditionalHighRiskLevelDialogEvent(
-                    show = it,
-                    maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
-                )
-            }
-            .asLiveData(context = dispatcherProvider.Default)
-    }
+    val showAdditionalHighRiskLevelDialog: LiveData<ShowAdditionalHighRiskLevelDialogEvent> = tracingSettings
+        .isUserToBeNotifiedOfAdditionalHighRiskLevel
+        .flow
+        .map {
+            ShowAdditionalHighRiskLevelDialogEvent(
+                show = it,
+                maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+            )
+        }
+        .asLiveData(context = dispatcherProvider.Default)
 
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
