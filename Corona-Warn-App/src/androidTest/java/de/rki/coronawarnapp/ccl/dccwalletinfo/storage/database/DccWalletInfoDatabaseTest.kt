@@ -122,6 +122,12 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
             localizedText = mapOf("de" to "Ihre Zertifikate erfüllen [...]"),
             parameters = listOf()
         ),
+        stateChangeNotificationText = SingleText(
+            type = "string",
+            localizedText = mapOf("de" to "Your admission state has changed"),
+            parameters = listOf()
+        ),
+        identifier = "admissions_state_identifier",
         faqAnchor = "dcc_admission_state"
     )
 
