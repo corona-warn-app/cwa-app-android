@@ -7,6 +7,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.ConfigData
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
@@ -17,6 +25,25 @@ import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class OnboardingFragmentTest : BaseUITest() {
+
+    @MockK lateinit var appConfigProvider: AppConfigProvider
+
+    @Before
+    fun setup() {
+        MockKAnnotations.init(this)
+
+        every { appConfigProvider.currentConfig } returns flowOf(
+            mockk<ConfigData>().apply {
+                every { maxEncounterAgeInDays } returns 14
+            }
+        )
+
+        setupMockViewModel(
+            object : OnboardingViewModel.Factory {
+                override fun create(): OnboardingViewModel = OnboardingViewModel(appConfigProvider)
+            }
+        )
+    }
 
     @Test
     fun launch_fragment() {

@@ -350,6 +350,21 @@ class TestCertificateRepository @Inject constructor(
     }
 
     /**
+     * This method should be called when the test certificate worker is canceled. This could happen for example when the
+     * device is disconnected from the internet, work constraints are not met anymore and work manager cancels update
+     * job. It set test certificates back to not updating state to prevent endless loading indicators in the UI.
+     */
+    suspend fun refreshCleanup() {
+        Timber.tag(TAG).d("refreshCleanup()")
+        internalData.updateBlocking {
+            mutate {
+                // filter
+                values.forEach { this[it.containerId] = it.copy(isUpdatingData = false) }
+            }
+        }
+    }
+
+    /**
      * [deleteCertificate] does not throw an exception, if the deletion target already does not exist.
      */
     suspend fun deleteCertificate(containerId: TestCertificateContainerId): TestCertificateContainer? {

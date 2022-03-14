@@ -113,8 +113,6 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         dateOfFirstPositiveTestResult.text = certificate.testedPositiveOnFormatted
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
-        certificationPeriodStart.text = certificate.validFromFormatted
-        certificationPeriodEnd.text = certificate.validUntilFormatted
         certificateId.text = certificate.uniqueCertificateIdentifier
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,

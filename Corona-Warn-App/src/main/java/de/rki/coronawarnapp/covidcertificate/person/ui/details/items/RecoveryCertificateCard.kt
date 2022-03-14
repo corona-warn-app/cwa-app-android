@@ -31,8 +31,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         root.setOnClickListener { curItem.onClick() }
 
         certificateDate.text = context.getString(
-            R.string.recovery_certificate_valid_until,
-            certificate.validUntil?.toShortDayFormat() ?: certificate.rawCertificate.recovery.du
+            R.string.recovery_certificate_sample_collection,
+            certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
         )
 
         val bookmarkIcon =
