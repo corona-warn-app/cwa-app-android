@@ -36,8 +36,8 @@ class KeyCacheDatabaseMigrationTest : BaseTestInstrumentation() {
             type = CachedKeyInfo.Type.LOCATION_DAY,
             location = LocationCode("DE"),
             day = LocalDate.parse("2020-08-23"),
-            hour = LocalTime.parse("23:00:00"),
-            createdAt = Instant.ofEpochMilli(9999999),
+            hour = LocalTime.parse("12:00:00"),
+            createdAt = Instant.parse("2020-08-23T12:46:39.999Z"),
         )
         helper.createDatabase(KeyCacheDatabase.DATABASE_NAME, 1).apply {
             execSQL(
@@ -51,12 +51,12 @@ class KeyCacheDatabaseMigrationTest : BaseTestInstrumentation() {
                         "createdAt",
                         "completed"
                     ) VALUES (
-                        '239015fe170a2f174ff15f115f7a462c888e6122',
+                        '0f3e9205ba2c753afc5772e9d40b10dded89666d',
                         'country_day',
                         'DE',
                         '2020-08-23',
-                        '23',
-                        '1970-01-01T02:46:39.999Z',
+                        '12:00:00',
+                        '2020-08-23T12:46:39.999Z',
                         '0'
                     );
                 """.trimIndent()
