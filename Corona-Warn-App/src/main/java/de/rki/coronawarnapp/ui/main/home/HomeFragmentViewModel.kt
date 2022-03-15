@@ -84,6 +84,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -117,6 +118,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<HomeFragmentEvents>()
+
+    init {
+        tracingSettings
+            .isUserToBeNotifiedOfAdditionalHighRiskLevel
+            .flow
+            .filter { it }
+            .onEach {
+                events.postValue(
+                    HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                    )
+                )
+            }
+            .launchInViewModel()
+    }
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
@@ -324,6 +340,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
+    }
+
+    fun userHasAcknowledgedAdditionalHighRiskLevel() {
+        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {
