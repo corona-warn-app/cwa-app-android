@@ -4,6 +4,7 @@
     <!-- Brand Colors -->
     <color name="colorSecondary">#007FAD</color>
     <color name="colorPrimary">#007FAD</color>
+    <color name="colorPrimaryContainer">#90007FAD</color>
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorSurface1">#FFFFFF</color>
     <color name="colorSurface1Pressed">#E7E8E8</color>

@@ -113,7 +113,7 @@
 
             <TextView
                 android:id="@+id/date_info"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/bodySmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

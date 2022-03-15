@@ -78,7 +78,7 @@
 
         <Button
             android:id="@+id/onboarding_button_disable"
-            style="@style/buttonLight"
+            style="?attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_button_disable"
