@@ -58,14 +58,16 @@ class KeyCacheRepository @Inject constructor(
     }
 
     private suspend fun doHouseKeeping() {
-        // delete files that have been marked as complete, but do not exists nor have been checked
-        val dirtyInfos = getAllCachedKeys().filter {
+        val cachedKeys = getAllCachedKeys()
+        // delete meta data and files that have been marked as complete, but do not exists nor have been checked
+        val dirtyInfos = cachedKeys.filter {
             it.info.isDownloadComplete && !it.path.exists() && !it.info.checkedForExposures
         }
         Timber.v("House keeping, deleting dirty entries: %s", dirtyInfos)
         deleteInfoAndFile(dirtyInfos.map { it.info })
 
-        getAllCachedKeys().filter {
+        // delete files that have been checked (keep meta data)
+        cachedKeys.filter {
             it.info.isDownloadComplete && it.info.checkedForExposures
         }.forEach {
             Timber.v("House keeping, deleting checked file: %s", it)

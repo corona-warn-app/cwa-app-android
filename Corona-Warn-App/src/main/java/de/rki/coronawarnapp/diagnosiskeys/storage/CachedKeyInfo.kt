@@ -30,7 +30,7 @@ data class CachedKeyInfo(
         location: LocationCode,
         day: LocalDate,
         hour: LocalTime?,
-        createdAt: Instant
+        createdAt: Instant,
     ) : this(
         id = calcluateId(location, day, hour, type),
         location = location,
