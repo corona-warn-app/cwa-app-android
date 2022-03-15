@@ -34,7 +34,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     lateinit var database: KeyCacheDatabase
 
     @MockK
-    lateinit var keyfileDAO: KeyCacheDatabase.CachedKeyFileDao
+    lateinit var keyFileDao: KeyCacheDatabase.CachedKeyFileDao
 
     private val cacheDir = File(IO_TEST_BASEDIR)
 
@@ -48,9 +48,9 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         every { context.cacheDir } returns cacheDir
 
         every { databaseFactory.create() } returns database
-        every { database.cachedKeyFiles() } returns keyfileDAO
+        every { database.cachedKeyFiles() } returns keyFileDao
 
-        coEvery { keyfileDAO.allEntries() } returns flowOf(emptyList())
+        coEvery { keyFileDao.allEntries() } returns flowOf(emptyList())
     }
 
     @AfterEach
@@ -111,21 +111,21 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             createNewFile()
         }
 
-        coEvery { keyfileDAO.allEntries() } returns
+        coEvery { keyFileDao.allEntries() } returns
             flowOf(listOf(lostKeyFile, existingKeyFileNotChecked, existingKeyFileChecked))
-        coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
-        coEvery { keyfileDAO.deleteEntry(lostKeyFile) } returns Unit
+        coEvery { keyFileDao.updateDownloadState(any()) } returns Unit
+        coEvery { keyFileDao.deleteEntry(lostKeyFile) } returns Unit
 
         val repo = createRepo()
 
-        coVerify(exactly = 0) { keyfileDAO.updateDownloadState(any()) }
+        coVerify(exactly = 0) { keyFileDao.updateDownloadState(any()) }
 
         runBlocking {
             repo.getAllCachedKeys()
-            coVerify(exactly = 2) { keyfileDAO.allEntries() }
-            coVerify(exactly = 1) { keyfileDAO.deleteEntry(lostKeyFile) }
-            coVerify(exactly = 0) { keyfileDAO.deleteEntry(existingKeyFileChecked) }
-            coVerify(exactly = 0) { keyfileDAO.deleteEntry(existingKeyFileNotChecked) }
+            coVerify(exactly = 2) { keyFileDao.allEntries() }
+            coVerify(exactly = 1) { keyFileDao.deleteEntry(lostKeyFile) }
+            coVerify(exactly = 0) { keyFileDao.deleteEntry(existingKeyFileChecked) }
+            coVerify(exactly = 0) { keyFileDao.deleteEntry(existingKeyFileNotChecked) }
             fileChecked.exists() shouldBe false
             fileNotChecked.exists() shouldBe true
         }
@@ -135,7 +135,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     fun `insert and retrieve`() {
         val repo = createRepo()
 
-        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
+        coEvery { keyFileDao.insertEntry(any()) } returns Unit
 
         runBlocking {
             val (keyFile, path) = repo.createCacheEntry(
@@ -147,7 +147,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
             path shouldBe File(context.cacheDir, "diagnosis_keys/${keyFile.id}.zip")
 
-            coVerify { keyfileDAO.insertEntry(keyFile) }
+            coVerify { keyFileDao.insertEntry(keyFile) }
         }
     }
 
@@ -155,8 +155,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     fun `update download state`() {
         val repo = createRepo()
 
-        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
-        coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
+        coEvery { keyFileDao.insertEntry(any()) } returns Unit
+        coEvery { keyFileDao.updateDownloadState(any()) } returns Unit
 
         runBlocking {
             val (keyFile, _) = repo.createCacheEntry(
@@ -169,8 +169,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             repo.markKeyComplete(keyFile, "checksum")
 
             coVerify {
-                keyfileDAO.insertEntry(keyFile)
-                keyfileDAO.updateDownloadState(keyFile.toDownloadUpdate("checksum"))
+                keyFileDao.insertEntry(keyFile)
+                keyFileDao.updateDownloadState(keyFile.toDownloadUpdate("checksum"))
             }
         }
     }
@@ -179,8 +179,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     fun `delete only selected entries`() {
         val repo = createRepo()
 
-        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
-        coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
+        coEvery { keyFileDao.insertEntry(any()) } returns Unit
+        coEvery { keyFileDao.deleteEntry(any()) } returns Unit
 
         runBlocking {
             val (keyFile, path) = repo.createCacheEntry(
@@ -195,7 +195,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
             repo.deleteInfoAndFile(listOf(keyFile))
 
-            coVerify { keyfileDAO.deleteEntry(keyFile) }
+            coVerify { keyFileDao.deleteEntry(keyFile) }
 
             path.exists() shouldBe false
         }
@@ -213,8 +213,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             createdAt = Instant.now()
         )
 
-        coEvery { keyfileDAO.allEntries() } returns flowOf(listOf(keyFileToClear))
-        coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
+        coEvery { keyFileDao.allEntries() } returns flowOf(listOf(keyFileToClear))
+        coEvery { keyFileDao.deleteEntry(any()) } returns Unit
 
         val keyFilePath = repo.getPathForKey(keyFileToClear)
         keyFilePath.createNewFile() shouldBe true
@@ -223,7 +223,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         runBlocking {
             repo.clear()
 
-            coVerify { keyfileDAO.deleteEntry(keyFileToClear) }
+            coVerify { keyFileDao.deleteEntry(keyFileToClear) }
 
             keyFilePath.exists() shouldBe false
         }
