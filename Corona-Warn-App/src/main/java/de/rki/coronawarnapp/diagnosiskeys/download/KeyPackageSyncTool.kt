@@ -37,7 +37,9 @@ class KeyPackageSyncTool @Inject constructor(
             null
         }
 
-        val availableKeys = keyCache.getAllCachedKeys()
+        val deltaKeys = keyCache.getAllCachedKeys()
+            // exclude files that have been checked
+            .filter { !it.info.checkedForExposures }
             .filter { it.info.isDownloadComplete }
             .filter { (keyInfo, path) ->
                 path.exists().also {
@@ -52,7 +54,7 @@ class KeyPackageSyncTool @Inject constructor(
         hourSyncResult?.let { newKeys.addAll(it.newPackages) }
 
         return Result(
-            availableKeys = availableKeys,
+            deltaKeys = deltaKeys,
             newKeys = newKeys,
             wasDaySyncSucccessful = daySyncResult.successful
         )
@@ -129,7 +131,7 @@ class KeyPackageSyncTool @Inject constructor(
     }
 
     data class Result(
-        val availableKeys: Collection<CachedKey>,
+        val deltaKeys: Collection<CachedKey>,
         val newKeys: Collection<CachedKey>,
         val wasDaySyncSucccessful: Boolean
     )
