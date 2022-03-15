@@ -75,9 +75,13 @@
         <item name="labelVisibilityMode">labeled</item>
         <item name="itemTextColor">@color/nav_item_color</item>
         <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigation</item>
         <item name="android:background">@color/colorSurface1</item>
     </style>
 
+    <style name="ThemeOverlay.App.BottomNavigation" parent="">
+        <item name="colorPrimary">@color/colorSurface1</item>
+    </style>
     <!-- ####################################
                     Button
     ###################################### -->
