@@ -137,7 +137,8 @@ class HourPackageSyncTool @Inject constructor(
         location: LocationCode,
         forceIndexLookup: Boolean
     ): LocationHours? {
-        val cachedHours = getDownloadedCachedKeys(location, Type.LOCATION_HOUR)
+        // existing or checked files -> no download needed
+        val cachedHours = getCachedKeys(location, Type.LOCATION_HOUR)
 
         val now = timeStamper.nowUTC
 
@@ -164,18 +165,17 @@ class HourPackageSyncTool @Inject constructor(
             LocationHours(location, mapOf(today to hoursToday))
         }
 
-        // If we have hours in covered by a day, delete the hours
-        val cachedDays = getDownloadedCachedKeys(location, Type.LOCATION_DAY).map {
+        // If we have hours that are covered by a day, delete the hours
+        val cachedDays = getCachedKeys(location, Type.LOCATION_DAY).map {
             it.info.day
         }.let { LocationDays(location, it) }
-
         val staleHours = cachedHours.findStaleData(listOf(cachedDays, availableHours))
-
         if (staleHours.isNotEmpty()) {
             Timber.tag(TAG).v("Deleting stale hours: %s", staleHours)
             keyCache.deleteInfoAndFile(staleHours.map { it.info })
         }
 
+        // subtract key files that are not on the server any more
         val nonStaleHours = cachedHours.minus(staleHours)
 
         return availableHours.toMissingHours(nonStaleHours) // The missing hours

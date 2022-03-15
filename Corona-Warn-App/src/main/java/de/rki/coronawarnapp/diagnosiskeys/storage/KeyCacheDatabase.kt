@@ -45,6 +45,9 @@ abstract class KeyCacheDatabase : RoomDatabase() {
 
         @Update(entity = CachedKeyInfo::class)
         suspend fun updateDownloadState(update: CachedKeyInfo.DownloadUpdate)
+
+        @Query("UPDATE keyfiles SET checkedForExposures = 1 WHERE id = :id")
+        suspend fun setChecked(id: String)
     }
 
     class Factory @Inject constructor(@AppContext private val context: Context) {
