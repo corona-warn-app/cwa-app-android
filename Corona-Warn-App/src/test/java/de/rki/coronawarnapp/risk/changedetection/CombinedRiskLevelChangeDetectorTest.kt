@@ -49,7 +49,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
 
