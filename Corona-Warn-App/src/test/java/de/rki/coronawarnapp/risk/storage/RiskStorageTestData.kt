@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
 import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
-import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
@@ -20,7 +19,7 @@ import org.joda.time.Instant
 
 object RiskStorageTestData {
 
-    val ewCalculatedAt = Instant.ofEpochMilli(9999L)
+    private val ewCalculatedAt = Instant.ofEpochMilli(9999L)
 
     val ewRiskResult1Increased = PersistedRiskLevelResultDao(
         id = "id1",
@@ -52,13 +51,6 @@ object RiskStorageTestData {
         )
     )
 
-    val ewRiskResult3Failed = PersistedRiskLevelResultDao(
-        id = "id3",
-        calculatedAt = ewCalculatedAt.minus(2000L),
-        failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
-        aggregatedRiskResult = null
-    )
-
     val ewAggregatedRiskResult = EwAggregatedRiskResult(
         totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         totalMinimumDistinctEncountersWithLowRisk = 1,
@@ -78,7 +70,7 @@ object RiskStorageTestData {
     val ewDaoWrapper = PersistedExposureWindowDaoWrapper(
         exposureWindowDao = PersistedExposureWindowDao(
             id = 1,
-            riskLevelResultId = "riskresult-id",
+            riskLevelResultId = "id1",
             dateMillisSinceEpoch = 123L,
             calibrationConfidence = 1,
             infectiousness = 2,
@@ -128,7 +120,7 @@ object RiskStorageTestData {
     // PT data
 
     val ptCalculatedAt = ewCalculatedAt.plus(100L)
-    val maxCheckInAgeInDays = 10
+    const val maxCheckInAgeInDays = 10
 
     val ptDayRisk = PresenceTracingDayRisk(
         Instant.now().toLocalDateUtc(),

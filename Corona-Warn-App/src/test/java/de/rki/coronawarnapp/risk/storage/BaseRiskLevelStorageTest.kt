@@ -1,12 +1,9 @@
 package de.rki.coronawarnapp.risk.storage
 
-import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
-import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.ExposureWindowsFilter
 import de.rki.coronawarnapp.risk.RiskState
-import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewCalculatedAt
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewDaoWrapper
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewPersistedAggregatedRiskPerDateResult
@@ -14,8 +11,6 @@ import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewRiskLevelResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewRiskLevelResultWithAggregatedRiskPerDateResult
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewRiskResult1Increased
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewRiskResult2Low
-import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.maxCheckInAgeInDays
-import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ptCalculatedAt
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ptDayRisk
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ptResult1Low
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ptResult2Failed
@@ -26,8 +21,6 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.AggregatedR
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.ExposureWindowsDao
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.Factory
 import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase.RiskResultsDao
-import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
-import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -43,7 +36,6 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -80,21 +72,24 @@ class BaseRiskLevelStorageTest : BaseTest() {
         every { ewRiskResultDatabase.exposureWindows() } returns ewTables
         every { ewRiskResultDatabase.aggregatedRiskPerDate() } returns ewAggregatedRiskPerDateResultDao
         every { ewRiskResultDatabase.clearAllTables() } just Runs
-        every { ewRiskResultTables.allEntries() } returns emptyFlow()
-        every { ewRiskResultTables.latestEntries(2) } returns emptyFlow()
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns emptyFlow()
+        every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
+        every { ewRiskResultTables.latestEntries(1) } returns flowOf(listOf(ewRiskResult1Increased))
+        every { ewRiskResultTables.latestAndLastSuccessful() } returns
+            flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
         coEvery { ewRiskResultTables.insertEntry(any()) } just Runs
         coEvery { ewRiskResultTables.deleteOldest(any()) } returns 7
-        every { ewTables.allEntries() } returns emptyFlow()
-        every { ewAggregatedRiskPerDateResultDao.allEntries() } returns emptyFlow()
+        every { ewTables.allEntries() } returns flowOf(listOf(ewDaoWrapper))
+        every { ewAggregatedRiskPerDateResultDao.allEntries() } returns flowOf(listOf(ewPersistedAggregatedRiskPerDateResult))
         coEvery { ewAggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
+        coEvery { ewFilter.filterDayRisksByAge(any(), any()) } returns listOf(ewDayRisk)
+        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
 
         // pt data sources
         coEvery { ptRiskRepository.traceLocationCheckInRiskStates } returns emptyFlow()
-        coEvery { ptRiskRepository.presenceTracingDayRisk } returns emptyFlow()
-        coEvery { ptRiskRepository.allRiskLevelResults } returns emptyFlow()
+        coEvery { ptRiskRepository.presenceTracingDayRisk } returns flowOf(listOf(ptDayRisk))
+        coEvery { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf(ptResult1Low, ptResult2Failed))
         coEvery { ptRiskRepository.clearAllTables() } just Runs
-        coEvery { ptRiskRepository.latestRiskLevelResult } returns emptyFlow()
+        coEvery { ptRiskRepository.latestRiskLevelResult } returns flowOf(ptResult1Low)
     }
 
     private fun createInstance(
@@ -122,7 +117,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
     fun `aggregatedRiskPerDateResults are returned from database and mapped`() {
         val testPersistedAggregatedRiskPerDateResultFlow = flowOf(listOf(ewPersistedAggregatedRiskPerDateResult))
         every { ewAggregatedRiskPerDateResultDao.allEntries() } returns testPersistedAggregatedRiskPerDateResultFlow
-
         runBlockingTest {
             val instance = createInstance()
             val allEntries = instance.aggregatedRiskPerDateResultTables.allEntries()
@@ -139,8 +133,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `ptDayRiskStates are returned from database`() {
-        every { ptRiskRepository.presenceTracingDayRisk } returns flowOf(listOf(ptDayRisk))
-
         runBlockingTest {
             val instance = createInstance()
             instance.ptDayRiskStates.first() shouldBe listOf(ptDayRisk)
@@ -149,12 +141,9 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `exposureWindows are returned from database and mapped`() {
-        val testDaoWrappers = flowOf(listOf(ewDaoWrapper))
-        every { ewTables.allEntries() } returns testDaoWrappers
-
         runBlockingTest {
             val exposureWindowDAOWrappers = createInstance().exposureWindowsTables.allEntries()
-            exposureWindowDAOWrappers shouldBe testDaoWrappers
+            exposureWindowDAOWrappers.first() shouldBe listOf(ewDaoWrapper)
             exposureWindowDAOWrappers.first().map { it.toExposureWindow() } shouldBe listOf(testExposureWindow)
         }
     }
@@ -187,10 +176,9 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `latestRiskLevelResults with exposure windows are mapped`() {
-        every { ewRiskResultTables.latestEntries(any()) } returns flowOf(listOf(ewRiskResult1Increased))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
-
+    fun `allEwRiskLevelResultsWithExposureWindows are mapped`() {
+        every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
+        every { ewTables.allEntries() } returns flowOf(listOf(ewDaoWrapper))
         runBlockingTest {
             val instance = createInstance()
 
@@ -198,25 +186,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
             instance.allEwRiskLevelResultsWithExposureWindows.first() shouldBe listOf(riskLevelResult)
 
             verify {
-                ewRiskResultTables.latestEntries(2)
-                ewTables.getWindowsForResult(listOf(ewRiskResult1Increased.id))
-            }
-        }
-    }
-
-    @Test
-    fun `latestAndLastSuccessful with exposure windows are mapped`() {
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewRiskResult1Increased))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
-
-        runBlockingTest {
-            val instance = createInstance()
-
-            val riskLevelResult = ewRiskLevelResult.copy(exposureWindows = listOf(testExposureWindow))
-            instance.latestAndLastSuccessfulEwRiskLevelResult.first() shouldBe listOf(riskLevelResult)
-
-            verify {
-                ewRiskResultTables.latestAndLastSuccessful()
+                ewRiskResultTables.allEntries()
+                ewTables.allEntries()
                 ewTables.getWindowsForResult(listOf(ewRiskResult1Increased.id))
             }
         }
@@ -278,18 +249,13 @@ class BaseRiskLevelStorageTest : BaseTest() {
     * */
 
     @Test
-    fun `latestCombinedEwPtRiskLevelResults works when 1 ew result is available`() = runBlockingTest {
-        every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
-        every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf(ptResult1Low, ptResult2Failed))
+    fun `allCombinedEwPtRiskLevelResults works no pt result is available`() = runBlockingTest {
+        every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf())
 
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
-        riskLevelResults.size shouldBe 3
-        riskLevelResults[0].calculatedAt shouldBe ptResult1Low.calculatedAt
+        riskLevelResults.size shouldBe 2
+        riskLevelResults[0].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
         riskLevelResults[0].riskState shouldBe RiskState.INCREASED_RISK
-        riskLevelResults[1].calculatedAt shouldBe ewRiskResult1Increased.calculatedAt
-        riskLevelResults[1].riskState shouldBe RiskState.CALCULATION_FAILED
-        riskLevelResults[2].calculatedAt shouldBe ptResult2Failed.calculatedAt
-        riskLevelResults[2].riskState shouldBe RiskState.CALCULATION_FAILED
 
         verify {
             ewRiskResultTables.allEntries()
@@ -302,10 +268,9 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `latestCombinedEwPtRiskLevelResults works when only one calc each is available`() = runBlockingTest {
-        every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
+    fun `allCombinedEwPtRiskLevelResults works when only one calc each is available`() = runBlockingTest {
         every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf(ptResult1Low))
-
+        every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased))
         val riskLevelResults = createInstance().allCombinedEwPtRiskLevelResults.first()
 
         riskLevelResults.size shouldBe 2
@@ -325,7 +290,7 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `latestCombinedEwPtRiskLevelResults works when two calc each are available`() = runBlockingTest {
+    fun `allCombinedEwPtRiskLevelResults works when two calc each are available`() = runBlockingTest {
 
         every { ewRiskResultTables.allEntries() } returns flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
         every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf(ptResult1Low, ptResult2Failed))
@@ -353,23 +318,13 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
     @Test
     fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined`() {
-        val calculatedAt = ewCalculatedAt.plus(6000L)
-        every { ptRiskRepository.allRiskLevelResults } returns flowOf(
-            listOf(ptResult1Low, ptResult2Failed)
-        )
-        every { ptRiskRepository.presenceTracingDayRisk } returns
-            flowOf(listOf(ptDayRisk))
-
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewRiskResult1Increased))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
-
         runBlockingTest {
-            val instance = createInstance()
-            val riskLevelResult = instance.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
+            val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
 
-            riskLevelResult.lastCalculated.calculatedAt shouldBe calculatedAt
+            riskLevelResult.lastCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe calculatedAt
+
+            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ptResult1Low.calculatedAt
             riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
 
             verify {
@@ -380,186 +335,17 @@ class BaseRiskLevelStorageTest : BaseTest() {
     }
 
     @Test
-    fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined 2`() {
-        every { ptRiskRepository.allRiskLevelResults } returns flowOf(
-            listOf(
-                PtRiskLevelResult(
-                    calculatedAt = ewCalculatedAt.plus(6000L),
-                    presenceTracingDayRisk = null,
-                    riskState = RiskState.CALCULATION_FAILED,
-                    calculatedFrom = ewCalculatedAt.plus(6000L)
-                        .minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-                ),
-                PtRiskLevelResult(
-                    calculatedAt = ewCalculatedAt.minus(1000L),
-                    presenceTracingDayRisk = listOf(ptDayRisk),
-                    riskState = RiskState.INCREASED_RISK,
-                    calculatedFrom = ewCalculatedAt.minus(1000L)
-                        .minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-                )
-            )
-        )
-
-        val ewResultDao1 = PersistedRiskLevelResultDao(
-            id = "id1",
-            calculatedAt = ewCalculatedAt,
-            failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
-            aggregatedRiskResult = null
-        )
-        val ewResultDao2 = PersistedRiskLevelResultDao(
-            id = "id2",
-            calculatedAt = ewCalculatedAt.minus(2000L),
-            failureReason = null,
-            aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
-                totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
-                totalMinimumDistinctEncountersWithLowRisk = 1,
-                totalMinimumDistinctEncountersWithHighRisk = 0,
-                mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
-                mostRecentDateWithHighRisk = Instant.ofEpochMilli(0),
-                numberOfDaysWithLowRisk = 5,
-                numberOfDaysWithHighRisk = 6
-            )
-        )
-        every { ptRiskRepository.presenceTracingDayRisk } returns
-            flowOf(listOf(ptDayRisk))
-
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewResultDao1, ewResultDao2))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
-
-        runBlockingTest {
-            val instance = createInstance()
-
-            val riskLevelResult = instance.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
-
-            riskLevelResult.lastCalculated.calculatedAt shouldBe ewCalculatedAt.plus(6000L)
-            riskLevelResult.lastCalculated.riskState shouldBe RiskState.CALCULATION_FAILED
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ewCalculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
-
-            verify {
-                ptRiskRepository.allRiskLevelResults
-                ptRiskRepository.presenceTracingDayRisk
-            }
-        }
-    }
-
-    @Test
-    fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult are combined 3`() {
-        every { ptRiskRepository.allRiskLevelResults } returns flowOf(
-            listOf(
-                PtRiskLevelResult(
-                    calculatedAt = ewCalculatedAt.plus(6000L),
-                    presenceTracingDayRisk = null,
-                    riskState = RiskState.CALCULATION_FAILED,
-                    calculatedFrom = ewCalculatedAt.plus(6000L)
-                        .minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-                ),
-                PtRiskLevelResult(
-                    calculatedAt = ewCalculatedAt.minus(100L),
-                    presenceTracingDayRisk = listOf(ptDayRisk),
-                    riskState = RiskState.LOW_RISK,
-                    calculatedFrom = ewCalculatedAt.minus(100L)
-                        .minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
-                )
-            )
-        )
-
-        val ewResultDao1 = PersistedRiskLevelResultDao(
-            id = "id1",
-            calculatedAt = ewCalculatedAt,
-            failureReason = EwRiskLevelResult.FailureReason.UNKNOWN,
-            aggregatedRiskResult = null
-        )
-        val ewResultDao2 = PersistedRiskLevelResultDao(
-            id = "id2",
-            calculatedAt = ewCalculatedAt.minus(200L),
-            failureReason = null,
-            aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
-                totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
-                totalMinimumDistinctEncountersWithLowRisk = 1,
-                totalMinimumDistinctEncountersWithHighRisk = 2,
-                mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
-                mostRecentDateWithHighRisk = Instant.ofEpochMilli(4),
-                numberOfDaysWithLowRisk = 5,
-                numberOfDaysWithHighRisk = 6
-            )
-        )
-        every { ptRiskRepository.presenceTracingDayRisk } returns
-            flowOf(listOf(ptDayRisk))
-
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewResultDao1, ewResultDao2))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
-
-        runBlockingTest {
-            val instance = createInstance()
-
-            val riskLevelResult = instance.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
-
-            riskLevelResult.lastCalculated.calculatedAt shouldBe ewCalculatedAt.plus(6000L)
-            riskLevelResult.lastCalculated.riskState shouldBe RiskState.CALCULATION_FAILED
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ewCalculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.LOW_RISK
-
-            verify {
-                ptRiskRepository.allRiskLevelResults
-                ptRiskRepository.presenceTracingDayRisk
-            }
-        }
-    }
-
-    @Test
-    fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult works when no pt result yet`() {
-
+    fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult works when no results yet`() {
         every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf())
         every { ptRiskRepository.presenceTracingDayRisk } returns flowOf(listOf())
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
+        every { ewRiskResultTables.allEntries() } returns flowOf(listOf())
 
         runBlockingTest {
-            val instance = createInstance()
-
-            val riskLevelResult = instance.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
-
-            riskLevelResult.lastCalculated.calculatedAt shouldBe ewCalculatedAt
+            val riskLevelResult = createInstance().latestAndLastSuccessfulCombinedEwPtRiskLevelResult.first()
+            riskLevelResult.lastCalculated.calculatedAt shouldBe Instant.EPOCH
             riskLevelResult.lastCalculated.riskState shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ewCalculatedAt
+            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe Instant.EPOCH
             riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.LOW_RISK
-
-            riskLevelResult.lastCalculated.ewRiskLevelResult shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastCalculated.ptRiskLevelResult shouldBe RiskState.LOW_RISK
-
-            riskLevelResult.lastSuccessfullyCalculated.ewRiskLevelResult shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastSuccessfullyCalculated.ptRiskLevelResult shouldBe RiskState.LOW_RISK
-        }
-    }
-
-    @Test
-    fun `latestAndLastSuccessfulCombinedEwPtRiskLevelResult works with both present`() {
-        every { ptRiskRepository.allRiskLevelResults } returns flowOf(listOf())
-        every { ptRiskRepository.presenceTracingDayRisk } returns flowOf(listOf())
-        every { ewRiskResultTables.latestAndLastSuccessful() } returns
-            flowOf(listOf(ewRiskResult1Increased, ewRiskResult2Low))
-        every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
-        every { ptRiskRepository.allRiskLevelResults }  returns flowOf(listOf(ptResult1Low))
-        every { ptRiskRepository.latestRiskLevelResult }  returns flowOf(ptResult1Low)
-
-        runBlockingTest {
-            val instance = createInstance()
-
-            val riskLevelResult = instance.latestAndLastSuccessfulCombinedEwPtRiskLevelResult.firstOrNull()
-
-            requireNotNull(riskLevelResult)
-
-            riskLevelResult.lastCalculated.calculatedAt shouldBe ptCalculatedAt
-            riskLevelResult.lastCalculated.riskState shouldBe RiskState.INCREASED_RISK
-            riskLevelResult.lastSuccessfullyCalculated.calculatedAt shouldBe ptCalculatedAt
-            riskLevelResult.lastSuccessfullyCalculated.riskState shouldBe RiskState.INCREASED_RISK
-
-            riskLevelResult.lastCalculated.ewRiskLevelResult shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastCalculated.ptRiskLevelResult shouldBe RiskState.INCREASED_RISK
-
-            riskLevelResult.lastSuccessfullyCalculated.ewRiskLevelResult shouldBe RiskState.LOW_RISK
-            riskLevelResult.lastSuccessfullyCalculated.ptRiskLevelResult shouldBe RiskState.INCREASED_RISK
         }
     }
 

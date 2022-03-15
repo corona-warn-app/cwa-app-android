@@ -33,7 +33,7 @@ abstract class BaseRiskLevelStorage constructor(
 ) : RiskLevelStorage {
 
     private val database by lazy { riskResultDatabaseFactory.create() }
-    internal val riskResultsTables by lazy { database.riskResults() }
+    internal val ewRiskResultsTables by lazy { database.riskResults() }
     internal val exposureWindowsTables by lazy { database.exposureWindows() }
     internal val aggregatedRiskPerDateResultTables by lazy { database.aggregatedRiskPerDate() }
 
@@ -65,14 +65,12 @@ abstract class BaseRiskLevelStorage constructor(
     }
 
     // only for testers build
-    final override val allEwRiskLevelResultsWithExposureWindows: Flow<List<EwRiskLevelResult>> = combine(
-        riskResultsTables.allEntries(),
-        exposureWindowsTables.allEntries()
-    ) { allRiskResults, allWindows ->
-        allRiskResults.combineWithWindows(allWindows)
-    }
+    final override val allEwRiskLevelResultsWithExposureWindows: Flow<List<EwRiskLevelResult>> =
+        ewRiskResultsTables.allEntries().map {
+            it.combineWithWindows(null)
+        }
 
-    override val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = riskResultsTables.allEntries()
+    override val allEwRiskLevelResults: Flow<List<EwRiskLevelResult>> = ewRiskResultsTables.allEntries()
         .map { results ->
             results.map { it.toRiskResult() }
         }
@@ -87,7 +85,7 @@ abstract class BaseRiskLevelStorage constructor(
             }
 
             val resultToPersist = resultEw.toPersistedRiskResult()
-            riskResultsTables.insertEntry(resultToPersist)
+            ewRiskResultsTables.insertEntry(resultToPersist)
 
             resultEw.ewAggregatedRiskResult?.exposureWindowDayRisks?.let {
                 insertAggregatedRiskPerDateResults(it)
@@ -102,7 +100,7 @@ abstract class BaseRiskLevelStorage constructor(
         try {
             Timber.d("Cleaning up old results.")
 
-            riskResultsTables.deleteOldest(storedResultLimit).also {
+            ewRiskResultsTables.deleteOldest(storedResultLimit).also {
                 Timber.d("$it old results were deleted.")
             }
         } catch (e: Exception) {
@@ -117,16 +115,9 @@ abstract class BaseRiskLevelStorage constructor(
         deletedOrphanedExposureWindows()
     }
 
-    override val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>> = riskResultsTables
-        .latestAndLastSuccessful()
-        .map { results ->
-            Timber.v("Mapping latestAndLastSuccessful:\n%s", results.joinToString("\n"))
-            results.combineWithWindows(null)
-        }
-
     override val ewDayRiskStates: Flow<List<ExposureWindowDayRisk>> by lazy {
         combine(
-            latestAndLastSuccessfulEwRiskLevelResult,
+            ewRiskResultsTables.latestEntries(1),
             aggregatedRiskPerDateResultTables.allEntries()
         ) { latestAndLastSuccessful, riskPerDate ->
             val latest = latestAndLastSuccessful.firstOrNull()
@@ -197,14 +188,11 @@ abstract class BaseRiskLevelStorage constructor(
         get() = combine(
             allCombinedEwPtRiskLevelResults,
             ewDayRiskStates,
-            presenceTracingRiskRepository.latestRiskLevelResult,
-        ) { combinedResults, ewDayRiskStates, lastPtResult ->
+        ) { combinedResults, ewDayRiskStates ->
 
             val lastCalculated = (combinedResults.firstOrNull() ?: riskCombinator.initialCombinedResult).copy(
                 // need to supplement the data here as they are null by default
                 exposureWindowDayRisks = ewDayRiskStates,
-                // TODO find a better solution
-                ptRiskLevelResult = lastPtResult ?: riskCombinator.initialPTRiskLevelResult
             )
 
             val lastSuccessfullyCalculated = combinedResults.find {

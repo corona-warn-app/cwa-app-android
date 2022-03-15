@@ -39,14 +39,6 @@ interface RiskLevelStorage {
      */
     val allCombinedEwPtRiskLevelResults: Flow<List<CombinedEwPtRiskLevelResult>>
 
-    /** EXPOSURE WINDOW RISK RESULT
-     * The newest result, and the last successfully result.
-     * Used only for analytics
-     * Can be 0-2 entries.
-     * Newest item first.
-     */
-    val latestAndLastSuccessfulEwRiskLevelResult: Flow<List<EwRiskLevelResult>>
-
     /** COMBINED RISK RESULT
      * The newest result, and the last successfully result for ew and pt combined.
      * Used for TRACING info cards in HOME and DETAILS SCREEN.
