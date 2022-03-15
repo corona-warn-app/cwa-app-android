@@ -3,6 +3,7 @@
 
     <!-- Brand Colors -->
     <color name="colorSecondary">#83D2F2</color>
+    <color name="colorSecondaryContainer">#2683D2F2</color>
     <color name="colorSurface">#000000</color>
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>
