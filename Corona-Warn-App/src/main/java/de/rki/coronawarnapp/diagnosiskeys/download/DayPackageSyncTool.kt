@@ -105,7 +105,7 @@ class DayPackageSyncTool @Inject constructor(
 
         if (staleDays.isNotEmpty()) {
             Timber.tag(TAG).d("Deleting stale days (loation=%s): %s", location, staleDays)
-            keyCache.delete(staleDays.map { it.info })
+            keyCache.deleteInfoAndFile(staleDays.map { it.info })
         }
 
         val nonStaleDays = cachedDays.minus(staleDays)

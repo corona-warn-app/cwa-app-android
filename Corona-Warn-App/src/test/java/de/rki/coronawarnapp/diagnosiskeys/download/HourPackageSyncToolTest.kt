@@ -67,7 +67,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
 
             keyCache.getEntriesForType(Type.LOCATION_DAY) // Which hours are covered by days already
 
-            keyCache.delete(listOf(staleHour.info))
+            keyCache.deleteInfoAndFile(listOf(staleHour.info))
 
             keyCache.createCacheEntry(Type.LOCATION_HOUR, "EUR".loc, "2020-01-04".day, "00:00".hour)
             downloadTool.downloadKeyFile(any(), downloadConfig)
@@ -108,7 +108,7 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
             configProvider.getAppConfig()
 
             keyCache.getAllCachedKeys()
-            keyCache.delete(listOf(invalidHour.info))
+            keyCache.deleteInfoAndFile(listOf(invalidHour.info))
 
             keyCache.getEntriesForType(Type.LOCATION_HOUR) // Get all cached hours
             timeStamper.nowUTC // Timestamp for `expectNewHourPackages` and server index
@@ -264,6 +264,6 @@ class HourPackageSyncToolTest : CommonSyncToolTest() {
         )
 
         coVerify(exactly = 1) { keyServer.getHourIndex("EUR".loc, "2020-01-04".day) }
-        coVerify(exactly = 0) { keyCache.delete(any()) }
+        coVerify(exactly = 0) { keyCache.deleteInfoAndFile(any()) }
     }
 }

@@ -69,7 +69,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         coEvery { keyCache.getAllCachedKeys() } returns listOf()
-        coEvery { keyCache.delete(any()) } just Runs
+        coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
         coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
 
@@ -295,7 +295,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             keyCache.getAllCachedKeys() // To clean up stale locations
-            keyCache.delete(listOf(badLocation.info))
+            keyCache.deleteInfoAndFile(listOf(badLocation.info))
 
             lastDownloadDays.value
             lastDownloadDays.update(any())

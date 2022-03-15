@@ -167,7 +167,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             path.createNewFile() shouldBe true
             path.exists() shouldBe true
 
-            repo.delete(listOf(keyFile))
+            repo.deleteInfoAndFile(listOf(keyFile))
 
             coVerify { keyfileDAO.deleteEntry(keyFile) }
 
