@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
@@ -25,6 +26,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -51,6 +53,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
+    @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
 
     lateinit var tracingSettings: TracingSettings
 
@@ -76,6 +79,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { notificationHelper.newBaseBuilder() } returns builder
         every { notificationHelper.sendNotification(any(), any()) } just Runs
         every { context.getString(any()) } returns ""
+        coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
     }
 
     private fun createEwRiskLevel(
@@ -129,7 +133,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         notificationManagerCompat = notificationManagerCompat,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        tracingSettings = tracingSettings
+        tracingSettings = tracingSettings,
+        riskCardDisplayInfo = riskCardDisplayInfo
     )
 
     @Test
@@ -213,6 +218,38 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
             advanceUntilIdle()
 
             verify(exactly = 1) {
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
+                notificationHelper.sendNotification(any(), any())
+                tracingSettings.showRiskLevelBadge
+            }
+        }
+    }
+
+    @Test
+    fun `combined risk state change from HIGH to LOW should NOT trigger notification if low risk card is NOT displayed`() {
+
+        coEvery { riskCardDisplayInfo.shouldShowRiskCard(LOW_RISK) } returns false
+
+        val riskSequence = listOf(
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-01"))
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
+
+        runBlockingTest {
+            createInstance(scope = this).launch()
+
+            advanceUntilIdle()
+
+            verify(exactly = 0) {
                 tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
                 notificationHelper.sendNotification(any(), any())
                 tracingSettings.showRiskLevelBadge

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
@@ -35,6 +36,7 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private val notificationManagerCompat: NotificationManagerCompat,
     private val notificationHelper: GeneralNotifications,
     private val tracingSettings: TracingSettings,
+    private val riskCardDisplayInfo: RiskCardDisplayInfo
 ) {
 
     fun launch() {
@@ -84,25 +86,27 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
 
         val oldRiskState = oldResult.riskState
         val newRiskState = newResult.riskState
+
         Timber.d("Last combined state was $oldRiskState and current state is $newRiskState")
 
         if (oldResult.riskState.hasChangedFromHighToLow(newResult.riskState)) {
-            tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
+            Timber.d("RiskState changed from high to low")
+
+            // only show a notification if the low risk card is also shown
+            val showNotification = riskCardDisplayInfo.shouldShowRiskCard(RiskState.LOW_RISK)
+            Timber.d("Notification should be shown = %s", showNotification)
+
+            if (showNotification) {
+                sendNotification()
+                showBadge()
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { true }
+            }
+
             Timber.d("Risk level changed LocalData is updated. Current Risk level is ${newResult.riskState}")
-        }
-
-        // Check sending a notification when risk level changes
-        val riskChanged = oldRiskState.hasChangedFromLowToHigh(newRiskState) ||
-            oldRiskState.hasChangedFromHighToLow(newRiskState)
-
-        Timber.d("Risk changed=%s from=%s to=%s", riskChanged, oldRiskState, newRiskState)
-        if (riskChanged) {
-            Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
-
+        } else if (oldRiskState.hasChangedFromLowToHigh(newRiskState)) {
+            Timber.d("RiskState changed from low to high")
             sendNotification()
-            tracingSettings.showRiskLevelBadge.update { true }
-
-            Timber.d("Risk level changed and notification/badge sent. Current Risk level is $newRiskState")
+            showBadge()
         }
     }
 
@@ -163,5 +167,9 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
             notificationId = NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID,
             notification = notification,
         )
+    }
+
+    private fun showBadge() {
+        tracingSettings.showRiskLevelBadge.update { true }
     }
 }
