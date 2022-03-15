@@ -38,7 +38,7 @@ class EwRiskLevelChangeDetector @Inject constructor(
                 Timber.v("Checking for changes in EW risk level.")
                 it.checkForRiskLevelChanges()
             }
-            .catch { Timber.e(it, "App config change checks failed.") }
+            .catch { Timber.e(it, "Exposure window risk level checks failed.") }
             .launchIn(appScope)
     }
 
