@@ -79,7 +79,8 @@ class BaseRiskLevelStorageTest : BaseTest() {
         coEvery { ewRiskResultTables.insertEntry(any()) } just Runs
         coEvery { ewRiskResultTables.deleteOldest(any()) } returns 7
         every { ewTables.allEntries() } returns flowOf(listOf(ewDaoWrapper))
-        every { ewAggregatedRiskPerDateResultDao.allEntries() } returns flowOf(listOf(ewPersistedAggregatedRiskPerDateResult))
+        every { ewAggregatedRiskPerDateResultDao.allEntries() } returns
+            flowOf(listOf(ewPersistedAggregatedRiskPerDateResult))
         coEvery { ewAggregatedRiskPerDateResultDao.insertRisk(any()) } just Runs
         coEvery { ewFilter.filterDayRisksByAge(any(), any()) } returns listOf(ewDayRisk)
         every { ewTables.getWindowsForResult(any()) } returns flowOf(listOf(ewDaoWrapper))
