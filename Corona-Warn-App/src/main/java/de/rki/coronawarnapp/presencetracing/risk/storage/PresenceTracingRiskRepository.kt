@@ -43,7 +43,7 @@ class PresenceTracingRiskRepository @Inject constructor(
         entities.map { it.toCheckInWarningOverlap() }
     }
 
-    val allRiskLevelResults : Flow<List<PtRiskLevelResult>> = combine(
+    val allRiskLevelResults: Flow<List<PtRiskLevelResult>> = combine(
         riskLevelResultDao.allEntries(),
         allCheckInWarningOverlaps,
     ) { resultList, overlaps ->
@@ -57,8 +57,8 @@ class PresenceTracingRiskRepository @Inject constructor(
     }
 
     private suspend fun PresenceTracingRiskLevelResultEntity.complement(
-        overlaps: List<CheckInWarningOverlap>)
-    : PtRiskLevelResult {
+        overlaps: List<CheckInWarningOverlap>
+    ): PtRiskLevelResult {
         val relevantWarnings = checkInsFilter.filterCheckInWarningsByAge(
             overlaps,
             Instant.ofEpochMilli(calculatedFromMillis)
