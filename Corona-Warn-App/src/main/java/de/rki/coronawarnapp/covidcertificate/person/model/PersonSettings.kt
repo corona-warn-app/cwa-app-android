@@ -19,6 +19,6 @@ data class PersonSettings(
     @JsonProperty("showAdmissionStateChangedBadge")
     val showAdmissionStateChangedBadge: Boolean = false,
 
-    @JsonProperty("lastAdmissionState")
+    @JsonProperty("lastAdmissionStateNotifiedAt")
     val lastAdmissionStateNotifiedAt: Instant? = null,
 )
