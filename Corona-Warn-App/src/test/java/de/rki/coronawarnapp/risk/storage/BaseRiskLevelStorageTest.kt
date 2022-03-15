@@ -187,7 +187,6 @@ class BaseRiskLevelStorageTest : BaseTest() {
 
             verify {
                 ewRiskResultTables.allEntries()
-                ewTables.allEntries()
                 ewTables.getWindowsForResult(listOf(ewRiskResult1Increased.id))
             }
         }
