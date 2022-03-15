@@ -123,9 +123,9 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         runBlocking {
             repo.getAllCachedKeys()
             coVerify(exactly = 2) { keyfileDAO.allEntries() }
-            coVerify(exactly = 1){ keyfileDAO.deleteEntry(lostKeyFile) }
-            coVerify(exactly = 0){ keyfileDAO.deleteEntry(existingKeyFileChecked) }
-            coVerify(exactly = 0){ keyfileDAO.deleteEntry(existingKeyFileNotChecked) }
+            coVerify(exactly = 1) { keyfileDAO.deleteEntry(lostKeyFile) }
+            coVerify(exactly = 0) { keyfileDAO.deleteEntry(existingKeyFileChecked) }
+            coVerify(exactly = 0) { keyfileDAO.deleteEntry(existingKeyFileNotChecked) }
             fileChecked.exists() shouldBe false
             fileNotChecked.exists() shouldBe true
         }
