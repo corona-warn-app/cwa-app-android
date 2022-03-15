@@ -97,8 +97,8 @@ open class BaseKeyPackageSyncTool(
             val exists = key.path.exists()
             val checked = key.info.checkedForExposures
             if (complete && !exists && !checked) {
-                // marked complete, but does not exist nor has been checked for exposures -> attempt new download
-                Timber.tag(tag).v("Incomplete download, will overwrite: %s", key)
+                // marked complete, but does not exist nor has been checked for exposures -> counts as missing
+                Timber.tag(tag).v("Missing file has not been checked, will be overwritten: %s", key)
             }
             // files that have been downloaded already
             complete && (exists || checked)
