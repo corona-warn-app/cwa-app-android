@@ -350,6 +350,17 @@
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
+           Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">Neue Risikobegegnung</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">Sie hatten eine erneute Begegnung mit erhöhtem Risiko.\n\nAlle Risikobegegnungen der vergangenen %1$d Tage finden Sie in Ihrem Kontakttagebuch.</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
            Outdated Device Time
     ###################################### -->
     <!-- XHED: incorrect device time - dialog/notification headline -->
