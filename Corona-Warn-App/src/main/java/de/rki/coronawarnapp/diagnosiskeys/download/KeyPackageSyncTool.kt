@@ -68,7 +68,7 @@ class KeyPackageSyncTool @Inject constructor(
             .filter { !acceptedLocations.contains(it.location) }
         if (staleLocationData.isNotEmpty()) {
             Timber.tag(TAG).i("Deleting stale location data: %s", staleLocationData.joinToString("\n"))
-            keyCache.delete(staleLocationData)
+            keyCache.deleteInfoAndFile(staleLocationData)
         } else {
             Timber.tag(TAG).d("No stale location data exists.")
         }

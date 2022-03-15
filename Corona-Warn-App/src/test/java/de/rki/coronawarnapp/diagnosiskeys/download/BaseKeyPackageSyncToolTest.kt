@@ -43,7 +43,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk()
-        coEvery { keyCache.delete(any()) } just Runs
+        coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
     }
 
     @AfterEach
@@ -111,7 +111,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
 
         instance.revokeCachedKeys(emptyList()) shouldBe false
 
-        coVerify { keyCache.delete(listOf(badDayInfo, badHourInfo)) }
+        coVerify { keyCache.deleteInfoAndFile(listOf(badDayInfo, badHourInfo)) }
     }
 
     @Test

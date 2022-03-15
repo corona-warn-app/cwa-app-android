@@ -172,7 +172,7 @@ class HourPackageSyncTool @Inject constructor(
         val staleHours = cachedHours.findStaleData(listOf(cachedDays, availableHours))
         if (staleHours.isNotEmpty()) {
             Timber.tag(TAG).v("Deleting stale hours: %s", staleHours)
-            keyCache.delete(staleHours.map { it.info })
+            keyCache.deleteInfoAndFile(staleHours.map { it.info })
         }
 
         // subtract key files that are not on the server any more

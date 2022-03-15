@@ -33,7 +33,7 @@ open class BaseKeyPackageSyncTool(
             false
         } else {
             Timber.tag(tag).w("Deleting revoked cached keys: %s", toDelete.joinToString("\n"))
-            keyCache.delete(toDelete.map { it.info })
+            keyCache.deleteInfoAndFile(toDelete.map { it.info })
             true
         }
     }

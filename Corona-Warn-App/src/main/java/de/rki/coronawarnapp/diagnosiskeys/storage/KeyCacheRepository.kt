@@ -58,11 +58,21 @@ class KeyCacheRepository @Inject constructor(
     }
 
     private suspend fun doHouseKeeping() {
-        val dirtyInfos = getAllCachedKeys().filter {
-            it.info.isDownloadComplete && !it.path.exists()
+        val cachedKeys = getAllCachedKeys()
+        // delete meta data and files that have been marked as complete, but do not exists nor have been checked
+        val dirtyInfos = cachedKeys.filter {
+            it.info.isDownloadComplete && !it.path.exists() && !it.info.checkedForExposures
         }
-        Timber.v("HouseKeeping, deleting: %s", dirtyInfos)
-        delete(dirtyInfos.map { it.info })
+        Timber.v("House keeping, deleting dirty entries: %s", dirtyInfos)
+        deleteInfoAndFile(dirtyInfos.map { it.info })
+
+        // delete files that have been checked (keep meta data)
+        cachedKeys.filter {
+            it.info.isDownloadComplete && it.info.checkedForExposures
+        }.forEach {
+            Timber.v("House keeping, deleting checked file: %s", it)
+            deleteFile(it.info)
+        }
     }
 
     private fun CachedKeyInfo.toCachedKey(): CachedKey = CachedKey(
@@ -109,7 +119,7 @@ class KeyCacheRepository @Inject constructor(
             }
         } catch (e: SQLiteConstraintException) {
             Timber.e(e, "Insertion collision? Overwriting for %s", keyInfo)
-            delete(listOf(keyInfo))
+            deleteInfoAndFile(listOf(keyInfo))
 
             Timber.d(e, "Retrying insertion for %s", keyInfo)
             getDao().insertEntry(keyInfo)
@@ -138,18 +148,22 @@ class KeyCacheRepository @Inject constructor(
         }
     }
 
-    suspend fun delete(keyInfos: Collection<CachedKeyInfo>) {
+    suspend fun deleteInfoAndFile(keyInfos: Collection<CachedKeyInfo>) {
         Timber.d("delete(keyFiles=%s)", keyInfos)
         keyInfos.forEach { key ->
             getDao().deleteEntry(key)
             Timber.v("Deleted %s", key)
-            val path = getPathForKey(key)
-            if (path.delete()) Timber.v("Deleted cache key file at %s", path)
+            deleteFile(key)
         }
+    }
+
+    private fun deleteFile(keyInfo: CachedKeyInfo) {
+        val path = getPathForKey(keyInfo)
+        if (path.delete()) Timber.v("Deleted cache key file at %s", path)
     }
 
     suspend fun clear() {
         Timber.i("clear()")
-        delete(getDao().allEntries().first())
+        deleteInfoAndFile(getDao().allEntries().first())
     }
 }
