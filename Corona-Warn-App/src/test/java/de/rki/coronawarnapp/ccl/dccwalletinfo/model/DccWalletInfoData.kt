@@ -114,7 +114,7 @@ private val admissionState = AdmissionState(
     ),
     stateChangeNotificationText = SingleText(
         type = "string",
-        localizedText = mapOf("de" to "Your admission state has changed"),
+        localizedText = mapOf("de" to "Ihre Zertifikate erfüllen derzeit keine Regel."),
         parameters = listOf()
     ),
     identifier = "admission_state_identifier",

@@ -124,10 +124,10 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         ),
         stateChangeNotificationText = SingleText(
             type = "string",
-            localizedText = mapOf("de" to "Your admission state has changed"),
+            localizedText = mapOf("de" to "Ihre Zertifikate erfüllen derzeit keine Regel."),
             parameters = listOf()
         ),
-        identifier = "admissions_state_identifier",
+        identifier = "admission_state_identifier",
         faqAnchor = "dcc_admission_state"
     )
 
