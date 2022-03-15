@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.tracing.ui.details
 
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
@@ -32,16 +33,19 @@ class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     riskLevelStorage: RiskLevelStorage,
     installTimeProvider: InstallTimeProvider,
+    appConfigProvider: AppConfigProvider,
     surveys: Surveys
 ) {
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
         riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
-        surveys.availableSurveys
+        surveys.availableSurveys,
+        appConfigProvider.currentConfig,
     ) { status,
         riskLevelResults,
-        availableSurveys ->
+        availableSurveys,
+        appConfig ->
 
         val latestCalc = riskLevelResults.lastCalculated
 
@@ -78,7 +82,8 @@ class TracingDetailsItemProvider @Inject constructor(
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
                     daysSinceInstallation = installTimeProvider.daysSinceInstallation,
-                    tracingStatus = status
+                    tracingStatus = status,
+                    maxEncounterAgeInDays = appConfig.maxEncounterAgeInDays
                 ).also { add(it) }
             }
 

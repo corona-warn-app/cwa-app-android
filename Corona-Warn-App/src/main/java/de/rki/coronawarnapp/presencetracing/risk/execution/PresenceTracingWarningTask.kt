@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -19,7 +18,6 @@ import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import org.joda.time.Duration
 import timber.log.Timber
@@ -34,7 +32,6 @@ class PresenceTracingWarningTask @Inject constructor(
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
     private val presenceTracingRiskMapper: PresenceTracingRiskMapper,
-    private val coronaTestRepository: CoronaTestRepository,
     private val autoCheckOut: AutoCheckOut,
     private val appConfigProvider: AppConfigProvider,
     private val checkInsFilter: CheckInsFilter,
@@ -110,12 +107,6 @@ class PresenceTracingWarningTask @Inject constructor(
             Timber.tag(TAG).i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
             presenceTracingRiskRepository.reportCalculation(successful = true)
-            return Result()
-        }
-
-        val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
-        if (isPositive) {
-            Timber.tag(TAG).i("PT risk calculation aborted, positive test result available.")
             return Result()
         }
 

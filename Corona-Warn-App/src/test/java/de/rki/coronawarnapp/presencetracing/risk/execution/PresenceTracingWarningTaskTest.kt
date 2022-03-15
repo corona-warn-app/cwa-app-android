@@ -34,7 +34,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
@@ -53,18 +52,11 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
     @MockK lateinit var autoCheckOut: AutoCheckOut
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var checkInsFilter: CheckInsFilter
     @MockK lateinit var presenceTracingConfig: PresenceTracingConfig
     @MockK lateinit var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer
     @MockK lateinit var timeStamper: TimeStamper
-
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply { every { isPositive } returns false }
-        )
-    )
 
     private val mode = TraceWarningApi.Mode.UNENCRYPTED
     private val now = Instant.parse("2021-03-05T10:15+01:00")
@@ -78,8 +70,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coEvery { checkInsFilter.filterCheckIns(emptyList()) } returns emptyList()
         coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2)) } returns
             listOf(CHECKIN_1, CHECKIN_2)
-
-        every { coronaTestRepository.coronaTests } returns coronaTests
 
         every { presenceTracingRiskCalculationParamContainer.maxCheckInAgeInDays } returns 14
         every { presenceTracingConfig.riskCalculationParameters } returns presenceTracingRiskCalculationParamContainer
@@ -128,7 +118,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         traceWarningRepository = traceWarningRepository,
         checkInsRepository = checkInsRepository,
         presenceTracingRiskMapper = presenceTracingRiskMapper,
-        coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
         appConfigProvider = appConfigProvider,
         checkInsFilter = checkInsFilter,
@@ -145,9 +134,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
-
-            coronaTestRepository.coronaTests
-
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
@@ -302,35 +288,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         // Worker execution time
         val maxDuration = Duration.standardMinutes(9).plus(1)
         PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
-    }
-
-    @Test
-    fun `we do not submit keys if user got positive test results`() = runBlockingTest {
-        coronaTests.value = setOf(
-            mockk<CoronaTest>().apply { every { isPositive } returns true }
-        )
-
-        createInstance().run(mockk()) shouldNotBe null
-
-        coVerifySequence {
-            syncTool.syncPackages(any())
-            presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.checkInsWithinRetention
-
-            coronaTestRepository.coronaTests
-        }
-
-        coVerify(exactly = 0) {
-            traceWarningRepository.unprocessedWarningPackages
-
-            checkInWarningMatcher.process(any(), any())
-
-            presenceTracingRiskRepository.reportCalculation(
-                successful = any(),
-                newOverlaps = any()
-            )
-            traceWarningRepository.markPackagesProcessed(any())
-        }
     }
 
     companion object {

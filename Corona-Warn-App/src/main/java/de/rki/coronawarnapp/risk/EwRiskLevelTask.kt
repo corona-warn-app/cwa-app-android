@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -46,7 +45,6 @@ class EwRiskLevelTask @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
-    private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
     private val filter: ExposureWindowsFilter
@@ -84,16 +82,6 @@ class EwRiskLevelTask @Inject constructor(
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
         val nowUtc = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
-        }
-
-        val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
-        val hasViewedTestResult = coronaTestRepository.coronaTests.first().any { it.isViewed }
-        if (isAllowedToSubmitKeys && hasViewedTestResult) {
-            Timber.i("Positive test result and user has seen it, skip risk calculation")
-            return EwRiskLevelTaskResult(
-                calculatedAt = nowUtc,
-                failureReason = FailureReason.POSITIVE_TEST_RESULT
-            )
         }
 
         if (!configData.isDeviceTimeCorrect) {

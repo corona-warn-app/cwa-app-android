@@ -47,8 +47,8 @@ class DccReissuanceCertificateCard @JvmOverloads constructor(
                 }
                 is RecoveryDccV1 -> {
                     val info = context.getString(
-                        R.string.recovery_certificate_valid_until,
-                        value.recovery.validUntil?.toShortDayFormat() ?: value.recovery.du
+                        R.string.recovery_certificate_sample_collection,
+                        value.recovery.testedPositiveOn?.toShortDayFormat() ?: value.recovery.fr
                     )
                     setRecovery("$fullName\n$info")
                 }

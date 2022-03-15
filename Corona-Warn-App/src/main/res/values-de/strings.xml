@@ -202,7 +202,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Infektionsrisiko"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Wenn Sie die Risiko-Ermittlung aktiviert haben, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche Dauer und mit welchem Abstand in den letzten 14 Tagen Begegnungen mit Corona-positiv getesteten Personen stattfanden. Bei der Risikoermittlung werden außerdem Ihre Check-Ins berücksichtigt. Sie werden gewarnt, wenn Sie sich zur selben Zeit oder bis 30 Minuten nach der positiv getesteten Person im selben Raum aufgehalten haben."</string>
+    <string name="main_overview_body_risk">"Wenn Sie die Risiko-Ermittlung aktiviert haben, berechnet die App Ihr persönliches Infektionsrisiko. Als Grundlage dafür misst sie, über welche Dauer und mit welchem Abstand in den letzten %d Tagen Begegnungen mit Corona-positiv getesteten Personen stattfanden. Bei der Risikoermittlung werden außerdem Ihre Check-Ins berücksichtigt. Sie werden gewarnt, wenn Sie sich zur selben Zeit oder bis 30 Minuten nach der positiv getesteten Person im selben Raum aufgehalten haben."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Folgende Risikostatus können angezeigt werden:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -300,7 +300,7 @@
     <string name="risk_details_subtitle_period_logged">"Dieser Zeitraum wird berücksichtigt."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko- Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten 14 Tage betrachtet."</string>
+    <string name="risk_details_information_body_period_logged">"Die Berechnung des Infektionsrisikos kann nur für die Zeiträume erfolgen, an denen die Risiko-Ermittlung aktiv war. Die Risiko- Ermittlung sollte daher dauerhaft aktiv sein. Für Ihre Risiko-Ermittlung wird der Zeitraum der letzten %d Tage betrachtet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Die Corona-Warn-App wurde heute installiert. Das Infektionsrisiko wird für Zeiträume berechnet, in denen die Risiko-Ermittlung aktiv ist. Wenn Sie andere Personen getroffen haben und die Risiko-Ermittlung aktiv war, wird Ihr Infektions-Risiko berechnet."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -381,7 +381,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Mehr Schutz für Sie und uns alle. Mit der Corona-Warn-App durchbrechen wir Infektionsketten schneller."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten 14 Tagen Corona-positiv getestete Personen in Ihrer Nähe waren."</string>
+    <string name="onboarding_body_2">"Machen Sie Ihr Smartphone zum Corona-Warn-System. Überblicken Sie Ihren Risikostatus und erfahren Sie, ob in den letzten %d Tagen Corona-positiv getestete Personen in Ihrer Nähe waren."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Lassen Sie sich Ihre Testergebnisse (PCR-Test oder Antigen-Schnelltest) in der App anzeigen und warnen Sie andere, wenn Sie ein positives Testergebnis erhalten."</string>
     <!-- YTXT: onboarding(together) - paragraph -->

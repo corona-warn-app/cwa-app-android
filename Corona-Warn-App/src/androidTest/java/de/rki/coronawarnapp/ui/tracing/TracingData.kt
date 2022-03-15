@@ -46,6 +46,7 @@ object TracingData {
 
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
+                maxEncounterAgeInDays = 14,
                 tracingStatus = GeneralTracingStatus.Status.TRACING_INACTIVE
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
@@ -77,7 +78,8 @@ object TracingData {
 
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
-                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                maxEncounterAgeInDays = 14,
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
@@ -108,7 +110,8 @@ object TracingData {
 
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
-                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                maxEncounterAgeInDays = 14,
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
@@ -139,7 +142,8 @@ object TracingData {
 
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 4,
-                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                maxEncounterAgeInDays = 14,
             ),
             DetailsLowRiskBox.Item(riskState = RiskState.LOW_RISK, matchedRiskCount = 0)
         )
@@ -165,7 +169,8 @@ object TracingData {
             BehaviorIncreasedRiskBox.Item,
             PeriodLoggedBox.Item(
                 daysSinceInstallation = 5,
-                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE
+                tracingStatus = GeneralTracingStatus.Status.TRACING_ACTIVE,
+                maxEncounterAgeInDays = 14,
             ),
             DetailsIncreasedRiskBox.Item(
                 riskState = RiskState.INCREASED_RISK,

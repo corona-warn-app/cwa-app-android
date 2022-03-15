@@ -225,7 +225,7 @@
                     android:layout_marginHorizontal="@dimen/spacing_normal"
                     android:focusable="true"
                     android:paddingTop="@dimen/spacing_normal"
-                    android:text="@string/risk_details_information_body_period_logged"
+                    android:text="@{loggedPeriod.getExposureLoggingPeriod(context)}"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
