@@ -81,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_bg"
         app:layout_constraintTop_toBottomOf="@id/recovery_certificate_name"
-        tools:text="gültig bis 23.11.21" />
+        tools:text="Positiver Test vom 23.11.21" />
 
     <TextView
         android:id="@+id/certificate_expiration"
