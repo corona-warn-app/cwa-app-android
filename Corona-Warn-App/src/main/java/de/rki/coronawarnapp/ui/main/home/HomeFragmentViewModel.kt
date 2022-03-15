@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.coronatest.type.shouldShowRiskCard
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
@@ -193,14 +194,25 @@ class HomeFragmentViewModel @AssistedInject constructor(
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val pcrIdentifier = testPCR?.identifier ?: ""
         val ratIdentifier = testRAT?.identifier ?: ""
+
+        val positiveCoronaTests = listOfNotNull(testRAT, testPCR).filter { it.isPositive && it.isViewed }
+
         mutableListOf<HomeItem>().apply {
             when {
-                statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
-                    // Don't show risk card
+                // High risk is always visible regardless of test result
+                tracingItem is IncreasedRiskCard.Item -> add(tracingItem)
+
+                // No high risk card -> check corona test age against config duration
+                positiveCoronaTests.isNotEmpty() -> {
+                    if (positiveCoronaTests.all {
+                        it.shouldShowRiskCard(coronaTestParameters, timeStamper.nowUTC)
+                    }
+                    ) {
+                        add(tracingItem)
+                    } // else -> // Don't show risk card
                 }
-                stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
-                    // Don't show risk card
-                }
+
+                // Otherwise show risk card
                 else -> add(tracingItem)
             }
 
@@ -214,7 +226,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {

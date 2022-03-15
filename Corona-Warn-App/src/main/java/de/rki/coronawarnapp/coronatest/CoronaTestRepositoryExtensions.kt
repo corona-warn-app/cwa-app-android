@@ -28,14 +28,6 @@ val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
         }
         .distinctUntilChanged()
 
-/**
- * Should we keep the background workers for our risk results running?
- */
-val CoronaTestRepository.isRiskCalculationNecessary: Flow<Boolean>
-    get() = coronaTests.map { tests ->
-        tests.none { it.isPositive }
-    }
-
 // This in memory to not show duplicate errors
 // CoronaTest.lastError is also only in memory
 private val consumedErrors = mutableMapOf<String, Throwable?>()

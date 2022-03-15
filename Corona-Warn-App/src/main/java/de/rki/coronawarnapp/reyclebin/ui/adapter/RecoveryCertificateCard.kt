@@ -36,8 +36,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         certificatePersonName.isGone = false
         certificateInfoLine1.isGone = true
         certificateInfoLine2.text = context.getString(
-            R.string.recovery_certificate_valid_until,
-            certificate.validUntil?.toShortDayFormat() ?: certificate.rawCertificate.recovery.du
+            R.string.recovery_certificate_sample_collection,
+            certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
         )
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.recovery_certificate_name)

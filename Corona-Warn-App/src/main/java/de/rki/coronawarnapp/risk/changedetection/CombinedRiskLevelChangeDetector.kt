@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.risk.changedetection
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.NEW_MESSAGE_RISK_LEVEL_SCORE_NOTIFICATION_ID
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -18,7 +17,6 @@ import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -36,7 +34,6 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
     private val riskLevelSettings: RiskLevelSettings,
     private val notificationManagerCompat: NotificationManagerCompat,
     private val notificationHelper: GeneralNotifications,
-    private val coronaTestRepository: CoronaTestRepository,
     private val tracingSettings: TracingSettings,
 ) {
 
@@ -95,12 +92,12 @@ class CombinedRiskLevelChangeDetector @Inject constructor(
         }
 
         // Check sending a notification when risk level changes
-        val isSubmissionSuccessful = coronaTestRepository.coronaTests.first().any { it.isSubmitted }
         val riskChanged = oldRiskState.hasChangedFromLowToHigh(newRiskState) ||
             oldRiskState.hasChangedFromHighToLow(newRiskState)
 
         Timber.d("Risk changed=%s from=%s to=%s", riskChanged, oldRiskState, newRiskState)
-        if (!isSubmissionSuccessful && riskChanged) {
+        if (riskChanged) {
+            Timber.d("Notification Permission = ${notificationManagerCompat.areNotificationsEnabled()}")
 
             sendNotification()
             tracingSettings.showRiskLevelBadge.update { true }

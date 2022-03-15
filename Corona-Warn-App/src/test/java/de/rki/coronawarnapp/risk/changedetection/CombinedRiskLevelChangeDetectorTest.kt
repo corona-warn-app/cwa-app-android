@@ -5,8 +5,6 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
@@ -34,7 +32,6 @@ import io.mockk.mockk
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -52,17 +49,11 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
 
     lateinit var tracingSettings: TracingSettings
-
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply { every { isSubmitted } returns false }
-        )
-    )
 
     @BeforeEach
     fun setup() {
@@ -73,8 +64,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
 
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
-
-        every { coronaTestRepository.coronaTests } returns coronaTests
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
@@ -141,7 +130,6 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         notificationManagerCompat = notificationManagerCompat,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        coronaTestRepository = coronaTestRepository,
         tracingSettings = tracingSettings
     )
 
