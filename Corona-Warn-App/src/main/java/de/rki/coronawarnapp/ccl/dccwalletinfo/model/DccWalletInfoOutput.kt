@@ -68,6 +68,12 @@ data class AdmissionState(
     @JsonProperty("longText")
     val longText: CclText?,
 
+    @JsonProperty("stateChangeNotificationText")
+    val stateChangeNotificationText: CclText?,
+
+    @JsonProperty("identifier")
+    val identifier: String?,
+
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
 )

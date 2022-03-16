@@ -65,11 +65,25 @@ class KeyCacheDatabaseTest {
                 etag shouldBe "with milk"
             }
 
+            dao.setChecked(keyDay.id)
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY.typeValue).single().apply {
+                checkedForExposures shouldBe true
+            }
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR.typeValue).single().apply {
+                checkedForExposures shouldBe false
+            }
+
+            dao.setChecked(keyHour.id)
+            dao.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR.typeValue).single().apply {
+                checkedForExposures shouldBe true
+            }
+
             dao.deleteEntry(keyDay)
             dao.allEntries().first() shouldBe listOf(
                 keyHour.copy(
                     isDownloadComplete = true,
-                    etag = "with milk"
+                    etag = "with milk",
+                    checkedForExposures = true,
                 )
             )
 

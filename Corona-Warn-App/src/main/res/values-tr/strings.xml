@@ -350,6 +350,17 @@
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
     <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Yeni Maruz Kalma"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Artmış riskle başka bir maruz kalma yaşadınız.\n\nSon %1$d güne ait tüm riske maruz kalmalarınızı temas güncenizde bulabilirsiniz."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"Tamam"</string>
+
+    <!-- ####################################
            Outdated Device Time
     ###################################### -->
     <!-- XHED: incorrect device time - dialog/notification headline -->

@@ -19,10 +19,10 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
@@ -149,7 +149,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         subtitleText = admissionSubtitle,
                         badgeText = "2G+",
                         longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
-                        faqAnchor = "FAQ"
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
                     )
                     else -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
@@ -157,7 +158,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         subtitleText = admissionSubtitle,
                         badgeText = "2G+",
                         longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
-                        faqAnchor = "FAQ"
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Your status has changed. Your certificates now comply with the 2G rule. If you need to show your current status, close this view and show the QR code on the certificate overview."
                     )
                 }
             )
@@ -269,7 +271,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         subtitleText = "2G+ PCR-Test",
                         badgeText = "2G+",
                         longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
-                        faqAnchor = "FAQ"
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
                     )
                     else -> AdmissionStatusCard.Item(
                         colorShade = PersonColorShade.COLOR_1,
@@ -277,7 +280,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                         subtitleText = "2G+ PCR-Test",
                         badgeText = "2G+",
                         longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
-                        faqAnchor = "FAQ"
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Your status has changed. Your certificates now comply with the 2G rule. If you need to show your current status, close this view and show the QR code on the certificate overview."
                     )
                 }
             )
