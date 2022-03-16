@@ -20,6 +20,7 @@
         <item>Anzeige erhöhten Risikos verkürzt</item>
         <item>Risikoanzeige nach positivem Testergebnis</item>
         <item>Nachricht zu neuer Risikobegegnung</item>
+        <item>Nachricht über Status-Änderung</item>
         <item>Genesenenzertifikate ohne Gültigkeitsdaten</item>
         <item>Doppelten QR-Code entfernt</item>
     </string-array>
@@ -28,6 +29,7 @@
     <string-array name="new_release_body">
         <item>Ein erhöhtes Risiko nach einer Risikobegegnung wird nur noch für 10 anstatt für 14 Tage angezeigt.</item>
         <item>Auch wenn Sie einen positiven Test in der Corona-Warn-App registriert haben, wird Ihnen nun nach einer Risikobegegnung die rote Kachel für ein erhöhtes Risiko eingeblendet. Sieben Tage nach dem positiven Test wird ihr Risikostatus dauerhaft wieder eingeblendet.</item>
+        <item>Wenn Sie nach einer Risikobegegnung eine weitere Begegnung mit erhöhtem Risiko hatten, dann wird Ihnen darüber jetzt eine Benachrichtigung angezeigt.</item>
         <item>Wenn sich Ihr Status geändert hat (z. B. durch Hinzufügen eines Zertifikats, oder weil sich die Regeln geändert haben) werden Sie auf der Zertifikate-Registerkarte darüber informiert.</item>
         <item>Für Genesenenzertifikate werden keine Gültigkeitsdaten mehr angezeigt, da die Gültigkeit von lokalen Regeln bestimmt wird. Stattdessen wird nun das Datum des ersten positiven Tests angezeigt.</item>
         <item>Vom Detail-Bildschirm für Ihre Person wurde der QR-Code für Ihr aktuell verwendetes Zertifikat entfernt. Der QR-Code befindet sich ebenfalls auf der Zertifikate-Übersicht, wird also auf dem Detail-Bildschirm nicht benötigt.</item>
@@ -40,10 +42,12 @@
         <item />
         <item />
         <item />
+        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item />
         <item />
         <item />
         <item />
