@@ -202,8 +202,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
                     durationPassed = Duration.standardHours(1),
                     showRiskCardExpectedReturnValue = true
                 ),
-
-                ).map { Arguments.of(it) }.stream()
+            ).map { Arguments.of(it) }.stream()
         }
 
         private val negativeRatTest = mockk<RACoronaTest> {
