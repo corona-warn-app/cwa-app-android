@@ -33,7 +33,9 @@ class AdmissionStatusCard(parent: ViewGroup) :
         badge.text = curItem.badgeText
         if (curItem.badgeVisible && curItem.longTextWithBadge != null) {
             body.text = curItem.longTextWithBadge
-        } else body.text = curItem.longText
+        } else {
+            body.text = curItem.longText
+        }
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)
         faq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
