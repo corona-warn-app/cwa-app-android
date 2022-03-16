@@ -14,7 +14,6 @@ import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.shouldShowRiskCard
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
@@ -23,6 +22,8 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
@@ -110,6 +111,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
+    private val riskCardDisplayInfo: RiskCardDisplayInfo
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var isLoweredRiskLevelDialogBeingShown = false
@@ -195,25 +197,17 @@ class HomeFragmentViewModel @AssistedInject constructor(
         val pcrIdentifier = testPCR?.identifier ?: ""
         val ratIdentifier = testRAT?.identifier ?: ""
 
-        val positiveCoronaTests = listOfNotNull(testRAT, testPCR).filter { it.isPositive && it.isViewed }
-
         mutableListOf<HomeItem>().apply {
-            when {
-                // High risk is always visible regardless of test result
-                tracingItem is IncreasedRiskCard.Item -> add(tracingItem)
 
-                // No high risk card -> check corona test age against config duration
-                positiveCoronaTests.isNotEmpty() -> {
-                    if (positiveCoronaTests.all {
-                        it.shouldShowRiskCard(coronaTestParameters, timeStamper.nowUTC)
-                    }
-                    ) {
-                        add(tracingItem)
-                    } // else -> // Don't show risk card
-                }
+            val currentRiskState = when (tracingItem) {
+                is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
+                is LowRiskCard.Item -> RiskState.LOW_RISK
+                is TracingFailedCard.Item -> RiskState.CALCULATION_FAILED
+                else -> null // tracing is disabled or calculation is currently in progress
+            }
 
-                // Otherwise show risk card
-                else -> add(tracingItem)
+            if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
+                add(tracingItem)
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
