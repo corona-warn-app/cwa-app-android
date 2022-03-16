@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Ten okres jest uwzględniony w obliczeniu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje %d ostatnich dni."</string>
+    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje %d ostatnie(-ch) dni."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Aplikacja Corona-Warn-App została zainstalowana dzisiaj. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -350,6 +350,17 @@
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Nowe narażenie"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Wystąpiło kolejne narażenie o podwyższonym ryzyku.\n\nWszystkie Twoje narażenia na ryzyko z ostatnich %1$d dni znajdziesz w dzienniku kontaktów."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
            Outdated Device Time
     ###################################### -->
     <!-- XHED: incorrect device time - dialog/notification headline -->
@@ -380,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Większa ochrona dla Ciebie i dla nas wszystkich. Korzystając z aplikacji Corona-Warn-App, możemy znacznie szybciej przerwać łańcuchy zakażeń."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Zmień swój smartfon w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której w ciągu ostatnich %d dni zdiagnozowano koronawirusa."</string>
+    <string name="onboarding_body_2">"Zmień swój smartfon w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której zdiagnozowano koronawirusa w ciągu ostatnich %d dni."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Wyświetlaj wyniki swoich testów (testu PCR lub szybkiego testu antygenowego) w aplikacji i ostrzegaj innych, jeśli zdiagnozowano u Ciebie koronawirusa."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
