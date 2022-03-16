@@ -33,7 +33,7 @@ open class BaseKeyPackageSyncTool(
             false
         } else {
             Timber.tag(tag).w("Deleting revoked cached keys: %s", toDelete.joinToString("\n"))
-            keyCache.delete(toDelete.map { it.info })
+            keyCache.deleteInfoAndFile(toDelete.map { it.info })
             true
         }
     }
@@ -87,7 +87,7 @@ open class BaseKeyPackageSyncTool(
         return@filter true
     }
 
-    internal suspend fun getDownloadedCachedKeys(
+    internal suspend fun getCachedKeys(
         location: LocationCode,
         type: CachedKeyInfo.Type
     ): List<CachedKey> = keyCache.getEntriesForType(type)
@@ -95,11 +95,13 @@ open class BaseKeyPackageSyncTool(
         .filter { key ->
             val complete = key.info.isDownloadComplete
             val exists = key.path.exists()
-            if (complete && !exists) {
-                Timber.tag(tag).v("Incomplete download, will overwrite: %s", key)
+            val checked = key.info.checkedForExposures
+            if (complete && !exists && !checked) {
+                // marked complete, but does not exist nor has been checked for exposures -> counts as missing
+                Timber.tag(tag).v("Missing file has not been checked, will be overwritten: %s", key)
             }
-            // We overwrite not completed ones
-            complete && exists
+            // files that have been downloaded already
+            complete && (exists || checked)
         }
 
     data class SyncResult(

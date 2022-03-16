@@ -80,7 +80,7 @@ abstract class CommonSyncToolTest : BaseIOTest() {
             mockCachedHour(arg(1), arg(2), arg(3))
         }
         coEvery { keyCache.getAllCachedKeys() } answers { keyRepoData.values.toList() }
-        coEvery { keyCache.delete(any()) } answers {
+        coEvery { keyCache.deleteInfoAndFile(any()) } answers {
             val toDelete: List<CachedKeyInfo> = arg(0)
             toDelete.forEach {
                 keyRepoData.remove(it.id)
