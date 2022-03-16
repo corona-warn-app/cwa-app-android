@@ -389,7 +389,7 @@ dependencies {
     implementation files("libs/cwa-kotlin-jfn-1.0.0-SNAPSHOT-a467904.jar")
 
     // boofCV
-    def boofCV_version = "0.39.1"
+    def boofCV_version = "0.40.1"
     implementation("org.boofcv:boofcv-core:$boofCV_version") {
         exclude group: 'com.google.protobuf'
     }
