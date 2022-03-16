@@ -34,7 +34,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
-    private val coronaTestRepository: CoronaTestRepository,
     private val keyCacheRepository: KeyCacheRepository,
 ) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
