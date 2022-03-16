@@ -8,8 +8,6 @@ import de.rki.coronawarnapp.risk.storage.internal.RiskResultDatabase
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao.PersistedScanInstance
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedExposureWindow
 import de.rki.coronawarnapp.risk.storage.internal.windows.toPersistedScanInstances
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import timber.log.Timber
 import javax.inject.Inject
