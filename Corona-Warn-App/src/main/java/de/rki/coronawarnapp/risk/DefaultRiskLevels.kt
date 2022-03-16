@@ -8,12 +8,12 @@ import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.result.RiskResult
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.util.math.roundToDecimal
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
-import kotlin.math.roundToInt
 
 @Singleton
 class DefaultRiskLevels @Inject constructor() : RiskLevels {
@@ -255,7 +255,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         // 2. Determine `Normalized Time per Date`
         val normalizedTime = exposureWindowsAndResultForDate.values
-            .sumOf { (it.normalizedTime * 100.0).roundToInt() / 100.0 }
+            .sumOf { it.normalizedTime.roundToDecimal() }
 
         Timber.d(
             "Aggregating result for date %d - %s",
