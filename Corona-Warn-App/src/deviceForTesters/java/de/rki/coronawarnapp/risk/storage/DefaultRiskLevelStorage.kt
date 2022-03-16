@@ -57,7 +57,7 @@ class DefaultRiskLevelStorage @Inject constructor(
 
     override suspend fun deletedOrphanedExposureWindows() {
         Timber.d("deletedOrphanedExposureWindows() running...")
-        val currentRiskResultIds = riskResultsTables.allEntries().firstOrNull()?.map { it.id } ?: emptyList()
+        val currentRiskResultIds = ewRiskResultsTables.allEntries().firstOrNull()?.map { it.id } ?: emptyList()
 
         exposureWindowsTables.deleteByRiskResultId(currentRiskResultIds).also {
             Timber.d("$it orphaned exposure windows were deleted.")
