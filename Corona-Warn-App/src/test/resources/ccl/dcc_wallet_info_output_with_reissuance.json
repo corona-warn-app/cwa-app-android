@@ -29,6 +29,14 @@
       },
       "parameters": []
     },
+    "stateChangeNotificationText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Ihre Zertifikate erfüllen derzeit keine Regel."
+      },
+      "parameters": []
+    },
+    "identifier": "admission_state_identifier",
     "faqAnchor": "dcc_admission_state"
   },
   "vaccinationState": {
