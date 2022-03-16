@@ -44,6 +44,7 @@ import testhelpers.BaseTest
 import testhelpers.preferences.MockSharedPreferences
 import testhelpers.preferences.mockFlowPreference
 
+@Suppress("MaxLineLength")
 class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper

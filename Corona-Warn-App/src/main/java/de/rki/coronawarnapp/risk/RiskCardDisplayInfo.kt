@@ -21,10 +21,11 @@ class RiskCardDisplayInfo @Inject constructor(
 ) {
 
     /**
-     * @param riskState: the current risk state
+     * @param riskState: the current risk state or null if tracing is disabled or the calculation is currently
+     * in progress
      * @returns true if the risk card should be displayed, false otherwise
      */
-    suspend fun shouldShowRiskCard(riskState: RiskState): Boolean {
+    suspend fun shouldShowRiskCard(riskState: RiskState?): Boolean {
 
         // High risk card should always be shown regardless of the state of the tests
         if (riskState == RiskState.INCREASED_RISK) {

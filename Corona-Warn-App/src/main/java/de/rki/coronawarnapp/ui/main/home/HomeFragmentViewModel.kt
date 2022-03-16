@@ -203,12 +203,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
                 is LowRiskCard.Item -> RiskState.LOW_RISK
                 is TracingFailedCard.Item -> RiskState.CALCULATION_FAILED
-                else -> null
+                else -> null // tracing is disabled or calculation is currently in progress
             }
 
-            if (currentRiskState == null) {
-                add(tracingItem)
-            } else if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
+            if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
                 add(tracingItem)
             }
 
