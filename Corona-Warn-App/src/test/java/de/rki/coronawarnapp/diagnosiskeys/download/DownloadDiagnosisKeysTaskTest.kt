@@ -4,6 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMappi
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKey
+import de.rki.coronawarnapp.diagnosiskeys.storage.CachedKeyInfo
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -41,10 +43,20 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
     @MockK lateinit var syncResult: KeyPackageSyncTool.Result
     @MockK lateinit var diagnosisKeyDataMapping: DiagnosisKeysDataMapping
 
-    @MockK lateinit var availableKey1: CachedKey
+    @MockK lateinit var deltaKey1: CachedKey
     @MockK lateinit var newKey1: CachedKey
+    @MockK lateinit var cachedKeyInfo: CachedKeyInfo
 
     @MockK lateinit var latestTrackedDetection: TrackedExposureDetection
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+
+    @MockK lateinit var keyCacheRepository: KeyCacheRepository
+
+    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
+        setOf(
+            mockk<CoronaTest>().apply { every { isPositive } returns false }
+        )
+    )
 
     @BeforeEach
     fun setup() {
@@ -52,11 +64,16 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
         mockkObject(BuildConfigWrap)
         every { BuildConfigWrap.VERSION_CODE } returns 1080005
-        availableKey1.apply {
+
+        every { coronaTestRepository.coronaTests } returns coronaTests
+
+        deltaKey1.apply {
             every { path } returns File("availableKey1")
+            every { info } returns cachedKeyInfo
         }
         newKey1.apply {
             every { path } returns File("newKey1")
+            every { info } returns cachedKeyInfo
         }
 
         appConfig.apply {
@@ -77,7 +94,7 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         every { environmentSetup.useEuropeKeyPackageFiles } returns true
 
         coEvery { keyPackageSyncTool.syncKeyFiles(any()) } returns syncResult.apply {
-            every { availableKeys } returns listOf(availableKey1)
+            every { deltaKeys } returns listOf(deltaKey1)
             every { newKeys } returns listOf(newKey1)
         }
 
@@ -89,6 +106,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
             coEvery { latestTrackedExposureDetection() } returns flowOf(listOf(latestTrackedDetection))
             coEvery { provideDiagnosisKeys(any(), any()) } returns true
         }
+
+        coEvery { keyCacheRepository.markKeyChecked(any()) } just Runs
     }
 
     fun createInstance() = DownloadDiagnosisKeysTask(
@@ -98,6 +117,8 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
         keyPackageSyncTool = keyPackageSyncTool,
         timeStamper = timeStamper,
         settings = downloadSettings,
+        coronaTestRepository = coronaTestRepository,
+        keyCacheRepository = keyCacheRepository,
     )
 
     @Test
@@ -121,15 +142,27 @@ class DownloadDiagnosisKeysTaskTest : BaseTest() {
 
     @Test
     fun `normal execution on first run`() = runBlockingTest {
-        val task = createInstance()
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
-        task.run(DownloadDiagnosisKeysTask.Arguments())
+        coVerifySequence {
+            enfClient.isTracingEnabled
+            enfClient.latestTrackedExposureDetection()
+            enfClient.provideDiagnosisKeys(any(), any())
+            keyCacheRepository.markKeyChecked(listOf(cachedKeyInfo))
+        }
+    }
+
+    @Test
+    fun `not marked as checked if submission fails`() = runBlockingTest {
+        coEvery { enfClient.provideDiagnosisKeys(any(), any()) } returns false
+        createInstance().run(DownloadDiagnosisKeysTask.Arguments())
 
         coVerifySequence {
             enfClient.isTracingEnabled
             enfClient.latestTrackedExposureDetection()
             enfClient.provideDiagnosisKeys(any(), any())
         }
+        coVerify(exactly = 0) { keyCacheRepository.markKeyChecked(any()) }
     }
 
     @Test

@@ -159,7 +159,7 @@ class DayPackageSyncToolTest : CommonSyncToolTest() {
             configProvider.getAppConfig()
 
             keyCache.getAllCachedKeys()
-            keyCache.delete(listOf(invalidDay.info))
+            keyCache.deleteInfoAndFile(listOf(invalidDay.info))
 
             keyCache.getEntriesForType(Type.LOCATION_DAY)
             keyServer.getDayIndex("EUR".loc)

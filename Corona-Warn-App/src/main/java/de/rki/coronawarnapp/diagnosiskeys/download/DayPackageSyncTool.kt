@@ -92,25 +92,25 @@ class DayPackageSyncTool @Inject constructor(
         location: LocationCode,
         forceIndexLookup: Boolean
     ): LocationDays? {
-        val cachedDays = getDownloadedCachedKeys(location, Type.LOCATION_DAY)
+        // existing or checked files -> no download needed
+        val cachedKeys = getCachedKeys(location, Type.LOCATION_DAY)
 
-        if (!forceIndexLookup && !expectNewDayPackages(cachedDays)) {
+        if (!forceIndexLookup && !expectNewDayPackages(cachedKeys)) {
             Timber.tag(TAG).d("We don't expect new day packages.")
             return null
         }
 
         val availableDays = LocationDays(location, keyServer.getDayIndex(location))
 
-        val staleDays = cachedDays.findStaleData(listOf(availableDays))
-
-        if (staleDays.isNotEmpty()) {
-            Timber.tag(TAG).d("Deleting stale days (loation=%s): %s", location, staleDays)
-            keyCache.delete(staleDays.map { it.info })
+        // remove files that are no longer available on the server
+        val staleKeys = cachedKeys.findStaleData(listOf(availableDays))
+        if (staleKeys.isNotEmpty()) {
+            Timber.tag(TAG).d("Deleting stale days (loation=%s): %s", location, staleKeys)
+            keyCache.deleteInfoAndFile(staleKeys.map { it.info })
         }
+        val nonStaleCachedKeys = cachedKeys.minus(staleKeys)
 
-        val nonStaleDays = cachedDays.minus(staleDays)
-
-        return availableDays.toMissingDays(nonStaleDays) // The missing days
+        return availableDays.toMissingDays(nonStaleCachedKeys) // The missing days
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
