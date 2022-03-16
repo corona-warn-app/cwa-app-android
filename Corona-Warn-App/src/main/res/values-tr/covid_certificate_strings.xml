@@ -91,7 +91,7 @@
     <!-- XTXT: Recovery certificate card name  -->
     <string name="recovery_certificate_name">"İyileşme Sertifikası"</string>
     <!-- XTXT: Recovery certificate the date of the sample collection -->
-    <string name="recovery_certificate_sample_collection">"Positiver Test vom %s"</string>
+    <string name="recovery_certificate_sample_collection">"%s pozitif testi"</string>
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
