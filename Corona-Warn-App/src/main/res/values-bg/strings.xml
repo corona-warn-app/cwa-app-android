@@ -350,6 +350,17 @@
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Ново излагане"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Имате друго излагане с повишено ниво на риск.\n\nМоже да видите всичките си излагания на риск от последните %1$d дни във Вашия дневник на контактите."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"ОК"</string>
+
+    <!-- ####################################
            Outdated Device Time
     ###################################### -->
     <!-- XHED: incorrect device time - dialog/notification headline -->

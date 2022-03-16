@@ -34,7 +34,7 @@ class OnboardingFragmentTest : BaseUITest() {
 
         every { appConfigProvider.currentConfig } returns flowOf(
             mockk<ConfigData>().apply {
-                every { maxEncounterAgeInDays } returns 14
+                every { maxEncounterAgeInDays } returns 10
             }
         )
 
