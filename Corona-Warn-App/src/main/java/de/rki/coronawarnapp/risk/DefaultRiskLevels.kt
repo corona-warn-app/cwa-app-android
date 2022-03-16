@@ -13,6 +13,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 @Singleton
 class DefaultRiskLevels @Inject constructor() : RiskLevels {
@@ -254,7 +255,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         // 2. Determine `Normalized Time per Date`
         val normalizedTime = exposureWindowsAndResultForDate.values
-            .sumOf { it.normalizedTime }
+            .sumOf { (it.normalizedTime * 100.0).roundToInt() / 100.0 }
 
         Timber.d(
             "Aggregating result for date %d - %s",
