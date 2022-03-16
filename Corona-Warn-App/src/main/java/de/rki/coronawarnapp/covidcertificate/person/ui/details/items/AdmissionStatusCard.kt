@@ -28,6 +28,7 @@ class AdmissionStatusCard(parent: ViewGroup) :
 
         title.text = curItem.titleText
         admissionStateBadge.isVisible = curItem.badgeVisible
+        subtitle.isVisible = curItem.subtitleText.isNotEmpty()
         subtitle.text = curItem.subtitleText
         badge.isVisible = curItem.badgeText.isNotBlank()
         badge.text = curItem.badgeText
