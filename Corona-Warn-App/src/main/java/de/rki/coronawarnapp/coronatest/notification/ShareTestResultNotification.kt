@@ -41,7 +41,7 @@ class ShareTestResultNotification @Inject constructor(
         val pendingIntent = NavDeepLinkBuilder(context)
             .setGraph(R.navigation.nav_graph)
             .setComponentName(MainActivity::class.java)
-            .setDestination(R.id.submissionTestResultAvailableFragment)
+            .setDestination(R.id.submissionResultPositiveOtherWarningNoConsentFragment)
             .setArguments(args)
             .createPendingIntent()
 
