@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- DCC Reissuance: Success Screen -->
     <!-- XHED: DCC reissuance success screen title -->
     <string name="dcc_reissuance_success_screen_title">"Certificat actualizat"</string>
