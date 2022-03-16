@@ -18,7 +18,6 @@ import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -111,11 +110,12 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .asLiveData()
 
     val additionalRiskCalcInfo = combine(
-        riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult,
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
         exposureDetectionTracker.latestSubmission()
     ) { riskLevelResults, latestSubmission ->
 
-        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestEwResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated.ewRiskLevelResult
+        val latestSuccessfulCalc = riskLevelResults.lastSuccessfullyCalculated.ewRiskLevelResult
 
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,
