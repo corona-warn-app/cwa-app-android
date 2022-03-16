@@ -61,6 +61,7 @@ class PersonCertificatesStorageTest : BaseTest() {
             setCurrentCwaUser(personIdentifier1)
             setBoosterNotifiedAt(personIdentifier1)
             setDccReissuanceNotifiedAt(personIdentifier1)
+            setGStatusNotifiedAt(personIdentifier1)
 
             fakeDataStore[CURRENT_PERSON_KEY] shouldNotBe null
             fakeDataStore[PERSONS_SETTINGS_MAP] shouldNotBe null
@@ -114,6 +115,97 @@ class PersonCertificatesStorageTest : BaseTest() {
     }
 
     @Test
+    fun `set G status for a person with no setting`() = runBlockingTest {
+        createInstance().apply {
+            setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
+            fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
+                {
+                	"settings": {
+                		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
+                			"lastSeenBoosterRuleIdentifier": null,
+                			"lastBoosterNotifiedAt": null,
+                			"showDccReissuanceBadge": false,
+                			"lastDccReissuanceNotifiedAt": null,
+                			"showAdmissionStateChangedBadge": true,
+                			"lastAdmissionStateNotifiedAt": 0
+                		}
+                	}
+                }
+            """.trimIndent()
+                .toComparableJsonPretty()
+        }
+    }
+
+    @Test
+    fun `set G status for a person that has settings`() = runBlockingTest {
+        createInstance().apply {
+            setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
+            setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
+            setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
+            fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
+                {
+                	"settings": {
+                		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
+                			"lastSeenBoosterRuleIdentifier": null,
+                			"lastBoosterNotifiedAt": 0,
+                			"showDccReissuanceBadge": true,
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": true,
+                			"lastAdmissionStateNotifiedAt": 0
+                		}
+                	}
+                }
+            """.trimIndent()
+                .toComparableJsonPretty()
+        }
+    }
+
+    @Test
+    fun `dismiss G status for a person with no settings`() = runBlockingTest {
+        createInstance().apply {
+            dismissGStatusBadge(personIdentifier1)
+            fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
+                {
+                	"settings": {
+                		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
+                			"lastSeenBoosterRuleIdentifier": null,
+                			"lastBoosterNotifiedAt": null,
+                			"showDccReissuanceBadge": false,
+                			"lastDccReissuanceNotifiedAt": null,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
+                		}
+                	}
+                }
+            """.trimIndent()
+                .toComparableJsonPretty()
+        }
+    }
+
+    @Test
+    fun `dismiss G status for a person that has settings`() = runBlockingTest {
+        createInstance().apply {
+            setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
+            dismissGStatusBadge(personIdentifier1)
+            fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
+                {
+                	"settings": {
+                		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
+                			"lastSeenBoosterRuleIdentifier": null,
+                			"lastBoosterNotifiedAt": null,
+                			"showDccReissuanceBadge": false,
+                			"lastDccReissuanceNotifiedAt": null,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": 0
+                		}
+                	}
+                }
+            """.trimIndent()
+                .toComparableJsonPretty()
+        }
+    }
+
+    @Test
     fun `set booster for a person has not settings`() = runBlockingTest {
         createInstance().apply {
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
@@ -124,7 +216,9 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": null,
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": false,
-                			"lastDccReissuanceNotifiedAt": null
+                			"lastDccReissuanceNotifiedAt": null,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -145,7 +239,9 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": null,
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": true,
-                			"lastDccReissuanceNotifiedAt": 0
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -165,7 +261,9 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": null,
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": true,
-                			"lastDccReissuanceNotifiedAt": 0
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -193,7 +291,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": null,
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": true,
-                			"lastDccReissuanceNotifiedAt": 0
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -213,7 +312,9 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": null,
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
-                			"lastDccReissuanceNotifiedAt": null
+                			"lastDccReissuanceNotifiedAt": null,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -235,7 +336,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": null,
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": false,
-                			"lastDccReissuanceNotifiedAt": 0
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -255,7 +357,9 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": "BRN-123",
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
-                			"lastDccReissuanceNotifiedAt": null
+                			"lastDccReissuanceNotifiedAt": null,
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -278,7 +382,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastSeenBoosterRuleIdentifier": "BRN-123",
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": false,
-                			"lastDccReissuanceNotifiedAt": 0
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -300,7 +405,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 	"settings": {
                 		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
                 			"showDccReissuanceBadge": false,
-                			"lastDccReissuanceNotifiedAt": 0
+                			"lastDccReissuanceNotifiedAt": 0,
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -317,7 +423,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 {
                 	"settings": {
                 		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
-                			"showDccReissuanceBadge": false
+                			"showDccReissuanceBadge": false,
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -331,12 +438,16 @@ class PersonCertificatesStorageTest : BaseTest() {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
+            setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
             dismissReissuanceBadge(personIdentifier1)
+            dismissGStatusBadge(personIdentifier1)
             acknowledgeBoosterRule(personIdentifier1, "BRN-123")
 
             setBoosterNotifiedAt(personIdentifier2, Instant.EPOCH)
             setDccReissuanceNotifiedAt(personIdentifier2, Instant.EPOCH)
+            setGStatusNotifiedAt(personIdentifier2, Instant.EPOCH)
             dismissReissuanceBadge(personIdentifier2)
+            dismissGStatusBadge(personIdentifier2)
             acknowledgeBoosterRule(personIdentifier2, "BRN-456")
 
             fakeDataStore[PERSONS_SETTINGS_MAP].toString().toComparableJsonPretty() shouldBe """
@@ -346,13 +457,17 @@ class PersonCertificatesStorageTest : BaseTest() {
                           "lastSeenBoosterRuleIdentifier": "BRN-123",
                           "lastBoosterNotifiedAt": 0,
                           "showDccReissuanceBadge": false,
-                          "lastDccReissuanceNotifiedAt": 0
+                          "lastDccReissuanceNotifiedAt": 0,
+                          "showAdmissionStateChangedBadge": false,
+                          "lastAdmissionStateNotifiedAt": 0
                         },
                         "{\"dateOfBirth\":\"20.10.2020\",\"familyNameStandardized\":\"llNN\",\"givenNameStandardized\":\"ffNN\"}": {
                           "lastSeenBoosterRuleIdentifier": "BRN-456",
                           "lastBoosterNotifiedAt": 0,
                           "showDccReissuanceBadge": false,
-                          "lastDccReissuanceNotifiedAt": 0
+                          "lastDccReissuanceNotifiedAt": 0,
+                          "showAdmissionStateChangedBadge": false,
+                          "lastAdmissionStateNotifiedAt": 0
                         }
                     }
                 }
@@ -364,13 +479,15 @@ class PersonCertificatesStorageTest : BaseTest() {
                     lastBoosterNotifiedAt = Instant.EPOCH,
                     lastSeenBoosterRuleIdentifier = "BRN-123",
                     showDccReissuanceBadge = false,
-                    lastDccReissuanceNotifiedAt = Instant.EPOCH
+                    lastDccReissuanceNotifiedAt = Instant.EPOCH,
+                    lastAdmissionStateNotifiedAt = Instant.EPOCH
                 ),
                 personIdentifier2 to PersonSettings(
                     lastBoosterNotifiedAt = Instant.EPOCH,
                     lastSeenBoosterRuleIdentifier = "BRN-456",
                     showDccReissuanceBadge = false,
-                    lastDccReissuanceNotifiedAt = Instant.EPOCH
+                    lastDccReissuanceNotifiedAt = Instant.EPOCH,
+                    lastAdmissionStateNotifiedAt = Instant.EPOCH
                 )
             )
         }
@@ -381,12 +498,16 @@ class PersonCertificatesStorageTest : BaseTest() {
         createInstance().apply {
             setDccReissuanceNotifiedAt(personIdentifier1, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier1, Instant.EPOCH)
+            setGStatusNotifiedAt(personIdentifier1, Instant.EPOCH)
             dismissReissuanceBadge(personIdentifier1)
+            dismissGStatusBadge(personIdentifier1)
             acknowledgeBoosterRule(personIdentifier1, "BRN-123")
 
             setDccReissuanceNotifiedAt(personIdentifier2, Instant.EPOCH)
             setBoosterNotifiedAt(personIdentifier2, Instant.EPOCH)
+            setGStatusNotifiedAt(personIdentifier2, Instant.EPOCH)
             dismissReissuanceBadge(personIdentifier2)
+            dismissGStatusBadge(personIdentifier2)
             acknowledgeBoosterRule(personIdentifier2, "BRN-456")
 
             cleanSettingsNotIn(personIdentifiers = setOf(personIdentifier2))
@@ -398,7 +519,9 @@ class PersonCertificatesStorageTest : BaseTest() {
                           "lastSeenBoosterRuleIdentifier": "BRN-456",
                           "lastBoosterNotifiedAt": 0,
                           "showDccReissuanceBadge": false,
-                          "lastDccReissuanceNotifiedAt": 0
+                          "lastDccReissuanceNotifiedAt": 0,
+                          "showAdmissionStateChangedBadge": false,
+                          "lastAdmissionStateNotifiedAt": 0
                         }
                     }
                 }
@@ -410,7 +533,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                     lastBoosterNotifiedAt = Instant.EPOCH,
                     lastSeenBoosterRuleIdentifier = "BRN-456",
                     showDccReissuanceBadge = false,
-                    lastDccReissuanceNotifiedAt = Instant.EPOCH
+                    lastDccReissuanceNotifiedAt = Instant.EPOCH,
+                    lastAdmissionStateNotifiedAt = Instant.EPOCH
                 )
             )
         }
