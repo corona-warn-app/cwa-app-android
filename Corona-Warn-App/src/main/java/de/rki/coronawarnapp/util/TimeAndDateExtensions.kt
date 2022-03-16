@@ -115,6 +115,9 @@ object TimeAndDateExtensions {
      */
     fun Instant.toDayFormat(): String = toString(dayFormatter)
 
+    fun LocalDate.toInstantMidnightUtc() =
+        this.toLocalDateTime(LocalTime.MIDNIGHT).toDateTime(DateTimeZone.UTC).toInstant()
+
     /**
      * Returns a readable date String with the format "dd.MM.yyyy" like 23.05.1989 of a LocalDate
      */

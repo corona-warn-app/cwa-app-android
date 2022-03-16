@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -14,10 +15,11 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertific
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
@@ -35,13 +37,16 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Suppress("LongParameterList")
 class PersonDetailsViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val personCertificatesProvider: PersonCertificatesProvider,
+    private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccValidationRepository: DccValidationRepository,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
@@ -80,7 +85,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
             colorShadeData.postValue(color)
             // 1. Admission state tile
             dccWalletInfo?.admissionState?.let { admissionState ->
-                if (admissionState.visible) add(admissionStateItem(admissionState))
+                if (admissionState.visible) add(admissionStateItem(admissionState, personCertificates))
             }
             // 2. Dcc reissuance tile
             dccWalletInfo?.certificateReissuance?.reissuanceDivision?.let { division ->
@@ -138,12 +143,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
     )
 
     private suspend fun admissionStateItem(
-        admissionState: AdmissionState
+        admissionState: AdmissionState,
+        personCertificates: PersonCertificates
     ) = AdmissionStatusCard.Item(
         titleText = format(admissionState.titleText),
         subtitleText = format(admissionState.subtitleText),
         badgeText = format(admissionState.badgeText),
+        badgeVisible = personCertificates.hasNewAdmissionState,
         longText = format(admissionState.longText),
+        longTextWithBadge = format(admissionState.stateChangeNotificationText),
         faqAnchor = format(admissionState.faqAnchor),
         colorShade = colorShade
     )
@@ -249,6 +257,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
             )
         }
     )
+
+    fun dismissAdmissionStateBadge() {
+        viewModelScope.launch {
+            personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
+                .firstOrNull()?.personIdentifier
+                ?.let { personCertificatesSettings.dismissGStatusBadge(it) }
+            events.postValue(Back)
+        }
+    }
 
     private fun getItemColorShade(
         isValid: Boolean,

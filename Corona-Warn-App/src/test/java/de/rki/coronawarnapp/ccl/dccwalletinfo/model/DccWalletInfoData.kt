@@ -112,6 +112,12 @@ private val admissionState = AdmissionState(
         localizedText = mapOf("de" to "Ihre Zertifikate erfüllen [...]"),
         parameters = listOf()
     ),
+    stateChangeNotificationText = SingleText(
+        type = "string",
+        localizedText = mapOf("de" to "Ihre Zertifikate erfüllen derzeit keine Regel."),
+        parameters = listOf()
+    ),
+    identifier = "admission_state_identifier",
     faqAnchor = "dcc_admission_state"
 )
 

@@ -50,8 +50,8 @@ interface RiskLevelStorage {
     /** COMBINED RISK RESULT
      * The newest result, and the last successfully result for ew and pt combined.
      * Used for TRACING info cards in HOME and DETAILS SCREEN.
-     * Can be 0-2 entries.
-     * Newest item first.
+     *
+     * If the newest result was successful, then latest and lastSuccessful are the same
      */
     val latestAndLastSuccessfulCombinedEwPtRiskLevelResult: Flow<LastCombinedRiskResults>
 

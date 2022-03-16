@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.util.flow.combine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapMerge
@@ -27,6 +28,11 @@ val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
             } as? RACoronaTest
         }
         .distinctUntilChanged()
+
+val CoronaTestRepository.positiveViewedTests: Flow<List<CoronaTest>>
+    get() = combine(latestPCRT, latestRAT) { testPcr, testRat ->
+        listOfNotNull(testPcr, testRat).filter { it.isPositive && it.isViewed }
+    }
 
 // This in memory to not show duplicate errors
 // CoronaTest.lastError is also only in memory

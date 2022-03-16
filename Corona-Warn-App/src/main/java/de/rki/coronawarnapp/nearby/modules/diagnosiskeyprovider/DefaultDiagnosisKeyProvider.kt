@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.nearby.modules.diagnosiskeyprovider
 
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.DiagnosisKeyFileProvider
+import com.google.android.gms.nearby.exposurenotification.DiagnosisKeysDataMapping
 import com.google.android.gms.nearby.exposurenotification.ExposureNotificationClient
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants
 import de.rki.coronawarnapp.nearby.modules.diagnosiskeysdatamapper.DiagnosisKeysDataMapper
@@ -57,7 +57,9 @@ class DefaultDiagnosisKeyProvider @Inject constructor(
         return suspendCoroutine { cont ->
             Timber.d("Performing key submission.")
             provideDiagnosisKeysTask
-                .addOnSuccessListener { cont.resume(true) }
+                .addOnSuccessListener {
+                    cont.resume(true)
+                }
                 .addOnFailureListener {
                     Timber.w("Key submission failed because ${it.message}")
                     val wrappedException =
