@@ -126,8 +126,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": null,
-                            "showAdmissionStateChangedBadge": true,
-                            "lastAdmissionStateNotifiedAt": 0
+                			"showAdmissionStateChangedBadge": true,
+                			"lastAdmissionStateNotifiedAt": 0
                 		}
                 	}
                 }
@@ -150,8 +150,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": true,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": true,
-                            "lastAdmissionStateNotifiedAt": 0
+                			"showAdmissionStateChangedBadge": true,
+                			"lastAdmissionStateNotifiedAt": 0
                 		}
                 	}
                 }
@@ -172,8 +172,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": null,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": null
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -195,8 +195,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": null,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": 0
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": 0
                 		}
                 	}
                 }
@@ -217,8 +217,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": null,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": null
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -240,8 +240,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": true,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": null
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -262,8 +262,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": true,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": null
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -292,7 +292,7 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": true,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": false
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -313,8 +313,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": null,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": null
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -337,7 +337,7 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": false
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -358,8 +358,8 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": null,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": null,
-                            "showAdmissionStateChangedBadge": false,
-                            "lastAdmissionStateNotifiedAt": null
+                			"showAdmissionStateChangedBadge": false,
+                			"lastAdmissionStateNotifiedAt": null
                 		}
                 	}
                 }
@@ -383,7 +383,7 @@ class PersonCertificatesStorageTest : BaseTest() {
                 			"lastBoosterNotifiedAt": 0,
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": false
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -406,7 +406,7 @@ class PersonCertificatesStorageTest : BaseTest() {
                 		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
                 			"showDccReissuanceBadge": false,
                 			"lastDccReissuanceNotifiedAt": 0,
-                            "showAdmissionStateChangedBadge": false
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
@@ -424,7 +424,7 @@ class PersonCertificatesStorageTest : BaseTest() {
                 	"settings": {
                 		"{\"dateOfBirth\":\"01.10.2020\",\"familyNameStandardized\":\"lN\",\"givenNameStandardized\":\"fN\"}": {
                 			"showDccReissuanceBadge": false,
-                            "showAdmissionStateChangedBadge": false
+                			"showAdmissionStateChangedBadge": false
                 		}
                 	}
                 }
