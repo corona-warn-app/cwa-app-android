@@ -350,13 +350,13 @@
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
-           Additional High Risk Dialog
+       Additional High Risk Dialog
     ###################################### -->
 
     <!-- XHED: additional high risk - dialog headline -->
-    <string name="additional_high_risk_dialog_headline">Neue Risikobegegnung</string>
+    <string name="additional_high_risk_dialog_headline">"New Exposure"</string>
     <!-- XTXT: additional high risk - dialog content -->
-    <string name="additional_high_risk_dialog_body">Sie hatten eine erneute Begegnung mit erhöhtem Risiko.\n\nAlle Risikobegegnungen der vergangenen %1$d Tage finden Sie in Ihrem Kontakttagebuch.</string>
+    <string name="additional_high_risk_dialog_body">"You have had another exposure with increased risk.\n\nYou will find all your risk exposures from the last %1$d days in your contact journal."</string>
     <!-- XBUT: additional high risk - dialog confirm -->
     <string name="additional_high_risk_dialog_button_confirm">"OK"</string>
 
@@ -391,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"More protection for you and for us all. By using the Corona-Warn-App we can break infection chains much quicker."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you\'ve had close contact with anyone diagnosed with coronavirus in the last %d days."</string>
+    <string name="onboarding_body_2">"Turn your smartphone into a coronavirus warning system. Get an overview of your risk status and find out whether you’ve had close contact with anyone diagnosed with coronavirus in the last %d days."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Display your test results (PCR test or rapid antigen test) in the app and warn others if you are diagnosed with coronavirus."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
