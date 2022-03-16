@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import org.joda.time.Duration
 import javax.inject.Inject
 
@@ -37,7 +36,7 @@ class RiskCardDisplayInfo @Inject constructor(
     }
 
     private suspend fun CoronaTest.shouldShowRiskCardForTestType(): Boolean {
-        val coronaTestConfig = appConfigProvider.currentConfig.map { it.coronaTestParameters }.first()
+        val coronaTestConfig = appConfigProvider.currentConfig.first().coronaTestParameters
 
         val (testTimestamp, thresholdDuration) = when (this) {
             is PCRCoronaTest -> registeredAt to coronaTestConfig.pcrParameters.durationToShowRiskCard
