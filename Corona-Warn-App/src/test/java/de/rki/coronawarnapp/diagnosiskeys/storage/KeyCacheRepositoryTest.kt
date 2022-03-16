@@ -34,28 +34,28 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     lateinit var database: KeyCacheDatabase
 
     @MockK
-    lateinit var keyfileDAO: KeyCacheDatabase.CachedKeyFileDao
+    lateinit var keyFileDao: KeyCacheDatabase.CachedKeyFileDao
 
-    private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
+    private val cacheDir = File(IO_TEST_BASEDIR)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        testDir.mkdirs()
-        testDir.exists() shouldBe true
+        cacheDir.mkdirs()
+        cacheDir.exists() shouldBe true
 
         every { timeStamper.nowUTC } returns Instant.EPOCH
-        every { context.cacheDir } returns File(testDir, "cache")
+        every { context.cacheDir } returns cacheDir
 
         every { databaseFactory.create() } returns database
-        every { database.cachedKeyFiles() } returns keyfileDAO
+        every { database.cachedKeyFiles() } returns keyFileDao
 
-        coEvery { keyfileDAO.allEntries() } returns flowOf(emptyList())
+        coEvery { keyFileDao.allEntries() } returns flowOf(emptyList())
     }
 
     @AfterEach
     fun teardown() {
-        testDir.deleteRecursively()
+        cacheDir.deleteRecursively()
     }
 
     private fun createRepo(): KeyCacheRepository = KeyCacheRepository(
@@ -66,42 +66,68 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
     @Test
     fun `housekeeping runs before data access`() {
-        val lostKey = CachedKeyInfo(
+        val lostKeyFile = CachedKeyInfo(
             location = LocationCode("DE"),
-            day = LocalDate.now(),
-            hour = LocalTime.now(),
+            day = LocalDate.parse("2022-03-20"),
+            hour = LocalTime.parse("21:00"),
             type = CachedKeyInfo.Type.LOCATION_HOUR,
-            createdAt = Instant.now()
+            createdAt = Instant.parse("2022-03-20T21:59:00Z")
         ).copy(
             isDownloadComplete = true,
-            etag = "checksum"
+            etag = "lostKeyFile"
         )
 
-        val existingKey = CachedKeyInfo(
+        val existingKeyFileNotChecked = CachedKeyInfo(
             location = LocationCode("NL"),
-            day = LocalDate.now(),
-            hour = LocalTime.now(),
+            day = LocalDate.parse("2022-03-20"),
+            hour = LocalTime.parse("22:00"),
             type = CachedKeyInfo.Type.LOCATION_HOUR,
-            createdAt = Instant.now()
+            createdAt = Instant.parse("2022-03-20T22:59:00Z")
+        ).copy(
+            isDownloadComplete = true,
+            etag = "existingKeyFileNotChecked"
         )
 
-        File(testDir, "diagnosis_keys/${existingKey.id}.zip").apply {
-            parentFile!!.mkdirs()
+        val existingKeyFileChecked = CachedKeyInfo(
+            location = LocationCode("NL"),
+            day = LocalDate.parse("2022-03-20"),
+            hour = LocalTime.parse("23:00"),
+            type = CachedKeyInfo.Type.LOCATION_HOUR,
+            createdAt = Instant.parse("2022-03-20T23:59:00Z"),
+        ).copy(
+            isDownloadComplete = true,
+            etag = "existingKeyFileChecked",
+            checkedForExposures = true
+        )
+
+        val diagnosisDir = File(cacheDir, "diagnosis_keys").apply {
+            mkdirs()
+        }
+        val fileNotChecked = File(diagnosisDir, existingKeyFileNotChecked.fileName).apply {
             createNewFile()
         }
 
-        coEvery { keyfileDAO.allEntries() } returns flowOf(listOf(lostKey, existingKey))
-        coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
-        coEvery { keyfileDAO.deleteEntry(lostKey) } returns Unit
+        val fileChecked = File(diagnosisDir, existingKeyFileChecked.fileName).apply {
+            createNewFile()
+        }
+
+        coEvery { keyFileDao.allEntries() } returns
+            flowOf(listOf(lostKeyFile, existingKeyFileNotChecked, existingKeyFileChecked))
+        coEvery { keyFileDao.updateDownloadState(any()) } returns Unit
+        coEvery { keyFileDao.deleteEntry(lostKeyFile) } returns Unit
 
         val repo = createRepo()
 
-        coVerify(exactly = 0) { keyfileDAO.updateDownloadState(any()) }
+        coVerify(exactly = 0) { keyFileDao.updateDownloadState(any()) }
 
         runBlocking {
             repo.getAllCachedKeys()
-            coVerify(exactly = 2) { keyfileDAO.allEntries() }
-            coVerify { keyfileDAO.deleteEntry(lostKey) }
+            coVerify(exactly = 2) { keyFileDao.allEntries() }
+            coVerify(exactly = 1) { keyFileDao.deleteEntry(lostKeyFile) }
+            coVerify(exactly = 0) { keyFileDao.deleteEntry(existingKeyFileChecked) }
+            coVerify(exactly = 0) { keyFileDao.deleteEntry(existingKeyFileNotChecked) }
+            fileChecked.exists() shouldBe false
+            fileNotChecked.exists() shouldBe true
         }
     }
 
@@ -109,7 +135,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     fun `insert and retrieve`() {
         val repo = createRepo()
 
-        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
+        coEvery { keyFileDao.insertEntry(any()) } returns Unit
 
         runBlocking {
             val (keyFile, path) = repo.createCacheEntry(
@@ -121,7 +147,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
 
             path shouldBe File(context.cacheDir, "diagnosis_keys/${keyFile.id}.zip")
 
-            coVerify { keyfileDAO.insertEntry(keyFile) }
+            coVerify { keyFileDao.insertEntry(keyFile) }
         }
     }
 
@@ -129,8 +155,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     fun `update download state`() {
         val repo = createRepo()
 
-        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
-        coEvery { keyfileDAO.updateDownloadState(any()) } returns Unit
+        coEvery { keyFileDao.insertEntry(any()) } returns Unit
+        coEvery { keyFileDao.updateDownloadState(any()) } returns Unit
 
         runBlocking {
             val (keyFile, _) = repo.createCacheEntry(
@@ -143,8 +169,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             repo.markKeyComplete(keyFile, "checksum")
 
             coVerify {
-                keyfileDAO.insertEntry(keyFile)
-                keyfileDAO.updateDownloadState(keyFile.toDownloadUpdate("checksum"))
+                keyFileDao.insertEntry(keyFile)
+                keyFileDao.updateDownloadState(keyFile.toDownloadUpdate("checksum"))
             }
         }
     }
@@ -153,8 +179,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
     fun `delete only selected entries`() {
         val repo = createRepo()
 
-        coEvery { keyfileDAO.insertEntry(any()) } returns Unit
-        coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
+        coEvery { keyFileDao.insertEntry(any()) } returns Unit
+        coEvery { keyFileDao.deleteEntry(any()) } returns Unit
 
         runBlocking {
             val (keyFile, path) = repo.createCacheEntry(
@@ -167,9 +193,9 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             path.createNewFile() shouldBe true
             path.exists() shouldBe true
 
-            repo.delete(listOf(keyFile))
+            repo.deleteInfoAndFile(listOf(keyFile))
 
-            coVerify { keyfileDAO.deleteEntry(keyFile) }
+            coVerify { keyFileDao.deleteEntry(keyFile) }
 
             path.exists() shouldBe false
         }
@@ -187,8 +213,8 @@ class KeyCacheRepositoryTest : BaseIOTest() {
             createdAt = Instant.now()
         )
 
-        coEvery { keyfileDAO.allEntries() } returns flowOf(listOf(keyFileToClear))
-        coEvery { keyfileDAO.deleteEntry(any()) } returns Unit
+        coEvery { keyFileDao.allEntries() } returns flowOf(listOf(keyFileToClear))
+        coEvery { keyFileDao.deleteEntry(any()) } returns Unit
 
         val keyFilePath = repo.getPathForKey(keyFileToClear)
         keyFilePath.createNewFile() shouldBe true
@@ -197,7 +223,7 @@ class KeyCacheRepositoryTest : BaseIOTest() {
         runBlocking {
             repo.clear()
 
-            coVerify { keyfileDAO.deleteEntry(keyFileToClear) }
+            coVerify { keyFileDao.deleteEntry(keyFileToClear) }
 
             keyFilePath.exists() shouldBe false
         }
