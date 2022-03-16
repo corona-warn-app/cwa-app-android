@@ -6,7 +6,7 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
-import de.rki.coronawarnapp.test.ccl.CCLTestFragment
+import de.rki.coronawarnapp.test.ccl.CclTestFragment
 import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
 import de.rki.coronawarnapp.test.crash.ui.SettingsCrashReportFragment
 import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
@@ -38,7 +38,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
 
     val testMenuData by lazy {
         listOf(
-            CCLTestFragment.MENU_ITEM,
+            CclTestFragment.MENU_ITEM,
             DebugOptionsFragment.MENU_ITEM,
             SettingsCrashReportFragment.MENU_ITEM,
             AppConfigTestFragment.MENU_ITEM,

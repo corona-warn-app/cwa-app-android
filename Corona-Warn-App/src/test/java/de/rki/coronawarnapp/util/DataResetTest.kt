@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
-import de.rki.coronawarnapp.ccl.configuration.storage.CCLConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
-import de.rki.coronawarnapp.ccl.configuration.update.CCLSettings
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -75,7 +75,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var traceLocationSettings: TraceLocationSettings
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
@@ -87,8 +87,8 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var exposureWindowsSettings: AnalyticsExposureWindowsSettings
     @MockK lateinit var dccTicketingAllowListRepository: DccTicketingAllowListRepository
     @MockK lateinit var dccTicketingQrCodeSettings: DccTicketingQrCodeSettings
-    @MockK lateinit var cclConfigurationRepository: CCLConfigurationRepository
-    @MockK lateinit var cclSettings: CCLSettings
+    @MockK lateinit var cclConfigurationRepository: CclConfigurationRepository
+    @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     @BeforeEach
@@ -123,7 +123,7 @@ internal class DataResetTest : BaseTest() {
         coronaTestRepository = coronaTestRepository,
         ratProfileSettings = ratProfileSettings,
         covidCertificateSettings = covidCertificateSettings,
-        vaccinationRepository = vaccinationRepository,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         valueSetsRepository = valueSetsRepository,
         testCertificateRepository = testCertificateRepository,
         personCertificatesSettings = personCertificatesSettings,
@@ -170,7 +170,7 @@ internal class DataResetTest : BaseTest() {
             checkInRepository.clear()
             coronaTestRepository.clear()
             ratProfileSettings.clear()
-            vaccinationRepository.clear()
+            vaccinationCertificateRepository.clear()
             covidCertificateSettings.clear()
             valueSetsRepository.clear()
             personCertificatesSettings.clear()

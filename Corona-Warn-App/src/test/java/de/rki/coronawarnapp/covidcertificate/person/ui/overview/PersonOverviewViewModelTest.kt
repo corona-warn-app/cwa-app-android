@@ -1,10 +1,16 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -22,7 +28,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
@@ -40,7 +45,11 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
-    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var admissionTileProvider: AdmissionTileProvider
+    @MockK lateinit var migrationCheck: MigrationCheck
     private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
@@ -49,11 +58,28 @@ class PersonOverviewViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
-        every { personCertificatesProvider.personCertificates } returns emptyFlow()
+        every { personCertificatesProvider.personCertificates } returns flowOf(
+            setOf(
+                PersonCertificates(
+                    certificates = listOf(),
+                    isCwaUser = true,
+                    dccWalletInfo = null
+                )
+            )
+        )
+        every { migrationCheck.shouldShowMigrationInfo(any()) } returns false
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
+        every { admissionTileProvider.admissionTile } returns flowOf(
+            AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        )
+        coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
     }
 
     @Test
@@ -227,6 +253,50 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `admission tile is visible`() {
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - success`() {
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } returns
+            dccAdmissionCheckScenarios
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe OpenAdmissionScenarioScreen
+        }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - error`() {
+        val exception = Exception("Crash!")
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } throws exception
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe ShowAdmissionScenarioError(exception)
+        }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+        }
+
+        coVerify(exactly = 0) {
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
+    }
+
     private val instance
         get() = PersonOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
@@ -234,6 +304,10 @@ class PersonOverviewViewModelTest : BaseTest() {
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
             expirationNotificationService = expirationNotificationService,
-            format = CCLTextFormatter(cclJsonFunctions, mapper)
+            format = CclTextFormatter(cclJsonFunctions, mapper),
+            admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
+            admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
+            dccAdmissionTileProvider = admissionTileProvider,
+            migrationCheck = migrationCheck
         )
 }

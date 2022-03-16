@@ -20,7 +20,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
             {
                 when (it) {
                     is VaccinationCertificate -> it.vaccinatedOn
-                    is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+                    is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()
                     is RecoveryCertificate -> it.validFrom
                     else -> throw IllegalStateException("Can't sort $it")
                 }
@@ -28,7 +28,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
             {
                 when (it) {
                     is VaccinationCertificate -> it.headerIssuedAt.toLocalDateUserTz()
-                    is TestCertificate -> it.sampleCollectedAt.toLocalDateUserTz()
+                    is TestCertificate -> it.sampleCollectedAt?.toLocalDateUserTz()
                     is RecoveryCertificate -> it.validFrom
                     else -> throw IllegalStateException("Can't sort $it")
                 }

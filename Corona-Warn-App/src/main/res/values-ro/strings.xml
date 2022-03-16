@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Risc de infectare"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Când este activă înregistrarea în jurnal a expunerilor, aplicația calculează riscul dvs. personal de infectare. Efectuează acest lucru prin măsurarea duratei și a proximității expunerii la persoanele care au fost diagnosticate cu coronavirus în ultimele 14 zile."</string>
+    <string name="main_overview_body_risk">"Când este activă înregistrarea în jurnal a expunerilor, aplicația calculează riscul dvs. personal de infectare. Efectuează acest lucru prin măsurarea duratei și a proximității expunerii la persoanele care au fost diagnosticate cu coronavirus în ultimele 14 zile. Înregistrarea în jurnal a expunerilor ține cont și de check-inurile dvs. Sunteți avertizat dacă ați fost în aceeași cameră cu o persoană care a fost diagnosticată ulterior cu coronavirus sau dacă ați fost în cameră în decurs de 30 de minute de la plecarea acesteia."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Poate fi afișată următoarea stare a riscului:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -747,6 +747,8 @@
     <string name="information_contact_illustration_description">"Un bărbat poartă căști în timpul unei convorbiri telefonice."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"Întrebări frecvente"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Declarație de accesibilitate"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Întrebări frecvente. Veți fi redirecționat către un site web extern."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
@@ -1441,7 +1443,7 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Până %s"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"Infectări noi"</string>
+    <string name="statistics_primary_value_description">"infectări noi"</string>
     <!-- XTXT: Statistics secondary value description -->
     <string name="statistics_secondary_value_description">"spitalizări"</string>
 
@@ -1451,13 +1453,13 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explicarea statisticii"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Infecții noi confirmate"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"infectări noi confirmate"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Numărul de persoane care au fost diagnosticate cu coronavirus și raportate la RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Avertizări de la utilizatorii aplicației"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus prin test PCR și care i-au avertizat pe ceilalți prin aplicație."</string>
+    <string name="statistics_explanation_warned_persons_text">"Numărul de utilizatori ai aplicației care au fost diagnosticați cu coronavirus și care i-au avertizat pe ceilalți prin aplicație"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Incidența pe 7 zile la nivel local"</string>
     <!-- XHED: Explanation screen seven day incidence title -->

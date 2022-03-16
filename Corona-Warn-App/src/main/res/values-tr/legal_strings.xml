@@ -220,4 +220,11 @@
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
     <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"Sağlayıcının sertifikaya ilişkin talepleri (örn. hangi aşılar veya test yöntemleri kabul edilir)"</string>
 
+    <!-- DCC Reissuance Consent Screen -->
+    <!-- XTXT: DCC Reissuance legal header-->
+    <string name="dcc_reissuance_legal_header" translatable="false">„Kabul Et“ üzerine tıklayarak aşağıdaki adımları kabul edersiniz:</string>
+    <!-- XTXT: DCC Reissuance legal first bullet point-->
+    <string name="dcc_reissuance_legal_one" translatable="false">Uygulama, kontrol amaçlı olarak aşı sertifikasını RKI’ya iletir.</string>
+    <!-- XTXT: DCC Reissuance legal second bullet point-->
+    <string name="dcc_reissuance_legal_two" translatable="false">RKI aşı sertifikasını kontrol eder ve güncel bir sertifika oluşturur ve bunu uygulamanıza aktarır.</string>
 </resources>

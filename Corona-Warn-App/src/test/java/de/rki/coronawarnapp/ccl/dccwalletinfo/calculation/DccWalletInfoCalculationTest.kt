@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import de.rki.coronawarnapp.ccl.configuration.model.CclDateTime
+import de.rki.coronawarnapp.ccl.configuration.model.CclInputParameters
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclCertificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cose
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Cwt
@@ -32,7 +34,7 @@ import testhelpers.TestDispatcherProvider
 class DccWalletInfoCalculationTest : BaseTest() {
 
     @MockK lateinit var walletInfo: DccWalletInfo
-    @MockK lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
     @MockK lateinit var mapper: ObjectMapper
 
     private val dateTime = DateTime.parse("2021-12-30T10:00:00.897+01:00")
@@ -83,7 +85,8 @@ class DccWalletInfoCalculationTest : BaseTest() {
         val dccWalletInfoInput = instance.getDccWalletInfoInput(
             defaultInputParameters = defaultInputParameters,
             dccList = listOf(certificate),
-            boosterNotificationRules = NullNode.instance
+            boosterNotificationRules = NullNode.instance,
+            scenarioIdentifier = "",
         )
         dccWalletInfoInput.language shouldBe "de"
         dccWalletInfoInput.os shouldBe "android"

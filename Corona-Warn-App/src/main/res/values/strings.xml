@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Risk of Infection"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last 14 days."</string>
+    <string name="main_overview_body_risk">"When exposure logging is active, the app calculates your personal risk of infection. It does this by measuring duration and proximity of your exposure to people who have been diagnosed with coronavirus over the last 14 days. Exposure logging also takes your check-ins into account. You are warned if you were in the same room at the same time as a person who has been diagnosed with coronavirus, or up to 30 minutes after."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"The following risk status can be shown:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -747,6 +747,8 @@
     <string name="information_contact_illustration_description">"A man wears a headset while making a phone call."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"FAQ"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Accessibility Declaration"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Frequently asked questions. You will be forwarded to an external web site."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
@@ -1441,7 +1443,7 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"Up to %s"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"New Infections"</string>
+    <string name="statistics_primary_value_description">"new infections"</string>
     <!-- XTXT: Statistics secondary value description -->
     <string name="statistics_secondary_value_description">"hospitalizations"</string>
 
@@ -1451,13 +1453,13 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"Explanation of Statistics"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Confirmed New Infections"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"confirmed new infections"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Number of persons who have been diagnosed with coronavirus and reported to the RKI."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Warnings by App Users"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus via PCR test and have warned others through the app."</string>
+    <string name="statistics_explanation_warned_persons_text">"Number of app users who have been diagnosed with coronavirus and have warned others through the app"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Local 7-Day Incidence"</string>
     <!-- XHED: Explanation screen seven day incidence title -->

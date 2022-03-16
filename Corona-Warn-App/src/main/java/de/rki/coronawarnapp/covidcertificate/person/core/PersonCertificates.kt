@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CCLText
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CclText
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -9,7 +9,9 @@ data class PersonCertificates(
     val certificates: List<CwaCovidCertificate>,
     val isCwaUser: Boolean = false,
     val badgeCount: Int = 0,
-    val dccWalletInfo: DccWalletInfo? = null
+    val dccWalletInfo: DccWalletInfo? = null,
+    val hasBoosterBadge: Boolean = false,
+    val hasDccReissuanceBadge: Boolean = false,
 ) {
     val personIdentifier: CertificatePersonIdentifier?
         get() = certificates.firstOrNull()?.personIdentifier
@@ -41,5 +43,5 @@ data class PersonCertificates(
 
 data class VerificationCertificate(
     val cwaCertificate: CwaCovidCertificate,
-    val buttonText: CCLText? = null
+    val buttonText: CclText? = null
 )

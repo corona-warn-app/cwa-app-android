@@ -127,6 +127,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "testResultReceivedAt": 2000,
                     "testResult": 2,
                     "lastUpdatedAt": 2001,
+                    "isDccSupportedByPoc": true,
                     "isDccConsentGiven": true,
                     "isDccDataSetCreated": true
                 }
@@ -163,6 +164,7 @@ class CoronaTestStorageTest : BaseTest() {
                     "testResultReceivedAt": 2000,
                     "testResult": 2,
                     "lastUpdatedAt": 2001,
+                    "isDccSupportedByPoc": true,
                     "isDccConsentGiven": true,
                     "isDccDataSetCreated": true,
                     "qrCodeHash": "pcrQrCodeHash"
@@ -172,6 +174,45 @@ class CoronaTestStorageTest : BaseTest() {
 
         instance.coronaTests.single().apply {
             this shouldBe pcrTest1.copy(
+                lastError = null,
+                isProcessing = false
+            )
+            type shouldBe CoronaTest.Type.PCR
+        }
+    }
+
+    @Test
+    fun `Store PCRT with isDccSupportedByPoc = false`() {
+        val instance = createInstance()
+        val test = pcrTest1.copy(_isDccSupportedByPoc = false)
+        instance.coronaTests = setOf(test)
+
+        val json = (mockPreferences.dataMapPeek["coronatest.data.pcr"] as String)
+
+        json.toComparableJsonPretty() shouldBe """
+            [
+                {
+                    "identifier": "identifier-pcr1",
+                    "registeredAt": 1000,
+                    "registrationToken": "regtoken-pcr",
+                    "isSubmitted": true,
+                    "isViewed": true,
+                     "didShowBadge": false,
+                    "isAdvancedConsentGiven": true,
+                    "isResultAvailableNotificationSent": false,
+                    "testResultReceivedAt": 2000,
+                    "testResult": 2,
+                    "lastUpdatedAt": 2001,
+                    "isDccSupportedByPoc": false,
+                    "isDccConsentGiven": true,
+                    "isDccDataSetCreated": true,
+                    "qrCodeHash": "pcrQrCodeHash"
+                }
+            ]
+        """.toComparableJsonPretty()
+
+        instance.coronaTests.single().apply {
+            this shouldBe test.copy(
                 lastError = null,
                 isProcessing = false
             )

@@ -222,4 +222,11 @@
     <!-- XTXT: DCC Ticketing: Consent Two: Legal: Point 2-4 -->
     <string name="dcc_ticketing_consent_two_legal_point_2_4" translatable="false">"weitere Anforderungen des Anbieters an das Zertifikat (z.B. welche Impfstoffe oder Testverfahren akzeptiert werden)"</string>
 
+    <!-- DCC Reissuance Consent Screen -->
+    <!-- XTXT: DCC Reissuance legal header-->
+    <string name="dcc_reissuance_legal_header" translatable="false">Durch Antippen von „Einverstanden“ willigen Sie in die folgenden Schritte ein:</string>
+    <!-- XTXT: DCC Reissuance legal first bullet point-->
+    <string name="dcc_reissuance_legal_one" translatable="false">Die App übermittelt das Impfzertifikat zur Überprüfung an das RKI. </string>
+    <!-- XTXT: DCC Reissuance legal second bullet point-->
+    <string name="dcc_reissuance_legal_two" translatable="false">Das RKI überprüft das Impfzertifikat und stellt ein aktualisiertes Zertifikat aus und übermittelt dieses an Ihre App.</string>
 </resources>

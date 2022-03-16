@@ -40,16 +40,26 @@ class PersonCertificatesExtensionsTest : BaseTest() {
             every { validFrom } returns time.minus(oneDayDuration).toLocalDateUtc()
         }
 
+        val certificateWithoutDate = mockk<TestCertificate>().apply {
+            every { sampleCollectedAt } returns null
+        }
+
         val expectedOrder =
             listOf(certificateFirst, certificateFirstIssuedAtAnotherDate, certificateSecond, certificateThird)
+        val expectedOrderWithoutDate = listOf(certificateSecond, certificateWithoutDate)
+
         val wrongOrder =
             listOf(certificateSecond, certificateFirst, certificateThird, certificateFirstIssuedAtAnotherDate)
         val wrongOrder2 =
             listOf(certificateThird, certificateSecond, certificateFirstIssuedAtAnotherDate, certificateFirst)
+        val wrongOrderWithoutDate = listOf(
+            certificateWithoutDate, certificateSecond
+        )
 
         expectedOrder.toCertificateSortOrder() shouldBe expectedOrder
         wrongOrder.toCertificateSortOrder() shouldBe expectedOrder
         wrongOrder2.toCertificateSortOrder() shouldBe expectedOrder
+        wrongOrderWithoutDate.toCertificateSortOrder() shouldBe expectedOrderWithoutDate
 
         wrongOrder shouldNotBe expectedOrder
         wrongOrder2 shouldNotBe expectedOrder

@@ -125,7 +125,11 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             is OpenBoosterInfoDetails -> doNavigate(
                 PersonDetailsFragmentDirections
-                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personCode)
+                    .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personIdentifierCode)
+            )
+            is OpenCertificateReissuanceConsent -> doNavigate(
+                PersonDetailsFragmentDirections
+                    .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
             )
             Back -> popBackStack()
             OpenCovPassInfo ->

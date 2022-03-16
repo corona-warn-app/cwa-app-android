@@ -194,13 +194,13 @@
     <string name="validation_rules_result_valid_result_country_and_time">"Intrare în %1$s pe %2$s, verificat pe %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">"Certificatul dvs. este valabil în țara selectată"</string>
+    <string name="validation_rules_result_valid_result_title">"Certificatul dvs. este valabil pentru intrarea în țara selectată"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
     <string name="validation_rules_result_no_rules_title">"Certificatul dvs. nu a putut fi verificat"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">"Certificatul dvs. nu a putut fi verificat complet"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
-    <string name="validation_rules_result_not_valid_result_title">"Certificatul dvs. nu este valabil în țara selectată"</string>
+    <string name="validation_rules_result_not_valid_result_title">"Certificatul dvs. nu este valabil pentru intrarea în țara selectată"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
     <string name="validation_rules_open_header_title">"Verificarea nu este posibilă"</string>
@@ -331,4 +331,15 @@
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
 
+    <!-- XTXT: CCL Admission scenario tile title -->
+    <string name="ccl_admission_state_tile_title">"Starea pentru următorul stat federal"</string>
+    <!-- XTXT: CCL Admission scenario tile subtitle -->
+    <string name="ccl_admission_state_tile_subtitle">"Reglementările guvernului federal"</string>
+    <!-- XTXT: CCL Admission calculation progress message-->
+    <string name="admission_calculation_message">"Se determină starea..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">"Atribuirea certificatului"</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">"Gruparea certificatelor a fost îmbunătățită. Certificatele care au doar diferențe minore de nume nu vor mai fi atribuite altor persoane."</string>
 </resources>

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CCLJsonFunctions
-import de.rki.coronawarnapp.ccl.ui.text.CCLTextFormatter
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -21,9 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Vaccination
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.TimeStamper
@@ -53,11 +51,10 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
     @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var viewModel: PersonDetailsViewModel
-    @MockK private lateinit var cclJsonFunctions: CCLJsonFunctions
+    @MockK private lateinit var cclJsonFunctions: CclJsonFunctions
     private val mapper = SerializationModule.jacksonBaseMapper
 
     private val vcContainerId = VaccinationCertificateContainerId("1")
@@ -112,11 +109,6 @@ class PersonDetailsViewModelTest : BaseTest() {
         coEvery { personCertificatesProvider.setCurrentCwaUser(any()) } just Runs
 
         every { timeStamper.nowUTC } returns Instant.EPOCH
-        val vaccinatedPerson = mockk<VaccinatedPerson>().apply {
-            every { vaccinationCertificates } returns setOf(vaccCert1, vaccCert2)
-            every { identifier } returns certificatePersonIdentifier
-        }
-        every { vaccinationRepository.vaccinationInfos } returns flowOf(setOf(vaccinatedPerson))
         personDetailsViewModel(certificatePersonIdentifier.codeSHA256)
             .apply {
                 uiState.getOrAwaitValue().also {
@@ -169,12 +161,11 @@ class PersonDetailsViewModelTest : BaseTest() {
 
     private fun personDetailsViewModel(personCode: String) = PersonDetailsViewModel(
         dispatcherProvider = TestDispatcherProvider(),
-        vaccinationRepository = vaccinationRepository,
         dccValidationRepository = dccValidationRepository,
         personCertificatesProvider = personCertificatesProvider,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
-        format = CCLTextFormatter(cclJsonFunctions, mapper)
+        format = CclTextFormatter(cclJsonFunctions, mapper)
     )
 
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
