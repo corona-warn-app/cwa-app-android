@@ -19,13 +19,11 @@ import javax.inject.Singleton
 class DefaultRiskLevelStorage @Inject constructor(
     riskResultDatabaseFactory: RiskResultDatabase.Factory,
     presenceTracingRiskRepository: PresenceTracingRiskRepository,
-    @AppScope val scope: CoroutineScope,
     riskCombinator: RiskCombinator,
     ewFilter: ExposureWindowsFilter,
 ) : BaseRiskLevelStorage(
     riskResultDatabaseFactory,
     presenceTracingRiskRepository,
-    scope,
     riskCombinator,
     ewFilter,
 ) {
