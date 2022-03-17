@@ -7,18 +7,10 @@
       {
         "attenuationRange": {
           "min": 0,
-          "max": 55,
-          "maxExclusive": true
-        },
-        "weight": 1
-      },
-      {
-        "attenuationRange": {
-          "min": 55,
           "max": 63,
           "maxExclusive": true
         },
-        "weight": 0.5
+        "weight": 0.8
       },
       {
         "attenuationRange": {
@@ -26,21 +18,29 @@
           "max": 73,
           "maxExclusive": true
         },
-        "weight": 0.3
+        "weight": 1
+      },
+      {
+        "attenuationRange": {
+          "min": 73,
+          "max": 79,
+          "maxExclusive": true
+        },
+        "weight": 0.1
       }
     ],
     "normalizedTimePerEWToRiskLevelMapping": [
       {
         "normalizedTimeRange": {
-          "min": 5,
-          "max": 15,
+          "min": 0,
+          "max": 9,
           "maxExclusive": true
         },
         "riskLevel": 1
       },
       {
         "normalizedTimeRange": {
-          "min": 15,
+          "min": 9,
           "max": 9999
         },
         "riskLevel": 2
@@ -50,15 +50,15 @@
       {
         "normalizedTimeRange": {
           "min": 5,
-          "max": 15,
+          "max": 9,
           "maxExclusive": true
         },
         "riskLevel": 1
       },
       {
         "normalizedTimeRange": {
-          "min": 15,
-          "max": 9999
+          "min": 9,
+          "max": 99999
         },
         "riskLevel": 2
       }
@@ -129,13 +129,13 @@
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": 1,
-      "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 1,
-      "expNumberOfDaysWithHighRisk": 0,
-      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1
     },
     {
       "description": "keep Exposure Windows (>= 10 minutes)",
@@ -159,13 +159,13 @@
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": 1,
-      "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 1,
-      "expNumberOfDaysWithHighRisk": 0,
-      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1
     },
     {
       "description": "keep Exposure Windows (>= 73 dB)",
@@ -179,22 +179,17 @@
             {
               "minAttenuation": 73,
               "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 73,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
+              "secondsSinceLastScan": 3000
             }
           ]
         }
       ],
       "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithLowRisk": 1,
       "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithLowRisk": 1,
       "expNumberOfDaysWithHighRisk": 0,
-      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0
     },
     {
@@ -219,16 +214,16 @@
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
+      "expTotalRiskLevel": 2,
       "expAgeOfMostRecentDateWithLowRisk": null,
-      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
       "expNumberOfDaysWithLowRisk": 0,
-      "expNumberOfDaysWithHighRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1
     },
     {
-      "description": "keep Exposure Windows with TRL <= 2",
+      "description": "filter out Exposure Windows with TRL <= 2",
       "exposureWindows": [
         {
           "ageInDays": 1,
@@ -275,6 +270,11 @@
               "minAttenuation": 30,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
+            },
+            {
+              "minAttenuation": 30,
+              "typicalAttenuation": 25,
+              "secondsSinceLastScan": 300
             }
           ]
         }
@@ -297,7 +297,7 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 299
             }
@@ -322,7 +322,7 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -338,7 +338,7 @@
       "expTotalMinimumDistinctEncountersWithHighRisk": 0
     },
     {
-      "description": "identify Exposure Window as Low Risk based on normalizedTime (< 15)",
+      "description": "identify Exposure Window as Low Risk based on normalizedTime (< 9)",
       "exposureWindows": [
         {
           "ageInDays": 1,
@@ -347,19 +347,9 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 299
+              "secondsSinceLastScan": 539
             }
           ]
         }
@@ -382,19 +372,9 @@
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
+              "secondsSinceLastScan": 540
             }
           ]
         }
@@ -412,12 +392,12 @@
       "exposureWindows": [
         {
           "ageInDays": 2,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 299
             }
@@ -425,17 +405,12 @@
         },
         {
           "ageInDays": 3,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -455,17 +430,12 @@
       "exposureWindows": [
         {
           "ageInDays": 3,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -473,17 +443,12 @@
         },
         {
           "ageInDays": 2,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -491,17 +456,12 @@
         },
         {
           "ageInDays": 4,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -521,17 +481,12 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -539,28 +494,23 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": 1,
-      "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 1,
-      "expNumberOfDaysWithHighRisk": 0,
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithLowRisk": 1,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0
     },
@@ -569,17 +519,12 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -587,28 +532,23 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 1,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": 1,
-      "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 1,
-      "expNumberOfDaysWithHighRisk": 0,
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithLowRisk": 2,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0
     },
@@ -617,17 +557,12 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -635,28 +570,23 @@
         },
         {
           "ageInDays": 1,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": 1,
-      "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 1,
-      "expNumberOfDaysWithHighRisk": 0,
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithLowRisk": 2,
       "expTotalMinimumDistinctEncountersWithHighRisk": 0
     },
@@ -665,17 +595,12 @@
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 3,
-          "infectiousness": 1,
+          "reportType": 2,
+          "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -683,17 +608,12 @@
         },
         {
           "ageInDays": 2,
-          "reportType": 3,
-          "infectiousness": 1,
+          "reportType": 2,
+          "infectiousness": 2,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -1037,17 +957,12 @@
       "exposureWindows": [
         {
           "ageInDays": 2,
-          "reportType": 3,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
             {
-              "minAttenuation": 30,
-              "typicalAttenuation": 25,
-              "secondsSinceLastScan": 300
-            },
-            {
-              "minAttenuation": 30,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
@@ -1111,11 +1026,11 @@
       "expTotalMinimumDistinctEncountersWithHighRisk": 0
     },
     {
-      "description": "handle a typicalAttenuation: of zero (should never happen)",
+      "description": "handle a minAttenuation: of zero (should never happen)",
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 1,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -1125,27 +1040,27 @@
               "secondsSinceLastScan": 300
             },
             {
-              "minAttenuation": 70,
+              "minAttenuation": 65,
               "typicalAttenuation": 25,
               "secondsSinceLastScan": 300
             }
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
-      "expAgeOfMostRecentDateWithLowRisk": 1,
-      "expAgeOfMostRecentDateWithHighRisk": null,
-      "expNumberOfDaysWithLowRisk": 1,
-      "expNumberOfDaysWithHighRisk": 0,
-      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 0,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1
     },
     {
       "description": "handle secondsSinceLastScan of zero (should never happen)",
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 1,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -1167,20 +1082,20 @@
           ]
         }
       ],
-      "expTotalRiskLevel": 1,
+      "expTotalRiskLevel": 2,
       "expAgeOfMostRecentDateWithLowRisk": null,
-      "expAgeOfMostRecentDateWithHighRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
       "expNumberOfDaysWithLowRisk": 0,
-      "expNumberOfDaysWithHighRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
-      "expTotalMinimumDistinctEncountersWithHighRisk": 0
+      "expTotalMinimumDistinctEncountersWithHighRisk": 1
     },
     {
       "description": "ignores negative secondsSinceLastScan (can happen when time-travelling, not officially supported)",
       "exposureWindows": [
         {
           "ageInDays": 1,
-          "reportType": 1,
+          "reportType": 2,
           "infectiousness": 1,
           "calibrationConfidence": 0,
           "scanInstances": [
@@ -1214,6 +1129,57 @@
       "expNumberOfDaysWithHighRisk": 1,
       "expTotalMinimumDistinctEncountersWithLowRisk": 0,
       "expTotalMinimumDistinctEncountersWithHighRisk": 1
+    },
+    {
+      "description": "EXPOSUREAPP-12211 - normalized time at the bounds of the threshold are rounded correctly (e.g. normalized time should be 9.0, may be 8.9, because 1 x 3 x 1.2 is sometimes 3.59 on Android)",
+      "exposureWindows": [
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 3,
+          "scanInstances": [
+            {
+              "minAttenuation": 73,
+              "typicalAttenuation": 76,
+              "secondsSinceLastScan": 300
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 3,
+          "scanInstances": [
+            {
+              "minAttenuation": 72,
+              "typicalAttenuation": 74,
+              "secondsSinceLastScan": 240
+            }
+          ]
+        },
+        {
+          "ageInDays": 1,
+          "reportType": 2,
+          "infectiousness": 2,
+          "calibrationConfidence": 3,
+          "scanInstances": [
+            {
+              "minAttenuation": 70,
+              "typicalAttenuation": 71,
+              "secondsSinceLastScan": 180
+            }
+          ]
+        }
+      ],
+      "expTotalRiskLevel": 2,
+      "expAgeOfMostRecentDateWithLowRisk": null,
+      "expAgeOfMostRecentDateWithHighRisk": 1,
+      "expNumberOfDaysWithLowRisk": 0,
+      "expNumberOfDaysWithHighRisk": 1,
+      "expTotalMinimumDistinctEncountersWithLowRisk": 1,
+      "expTotalMinimumDistinctEncountersWithHighRisk": 0
     }
   ]
 }
