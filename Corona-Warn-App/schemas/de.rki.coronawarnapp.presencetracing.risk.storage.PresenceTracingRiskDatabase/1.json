@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b974795925266df049a517880e3ad3a6",
+    "identityHash": "8f6fbeaffe608cffaae19b13399cdd3a",
     "entities": [
       {
         "tableName": "TraceTimeIntervalMatchEntity",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "PresenceTracingRiskLevelResultEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`calculatedAtMillis` INTEGER NOT NULL, `riskStateCode` INTEGER NOT NULL, `calculatedFromMillis` INTEGER NOT NULL, PRIMARY KEY(`calculatedAtMillis`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`calculatedAtMillis` INTEGER NOT NULL, `riskStateCode` INTEGER NOT NULL, PRIMARY KEY(`calculatedAtMillis`))",
         "fields": [
           {
             "fieldPath": "calculatedAtMillis",
@@ -67,12 +67,6 @@
           {
             "fieldPath": "riskState",
             "columnName": "riskStateCode",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "calculatedFromMillis",
-            "columnName": "calculatedFromMillis",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -90,7 +84,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b974795925266df049a517880e3ad3a6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8f6fbeaffe608cffaae19b13399cdd3a')"
     ]
   }
 }

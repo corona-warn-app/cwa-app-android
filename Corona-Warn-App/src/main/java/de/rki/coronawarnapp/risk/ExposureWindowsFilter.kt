@@ -22,7 +22,7 @@ class ExposureWindowsFilter @Inject constructor(
         list: List<ExposureWindow>,
         nowUtc: Instant
     ): List<ExposureWindow> = list.filterByAge(
-        maxAgeInDays = config.getMaxEwAgeInDays(),
+        maxAgeInDays = config.maxEncounterAgeInDays,
         nowUtc = nowUtc
     )
 
@@ -38,13 +38,9 @@ class ExposureWindowsFilter @Inject constructor(
     }
 
     private fun ExposureWindowRiskCalculationConfig.getDeadline(nowUtc: Instant): Instant =
-        nowUtc.minusDays(getMaxEwAgeInDays()).toInstant()
-
-    private fun ExposureWindowRiskCalculationConfig.getMaxEwAgeInDays() =
-        if (maxEncounterAgeInDays > 0) maxEncounterAgeInDays else DEFAULT_EW_AGE_IN_DAYS
+        nowUtc.minusDays(maxEncounterAgeInDays).toInstant()
 }
 
-private const val DEFAULT_EW_AGE_IN_DAYS = 14
 
 @VisibleForTesting
 internal fun List<ExposureWindow>.filterByAge(
