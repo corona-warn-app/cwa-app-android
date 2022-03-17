@@ -1,9 +1,13 @@
 package de.rki.coronawarnapp.util.math
 
-import kotlin.math.roundToInt
+import kotlin.math.pow
+import kotlin.math.roundToLong
 
 /**
  * Round a fraction to a decimal number with the required decimal places
- * @param denominator Power of 10
+ * @param decimalPlacesNumber [UInt]
  */
-fun Double.roundToDecimal(denominator: Double = 100.0): Double = (this * denominator).roundToInt() / denominator
+fun Double.roundToDecimal(decimalPlacesNumber: UInt): Double {
+    val denominator = 10.0.pow(decimalPlacesNumber.toInt())
+    return (this * denominator).roundToLong() / denominator
+}

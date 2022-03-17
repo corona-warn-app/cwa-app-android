@@ -255,7 +255,7 @@ class DefaultRiskLevels @Inject constructor() : RiskLevels {
 
         // 2. Determine `Normalized Time per Date`
         val normalizedTime = exposureWindowsAndResultForDate.values
-            .sumOf { it.normalizedTime.roundToDecimal() }
+            .sumOf { it.normalizedTime.roundToDecimal(decimalPlacesNumber = 1u) }
 
         Timber.d(
             "Aggregating result for date %d - %s",
