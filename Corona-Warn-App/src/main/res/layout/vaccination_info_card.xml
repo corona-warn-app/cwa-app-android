@@ -22,22 +22,13 @@
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="Impfstatus" />
-        <ImageView
-            android:id="@+id/booster_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_booster_badge"
-            android:visibility="gone"
-            tools:visibility="visible" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/vaccination_certificate_incomplete_vaccination" />
+        tools:text="Letzte Impfung noch XX Tage gültig" />
 
     <TextView
         android:id="@+id/body"
@@ -46,17 +37,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:textSize="14sp"
-        tools:text="@string/vaccination_certificate_incomplete_vaccination" />
+        tools:text="Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig." />
 
     <TextView
-        android:id="@+id/body_2_faq"
+        android:id="@+id/faq"
         style="@style/subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="@string/vaccination_card_booster_eligible_faq"
         android:textSize="14sp"
         android:visibility="gone"
-        tools:text="@string/vaccination_card_booster_eligible_faq"
         tools:visibility="visible" />
 
 </LinearLayout>

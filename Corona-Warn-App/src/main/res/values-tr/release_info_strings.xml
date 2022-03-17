@@ -16,18 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"2G+ Durumu Kanıtı"</item>
-        <item>"Negatif Test Sonucu Durumunda Bilgi"</item>
-        <item>"Güvenlik Bildirimini Gizle"</item>
-        <item>"Tarama Özelliği İyileştirildi"</item>
+        <item>"Hızlı PCR Testlerinin Kaydı"</item>
+        <item>"Sertifika Ataması"</item>
+        <item>"Sertifika Güncellemesi"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Geçerli bir aşı sertifikanız ya da iyileşme sertifikanız varsa ve uygulamaya bir test sertifikası eklerseniz bunların tümü sertifikaya genel bakış bölümünde birleşik şekilde gösterilir. İlgili kontrolü kullanarak aşı sertifikasının veya iyileşme sertifikasının ve test sertifikasının QR kodu arasında geçiş yapabilirsiniz. 2G+ kanıtı gerekiyorsa her iki QR kodun CovPassCheck uygulaması ile doğrulanması gerekir."</item>
-        <item>"Negatif test sonucu alırsanız yine de akut belirtilerinizin olması durumunda ilave tavsiyeler sunulacaktır."</item>
-        <item>"Versiyon 2.12 itibarıyla, akıllı telefonunuzda yönetici hakları etkinse bir güvenlik bildirimi görüntülenir. Bu bildirimi, sonraki güncellemeye dek gizleyebilirsiniz."</item>
-        <item>"Tarama özelliği, QR kodların daha güvenilir bir biçimde tanınmasını ve taranmasını sağlamak üzere gözden geçirildi."</item>
+        <item>"Artık Corona-Warn-App uygulamasında hızlı PCR testlerini kaydedebilir ve sonucunuzu ve test sertifikanızı uygulama üzerinden alabilirsiniz."</item>
+        <item>"Kişilere sertifika ataması daha hata toleranslı hale getirildi. Ad ve soyadı yazımlarındaki ufak farklılıklar göz ardı edilir ve böylece etkilenen sertifikalar yine de aynı kişiye atanabilir."</item>
+        <item>"Hatırlatma aşılarının sertifikalarına ilişkin AB spesifikasyonları değişti. Sertifikanız güncel spesifikasyonları karşılamıyorsa doğrudan Corona-Warn-App uygulamasından yeni bir sertifika talebi oluşturabilirsiniz."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -35,12 +33,10 @@
         <item/>
         <item/>
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
         <item/>
         <item/>

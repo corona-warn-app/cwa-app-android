@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.http.interceptor
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.internal.closeQuietly
 import timber.log.Timber
 
 class RetryInterceptor : Interceptor {
@@ -17,6 +18,7 @@ class RetryInterceptor : Interceptor {
         while (!response.isSuccessful && tryCount < MAX_RETRY_COUNT) {
             Timber.d("Request is not successful - $tryCount")
             tryCount++
+            response.closeQuietly()
             response = chain.proceed(request)
         }
         return response

@@ -19,6 +19,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             validationServiceMinVersion = rawConfig.validationServiceMinVersionCode(),
             dccPersonCountMax = rawConfig.dccPersonCountMax(),
             dccPersonWarnThreshold = rawConfig.dccPersonWarnThreshold(),
+            admissionScenariosEnabled = rawConfig.dccAdmissionCheckScenariosEnabled()
         )
     }
 
@@ -32,34 +33,13 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
             else -> supportedCountriesList
         }
 
-    private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled(): Boolean {
-        if (!hasAppFeatures()) return false
+    private fun ApplicationConfigurationAndroid.isDeviceTimeCheckDisabled() = findBoolean(
+        labelValue = "disable-device-time-check"
+    )
 
-        return try {
-            (0 until appFeatures.appFeaturesCount)
-                .map { appFeatures.getAppFeatures(it) }
-                .firstOrNull { it.label == "disable-device-time-check" }
-                ?.let { it.value == 1 }
-                ?: false
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to map `disable-device-time-check` from %s", this)
-            false
-        }
-    }
-
-    private fun ApplicationConfigurationAndroid.isUnencryptedCheckInsEnabled(): Boolean {
-        if (!hasAppFeatures()) return false
-        return try {
-            (0 until appFeatures.appFeaturesCount)
-                .map { appFeatures.getAppFeatures(it) }
-                .firstOrNull { it.label == "unencrypted-checkins-enabled" }
-                ?.let { it.value == 1 }
-                ?: false
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to map `unencrypted-checkins-enabled` from %s", this)
-            false
-        }
-    }
+    private fun ApplicationConfigurationAndroid.isUnencryptedCheckInsEnabled() = findBoolean(
+        labelValue = "unencrypted-checkins-enabled"
+    )
 
     private fun ApplicationConfigurationAndroid.validationServiceMinVersionCode(): Int {
         if (!hasAppFeatures()) return DEFAULT_VALIDATION_SERVICE_MIN_VERSION
@@ -102,6 +82,33 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         }
     }
 
+    private fun ApplicationConfigurationAndroid.dccAdmissionCheckScenariosEnabled() = findBoolean(
+        labelValue = "dcc-admission-check-scenarios-enabled"
+    )
+
+    private fun ApplicationConfigurationAndroid.findBoolean(
+        labelValue: String,
+        defaultValue: Boolean = false
+    ): Boolean {
+        if (!hasAppFeatures()) return defaultValue
+
+        return try {
+            val value = (0 until appFeatures.appFeaturesCount)
+                .map { appFeatures.getAppFeatures(it) }
+                .firstOrNull { it.label == labelValue }
+                ?.value
+
+            return when (value) {
+                null -> defaultValue // no item found
+                1 -> true // found item has value '1'
+                else -> defaultValue // found item has value different to '1'
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to find `%s` from %s", labelValue, this)
+            defaultValue
+        }
+    }
+
     data class CWAConfigContainer(
         override val latestVersionCode: Long,
         override val minVersionCode: Long,
@@ -111,6 +118,7 @@ class CWAConfigMapper @Inject constructor() : CWAConfig.Mapper {
         override val validationServiceMinVersion: Int,
         override val dccPersonWarnThreshold: Int,
         override val dccPersonCountMax: Int,
+        override val admissionScenariosEnabled: Boolean,
     ) : CWAConfig
 
     companion object {

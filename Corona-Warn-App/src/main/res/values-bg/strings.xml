@@ -24,6 +24,8 @@
     <string name="menu_settings">"Настройки"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Кошче"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Социална медия"</string>
 
     <!-- ####################################
                Notification
@@ -199,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Риск от заразяване"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните 14 дни."</string>
+    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните %d дни. Данните за излагане вземат предвид и вашите регистрации. Ще бъдете предупредени, ако сте били в едно помещение по едно и също време с лице, което е било диагностицирано с коронавирус, или до 30 минути след това."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Възможни са следните нива на риск:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -258,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"По възможност се приберете и си останете вкъщи, избягвайки срещи с хора, които не са от Вашето домакинство."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси, свързани със здравето, се обадете на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Мийте редовно ръцете си със сапун в продължение на 20 сек."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -297,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
+    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните %d дни."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Приложението Corona-Warn-App е инсталирано днес. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -348,6 +350,17 @@
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Ново излагане"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Имате друго излагане с повишено ниво на риск.\n\nМоже да видите всичките си излагания на риск от последните %1$d дни във Вашия дневник на контактите."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"ОК"</string>
+
+    <!-- ####################################
            Outdated Device Time
     ###################################### -->
     <!-- XHED: incorrect device time - dialog/notification headline -->
@@ -378,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Повече защита за Вас и за всички нас. С помощта на приложението Corona-Warn-App можем да прекъснем веригите на заразяване много по-бързо."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните 14 дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
+    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните %d дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Покажете резултатите си от теста (PCR тест или бърз антигенен тест) в приложението и предупредете останалите, ако Ви е поставена диагноза за коронавирусна инфекция."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
@@ -740,11 +753,13 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"Английски, немски, турски\n\nРаботно време:\nот понеделник до неделя: 7:00 - 22:00\n(с изключение на национални празници)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Ако имате въпроси, свързани със здравето, се обадете на личния си лекар или на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
+    <string name="information_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Мъж със слушалки провежда телефонен разговор."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"ЧЗВ"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Декларация за достъпност"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Често задавани въпроси. Ще Ви пренасочим към външен уебсайт."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
@@ -913,12 +928,12 @@
     <string name="qr_code_scan_body_subtitle">"Тестове, Вашите сертификати, регистрации и валидиране при продажба на билети"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Можете да сканирате регистрации, за да възстановите събития, които сте изтрили."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"Фенерче"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Отваряне на файл"</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">"Четене на QR код..."</string>
-    <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"QR кодът не се поддържа от Corona-Warn-App. Моля, сканирайте подходящ QR код."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Файлът не се чете"</string>
     <!-- XTXT: QR Code error message body  -->
@@ -971,8 +986,6 @@
     <string name="submission_consent_main_headline_body">"За да можете да получите резултата от Вашия тест и да предупредите останалите, трябва да дадете своето съгласие."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Извличане на резултат от тест"</string>
-    <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Сега сканирайте QR кода от Вашия тест, за да получите резултата."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Можете да сканирате Вашия тест само веднъж. Приложението може да обработва едновременно само един бърз тест и един PCR тест."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
@@ -1053,9 +1066,7 @@
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Изтриване на тест"</string>
     <!-- XHED: Page headline for other warnings screen  -->
-    <string name="submission_test_result_positive_steps_warning_others_heading">"Предупредете другите"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Моля, споделете своите случайни идентификатори и предупредете околните.\nПомогнете ни да определяме риска от заразяване за тях по-точно, като споделите и кога за пръв път сте забелязали симптомите на коронавирусната инфекция."</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Въведете симптоми"</string>
 
@@ -1078,28 +1089,12 @@
     <string name="submission_test_result_dialog_tracing_required_message">"Моля, активирайте регистрирането на излагания на риск, за да предупредите други хора."</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"OK"</string>
-    <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Тестът може да се сканира само веднъж."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Изтриване на резултата от теста?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Резултатът от тест ще бъде преместен в кошчето. То се намира в страницата на таб \"Статус\", която може да отворите през трите точки горе вдясно. Там можете да го изтриете за постоянно или да го възстановите. Резултатът ще бъде изтрит автоматично след 30 дни."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Изтриване на резултат от тест"</string>
-    <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Наистина ли искате да изтриете теста?"</string>
-    <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Ако изтриете теста, повече няма да можете да извлечете данните за резултата си. Ще получите резултата си от център за тестване или лаборатория, независимо от валидността на QR кода. Ако Ви бъде поставена диагноза „коронавирус“, службата за обществено здравеопазване ще бъде уведомена за това по установения от правните норми канал и ще се свърже с Вас."</string>
-    <!-- YTXT: Dialog text for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Ако го направите, другите няма да бъдат предупредени."</string>
-    <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Изтриване"</string>
-    <!-- XBUT: Negative button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_negative">"Отказ"</string>
-    <!-- XHED: Title for test result card positive -->
-    <string name="submission_test_result_card_positive_title">"Положителен резултат за SARS-CoV-2"</string>
-    <!-- YTXT: Body text for test result card positive -->
-    <string name="submission_test_result_card_positive_body">"Вашето заразяване със SARS-CoV-2 е потвърдено."</string>
     <!-- XHED: Page headline for test result with consent given  -->
     <string name="submission_test_result_consent_given_heading">"Резултатът от Вашия тест"</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
@@ -1160,14 +1155,10 @@
     <string name="submission_positive_other_warning_title">"Предупредете другите"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Моля, помогнете на всички нас!"</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Ако желаете, вече можете да помогнете и околните да бъдат предупредени за възможно заразяване.\n\nЗа целта трябва да споделите своите случайни идентификатори от последните 14 дни на сървъра, използван съвместно от участващите държави. По желание може да споделите също кога за пръв път сте забелязали симптомите на коронавирусната инфекция. От там Вашите уникални ИД и всяка допълнителна информация се разпращат до потребителите на съответните официални приложения за борба с коронавируса. По този начин и чуждестранните потребители, с които сте били в контакт, ще бъдат предупредени за възможно заразяване.\n\nСподелят се единствено Вашите случайни идентификатори и информацията за развитието на симптомите, която доброволно сте споделили. Не се разкриват лични данни като име, адрес или местоположение."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Приемам"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Смартфонът предава на системата информация за положителен резултат от тест."</string>
-    <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"В момента в международното регистриране на излаганията на риск от заразяване участват следните държави:"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1220,7 +1211,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"Периодът, в който трябва да сте под карантина, обикновено е 10 дни. Наблюдавайте внимателно развитието на Вашите симптоми."</item>
-        <item>"Службата за обществено здравеопазване ще изиска от Вас да съставите списък на хората, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 15 минути през последните два дни, преди да се разболеете. Може да използвате Вашия дневник на контактите – просто експортирайте записите и след това ги разпечатайте или ги изпратете по имейл."</item>
+        <item>"Службата за обществено здравеопазване ще изиска от Вас да съставите списък на хората, с които сте били в близък контакт (на разстояние под 2 метра или при разговор лице в лице) в продължение на повече от 10 минути през последните два дни, преди да се разболеете. Може да използвате Вашия дневник на контактите – просто експортирайте записите и след това ги разпечатайте или ги изпратете по имейл."</item>
         <item>"Моля, обърнете особено внимание на хората, които няма да бъдат уведомени директно чрез приложението, тъй като нямат смартфон или не са инсталирали приложението."</item>
         <item>"Може все още да сте носител на заразата дори ако вече не проявявате симптоми и отново се чувствате добре. По тази причина, моля, не нарушавайте указания период на изолация."</item>
     </string-array>
@@ -1289,7 +1280,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици: английски, немски, турски\n\nРаботно време:\nВсеки ден (включително уикендите) от 07:00 до 20:00 ч. (СЕТ)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Ако имате въпроси, свързани със здравето, се обадете на личния си лекар или на горещата линия на службата за медицинска помощ на телефон 116 117."</string>
+    <string name="submission_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Обадете се на горещата линия и поискайте ТАН код"</string>
@@ -1345,6 +1336,8 @@
     <string name="submission_status_card_positive_result_contact">"От службата за обществено здравеопазване (Gesundheitsamt) може да се свържат с Вас през следващите няколко дни."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Споделете своите случайни ИД кодове, за да предупредите останалите потребители."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"Ако имате рискови фактори от тежко боледуване от COVID-19 потърсете лекарски съвет. Фактори за повишен риск са възраст над 60 години, потисната имунна система, диабет и затлъстяване."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Вашата диагноза %s:"</string>
@@ -1477,45 +1470,24 @@
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Лица, изпратили предупреждения"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"Брой потребители, които са диагностицирани с коронавирус с помощта на PCR тест и са предупредили другите потребители чрез приложението."</string>
+    <string name="statistics_explanation_warned_persons_text">"Брой потребители, диагностицирани с коронавирус, които са предупредили другите потребители чрез приложението"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"7-дневна заболеваемост на местно ниво"</string>
-    <!-- XTXT: Explanation screen local incidence text -->
-    <string name="statistics_explanation_local_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души в посочения окръг или федерална провинция."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7-дневна заболеваемост"</string>
-    <!-- XHED: Explanation screen seven day hospitalization title -->
-    <string name="statistics_explanation_seven_day_hospitalization_title">"7-дневна заболеваемост с хоспитализация"</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care title -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"Пациенти с COVID-19 в интензивни отделения"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Общ брой потвърдени нови случаи на заразяване за последните 7 дни (по дата на регистриране) на 100 000 души."</string>
-    <!-- XTXT: Explanation screen seven day hospitalization text -->
-    <string name="statistics_explanation_seven_day_hospitalization_text">"Общ брой приети в болница пациенти заради COVID-19 през последните 7 дни (по дата на регистриране) на 100 000 души."</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care text -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"Съотношение на пациентите в интензивни отделения заради COVID-19 спрямо общия капацитет на интензивните отделения."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7-дневно репродуктивно число R"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Репродуктивното число R указва средно колко души заразява от своя страна едно заразено лице."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"ЧЗВ относно статистиката"</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Легенда"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Период от време"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
-    <string name="statistics_explanation_period_yesterday_subtitle">"Вчера/до вчера"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
     <string name="statistics_explanation_period_yesterday_text">"За \"Вчера/до вчера\" се показва броят за предишния ден/до предишния ден. Ако все още няма данни за предишния ден, се показва последната дата, за която има данни."</string>
-    <!-- XHED: Explanation screen period seven day subtitle -->
-    <string name="statistics_explanation_period_seven_day_subtitle">"7 дни средно"</string>
-    <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Средна стойност за последните 7 дни"</string>
-    <!-- XHED: Explanation screen period total subtitle -->
-    <string name="statistics_explanation_period_total_subtitle">"Общо"</string>
-    <!-- XTXT: Explanation screen period total text -->
-    <string name="statistics_explanation_period_total_text">"Общ брой от началото на годината или от стартирането на приложението (15 юни 2020 г.)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Тенденция"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1564,7 +1536,11 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Напълно ваксинирани лица"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Лица с основна имунизация"</string>
+
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Хора, получили бустерни дози"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
@@ -1578,9 +1554,13 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Брой на поставените дози ваксини в национален мащаб към настоящия момент."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Напълно ваксинирани лица"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Лица с основна имунизация"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили всички необходими дози ваксини."</string>
+    <string name="statistics_fully_vaccinated_people_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили всички необходими дози ваксини за основна имунизация."</string>
+    <!-- XTXT: Statistics number of people with booster title -->
+    <string name="statistics_people_with_booster_title">"Хора, получили бустерни дози"</string>
+    <!-- XTXT: Statistics number of people with booster text -->
+    <string name="statistics_people_with_booster_text">"Брой на лицата, за които има предадени данни в института „Роберт Кох“, че са получили бустерни дози ваксини."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"Лица, получили поне една доза ваксина"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
@@ -1595,8 +1575,6 @@
     <string name="statistics_seven_day_hospitalization_card_title">"7-дневна заболеваемост с хоспитализация"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_seven_day_hospitalization_nationwide_text">"В национален мащаб"</string>
-    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
-    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"Хоспитализации на пациенти с COVID-19 на 100 000 души"</string>
 
     <!-- Occupied Intensive Care Statistics Card -->
     <!-- XHED: Title for occupied intensive care card -->

@@ -16,18 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Dowód 2G+ status"</item>
-        <item>"Informacje w przypadku negatywnego wyniku testu"</item>
-        <item>"Ukryj powiadomienie dotyczące bezpieczeństwa"</item>
-        <item>"Zoptymalizowana funkcja skanowania"</item>
+        <item>"Rejestracja szybkich testów PCR"</item>
+        <item>"Przypisywanie certyfikatów"</item>
+        <item>"Aktualizacja certyfikatu"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Jeśli posiadasz ważny certyfikat szczepienia lub certyfikat statusu ozdrowieńca i dodasz w aplikacji certyfikat testu, zostaną one wyświetlone razem w przeglądzie certyfikatów. Możesz przełączać się między kodem QR certyfikatu szczepienia lub certyfikatem statusu ozdrowieńca a certyfikatem testu za pomocą odpowiedniego elementu sterującego. Oba kody QR muszą być zweryfikowane przez aplikację CovPassCheck, jeśli wymagany jest dowód 2G+."</item>
-        <item>"Jeśli wynik testu będzie negatywny, otrzymasz teraz dodatkowe zalecenia w przypadku nieustąpienia ostrych objawów."</item>
-        <item>"Od wersji 2.12 wyświetlane jest powiadomienie dotyczące bezpieczeństwa, jeśli na smartfonie są aktywne prawa administratora. Możesz ukryć to powiadomienie do czasu następnej aktualizacji."</item>
-        <item>"Funkcja skanowania została udoskonalona, aby zwiększyć dokładność rozpoznawania i skanowania kodów QR."</item>
+        <item>"Możesz teraz zarejestrować szybkie testy PCR w aplikacji Corona-Warn-App i otrzymać za jej pośrednictwem wynik i certyfikat testu."</item>
+        <item>"Przypisywanie certyfikatów do osób stało się bardziej odporne na błędy. Niewielkie różnice w pisowni imion i nazwisk są ignorowane, więc certyfikaty, w których takie różnice występują, mogą zostać mimo to przypisane do tej samej osoby."</item>
+        <item>"Zmieniły się specyfikacje UE dla certyfikatów szczepień przypominających. Jeśli Twój certyfikat nie jest zgodny z aktualnymi specyfikacjami, możesz zamówić nowy bezpośrednio w aplikacji Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -35,12 +33,10 @@
         <item/>
         <item/>
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
         <item/>
         <item/>

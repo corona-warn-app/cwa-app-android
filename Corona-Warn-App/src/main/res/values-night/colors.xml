@@ -31,11 +31,8 @@
     <color name="colorSemanticHighRisk">#C4314A</color>
     <color name="colorSemanticHighRiskPressed">#CA465C</color>
     <color name="colorSemanticLowRisk">#378250</color>
-    <color name="colorSemanticLowRiskPressed">#378250</color>
     <color name="colorSemanticNeutralRisk">#5D6E80</color>
-    <color name="colorSemanticNeutralRiskPressed">#556675</color>
     <color name="colorSemanticUnknownRisk">#232324</color>
-    <color name="colorSemanticUnknownRiskPressed">#39393A</color>
 
     <!-- Accent -->
     <color name="colorAccentTintButtonPressed">#1B4865</color>
@@ -45,14 +42,9 @@
     <color name="colorTransparent">#00FFFFFF</color>
 
     <!-- Tan Input -->
-    <color name="tanInputBackground">#1A17191A</color>
 
     <!-- Stable Colors -->
-    <color name="colorStableDark">#000000</color>
-    <color name="colorStableMedium">#4D17191A</color>
     <color name="colorStableLight">#FFFFFF</color>
-    <color name="colorStableHairlineLight">#33FFFFFF</color>
-    <color name="colorStableHairlineDark">#3317191A</color>
 
     <!-- Calendar -->
     <color name="colorCalendarMonthText">#DEFFFFFF</color>
@@ -81,7 +73,6 @@
     <color name="colorVaccinationCardBackground">@color/colorSurface2</color>
 
     <color name="dividerColor">#4DFFFFFF</color>
-    <color name="qrcodeCardColor">@color/colorSurface2</color>
 
     <!-- Bottom nav color -->
     <color name="navItemColorNormal">#A5A5A5</color>
@@ -89,5 +80,9 @@
     <!-- Tip-->
     <color name="tipBackgroundColor">#FFFFFF</color>
     <color name="tipTitleColor">#000000</color>
+    <color name="admissionItemDisabledColor">#80FFFFFF</color>
+    <color name="admissionTileBackground">@color/colorPersonOverviewQrCardBorder</color>
+    <color name="contactDiaryOverviewUnClickableColor">#000000</color>
+    <color name="contactDiaryOverviewBorderColor">#434445</color>
 
 </resources>

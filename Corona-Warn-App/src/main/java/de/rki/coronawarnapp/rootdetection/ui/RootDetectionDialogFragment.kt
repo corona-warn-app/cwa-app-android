@@ -23,7 +23,6 @@ class RootDetectionDialogFragment : DialogFragment(), AutoInject {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = MaterialAlertDialogBuilder(requireContext())
         .setTitle(R.string.root_dialog_title)
-        .setMessage(R.string.root_dialog_message)
         .setPositiveButton(R.string.root_dialog_button) { _, _ ->
             setFragmentResult(REQUEST_KEY, bundleOf())
         }

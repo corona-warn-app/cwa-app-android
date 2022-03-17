@@ -137,21 +137,21 @@
                     android:padding="16dp">
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/covid_certificate_attribute_name" />
 
                     <TextView
                         android:id="@+id/fullname"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="Andrea Schneider" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -159,14 +159,14 @@
 
                     <TextView
                         android:id="@+id/icaoname"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="SCHNEIDER, ANDREA" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -174,14 +174,14 @@
 
                     <TextView
                         android:id="@+id/date_of_birth"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="1943-02-23" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -189,14 +189,14 @@
 
                     <TextView
                         android:id="@+id/target_disease"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="COVID-19" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -204,14 +204,14 @@
 
                     <TextView
                         android:id="@+id/medical_product_name"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="Comirnaty" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -219,14 +219,14 @@
 
                     <TextView
                         android:id="@+id/vaccine_name"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="mRNA" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -234,14 +234,14 @@
 
                     <TextView
                         android:id="@+id/vaccine_manufacturer"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="BioNTech" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -249,14 +249,14 @@
 
                     <TextView
                         android:id="@+id/vaccination_number"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="2 of 2" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -264,14 +264,14 @@
 
                     <TextView
                         android:id="@+id/vaccinated_at"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="2021-05-23" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -279,14 +279,14 @@
 
                     <TextView
                         android:id="@+id/certificate_country"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="Germany" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -294,14 +294,14 @@
 
                     <TextView
                         android:id="@+id/certificate_issuer"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         tools:text="RKI" />
 
                     <TextView
-                        style="@style/body1Medium"
+                        style="@style/body2Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -309,7 +309,7 @@
 
                     <TextView
                         android:id="@+id/certificate_id"
-                        style="@style/body1"
+                        style="@style/body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -324,26 +324,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp" />
-
-                <LinearLayout
-                    android:id="@+id/one_shot_info"
-                    style="@style/Card.Vaccination"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <TextView
-                        style="@style/body2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/vaccination_certificate_one_shot" />
-
-                </LinearLayout>
 
                 <de.rki.coronawarnapp.covidcertificate.common.certificate.TravelNoticeView
                     android:id="@+id/travel_notice"

@@ -67,8 +67,6 @@ class DscSignatureValidator @Inject constructor(
         date: Date = Date()
     ) {
         val dscData = preFetchedDscData ?: dscRepository.dscData.first()
-        Timber.tag(TAG).d("validateSignature(dscListSize=%s)", dscData.dscList.size)
-
         findDscCertificate(dscData, dccData.dscMessage).apply {
             validate(date)
             checkOidsIntersect(dccData)
@@ -81,38 +79,39 @@ class DscSignatureValidator @Inject constructor(
     ): X509Certificate {
         val toVerify = dscMessage.signedPayload()
         val filteredDscSet = dscData.dscList.filter { it.kid == dscMessage.kid }
-        Timber.tag(TAG).d("filteredDscSetSize=${filteredDscSet.size}")
-
         val matchedDscSet = when {
             filteredDscSet.isEmpty() || dscMessage.kid.isEmpty() -> dscData.dscList
             else -> filteredDscSet
         }
-        Timber.tag(TAG).d("matchedDscSetSize=${matchedDscSet.size}")
+
+        Timber.tag(TAG).d(
+            "validateSignature() dscListSize=%d, filteredDscSetSize=%d, matchedDscSetSize=%d",
+            dscData.dscList.size,
+            filteredDscSet.size,
+            matchedDscSet.size
+        )
 
         var x509Certificate: X509Certificate? = null
+        val exceptionList = mutableListOf<String>()
         for (dsc in matchedDscSet) {
             try {
                 val dscCertificate = dsc.toX509certificate()
-                Timber.d(
-                    "dscKid=%s, certAlgo=%s, headerAlgo=%s",
-                    dsc.kid, dscCertificate.sigAlgName, dscMessage.algorithm
-                )
-
                 val (publicKey, signature) = when (dscMessage.algorithm) {
                     ES256 -> dscCertificate.publicKey to dscMessage.signature.toByteArray().toECDSAVerifier()
                     PS256 -> dscCertificate.publicKey.toRsaPublicKey() to dscMessage.signature.toByteArray()
                 }
-
                 val valid = Signature.getInstance(dscMessage.algorithm.algName).verify(publicKey, toVerify, signature)
-                Timber.tag(TAG).d("Dsc certificate (${dsc.kid}) is valid=$valid")
-
                 if (valid) {
                     x509Certificate = dscCertificate
                     break
                 }
             } catch (e: Exception) {
-                Timber.w(e, "Signature verification failed.") // Continue
+                e.message?.let { exceptionList.add(it) }
             }
+        }
+
+        if (exceptionList.isNotEmpty()) {
+            Timber.w("Signature verification exceptions: %s", exceptionList.distinct().joinToString())
         }
 
         return x509Certificate ?: throw InvalidHealthCertificateException(HC_DSC_NO_MATCH)

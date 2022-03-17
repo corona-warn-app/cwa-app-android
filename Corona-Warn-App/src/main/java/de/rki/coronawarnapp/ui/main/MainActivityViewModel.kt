@@ -6,7 +6,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -14,7 +16,9 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
@@ -24,6 +28,7 @@ import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
@@ -39,11 +44,13 @@ class MainActivityViewModel @AssistedInject constructor(
     private val traceLocationSettings: TraceLocationSettings,
     private val covidCertificateSettings: CovidCertificateSettings,
     private val raExtractor: RapidAntigenQrCodeExtractor,
+    private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val submissionRepository: SubmissionRepository,
     coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
+    tracingSettings: TracingSettings,
 ) : CWAViewModel(
     dispatcherProvider = dispatcherProvider
 ) {
@@ -69,10 +76,14 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
 
-    val testsBadgeCount: LiveData<Int> = coronaTestRepository.coronaTests
-        .map { coronaTests ->
-            coronaTests.filter { !it.didShowBadge }.count()
-        }.asLiveData2()
+    val mainBadgeCount: LiveData<Int> = combine(
+        coronaTestRepository.coronaTests,
+        tracingSettings.showRiskLevelBadge.flow
+    ) { coronaTests, showBadge ->
+        coronaTests.filter { !it.didShowBadge }
+            .count()
+            .plus(if (showBadge) 1 else 0)
+    }.asLiveData2()
 
     init {
         if (CWADebug.isDeviceForTestersBuild) {
@@ -127,20 +138,21 @@ class MainActivityViewModel @AssistedInject constructor(
             CheckInsFragment.canHandle(uriString) -> event.postValue(
                 MainActivityEvent.GoToCheckInsFragment(uriString)
             )
-            raExtractor.canHandle(uriString) -> {
-                try {
-                    val qrCode = raExtractor.extract(rawString = uriString)
-                    val test = submissionRepository.testForType(qrCode.type).first()
-                    when {
-                        test != null -> event.postValue(MainActivityEvent.GoToDeletionScreen(qrCode))
-                        else -> event.postValue(MainActivityEvent.GoToSubmissionConsentFragment(qrCode))
-                    }
-                } catch (e: Exception) {
-                    Timber.w(e, "onNavigationUri failed")
-                    event.postValue(MainActivityEvent.Error(e))
-                }
-            }
+            raExtractor.canHandle(uriString) -> raExtractor.handleCoronaTestQr(uriString = uriString)
+            rPcrExtractor.canHandle(uriString) -> rPcrExtractor.handleCoronaTestQr(uriString = uriString)
         }
+    }
+
+    private suspend fun QrCodeExtractor<CoronaTestQRCode>.handleCoronaTestQr(uriString: String) = try {
+        val qrCode = extract(rawString = uriString)
+        val test = submissionRepository.testForType(qrCode.type).first()
+        when {
+            test != null -> event.postValue(MainActivityEvent.GoToDeletionScreen(qrCode))
+            else -> event.postValue(MainActivityEvent.GoToSubmissionConsentFragment(qrCode))
+        }
+    } catch (e: Exception) {
+        Timber.w(e, "onNavigationUri failed")
+        event.postValue(MainActivityEvent.Error(e))
     }
 
     fun openScanner() = launch {

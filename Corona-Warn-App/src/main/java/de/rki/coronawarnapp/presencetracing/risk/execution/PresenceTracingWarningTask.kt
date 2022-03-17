@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.presencetracing.risk.CheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.storage.PresenceTracingRiskRepository
@@ -18,13 +18,13 @@ import de.rki.coronawarnapp.task.TaskCancellationException
 import de.rki.coronawarnapp.task.TaskFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import org.joda.time.Duration
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
+@Suppress("LongParameterList")
 class PresenceTracingWarningTask @Inject constructor(
     private val syncTool: TraceWarningPackageSyncTool,
     private val checkInWarningMatcher: CheckInWarningMatcher,
@@ -32,9 +32,9 @@ class PresenceTracingWarningTask @Inject constructor(
     private val traceWarningRepository: TraceWarningRepository,
     private val checkInsRepository: CheckInRepository,
     private val presenceTracingRiskMapper: PresenceTracingRiskMapper,
-    private val coronaTestRepository: CoronaTestRepository,
     private val autoCheckOut: AutoCheckOut,
     private val appConfigProvider: AppConfigProvider,
+    private val checkInsFilter: CheckInsFilter,
 ) : Task<PresenceTracingWarningTaskProgress, PresenceTracingWarningTask.Result> {
 
     private val internalProgress =
@@ -71,13 +71,15 @@ class PresenceTracingWarningTask @Inject constructor(
     private suspend fun doWork(): Result {
         checkCancel()
 
-        Timber.tag(TAG).d("Resetting config to make sure latest changes are considered.")
+        // Resetting config to make sure latest changes are considered.
         presenceTracingRiskMapper.clearConfig()
 
         Timber.tag(TAG).d("Syncing packages.")
         internalProgress.value = PresenceTracingWarningTaskProgress.Downloading()
 
-        val unencryptedEnabled = appConfigProvider.getAppConfig().isUnencryptedCheckInsEnabled
+        val appConfig = appConfigProvider.getAppConfig()
+
+        val unencryptedEnabled = appConfig.isUnencryptedCheckInsEnabled
         Timber.d("unencryptedEnabled=%s", unencryptedEnabled)
 
         val mode = if (unencryptedEnabled) TraceWarningApi.Mode.UNENCRYPTED else TraceWarningApi.Mode.ENCRYPTED
@@ -95,21 +97,16 @@ class PresenceTracingWarningTask @Inject constructor(
 
         presenceTracingRiskRepository.deleteStaleData()
 
-        val checkIns = checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
+        val checkIns = checkInsFilter.filterCheckIns(
+            checkInsRepository.checkInsWithinRetention.firstOrNull() ?: emptyList()
+        )
+
         Timber.tag(TAG).d("There are %d check-ins to match against.", checkIns.size)
 
         if (checkIns.isEmpty()) {
             Timber.tag(TAG).i("No check-ins available. Deleting all matches.")
             presenceTracingRiskRepository.deleteAllMatches()
-
             presenceTracingRiskRepository.reportCalculation(successful = true)
-
-            return Result()
-        }
-
-        val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
-        if (isPositive) {
-            Timber.tag(TAG).i("PT risk calculation aborted, positive test result available.")
             return Result()
         }
 
@@ -118,9 +115,7 @@ class PresenceTracingWarningTask @Inject constructor(
 
         if (unprocessedPackages.isEmpty()) {
             Timber.tag(TAG).i("No new warning packages available.")
-
             presenceTracingRiskRepository.reportCalculation(successful = true)
-
             return Result()
         }
 
@@ -144,7 +139,7 @@ class PresenceTracingWarningTask @Inject constructor(
         // Partial processing: if calculation was not successful, but some packages were processed, we still save them
         presenceTracingRiskRepository.reportCalculation(
             successful = matcherResult.successful,
-            overlaps = overlapsDistinct,
+            newOverlaps = overlapsDistinct,
         )
 
         // markPackagesProcessed only after reportCalculation, if there is an exception, then we can process again.

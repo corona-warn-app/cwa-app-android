@@ -34,6 +34,10 @@ class CWASettings @Inject constructor(
         get() = prefs.getBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, false)
         set(value) = prefs.edit { putBoolean(PKEY_INTEROPERABILITY_SHOWED_AT_LEAST_ONCE, value) }
 
+    var wasCertificateGroupingMigrationAcknowledged: Boolean
+        get() = prefs.getBoolean(PKEY_CERT_GROUPING_MIGRATION, false)
+        set(value) = prefs.edit { putBoolean(PKEY_CERT_GROUPING_MIGRATION, value) }
+
     var firstReliableDeviceTime: Instant
         get() = Instant.ofEpochMilli(prefs.getLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, 0L))
         set(value) = prefs.edit { putLong(PKEY_DEVICE_TIME_FIRST_RELIABLE, value.millis) }
@@ -91,8 +95,7 @@ class CWASettings @Inject constructor(
         private const val PKEY_DEVICE_TIME_FIRST_RELIABLE = "devicetime.correct.first"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_TIME = "devicetime.laststatechange.timestamp"
         private const val PKEY_DEVICE_TIME_LAST_STATE_CHANGE_STATE = "devicetime.laststatechange.state"
-        private const val PKEY_NOTIFICATIONS_RISK_ENABLED = "notifications.risk.enabled"
-        private const val PKEY_NOTIFICATIONS_TEST_ENABLED = "notifications.test.enabled"
+        private const val PKEY_CERT_GROUPING_MIGRATION = "device.grouping.migration"
 
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_PCR = "testresults.count"
         private const val PKEY_POSITIVE_TEST_RESULT_REMINDER_COUNT_RAT = "testresults.count.rat"

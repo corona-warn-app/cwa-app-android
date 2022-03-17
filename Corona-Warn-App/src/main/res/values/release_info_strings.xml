@@ -16,18 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Proof of 2G+ Status"</item>
-        <item>"Information in Case of a Negative Test Result"</item>
-        <item>"Hide Security Notification"</item>
-        <item>"Scanning Feature Improved"</item>
+        <item>"Registration of Rapid PCR Tests"</item>
+        <item>"Certificate Assignment"</item>
+        <item>"Certificate Update"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"If you have a valid vaccination certificate or certificate of recovery and add a test certificate in the app, they are shown in a combined display in the certificate overview. You can switch between the QR code of the vaccination certificate or certificate of recovery and the test certificate by using the appropriate control. Both QR codes must be verified by the CovPassCheck app if proof of 2G+ is required."</item>
-        <item>"If you receive a negative test result, you will now receive additional recommendations if you still have acute symptoms."</item>
-        <item>"Since Version 2.12, a security notification is displayed if administrator rights are active on your smartphone. You can hide this notification until the next update."</item>
-        <item>"The scanning feature has been revised to enable even more reliable recognition and scanning of QR codes."</item>
+        <item>"You can now register rapid PCR tests in the Corona-Warn-App and receive the result and your test certificate through the app."</item>
+        <item>"The assignment of certificates to people has been made more error-tolerant. Minor differences in the spelling of first and last names are ignored, so affected certificates can still be assigned to the same person."</item>
+        <item>"The EU specifications for vaccination certificates for booster vaccinations have changed. If your certificate no longer matches the current specifications, you can request a new one directly in the Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -35,12 +33,10 @@
         <item/>
         <item/>
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
         <item/>
         <item/>

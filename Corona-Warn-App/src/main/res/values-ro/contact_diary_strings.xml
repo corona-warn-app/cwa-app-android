@@ -19,19 +19,13 @@
     <string name="contact_diary_add_location_text_input_hint">"Descriere"</string>
     <string name="contact_diary_add_location_save_button">"Salvare"</string>
 
-    <!-- XHED: Title for the contact diary card displayed in the homescreen -->
-    <string name="contact_diary_homescreen_card_header">"Jurnal de contacte"</string>
-    <!-- XTXT: Body for the contact diary card displayed in the homescreen  -->
-    <string name="contact_diary_homescreen_card_body">"Păstrați evidența locurilor prin care ați fost și a persoanelor cu care v-ați întâlnit."</string>
-    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
-    <string name="contact_diary_homescreen_card_button_text">"Deschidere jurnal"</string>
     <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
     <string name="contact_diary_onboarding_button_text">"Deschidere jurnal"</string>
 
     <!-- XTXT: Title for the contact diary onboarding screen -->
     <string name="contact_diary_information_card_title">"Păstrați evidența contactelor dvs."</string>
     <!-- XTXT: Contact diary onboarding screen -->
-    <string name="contact_diary_onboarding_body">"Creați un sumar al contactelor din ultimele 14 zile pentru a avea rapid la îndemână o listă completă, dacă este necesar. Expunerile dvs. sunt, de asemenea, afișate aici."</string>
+    <string name="contact_diary_onboarding_body">"Creați un sumar al contactelor din ultimele 15 zile pentru a avea rapid la îndemână o listă completă, dacă este necesar. Expunerile dvs. sunt, de asemenea, afișate aici."</string>
     <!-- XTXT: Contact diary onboarding screen first functionality -->
     <string name="contact_diary_onboarding_functionality_first_section">"Introduceți persoanele pe care le-ați întâlnit."</string>
     <!-- XTXT: Contact diary onboarding screen second functionality -->

@@ -17,17 +17,20 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.values
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationData
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
+import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -409,5 +412,85 @@ class PCRProcessorTest : BaseTest() {
         createInstance().run {
             restore(pcrTest) shouldBe pcrTest.copy(recycledAt = null)
         }
+    }
+
+    @Test
+    fun `creates test for Rapid PCR request`() = runBlockingTest {
+        createRapidPcCRTestData(coronaTestResult = PCR_NEGATIVE).run {
+            coEvery { submissionService.registerTest(tokenRequest = serverRequest) } returns registrationData
+
+            createInstance().create(request = request).also {
+                it.identifier shouldBe request.identifier
+                it.registeredAt shouldBe nowUTC
+                it.lastUpdatedAt shouldBe nowUTC
+                it.registrationToken shouldBe registrationData.registrationToken
+                it.testResult shouldBe resultResponse.coronaTestResult
+                it.testResultReceivedAt shouldBe nowUTC
+                it.isDccSupportedByPoc shouldBe request.isDccSupportedByPoc
+                it.isDccConsentGiven shouldBe request.isDccConsentGiven
+                it.labId shouldBe resultResponse.labId
+                it.qrCodeHash shouldBe request.rawQrCode.toSHA256()
+            }
+
+            val type = request.type
+            coVerify {
+                analyticsKeySubmissionCollector.reset(type)
+                analyticsTestResultCollector.clear(type)
+                analyticsTestResultCollector.reportTestRegistered(type)
+                analyticsTestResultCollector.reportTestResultReceived(resultResponse.coronaTestResult, type)
+            }
+
+            coVerify(exactly = 0) {
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived(type)
+            }
+        }
+    }
+
+    @Test
+    fun `reports positive Rapid PCR result`() = runBlockingTest {
+        createRapidPcCRTestData(coronaTestResult = PCR_POSITIVE).run {
+            coEvery { submissionService.registerTest(tokenRequest = serverRequest) } returns registrationData
+            createInstance().create(request = request)
+
+            coVerify {
+                analyticsKeySubmissionCollector.reportPositiveTestResultReceived(request.type)
+            }
+        }
+    }
+
+    private fun createRapidPcCRTestData(coronaTestResult: CoronaTestResult) = RapidPCRTestData(
+        coronaTestResult = coronaTestResult,
+        nowUTC = nowUTC
+    )
+
+    data class RapidPCRTestData(
+        private val coronaTestResult: CoronaTestResult,
+        private val nowUTC: Instant
+    ) {
+        val request = CoronaTestQRCode.RapidPCR(
+            dateOfBirth = LocalDate.parse("2022-02-10"),
+            isDccConsentGiven = true,
+            isDccSupportedByPoc = true,
+            rawQrCode = "rawQrCode",
+            hash = "hash",
+            createdAt = nowUTC
+        )
+
+        val serverRequest = RegistrationRequest(
+            key = request.registrationIdentifier,
+            dateOfBirthKey = null,
+            type = VerificationKeyType.GUID
+        )
+
+        val resultResponse = CoronaTestResultResponse(
+            coronaTestResult = coronaTestResult,
+            sampleCollectedAt = nowUTC,
+            labId = "labId"
+        )
+
+        val registrationData = RegistrationData(
+            registrationToken = "registrationData",
+            testResultResponse = resultResponse
+        )
     }
 }

@@ -18,6 +18,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_certificates_filled_white" />
 
+    <ImageButton
+        android:id="@+id/menu_action"
+        style="@style/CardOverFlowButton"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/certificate_type"
         style="@style/body2"
@@ -32,13 +39,6 @@
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toTopOf="@id/certificate_icon"
         tools:text="Impfzertifikat" />
-
-    <ImageButton
-        android:id="@+id/menu_action"
-        style="@style/CardOverFlowButton"
-        android:contentDescription="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/certificate_person_name"
@@ -71,11 +71,24 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_mega_tiny"
-        android:paddingBottom="@dimen/spacing_small"
+        app:layout_constraintBottom_toTopOf="@id/certificate_deletion_date_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/certificate_icon"
         app:layout_constraintTop_toBottomOf="@id/certificate_info_line_1"
+        app:layout_goneMarginBottom="@dimen/spacing_small"
         app:layout_goneMarginTop="@dimen/spacing_small"
         tools:text="geimpft am 01.06.21" />
+
+    <TextView
+        android:id="@+id/certificate_deletion_date_info"
+        style="@style/body2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/certificate_icon"
+        app:layout_constraintTop_toBottomOf="@id/certificate_info_line_2"
+        tools:text="wird am 12.12.21 um 16:21 endgültig gelöscht" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

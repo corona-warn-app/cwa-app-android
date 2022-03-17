@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.PresenceTracingConfigContainer
 import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensorTest
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensorTest
-import de.rki.coronawarnapp.covidcertificate.booster.DccBoosterRulesValidatorTest
+import de.rki.coronawarnapp.ccl.holder.grouping.DccHolderComparisonTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractorTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.KidExtractionTest
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckerTest
@@ -21,10 +21,8 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidato
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorageTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPersonTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepositoryTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationContainerTest
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationGroupingTest
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepositoryTest
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorageTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidatorTest
 import de.rki.coronawarnapp.covidcertificate.validation.core.business.wrapper.CertLogicEngineWrapperTest
@@ -51,10 +49,9 @@ import javax.inject.Singleton
 interface CovidCertificateTestComponent {
 
     fun inject(testClass: VaccinationStorageTest)
-    fun inject(testClass: VaccinationContainerTest)
+    fun inject(testClass: VaccinationCertificateContainerTest)
     fun inject(testClass: DccQrCodeExtractorTest)
-    fun inject(testClass: VaccinatedPersonTest)
-    fun inject(testClass: VaccinationRepositoryTest)
+    fun inject(testClass: VaccinationCertificateRepositoryTest)
     fun inject(testClass: TestCertificateContainerTest)
     fun inject(testClass: RecoveryCertificateContainerTest)
     fun inject(testClass: DccQrCodeCensorTest)
@@ -68,13 +65,12 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DscSignatureValidatorTest)
     fun inject(testClass: DccExpirationCheckerTest)
     fun inject(testClass: RecoveryCertificateStorageTest)
-    fun inject(testClass: DccBoosterRulesValidatorTest)
     fun inject(testClass: QrCodeValidatorTest)
     fun inject(testClass: QrCodeScannerViewModelTest)
     fun inject(testClass: CwaUserCensorTest)
-    fun inject(testClass: VaccinationGroupingTest)
     fun inject(testClass: AnalyticsTestResultSettingsTest)
     fun inject(testClass: DccTicketingQrCodeExtractorTest)
+    fun inject(testClass: DccHolderComparisonTest)
 
     @Component.Factory
     interface Factory {

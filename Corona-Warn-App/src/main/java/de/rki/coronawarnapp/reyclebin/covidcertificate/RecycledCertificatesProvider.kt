@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.reyclebin.covidcertificate
 
 import dagger.Reusable
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
@@ -9,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -22,15 +21,14 @@ import javax.inject.Inject
 
 @Reusable
 class RecycledCertificatesProvider @Inject constructor(
-    private val vaccinationRepository: VaccinationRepository,
+    private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val recoveryCertificateRepository: RecoveryCertificateRepository,
-    private val boosterCheckScheduler: BoosterCheckScheduler,
     @AppScope appScope: CoroutineScope
 ) {
 
     val recycledCertificates: Flow<Set<CwaCovidCertificate>> = combine(
-        vaccinationRepository.recycledCertificates,
+        vaccinationCertificateRepository.recycledCertificates,
         testCertificateRepository.recycledCertificates,
         recoveryCertificateRepository.recycledCertificates
     ) { recycledVacCerts, recycledTestCerts, recycledRecCerts ->
@@ -53,14 +51,22 @@ class RecycledCertificatesProvider @Inject constructor(
         return recycledCertificates.first().find { it.qrCodeToDisplay.content == dccRawQrCode }?.containerId
     }
 
+    suspend fun recycleCertificate(containerId: CertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=%s)", containerId)
+        when (containerId) {
+            is VaccinationCertificateContainerId -> vaccinationCertificateRepository.recycleCertificate(containerId)
+            is RecoveryCertificateContainerId -> recoveryCertificateRepository.recycleCertificate(containerId)
+            is TestCertificateContainerId -> testCertificateRepository.recycleCertificate(containerId)
+        }
+    }
+
     suspend fun restoreCertificate(containerId: CertificateContainerId) {
         Timber.tag(TAG).d("restoreCertificate(containerId=%s)", containerId)
         when (containerId) {
             is RecoveryCertificateContainerId -> recoveryCertificateRepository.restoreCertificate(containerId)
             is TestCertificateContainerId -> testCertificateRepository.restoreCertificate(containerId)
-            is VaccinationCertificateContainerId -> vaccinationRepository.restoreCertificate(containerId)
+            is VaccinationCertificateContainerId -> vaccinationCertificateRepository.restoreCertificate(containerId)
         }
-        boosterCheckScheduler.scheduleNow()
     }
 
     suspend fun deleteCertificate(containerId: CertificateContainerId) {
@@ -68,7 +74,7 @@ class RecycledCertificatesProvider @Inject constructor(
         when (containerId) {
             is RecoveryCertificateContainerId -> recoveryCertificateRepository.deleteCertificate(containerId)
             is TestCertificateContainerId -> testCertificateRepository.deleteCertificate(containerId)
-            is VaccinationCertificateContainerId -> vaccinationRepository.deleteCertificate(containerId)
+            is VaccinationCertificateContainerId -> vaccinationCertificateRepository.deleteCertificate(containerId)
         }
     }
 

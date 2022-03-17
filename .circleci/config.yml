@@ -335,6 +335,12 @@ jobs:
             --header "Authorization: Bearer $tsystems_upload_bearer" \
             --form "file=@${fileName}" \
             --form "camera=true"
+      - run:
+          name: trigger App Automation Testing
+          command: |
+            curl -u $CIRCLE_API_ADMIN_TOKEN: \
+            -d 'build_parameters[CIRCLE_JOB]=android' \
+            https://circleci.com/api/v1.1/project/github/corona-warn-app/cwa-app-automation/tree/main
 
   instrumentation_tests_device:
     resource_class: xlarge
@@ -453,7 +459,6 @@ jobs:
       - run:
           name: Clean up pulled bucket
           command: |
-            rm -rf firebase-screenshots/*/artifacts/sdcard
             rm -rf firebase-screenshots/*/test_cases
             rm -f firebase-screenshots/*/instrumentation.results
             rm -f firebase-screenshots/*/logcat
@@ -461,7 +466,7 @@ jobs:
             mkdir /tmp/screenshots
       - compress-path:
           input: ./firebase-screenshots
-          output: /tmp/screenshots/CWA-Android-Screenshots-${CIRCLE_SHA1}.zip
+          output: /tmp/screenshots/CWA-Android-Screenshots.zip
       - store_artifacts:
           path: /tmp/screenshots
           destination: zips/

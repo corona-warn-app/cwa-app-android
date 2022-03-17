@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.net.toUri
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -70,15 +69,13 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
             setToolbarOverlay()
 
             viewModel.vaccinationCertificate.observe(viewLifecycleOwner) {
-                it.certificate?.let { certificate -> bindCertificateViews(certificate) }
-                val stateInValid = it.certificate?.isDisplayValid == false
-                val isFinalShot = it.certificate?.isSeriesCompletingShot == true
+                it?.let { certificate -> bindCertificateViews(certificate) }
+                val stateInValid = it?.isDisplayValid == false
                 val isColorDefined = args.colorShade != PersonColorShade.COLOR_UNDEFINED
 
                 val (background, starsTint) = when {
                     isColorDefined -> args.colorShade.background to args.colorShade.starsTint
                     stateInValid -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
-                    (it.isImmune && isFinalShot) -> R.drawable.certificate_complete_gradient to R.color.starsColor1
                     else -> R.drawable.vaccination_incomplete to R.color.starsColorInvalid
                 }
 
@@ -91,7 +88,7 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
                 )
 
                 qrCodeCard.apply {
-                    val request = it.certificate?.getValidQrCode(showBlocked = true)
+                    val request = it?.getValidQrCode(showBlocked = true)
                     image.loadAny(request) {
                         crossfade(true)
                         loadingView(image, progressBar)
@@ -209,7 +206,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         certificateCountry.text = certificate.certificateCountry
         certificateIssuer.text = certificate.certificateIssuer
         certificateId.text = certificate.uniqueCertificateIdentifier
-        oneShotInfo.isVisible = certificate.totalSeriesOfDoses == 1
         expirationNotice.expirationDate.text = getString(
             R.string.expiration_date,
             certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),

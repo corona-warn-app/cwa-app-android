@@ -3,12 +3,10 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard.Item
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.BOOSTER_ELIGIBLE
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson.Status.IMMUNITY
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.databinding.VaccinationCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
@@ -40,11 +38,11 @@ class VaccinationCertificateCard(parent: ViewGroup) :
 
         certificateDate.text = context.getString(
             R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn.toShortDayFormat()
+            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
         )
         val bookmarkIcon =
             if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificate.isVisible = curItem.isCurrentCertificate
+        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 
         val color = when {
@@ -57,10 +55,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
 
             // Final shot
-            certificate.isSeriesCompletingShot -> when (curItem.status) {
-                IMMUNITY, BOOSTER_ELIGIBLE -> R.drawable.ic_vaccination_immune
-                else -> R.drawable.ic_vaccination_complete
-            }
+            certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
 
             // Other shots
             else -> R.drawable.ic_vaccination_incomplete
@@ -74,14 +69,23 @@ class VaccinationCertificateCard(parent: ViewGroup) :
         notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
 
         certificateExpiration.displayExpirationState(curItem.certificate)
+        startValidationCheckButton.apply {
+            defaultButton.isEnabled = certificate.isNotBlocked
+            isEnabled = certificate.isNotBlocked
+            isLoading = curItem.isLoading
+            defaultButton.setOnClickListener {
+                curItem.validateCertificate(certificate.containerId)
+            }
+        }
     }
 
     data class Item(
         val certificate: VaccinationCertificate,
         val colorShade: PersonColorShade,
         val isCurrentCertificate: Boolean,
-        val status: VaccinatedPerson.Status,
-        val onClick: () -> Unit
+        val isLoading: Boolean = false,
+        val onClick: () -> Unit,
+        val validateCertificate: (CertificateContainerId) -> Unit,
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId = certificate.containerId.hashCode().toLong()
     }

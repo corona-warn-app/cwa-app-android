@@ -39,7 +39,6 @@ import de.rki.coronawarnapp.util.tryHumanReadableError
 import de.rki.coronawarnapp.util.ui.LazyString
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
-import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
@@ -50,9 +49,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel by cwaViewModels<QrCodeScannerViewModel> { viewModelFactory }
     private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
-
-    private val binding by viewBinding<FragmentQrcodeScannerBinding>()
     private var showsPermissionDialog = false
+    private var _binding: FragmentQrcodeScannerBinding? = null
+    private val binding get() = _binding!!
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
         Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
@@ -68,22 +67,20 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         uri?.let { viewModel.onImportFile(uri) }
     }
 
-    /*
-
-    TODO: Enable transition, Transition to scanner is disabled,
-     because it is causing a native crash in Camera PreviewView [CameraX]
-     see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val materialContainerTransform = MaterialContainerTransform()
         sharedElementEnterTransition = materialContainerTransform
         sharedElementReturnTransition = materialContainerTransform
-    }*/
+    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(
+        FragmentQrcodeScannerBinding.bind(view)
+    ) {
+        _binding = this
+
         scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
-
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
         buttonOpenFile.setOnClickListener {
@@ -116,12 +113,19 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             }
         }
 
-        /*
-         TODO: Enable transition, Transition to scanner is disabled,
-          because it is causing a native crash in Camera PreviewView [CameraX]
-          see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
         setupTransition()
-        */
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+
+        if (!showsPermissionDialog) checkCameraPermission()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun onDccTicketingResult(scannerResult: DccTicketingResult) {
@@ -139,20 +143,19 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.qrcodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-
-        if (!showsPermissionDialog) checkCameraPermission()
-    }
-
     private fun checkCameraPermission() = when (CameraPermissionHelper.hasCameraPermission(requireContext())) {
         true -> startDecode()
         false -> requestCameraPermission()
     }
 
-    private fun startDecode() = binding.scannerPreview.decodeSingle { parseResult ->
-        viewModel.onParseResult(parseResult = parseResult)
+    private fun startDecode() {
+        runCatching {
+            binding.scannerPreview.decodeSingle { parseResult ->
+                viewModel.onParseResult(parseResult = parseResult)
+            }
+        }.onFailure {
+            Timber.tag(TAG).d(it, "startDecode() failed")
+        }
     }
 
     private fun showCameraPermissionDeniedDialog() {

@@ -8,7 +8,7 @@ import org.joda.time.LocalDate
 interface VaccinationCertificate : CwaCovidCertificate {
     override val containerId: VaccinationCertificateContainerId
 
-    val vaccinatedOn: LocalDate
+    val vaccinatedOn: LocalDate?
     val vaccinatedOnFormatted: String
     val targetDisease: String
     val vaccineManufacturer: String
@@ -24,7 +24,7 @@ interface VaccinationCertificate : CwaCovidCertificate {
 
     override val rawCertificate: VaccinationDccV1
 
-    val isSeriesCompletingShot get() = doseNumber == totalSeriesOfDoses
+    val isSeriesCompletingShot get() = doseNumber >= totalSeriesOfDoses
 
     companion object {
         const val BIONTECH = "EU/1/20/1528"

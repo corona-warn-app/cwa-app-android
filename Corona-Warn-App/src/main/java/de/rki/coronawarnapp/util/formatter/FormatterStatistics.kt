@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.statistics.LocalStatsItem
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.local.storage.SelectedStatisticsLocation
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
@@ -38,7 +39,8 @@ fun GlobalStatsItem.getPrimaryLabel(context: Context): String {
         }
         is PersonsVaccinatedOnceStats,
         is IncidenceAndHospitalizationStats,
-        is PersonsVaccinatedCompletelyStats -> when (updatedAtDate) {
+        is PersonsVaccinatedCompletelyStats,
+        is PersonsVaccinatedWithBoosterStats -> when (updatedAtDate) {
             today -> context.getString(R.string.statistics_primary_value_until_today)
             yesterday -> context.getString(R.string.statistics_primary_value_until_yesterday)
             else -> context.getString(R.string.statistics_primary_value_until, dateTimeFormatter.print(updatedAtDate))

@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.recyclebin.covidcertificate
 
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
@@ -9,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import io.kotest.matchers.shouldBe
@@ -31,10 +30,9 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class RecycledCertificatesProviderTest : BaseTest() {
-    @MockK lateinit var vaccinationRepository: VaccinationRepository
+    @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var recoveryCertificateRepository: RecoveryCertificateRepository
-    @MockK lateinit var boosterCheckScheduler: BoosterCheckScheduler
 
     private val tcContainerId = mockk<TestCertificateContainerId>()
     private val vcContainerId = mockk<VaccinationCertificateContainerId>()
@@ -74,13 +72,11 @@ class RecycledCertificatesProviderTest : BaseTest() {
             coEvery { deleteCertificate(any()) } returns null
         }
 
-        with(vaccinationRepository) {
+        with(vaccinationCertificateRepository) {
             every { recycledCertificates } returns flowOf(setOf(vc))
             coEvery { restoreCertificate(any()) } just Runs
-            coEvery { deleteCertificate(any()) } returns null
+            coEvery { deleteCertificate(any()) } just Runs
         }
-
-        every { boosterCheckScheduler.scheduleNow(any()) } just Runs
     }
 
     @Test
@@ -105,11 +101,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         coVerify(exactly = 1) {
             testCertificateRepository.restoreCertificate(any())
             recoveryCertificateRepository.restoreCertificate(any())
-            vaccinationRepository.restoreCertificate(any())
-        }
-
-        coVerify(exactly = 3) {
-            boosterCheckScheduler.scheduleNow(any())
+            vaccinationCertificateRepository.restoreCertificate(any())
         }
     }
 
@@ -122,7 +114,7 @@ class RecycledCertificatesProviderTest : BaseTest() {
         coVerify(exactly = 1) {
             testCertificateRepository.deleteCertificate(any())
             recoveryCertificateRepository.deleteCertificate(any())
-            vaccinationRepository.deleteCertificate(any())
+            vaccinationCertificateRepository.deleteCertificate(any())
         }
     }
 
@@ -133,15 +125,14 @@ class RecycledCertificatesProviderTest : BaseTest() {
         coVerify(exactly = 1) {
             testCertificateRepository.deleteCertificate(any())
             recoveryCertificateRepository.deleteCertificate(any())
-            vaccinationRepository.deleteCertificate(any())
+            vaccinationCertificateRepository.deleteCertificate(any())
         }
     }
 
     fun provider() = RecycledCertificatesProvider(
         testCertificateRepository = testCertificateRepository,
         recoveryCertificateRepository = recoveryCertificateRepository,
-        vaccinationRepository = vaccinationRepository,
-        boosterCheckScheduler = boosterCheckScheduler,
+        vaccinationCertificateRepository = vaccinationCertificateRepository,
         appScope = TestCoroutineScope()
     )
 }

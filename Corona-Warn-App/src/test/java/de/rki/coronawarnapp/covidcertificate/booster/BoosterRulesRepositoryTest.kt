@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -62,6 +63,16 @@ class BoosterRulesRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
+    private val testBoosterNotificationRulesServerResult = DccValidationServer.RuleSetResult(
+        ruleSetJson = testBoosterNotificationRulesData,
+        source = DccValidationServer.RuleSetSource.SERVER
+    )
+
+    private val testBoosterNotificationRulesCacheResult = DccValidationServer.RuleSetResult(
+        ruleSetJson = testBoosterNotificationRulesData,
+        source = DccValidationServer.RuleSetSource.CACHE
+    )
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
@@ -72,7 +83,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         }
 
         server.apply {
-            coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesData
+            coEvery { ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
             every { clear() } just runs
         }
     }
@@ -113,7 +124,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
         } throws DccValidationException(DccValidationException.ErrorCode.BOOSTER_NOTIFICATION_RULE_SERVER_ERROR)
 
         with(createInstance(this)) {
-            updateBoosterNotificationRules() shouldBe emptyList()
+            update() shouldBe UpdateResult.FAIL
             rules.first() shouldBe emptyList()
         }
 
@@ -130,10 +141,10 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `update booster notification rules success`() = runBlockingTest2(ignoreActive = true) {
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
-        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesData
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesServerResult
 
         with(createInstance(this)) {
-            updateBoosterNotificationRules() shouldBe boosterRuleList
+            update() shouldBe UpdateResult.UPDATE
             rules.first() shouldBe boosterRuleList
         }
 
@@ -144,9 +155,32 @@ class BoosterRulesRepositoryTest : BaseTest() {
     }
 
     @Test
+    fun `update booster notification - no new rules - getting data from cache`() =
+        runBlockingTest2(ignoreActive = true) {
+            val boosterRuleList = listOf(testBoosterNotificationRule)
+
+            coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns testBoosterNotificationRulesCacheResult
+
+            with(createInstance(this)) {
+                update() shouldBe UpdateResult.NO_UPDATE
+                rules.first() shouldBe boosterRuleList
+            }
+
+            coVerify {
+                server.ruleSetJson(Type.BOOSTER_NOTIFICATION)
+                localCache.loadBoosterNotificationRulesJson()
+            }
+
+            coVerify(exactly = 0) {
+                localCache.saveBoosterNotificationRulesJson(any())
+            }
+        }
+
+    @Test
     fun `bad booster notification rules do not wreck cache`() = runBlockingTest2(ignoreActive = true) {
         // Missing attributes
-        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns """
+        coEvery { server.ruleSetJson(Type.BOOSTER_NOTIFICATION) } returns DccValidationServer.RuleSetResult(
+            ruleSetJson = """
             [
                 {
                     "Type": "BoosterNotification",
@@ -158,14 +192,16 @@ class BoosterRulesRepositoryTest : BaseTest() {
                     "SchemaVersion": "1.0.0",
                 }
             ]
-        """.trimIndent()
+            """.trimIndent(),
+            source = DccValidationServer.RuleSetSource.SERVER
+        )
 
         coEvery { localCache.loadBoosterNotificationRulesJson() } returns testBoosterNotificationRulesData
 
         val boosterRuleList = listOf(testBoosterNotificationRule)
 
         with(createInstance(this)) {
-            updateBoosterNotificationRules() shouldBe boosterRuleList
+            update() shouldBe UpdateResult.FAIL
             rules.first() shouldBe boosterRuleList
         }
 
@@ -182,7 +218,7 @@ class BoosterRulesRepositoryTest : BaseTest() {
     fun `clear clears server, cache and flow`() = runBlockingTest2(ignoreActive = true) {
         val bnrs = listOf(testBoosterNotificationRule)
         createInstance(this).run {
-            updateBoosterNotificationRules() shouldBe bnrs
+            update() shouldBe UpdateResult.UPDATE
             rules.first() shouldBe bnrs
 
             clear()

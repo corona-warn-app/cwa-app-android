@@ -2,10 +2,11 @@ package de.rki.coronawarnapp.presencetracing.risk.execution
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.appconfig.PresenceTracingConfig
+import de.rki.coronawarnapp.appconfig.PresenceTracingRiskCalculationParamContainer
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
+import de.rki.coronawarnapp.presencetracing.risk.CheckInsFilter
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningMatcher
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingRiskMapper
 import de.rki.coronawarnapp.presencetracing.risk.calculation.createCheckIn
@@ -18,6 +19,7 @@ import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningPackage
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
 import de.rki.coronawarnapp.server.protocols.internal.pt.CheckInOuterClass
 import de.rki.coronawarnapp.server.protocols.internal.pt.TraceWarning
+import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldNotBe
@@ -30,10 +32,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Duration
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
@@ -48,25 +50,31 @@ class PresenceTracingWarningTaskTest : BaseTest() {
     @MockK lateinit var checkInsRepository: CheckInRepository
     @MockK lateinit var presenceTracingRiskMapper: PresenceTracingRiskMapper
     @MockK lateinit var autoCheckOut: AutoCheckOut
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var appConfigProvider: AppConfigProvider
-
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply { every { isPositive } returns false }
-        )
-    )
+    @MockK lateinit var checkInsFilter: CheckInsFilter
+    @MockK lateinit var presenceTracingConfig: PresenceTracingConfig
+    @MockK lateinit var presenceTracingRiskCalculationParamContainer: PresenceTracingRiskCalculationParamContainer
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val mode = TraceWarningApi.Mode.UNENCRYPTED
+    private val now = Instant.parse("2021-03-05T10:15+01:00")
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { coronaTestRepository.coronaTests } returns coronaTests
+        every { timeStamper.nowUTC } returns now
+
+        coEvery { checkInsFilter.filterCheckIns(emptyList()) } returns emptyList()
+        coEvery { checkInsFilter.filterCheckIns(listOf(CHECKIN_1, CHECKIN_2)) } returns
+            listOf(CHECKIN_1, CHECKIN_2)
+
+        every { presenceTracingRiskCalculationParamContainer.maxCheckInAgeInDays } returns 14
+        every { presenceTracingConfig.riskCalculationParameters } returns presenceTracingRiskCalculationParamContainer
 
         coEvery { appConfigProvider.getAppConfig() } returns mockk<ConfigData>().apply {
             every { isUnencryptedCheckInsEnabled } returns true
+            every { presenceTracing } returns presenceTracingConfig
         }
 
         coEvery { syncTool.syncPackages(any()) } returns TraceWarningPackageSyncTool.SyncResult(successful = true)
@@ -108,9 +116,9 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         traceWarningRepository = traceWarningRepository,
         checkInsRepository = checkInsRepository,
         presenceTracingRiskMapper = presenceTracingRiskMapper,
-        coronaTestRepository = coronaTestRepository,
         autoCheckOut = autoCheckOut,
-        appConfigProvider = appConfigProvider
+        appConfigProvider = appConfigProvider,
+        checkInsFilter = checkInsFilter,
     )
 
     @Test
@@ -124,16 +132,13 @@ class PresenceTracingWarningTaskTest : BaseTest() {
             syncTool.syncPackages(mode)
             presenceTracingRiskRepository.deleteStaleData()
             checkInsRepository.checkInsWithinRetention
-
-            coronaTestRepository.coronaTests
-
             traceWarningRepository.unprocessedWarningPackages
 
             checkInWarningMatcher.process(any(), any())
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = true,
-                overlaps = any()
+                newOverlaps = any()
             )
             traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
         }
@@ -154,7 +159,29 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = true,
-                overlaps = any()
+                newOverlaps = any()
+            )
+            traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
+        }
+    }
+
+    @Test
+    fun `filter respects max checkIn age`() = runBlockingTest {
+        coEvery { checkInsFilter.filterCheckIns(any()) } returns listOf(CHECKIN_1)
+        createInstance().run(mockk()) shouldNotBe null
+
+        coVerifySequence {
+            presenceTracingRiskMapper.clearConfig()
+            syncTool.syncPackages(mode)
+            presenceTracingRiskRepository.deleteStaleData()
+            checkInsRepository.checkInsWithinRetention
+            traceWarningRepository.unprocessedWarningPackages
+
+            checkInWarningMatcher.process(listOf(CHECKIN_1), listOf(WARNING_PKG))
+
+            presenceTracingRiskRepository.reportCalculation(
+                successful = true,
+                newOverlaps = any()
             )
             traceWarningRepository.markPackagesProcessed(listOf(WARNING_PKG.packageId))
         }
@@ -171,7 +198,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         coVerify {
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
-                overlaps = emptyList()
+                newOverlaps = emptyList()
             )
         }
     }
@@ -219,7 +246,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
-                overlaps = emptyList()
+                newOverlaps = emptyList()
             )
         }
 
@@ -245,7 +272,7 @@ class PresenceTracingWarningTaskTest : BaseTest() {
 
             presenceTracingRiskRepository.reportCalculation(
                 successful = false,
-                overlaps = any()
+                newOverlaps = any()
             )
         }
 
@@ -259,35 +286,6 @@ class PresenceTracingWarningTaskTest : BaseTest() {
         // Worker execution time
         val maxDuration = Duration.standardMinutes(9).plus(1)
         PresenceTracingWarningTask.Config().executionTimeout shouldBeLessThan maxDuration
-    }
-
-    @Test
-    fun `we do not submit keys if user got positive test results`() = runBlockingTest {
-        coronaTests.value = setOf(
-            mockk<CoronaTest>().apply { every { isPositive } returns true }
-        )
-
-        createInstance().run(mockk()) shouldNotBe null
-
-        coVerifySequence {
-            syncTool.syncPackages(any())
-            presenceTracingRiskRepository.deleteStaleData()
-            checkInsRepository.checkInsWithinRetention
-
-            coronaTestRepository.coronaTests
-        }
-
-        coVerify(exactly = 0) {
-            traceWarningRepository.unprocessedWarningPackages
-
-            checkInWarningMatcher.process(any(), any())
-
-            presenceTracingRiskRepository.reportCalculation(
-                successful = any(),
-                overlaps = any()
-            )
-            traceWarningRepository.markPackagesProcessed(any())
-        }
     }
 
     companion object {

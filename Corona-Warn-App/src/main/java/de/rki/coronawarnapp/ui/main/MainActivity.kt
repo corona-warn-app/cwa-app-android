@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.transition.MaterialElevationScale
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -41,6 +42,7 @@ import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
@@ -105,11 +107,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             fabTooltip.close.setOnClickListener { viewModel.dismissTooltip() }
 
             scannerFab.apply {
-//                setShowMotionSpecResource(R.animator.fab_show)
-//                setHideMotionSpecResource(R.animator.fab_hide)
+                setShowMotionSpecResource(R.animator.fab_show)
+                setHideMotionSpecResource(R.animator.fab_hide)
                 setOnClickListener {
                     val time = System.currentTimeMillis()
-                    if (time - lastFabClickTime >= 1000) {
+                    if (abs(time - lastFabClickTime) >= 1000) {
                         lastFabClickTime = time
                         viewModel.openScanner()
                     }
@@ -148,8 +150,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             binding.mainBottomNavigation.updateCountBadge(R.id.covid_certificates_graph, count)
         }
 
-        viewModel.testsBadgeCount.observe(this) { count ->
-            Timber.tag(TAG).d("testsBadgeCount=$count")
+        viewModel.mainBadgeCount.observe(this) { count ->
+            Timber.tag(TAG).d("mainBadgeCount=$count")
             binding.mainBottomNavigation.updateCountBadge(R.id.mainFragment, count)
         }
 
@@ -310,17 +312,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     }
 
     private fun navigateToScanner() {
-
-        /*
-        TODO: Enable transition, Transition to scanner is disabled,
-         because it is causing a native crash in Camera PreviewView [CameraX]
-         see https://github.com/corona-warn-app/cwa-app-android/pull/4648#issuecomment-1005697916
-
         supportFragmentManager.currentNavigationFragment?.apply {
             val animDuration = resources.getInteger(R.integer.fab_scanner_transition_duration).toLong()
             exitTransition = MaterialElevationScale(false).apply { duration = animDuration }
             reenterTransition = MaterialElevationScale(true).apply { duration = animDuration }
-        }*/
+        }
         navController.navigate(R.id.universalScanner)
     }
 

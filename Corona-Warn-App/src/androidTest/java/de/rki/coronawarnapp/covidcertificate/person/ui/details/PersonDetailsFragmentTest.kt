@@ -19,10 +19,11 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertifica
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.AdmissionStatusCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.BoosterCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateItem
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.ConfirmedStatusCard
+import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CertificateReissuanceCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
-import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.PersonDetailsQrCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.VaccinationCertificateCard
@@ -30,9 +31,7 @@ import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.Vaccination
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -109,6 +108,14 @@ class PersonDetailsFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_admission_berlin() {
+        every { viewModel.uiState } returns certificateData(admissionSubtitle = "Berlin")
+        launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
+        takeScreenshot<PersonDetailsFragment>("admission_berlin")
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_booster() {
         every { viewModel.uiState } returns boosterCertificateData()
         launchFragmentInContainer2<PersonDetailsFragment>(fragmentArgs = args)
@@ -118,7 +125,10 @@ class PersonDetailsFragmentTest : BaseUITest() {
         takeScreenshot<PersonDetailsFragment>("booster_2")
     }
 
-    private fun certificateData(isCwa: Boolean = false): LiveData<PersonDetailsViewModel.UiState> {
+    private fun certificateData(
+        isCwa: Boolean = false,
+        admissionSubtitle: String = "2G+ PCR-Test"
+    ): LiveData<PersonDetailsViewModel.UiState> {
         var name: String
         val certificateItems = mutableListOf<CertificateItem>().apply {
             val testCertificate = mockTestCertificate().also { name = it.fullName }
@@ -131,62 +141,109 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            add(PersonDetailsQrCard.Item(testCertificate, false, {}, {}))
+            add(
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Status-Nachweis",
+                        subtitleText = admissionSubtitle,
+                        badgeText = "2G+",
+                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
+                    )
+                    else -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Proof of Status",
+                        subtitleText = admissionSubtitle,
+                        badgeText = "2G+",
+                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Your status has changed. Your certificates now comply with the 2G rule. If you need to show your current status, close this view and show the QR code on the certificate overview."
+                    )
+                }
+            )
+
+            val (title, subtitle) = if (Locale.getDefault().language == Locale.GERMAN.language) {
+                "Zertifikat aktualisieren" to "Neuausstellung direkt über die App vornehmen"
+            } else {
+                "Update certificate" to "Reissue directly via the app"
+            }
 
             add(
-                ConfirmedStatusCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoGPlusPCR(
-                        twoGCertificate = vaccinationCertificate2,
-                        testCertificate = testCertificate
-                    ),
-                    colorShade = PersonColorShade.COLOR_1
+                CertificateReissuanceCard.Item(
+                    title = title,
+                    subtitle = subtitle,
+                    badgeVisible = true,
+                    onClick = {}
                 )
             )
 
             add(
-                VaccinationInfoCard.Item(
-                    vaccinationStatus = VaccinatedPerson.Status.IMMUNITY,
-                    daysUntilImmunity = null,
-                    boosterRule = null,
-                    daysSinceLastVaccination = 86,
-                    hasBoosterNotification = false
-                )
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN ->
+                        VaccinationInfoCard.Item(
+                            titleText = "Impfstatus",
+                            subtitleText = "Letzte Impfung vor 14 Tagen",
+                            longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
+                            faqAnchor = "FAQ"
+                        )
+                    else -> VaccinationInfoCard.Item(
+                        titleText = "Vaccination Status",
+                        subtitleText = "Last vaccination 14 days ago",
+                        longText = "You have received all currently planned vaccinations. Your vaccination protection is complete.",
+                        faqAnchor = "FAQ"
+                    )
+                }
             )
 
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate1,
+                    certificate = vaccinationCertificate1,
                     isCurrentCertificate = false,
-                    status = VaccinatedPerson.Status.COMPLETE,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate2,
+                    certificate = vaccinationCertificate2,
                     isCurrentCertificate = false,
-                    status = VaccinatedPerson.Status.COMPLETE,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
 
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate3,
+                    certificate = vaccinationCertificate3,
                     isCurrentCertificate = false,
-                    status = VaccinatedPerson.Status.IMMUNITY,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
 
-            add(TestCertificateCard.Item(testCertificate, isCurrentCertificate = true, PersonColorShade.COLOR_1) {})
+            add(
+                TestCertificateCard.Item(
+                    certificate = testCertificate,
+                    isCurrentCertificate = true,
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
+            )
             add(
                 RecoveryCertificateCard.Item(
-                    recoveryCertificate,
+                    certificate = recoveryCertificate,
                     isCurrentCertificate = false,
-                    PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
         }
 
@@ -206,50 +263,71 @@ class PersonDetailsFragmentTest : BaseUITest() {
                 isCwaUser = isCwa
             )
 
-            val ruleDescriptionDE = mockk<DccValidationRule.Description> {
-                Locale.GERMAN.also {
-                    every { description } returns "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da sie for mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
-                    every { languageCode } returns it.language
+            add(
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Status-Nachweis",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Ihre Zertifikate erfüllen die 2G-Plus-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht.",
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Ihr Status hat sich geändert. Ihre Zertifikate erfüllen jetzt die 2G-Regel. Wenn Sie Ihren aktuellen Status vorweisen müssen, schließen Sie diese Ansicht und zeigen Sie den QR-Code auf der Zertifikatsübersicht."
+                    )
+                    else -> AdmissionStatusCard.Item(
+                        colorShade = PersonColorShade.COLOR_1,
+                        titleText = "Proof of Status",
+                        subtitleText = "2G+ PCR-Test",
+                        badgeText = "2G+",
+                        longText = "Your certificates satisfy the 2G plus rule. If you need to prove your current status, close this view and show the QR code in the certificate overview.",
+                        faqAnchor = "FAQ",
+                        longTextWithBadge = "Your status has changed. Your certificates now comply with the 2G rule. If you need to show your current status, close this view and show the QR code on the certificate overview."
+                    )
                 }
-            }
+            )
 
-            val ruleDescriptionEN = mockk<DccValidationRule.Description> {
-                Locale.ENGLISH.also {
-                    every { description } returns "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
-                    every { languageCode } returns it.language
-                }
+            val subtitle = if (Locale.getDefault().language == Locale.GERMAN.language) {
+                "Sie könnten für eine Auffrischungsimpfung berechtigt sein, da Sie vor mehr als 4 Monaten von COVID-19 genesen sind trotz einer vorherigen Impfung."
+            } else {
+                "You may be eligible for a booster because you recovered from COVID-19 more than 4 months ago despite a prior vaccination."
             }
-
-            add(PersonDetailsQrCard.Item(vaccinationCertificate1, false, {}, {}))
 
             add(
-                ConfirmedStatusCard.Item(
-                    admissionState = PersonCertificates.AdmissionState.TwoG(vaccinationCertificate1),
-                    colorShade = PersonColorShade.COLOR_1
+                BoosterCard.Item(
+                    title = "Booster",
+                    subtitle = subtitle,
+                    badgeVisible = true,
+                    onClick = {}
                 )
             )
 
             add(
-                VaccinationInfoCard.Item(
-                    vaccinationStatus = VaccinatedPerson.Status.BOOSTER_ELIGIBLE,
-                    daysUntilImmunity = null,
-                    boosterRule = mockk<DccValidationRule>().apply {
-                        every { identifier } returns "BNR-DE-4161"
-                        every { description } returns listOf(ruleDescriptionDE, ruleDescriptionEN)
-                    },
-                    daysSinceLastVaccination = 147,
-                    hasBoosterNotification = true
-                )
+                when (Locale.getDefault()) {
+                    Locale.GERMANY, Locale.GERMAN ->
+                        VaccinationInfoCard.Item(
+                            titleText = "Impfstatus",
+                            subtitleText = "Letzte Impfung vor 14 Tagen",
+                            longText = "Sie haben nun alle derzeit geplanten Impfungen erhalten. Ihr Impfschutz ist vollständig.",
+                            faqAnchor = "FAQ"
+                        )
+                    else -> VaccinationInfoCard.Item(
+                        titleText = "Vaccination Status",
+                        subtitleText = "Last vaccination 14 days ago",
+                        longText = "You have received all currently planned vaccinations. Your vaccination protection is complete.",
+                        faqAnchor = "FAQ"
+                    )
+                }
             )
 
             add(CwaUserCard.Item(personCertificates) {})
             add(
                 VaccinationCertificateCard.Item(
-                    vaccinationCertificate1,
+                    certificate = vaccinationCertificate1,
                     isCurrentCertificate = true,
-                    status = VaccinatedPerson.Status.COMPLETE,
-                    colorShade = PersonColorShade.COLOR_1
-                ) {}
+                    colorShade = PersonColorShade.COLOR_1,
+                    validateCertificate = {},
+                    onClick = {}
+                )
             )
         }
 
@@ -284,6 +362,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { isNew } returns false
         every { hasNotificationBadge } returns false
         every { isNotBlocked } returns true
+        every { qrCodeHash } returns "TC"
+        every { isPCRTestCertificate } returns true
     }
 
     private fun mockVaccinationCertificate(
@@ -323,6 +403,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotBlocked } returns true
+            every { qrCodeHash } returns "VC$number"
+            every { headerIssuedAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
@@ -330,7 +412,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { fullName } returns "Andrea Schneider"
             every { uniqueCertificateIdentifier } returns "RN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
             every { dateOfBirthFormatted } returns "1981-03-20"
-            every { validUntil } returns Instant.parse("2021-03-31T11:35:00.000Z").toLocalDateUserTz()
+            every { testedPositiveOn } returns Instant.parse("2021-05-23T11:35:00.000Z").toLocalDateUserTz()
             every { personIdentifier } returns certificatePersonIdentifier
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
@@ -339,6 +421,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotBlocked } returns true
+            every { qrCodeHash } returns "RC"
         }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(

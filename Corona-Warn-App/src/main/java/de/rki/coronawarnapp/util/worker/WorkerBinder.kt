@@ -4,10 +4,10 @@ import androidx.work.ListenableWorker
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateWorker
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
-import de.rki.coronawarnapp.covidcertificate.booster.BoosterCheckWorker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckWorker
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
@@ -139,8 +139,8 @@ abstract class WorkerBinder {
 
     @Binds
     @IntoMap
-    @WorkerKey(BoosterCheckWorker::class)
-    abstract fun boosterCheckWorker(
-        factory: BoosterCheckWorker.Factory
+    @WorkerKey(CclConfigurationUpdateWorker::class)
+    abstract fun cclConfigurationUpdateWorker(
+        factory: CclConfigurationUpdateWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

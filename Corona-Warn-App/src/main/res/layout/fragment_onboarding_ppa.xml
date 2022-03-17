@@ -6,7 +6,8 @@
         android:id="@+id/onboarding_ppa_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription=""
+        android:accessibilityLiveRegion="assertive"
+        android:contentDescription="@string/onboarding_ppa_headline"
         android:fillViewport="true"
         android:focusable="true">
 
@@ -86,9 +87,12 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/federal_state_row"
                     style="@style/row"
-                    android:layout_marginTop="28dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:accessibilityLiveRegion="polite"
+                    android:contentDescription="@string/onboarding_ppa_state_title"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_body_short">
@@ -98,7 +102,6 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_state_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -110,8 +113,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_mega_tiny"
-                        android:accessibilityLiveRegion="assertive"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_state_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -135,6 +136,9 @@
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
+                    android:contentDescription="@string/onboarding_ppa_district_title"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/federal_state_row">
@@ -144,7 +148,6 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_district_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -156,8 +159,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_mega_tiny"
-                        android:accessibilityLiveRegion="assertive"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_district_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -181,6 +182,9 @@
                     style="@style/row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
+                    android:contentDescription="@string/onboarding_ppa_age_title"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/district_row">
@@ -190,7 +194,6 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_age_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -202,8 +205,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_mega_tiny"
-                        android:accessibilityLiveRegion="assertive"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_age_title"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -286,15 +287,15 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
 
-                     <ImageView
+                    <ImageView
                         android:id="@+id/bullet_point_consent"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/legal_point_consent" />
+                        app:layout_constraintTop_toTopOf="@id/legal_point_consent"
+                        app:srcCompat="@drawable/bullet_point" />
 
                     <TextView
                         android:id="@+id/legal_point_identity"
@@ -309,15 +310,15 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
 
-                      <ImageView
+                    <ImageView
                         android:id="@+id/bullet_point_identity"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/legal_point_identity" />
+                        app:layout_constraintTop_toTopOf="@id/legal_point_identity"
+                        app:srcCompat="@drawable/bullet_point" />
 
                     <TextView
                         android:id="@+id/legal_point_sixteen"
@@ -332,24 +333,26 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
 
-                      <ImageView
+                    <ImageView
                         android:id="@+id/bullet_point_sixteen"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
                         android:layout_marginTop="@dimen/spacing_tiny"
                         android:importantForAccessibility="no"
-                        app:srcCompat="@drawable/bullet_point"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/legal_point_sixteen" />
+                        app:layout_constraintTop_toTopOf="@id/legal_point_sixteen"
+                        app:srcCompat="@drawable/bullet_point" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/more_info_row"
                     style="@style/row"
-                    android:layout_marginTop="22dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:contentDescription="@string/onboarding_ppa_more_info_title"
+                    android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/consent_layout">
@@ -359,7 +362,6 @@
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:focusable="true"
                         android:text="@string/onboarding_ppa_more_info_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

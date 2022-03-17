@@ -290,14 +290,14 @@ class DccQrCodeExtractorTest : BaseTest() {
     @Test
     fun `happy path extraction recovery`() = runBlockingTest {
         extractor.extract(
-            RecoveryQrCodeTestData.validRecovery,
+            RecoveryQrCodeTestData.recoveryQrCode1,
         )
     }
 
     @Test
     fun `happy path extraction recovery with strict mode`() = runBlockingTest {
         extractor.extract(
-            RecoveryQrCodeTestData.validRecovery,
+            RecoveryQrCodeTestData.recoveryQrCode1,
             parserMode = Mode.CERT_REC_STRICT
         )
     }
@@ -306,7 +306,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     fun `recovery cert fails in mode CERT_VAC_STRICT`() = runBlockingTest {
         shouldThrow<InvalidVaccinationCertificateException> {
             extractor.extract(
-                RecoveryQrCodeTestData.validRecovery,
+                RecoveryQrCodeTestData.recoveryQrCode1,
                 parserMode = Mode.CERT_VAC_STRICT
             )
         }.errorCode shouldBe NO_VACCINATION_ENTRY
@@ -316,7 +316,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     fun `recovery cert fails in mode CERT_TEST_STRICT`() = runBlockingTest {
         shouldThrow<InvalidTestCertificateException> {
             extractor.extract(
-                RecoveryQrCodeTestData.validRecovery,
+                RecoveryQrCodeTestData.recoveryQrCode1,
                 parserMode = Mode.CERT_TEST_STRICT
             )
         }.errorCode shouldBe NO_TEST_ENTRY
@@ -370,7 +370,7 @@ class DccQrCodeExtractorTest : BaseTest() {
     @Test
     fun `recovery lenient modes do not verify schema`() = runBlockingTest {
         extractor.extract(
-            RecoveryQrCodeTestData.validRecovery,
+            RecoveryQrCodeTestData.recoveryQrCode1,
             parserMode = Mode.CERT_REC_LENIENT,
             decoderMode = Base45Decoder.Mode.LENIENT
         )
@@ -378,7 +378,7 @@ class DccQrCodeExtractorTest : BaseTest() {
         verify { assetManager.open(any()) wasNot Called }
 
         extractor.extract(
-            RecoveryQrCodeTestData.validRecovery,
+            RecoveryQrCodeTestData.recoveryQrCode1,
             parserMode = Mode.CERT_REC_STRICT,
             decoderMode = Base45Decoder.Mode.STRICT
         )

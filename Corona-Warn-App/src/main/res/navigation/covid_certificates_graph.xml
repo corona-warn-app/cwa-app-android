@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_personOverviewFragment_to_covPassInfoFragment"
             app:destination="@id/covPassInfoFragment" />
+        <action
+            android:id="@+id/action_personOverviewFragment_to_admissionScenariosFragment"
+            app:destination="@id/admissionScenariosFragment" />
     </fragment>
 
     <fragment
@@ -122,6 +125,12 @@
         <action
             android:id="@+id/action_personDetailsFragment_to_covPassInfoFragment"
             app:destination="@id/covPassInfoFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_boosterInfoDetailsFragment"
+            app:destination="@id/boosterInfoDetailsFragment" />
+        <action
+            android:id="@+id/action_personDetailsFragment_to_dccReissuanceConsentFragment"
+            app:destination="@id/dccReissuanceConsentFragment" />
     </fragment>
 
     <fragment
@@ -232,7 +241,8 @@
     <fragment
         android:id="@+id/dccValidationOpenFragment"
         android:name="de.rki.coronawarnapp.covidcertificate.validation.ui.validationresult.open.DccValidationOpenFragment"
-        android:label="DccValidationOpenFragment">
+        android:label="DccValidationOpenFragment"
+        tools:layout="@layout/covid_certificate_validation_result_fragments">
         <argument
             android:name="validation"
             app:argType="de.rki.coronawarnapp.covidcertificate.validation.core.DccValidation" />
@@ -275,4 +285,47 @@
         android:name="de.rki.coronawarnapp.covidcertificate.covpass.CovPassInfoFragment"
         android:label="fragment_cov_pass_info"
         tools:layout="@layout/fragment_cov_pass_info" />
+    <fragment
+        android:id="@+id/boosterInfoDetailsFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragment"
+        android:label="BoosterInfoDetailsFragment"
+        tools:layout="@layout/fragment_booster_information_details">
+        <argument
+            android:name="personIdentifierCode"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/admissionScenariosFragment"
+        android:name="de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosFragment"
+        android:label="fragment_admission_scenarios"
+        tools:layout="@layout/fragment_admission_scenarios" />
+
+    <fragment
+        android:id="@+id/dccReissuanceConsentFragment"
+        android:name="de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragment"
+        android:label="fragment_dcc_reissuance_consent"
+        tools:layout="@layout/fragment_dcc_reissuance_consent">
+
+        <action
+            android:id="@+id/action_dccReissuanceConsentFragment_to_dccReissuanceSuccessFragment"
+            app:destination="@id/dccReissuanceSuccessFragment"
+            app:popUpTo="@id/personDetailsFragment"
+            app:popUpToInclusive="false" />
+
+        <argument
+            android:name="personIdentifierCode"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_dccReissuanceConsentFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/dccReissuanceSuccessFragment"
+        android:name="de.rki.coronawarnapp.dccreissuance.ui.success.DccReissuanceSuccessFragment"
+        android:label="fragment_dcc_reissuance_success"
+        tools:layout="@layout/fragment_dcc_reissuance_success" />
+
 </navigation>

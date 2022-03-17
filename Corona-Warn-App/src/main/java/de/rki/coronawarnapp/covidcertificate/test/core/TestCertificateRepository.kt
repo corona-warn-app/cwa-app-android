@@ -70,10 +70,9 @@ class TestCertificateRepository @Inject constructor(
                     data = it,
                     qrCodeExtractor = qrCodeExtractor
                 )
-            }
-            .map { it.containerId to it }
-            .toMap().also {
-                Timber.tag(TAG).v("Restored TestCertificate data: %s", it)
+            }.associateBy { it.containerId }
+            .also {
+                Timber.tag(TAG).v("Restored TestCertificate data: %d items", it.size)
             }
     }
 
@@ -104,8 +103,6 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    val cwaCertificates = certificates.map { set -> set.mapNotNull { it.testCertificate }.toSet() }
-
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
@@ -127,7 +124,7 @@ class TestCertificateRepository @Inject constructor(
             .drop(1) // Initial emission, restored from storage.
             .onEach { entrySets ->
                 val values = entrySets.values
-                Timber.tag(TAG).v("TestCertificateContainer data changed: %s", values)
+                Timber.tag(TAG).v("TestCertificateContainer data changed: %d items", values.size)
                 storage.save(values.map { it.data }.toSet())
             }
             .catch {
@@ -213,26 +210,12 @@ class TestCertificateRepository @Inject constructor(
         Timber.tag(TAG).v("registerTestCertificate(qrCode=%s)", qrCode)
 
         val updatedData = internalData.updateBlocking {
-
             if (values.any { it.qrCodeHash == qrCode.hash }) {
                 Timber.tag(TAG).e("Certificate entry already exists for %s", qrCode)
                 throw InvalidTestCertificateException(InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED)
             }
-
-            val nowUtc = timeStamper.nowUTC
-
-            val data = GenericTestCertificateData(
-                identifier = UUID.randomUUID().toString(),
-                registeredAt = nowUtc,
-                certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
-                testCertificateQrCode = qrCode.qrCode,
-                certificateSeenByUser = false // Just scanned, Should show badge
-            )
-            val container = TestCertificateContainer(
-                data = data,
-                qrCodeExtractor = qrCodeExtractor,
-            )
-            Timber.tag(TAG).d("Adding test certificate entry: %s", container)
+            val container = qrCode.createContainer()
+            Timber.tag(TAG).d("Adding test certificate entry: %s", container.containerId)
             mutate { this[container.containerId] = container }
         }
 
@@ -330,7 +313,11 @@ class TestCertificateRepository @Inject constructor(
                             val updatedData = processor.obtainCertificate(cert.data)
                             RefreshResult(cert.copy(data = updatedData))
                         } catch (e: Exception) {
-                            Timber.tag(TAG).e(e, "Failed to retrieve certificate components for %s", cert)
+                            Timber.tag(TAG).e(
+                                e,
+                                "Failed to retrieve certificate components for %s",
+                                cert.containerId
+                            )
                             RefreshResult(cert, e)
                         }
                     }
@@ -360,6 +347,21 @@ class TestCertificateRepository @Inject constructor(
         }
 
         return refreshCallResults.values.toSet()
+    }
+
+    /**
+     * This method should be called when the test certificate worker is canceled. This could happen for example when the
+     * device is disconnected from the internet, work constraints are not met anymore and work manager cancels update
+     * job. It set test certificates back to not updating state to prevent endless loading indicators in the UI.
+     */
+    suspend fun refreshCleanup() {
+        Timber.tag(TAG).d("refreshCleanup()")
+        internalData.updateBlocking {
+            mutate {
+                // filter
+                values.forEach { this[it.containerId] = it.copy(isUpdatingData = false) }
+            }
+        }
     }
 
     /**
@@ -495,17 +497,21 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            if (current.isCertificateRetrievalPending) {
-                Timber.tag(TAG).w("recycleCertificate couldn't recycle pending TC %s", containerId)
-                return@updateBlocking this
-            }
-
-            val updated = current.copy(
-                data = updateRecycledAt(current.data, timeStamper.nowUTC)
-            )
+            val updated = current.setRecycled()
 
             mutate { this[containerId] = updated }
         }
+    }
+
+    private fun TestCertificateContainer.setRecycled(): TestCertificateContainer {
+        if (isCertificateRetrievalPending) {
+            Timber.tag(TAG).w("recycleCertificate couldn't recycle pending TC %s", containerId)
+            return this
+        }
+
+        return copy(
+            data = updateRecycledAt(data, timeStamper.nowUTC)
+        )
     }
 
     /**
@@ -531,6 +537,28 @@ class TestCertificateRepository @Inject constructor(
             )
 
             mutate { this[containerId] = updated }
+        }
+    }
+
+    suspend fun replaceCertificate(
+        certificateToReplace: TestCertificateContainerId,
+        newCertificateQrCode: TestCertificateQRCode
+    ) {
+        internalData.updateBlocking {
+
+            val recycledCertificate = this[certificateToReplace]?.setRecycled()
+            val newCertificate = newCertificateQrCode.createContainer()
+
+            Timber.tag(TAG).d("Replaced ${recycledCertificate?.containerId} with ${newCertificate.containerId}")
+
+            mutate {
+                // recycle old
+                recycledCertificate?.let {
+                    this[certificateToReplace] = it
+                }
+                // add new
+                this[newCertificate.containerId] = newCertificate
+            }
         }
     }
 
@@ -584,6 +612,20 @@ class TestCertificateRepository @Inject constructor(
             is RACertificateData -> data.copy(recycledAt = time)
             is GenericTestCertificateData -> data.copy(recycledAt = time)
         }
+    }
+
+    private fun TestCertificateQRCode.createContainer(nowUtc: Instant = timeStamper.nowUTC): TestCertificateContainer {
+        val data = GenericTestCertificateData(
+            identifier = UUID.randomUUID().toString(),
+            registeredAt = nowUtc,
+            certificateReceivedAt = nowUtc, // Set this as we don't need to retrieve one
+            testCertificateQrCode = qrCode,
+            certificateSeenByUser = false // Newly added, should show badge
+        )
+        return TestCertificateContainer(
+            data = data,
+            qrCodeExtractor = qrCodeExtractor,
+        )
     }
 
     companion object {

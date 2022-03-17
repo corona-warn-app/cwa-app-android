@@ -44,6 +44,10 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             binding.informationVersion.text = it
         }
 
+        vm.cclConfigVersion.observe2(this) {
+            binding.cclVersion.text = it
+        }
+
         binding.informationEnfVersion.setOnClickListener {
             try {
                 startActivity(Intent(ExposureNotificationClient.ACTION_EXPOSURE_NOTIFICATION_SETTINGS))
@@ -88,6 +92,9 @@ class InformationFragment : Fragment(R.layout.fragment_information), AutoInject 
             doNavigate(
                 InformationFragmentDirections.actionInformationFragmentToInformationTermsFragment()
             )
+        }
+        binding.informationAccessibilityStatement.mainRow.setOnClickListener {
+            openUrl(getString(R.string.accessibility_statement_link))
         }
         binding.informationContact.mainRow.setOnClickListener {
             doNavigate(

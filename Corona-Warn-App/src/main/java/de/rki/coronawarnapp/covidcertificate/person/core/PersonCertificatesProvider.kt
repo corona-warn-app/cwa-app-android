@@ -1,13 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
 import dagger.Reusable
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
-import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinatedPerson
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.person.model.PersonSettings
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.dcc.findCertificatesForPerson
+import de.rki.coronawarnapp.util.dcc.groupByPerson
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -20,49 +22,47 @@ import javax.inject.Inject
 @Reusable
 class PersonCertificatesProvider @Inject constructor(
     private val personCertificatesSettings: PersonCertificatesSettings,
-    vaccinationRepository: VaccinationRepository,
-    testCertificateRepository: TestCertificateRepository,
-    recoveryCertificateRepository: RecoveryCertificateRepository,
+    certificatesProvider: CertificateProvider,
+    dccWalletInfoRepository: DccWalletInfoRepository,
     @AppScope private val appScope: CoroutineScope,
 ) {
-    init {
-        Timber.tag(TAG).d("PersonCertificatesProvider init(%s)", this)
-    }
-
     val personCertificates: Flow<Set<PersonCertificates>> = combine(
-        vaccinationRepository.vaccinationInfos,
-        testCertificateRepository.certificates.map { testWrappers ->
-            testWrappers.mapNotNull { it.testCertificate }
-        },
-        recoveryCertificateRepository.certificates.map { recoveryWrappers ->
-            recoveryWrappers.map { it.recoveryCertificate }
-        },
-        personCertificatesSettings.currentCwaUser.flow,
-    ) { vaccPersons, tests, recoveries, cwaUser ->
-        Timber.tag(TAG).d("vaccPersons=%s, tests=%s, recos=%s, cwaUser=%s", vaccPersons, tests, recoveries, cwaUser)
+        certificatesProvider.certificateContainer,
+        personCertificatesSettings.currentCwaUser,
+        dccWalletInfoRepository.personWallets,
+        personCertificatesSettings.personsSettings
+    ) { certificateContainer, cwaUser, personWallets, personSettings ->
 
-        val vaccinations = vaccPersons.flatMap { it.vaccinationCertificates }.toSet()
-        val allCerts: Set<CwaCovidCertificate> = (vaccinations + tests + recoveries)
+        val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
+        val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
 
-        val personCertificatesMap = allCerts.groupBy {
-            it.personIdentifier
-        }
-
-        if (!personCertificatesMap.containsKey(cwaUser)) {
+        if (cwaUser != null && groupedCerts.findCertificatesForPerson(cwaUser).isEmpty()) {
             Timber.tag(TAG).v("Resetting cwa user")
-            personCertificatesSettings.currentCwaUser.update { null }
+            personCertificatesSettings.removeCurrentCwaUser()
         }
 
-        personCertificatesMap.entries.map { (personIdentifier, certs) ->
-            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
+        groupedCerts.map { certs ->
+            val firstPersonIdentifier = certs.first().personIdentifier
+            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", firstPersonIdentifier, certs.size)
 
-            val badgeCount = certs.filter { it.hasNotificationBadge }.count() +
-                vaccPersons.boosterBadgeCount(personIdentifier)
-            Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
+            val dccWalletInfo =
+                personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo
+
+            val hasBooster = personSettings[firstPersonIdentifier].hasBoosterBadge(dccWalletInfo?.boosterNotification)
+            val hasDccReissuance = personSettings[firstPersonIdentifier]?.showDccReissuanceBadge ?: false
+            val hasNewAdmissionState = personSettings[firstPersonIdentifier]?.showAdmissionStateChangedBadge ?: false
+            val badgeCount = certs.count { it.hasNotificationBadge } +
+                hasBooster.toInt() + hasDccReissuance.toInt() + hasNewAdmissionState.toInt()
+            Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
+
             PersonCertificates(
                 certificates = certs.toCertificateSortOrder(),
-                isCwaUser = personIdentifier == cwaUser,
-                badgeCount = badgeCount
+                isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
+                badgeCount = badgeCount,
+                dccWalletInfo = dccWalletInfo,
+                hasBoosterBadge = hasBooster,
+                hasDccReissuanceBadge = hasDccReissuance,
+                hasNewAdmissionState = hasNewAdmissionState
             )
         }.toSet()
     }.shareLatest(scope = appScope)
@@ -72,25 +72,35 @@ class PersonCertificatesProvider @Inject constructor(
      * After calling this [personCertificates] will emit new values.
      * Setting it to null deletes it.
      */
-    fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
+    suspend fun setCurrentCwaUser(personIdentifier: CertificatePersonIdentifier?) {
         Timber.d("setCurrentCwaUser(personIdentifier=%s)", personIdentifier)
-        personCertificatesSettings.currentCwaUser.update { personIdentifier }
+        personCertificatesSettings.setCurrentCwaUser(personIdentifier)
     }
 
-    val personsBadgeCount: Flow<Int> = personCertificates
-        .map { persons -> persons.sumOf { it.badgeCount } }
+    val personsBadgeCount: Flow<Int> = personCertificates.map { persons -> persons.sumOf { it.badgeCount } }
 
-    private fun Set<VaccinatedPerson>.boosterBadgeCount(
-        personIdentifier: CertificatePersonIdentifier
-    ): Int {
-        val vaccinatedPerson = singleOrNull { it.identifier == personIdentifier }
-        return when (vaccinatedPerson?.hasBoosterNotification) {
-            true -> 1
-            else -> 0
+    /**
+     * Find specific person by [CertificatePersonIdentifier.codeSHA256]
+     * @param personIdentifierCode [String]
+     */
+    fun findPersonByIdentifierCode(personIdentifierCode: String): Flow<PersonCertificates?> =
+        personCertificates.map { persons ->
+            persons.find { it.personIdentifier?.codeSHA256 == personIdentifierCode }
         }
+
+    private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
+        if (boosterNotification == null) return false
+        return hasBoosterRuleNotYetSeen(this, boosterNotification)
     }
+
+    private fun hasBoosterRuleNotYetSeen(
+        personSettings: PersonSettings?,
+        boosterNotification: BoosterNotification
+    ) = personSettings?.lastSeenBoosterRuleIdentifier != boosterNotification.identifier
+
+    private fun Boolean?.toInt(): Int = if (this == true) 1 else 0
 
     companion object {
-        private val TAG = PersonCertificatesProvider::class.simpleName!!
+        private val TAG = tag<PersonCertificatesProvider>()
     }
 }

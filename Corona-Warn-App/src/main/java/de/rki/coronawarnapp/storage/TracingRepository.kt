@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.nearby.modules.detectiontracker.lastSubmission
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTaskProgress
-import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.risk.execution.ExposureWindowRiskWorkScheduler
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.TaskInfo
@@ -87,7 +87,7 @@ class TracingRepository @Inject constructor(
     }
 
     private fun List<TaskInfo>.isEWCalculatingRisk() = any {
-        it.taskState.isActive && it.taskState.request.type == RiskLevelTask::class
+        it.taskState.isActive && it.taskState.request.type == EwRiskLevelTask::class
     }
 
     fun refreshRiskResult() = scope.launch {
@@ -129,7 +129,7 @@ class TracingRepository @Inject constructor(
                     )
 
                     taskController.submit(
-                        DefaultTaskRequest(RiskLevelTask::class, originTag = "TracingRepository.refreshRiskLevel()")
+                        DefaultTaskRequest(EwRiskLevelTask::class, originTag = "TracingRepository.refreshRiskLevel()")
                     )
                 }
             }

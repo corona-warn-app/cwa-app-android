@@ -74,21 +74,24 @@
 <p>
     As a matter of principle, your data will only be processed in connection with the app’s features
     if you have consented to this. This includes, for example, data processing for exposure logging
-    and warning others as well as for verifying COVID certificates for ticket bookings. The legal
-    basis in each case is Art. 6(1) Sentence 1(a) GDPR and, in the case of health data, Art. 9(2)(a)
-    GDPR. Please refer to Section 12 for information about your right of withdrawal.
+    and warning others, verifying COVID certificates for ticket bookings and processing data in
+    COVID certificates when updating certificates (see Section 6 o.). The legal basis in each case
+    is Art. 6(1) Sentence 1(a) GDPR and, in the case of health data, Art. 9(2)(a) GDPR. Please refer
+    to Section 12 for information about your right of withdrawal.
 </p>
 <p>
     In the context of the official digital COVID certificates (COVID test certificate, COVID
-    vaccination certificate and COVID recovery certificate), data processing is regulated by law.
-    The creation and confirmation of vaccination certificates is based on Art. 9(2)(g) GDPR in
+    vaccination certificate and COVID recovery certificate), data processing is mainly regulated by
+    law. The creation and confirmation of vaccination certificates is based on Art. 9(2)(g) GDPR in
     conjunction with Sect. 22(5) of the Infection Protection Act (IfSG). The creation and
     confirmation of test certificates is based on Art. 9(2)(g) GDPR in conjunction with Sect. 22(7)
     IfSG. The creation and confirmation of recovery certificates is based on Art. 9(2)(g) GDPR in
     conjunction with Sect. 22(6) IfSG. The processing of access data in connection with the feature
-    for verifying certificates as well as for checking the rules on booster vaccination
-    recommendations is based on Art. 6(1) Sentence 1(e) GDPR in conjunction with Sect. 3 of the
-    German Federal Data Protection Act (BDSG).
+    for verifying certificates, for checking the rules on booster vaccination recommendations, and
+    for providing information about updating certificates is based on Art. 6(1) Sentence 1(e) GDPR
+    in conjunction with Sect. 3 of the German Federal Data Protection Act (BDSG). Temporary storage
+    of the hash values of the signatures of the updated and new certificates (see Section 6 o.) is
+    carried out on the basis of Sect. 22(1)(c) BDSG and Art. 9(2)(i) GDPR.
 </p>
 <p>
     On the basis of Art. 6(1) Sentence 1(e) GDPR in conjunction with Sect. 3 of the German Federal
@@ -117,24 +120,17 @@
     details.
 </p>
 <p>
-    Exceptions apply to the additional features for proving a rapid test result, which allows you to
+    Exceptions apply to the additional feature for proving a rapid test result, which allows you to
     display a confirmation issued in your name for negative rapid test results (see Section 6 c.),
     the feature for creating a rapid test profile, which allows you to provide a testing point with
     the data required to perform a rapid test (see Section 6 d.), and if you add digital COVID
-    certificates in the app (see Section 6 h.) or have these verified when booking tickets (see
-    Section 6 j.).
-</p>
-<p>
-    Exceptions apply to the feature for proving a rapid test result, which allows you to display a
-    confirmation issued in your name for negative rapid test results (see Section 6 c.), the feature
-    for creating a rapid test profile, which allows you to provide a testing point with the data
-    required to perform a rapid test (see Section 6 d.) and if you add digital COVID certificates in
-    the app.
+    certificates in the app (see Section 6 h.) or update them (see Section 6 o.) or have these
+    verified when booking tickets (see Section 6 k.).
 </p>
 <p>
     The app refrains by default from using analysis tools to evaluate the way you use it. Only if
     you expressly agree to voluntarily share data or to record an error report and share it with the
-    RKI (see Sections 5 k. and 5 m.), will certain data about your use of the app be transmitted to
+    RKI (see Sections 5 j. and 5 m.), will certain data about your use of the app be transmitted to
     the RKI.
 </p>
 
@@ -1248,6 +1244,44 @@
     been authenticated and may therefore be able to infer your identity. However, your operating
     system provider will not receive any further information about your use of the Corona-Warn-App.
 </p>
+<h3>
+    o. Update feature for COVID certificates
+
+</h3>
+<p>
+    It may happen that the app offers you to update a valid digital COVID certificate. If, for
+    example, the EU Member States decide to change the content or structure of the data in the COVID
+    certificate, then it may be necessary to apply that formal or technical change to an existing,
+    valid digital COVID certificate so that you can continue to use it without any problems.
+</p>
+<p>
+    To do this, the app automatically downloads the current formal and technical specifications for
+    digital COVID certificates from the app’s server system. The app then uses the data contained in
+    the digital COVID certificates you have stored to check whether it is possible to update a
+    stored digital COVID certificate via the app. If this is the case, you will then be advised of a
+    possible update. For the update, with your consent, the digital COVID certificate to be updated
+    will be transmitted from the app to the app’s server system in encrypted form. If the digital
+    COVID certificate to be updated is a COVID vaccination certificate proving a booster
+    vaccination, then the digital COVID certificates proving the basic immunisation or recovery
+    prior to the booster vaccination will also be transmitted to the app’s server system in the
+    process. The validity of the transmitted digital COVID certificates will then be checked there
+    (see Section 6 h.). A new version of the COVID vaccination certificate for the booster
+    vaccination will be generated using the data from the transmitted digital COVID certificates.
+    During the update, the data in the transmitted COVID certificates (see Sections 5 h. and 5 i.)
+    will be processed for a short time. The updated COVID certificate will then be sent back to your
+    app.
+</p>
+<p>
+    In order to be able to prevent users from using the update feature several times, which is not
+    permitted, the electronic signatures of the updated and new digital COVID certificates are
+    temporarily stored on the app’s server system by means of special one-way encryption (what’s
+    known as a hash value). This means that the app performs a certain mathematical procedure in
+    order to convert the electronic signature in such a way that it can no longer be identified. The
+    hash value cannot be used to infer the data in the relevant digital COVID certificate or other
+    information about you. However, it is still possible to clearly assign the hash value to the
+    updated digital COVID certificate. The hash values will be deleted again 365 days after the
+    update.
+</p>
 
 <h2>
     7. How does the transnational warning system work?
@@ -1347,8 +1381,9 @@
 </h3>
 <ul>
     <li>
-        The app requires an internet connection in order to exchange data with
-        the server system.
+        The app requires an internet connection in order to exchange data with the server system. In
+        particular, this allows the app to download up-to-date information from the RKI’s server
+        system (e.g. the latest key information, revocation lists).
     </li>
     <li>
         The Bluetooth feature must be enabled so that your smartphone can
@@ -1462,6 +1497,12 @@
     b. Data on server systems
 
 </h3>
+<p>
+    In the case of updating a digital COVID certificate (see Section 6 o.), the digital COVID
+    certificates transmitted to the app’s server system for the update will be deleted again after
+    the update process is completed. The hash values of the electronic signatures of the updated and
+    new digital COVID certificates will be deleted after 365 days.
+</p>
 <p>
     Positive lists are deleted from all server systems (including the exchange server) after 14
     days. All other data, with the exception of data transmitted by the data sharing feature and to
@@ -1709,6 +1750,16 @@
     authenticity of your app, take place immediately after you have given your consent.
 
 </p>
+<h3>
+    i. Consent to “COVID certificate updates”
+
+</h3>
+<p>
+    Because the update of a digital COVID certificate is carried out immediately after you have
+    given your consent, it will not be possible to withdraw your consent. If the update was not
+    successful or you wish to update another digital COVID certificate, you will need to give
+    separate consent for each individual update process.
+</p>
 <h2>
     13. What other rights do you have under data protection law?
 
@@ -1755,6 +1806,16 @@
     even if you provide additional information about your identity.
 
 </p>
+<p>
+    If the hash value of the electronic signature is temporarily stored when a digital COVID
+    certificate is updated, this does not enable the RKI to determine the identity of certificate
+    holders (see Section 6 o.).
+</p>
+<p>
+    If the hash values of the electronic signatures are temporarily stored when a digital COVID
+    certificate is updated, this does not enable the RKI to determine the identity of certificate
+    holders (see Section 6 o.).
+</p>
 <h2>
     14. Data protection officer and contact
 
@@ -1766,5 +1827,5 @@
     13353 Berlin, or by emailing <a href="mailto:datenschutz@rki.de">datenschutz@rki.de</a>.
 </p>
 <p>
-    Last amended: 15 December 2021
+    Last amended: 16 March 2022
 </p>

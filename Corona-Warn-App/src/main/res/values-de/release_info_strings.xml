@@ -17,34 +17,42 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>Status-Nachweis 2G+</item>
-        <item>Hinweise bei negativem Testergebnis</item>
-        <item>Sicherheitshinweis unterdrücken</item>
-        <item>Verbesserte Scanfunktion</item>
+        <item>Anzeige erhöhten Risikos verkürzt</item>
+        <item>Risikoanzeige nach positivem Testergebnis</item>
+        <item>Nachricht zu neuer Risikobegegnung</item>
+        <item>Nachricht über Status-Änderung</item>
+        <item>Genesenenzertifikate ohne Gültigkeitsdaten</item>
+        <item>Doppelten QR-Code entfernt</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>Wenn Sie ein gültiges Impf- oder Genesenenzertifikat haben und ein Testzertifikat in der App hinzufügen, so werden diese in der Zertifikatsübersicht in einer kombinierten Anzeige dargestellt. Sie können zwischen dem QR-Code des Impf-/Genesenenzertifikats und dem des Testzertifikats mit Hilfe eines Schalters wechseln. Beide QR-Codes müssen von der CovPassCheck-App geprüft werden, wenn ein 2G+-Nachweis erforderlich ist.</item>
-        <item>Im Falle eines negativen Testergebnis erhalten Sie jetzt weitere Handlungsempfehlungen für den Fall, dass Sie trotzdem akute gesundheitliche Beschwerden haben. </item>
-        <item>Mit Version 2.12 wurde die Anzeige eines Sicherheitshinweises eingeführt, falls auf Ihrem Smartphone Administratorrechte aktiv sind. Diesen Hinweis können Sie nun bis zum nächsten Update unterdrücken. </item>
-        <item>Die Scanfunktion wurde überarbeitet, sodass QR-Codes jetzt verlässlicher erkannt und eingescannt werden.</item>
+        <item>Ein erhöhtes Risiko nach einer Risikobegegnung wird nur noch für 10 anstatt für 14 Tage angezeigt.</item>
+        <item>Auch wenn Sie einen positiven Test in der Corona-Warn-App registriert haben, wird Ihnen nun nach einer Risikobegegnung die rote Kachel für ein erhöhtes Risiko eingeblendet. Sieben Tage nach dem positiven Test wird ihr Risikostatus dauerhaft wieder eingeblendet.</item>
+        <item>Wenn Sie nach einer Risikobegegnung eine weitere Begegnung mit erhöhtem Risiko hatten, dann wird Ihnen darüber jetzt eine Benachrichtigung angezeigt.</item>
+        <item>Wenn sich Ihr Status geändert hat (z. B. durch Hinzufügen eines Zertifikats, oder weil sich die Regeln geändert haben) werden Sie auf der Zertifikate-Registerkarte darüber informiert.</item>
+        <item>Für Genesenenzertifikate werden keine Gültigkeitsdaten mehr angezeigt, da die Gültigkeit von lokalen Regeln bestimmt wird. Stattdessen wird nun das Datum des ersten positiven Tests angezeigt.</item>
+        <item>Vom Detail-Bildschirm für Ihre Person wurde der QR-Code für Ihr aktuell verwendetes Zertifikat entfernt. Der QR-Code befindet sich ebenfalls auf der Zertifikate-Übersicht, wird also auf dem Detail-Bildschirm nicht benötigt.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
+        <item />
     </string-array>
 
 </resources>

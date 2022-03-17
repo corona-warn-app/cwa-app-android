@@ -3,6 +3,9 @@ package de.rki.coronawarnapp.util
 import android.annotation.SuppressLint
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.BugReportingSettings
+import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
@@ -13,7 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
-import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -77,7 +80,7 @@ class DataReset @Inject constructor(
     private val ratProfileSettings: RATProfileSettingsDataStore,
     private val valueSetsRepository: ValueSetsRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
-    private val vaccinationRepository: VaccinationRepository,
+    private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val testCertificateRepository: TestCertificateRepository,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val validationRepository: DccValidationRepository,
@@ -87,6 +90,9 @@ class DataReset @Inject constructor(
     private val exposureWindowsSettings: AnalyticsExposureWindowsSettings,
     private val dccTicketingAllowListRepository: DccTicketingAllowListRepository,
     private val dccTicketingQrCodeSettings: DccTicketingQrCodeSettings,
+    private val cclConfigurationRepository: CclConfigurationRepository,
+    private val dccWalletInfoRepository: DccWalletInfoRepository,
+    private val cclSettings: CclSettings,
 ) {
 
     private val mutex = Mutex()
@@ -135,7 +141,7 @@ class DataReset @Inject constructor(
 
         valueSetsRepository.clear()
 
-        vaccinationRepository.clear()
+        vaccinationCertificateRepository.clear()
         testCertificateRepository.clear()
         recoveryCertificateRepository.clear()
 
@@ -149,6 +155,11 @@ class DataReset @Inject constructor(
         dccTicketingAllowListRepository.clear()
 
         dccTicketingQrCodeSettings.clear()
+
+        cclSettings.clear()
+        cclConfigurationRepository.clear()
+
+        dccWalletInfoRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

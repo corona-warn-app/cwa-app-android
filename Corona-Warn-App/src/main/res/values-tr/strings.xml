@@ -24,6 +24,8 @@
     <string name="menu_settings">"Ayarlar"</string>
     <!-- XMIT: application trash -->
     <string name="menu_trash">"Geri Dönüşüm Kutusu"</string>
+    <!-- XMIT: social media -->
+    <string name="menu_social_media">"Sosyal Medya"</string>
 
     <!-- ####################################
                Notification
@@ -199,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Enfeksiyon Riski"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son 14 günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir."</string>
+    <string name="main_overview_body_risk">"Maruz kalma günlüğü etkin olduğunda uygulama kişisel enfeksiyon riskinizi hesaplar. Bunu, son %d günde koronavirüs tanısı almış kişilere maruz kalma sürenizi ve yakınlığınızı ölçerek gerçekleştirir. Maruz kalma günlüğü check-in\'lerinizi de hesaba katar. Koronavirüs tanısı almış bir kişiyle aynı anda ya da koronavirüs tanısı almış bir kişiden 30 dakika sonra aynı yerde bulunmuşsanız size uyarı verilir."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Şu risk durumu gösterilebilir:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -258,7 +260,7 @@
     <!-- XMSG: risk details - go/stay home, something like a bullet point -->
     <string name="risk_details_behavior_body_stay_home">"Mümkünse lütfen eve gidin ve evde kalın ve beraber yaşadığınız kişiler haricinde başka insanlarla karşılaşmaktan kaçının."</string>
     <!-- XMSG: risk details - get in touch with the corresponding people, something like a bullet point -->
-    <string name="risk_details_behavior_body_contact_doctor">"Başka sorularınız varsa lütfen tıbbi acil servis yardım hattı ile 116 117 numaralı telefondan iletişime geçin."</string>
+    <string name="risk_details_behavior_body_contact_doctor">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XMSG: risk details - wash your hands, something like a bullet point -->
     <string name="risk_details_behavior_body_wash_hands">"Ellerinizi düzenli olarak 20 saniye sabunla yıkayın."</string>
     <!-- XMSG: risk details - wear a face mask, something like a bullet point -->
@@ -297,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Bu dönem hesaplamaya dahil edildi."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son 14 günü kapsar."</string>
+    <string name="risk_details_information_body_period_logged">"Enfeksiyon riskiniz yalnızca maruz kalma günlüğünün etkin olduğu dönemler için hesaplanabilir. Bu nedenle günlüğe kaydetme özelliğinin sürekli etkin kalması gerekir. Maruz kalma günlüğü son %d günü kapsar."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Corona-Warn-App bugün yüklendi. Enfeksiyon riskiniz, maruz kalma günlüğünün etkin olduğu dönemler için hesaplanır. Başka insanlarla karşılaşmışsanız ve bu sırada maruz kalma günlüğü etkindiyse enfeksiyon riskiniz hesaplanır."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -348,6 +350,17 @@
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
     <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Yeni Maruz Kalma"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Artmış riskle başka bir maruz kalma yaşadınız.\n\nSon %1$d güne ait tüm riske maruz kalmalarınızı temas güncenizde bulabilirsiniz."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"Tamam"</string>
+
+    <!-- ####################################
            Outdated Device Time
     ###################################### -->
     <!-- XHED: incorrect device time - dialog/notification headline -->
@@ -378,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Sizin için ve hepimiz için daha fazla koruma. Corona-Warn-App uygulamasını kullanarak enfeksiyon zincirlerini çok daha kısa süre içinde kırabiliriz."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Akıllı telefonunuzu koronavirüs uyarı sistemine dönüştürün. Risk durumunuza ilişkin genel bir bakış elde edin ve son 14 gün içinde koronavirüs tanısı konan herhangi biri ile yakın temasa geçip geçmediğinizi öğrenin."</string>
+    <string name="onboarding_body_2">"Akıllı telefonunuzu koronavirüs uyarı sistemine dönüştürün. Risk durumunuza ilişkin genel bir bakış elde edin ve son %d gün içinde koronavirüs tanısı konan herhangi biri ile yakın temasa geçip geçmediğinizi öğrenin."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Uygulamada test sonuçlarınızı (PCR testi veya hızlı antijen testi) görüntüleyin ve koronavirüs tanısı alırsanız diğer kullanıcıları uyarın."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
@@ -740,11 +753,13 @@
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
+    <string name="information_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XACT: describes illustration -->
     <string name="information_contact_illustration_description">"Bir erkek kulaklıkla telefon görüşmesi yapıyor."</string>
     <!-- XLNK: Menu item / hyper link / button text for navigation to FAQ website -->
     <string name="information_help_title">"SSS"</string>
+    <!-- XHED: Page title for accessibility statement information page -->
+    <string name="information_accessibility_statement">"Erişilebilirlik Beyanı"</string>
     <!-- XACT: accessibility hint -->
     <string name="information_help_title_accessibility">"Sık sorulan sorular. Harici bir web sitesine yönlendirileceksiniz."</string>
     <!-- XHED: Page title for technical information page, also menu item / button text -->
@@ -913,12 +928,12 @@
     <string name="qr_code_scan_body_subtitle">"Testler, Sertifikalarınız, Check-in\'ler ve Biletleme Sırasında Doğrulama"</string>
     <!-- YTXT: instruction text for QR code scanning  -->
     <string name="qr_code_scan_body_subtitle_vertretung_warnen">"Sildiğiniz etkinlikleri geri yüklemek için check-in\'leri tarayabilirsiniz."</string>
+    <!--XTXT: torch accessibility description -->
+    <string name="qr_code_torch_accessibility_description">"El feneri"</string>
     <!-- XBUT: open image file button  -->
     <string name="qr_code_open_file">"Dosya Aç"</string>
     <!-- XTXT: QR Code processing message  -->
     <string name="qr_code_processing_message">"QR kod okunuyor…"</string>
-    <!-- XTXT: unsupported qrcode message  -->
-    <string name="un_supported_qrcode_message">"Corona-Warn-App QR kodu desteklemiyor. Lütfen uygun bir QR kod tarayın."</string>
     <!-- XTXT: QR Code error message title  -->
     <string name="qr_code_file_not_readable_title">"Dosya Okunamıyor"</string>
     <!-- XTXT: QR Code error message body  -->
@@ -971,8 +986,6 @@
     <string name="submission_consent_main_headline_body">"Test sonucunuzu alabilmeniz ve diğer kullanıcıları uyarabilmeniz için onayınız gereklidir."</string>
     <!-- XHED: Page subheadline for consent call test result  -->
     <string name="submission_consent_call_test_result">"Test Sonucunu Al"</string>
-    <!-- YTXT:  Body sub text 1 for Submission Consent call test result   -->
-    <string name="submission_consent_call_test_result_scan_your_test_only">"Şimdi, testinizin QR kodunu tarayın ve test sonucunuzu alın."</string>
     <!-- YTXT:  Body sub text 2 for Submission Consent call test result   -->
     <string name="submission_consent_call_test_result_scan_test_only_once">"Her bir test yalnızca bir kez taranabilir. Uygulama tek seferde en fazla bir hızlı testi ve bir PCR testini yönetebilir."</string>
     <!-- YTXT:  Body sub text 3 for Submission Consent call test result   -->
@@ -1053,9 +1066,7 @@
     <!-- XBUT: negative test result : remove the test button -->
     <string name="submission_test_result_negative_remove_test_button">"Testi Sil"</string>
     <!-- XHED: Page headline for other warnings screen  -->
-    <string name="submission_test_result_positive_steps_warning_others_heading">"Diğer Kullanıcıları Uyarın"</string>
     <!-- YTXT: Body text for for other warnings screen-->
-    <string name="submission_test_result_positive_steps_warning_others_body">"Lütfen rastgele kimliklerinizi paylaşın ve diğer kullanıcıları uyarın.\nHerhangi bir koronavirüs belirtisini ne zaman ilk kez fark ettiğinizi de belirterek diğer kullanıcıların enfeksiyon riskini daha doğru şekilde belirlemeye yardımcı olun."</string>
     <!-- XBUT: positive test result : continue button with symptoms-->
     <string name="submission_test_result_positive_continue_button_with_symptoms">"Belirtileri Gir"</string>
 
@@ -1078,28 +1089,12 @@
     <string name="submission_test_result_dialog_tracing_required_message">"Lütfen diğer insanları uyarmak için maruz kalma günlüğünü etkinleştirin."</string>
     <!-- XBUT: tracing required : OK button -->
     <string name="submission_test_result_dialog_tracing_required_button">"Tamam"</string>
-    <!-- XHED: Dialog title for test removal  -->
-    <string name="submission_test_result_dialog_remove_test_title">"Test yalnızca bir kez taranabilir."</string>
     <!-- XHED: Dialog title for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_title">"Test sonucu silinsin mi?"</string>
     <!-- XTXT: Dialog body for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_body">"Test sonucu geri dönüşüm kutusuna taşınacak. Geri dönüşüm kutusunu, sağ üst kısımdaki üç noktanın altında yer alan \"Durum\" sekme sayfasında bulabilirsiniz. Burada test sonucunu kalıcı olarak silebilir veya geri yükleyebilirsiniz. Test sonucu 30 gün sonra otomatik olarak silinir."</string>
     <!-- XTXT: Dialog button positive text for moving test to recycle bin -->
     <string name="submission_test_result_dialog_move_test_to_recycle_bin_button">"Test Sonucunu Sil"</string>
-    <!-- XHED: Dialog title for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_title_no_submission">"Testinizi silmek istediğinizden emin misiniz?"</string>
-    <!-- YTXT: Dialog text for test removal -->
-    <string name="submission_test_result_dialog_remove_test_message">"Testi silerseniz test sonucunuzu alamazsınız. QR kod geçerli olsun veya olmasın test sonucunuzu test merkezinden veya laboratuvardan alacaksınız. Koronavirüs tanısı alırsanız kamu sağlığı yetkilisi yasal olarak belirlenen kanal üzerinden bilgilendirilecektir ve kamu sağlığı yetkilisi sizinle iletişime geçecektir."</string>
-    <!-- YTXT: Dialog text for test removal no submission -->
-    <string name="submission_test_result_dialog_remove_test_message_no_submission">"Bu işlemi gerçekleştirirseniz diğer kullanıcılar uyarılmaz."</string>
-    <!-- XBUT: Positive button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_positive">"Sil"</string>
-    <!-- XBUT: Negative button for test removal -->
-    <string name="submission_test_result_dialog_remove_test_button_negative">"İptal"</string>
-    <!-- XHED: Title for test result card positive -->
-    <string name="submission_test_result_card_positive_title">"SARS-CoV-2 pozitif"</string>
-    <!-- YTXT: Body text for test result card positive -->
-    <string name="submission_test_result_card_positive_body">"SARS-CoV-2 virüsü tanısı aldınız."</string>
     <!-- XHED: Page headline for test result with consent given  -->
     <string name="submission_test_result_consent_given_heading">"Test Sonucunuz"</string>
     <!-- XHED: Subtitle text for test result card with consent given -->
@@ -1160,14 +1155,10 @@
     <string name="submission_positive_other_warning_title">"Diğer Kullanıcıları Uyarın"</string>
     <!-- XHED: Page headline for the positive result additional warning page-->
     <string name="submission_positive_other_warning_headline">"Lütfen hepimize yardımcı olun!"</string>
-    <!-- YTXT: Body text for the positive result additional warning page-->
-    <string name="submission_positive_other_warning_body">"Dilerseniz diğer kullanıcıların olası enfeksiyonlar konusunda uyarılmasını sağlayabilirsiniz.\n\nBunun için son 14 güne ait rastgele kimliklerinizi ve isteğe bağlı olarak koronavirüs belirtilerini ne zaman ilk kez fark ettiğinizi katılımcı ülkeler tarafından ortak olarak işletilen sunucuya aktarabilirsiniz. Rastgele kimlikleriniz ve tüm ek bilgiler, bu sunucudan ilgili resmi koronavirüs uygulamalarının kullanıcılarına dağıtılacaktır. Bu sayede, temasta bulunduğunuz diğer tüm kullanıcılar olası enfeksiyon konusunda uyarılabilir.\n\nYalnızca rastgele kimlikleriniz ve belirtilerinizin başlangıcına ilişkin verdiğiniz isteğe bağlı bilgiler aktarılacaktır. Adınız, adresiniz veya konumunuz gibi hiçbir kişisel veri açıklanmayacaktır."</string>
     <!-- XBUT: other warning continue button -->
     <string name="submission_accept_button">"Kabul Et"</string>
     <!-- XACT: other warning - illustration description, explanation image -->
     <string name="submission_positive_other_illustration_description">"Bir akıllı telefon şifrelenmiş pozitif test tanısını sisteme aktarır."</string>
-    <!-- XHED: Title for the interop country list-->
-    <string name="submission_interoperability_list_title">"Aşağıdaki ülkeler, uluslararası maruz kalma günlüğüne katılmaktadır:"</string>
 
     <!-- Submission Positive Other Warning No Consent -->
     <!-- YTXT: Body text for the positive result additional warning page-->
@@ -1220,7 +1211,7 @@
     <!-- YTXT: submission done further info bullet points -->
     <string-array name="submission_done_further_info_bullet_points">
         <item>"İzolasyon süresi genellikle 10 gündür. Lütfen belirtilerinizin nasıl geliştiğini yakından izleyin."</item>
-        <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 15 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
+        <item>"Kamu sağlığı yetkiliniz, temasa geçtiğiniz kişilerin bir listesini oluşturmanızı isteyecektir. Bu listeye, hasta olmadan önceki iki gün içinde 10 dakikadan uzun süreyle yakın temas halinde (2 metreden kısa mesafede, yüz yüze görüşme) olduğunuz herkesi dahil etmeniz gerekir. Bunun için temas güncenizi kullanabilirsiniz: Girişleri dışa aktarmanız ve ardından yazdırmanız ya da e-posta yoluyla göndermeniz yeterlidir."</item>
         <item>"Lütfen özellikle akıllı telefonu olmadığı veya uygulamayı yüklemediği için doğrudan uygulamanın uyarmayacağı kişileri göz önünde bulundurun."</item>
         <item>"Hiçbir belirtiniz kalmasa ve kendinizi iyi hissetseniz dahi yine de hastalığı bulaştırabilirsiniz. Bu nedenle lütfen belirlenen izolasyon süresine uyun."</item>
     </string-array>
@@ -1289,7 +1280,7 @@
     <!-- YTXT: Body text for operating hours in contact page-->
     <string name="submission_contact_operating_hours_body">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:\nİngilizce, Almanca, Türkçe\n\nMesai saatleri:\nGünlük (hafta sonları dahil) 7:00 - 20:00 (CET)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="submission_contact_body_other">"Sağlıkla ilgili tüm sorularınız için lütfen aile hekiminizle veya tıbbi acil servis yardım hattı ile iletişime geçin. Telefon: 116 117."</string>
+    <string name="submission_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
 
     <!-- XACT: Submission contact page title -->
     <string name="submission_contact_accessibility_title">"Yardım hattını arayın ve TAN talep edin"</string>
@@ -1345,6 +1336,8 @@
     <string name="submission_status_card_positive_result_contact">"Kamu sağlığı yetkiliniz önümüzdeki birkaç gün içinde size ulaşabilir."</string>
     <!-- YTXT: text for share result card-->
     <string name="submission_status_card_positive_result_share">"Diğer kullanıcıların uyarılabilmesi için rastgele kimliklerinizi paylaşın."</string>
+    <!-- YTXT: text for share result card-->
+    <string name="submission_status_card_positive_result_illness">"COVID-19 nedeniyle şiddetli hastalıklar konusunda risk faktörleriniz varsa doktora başvurun. Bilinen risk faktörleri arasında 60 yaşın üzerinde olmak, immünsupresyon, diyabet ve obezite bulunmaktadır."</string>
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"%s tanınız:"</string>
@@ -1426,7 +1419,7 @@
     <!-- XHED: Title for local incident statistics card -->
     <string name="statistics_card_local_incidence_title">"Yerel 7 Günlük Olay"</string>
     <!-- XTXT: Description in statistics card that is displayed below the local incidence value-->
-    <string name="statistics_card_local_incidence_value_description">"Yeni Enfeksiyon Sayısı"</string>
+    <string name="statistics_card_local_incidence_value_description">"yeni enfeksiyon sayısı"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu info button -->
     <string name="statistics_card_local_incidence_menu_info">"Bilgi"</string>
     <!-- XBUT: Text for local incidence statistics card overflow menu delete button -->
@@ -1461,9 +1454,9 @@
     <!-- XTXT: Until [date] refers to statistics timestamp in the past -->
     <string name="statistics_primary_value_until">"%s tarihine kadar"</string>
     <!-- XTXT: Statistics primary value description -->
-    <string name="statistics_primary_value_description">"Yeni Enfeksiyon Sayısı"</string>
+    <string name="statistics_primary_value_description">"yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Statistics secondary value description -->
-    <string name="statistics_secondary_value_description">"Hastaneye Yatış Sayısı"</string>
+    <string name="statistics_secondary_value_description">"hastaneye yatış sayısı"</string>
 
     <!-- Explanation screen -->
     <!-- XHED: Explanation screen title -->
@@ -1471,51 +1464,30 @@
     <!-- XHED: Explanation screen subtitle -->
     <string name="statistics_explanation_subtitle">"İstatistiklerin Açıklaması"</string>
     <!-- XHED: Explanation screen confirmed new infections title -->
-    <string name="statistics_explanation_confirmed_new_infection_title">"Onaylanan Yeni Enfeksiyon Sayısı"</string>
+    <string name="statistics_explanation_confirmed_new_infection_title">"onaylanan yeni enfeksiyon sayısı"</string>
     <!-- XTXT: Explanation screen confirmed new infections text -->
     <string name="statistics_explanation_confirmed_new_infection_text">"Koronavirüs tanısı alan ve RKI’ye bildirilen kişi sayısı."</string>
     <!-- XHED: Explanation screen warned persons title -->
     <string name="statistics_explanation_warned_persons_title">"Uygulama Kullanıcılarının Uyarıları"</string>
     <!-- XTXT: Explanation screen warned persons text -->
-    <string name="statistics_explanation_warned_persons_text">"PCR testi ile koronavirüs tanısı alan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı."</string>
+    <string name="statistics_explanation_warned_persons_text">"Koronavirüs tanısı koyulan ve uygulama üzerinden diğer kullanıcıları uyaran uygulama kullanıcılarının sayısı"</string>
     <!-- XHED: Explanation screen local incidence title -->
     <string name="statistics_explanation_local_incidence_title">"Yerel 7 Günlük Olay"</string>
-    <!-- XTXT: Explanation screen local incidence text -->
-    <string name="statistics_explanation_local_incidence_text">"Konfigüre edilen bölgede veya federal eyalette her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
     <!-- XHED: Explanation screen seven day incidence title -->
     <string name="statistics_explanation_seven_day_incidence_title">"7 Günlük Olay"</string>
-    <!-- XHED: Explanation screen seven day hospitalization title -->
-    <string name="statistics_explanation_seven_day_hospitalization_title">"7 Günlük Hastaneye Yatış Olayı"</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care title -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_title">"Yoğun Bakım Ünitelerindeki COVID-19 Hastaları"</string>
     <!-- XTXT: Explanation screen seven day incidence text -->
     <string name="statistics_explanation_seven_day_incidence_text">"Her 100.000 vatandaşta son 7 günde (bildirme tarihine göre) onaylanan toplam yeni enfeksiyon sayısı."</string>
-    <!-- XTXT: Explanation screen seven day hospitalization text -->
-    <string name="statistics_explanation_seven_day_hospitalization_text">"Son 7 günde COVID-19 nedeniyle her 100.000 vatandaşta toplam hastaneye giriş sayısı."</string>
-    <!-- XHED: Explanation screen occupied beds in intensive care text -->
-    <string name="statistics_explanation_occupied_beds_in_intensive_care_text">"COVID-19 nedeniyle yoğun bakım ünitesinde bulunan kişilerin toplam yoğun bakım ünitesi kapasitesine oranı."</string>
     <!-- XHED: Explanation screen seven day r-value title -->
     <string name="statistics_explanation_seven_day_r_value_title">"7 Günlük R Değeri"</string>
     <!-- XTXT: Explanation screen seven day r-value text -->
     <string name="statistics_explanation_seven_day_r_value_text">"Reprodüksiyon değeri R, enfekte olan bir kişinin ortalama olarak kaç kişiyi enfekte ettiğini belirtir."</string>
-    <!-- XTXT: Explanation screen seven day r-value link label  - the characters have to match the last part of the text label above -->
-    <string name="statistics_explanation_seven_day_r_link_label">"istatistikler için SSS."</string>
     <!-- XHED: Explanation screen legend title -->
     <string name="statistics_explanation_legend_title">"Açıklama"</string>
     <!-- XHED: Explanation screen period title -->
     <string name="statistics_explanation_period_title">"Dönem"</string>
     <!-- XHED: Explanation screen period yesterday subtitle -->
-    <string name="statistics_explanation_period_yesterday_subtitle">"Dün/Düne kadar"</string>
     <!-- XTXT: Explanation screen period yesterday text -->
     <string name="statistics_explanation_period_yesterday_text">"\"Dün/Düne kadar\" için, önceki güne ait/önceki güne kadar olan sayı görüntülenir. Önceki güne ait hiçbir değer yoksa değer olan son güne ait veriler görüntülenir."</string>
-    <!-- XHED: Explanation screen period seven day subtitle -->
-    <string name="statistics_explanation_period_seven_day_subtitle">"7 Günlük Ortalama"</string>
-    <!-- XTXT: Explanation screen period seven day text -->
-    <string name="statistics_explanation_period_seven_day_text">"Son 7 güne ait ortalama değer"</string>
-    <!-- XHED: Explanation screen period total subtitle -->
-    <string name="statistics_explanation_period_total_subtitle">"Toplam"</string>
-    <!-- XTXT: Explanation screen period total text -->
-    <string name="statistics_explanation_period_total_text">"Yıl başından ya da uygulamanın kullanıma sunulmasından itibaren toplam sayı (15 Haziran 2020)"</string>
     <!-- XHED: Explanation screen trend title -->
     <string name="statistics_explanation_trend_title">"Trend"</string>
     <!-- XTXT: Explanation screen trend text -->
@@ -1564,7 +1536,11 @@
 
     <!-- Persons Vaccinated Completely Statistics Card -->
     <!-- XHED: Title for vaccinated completely statistics card -->
-    <string name="statistics_vaccinated_completely_card_title">"Tüm Aşıları Olan Kişiler"</string>
+    <string name="statistics_vaccinated_completely_card_title">"Temel Bağışıklığı Olan Kişiler"</string>
+
+    <!-- Persons Vaccinated With Booster Card -->
+    <!-- XHED: Title for vaccinated with booster statistics card -->
+    <string name="statistics_vaccinated_with_booster_card_title">"Hatırlatma Aşısı Olan Kişiler"</string>
 
     <!-- Applied Vaccination Dose Rates Statistics Card -->
     <!-- XHED: Title for applied vaccination dose rates -->
@@ -1578,9 +1554,13 @@
     <!-- XTXT: Statistics number of vaccine doses text -->
     <string name="statistics_number_of_vaccine_doses_text">"Bugüne dek ülke genelinde uygulanan aşı dozlarının sayısı."</string>
     <!-- XTXT: Statistics number of fully vaccinated people title -->
-    <string name="statistics_fully_vaccinated_people_title">"Tüm aşıları olan kişiler"</string>
+    <string name="statistics_fully_vaccinated_people_title">"Temel bağışıklığı olan kişiler"</string>
     <!-- XTXT: Statistics number of fully vaccinated people text -->
-    <string name="statistics_fully_vaccinated_people_text">"RKI\'ye gereken tüm aşı dozlarını aldıkları bildirilen kişilerin sayısı."</string>
+    <string name="statistics_fully_vaccinated_people_text">"RKI\'ye temel bağışıklık için gereken tüm aşı dozlarını aldıkları bildirilen kişilerin sayısı."</string>
+    <!-- XTXT: Statistics number of people with booster title -->
+    <string name="statistics_people_with_booster_title">"Hatırlatma Aşısı Olan Kişiler"</string>
+    <!-- XTXT: Statistics number of people with booster text -->
+    <string name="statistics_people_with_booster_text">"RKI\'ye hatırlatma aşısı oldukları bildirilen kişilerin sayısı."</string>
     <!-- XTXT: Statistics number of vaccinated people at least title -->
     <string name="statistics_people_vaccinated_at_least_once_title">"En az bir doz aşı olan kişiler"</string>
     <!-- XTXT: Statistics number of vaccinated people at least text -->
@@ -1595,14 +1575,12 @@
     <string name="statistics_seven_day_hospitalization_card_title">"7 Günlük Hastaneye Yatış Olayı"</string>
     <!-- XTXT: Nationwide text -->
     <string name="statistics_seven_day_hospitalization_nationwide_text">"Ülke genelinde"</string>
-    <!-- XTXT: Hospitalizations per 100.000 inhabitants -->
-    <string name="statistics_seven_day_hospitalization_per_inhabitants_text">"COVID-19 Nedeniyle Her 100.000 Vatandaşta Hastaneye Yatış Sayısı"</string>
 
     <!-- Occupied Intensive Care Statistics Card -->
     <!-- XHED: Title for occupied intensive care card -->
     <string name="statistics_occupied_intensive_care_card_title">"Yoğun Bakım Ünitelerindeki COVID-19 Hastaları"</string>
     <!-- XTXT: Ocupation of all intensive care beds -->
-    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 Nedeniyle Yatak Kullanımının Tüm Yoğun Bakım Yatakları Sayısına Oranı"</string>
+    <string name="statistics_occupied_intensive_care_beds_text">"COVID-19 nedeniyle yatak kullanımının tüm yoğun bakım yatakları sayısına oranı"</string>
 
     <!-- Statistics Add new tile -->
     <!-- XTXT: Statistics add card title -->

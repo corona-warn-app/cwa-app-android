@@ -75,16 +75,16 @@
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_small"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="@dimen/spacing_medium"
         android:focusable="false"
         android:text="@string/ag_homescreen_card_pcr_body_result_date"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/body" />
 
-     <ImageView
+    <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +115,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-     <ImageView
+    <ImageView
+        android:id="@+id/contagious_icon"
+        style="@style/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/colorSemanticHighRisk"
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        android:padding="10dp"
+        android:src="@drawable/ic_risk_details_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result_subtitle"
+        app:tint="@color/colorStableLight" />
+
+    <TextView
+        android:id="@+id/contagious_subtitle"
+        style="@style/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/submission_status_card_positive_result_contagious"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/contagious_icon"
+        app:layout_constraintTop_toTopOf="@+id/contagious_icon" />
+
+    <ImageView
         android:id="@+id/contact_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
@@ -127,9 +154,8 @@
         android:importantForAccessibility="no"
         android:padding="10dp"
         android:src="@drawable/ic_risk_details_contact"
-        app:layout_constraintEnd_toStartOf="@id/contact_subtitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result_subtitle"
+        app:layout_constraintTop_toBottomOf="@+id/contagious_subtitle"
         app:tint="@color/colorStableLight" />
 
     <TextView
@@ -143,8 +169,8 @@
         app:layout_constraintStart_toEndOf="@+id/contact_icon"
         app:layout_constraintTop_toTopOf="@+id/contact_icon" />
 
-     <ImageView
-        android:id="@+id/contagious_icon"
+    <ImageView
+        android:id="@+id/illness_icon"
         style="@style/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -154,23 +180,20 @@
         android:focusable="false"
         android:importantForAccessibility="no"
         android:padding="10dp"
-        android:src="@drawable/ic_risk_details_home"
-        app:layout_constraintEnd_toStartOf="@id/contagious_subtitle"
+        android:src="@drawable/ic_risk_details_cross"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contact_subtitle"
         app:tint="@color/colorStableLight" />
 
     <TextView
-        android:id="@+id/contagious_subtitle"
+        android:id="@+id/illness_subtitle"
         style="@style/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="12dp"
-        android:text="@string/submission_status_card_positive_result_contagious"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/submission_status_card_positive_result_illness"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contagious_icon"
-        app:layout_constraintTop_toTopOf="@+id/contagious_icon" />
+        app:layout_constraintStart_toEndOf="@+id/illness_icon"
+        app:layout_constraintTop_toTopOf="@+id/illness_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

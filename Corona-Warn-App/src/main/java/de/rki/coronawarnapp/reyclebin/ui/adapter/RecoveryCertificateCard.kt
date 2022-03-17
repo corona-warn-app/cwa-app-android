@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
+import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.list.Swipeable
@@ -35,11 +36,13 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         certificatePersonName.isGone = false
         certificateInfoLine1.isGone = true
         certificateInfoLine2.text = context.getString(
-            R.string.recovery_certificate_valid_until,
-            certificate.validUntil.toShortDayFormat()
+            R.string.recovery_certificate_sample_collection,
+            certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
         )
         certificatePersonName.text = certificate.fullName
         certificateType.setText(R.string.recovery_certificate_name)
+
+        addDeletionInfoIfExists(item = certificate)
 
         root.setOnClickListener { item.onRestore(item.certificate) }
 

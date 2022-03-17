@@ -16,8 +16,6 @@
     <string name="person_overview_no_certificates_subtitle">"Certificatele de vaccinare digitale, certificatele de recuperare și certificatele de test salvate sunt afișate aici."</string>
     <!-- XTXT: Person overview no certificates subtitle 2-->
     <string name="person_overview_no_certificates_subtitle_2">"Pentru a scana codul QR al certificatului, utilizați butonul “Scanare” din bara de navigare inferioară."</string>
-    <!-- XBUT: Person overview certificates scan button-->
-    <string name="person_overview_scan_button">"Certificat"</string>
     <!-- XTXT: Person overview no certificates image content description-->
     <string name="person_overview_no_certificates_image_description">"Un certificat cu un simbol de cod QR aplicat pe el."</string>
     <!-- XTXT: Overview certificate status text -->
@@ -40,6 +38,8 @@
     <string name="certificate_qr_invalid_signature">"Certificat (Semnătură) nevalabil(ă)"</string>
     <!-- XTXT: Certificate badge text -->
     <string name="certificate_badge_text">"Există noutăți despre certificatele dvs."</string>
+    <!-- XTXT: Certificate loading text -->
+    <string name="certificate_loading_text">"Se încarcă certificatele dvs..."</string>
 
     <!-- XTXT: Vaccination Consent subtitle-->
     <string name="vaccination_consent_headline">"Adăugarea certificatelor"</string>
@@ -58,29 +58,8 @@
     <!-- XBUT: Text for vaccination consent accept button -->
     <string name="vaccination_consent_accept_button">"Continuare"</string>
 
-    <!-- XTXT: Vaccination card immunity information: Days since last shot -->
-    <plurals name="vaccination_days_since_last_shot" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Ultima vaccinare: acum %1$d zi"</item>
-        <item quantity="other">"Ultima vaccinare: acum %1$d zi(le)"</item>
-        <item quantity="zero">"Ultima vaccinare astăzi"</item>
-        <item quantity="two">"Ultima vaccinare: acum %1$d zi(le)"</item>
-        <item quantity="few">"Ultima vaccinare: acum %1$d zi(le)"</item>
-        <item quantity="many">"Ultima vaccinare: acum %1$d zi(le)"</item>
-    </plurals>
-    <!-- XTXT: Vaccination card immunity information: Days since last shot today -->
-    <string name="vaccination_days_since_last_shot_today">"Ultima vaccinare astăzi"</string>
-    <!-- XTXT: Vaccination card immunity information card body when immunity is completed -->
-    <string name="vaccination_list_immunity_card_body">"Ați primit toate vaccinările planificate în acest moment. Protecția prin vaccinare este completă."</string>
-    <!-- XTXT: Vaccination card title -->
-    <string name="vaccination_state_title">"Starea vaccinării"</string>
-    <!-- XTXT: Vaccination card booster eligible description -->
-    <string name="vaccination_card_booster_eligible_description">"%1$s (ID regulă: %2$s)."</string>
     <!-- XTXT: Vaccination card booster eligible FAQ -->
     <string name="vaccination_card_booster_eligible_faq">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
-    <!-- XTXT: Vaccination card booster eligible faq link keyword -->
-    <string name="vaccination_card_booster_eligible_faq_link_container">"Întrebări frecvente"</string>
-
-
     <!-- XTXT: Current priority certificate info -->
     <string name="certificate_card_bookmark_info">"Certificat utilizat în prezent"</string>
     <!-- XHED: Person certificate details title -->
@@ -101,21 +80,6 @@
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Certificat de vaccinare"</string>
 
-    <!-- XTXT: Vaccination card immunity information card body-->
-    <plurals name="vaccination_certificate_days_until_immunity" tools:ignore="UnusedQuantity">
-        <item quantity="one">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zi."</item>
-        <item quantity="other">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
-        <item quantity="zero">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
-        <item quantity="two">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d zile."</item>
-        <item quantity="few">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
-        <item quantity="many">"Acum ați efectuat toate vaccinările planificate curente. Totuși, protecția prin vaccinare nu va fi completă timp de încă %1$d de zile."</item>
-    </plurals>
-
-    <!-- XTXT: Vaccination only one shot required -->
-    <string name="vaccination_certificate_one_shot">"Acesta este un vaccin care necesită o singură doză sau un vaccin pentru o persoană care s-a recuperat după boală și care are nevoie de o singură doză."</string>
-    <!-- XTXT: Vaccination is not complete information card body-->
-    <string name="vaccination_certificate_incomplete_vaccination">"Nu ați primit încă toate vaccinările planificate curente. Astfel, protecția dvs. prin vaccinare nu este completă încă."</string>
-
     <!-- #####################################################
          RECOVERY CERTIFICATE STRINGS BELOW
          ##################################################### -->
@@ -126,8 +90,8 @@
     <string name="recovery_certificate_details_subtitle">"Certificat COVID digital UE"</string>
     <!-- XTXT: Recovery certificate card name  -->
     <string name="recovery_certificate_name">"Certificat de recuperare"</string>
-    <!-- XTXT: Recovery certificate valid until -->
-    <string name="recovery_certificate_valid_until">"valabil până la %s"</string>
+    <!-- XTXT: Recovery certificate the date of the sample collection -->
+    <string name="recovery_certificate_sample_collection">"Test pozitiv de la %s"</string>
     <!-- #####################################################
          TEST CERTIFICATE STRINGS BELOW
          ##################################################### -->
@@ -181,8 +145,6 @@
     <string name="dcc_validation_error_no_network">"Conexiunea dvs. la internet s-a pierdut. Pentru a finaliza verificarea valabilității certificatului, verificați conexiunea și reîncercați."</string>
     <!-- XTXT: Digital covid certificate validation error message - try again -->
     <string name="dcc_validation_error_try_again">"A apărut o eroare. Încercați din nou mai târziu sau contactați hotline-ul tehnic prin Informații aplicație -&gt; Hotline tehnic."</string>
-    <!-- XBUT: Test certificate validation start button -->
-    <string name="test_certificate_validation_start_button">"Verificare valabilitate pentru deplasare"</string>
 
     <!-- #####################################################
          VALIDATION START SCREEN
@@ -232,13 +194,13 @@
     <string name="validation_rules_result_valid_result_country_and_time">"Intrare în %1$s pe %2$s, verificat pe %3$s"</string>
 
     <!-- XTXT: Validation Rule Result Valid - Result  -->
-    <string name="validation_rules_result_valid_result_title">"Certificatul dvs. este valabil în țara selectată"</string>
+    <string name="validation_rules_result_valid_result_title">"Certificatul dvs. este valabil pentru intrarea în țara selectată"</string>
     <!-- XTXT: Validation Rule Result No Rules - Result  -->
     <string name="validation_rules_result_no_rules_title">"Certificatul dvs. nu a putut fi verificat"</string>
     <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
     <string name="validation_rules_result_cannot_be_checked_result_title">"Certificatul dvs. nu a putut fi verificat complet"</string>
     <!-- XTXT: Validation Rule Result Not Valid - Result  -->
-    <string name="validation_rules_result_not_valid_result_title">"Certificatul dvs. nu este valabil în țara selectată"</string>
+    <string name="validation_rules_result_not_valid_result_title">"Certificatul dvs. nu este valabil pentru intrarea în țara selectată"</string>
 
     <!-- XTXT: Validation Rule Open Header Title  -->
     <string name="validation_rules_open_header_title">"Verificarea nu este posibilă"</string>
@@ -277,23 +239,12 @@
     <string name="validation_open_title">"Certificatul nu poate fi verificat"</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Open -->
-    <!-- XTXT: validation start for the validation open card  -->
-    <string name="validation_rules_open_vh_start_date">"Data și ora prelevării probei (AAAA-LL-ZZ hh:mm Z)"</string>
-    <!-- XTXT: title for the validation open card  -->
-    <string name="validation_rules_open_vh_title">"Un test antigen este valabil maximum 48 de ore."</string>
 
     <!-- Validation Rule View Holder: Business Rule Validation Failed -->
     <!-- XHED: title for the validation failed card  -->
     <string name="validation_rules_failed_vh_title_uncertified_test_center">"Trebuie emis un certificat de test de către un centru de testare certificat."</string>
     <!-- XTXT: test center title for the validation failed card  -->
     <string name="validation_rules_failed_vh_test_center_title">"Centru de testare"</string>
-    <!-- XHED: title for the validation failed card  -->
-    <string name="validation_rules_failed_vh_title_wrong_test_type">"Tipul de test trebuie să fie un test antigen sau un test de amplificarea acidului nucleic."</string>
-    <!-- XHED: subtitle for the validation failed card  -->
-    <string name="validation_rules_failed_vh_subtitle_wrong_test_type">"Trebuie emis un certificat de test de către un centru de testare certificat."</string>
-    <!-- XTXT: rule id for the validation failed card  -->
-    <string name="validation_rules_failed_vh_test_type">"Tip de test"</string>
-
     <!-- XHED: travel country for the validation failed card  -->
     <string name="validation_rules_acceptance_country">"Aceasta este o regulă pentru țara dvs. de destinație, %s."</string>
     <!-- XHED: issuer country for the validation failed card  -->
@@ -324,12 +275,6 @@
     <!-- XBUT: Signature validation dialog FAQ button-->
     <string name="dcc_signature_validation_dialog_faq_button">"Întrebări frecvente privind verificarea semnăturii"</string>
 
-    <!-- Expiration notification -->
-    <!-- XTXT: expiring soon notification -->
-    <string name="dcc_notification_expires_soon_text">"Verificați valabilitatea certificatelor dvs."</string>
-    <!-- XTXT: expired notification -->
-    <string name="dcc_notification_expired_text">"Verificați valabilitatea certificatelor dvs."</string>
-
     <!-- DCC notification channel-->
     <!-- XTXT: certificate notification channel title -->
     <string name="dcc_notification_channel_title">"Certificate"</string>
@@ -350,8 +295,6 @@
     <!-- PDF Export: Info screen -->
     <!-- XHED: PDF Export: Info screen title -->
     <string name="pdf_export_info_title">"Afișare versiune de tipărire"</string>
-    <!-- XACT: PDF Export: Info screen illustration description-->
-    <string name="pdf_export_info_illustration_description">"Versiunea de tipărire a unui certificat este utilizată pentru a crea un document tipărit pentru UE, care poate fi trimis de la smartphone la o imprimantă."</string>
     <!-- XTXT: PDF Export: Info screen subtitle-->
     <string name="pdf_export_info_subtitle">"Generarea documentului tipărit pentru UE"</string>
     <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
@@ -385,37 +328,18 @@
         CONFIRMED STATUS CARD
         ##################################################### -->
 
-    <!-- XTXT: Confirmed status card title -->
-    <string name="confirmed_status_title">"Dovada stării"</string>
-
-    <!-- XTXT: Confirmed status card 2g+ PCR subtitle -->
-    <string name="confirmed_status_2g_pcr_subtitle">"2G+ test PCR"</string>
-    <!-- XTXT: Confirmed status card 2g+ RAT subtitle -->
-    <string name="confirmed_status_2g_rat_subtitle">"2G+ test rapid"</string>
-
-    <!-- XTXT: Confirmed status card 2G badge -->
-    <string name="confirmed_status_2g_badge">"2G"</string>
-    <!-- XTXT: Confirmed status card 2G+ badge -->
-    <string name="confirmed_status_2g_plus_badge">"2G+"</string>
-    <!-- XTXT: Confirmed status card 3G badge -->
-    <string name="confirmed_status_3g_badge">"3G"</string>
-    <!-- XTXT: Confirmed status card 3G+ badge -->
-    <string name="confirmed_status_3g_plus_badge">"3G+"</string>
-
-    <!-- XTXT: Confirmed status card 2G body -->
-    <string name="confirmed_status_2g_body">"Certificatele dvs. respectă regula 2G. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
-    <!-- XTXT: Confirmed status card 2G+ RAT body -->
-    <string name="confirmed_status_2g_plus_rat_body">"Certificatele dvs. respectă regula 2G plus, cu excepția cazului în care este necesar un test PCR. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
-    <!-- XTXT: Confirmed status card 2G+ PCR body -->
-    <string name="confirmed_status_2g_plus_pcr_body">"Certificatele dvs. respectă regula 2G plus. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
-    <!-- XTXT: Confirmed status card 3G body -->
-    <string name="confirmed_status_3g_body">"Certificatele dvs. respectă regula 3G. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
-    <!-- XTXT: Confirmed status card 3G+ body -->
-    <string name="confirmed_status_3g_plus_body">"Certificatele dvs. respectă regula 2G plus. Dacă trebuie să dovediți starea dvs. curentă, închideți această vizualizare și afișați codul QR în sumarul certificatului."</string>
-
     <!-- XTXT: Confirmed status card FAQ link -->
     <string name="confirmed_status_faq_text">"Pentru mai multe informații, consultați pagina noastră de întrebări frecvente."</string>
-    <!-- XTXT: Confirmed status card FAQ link -->
-    <string name="confirmed_status_faq_label">"Întrebări frecvente"</string>
 
+    <!-- XTXT: CCL Admission scenario tile title -->
+    <string name="ccl_admission_state_tile_title">"Starea pentru următorul stat federal"</string>
+    <!-- XTXT: CCL Admission scenario tile subtitle -->
+    <string name="ccl_admission_state_tile_subtitle">"Reglementările guvernului federal"</string>
+    <!-- XTXT: CCL Admission calculation progress message-->
+    <string name="admission_calculation_message">"Se determină starea..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">"Atribuirea certificatului"</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">"Gruparea certificatelor a fost îmbunătățită. Certificatele care au doar diferențe minore de nume nu vor mai fi atribuite altor persoane."</string>
 </resources>

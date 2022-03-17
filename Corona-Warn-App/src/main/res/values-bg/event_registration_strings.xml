@@ -14,9 +14,6 @@
     <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
     <string name="trace_location_checkins_empty_illustration_accessibility">"Сграда, на чийто фон се вижда символ за QR код"</string>
 
-    <!-- XBUT: My check-ins: Scan QR Code button -->
-    <string name="trace_location_checkins_action_scan_qrcode">"Сканиране на QR код"</string>
-
     <!-- XBUT: My check-ins: menu entry to remove all -->
     <string name="trace_location_checkins_menu_remove_all">"Изтриване на всички"</string>
     <!-- XBUT: My check-ins: menu entry to show information -->

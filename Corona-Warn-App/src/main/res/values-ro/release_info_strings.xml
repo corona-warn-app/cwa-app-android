@@ -16,18 +16,16 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Dovada stării 2G+"</item>
-        <item>"Informații în caz de rezultat de test negativ"</item>
-        <item>"Mascare notificare de securitate"</item>
-        <item>"Caracteristica de scanare îmbunătățită"</item>
+        <item>"Înregistrarea testelor PCR rapide"</item>
+        <item>"Atribuirea certificatului"</item>
+        <item>"Actualizarea certificatului"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Dacă aveți un certificat de vaccinare valabil sau un certificat de recuperare valabil și adăugați un certificat de test în aplicație, acestea sunt afișate într-un afișaj combinat în sumarul certificatului. Puteți schimba între codurile QR al certificatului de vaccinare sau al certificatului de recuperare și cel al certificatul de test utilizând controlul corespunzător. Ambele coduri QR trebuie verificate cu aplicația CovPassCheck dacă este nevoie de dovada 2G+."</item>
-        <item>"Dacă primiți un rezultat de test negativ, nu veți primi recomandări suplimentare dacă aveți în continuare simptome acute."</item>
-        <item>"Începând cu versiunea 2.12, o notificare de securitate este afișată dacă drepturile de administrator sunt active pe smartphone-ul dvs. Puteți masca această notificare până la următoarea actualizare."</item>
-        <item>"Caracteristica de scanare a fost revizuită pentru a permite recunoașterea și scanarea codurilor QR cu mai multă acuratețe."</item>
+        <item>"Acum puteți înregistra teste PCR rapide în Corona-Warn-App și puteți primi rezultatul și certificatul dvs. de test prin aplicație."</item>
+        <item>"Atribuirea certificatelor la persoane a fost făcută mai tolerantă la erori. Sunt ignorate diferențele minore de ortografie în cazul prenumelor și numelor, astfel încât certificatele afectate pot fi totuși atribuite persoanelor în cauză."</item>
+        <item>"Prevederile UE pentru certificatele de vaccinare care presupun vaccinarea cu doza booster s-au modificat. Dacă certificatul dvs. nu mai corespunde cu prevederile curente, puteți solicita un certificat nou direct din Corona-Warn-App."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -35,12 +33,10 @@
         <item/>
         <item/>
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
         <item/>
         <item/>

@@ -24,7 +24,7 @@ class TestCertificateDetailsViewModel @AssistedInject constructor(
     @Assisted private val fromScanner: Boolean,
     private val testCertificateRepository: TestCertificateRepository,
     private val dccValidationRepository: DccValidationRepository,
-    @AppScope private val appScope: CoroutineScope
+    @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider) {
 
     private var qrCode: CoilQrCode? = null

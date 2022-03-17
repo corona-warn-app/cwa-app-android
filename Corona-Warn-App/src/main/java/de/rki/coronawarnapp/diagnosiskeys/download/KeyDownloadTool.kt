@@ -43,7 +43,7 @@ class KeyDownloadTool @Inject constructor(
         cachedKey
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Download failed: %s", cachedKey)
-        keyCache.delete(listOf(cachedKey.info))
+        keyCache.deleteInfoAndFile(listOf(cachedKey.info))
         throw e
     }
 

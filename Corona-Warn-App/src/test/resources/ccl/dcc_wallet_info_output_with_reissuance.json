@@ -1,0 +1,182 @@
+{
+  "admissionState": {
+    "visible": true,
+    "badgeText": {
+      "type": "string",
+      "localizedText": {
+        "de": "2G+"
+      },
+      "parameters": []
+    },
+    "titleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Status-Nachweis"
+      },
+      "parameters": []
+    },
+    "subtitleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "2G+ PCR-Test"
+      },
+      "parameters": []
+    },
+    "longText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Ihre Zertifikate erfüllen [...]"
+      },
+      "parameters": []
+    },
+    "stateChangeNotificationText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Ihre Zertifikate erfüllen derzeit keine Regel."
+      },
+      "parameters": []
+    },
+    "identifier": "admission_state_identifier",
+    "faqAnchor": "dcc_admission_state"
+  },
+  "vaccinationState": {
+    "visible": true,
+    "titleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Impfstatus"
+      },
+      "parameters": []
+    },
+    "subtitleText": {
+      "type": "plural",
+      "quantity": 25,
+      "localizedText": {
+        "de": {
+          "zero": "Letzte Impfung heute",
+          "one": "Letzte Impfung vor %u Tag",
+          "two": "Letzte Impfung vor %u Tagen",
+          "few": "Letzte Impfung vor %u Tagen",
+          "many": "Letzte Impfung vor %u Tagen",
+          "other": "Letzte Impfung vor %u Tagen"
+        }
+      },
+      "parameters": [
+        {
+          "type": "localDate",
+          "value": "2022-01-01T23:30:00.000Z"
+        }
+      ]
+    },
+    "longText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Sie haben nun alle derzeit [...]"
+      },
+      "parameters": []
+    },
+    "faqAnchor": "dcc_admission_state"
+  },
+  "boosterNotification": {
+    "visible": true,
+    "titleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Booster"
+      },
+      "parameters": []
+    },
+    "subtitleText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Empfehlung einer Booster-Impfung"
+      },
+      "parameters": []
+    },
+    "longText": {
+      "type": "string",
+      "localizedText": {
+        "de": "Die Ständige Impfkommission (STIKO) empfiehlt allen Personen [...]"
+      },
+      "parameters": []
+    },
+    "faqAnchor": "dcc_admission_state",
+    "identifier": "booster_rule_identifier"
+  },
+  "mostRelevantCertificate": {
+    "certificateRef": {
+      "barcodeData": "HC1:6BFOXN*TS0BI$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE $CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
+    }
+  },
+  "verification": {
+    "certificates": [
+      {
+        "buttonText": {
+          "type": "string",
+          "localizedText": {
+            "de": "2G-Zertifikat"
+          },
+          "parameters": []
+        },
+        "certificateRef": {
+          "barcodeData": "HC1:6BFOXN*TS0BI$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE $CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
+        }
+      },
+      {
+        "buttonText": {
+          "type": "string",
+          "localizedText": {
+            "de": "Testzertifikat"
+          },
+          "parameters": []
+        },
+        "certificateRef": {
+          "barcodeData": "HC1:6BFOXN*TS0BI$ZDFRH7LHUVNU.8GZ6769MBW3XHP+56R5LLPJ*5PIM*V4DZJIRPQHIZC4.OI:OIG/Q*LP1Z2GHKW/F3IKJ5QH*AF/GJ5MT0K5LO$50D$0SVV88UI*488UZ+3H0LW6WD1KG8U%8W+*3Y:CYZ00OPM98IMIWLHWVHPYH9UE*P1UU1XF820Q R1D.L%:PVLIJRH.OG4SIIRH/R2UZUWM6J$7XLH5G6TH95NI.J2IQ1TU1/PIMJEWT4SS3+Y3D.R9$H.I8HX7B%R J8VR7* FLVKDN4FTITQI.:KO3HWBJ$IJQFGSW5B*5:3AUM9NK9:AA945MR9EG3XFJ0%SI23D-I/2DBAJDAJCNB-43 X41Q2EG3RA3/43KD3F23.+IIYC6Q0ZIJPKJ+LJ5AL5:4A93VLJOPG32NQ3QR$P*NIV1JK%228K*IBYZJ92KENS+7K*8BCIIM7JC0J3LIH.SO4UBR2:ZJ83B4PSZEUP637PS36JF0JEYI1DLZZL1629HQ-A6G 713JIZA213DY4F M52Q0VP25A75Q6TMR V$6L LOOUOPDVSQQR/TTJM:R7:SF90T99K4BTET0J/K%EN6 7I-DRK6*0L03SI30NVB-3"
+        }
+      }
+    ]
+  },
+  "validUntil": "2022-01-14T18:43:00Z",
+  "certificateReissuance": {
+    "reissuanceDivision": {
+      "visible": true,
+      "titleText": {
+        "type": "string",
+        "localizedText": {
+          "de": "Zertifikat ersetzen"
+        },
+        "parameters": [
+        ]
+      },
+      "subtitleText": {
+        "type": "string",
+        "localizedText": {
+          "de": "Text"
+        },
+        "parameters": [
+        ]
+      },
+      "longText": {
+        "type": "string",
+        "localizedText": {
+          "de": "Langer Text"
+        },
+        "parameters": [
+        ]
+      },
+      "faqAnchor": "dcc_admission_state"
+    },
+    "certificateToReissue": {
+      "certificateRef": {
+        "barcodeData": "HC1:6BFOXN*TS0BI$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE $CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
+      }
+    },
+    "accompanyingCertificates": [
+      {
+        "certificateRef": {
+          "barcodeData": "HC1:6BFOXN*TS0BI$ZDYSHTRMM7QXSUJCQF*8KF6NDC2LE $CGH9XYE+9GDJ5RPSDW1:ZH6I1$4JN:IN1MPK95%LS+1VUU8C1VTE5ZMT56QHECDVNE1FO1P56C$QV/M8YML-1H1V*ZE846N07WW667N+H1YU1E 1PK9B/0E7J0PIBZIXJA  CG8CGZK*9C%PDS1JGDBVF2$7K*IBQQKV-J2 JDZT:1BPMIMIA*NI7UJQWT.+S1QD4007/GJ2HIE9WT0K3M9UVZSVV*001HW%8UE9.955B9-NT0 2$$0X4PPZ0YUIPG1L+N1*PVD4WYHPRAAUICO1-.PU8GIFT383/9TL4T.B9NVP-PELK9D/5.B9C9Q8+ECB9UH9B/9BL5 QE-NEO+11C9P8Q+C9:6V P1HS9UM97H98$QP3R8BH FRDRIS4FU2STU14G8R6U1YS+FRH8E0IF*+K1D4QIV9BRZX26 L**T -MEUIM3W1KI-$BEBIU2B4+QF2HFUHBO3E/01.SW:O44BV7QU00W56:0"
+        }
+      }
+    ]
+  }
+}

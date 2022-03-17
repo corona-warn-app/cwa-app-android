@@ -7,8 +7,6 @@
     <string name="nm_notification_settings">"Управление на известия"</string>
     <!-- XHED: notification management: delta onboarding: header -->
     <string name="nm_notification_enabled">"Активиране на известия"</string>
-    <!-- XTXT: notification management: inactive text -->
-    <string name="nm_notifications_body_inactive">"За да активирате известията от Corona-Warn-App, трябва да разрешите известяването от настройките на Вашето устройство."</string>
     <!-- XTXT: notification management: active text -->
     <string name="nm_notifications_body_active_beginning">"Можете да дефинирате следните настройки тук:"</string>
     <!-- XTXT: notification management: delta onboarding: point 1 -->

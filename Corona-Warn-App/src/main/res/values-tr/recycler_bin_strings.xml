@@ -70,12 +70,14 @@
     <!-- XTXT: Recycle Bin  - Restore Corona Test dialog message -->
     <string name="recycle_bin_restore_corona_test_dialog_message">"QR kod zaten akıllı telefonunuza kayıtlı. Test geri dönüşüm kutusundan geri yüklenecektir."</string>
 
-  <!-- XBUT: Recycle Bin - test item name -->
+    <!-- Recycle bin item-->
+    <!-- XTXT: Recycle Bin - test item name -->
     <string name="recycle_bin_test_item_name">"Test"</string>
-
     <!-- XTXT: Recycle Bin  - Restore Corona PCR Test date-->
     <string name="reycle_bin_pcr_test_date">"Kayıt tarihi: %1$s"</string>
     <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
     <string name="reycle_bin_rat_test_date">"Gerçekleştirilme tarihi: %1$s"</string>
+    <!-- XTXT: Recycle Bin  - Information when the item gets finally deleted-->
+    <string name="recycle_bin_item_deletion_date_info">"şu tarih ve saatte kalıcı olarak silinecektir: %1$s, %2$s"</string>
 
 </resources>

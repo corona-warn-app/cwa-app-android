@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.main
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.qrcode.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -12,6 +13,7 @@ import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.OnboardingSettings
+import de.rki.coronawarnapp.storage.TracingSettings
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
@@ -55,8 +57,10 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var coronTestRepository: CoronaTestRepository
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
+    @MockK lateinit var tracingSettings: TracingSettings
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
+    private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
 
     @BeforeEach
     fun setup() {
@@ -83,6 +87,8 @@ class MainActivityViewModelTest : BaseTest() {
             every { personCertificates } returns emptyFlow()
             every { personsBadgeCount } returns flowOf(0)
         }
+
+        every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -97,9 +103,11 @@ class MainActivityViewModelTest : BaseTest() {
         covidCertificateSettings = covidCertificateSettings,
         personCertificatesProvider = personCertificatesProvider,
         raExtractor = raExtractor,
+        rPcrExtractor = rPcrExtractor,
         submissionRepository = submissionRepository,
         coronaTestRepository = coronTestRepository,
-        valueSetRepository = valueSetsRepository
+        valueSetRepository = valueSetsRepository,
+        tracingSettings = tracingSettings,
     )
 
     @Test

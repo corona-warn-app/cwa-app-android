@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.appconfig.mapping
 
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.CoronaPCRTestParametersContainer
 import de.rki.coronawarnapp.appconfig.CoronaRapidAntigenTestParametersContainer
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.appconfig.CoronaTestConfigContainer
@@ -25,15 +26,34 @@ class CoronaTestConfigMapper @Inject constructor() : CoronaTestConfig.Mapper {
 
     private fun ApplicationConfigurationAndroid.mapCoronaTestParameters(): CoronaTestConfig {
         val coronaRapidAntigenTestParameters = if (coronaTestParameters.hasCoronaRapidAntigenTestParameters()) {
+            val coronaRapidAntigenTestParameters = coronaTestParameters.coronaRapidAntigenTestParameters
             CoronaRapidAntigenTestParametersContainer(
-                Duration.standardHours(
-                    coronaTestParameters.coronaRapidAntigenTestParameters.hoursToDeemTestOutdated.toLong()
+                hoursToDeemTestOutdated = Duration.standardHours(
+                    coronaRapidAntigenTestParameters.hoursToDeemTestOutdated.toLong()
+                ),
+                durationToShowRiskCard = Duration.standardHours(
+                    coronaRapidAntigenTestParameters.hoursSinceSampleCollectionToShowRiskCard.toLong()
                 )
             )
         } else {
             Timber.d("coronaRapidAntigenTestParameters is missing")
             CoronaRapidAntigenTestParametersContainer()
         }
-        return CoronaTestConfigContainer(coronaRapidAntigenTestParameters)
+
+        val coronaPCRTestParameters = if (coronaTestParameters.hasCoronaPCRTestParameters()) {
+            CoronaPCRTestParametersContainer(
+                durationToShowRiskCard = Duration.standardHours(
+                    coronaTestParameters.coronaPCRTestParameters.hoursSinceTestRegistrationToShowRiskCard.toLong()
+                )
+            )
+        } else {
+            Timber.d("coronaPCRTestParameters is missing")
+            CoronaPCRTestParametersContainer()
+        }
+
+        return CoronaTestConfigContainer(
+            ratParameters = coronaRapidAntigenTestParameters,
+            pcrParameters = coronaPCRTestParameters
+        )
     }
 }

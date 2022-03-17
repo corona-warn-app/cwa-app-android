@@ -3,11 +3,14 @@ package testhelpers
 import dagger.Module
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
+import de.rki.coronawarnapp.covidcertificate.boosterinfodetails.BoosterInfoDetailsFragmentTestModule
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonOverviewFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
+import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationResultFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
@@ -120,6 +123,8 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         CovidCertificateDetailsFragmentTestModule::class,
         PersonOverviewFragmentTestModule::class,
         PersonDetailsFragmentTestModule::class,
+        BoosterInfoDetailsFragmentTestModule::class,
+        DccReissuanceConsentFragmentTestModule::class,
 
         // -------- RAT profile ------------
         RATProfileCreateFragmentTestModule::class,
@@ -139,6 +144,9 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         DccTicketingCertificateSelectionFragmentModule::class,
         DccTicketingConsentTwoFragmentModule::class,
         DccTicketingConsentOneFragmentTestModule::class,
+
+        // Admission Scenarios
+        AdmissionScenariosFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar

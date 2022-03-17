@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.tracing.ui.details
 
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.installTime.InstallTimeProvider
 import de.rki.coronawarnapp.risk.RiskState
@@ -10,7 +11,6 @@ import de.rki.coronawarnapp.tracing.GeneralTracingStatus.Status
 import de.rki.coronawarnapp.tracing.ui.details.items.DetailsItem
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.AdditionalInfoLowRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBox
-import de.rki.coronawarnapp.tracing.ui.details.items.additionalinfos.FindDetailsInJournalBoxIncreasedRisk
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorIncreasedRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorNormalRiskBox
 import de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox
@@ -33,16 +33,19 @@ class TracingDetailsItemProvider @Inject constructor(
     tracingStatus: GeneralTracingStatus,
     riskLevelStorage: RiskLevelStorage,
     installTimeProvider: InstallTimeProvider,
+    appConfigProvider: AppConfigProvider,
     surveys: Surveys
 ) {
 
     val state: Flow<List<DetailsItem>> = combine(
         tracingStatus.generalStatus,
         riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
-        surveys.availableSurveys
+        surveys.availableSurveys,
+        appConfigProvider.currentConfig,
     ) { status,
         riskLevelResults,
-        availableSurveys ->
+        availableSurveys,
+        appConfig ->
 
         val latestCalc = riskLevelResults.lastCalculated
 
@@ -50,13 +53,14 @@ class TracingDetailsItemProvider @Inject constructor(
             latestCalc.matchedRiskCount > 0
 
         mutableListOf<DetailsItem>().apply {
-            if (status != Status.TRACING_INACTIVE && lowRiskWithEncounters) {
-                add(FindDetailsInJournalBox.Item)
-                add(AdditionalInfoLowRiskBox.Item)
+            if (status != Status.TRACING_INACTIVE &&
+                (lowRiskWithEncounters || latestCalc.riskState == RiskState.INCREASED_RISK)
+            ) {
+                add(FindDetailsInJournalBox.Item(latestCalc.riskState))
             }
 
-            if (status != Status.TRACING_INACTIVE && latestCalc.riskState == RiskState.INCREASED_RISK) {
-                add(FindDetailsInJournalBoxIncreasedRisk.Item)
+            if (status != Status.TRACING_INACTIVE && lowRiskWithEncounters) {
+                add(AdditionalInfoLowRiskBox.Item)
             }
 
             when {
@@ -78,7 +82,8 @@ class TracingDetailsItemProvider @Inject constructor(
             if (latestCalc.riskState != RiskState.CALCULATION_FAILED && status != Status.TRACING_INACTIVE) {
                 PeriodLoggedBox.Item(
                     daysSinceInstallation = installTimeProvider.daysSinceInstallation,
-                    tracingStatus = status
+                    tracingStatus = status,
+                    maxEncounterAgeInDays = appConfig.maxEncounterAgeInDays
                 ).also { add(it) }
             }
 

@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.statistics.KeySubmissionsStats
 import de.rki.coronawarnapp.statistics.OccupiedIntensiveCareStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedCompletelyStats
 import de.rki.coronawarnapp.statistics.PersonsVaccinatedOnceStats
+import de.rki.coronawarnapp.statistics.PersonsVaccinatedWithBoosterStats
 import de.rki.coronawarnapp.statistics.SevenDayRValue
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsCardAdapter.ItemVH
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.AddCard
@@ -24,6 +25,7 @@ import de.rki.coronawarnapp.statistics.ui.homecards.cards.LocalStatisticsCardIte
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.OccupiedIntensiveCareCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedCompletelyCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedOnceCard
+import de.rki.coronawarnapp.statistics.ui.homecards.cards.PersonsVaccinatedWithBoosterCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.SevenDayRValueCard
 import de.rki.coronawarnapp.statistics.ui.homecards.cards.StatisticsCardItem
 import de.rki.coronawarnapp.util.lists.BindableVH
@@ -76,6 +78,10 @@ class StatisticsCardAdapter :
                 val item = data[it]
                 item is GlobalStatisticsCardItem && item.stats is PersonsVaccinatedCompletelyStats
             }) { PersonsVaccinatedCompletelyCard(it) },
+            TypedVHCreatorMod({
+                val item = data[it]
+                item is GlobalStatisticsCardItem && item.stats is PersonsVaccinatedWithBoosterStats
+            }) { PersonsVaccinatedWithBoosterCard(it) },
             TypedVHCreatorMod({
                 val item = data[it]
                 item is GlobalStatisticsCardItem && item.stats is AppliedVaccinationRatesStats

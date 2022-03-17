@@ -20,16 +20,16 @@
     <TextView
         android:id="@+id/status_badge"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/ic_admission_badge_1"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/status_text"
         app:layout_constraintEnd_toEndOf="@id/image"
-        app:layout_constraintTop_toTopOf="@id/status_text"
-        tools:text="2G+" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="2G+ PCR Test" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
@@ -102,9 +102,9 @@
 
     <ImageButton
         android:id="@+id/covpass_info_button"
+        style="@style/CertificateCardInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/CertificateCardInfoButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/image" />
 

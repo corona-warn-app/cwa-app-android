@@ -2,9 +2,13 @@ package de.rki.coronawarnapp.reyclebin.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -67,6 +71,8 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
 
         launchFragmentInContainer2<RecyclerBinOverviewFragment>()
         takeScreenshot<RecyclerBinOverviewFragment>("full")
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_bin_list)).perform(ViewActions.swipeUp())
+        takeScreenshot<RecyclerBinOverviewFragment>("full_2")
     }
 
     private fun recyclerBinItems(): LiveData<List<RecyclerBinItem>> {
@@ -121,6 +127,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             }
         }
         every { sampleCollectedAt } returns Instant.parse("2021-06-30T11:35:00.000Z")
+        every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }
 
     private fun mockVaccinationCertificate(): VaccinationCertificate =
@@ -131,22 +138,26 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { doseNumber } returns 1
             every { totalSeriesOfDoses } returns 2
             every { vaccinatedOn } returns localDate
+            every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockRecoveryCertificate(): RecoveryCertificate =
         mockk<RecoveryCertificate>().apply {
             every { containerId } returns RecoveryCertificateContainerId("3")
             every { fullName } returns "Thomas Schneider"
-            every { validUntil } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTz()
+            every { testedPositiveOn } returns Instant.parse("2021-11-23T11:35:00.000Z").toLocalDateUserTz()
+            every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockRATest(): CoronaTest =
         mockk<RACoronaTest> {
             every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+            every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockPCRTest() = mockk<PCRCoronaTest> {
         every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
+        every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }
 }
 

@@ -1,10 +1,9 @@
 package de.rki.coronawarnapp.risk.changedetection
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.survey.Surveys
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskLevelSettings
@@ -24,7 +23,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -38,23 +36,13 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var surveys: Surveys
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
-
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply { every { isSubmitted } returns false }
-        )
-    )
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { coronaTestRepository.coronaTests } returns coronaTests
-
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
         every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns null
-
         coEvery { surveys.resetSurvey(Surveys.Type.HIGH_RISK_ENCOUNTER) } just Runs
     }
 
@@ -76,7 +64,8 @@ class EwRiskLevelChangeDetectorTest : BaseTest() {
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = calculatedAt,
-        riskState = riskState
+        riskState = riskState,
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(

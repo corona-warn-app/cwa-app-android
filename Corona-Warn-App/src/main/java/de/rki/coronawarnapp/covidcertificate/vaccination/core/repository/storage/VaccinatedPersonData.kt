@@ -1,16 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
-import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule
 import org.joda.time.Instant
 
+@Deprecated("Used only for migration of legacy data")
 data class VaccinatedPersonData(
     @SerializedName("vaccinationData")
-    val vaccinations: Set<VaccinationContainer> = emptySet(),
+    val vaccinations: Set<StoredVaccinationCertificateData> = emptySet(),
 
-    @Transient val boosterRule: DccValidationRule? = null,
     @SerializedName("boosterRuleIdentifier")
+    @Deprecated("the boosterRuleIdentifier is stored in DccWalletInfo from 2.18 onwards")
     val boosterRuleIdentifier: String? = null,
 
     @SerializedName("lastSeenBoosterRuleIdentifier")
@@ -18,7 +17,4 @@ data class VaccinatedPersonData(
 
     @SerializedName("lastBoosterNotifiedAt")
     val lastBoosterNotifiedAt: Instant? = null,
-) {
-    val identifier: CertificatePersonIdentifier
-        get() = vaccinations.first().personIdentifier
-}
+)

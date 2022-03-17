@@ -1,13 +1,21 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.overview
 
+import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
+import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
+import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
-import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates.AdmissionState.Other
+import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.ui.admission.AdmissionScenariosSharedViewModel
+import de.rki.coronawarnapp.covidcertificate.person.ui.dccAdmissionCheckScenarios
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.AdmissionTileProvider
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.CovidTestCertificatePendingCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -20,7 +28,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.runs
 import io.mockk.spyk
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
@@ -38,6 +45,12 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
+    @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
+    @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
+    @MockK lateinit var cclJsonFunctions: CclJsonFunctions
+    @MockK lateinit var admissionTileProvider: AdmissionTileProvider
+    @MockK lateinit var migrationCheck: MigrationCheck
+    private val mapper = SerializationModule.jacksonBaseMapper
 
     @BeforeEach
     fun setup() {
@@ -45,14 +58,30 @@ class PersonOverviewViewModelTest : BaseTest() {
         mockkStatic("de.rki.coronawarnapp.contactdiary.util.ContactDiaryExtensionsKt")
 
         coEvery { testCertificateRepository.refresh(any()) } returns setOf(refreshResult)
-        every { personCertificatesProvider.personCertificates } returns emptyFlow()
+        every { personCertificatesProvider.personCertificates } returns flowOf(
+            setOf(
+                PersonCertificates(
+                    certificates = listOf(),
+                    isCwaUser = true,
+                    dccWalletInfo = null
+                )
+            )
+        )
+        every { migrationCheck.shouldShowMigrationInfo(any()) } returns false
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
         coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
+        every { admissionTileProvider.admissionTile } returns flowOf(
+            AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        )
+        coEvery { admissionScenariosSharedViewModel.setAdmissionScenarios(any()) } just Runs
     }
 
-    // TODO: Update tests
     @Test
     fun `refreshCertificate causes an error dialog event`() {
         val error = mockk<Exception>()
@@ -90,21 +119,26 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as CovidTestCertificatePendingCard.Item).apply {
-                certificate.containerId shouldBe TestCertificateContainerId(
-                    "testCertificateContainerId"
-                )
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
-            }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as CovidTestCertificatePendingCard.Item).apply {
+                    certificate.containerId shouldBe TestCertificateContainerId(
+                        "testCertificateContainerId"
+                    )
+                }
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                }
             }
         }
     }
@@ -119,21 +153,26 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as CovidTestCertificatePendingCard.Item).apply {
-                certificate.containerId shouldBe TestCertificateContainerId(
-                    "testCertificateContainerId"
-                )
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
-            }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as CovidTestCertificatePendingCard.Item).apply {
+                    certificate.containerId shouldBe TestCertificateContainerId(
+                        "testCertificateContainerId"
+                    )
+                }
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                }
             }
         }
     }
@@ -146,19 +185,24 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
-            }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                }
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
+                }
             }
         }
     }
@@ -170,25 +214,30 @@ class PersonOverviewViewModelTest : BaseTest() {
                 .map {
                     spyk(it).apply {
                         every { highestPriorityCertificate } returns certificates.first()
-                        every { admissionState } returns Other(certificates.first())
                     }
                 }.run { flowOf(this.toSet()) }
 
-        instance.personCertificates.getOrAwaitValue().apply {
-            (get(0) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee"
-            } // CWA user
-            (get(1) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Andrea Schneider"
+        instance.uiState.apply {
+            getOrAwaitValue().apply {
+                this shouldBe PersonOverviewViewModel.UiState.Loading
             }
-            (get(2) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Erika Musterfrau"
-            }
-            (get(3) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Max Mustermann"
-            }
-            (get(4) as PersonCertificateCard.Item).apply {
-                admissionState.primaryCertificate.fullName shouldBe "Zeebee A"
+            getOrAwaitValue().apply {
+                this as PersonOverviewViewModel.UiState.Done
+                (personCertificates[0] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee"
+                } // CWA user
+                (personCertificates[1] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Andrea Schneider"
+                }
+                (personCertificates[2] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Erika Musterfrau"
+                }
+                (personCertificates[3] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Max Mustermann"
+                }
+                (personCertificates[4] as PersonCertificateCard.Item).apply {
+                    overviewCertificates[0].cwaCertificate.fullName shouldBe "Zeebee A"
+                }
             }
         }
     }
@@ -204,12 +253,61 @@ class PersonOverviewViewModelTest : BaseTest() {
         }
     }
 
+    @Test
+    fun `admission tile is visible`() {
+        instance.run {
+            admissionTile.getOrAwaitValue() shouldBe AdmissionTileProvider.AdmissionTile(
+                visible = true,
+                title = "Status anzeigen für folgendes Bundesland:",
+                subtitle = "Bundesweit"
+            )
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - success`() {
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } returns
+            dccAdmissionCheckScenarios
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe OpenAdmissionScenarioScreen
+        }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
+    }
+
+    @Test
+    fun `openAdmissionScenarioScreen - error`() {
+        val exception = Exception("Crash!")
+        coEvery { admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any()) } throws exception
+
+        instance.apply {
+            openAdmissionScenarioScreen()
+            events.getOrAwaitValue() shouldBe ShowAdmissionScenarioError(exception)
+        }
+        coVerify {
+            admissionCheckScenariosCalculation.getDccAdmissionCheckScenarios(any())
+        }
+
+        coVerify(exactly = 0) {
+            admissionScenariosSharedViewModel.setAdmissionScenarios(any())
+        }
+    }
+
     private val instance
         get() = PersonOverviewViewModel(
             dispatcherProvider = TestDispatcherProvider(),
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
-            expirationNotificationService = expirationNotificationService
+            expirationNotificationService = expirationNotificationService,
+            format = CclTextFormatter(cclJsonFunctions, mapper),
+            admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
+            admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
+            dccAdmissionTileProvider = admissionTileProvider,
+            migrationCheck = migrationCheck
         )
 }
