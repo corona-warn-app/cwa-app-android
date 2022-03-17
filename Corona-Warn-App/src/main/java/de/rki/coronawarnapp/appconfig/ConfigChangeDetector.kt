@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.appconfig
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningTask
+import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.risk.RiskLevelSettings
-import de.rki.coronawarnapp.risk.RiskLevelTask
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -49,7 +49,7 @@ class ConfigChangeDetector @Inject constructor(
             Timber.tag(TAG).i("New config id ($newIdentifier) differs from last one ($oldConfigId), resetting.")
             riskLevelStorage.clearResults()
             taskController.submit(
-                DefaultTaskRequest(RiskLevelTask::class, originTag = "ConfigChangeDetector")
+                DefaultTaskRequest(EwRiskLevelTask::class, originTag = "ConfigChangeDetector")
             )
             taskController.submit(
                 DefaultTaskRequest(

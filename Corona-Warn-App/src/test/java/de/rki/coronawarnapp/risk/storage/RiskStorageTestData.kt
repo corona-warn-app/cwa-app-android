@@ -2,7 +2,11 @@ package de.rki.coronawarnapp.risk.storage
 
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
+import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.EwRiskLevelTaskResult
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedAggregatedRiskPerDateResult
@@ -10,14 +14,15 @@ import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevel
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDao
 import de.rki.coronawarnapp.risk.storage.internal.windows.PersistedExposureWindowDaoWrapper
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import org.joda.time.Instant
 
 object RiskStorageTestData {
 
-    val ewCalculatedAt = Instant.ofEpochMilli(9999L)
+    private val ewCalculatedAt = Instant.ofEpochMilli(9999L)
 
-    val testRiskLevelResultDao = PersistedRiskLevelResultDao(
-        id = "riskresult-id",
+    val ewRiskResult1Increased = PersistedRiskLevelResultDao(
+        id = "id1",
         calculatedAt = ewCalculatedAt,
         failureReason = null,
         aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
@@ -31,7 +36,22 @@ object RiskStorageTestData {
         )
     )
 
-    val testAggregatedRiskResult = EwAggregatedRiskResult(
+    val ewRiskResult2Low = PersistedRiskLevelResultDao(
+        id = "id2",
+        calculatedAt = ewCalculatedAt.minus(1000L),
+        failureReason = null,
+        aggregatedRiskResult = PersistedRiskLevelResultDao.PersistedAggregatedRiskResult(
+            totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.LOW,
+            totalMinimumDistinctEncountersWithLowRisk = 1,
+            totalMinimumDistinctEncountersWithHighRisk = 2,
+            mostRecentDateWithLowRisk = Instant.ofEpochMilli(3),
+            mostRecentDateWithHighRisk = Instant.ofEpochMilli(4),
+            numberOfDaysWithLowRisk = 5,
+            numberOfDaysWithHighRisk = 6
+        )
+    )
+
+    val ewAggregatedRiskResult = EwAggregatedRiskResult(
         totalRiskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         totalMinimumDistinctEncountersWithLowRisk = 1,
         totalMinimumDistinctEncountersWithHighRisk = 2,
@@ -41,16 +61,16 @@ object RiskStorageTestData {
         numberOfDaysWithHighRisk = 6
     )
 
-    val testRisklevelResult = EwRiskLevelTaskResult(
+    val ewRiskLevelResult = EwRiskLevelTaskResult(
         calculatedAt = ewCalculatedAt,
-        ewAggregatedRiskResult = testAggregatedRiskResult,
+        ewAggregatedRiskResult = ewAggregatedRiskResult,
         exposureWindows = null
     )
 
-    val testExposureWindowDaoWrapper = PersistedExposureWindowDaoWrapper(
+    val ewDaoWrapper = PersistedExposureWindowDaoWrapper(
         exposureWindowDao = PersistedExposureWindowDao(
             id = 1,
-            riskLevelResultId = "riskresult-id",
+            riskLevelResultId = "id1",
             dateMillisSinceEpoch = 123L,
             calibrationConfidence = 1,
             infectiousness = 2,
@@ -77,23 +97,51 @@ object RiskStorageTestData {
         }.build().let { setScanInstances(listOf(it)) }
     }.build()
 
-    val testAggregatedRiskPerDateResult = ExposureWindowDayRisk(
+    val ewDayRisk = ExposureWindowDayRisk(
         dateMillisSinceEpoch = ewCalculatedAt.millis,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0
     )
 
-    val testPersistedAggregatedRiskPerDateResult = PersistedAggregatedRiskPerDateResult(
+    val ewPersistedAggregatedRiskPerDateResult = PersistedAggregatedRiskPerDateResult(
         dateMillisSinceEpoch = ewCalculatedAt.millis,
         riskLevel = RiskCalculationParametersOuterClass.NormalizedTimeToRiskLevelMapping.RiskLevel.HIGH,
         minimumDistinctEncountersWithLowRisk = 0,
         minimumDistinctEncountersWithHighRisk = 0
     )
 
-    val testRisklevelResultWithAggregatedRiskPerDateResult = testRisklevelResult.copy(
-        ewAggregatedRiskResult = testAggregatedRiskResult.copy(
-            exposureWindowDayRisks = listOf(testAggregatedRiskPerDateResult)
+    val ewRiskLevelResultWithAggregatedRiskPerDateResult = ewRiskLevelResult.copy(
+        ewAggregatedRiskResult = ewAggregatedRiskResult.copy(
+            exposureWindowDayRisks = listOf(ewDayRisk)
         )
+    )
+
+    // PT data
+
+    val ptCalculatedAt = ewCalculatedAt.plus(100L)
+    const val maxCheckInAgeInDays = 10
+
+    val ptDayRisk = PresenceTracingDayRisk(
+        Instant.now().toLocalDateUtc(),
+        RiskState.INCREASED_RISK
+    )
+
+    val ptResult1Low = PtRiskLevelResult(
+        calculatedAt = ptCalculatedAt,
+        calculatedFrom = ptCalculatedAt.minusDaysAtStartOfDayUtc(4).toInstant(),
+        riskState = RiskState.LOW_RISK
+    )
+    val ptResult2Failed = PtRiskLevelResult(
+        calculatedAt = ptCalculatedAt.minus(1000L),
+        presenceTracingDayRisk = null,
+        riskState = RiskState.CALCULATION_FAILED,
+        calculatedFrom = ptCalculatedAt.minus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
+    )
+    val ptResult3 = PtRiskLevelResult(
+        calculatedAt = ewCalculatedAt.minus(2000L),
+        presenceTracingDayRisk = listOf(ptDayRisk),
+        riskState = RiskState.INCREASED_RISK,
+        calculatedFrom = ptCalculatedAt.minus(2000L).minusDaysAtStartOfDayUtc(maxCheckInAgeInDays).toInstant()
     )
 }

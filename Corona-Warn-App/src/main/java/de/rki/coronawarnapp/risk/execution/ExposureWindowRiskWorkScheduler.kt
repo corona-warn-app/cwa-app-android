@@ -6,7 +6,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorkBuilder
 import de.rki.coronawarnapp.nearby.ENFClient
-import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -62,7 +62,7 @@ class ExposureWindowRiskWorkScheduler @Inject constructor(
         )
         taskController.submit(
             DefaultTaskRequest(
-                RiskLevelTask::class,
+                EwRiskLevelTask::class,
                 originTag = "ExposureWindowRiskWorkScheduler-$sourceTag"
             )
         )
