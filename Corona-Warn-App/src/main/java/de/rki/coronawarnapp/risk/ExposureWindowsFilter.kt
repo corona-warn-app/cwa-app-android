@@ -41,7 +41,6 @@ class ExposureWindowsFilter @Inject constructor(
         nowUtc.minusDays(maxEncounterAgeInDays).toInstant()
 }
 
-
 @VisibleForTesting
 internal fun List<ExposureWindow>.filterByAge(
     maxAgeInDays: Int,
