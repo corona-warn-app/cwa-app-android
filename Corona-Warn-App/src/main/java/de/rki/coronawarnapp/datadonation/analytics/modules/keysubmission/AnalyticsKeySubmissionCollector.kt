@@ -30,6 +30,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
 
     fun reportPositiveTestResultReceived(type: CoronaTest.Type) {
         if (disabled) return
+        if (type.storage.testResultReceivedAt.value > 0 ) return
         type.storage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
     }
 
