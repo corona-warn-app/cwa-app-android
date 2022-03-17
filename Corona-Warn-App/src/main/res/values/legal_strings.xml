@@ -227,4 +227,14 @@
     <string name="dcc_reissuance_legal_one" translatable="false">The app will transmit the vaccination certificate to the RKI for verification.</string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
     <string name="dcc_reissuance_legal_two" translatable="false">The RKI will check the vaccination certificate, issue an updated certificate and send this to your app.</string>
+
+    <!-- Family Consent Screen -->
+    <!-- XTXT: Family Consent Screen: Legal: Title -->
+    <string name="family_consent_legal_title" translatable="false">"Ihr Einverständnis"</string>
+    <!-- XTXT: Family Consent Screen: Legal: Body -->
+    <string name="family_consent_legal_body" translatable="false">"Durch Antippen von „Einverstanden“ willigen Sie in folgende Schritte ein:"</string>
+    <!-- XTXT: Family Consent Screen: Legal: Point 1 -->
+    <string name="family_consent_legal_point_1" translatable="false">"<b>Die App ruft Ihr Testergebnis ab.</b>\nWenn Sie es sich später anders überlegen, können Sie den Test in der App löschen."</string>
+    <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
+    <string name="family_consent_legal_bottom_link">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis."</string>
 </resources>
