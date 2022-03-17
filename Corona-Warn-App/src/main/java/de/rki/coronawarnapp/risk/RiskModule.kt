@@ -15,9 +15,9 @@ class RiskModule {
 
     @Provides
     @IntoMap
-    @TaskTypeKey(RiskLevelTask::class)
+    @TaskTypeKey(EwRiskLevelTask::class)
     fun riskLevelTaskFactory(
-        factory: RiskLevelTask.Factory
+        factory: EwRiskLevelTask.Factory
     ): TaskFactory<out Task.Progress, out Task.Result> = factory
 
     @Provides
