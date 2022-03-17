@@ -23,6 +23,7 @@ import de.rki.coronawarnapp.diagnosiskeys.DiagnosisKeysModule
 import de.rki.coronawarnapp.diagnosiskeys.DownloadDiagnosisKeysTaskModule
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentModule
+import de.rki.coronawarnapp.gstatus.ui.GStatusModule
 import de.rki.coronawarnapp.http.HttpModule
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.ENFModule
@@ -94,7 +95,8 @@ import javax.inject.Singleton
         InAppUpdateModule::class,
         DccTicketingModule::class,
         CclModule::class,
-        DccReissuanceModule::class
+        DccReissuanceModule::class,
+        GStatusModule::class
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {

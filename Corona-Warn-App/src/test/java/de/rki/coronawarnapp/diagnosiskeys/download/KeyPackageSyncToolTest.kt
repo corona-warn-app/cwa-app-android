@@ -69,7 +69,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         coEvery { keyCache.getAllCachedKeys() } returns listOf()
-        coEvery { keyCache.delete(any()) } just Runs
+        coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
         coEvery { syncSettings.lastDownloadDays } returns lastDownloadDays
         coEvery { syncSettings.lastDownloadHours } returns lastDownloadHours
 
@@ -107,7 +107,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
@@ -139,7 +139,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = false
         )
@@ -170,7 +170,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
@@ -216,7 +216,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey, cachedHourKey),
             wasDaySyncSucccessful = true
         )
@@ -249,7 +249,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
         val instance = createInstance()
 
         instance.syncKeyFiles() shouldBe KeyPackageSyncTool.Result(
-            availableKeys = emptyList(),
+            deltaKeys = emptyList(),
             newKeys = listOf(cachedDayKey),
             wasDaySyncSucccessful = true
         )
@@ -274,6 +274,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             info = mockk<CachedKeyInfo>().apply {
                 every { location } returns LocationCode("NOT-EUR")
                 every { isDownloadComplete } returns true
+                every { checkedForExposures } returns true
             },
             path = mockk<File>().apply {
                 every { exists() } returns true
@@ -283,6 +284,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
             info = mockk<CachedKeyInfo>().apply {
                 every { location } returns LocationCode("EUR")
                 every { isDownloadComplete } returns true
+                every { checkedForExposures } returns false
             },
             path = mockk<File>().apply {
                 every { exists() } returns true
@@ -295,7 +297,7 @@ class KeyPackageSyncToolTest : BaseIOTest() {
 
         coVerifySequence {
             keyCache.getAllCachedKeys() // To clean up stale locations
-            keyCache.delete(listOf(badLocation.info))
+            keyCache.deleteInfoAndFile(listOf(badLocation.info))
 
             lastDownloadDays.value
             lastDownloadDays.update(any())

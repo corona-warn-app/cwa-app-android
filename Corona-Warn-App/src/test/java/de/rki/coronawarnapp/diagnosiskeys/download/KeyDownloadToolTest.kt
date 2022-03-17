@@ -67,7 +67,7 @@ class KeyDownloadToolTest : BaseIOTest() {
         every { downloadConfig.individualDownloadTimeout } returns Duration.millis(9000L)
 
         coEvery { keyCache.markKeyComplete(any(), any()) } just Runs
-        coEvery { keyCache.delete(any()) } just Runs
+        coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
     }
 
     @AfterEach
@@ -132,6 +132,6 @@ class KeyDownloadToolTest : BaseIOTest() {
             instance.downloadKeyFile(cachedKey, downloadConfig)
         }
 
-        coVerify { keyCache.delete(listOf(cachedKeyInfo)) }
+        coVerify { keyCache.deleteInfoAndFile(listOf(cachedKeyInfo)) }
     }
 }
