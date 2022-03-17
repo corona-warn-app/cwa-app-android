@@ -299,7 +299,7 @@
             {
               "minAttenuation": 65,
               "typicalAttenuation": 25,
-              "secondsSinceLastScan": 299
+              "secondsSinceLastScan": 290
             }
           ]
         }
@@ -349,7 +349,7 @@
             {
               "minAttenuation": 65,
               "typicalAttenuation": 25,
-              "secondsSinceLastScan": 539
+              "secondsSinceLastScan": 530
             }
           ]
         }
@@ -399,7 +399,7 @@
             {
               "minAttenuation": 65,
               "typicalAttenuation": 25,
-              "secondsSinceLastScan": 299
+              "secondsSinceLastScan": 290
             }
           ]
         },
