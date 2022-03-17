@@ -798,7 +798,7 @@
             android:id="@+id/action_submissionDeletionWarningFragment_to_submissionTestResultNegativeFragment"
             app:destination="@id/submissionTestResultNegativeFragment"
             app:popUpTo="@id/submissionDeletionWarningFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_negativeRatFragment"
             app:destination="@id/submissionNegativeAntigenTestResultFragment"
@@ -915,8 +915,8 @@
         android:label="QrCodeScannerFragment"
         tools:layout="@layout/fragment_qrcode_scanner">
         <action
-            android:id="@+id/action_universalScanner_to_submissionConsentFragment"
-            app:destination="@id/submissionConsentFragment"
+            android:id="@+id/action_universalScanner_to_testRegistrationSelectionFragment"
+            app:destination="@id/testRegistrationSelectionFragment"
             app:popUpTo="@id/universalScanner"
             app:popUpToInclusive="true" />
 
@@ -983,4 +983,44 @@
         android:name="de.rki.coronawarnapp.qrcode.ui.info.UqsInfoFragment"
         android:label="UqsInfoFragment"
         tools:layout="@layout/fragment_uqs_info" />
+
+    <fragment
+        android:id="@+id/testRegistrationSelectionFragment"
+        android:name="de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragment"
+        android:label="TestRegistrationSelectionFragment"
+        tools:layout="@layout/fragment_test_registration_selection">
+        <argument
+            android:name="coronaTestQrCode"
+            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+
+        <action
+            android:id="@+id/action_testRegistrationSelectionFragment_to_familyTestConsentFragment"
+            app:destination="@id/familyTestConsentFragment" />
+
+        <action
+            android:id="@+id/action_testRegistrationSelectionFragment_to_submissionConsentFragment"
+            app:destination="@id/submissionConsentFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/familyTestConsentFragment"
+        android:name="de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragment"
+        android:label="FamilyTestConsentFragment"
+        tools:layout="@layout/fragment_family_test_consent">
+        <argument
+            android:name="coronaTestQrCode"
+            app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/familyTestListFragment"
+        android:name="de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListFragment"
+        android:label="TestRegistrationSelectionFragment"
+        tools:layout="@layout/fragment_family_test_list">
+
+        <action
+            android:id="@+id/action_requestCovidCertificateFragment"
+            app:destination="@id/requestCovidCertificateFragment" />
+    </fragment>
 </navigation>

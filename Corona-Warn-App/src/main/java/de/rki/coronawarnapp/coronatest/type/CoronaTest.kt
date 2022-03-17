@@ -61,6 +61,17 @@ interface CoronaTest : Recyclable {
         @SerializedName("RAPID_ANTIGEN")
         RAPID_ANTIGEN("RAPID_ANTIGEN"),
     }
+
+    enum class CategoryType(val raw: String) {
+        @SerializedName("FAMILY")
+        FAMILY("FAMILY"),
+
+        @SerializedName("OWN")
+        OWN("OWN"),
+
+        @SerializedName("NOT_SELECTED")
+        NOT_SELECTED("NOT_SELECTED"),
+    }
 }
 
 typealias RegistrationToken = String
