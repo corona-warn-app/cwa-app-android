@@ -17,27 +17,33 @@ class CalculationsTest : BaseTest() {
     fun `getLastChangeToHighRiskPt works`() {
         val ptRisk0 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk1 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 6).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk2 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 21).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 7).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk3 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 8).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk4 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.CALCULATION_FAILED
+            riskState = RiskState.CALCULATION_FAILED,
+            calculatedFrom = LocalDate(2021, 3, 9).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk5 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 24).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 10).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 24).toDateTimeAtStartOfDay().toInstant()
         listOf(
@@ -55,27 +61,33 @@ class CalculationsTest : BaseTest() {
     fun `getLastChangeToHighRiskPt works 2`() {
         val ptRisk0 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk1 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 6).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk2 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 21).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 7).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk3 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 8).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk4 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.CALCULATION_FAILED
+            riskState = RiskState.CALCULATION_FAILED,
+            calculatedFrom = LocalDate(2021, 3, 9).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk5 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 24).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 10).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 21).toDateTimeAtStartOfDay().toInstant()
         listOf(
@@ -93,27 +105,33 @@ class CalculationsTest : BaseTest() {
     fun `getLastChangeToHighRiskPt works 3`() {
         val ptRisk0 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk1 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 6).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk2 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 21).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 7).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk3 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 8).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk4 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 9).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk5 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 24).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 10).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
         listOf(
@@ -131,27 +149,33 @@ class CalculationsTest : BaseTest() {
     fun `getLastChangeToHighRiskPt works 4`() {
         val ptRisk0 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk1 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 20).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 6).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk2 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 21).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 7).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk3 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 22).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 8).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk4 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 9).toDateTimeAtStartOfDay().toInstant()
         )
         val ptRisk5 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 24).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 10).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
         listOf(
@@ -169,7 +193,8 @@ class CalculationsTest : BaseTest() {
     fun `getLastChangeToHighRiskPt works 5`() {
         val ptRisk0 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.LOW_RISK
+            riskState = RiskState.LOW_RISK,
+            calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
         listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
@@ -187,7 +212,8 @@ class CalculationsTest : BaseTest() {
     fun `getLastChangeToHighRiskPt works 7`() {
         val ptRisk0 = PtRiskLevelResult(
             calculatedAt = LocalDate(2021, 3, 19).toDateTimeAtStartOfDay().toInstant(),
-            riskState = RiskState.INCREASED_RISK
+            riskState = RiskState.INCREASED_RISK,
+            calculatedFrom = LocalDate(2021, 3, 5).toDateTimeAtStartOfDay().toInstant()
         )
         val registeredAt = LocalDate(2021, 3, 23).toDateTimeAtStartOfDay().toInstant()
         listOf(ptRisk0).getLastChangeToHighPtRiskBefore(registeredAt) shouldBe
