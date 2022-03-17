@@ -9,7 +9,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
 import de.rki.coronawarnapp.task.submitBlocking
@@ -25,7 +25,7 @@ class ExposureStateUpdateWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         try {
             taskController.submitBlocking(
-                DefaultTaskRequest(RiskLevelTask::class, originTag = "ExposureStateUpdateWorker")
+                DefaultTaskRequest(EwRiskLevelTask::class, originTag = "ExposureStateUpdateWorker")
             )
             Timber.tag(TAG).v("Risk level calculation triggered")
         } catch (e: ApiException) {
