@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.coronatest.qrcode
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.qrcode.scanner.QrCode
@@ -93,15 +92,10 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val type: CoronaTest.Type = CoronaTest.Type.PCR
     }
 
-    enum class CategoryType(val raw: String) {
-        @SerializedName("FAMILY")
-        FAMILY("FAMILY"),
-
-        @SerializedName("OWN")
-        OWN("OWN"),
-
-        @SerializedName("NOT_SELECTED")
-        NOT_SELECTED("NOT_SELECTED"),
+    enum class CategoryType {
+        FAMILY,
+        OWN,
+        NOT_SELECTED,
     }
 }
 
