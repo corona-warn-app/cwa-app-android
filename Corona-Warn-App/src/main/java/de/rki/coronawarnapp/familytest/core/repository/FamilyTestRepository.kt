@@ -13,7 +13,7 @@ class FamilyTestRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope
 ) {
 
-    val familyTests: Flow<Set<FamilyTest>> = flowOf()
+    val familyTests: Flow<Set<FamilyTest>> = flowOf(emptySet())
     val recycledFamilyTests: Flow<Set<FamilyTest>> = flowOf()
 
     suspend fun registerTest(
