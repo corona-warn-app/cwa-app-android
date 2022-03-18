@@ -109,15 +109,13 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
 
     @Test
     fun `new negative corona tests create a dcc if supported and consented`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { familyTestRepository.markDccAsCreated("identifier1-family", true) } just Runs
-        coEvery { coronaTestRepository.markDccAsCreated("identifier1", true) } just Runs
         createInstance(scope = this).setup()
         coVerify {
             testCertificateRepository.requestCertificate(mockTest)
-            coronaTestRepository.markDccAsCreated(mockTest.identifier, true)
+            coronaTestRepository.markDccAsCreated("identifier1", true)
 
             testCertificateRepository.requestCertificate(mockFamilyTest)
-            familyTestRepository.markDccAsCreated(mockFamilyTest.identifier, true)
+            familyTestRepository.markDccAsCreated("identifier1-family", true)
         }
     }
 
