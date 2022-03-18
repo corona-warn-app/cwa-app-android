@@ -255,7 +255,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 add(
                     FamilyTestCard.Item(
                         badgeCount = badgeCount,
-                        onCLickAction = { events.postValue(HomeFragmentEvents.GoToFamilyTests)}
+                        onCLickAction = { events.postValue(HomeFragmentEvents.GoToFamilyTests) }
                     )
                 )
             }
