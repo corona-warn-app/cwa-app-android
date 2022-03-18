@@ -44,7 +44,8 @@ class RequestCovidCertificateFragmentTest : BaseUITest() {
                 override fun create(
                     testRegistrationRequest: TestRegistrationRequest,
                     coronaTestConsent: Boolean,
-                    allowTestReplacement: Boolean
+                    allowTestReplacement: Boolean,
+                    personName: String?
                 ): RequestCovidCertificateViewModel = viewModel
             }
         )
