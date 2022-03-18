@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
@@ -111,7 +112,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
-    private val riskCardDisplayInfo: RiskCardDisplayInfo
+    private val riskCardDisplayInfo: RiskCardDisplayInfo,
+    private val familyTestRepository: FamilyTestRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var isLoweredRiskLevelDialogBeingShown = false
@@ -190,8 +192,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
         combinedStatistics,
-        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
+        familyTestRepository.familyTests
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, familyTests ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val pcrIdentifier = testPCR?.identifier ?: ""
@@ -220,6 +223,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
+            // My own tests
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
@@ -242,6 +246,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
                     }
                 }
+            }
+
+            // Family tests tile
+            if (familyTests.isNotEmpty()) {
+                // TBD family tests tile
             }
 
             if (statsData.isDataAvailable) {
@@ -310,6 +319,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             try {
                 submissionRepository.refreshTest()
+                familyTestRepository.refresh()
             } catch (e: CoronaTestNotFoundException) {
                 Timber.e(e, "refreshTest failed")
                 errorEvent.postValue(e)

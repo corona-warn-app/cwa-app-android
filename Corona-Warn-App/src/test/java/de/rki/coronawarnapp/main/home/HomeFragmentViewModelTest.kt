@@ -4,6 +4,7 @@ import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
@@ -60,6 +61,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var cwaSettings: CWASettings
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var statisticsProvider: StatisticsProvider
@@ -127,7 +129,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         localStatisticsConfigStorage = localStatisticsConfigStorage,
         networkStateProvider = networkStateProvider,
         recycledTestProvider = recycledTestProvider,
-        riskCardDisplayInfo = riskCardDisplayInfo
+        riskCardDisplayInfo = riskCardDisplayInfo,
+        familyTestRepository = familyTestRepository
     )
 
     @Test
