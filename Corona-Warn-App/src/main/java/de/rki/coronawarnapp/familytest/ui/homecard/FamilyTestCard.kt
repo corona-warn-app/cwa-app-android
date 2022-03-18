@@ -19,7 +19,7 @@ class FamilyTestCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<FamilyTestCard.
     override val onBindData: FamilyTestCardBinding.(item: Item, payloads: List<Any>) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         familyBadgeCount.isVisible = curItem.badgeCount != null
-        familyBadgeCount.text = "1"
+        familyBadgeCount.text = curItem.badgeCount.toString()
         familyTestSubtitleNews.isVisible = curItem.badgeCount != null
     }
 

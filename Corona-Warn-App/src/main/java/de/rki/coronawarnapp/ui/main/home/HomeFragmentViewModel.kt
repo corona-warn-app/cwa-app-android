@@ -250,7 +250,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             }
 
             // Family tests tile
-            if (familyTests.isEmpty()) {
+            if (familyTests.isNotEmpty()) {
                 val badgeCount = familyTests.count { !it.didShowBadge }
                 add(
                     FamilyTestCard.Item(
