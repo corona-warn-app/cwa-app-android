@@ -58,7 +58,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 ).run { routeToScreen.postValue(this) }
             }
             else -> {
-                registrationStateProcessor.startRegistration(
+                registrationStateProcessor.startTestRegistration(
                     request = coronaTestQRCode,
                     isSubmissionConsentGiven = true,
                     allowTestReplacement = allowReplacement

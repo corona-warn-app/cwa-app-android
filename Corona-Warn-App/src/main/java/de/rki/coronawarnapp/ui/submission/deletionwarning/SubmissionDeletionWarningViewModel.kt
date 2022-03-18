@@ -36,7 +36,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
     private suspend fun removeAndRegisterNew(request: TestRegistrationRequest) {
         when (request) {
             is CoronaTestTAN -> {
-                val newTest = registrationStateProcessor.startRegistration(
+                val newTest = registrationStateProcessor.startTestRegistration(
                     request = request,
                     isSubmissionConsentGiven = false,
                     allowTestReplacement = true

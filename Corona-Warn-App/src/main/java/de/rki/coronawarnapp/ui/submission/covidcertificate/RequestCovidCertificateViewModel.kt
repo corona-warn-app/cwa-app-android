@@ -6,6 +6,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
+import de.rki.coronawarnapp.coronatest.isFamilyTest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -35,9 +36,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
 
     fun onDisagreeGC() = registerTestWithDccConsent(dccConsent = false)
 
-    fun navigateBack() {
-        events.postValue(Back)
-    }
+    fun navigateBack() = events.postValue(Back)
 
     private fun registerTestWithDccConsent(dccConsent: Boolean) = launch {
         val consentedQrCode = when (testRegistrationRequest) {
@@ -50,11 +49,20 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
             else -> testRegistrationRequest
         }
 
-        registrationStateProcessor.startRegistration(
-            request = consentedQrCode,
-            isSubmissionConsentGiven = coronaTestConsent,
-            allowTestReplacement = allowTestReplacement
-        )
+        if (testRegistrationRequest.isFamilyTest) {
+            requireNotNull(personName) { "Family test should have a person name" }
+            registrationStateProcessor.startFamilyTestRegistration(
+                request = testRegistrationRequest,
+                personName = personName,
+                isSubmissionConsentGiven = coronaTestConsent
+            )
+        } else {
+            registrationStateProcessor.startTestRegistration(
+                request = consentedQrCode,
+                isSubmissionConsentGiven = coronaTestConsent,
+                allowTestReplacement = allowTestReplacement
+            )
+        }
     }
 
     @AssistedFactory

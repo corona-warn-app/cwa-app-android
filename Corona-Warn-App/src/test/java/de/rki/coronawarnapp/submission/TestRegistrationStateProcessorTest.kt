@@ -72,7 +72,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
             allowTestReplacement = false
@@ -97,7 +97,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = false,
             allowTestReplacement = false
@@ -124,7 +124,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
             allowTestReplacement = true
@@ -149,7 +149,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = false,
             allowTestReplacement = true
@@ -176,7 +176,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = true,
             allowTestReplacement = false
@@ -201,7 +201,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = false,
             allowTestReplacement = false
@@ -228,7 +228,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = true,
             allowTestReplacement = true
@@ -253,7 +253,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = false,
             allowTestReplacement = true
@@ -283,7 +283,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
             allowTestReplacement = false

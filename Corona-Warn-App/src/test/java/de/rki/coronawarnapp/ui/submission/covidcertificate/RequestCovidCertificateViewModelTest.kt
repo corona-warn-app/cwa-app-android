@@ -51,7 +51,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         testRegistrationStateProcessor.apply {
-            coEvery { startRegistration(any(), any(), any()) } returns mockk()
+            coEvery { startTestRegistration(any(), any(), any()) } returns mockk()
             coEvery { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
         }
 
@@ -85,7 +85,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = true
@@ -101,7 +101,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = false
@@ -116,7 +116,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = true
@@ -131,7 +131,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = false
@@ -146,7 +146,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = true
@@ -161,7 +161,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = true),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = false
@@ -176,7 +176,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = true
@@ -191,7 +191,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = false
@@ -207,7 +207,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = true
@@ -223,7 +223,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = false
@@ -238,7 +238,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = true
@@ -253,7 +253,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
                     allowTestReplacement = false

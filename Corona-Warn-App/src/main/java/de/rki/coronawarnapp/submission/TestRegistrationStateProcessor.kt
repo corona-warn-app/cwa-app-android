@@ -88,7 +88,7 @@ class TestRegistrationStateProcessor @Inject constructor(
     private val stateInternal = MutableStateFlow<State>(State.Idle)
     val state: Flow<State> = stateInternal
 
-    suspend fun startRegistration(
+    suspend fun startTestRegistration(
         request: TestRegistrationRequest,
         isSubmissionConsentGiven: Boolean,
         allowTestReplacement: Boolean,
@@ -110,6 +110,27 @@ class TestRegistrationStateProcessor @Inject constructor(
 
             stateInternal.value = State.TestRegistered(test = coronaTest)
             coronaTest
+        } catch (err: Exception) {
+            stateInternal.value = State.Error(exception = err)
+            if (err !is CwaWebException && err !is AlreadyRedeemedException) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            null
+        }
+    }
+
+    suspend fun startFamilyTestRegistration(
+        request: TestRegistrationRequest,
+        personName: String,
+        isSubmissionConsentGiven: Boolean
+    ): CoronaTest? = mutex.withLock {
+        return try {
+            stateInternal.value = State.Working
+
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
+            // TODO val coronaTest =  registerTest(request)
+            //  stateInternal.value = State.TestRegistered(test = coronaTest)
+            null
         } catch (err: Exception) {
             stateInternal.value = State.Error(exception = err)
             if (err !is CwaWebException && err !is AlreadyRedeemedException) {
