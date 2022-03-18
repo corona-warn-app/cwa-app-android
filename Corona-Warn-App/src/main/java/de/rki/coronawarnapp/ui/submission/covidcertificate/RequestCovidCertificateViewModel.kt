@@ -54,7 +54,6 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
             registrationStateProcessor.startFamilyTestRegistration(
                 request = testRegistrationRequest,
                 personName = personName,
-                isSubmissionConsentGiven = coronaTestConsent
             )
         } else {
             registrationStateProcessor.startTestRegistration(
