@@ -131,7 +131,7 @@ class TestRegistrationStateProcessor @Inject constructor(
             PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
             val coronaTest = familyTestRepository.registerTest(request, personName)
             stateInternal.value = State.TestRegistered(test = coronaTest)
-            null
+            coronaTest
         } catch (err: Exception) {
             stateInternal.value = State.Error(exception = err)
             if (err !is CwaWebException && err !is AlreadyRedeemedException) {
