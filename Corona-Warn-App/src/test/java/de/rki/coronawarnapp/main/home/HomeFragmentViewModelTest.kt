@@ -107,6 +107,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(false)
 
         coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
+        every { familyTestRepository.familyTests } returns flowOf()
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
