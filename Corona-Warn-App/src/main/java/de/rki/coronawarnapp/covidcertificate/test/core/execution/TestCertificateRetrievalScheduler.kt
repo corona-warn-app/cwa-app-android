@@ -10,6 +10,8 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.familytest.core.model.FamilyTest
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.flow.combine
@@ -17,7 +19,6 @@ import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -28,8 +29,9 @@ import javax.inject.Singleton
 class TestCertificateRetrievalScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
-    private val certificateRepo: TestCertificateRepository,
-    private val testRepo: CoronaTestRepository,
+    private val testCertificateRepository: TestCertificateRepository,
+    private val coronaTestRepository: CoronaTestRepository,
+    private val familyTestRepository: FamilyTestRepository,
     foregroundState: ForegroundState,
 ) : ResultScheduler(
     workManager = workManager
@@ -37,17 +39,18 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     private val processedNewCerts = mutableSetOf<TestCertificateContainerId>()
     private var lastForegroundState = false
 
-    private val creationTrigger = testRepo.coronaTests
-        .map { tests ->
-            tests
-                .filter { it.isDccSupportedByPoc } // Only those that support it
-                .filter { it.isNegative } // Certs only to proof negative state
-                .filter { it.isDccConsentGiven && !it.isDccDataSetCreated } // Consent and doesn't exist already?
-        }
-        .distinctUntilChanged()
+    private val combinedTestsTrigger = combine(
+        coronaTestRepository.coronaTests,
+        familyTestRepository.familyTests,
+    ) { myTests, familyTest ->
+        myTests.plus(familyTest)
+            .filter { it.isDccSupportedByPoc } // Only those that support it
+            .filter { it.isNegative } // Certs only to proof negative state
+            .filter { it.isDccConsentGiven && !it.isDccDataSetCreated } // Consent and doesn't exist already?
+    }.distinctUntilChanged()
 
     private val refreshTrigger = combine(
-        certificateRepo.certificates,
+        testCertificateRepository.certificates,
         foregroundState.isInForeground,
     ) { certificates, isForeground ->
 
@@ -71,14 +74,18 @@ class TestCertificateRetrievalScheduler @Inject constructor(
         Timber.tag(TAG).i("setup() - TestCertificateRetrievalScheduler")
 
         // Create a certificate entry for each viable test that has none
-        creationTrigger
+        combinedTestsTrigger
             .onEach { testsWithoutCert ->
                 Timber.tag(TAG).d("State change: testsWithoutCert=$testsWithoutCert")
                 testsWithoutCert.forEach { test ->
                     try {
-                        val cert = certificateRepo.requestCertificate(test)
+                        val cert = testCertificateRepository.requestCertificate(test)
                         Timber.tag(TAG).v("Certificate was created: %s", cert)
-                        testRepo.markDccAsCreated(test.identifier, created = true)
+                        if (test is FamilyTest) {
+                            familyTestRepository.markDccAsCreated(test.identifier, created = true)
+                        } else {
+                            coronaTestRepository.markDccAsCreated(test.identifier, created = true)
+                        }
                     } catch (e: Exception) {
                         Timber.tag(TAG).e(e, "Creation trigger failed.")
                     }
