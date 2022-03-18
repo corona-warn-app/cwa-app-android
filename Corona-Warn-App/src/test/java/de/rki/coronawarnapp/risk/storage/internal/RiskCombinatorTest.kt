@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk.storage.internal
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
@@ -148,23 +149,28 @@ class RiskCombinatorTest : BaseTest() {
 
     @Test
     fun `combineEwPtRiskLevelResults works`() {
+        val maxCheckInAge = 10
         val startInstant = Instant.ofEpochMilli(10000)
 
         val ptResult = PtRiskLevelResult(
             calculatedAt = startInstant.plus(1000L),
-            riskState = LOW_RISK
+            riskState = LOW_RISK,
+            calculatedFrom = startInstant.plus(1000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
         val ptResult2 = PtRiskLevelResult(
             calculatedAt = startInstant.plus(3000L),
-            riskState = LOW_RISK
+            riskState = LOW_RISK,
+            calculatedFrom = startInstant.plus(3000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
         val ptResult3 = PtRiskLevelResult(
             calculatedAt = startInstant.plus(6000L),
-            riskState = CALCULATION_FAILED
+            riskState = CALCULATION_FAILED,
+            calculatedFrom = startInstant.plus(6000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
         val ptResult4 = PtRiskLevelResult(
             calculatedAt = startInstant.plus(7000L),
-            riskState = CALCULATION_FAILED
+            riskState = CALCULATION_FAILED,
+            calculatedFrom = startInstant.plus(7000L).minusDaysAtStartOfDayUtc(maxCheckInAge).toInstant()
         )
 
         val ptResults = listOf(ptResult, ptResult2, ptResult4, ptResult3)

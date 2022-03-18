@@ -7,6 +7,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
@@ -101,7 +102,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = calculatedAt,
-        riskState = riskState
+        riskState = riskState,
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(

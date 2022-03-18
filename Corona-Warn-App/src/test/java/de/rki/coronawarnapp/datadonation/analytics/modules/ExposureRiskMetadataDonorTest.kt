@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.exposureriskmetadata.
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.LastCombinedRiskResults
@@ -71,7 +72,8 @@ class ExposureRiskMetadataDonorTest : BaseTest() {
     ): PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = calculatedAt,
         riskState = riskState,
-        presenceTracingDayRisk = listOf(presenceTracingDayRisk)
+        presenceTracingDayRisk = listOf(presenceTracingDayRisk),
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createInstance() = ExposureRiskMetadataDonor(
