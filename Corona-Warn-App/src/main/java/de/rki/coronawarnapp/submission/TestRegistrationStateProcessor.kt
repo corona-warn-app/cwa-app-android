@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.sync.Mutex
@@ -24,6 +25,7 @@ import javax.inject.Inject
 
 class TestRegistrationStateProcessor @Inject constructor(
     private val submissionRepository: SubmissionRepository,
+    private val familyTestRepository: FamilyTestRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
 ) {
 
@@ -88,19 +90,17 @@ class TestRegistrationStateProcessor @Inject constructor(
     private val stateInternal = MutableStateFlow<State>(State.Idle)
     val state: Flow<State> = stateInternal
 
-    suspend fun startRegistration(
+    suspend fun startTestRegistration(
         request: TestRegistrationRequest,
         isSubmissionConsentGiven: Boolean,
-        allowReplacement: Boolean,
+        allowTestReplacement: Boolean,
     ): CoronaTest? = mutex.withLock {
         return try {
             stateInternal.value = State.Working
 
             PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
-            val coronaTest = if (allowReplacement) {
-                submissionRepository.tryReplaceTest(request)
-            } else {
-                submissionRepository.registerTest(request)
+            val coronaTest = with(submissionRepository) {
+                if (allowTestReplacement) tryReplaceTest(request) else registerTest(request)
             }
 
             if (isSubmissionConsentGiven) {
@@ -110,6 +110,26 @@ class TestRegistrationStateProcessor @Inject constructor(
                 }
             }
 
+            stateInternal.value = State.TestRegistered(test = coronaTest)
+            coronaTest
+        } catch (err: Exception) {
+            stateInternal.value = State.Error(exception = err)
+            if (err !is CwaWebException && err !is AlreadyRedeemedException) {
+                err.report(ExceptionCategory.INTERNAL)
+            }
+            null
+        }
+    }
+
+    suspend fun startFamilyTestRegistration(
+        request: TestRegistrationRequest,
+        personName: String
+    ): CoronaTest? = mutex.withLock {
+        return try {
+            stateInternal.value = State.Working
+
+            PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
+            val coronaTest = familyTestRepository.registerTest(request, personName)
             stateInternal.value = State.TestRegistered(test = coronaTest)
             coronaTest
         } catch (err: Exception) {

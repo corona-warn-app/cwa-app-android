@@ -14,7 +14,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
     abstract override val type: CoronaTest.Type
     abstract val registrationIdentifier: String
     abstract val rawQrCode: String
-    abstract val categoryType: CoronaTest.CategoryType
+    abstract val categoryType: CategoryType
 
     @Parcelize
     data class PCR(
@@ -22,7 +22,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val isDccConsentGiven: Boolean = false,
         override val dateOfBirth: LocalDate? = null,
         override val rawQrCode: String,
-        override val categoryType: CoronaTest.CategoryType = CoronaTest.CategoryType.NOT_SELECTED
+        override val categoryType: CategoryType = CategoryType.NOT_SELECTED
     ) : CoronaTestQRCode() {
 
         @IgnoredOnParcel
@@ -68,7 +68,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val lastName: String? = null,
         override val testId: String? = null,
         override val salt: String? = null,
-        override val categoryType: CoronaTest.CategoryType = CoronaTest.CategoryType.NOT_SELECTED
+        override val categoryType: CategoryType = CategoryType.NOT_SELECTED
     ) : Rapid() {
         @IgnoredOnParcel
         override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
@@ -86,10 +86,16 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val lastName: String? = null,
         override val testId: String? = null,
         override val salt: String? = null,
-        override val categoryType: CoronaTest.CategoryType = CoronaTest.CategoryType.NOT_SELECTED
+        override val categoryType: CategoryType = CategoryType.NOT_SELECTED
     ) : Rapid() {
         @IgnoredOnParcel
         override val type: CoronaTest.Type = CoronaTest.Type.PCR
+    }
+
+    enum class CategoryType {
+        FAMILY,
+        OWN,
+        NOT_SELECTED,
     }
 }
 
