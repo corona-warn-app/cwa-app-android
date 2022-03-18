@@ -39,7 +39,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 val newTest = registrationStateProcessor.startRegistration(
                     request = request,
                     isSubmissionConsentGiven = false,
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
 
                 if (newTest == null) {

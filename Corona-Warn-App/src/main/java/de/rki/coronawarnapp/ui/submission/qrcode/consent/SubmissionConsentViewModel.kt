@@ -61,7 +61,7 @@ class SubmissionConsentViewModel @AssistedInject constructor(
                 registrationStateProcessor.startRegistration(
                     request = coronaTestQRCode,
                     isSubmissionConsentGiven = true,
-                    allowReplacement = allowReplacement
+                    allowTestReplacement = allowReplacement
                 )
             }
         }

@@ -16,7 +16,8 @@ import org.joda.time.LocalDate
 class RequestCovidCertificateViewModel @AssistedInject constructor(
     @Assisted private val testRegistrationRequest: TestRegistrationRequest,
     @Assisted("coronaTestConsent") private val coronaTestConsent: Boolean,
-    @Assisted("deleteOldTest") private val deleteOldTest: Boolean,
+    @Assisted("allowTestReplacement") private val allowTestReplacement: Boolean,
+    @Assisted private val personName: String?,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
 ) : CWAViewModel() {
 
@@ -30,15 +31,15 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         birthDateData.value = localDate
     }
 
-    fun onAgreeGC() = registerAndMaybeDelete(dccConsent = true)
+    fun onAgreeGC() = registerTestWithDccConsent(dccConsent = true)
 
-    fun onDisagreeGC() = registerAndMaybeDelete(dccConsent = false)
+    fun onDisagreeGC() = registerTestWithDccConsent(dccConsent = false)
 
     fun navigateBack() {
         events.postValue(Back)
     }
 
-    private fun registerAndMaybeDelete(dccConsent: Boolean) = launch {
+    private fun registerTestWithDccConsent(dccConsent: Boolean) = launch {
         val consentedQrCode = when (testRegistrationRequest) {
             is CoronaTestQRCode.PCR -> testRegistrationRequest.copy(
                 dateOfBirth = birthDateData.value,
@@ -52,7 +53,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         registrationStateProcessor.startRegistration(
             request = consentedQrCode,
             isSubmissionConsentGiven = coronaTestConsent,
-            allowReplacement = deleteOldTest
+            allowTestReplacement = allowTestReplacement
         )
     }
 
@@ -61,7 +62,8 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         fun create(
             testRegistrationRequest: TestRegistrationRequest,
             @Assisted("coronaTestConsent") coronaTestConsent: Boolean,
-            @Assisted("deleteOldTest") deleteOldTest: Boolean
+            @Assisted("allowTestReplacement") allowTestReplacement: Boolean,
+            @Assisted personName: String?,
         ): RequestCovidCertificateViewModel
     }
 }

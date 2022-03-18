@@ -91,16 +91,14 @@ class TestRegistrationStateProcessor @Inject constructor(
     suspend fun startRegistration(
         request: TestRegistrationRequest,
         isSubmissionConsentGiven: Boolean,
-        allowReplacement: Boolean,
+        allowTestReplacement: Boolean,
     ): CoronaTest? = mutex.withLock {
         return try {
             stateInternal.value = State.Working
 
             PcrQrCodeCensor.dateOfBirth = request.dateOfBirth
-            val coronaTest = if (allowReplacement) {
-                submissionRepository.tryReplaceTest(request)
-            } else {
-                submissionRepository.registerTest(request)
+            val coronaTest = with(submissionRepository) {
+                if (allowTestReplacement) tryReplaceTest(request) else registerTest(request)
             }
 
             if (isSubmissionConsentGiven) {

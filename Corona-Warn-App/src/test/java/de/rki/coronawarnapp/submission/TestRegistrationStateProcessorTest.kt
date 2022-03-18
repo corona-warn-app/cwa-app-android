@@ -75,7 +75,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -100,7 +100,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = raRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -127,7 +127,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -152,7 +152,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = raRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -179,7 +179,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -204,7 +204,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -231,7 +231,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -256,7 +256,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -286,7 +286,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         instance.startRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
