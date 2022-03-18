@@ -5,8 +5,9 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
-class FamilyTestRepository {
+class FamilyTestRepository @Inject constructor() {
 
     val familyTests: Flow<Set<FamilyTest>> = flowOf()
     val recycledFamilyTests: Flow<Set<FamilyTest>> = flowOf()
