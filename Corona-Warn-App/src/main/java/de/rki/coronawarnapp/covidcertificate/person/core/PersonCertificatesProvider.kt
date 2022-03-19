@@ -46,15 +46,21 @@ class PersonCertificatesProvider @Inject constructor(
                 certs.isEmpty() // Any person should have at least one certificate to show up in the list
             }.map { certs ->
                 val personIdentifier = certs.identifier
-                Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", personIdentifier, certs.size)
-
                 val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
                 val settings = personsSettings[personIdentifier]
+
+                Timber.tag(TAG).v(
+                    "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
+                    personIdentifier.codeSHA256,
+                    certs.size,
+                    dccWalletInfo != null,
+                    settings
+                )
 
                 val hasBooster = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
                 val hasDccReissuance = settings?.showDccReissuanceBadge ?: false
                 val badgeCount = certs.count { it.hasNotificationBadge } + hasBooster.toInt() + hasDccReissuance.toInt()
-                Timber.tag(TAG).d("Badge count of %s =%s", personIdentifier.codeSHA256, badgeCount)
+                Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
 
                 PersonCertificates(
                     certificates = certs.toCertificateSortOrder(),
