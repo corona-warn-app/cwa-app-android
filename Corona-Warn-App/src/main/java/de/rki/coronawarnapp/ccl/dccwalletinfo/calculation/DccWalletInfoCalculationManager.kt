@@ -70,9 +70,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
         person: PersonCertificates,
         admissionScenarioId: String
     ) = try {
-        val personIdentifier = checkNotNull(person.personIdentifier) {
-            "Person identifier is null. Cannot proceed."
-        }
+        val personIdentifier = person.personIdentifier
+        Timber.d("updateWalletInfoForPerson(person=${personIdentifier.codeSHA256})")
 
         val newWalletInfo = calculation.getDccWalletInfo(
             person.certificates,
