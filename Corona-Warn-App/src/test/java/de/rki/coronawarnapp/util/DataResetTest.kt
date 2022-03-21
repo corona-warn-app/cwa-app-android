@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowLi
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -90,6 +91,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var cclConfigurationRepository: CclConfigurationRepository
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
 
     @BeforeEach
     fun setUp() {
@@ -136,7 +138,8 @@ internal class DataResetTest : BaseTest() {
         dccTicketingQrCodeSettings = dccTicketingQrCodeSettings,
         cclConfigurationRepository = cclConfigurationRepository,
         dccWalletInfoRepository = dccWalletInfoRepository,
-        cclSettings = cclSettings
+        cclSettings = cclSettings,
+        familyTestRepository = familyTestRepository,
     )
 
     @Test
@@ -183,6 +186,7 @@ internal class DataResetTest : BaseTest() {
             cclSettings.clear()
             cclConfigurationRepository.clear()
             dccWalletInfoRepository.clear()
+            familyTestRepository.clear()
         }
     }
 }
