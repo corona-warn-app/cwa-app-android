@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest
 
+import de.rki.coronawarnapp.CoronaTest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
@@ -9,7 +10,6 @@ import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -102,20 +102,20 @@ class CoronaTestRepository @Inject constructor(
      */
     suspend fun registerTest(
         request: TestRegistrationRequest,
-        preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
+        preCondition: ((Collection<PersonalCoronaTest>) -> Boolean) = { currentTests ->
             if (currentTests.any { it.type == request.type && it.isNotRecycled }) {
                 throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
             true
         },
-        postCondition: ((CoronaTest) -> Boolean) = { newTest ->
+        postCondition: ((PersonalCoronaTest) -> Boolean) = { newTest ->
             if (newTest.isRedeemed) {
                 Timber.w("Replacement test was already redeemed, removing it, will not use.")
                 throw AlreadyRedeemedException(newTest)
             }
             true
         }
-    ): CoronaTest {
+    ): PersonalCoronaTest {
         Timber.tag(TAG).i(
             "registerTest(request=%s, preCondition=%s, postCondition=%s)",
             request, preCondition, postCondition
@@ -143,13 +143,13 @@ class CoronaTestRepository @Inject constructor(
                 existing?.let {
                     Timber.tag(TAG).w("We already have a test of this type, moving old test to recycle bin: %s", it)
                     try {
-                        this[it.identifier] = getProcessor(it.type).recycle(it) as PersonalCoronaTest
+                        this[it.identifier] = getProcessor(it.type).recycle(it)
                     } catch (e: Exception) {
                         e.report(ExceptionCategory.INTERNAL)
                     }
                 }
 
-                this[newTest.identifier] = newTest as PersonalCoronaTest
+                this[newTest.identifier] = newTest
             }
         }
 
@@ -242,7 +242,7 @@ class CoronaTestRepository @Inject constructor(
 
             this.toMutableMap().apply {
                 for (updatedResult in pollingResults) {
-                    this[updatedResult.identifier] = updatedResult as PersonalCoronaTest
+                    this[updatedResult.identifier] = updatedResult
                 }
             }
         }
@@ -268,7 +268,7 @@ class CoronaTestRepository @Inject constructor(
         Timber.tag(TAG).i("markAsSubmitted(identifier=%s)", identifier)
 
         modifyTest(identifier) { processor, before ->
-            processor.markSubmitted(before as PersonalCoronaTest)
+            processor.markSubmitted(before)
         }
     }
 
@@ -292,7 +292,7 @@ class CoronaTestRepository @Inject constructor(
         Timber.tag(TAG).i("updateSubmissionConsent(identifier=%s, consented=%b)", identifier, consented)
 
         modifyTest(identifier) { processor, before ->
-            processor.updateSubmissionConsent(before as PersonalCoronaTest, consented)
+            processor.updateSubmissionConsent(before, consented)
         }
     }
 
@@ -306,7 +306,7 @@ class CoronaTestRepository @Inject constructor(
 
     private suspend fun modifyTest(
         identifier: TestIdentifier,
-        update: suspend (CoronaTestProcessor, CoronaTest) -> CoronaTest
+        update: suspend (CoronaTestProcessor, PersonalCoronaTest) -> PersonalCoronaTest
     ) {
         internalData.updateBlocking {
             val original = values.singleOrNull { it.identifier == identifier }
@@ -314,7 +314,7 @@ class CoronaTestRepository @Inject constructor(
 
             val processor = getProcessor(original.type)
 
-            val updated = update(processor, original) as PersonalCoronaTest
+            val updated = update(processor, original)
             Timber.tag(TAG).d("Updated %s to %s", original, updated)
 
             toMutableMap().apply { this[original.identifier] = updated }
