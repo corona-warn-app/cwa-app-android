@@ -115,7 +115,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val riskCardDisplayInfo: RiskCardDisplayInfo
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private var isLoweredRiskLevelDialogBeingShown = false
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
     private val tracingCardItems = tracingStateProvider.state.map { tracingStateItem(it) }.distinctUntilChanged()
 
@@ -126,6 +125,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings
             .isUserToBeNotifiedOfAdditionalHighRiskLevel
             .flow
+            .distinctUntilChanged()
             .filter { it }
             .onEach {
                 events.postValue(
@@ -139,16 +139,14 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings
             .isUserToBeNotifiedOfLoweredRiskLevel
             .flow
+            .distinctUntilChanged()
             .filter { it }
             .onEach {
-                if (!isLoweredRiskLevelDialogBeingShown) {
-                    isLoweredRiskLevelDialogBeingShown = true
-                    events.postValue(
-                        HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
-                            maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
-                        )
+                events.postValue(
+                    HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
-                }
+                )
             }
             .launchInViewModel()
     }
@@ -334,7 +332,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
-        isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
     }
 
