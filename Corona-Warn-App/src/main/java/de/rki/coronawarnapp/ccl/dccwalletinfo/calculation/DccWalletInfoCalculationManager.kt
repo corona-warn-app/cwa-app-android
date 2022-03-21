@@ -29,7 +29,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     ): Result = try {
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
-        Timber.d("triggerAfterConfigChange() for [%d] persons", persons.size)
+        Timber.d("triggerAfterConfigChange() - STARTED")
         val now = timeStamper.nowUTC
         persons.forEach { person ->
             if (configurationChanged ||
@@ -39,6 +39,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
                 updateWalletInfoForPerson(person, admissionScenarioId)
             }
         }
+
+        Timber.d("triggerAfterConfigChange() - ENDED")
         Result.Success
     } catch (e: Exception) {
         Timber.d(e, "Failed to run calculation.")
@@ -48,12 +50,15 @@ class DccWalletInfoCalculationManager @Inject constructor(
     suspend fun triggerNow(
         admissionScenarioId: String
     ): Result = try {
+        Timber.d("triggerNow() - STARTED")
         initCalculation()
         val persons = personCertificatesProvider.personCertificates.first()
         Timber.d("triggerNow() for [%d] persons", persons.size)
         persons.forEach {
             updateWalletInfoForPerson(it, admissionScenarioId)
         }
+
+        Timber.d("triggerNow() - ENDED")
         Result.Success
     } catch (e: Exception) {
         Timber.d(e, "Failed to run calculation.")
@@ -70,9 +75,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
         person: PersonCertificates,
         admissionScenarioId: String
     ) = try {
-        val personIdentifier = checkNotNull(person.personIdentifier) {
-            "Person identifier is null. Cannot proceed."
-        }
+        val personIdentifier = person.personIdentifier
+        Timber.d("updateWalletInfoForPerson(person=${personIdentifier.codeSHA256})")
 
         val newWalletInfo = calculation.getDccWalletInfo(
             person.certificates,
