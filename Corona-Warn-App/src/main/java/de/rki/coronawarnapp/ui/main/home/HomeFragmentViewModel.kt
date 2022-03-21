@@ -134,6 +134,22 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
             .launchInViewModel()
+
+        tracingSettings
+            .isUserToBeNotifiedOfLoweredRiskLevel
+            .flow
+            .filter { it }
+            .onEach {
+                if (!isLoweredRiskLevelDialogBeingShown) {
+                    isLoweredRiskLevelDialogBeingShown = true
+                    events.postValue(
+                        HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                            maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                        )
+                    )
+                }
+            }
+            .launchInViewModel()
     }
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
@@ -286,21 +302,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
-
-    // TODO only lazy to keep tests going which would break because of LocalData access
-    val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        tracingSettings
-            .isUserToBeNotifiedOfLoweredRiskLevel
-            .flow
-            .map { shouldBeNotified ->
-                val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
-                if (shouldBeShown) {
-                    isLoweredRiskLevelDialogBeingShown = true
-                }
-                shouldBeShown
-            }
-            .asLiveData(context = dispatcherProvider.Default)
-    }
 
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
