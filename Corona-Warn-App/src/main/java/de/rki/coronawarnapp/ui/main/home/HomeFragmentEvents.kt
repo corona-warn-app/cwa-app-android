@@ -15,6 +15,10 @@ sealed class HomeFragmentEvents {
         val maxEncounterAgeInDays: Int
     ) : HomeFragmentEvents()
 
+    data class ShowLoweredRiskLevelDialogEvent(
+        val maxEncounterAgeInDays: Int
+    ) : HomeFragmentEvents()
+
     object GoToStatisticsExplanation : HomeFragmentEvents()
 
     object GoToFederalStateSelection : HomeFragmentEvents()

@@ -50,7 +50,6 @@ class HomeFragmentTest : BaseUITest() {
         with(homeFragmentViewModel) {
             every { refreshRequiredData() } just Runs
             every { tracingHeaderState } returns MutableLiveData(TracingHeaderState.TracingActive)
-            every { showLoweredRiskLevelDialog } returns MutableLiveData()
             every { homeItems } returns homeFragmentItemsLiveData()
             every { events } returns SingleLiveEvent()
             every { showPopUps() } just Runs
