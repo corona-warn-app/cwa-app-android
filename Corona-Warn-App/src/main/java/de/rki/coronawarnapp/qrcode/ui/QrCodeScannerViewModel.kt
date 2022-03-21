@@ -120,6 +120,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+        Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%s)", recycledCoronaTest::class.java.simpleName)
         val coronaTestResult = coronaTestQRCodeHandler.restoreCoronaTest(recycledCoronaTest)
         result.postValue(coronaTestResult)
     }
