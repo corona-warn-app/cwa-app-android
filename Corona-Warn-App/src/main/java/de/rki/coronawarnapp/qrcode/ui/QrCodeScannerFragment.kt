@@ -19,7 +19,7 @@ import androidx.transition.TransitionSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
@@ -338,7 +338,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: PersonalCoronaTest) {
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
             .setCancelable(false)
