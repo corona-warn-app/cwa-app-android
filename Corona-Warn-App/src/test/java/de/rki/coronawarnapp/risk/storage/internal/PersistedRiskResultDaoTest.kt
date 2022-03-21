@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.risk.storage.internal
 
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
 import de.rki.coronawarnapp.risk.RiskState
+import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.ewDaoWrapper
 import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindow
-import de.rki.coronawarnapp.risk.storage.RiskStorageTestData.testExposureWindowDaoWrapper
 import de.rki.coronawarnapp.risk.storage.internal.riskresults.PersistedRiskLevelResultDao
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
 import io.kotest.matchers.shouldBe
@@ -29,7 +29,7 @@ class PersistedRiskResultDaoTest : BaseTest() {
                 numberOfDaysWithLowRisk = 52,
                 numberOfDaysWithHighRisk = 81
             )
-        ).toRiskResult(listOf(testExposureWindowDaoWrapper)).apply {
+        ).toRiskResult(listOf(ewDaoWrapper)).apply {
             riskState shouldBe RiskState.LOW_RISK
             calculatedAt.millis shouldBe 931161601L
             exposureWindows shouldBe listOf(testExposureWindow)
