@@ -785,11 +785,6 @@
             app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/action_submissionDeletionWarningFragment_to_requestCovidCertificateFragment"
-            app:destination="@id/requestCovidCertificateFragment"
-            app:popUpTo="@id/submissionDeletionWarningFragment"
-            app:popUpToInclusive="true" />
-        <action
             android:id="@+id/action_submissionDeletionWarningFragment_to_SubmissionTestResultKeysSharedFragment"
             app:destination="@id/submissionTestResultKeysSharedFragment"
             app:popUpTo="@id/submissionDeletionWarningFragment"
@@ -880,6 +875,15 @@
         <argument
             android:name="testRegistrationRequest"
             app:argType="de.rki.coronawarnapp.coronatest.TestRegistrationRequest" />
+
+        <!-- For family tests-->
+        <argument
+            android:name="personName"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <!-- Common between my own and family tests-->
         <argument
             android:name="coronaTestConsent"
             android:defaultValue="false"
@@ -1020,7 +1024,7 @@
         tools:layout="@layout/fragment_family_test_list">
 
         <action
-            android:id="@+id/action_requestCovidCertificateFragment"
+            android:id="@+id/action_familyTestListFragment_to_requestCovidCertificateFragment"
             app:destination="@id/requestCovidCertificateFragment" />
     </fragment>
 </navigation>

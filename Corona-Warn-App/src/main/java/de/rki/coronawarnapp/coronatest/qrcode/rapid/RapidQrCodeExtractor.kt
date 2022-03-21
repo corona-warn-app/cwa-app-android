@@ -120,7 +120,7 @@ abstract class RapidQrCodeExtractor : QrCodeExtractor<CoronaTestQRCode> {
             if (raw.salt.isNullOrEmpty()) null else raw.salt
         }
 
-        val isDccSupportedByPoc: Boolean by lazy { raw.dgc == true && allPersonalData.all { it != null } }
+        val isDccSupportedByPoc: Boolean by lazy { raw.dgc == true }
 
         fun requireValidData() {
             requireValidPersonalData()
