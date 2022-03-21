@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -16,10 +17,11 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.util.CWADebug
@@ -45,7 +47,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     private val raExtractor: RapidAntigenQrCodeExtractor,
     private val rPcrExtractor: RapidPcrQrCodeExtractor,
-    private val submissionRepository: SubmissionRepository,
+    private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
     coronaTestRepository: CoronaTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
@@ -60,6 +62,9 @@ class MainActivityViewModel @AssistedInject constructor(
     }.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
+
+    private val mutableCoronaTestResult = SingleLiveEvent<CoronaTestResult>()
+    val coronaTestResult: LiveData<CoronaTestResult> = mutableCoronaTestResult
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
@@ -145,14 +150,16 @@ class MainActivityViewModel @AssistedInject constructor(
 
     private suspend fun QrCodeExtractor<CoronaTestQRCode>.handleCoronaTestQr(uriString: String) = try {
         val qrCode = extract(rawString = uriString)
-        val test = submissionRepository.testForType(qrCode.type).first()
-        when {
-            test != null -> event.postValue(MainActivityEvent.GoToDeletionScreen(qrCode))
-            else -> event.postValue(MainActivityEvent.GoToSubmissionConsentFragment(qrCode))
-        }
+        val coronaTestResult = coronaTestQRCodeHandler.handleQrCode(qrCode)
+        mutableCoronaTestResult.postValue(coronaTestResult)
     } catch (e: Exception) {
         Timber.w(e, "onNavigationUri failed")
         event.postValue(MainActivityEvent.Error(e))
+    }
+
+    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+        val coronaTestResult = coronaTestQRCodeHandler.restoreCoronaTest(recycledCoronaTest)
+        mutableCoronaTestResult.postValue(coronaTestResult)
     }
 
     fun openScanner() = launch {

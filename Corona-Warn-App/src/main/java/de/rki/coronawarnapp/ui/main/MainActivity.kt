@@ -21,10 +21,14 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
+import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult
+import de.rki.coronawarnapp.reyclebin.coronatest.RestoreCoronaTestConfirmationDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
@@ -171,10 +175,50 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             }
         }
 
+        viewModel.coronaTestResult.observe(this) {
+            handleCoronaTestResult(it)
+        }
+
         if (savedInstanceState == null) {
             processExtraParameters()
         }
     }
+
+    private fun handleCoronaTestResult(coronaTestResult: CoronaTestResult) = when (coronaTestResult) {
+        is CoronaTestResult.InRecycleBin -> {
+            showRestoreCoronaTestConfirmation(coronaTestResult.recycledCoronaTest)
+            null
+        }
+        is CoronaTestResult.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
+            coronaTestResult.restoreRecycledTestRequest
+        )
+        is CoronaTestResult.TestInvalid -> NavGraphDirections.actionGlobalSubmissionTestResultInvalidFragment(
+            testType = coronaTestResult.test.type,
+            testIdentifier = coronaTestResult.test.identifier
+        )
+        is CoronaTestResult.TestNegative -> NavGraphDirections.actionGlobalSubmissionTestResultNegativeFragment(
+            testType = coronaTestResult.test.type,
+            testIdentifier = coronaTestResult.test.identifier
+        )
+        is CoronaTestResult.TestPending -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
+            testType = coronaTestResult.test.type,
+            testIdentifier = coronaTestResult.test.identifier,
+            forceTestResultUpdate = true
+        )
+        is CoronaTestResult.TestPositive -> NavGraphDirections.actionGlobalSubmissionTestResultKeysSharedFragment(
+            testType = coronaTestResult.test.type,
+            testIdentifier = coronaTestResult.test.identifier
+        )
+        is CoronaTestResult.TestRegistrationSelection -> NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
+            coronaTestQrCode = coronaTestResult.coronaTestQrCode
+        )
+        is CoronaTestResult.WarnOthers -> NavGraphDirections.actionGlobalSubmissionResultPositiveOtherWarningNoConsentFragment(
+            testType = coronaTestResult.test.type
+        )
+    }?.let { navController.doNavigate(it) }
+
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) = RestoreCoronaTestConfirmationDialog
+        .showDialog(context = this) { viewModel.restoreCoronaTest(recycledCoronaTest) }
 
     private fun ActivityMainBinding.checkToolTipVisibility(
         showTooltip: Boolean
