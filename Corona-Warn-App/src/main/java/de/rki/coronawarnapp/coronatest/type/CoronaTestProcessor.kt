@@ -15,15 +15,11 @@ interface CoronaTestProcessor {
      */
     suspend fun onRemove(toBeRemoved: CoronaTest)
 
-    suspend fun markSubmitted(test: CoronaTest): CoronaTest
-
     suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest
 
     suspend fun markViewed(test: CoronaTest): CoronaTest
 
     suspend fun markBadgeAsViewed(test: CoronaTest): CoronaTest
-
-    suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest
 
     suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest
 
@@ -32,4 +28,8 @@ interface CoronaTestProcessor {
     suspend fun recycle(test: CoronaTest): CoronaTest
 
     suspend fun restore(test: CoronaTest): CoronaTest
+
+    // key submission
+    suspend fun markSubmitted(test: PersonalCoronaTest): PersonalCoronaTest
+    suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest
 }

@@ -17,7 +17,6 @@ import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -269,7 +268,7 @@ class CoronaTestRepository @Inject constructor(
         Timber.tag(TAG).i("markAsSubmitted(identifier=%s)", identifier)
 
         modifyTest(identifier) { processor, before ->
-            processor.markSubmitted(before)
+            processor.markSubmitted(before as PersonalCoronaTest)
         }
     }
 
@@ -293,7 +292,7 @@ class CoronaTestRepository @Inject constructor(
         Timber.tag(TAG).i("updateSubmissionConsent(identifier=%s, consented=%b)", identifier, consented)
 
         modifyTest(identifier) { processor, before ->
-            processor.updateSubmissionConsent(before, consented)
+            processor.updateSubmissionConsent(before as PersonalCoronaTest, consented)
         }
     }
 
@@ -315,10 +314,10 @@ class CoronaTestRepository @Inject constructor(
 
             val processor = getProcessor(original.type)
 
-            val updated = update(processor, original)
+            val updated = update(processor, original) as PersonalCoronaTest
             Timber.tag(TAG).d("Updated %s to %s", original, updated)
 
-            toMutableMap().apply { this[original.identifier] = updated as PersonalCoronaTest }
+            toMutableMap().apply { this[original.identifier] = updated }
         }
     }
 
@@ -329,11 +328,6 @@ class CoronaTestRepository @Inject constructor(
             processor.markDccCreated(before, created)
         }
     }
-
-    private fun Flow<Set<CoronaTest>>.shareLatest() = shareLatest(
-        tag = TAG,
-        scope = appScope
-    )
 
     companion object {
         const val TAG = "CoronaTestRepository"

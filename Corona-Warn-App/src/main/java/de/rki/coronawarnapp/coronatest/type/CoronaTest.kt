@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
 interface PersonalCoronaTest
-    : CoronaTest, TestResultSubmission, DccCoronaTest, CoronaTestProcessorState
+    : CoronaTest, TestResultSubmission, CoronaTestProcessorState
 
 interface CoronaTestProcessorState {
     val isProcessing: Boolean

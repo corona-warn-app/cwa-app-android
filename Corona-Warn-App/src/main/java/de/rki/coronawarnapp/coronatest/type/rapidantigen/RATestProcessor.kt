@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -184,7 +185,7 @@ class RATestProcessor @Inject constructor(
         // Currently nothing to do
     }
 
-    override suspend fun markSubmitted(test: CoronaTest): RACoronaTest {
+    override suspend fun markSubmitted(test: PersonalCoronaTest): RACoronaTest {
         Timber.tag(TAG).d("markSubmitted(test=%s)", test)
         test as RACoronaTest
 
@@ -212,7 +213,7 @@ class RATestProcessor @Inject constructor(
         return test.copy(didShowBadge = true)
     }
 
-    override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+    override suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as RACoronaTest
 
