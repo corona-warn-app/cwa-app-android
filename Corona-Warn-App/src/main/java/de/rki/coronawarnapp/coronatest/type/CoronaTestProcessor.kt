@@ -1,8 +1,6 @@
-package de.rki.coronawarnapp.CoronaTest.type
+package de.rki.coronawarnapp.coronatest.type
 
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 
 interface CoronaTestProcessor {
 

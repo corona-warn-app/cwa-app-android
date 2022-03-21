@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.submission.testresult.pending
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -30,7 +32,7 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
     @MockK lateinit var testType: CoronaTest.Type
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
 
-    private val testFlow = MutableStateFlow<CoronaTest?>(null)
+    private val testFlow = MutableStateFlow<PersonalCoronaTest?>(null)
 
     @BeforeEach
     fun setup() {
@@ -57,13 +59,13 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
         val expectedError = CwaWebException(statusCode = 1, message = "message")
         val unexpectedError = UnsupportedOperationException()
 
-        testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns expectedError }
+        testFlow.value = mockk<PersonalCoronaTest>().apply { every { lastError } returns expectedError }
 
         createInstance().apply {
             cwaWebExceptionLiveData.observeForever {}
             cwaWebExceptionLiveData.value shouldBe expectedError
 
-            testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns unexpectedError }
+            testFlow.value = mockk<PersonalCoronaTest>().apply { every { lastError } returns unexpectedError }
             cwaWebExceptionLiveData.value shouldBe unexpectedError
         }
     }

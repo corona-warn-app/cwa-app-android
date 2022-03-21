@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.coronatest
 
-import de.rki.coronawarnapp.CoronaTest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
@@ -10,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
