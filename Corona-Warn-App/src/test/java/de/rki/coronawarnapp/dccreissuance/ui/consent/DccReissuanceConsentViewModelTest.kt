@@ -11,7 +11,9 @@ import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.dccreissuance.core.reissuer.DccReissuer
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -23,6 +25,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -43,19 +46,26 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     @MockK lateinit var metadata: DccV1.MetaData
     @MockK lateinit var cwaCertificates: CwaCovidCertificate
 
-    private val personIdentifier = CertificatePersonIdentifier(
+    private val identifier = CertificatePersonIdentifier(
         dateOfBirthFormatted = "01.10.1982",
         firstNameStandardized = "fN",
         lastNameStandardized = "lN"
     )
 
+    private val vaccinationCertA = mockk<VaccinationCertificate>().apply {
+        every { personIdentifier } returns identifier
+        every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
+        every { hasNotificationBadge } returns false
+        every { headerIssuedAt } returns Instant.EPOCH
+    }
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
-        every { cwaCertificates.personIdentifier } returns personIdentifier
+        every { cwaCertificates.personIdentifier } returns identifier
         every { personCertificatesProvider.findPersonByIdentifierCode(any()) } returns flowOf(
             PersonCertificates(
-                certificates = listOf(),
+                certificates = listOf(vaccinationCertA),
                 dccWalletInfo = dccWalletInfoWithReissuance
             )
         )
@@ -95,7 +105,7 @@ internal class DccReissuanceConsentViewModelTest : BaseTest() {
     fun `getState no reissuance dismisses the screen`() {
         every { personCertificatesProvider.findPersonByIdentifierCode(any()) } returns flowOf(
             PersonCertificates(
-                certificates = listOf(),
+                certificates = listOf(vaccinationCertA),
                 dccWalletInfo = null
             )
         )

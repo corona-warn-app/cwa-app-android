@@ -14,8 +14,7 @@ data class PersonCertificates(
     val hasDccReissuanceBadge: Boolean = false,
     val hasNewAdmissionState: Boolean = false,
 ) {
-    val personIdentifier: CertificatePersonIdentifier?
-        get() = certificates.firstOrNull()?.personIdentifier
+    val personIdentifier: CertificatePersonIdentifier get() = certificates.identifier
 
     // PersonDetails
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
@@ -41,6 +40,11 @@ data class PersonCertificates(
         }
     }
 }
+
+/**
+ * First certificate identifier in the sorted certificates to insure consistency
+ */
+val Collection<CwaCovidCertificate>.identifier get() = toCertificateSortOrder().first().personIdentifier
 
 data class VerificationCertificate(
     val cwaCertificate: CwaCovidCertificate,
