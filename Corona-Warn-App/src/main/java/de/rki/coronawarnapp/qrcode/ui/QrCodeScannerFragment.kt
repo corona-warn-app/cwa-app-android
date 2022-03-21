@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
 import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.coronatest.RestoreCoronaTestConfirmationDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
@@ -338,16 +339,8 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
-            .setCancelable(false)
-            .setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                viewModel.restoreCoronaTest(recycledCoronaTest)
-            }
-            .show()
-    }
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) = RestoreCoronaTestConfirmationDialog
+        .showDialog(requireContext()) { viewModel.restoreCoronaTest(recycledCoronaTest) }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {
         MaterialAlertDialogBuilder(requireContext())
