@@ -42,20 +42,12 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
-                    style="@style/CWAToolbar.Close.Transparent"
+                    style="@style/CWAMaterialToolbar.Close.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_close">
-
-                    <TextView
-                        android:id="@id/title"
-                        style="@style/headline6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Booster" />
-                </com.google.android.material.appbar.MaterialToolbar>
+                    tools:title="Booster" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

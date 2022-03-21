@@ -43,6 +43,29 @@
     <!-- Main Application -->
     <style name="AppTheme.Main" parent="AppTheme" />
 
+    <style name="CWAMaterialToolbar" >
+        <item name="android:background">@drawable/top_app_bar_shape</item>
+        <item name="titleTextAppearance">@style/textTopAppBar</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.Close" >
+        <item name="navigationIcon">@drawable/ic_close</item>
+        <item name="navigationContentDescription">@string/accessibility_close</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.Close.Transparent" >
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.BackArrow" >
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="navigationContentDescription">@string/accessibility_back</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.BackArrow.Transparent" >
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
     <style name="CWAToolbar" parent="@style/Widget.Material3.Toolbar">
         <item name="colorPrimary">@color/colorSurface1</item>
         <item name="android:background">@color/colorSurface1</item>
@@ -290,6 +313,11 @@
     <!-- ####################################
                    Text
     ###################################### -->
+
+    <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="fontWeight">600</item>
+    </style>
 
     <style name="headline4" parent="@style/TextAppearance.Material3.HeadlineLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>

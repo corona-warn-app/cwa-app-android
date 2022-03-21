@@ -38,4 +38,9 @@
         <item name="android:textColor">@color/colorStatisticsValueLabel</item>
         <item name="android:lineHeight">@dimen/line_height_tiny</item>
     </style>
+
+    <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textFontWeight">600</item>
+    </style>
 </resources>
