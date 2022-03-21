@@ -80,12 +80,12 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
             it.firstName shouldBe null
             it.lastName shouldBe null
             it.dateOfBirth shouldBe null
-            it.isDccSupportedByPoc shouldBe false
+            it.isDccSupportedByPoc shouldBe true
         }
     }
 
     @Test
-    fun `isDccSupportedByPoc is true only if dgc is true and has full personal data`() = runBlockingTest {
+    fun `isDccSupportedByPoc is true only if dgc is true`() = runBlockingTest {
         with(instance) {
             extract(rawString = qrCodeWithDgcAndFullPersonalData).also {
                 it.isDccSupportedByPoc shouldBe true
@@ -95,7 +95,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
             }
 
             extract(rawString = qrCodeWithDgcWithoutPersonalData).also {
-                it.isDccSupportedByPoc shouldBe false
+                it.isDccSupportedByPoc shouldBe true
                 it.firstName shouldBe null
                 it.lastName shouldBe null
                 it.dateOfBirth shouldBe null
