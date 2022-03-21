@@ -36,6 +36,7 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     @Test
     fun `updateIfRequired() should update booster rules and ccl configuration if required`() = runBlockingTest {
         coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
+        coEvery { cclSettings.forceCclCalculation() } returns false
         coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
         coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
