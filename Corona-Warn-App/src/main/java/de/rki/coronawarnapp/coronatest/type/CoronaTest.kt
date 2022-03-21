@@ -49,7 +49,7 @@ interface CoronaTest : CoronaTestUiState, DccCoronaTest, Recyclable {
     }
 
     val identifier: TestIdentifier
-    val type: CoronaTest.Type
+    val type: Type
 
     val registeredAt: Instant
     val registrationToken: RegistrationToken

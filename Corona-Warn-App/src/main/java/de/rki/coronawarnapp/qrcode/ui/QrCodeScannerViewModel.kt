@@ -128,7 +128,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     fun restoreCoronaTest(recycledCoronaTest: CoronaTest) =
         when (recycledCoronaTest) {
             is PersonalCoronaTest -> restorePersonalCoronaTest(recycledCoronaTest)
-            else -> { /* to do */}
+            else -> { /* to do */ }
         }
 
     private fun restorePersonalCoronaTest(recycledCoronaTest: PersonalCoronaTest) = launch {
