@@ -16,22 +16,18 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.qrcode.CheckInQrCode
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
+import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
 import de.rki.coronawarnapp.qrcode.handler.DccQrCodeHandler
 import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException.ErrorCode.CANT_READ_FILE
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
-import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
-import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 @Suppress("LongParameterList")
@@ -42,11 +38,10 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     private val dccHandler: DccQrCodeHandler,
     private val checkInHandler: CheckInQrCodeHandler,
     private val dccTicketingQrCodeHandler: DccTicketingQrCodeHandler,
-    private val submissionRepository: SubmissionRepository,
+    private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
     private val dccSettings: CovidCertificateSettings,
     private val traceLocationSettings: TraceLocationSettings,
     private val recycledCertificatesProvider: RecycledCertificatesProvider,
-    private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider,
     private val dccMaxPersonChecker: DccMaxPersonChecker
 ) : CWAViewModel(dispatcherProvider) {
 
@@ -125,29 +120,8 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
-        val currentCoronaTest = submissionRepository.testForType(recycledCoronaTest.type).first()
-        when {
-            currentCoronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
-                recycledCoronaTest.toRestoreRecycledTestRequest()
-            )
-
-            else -> {
-                recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
-                recycledCoronaTest.toCoronaTestResult()
-            }
-        }.also {
-            result.postValue(it)
-        }
-    }
-
-    private fun CoronaTest.toCoronaTestResult(): CoronaTestResult = when {
-        isPending -> CoronaTestResult.TestPending(test = this)
-        isNegative -> CoronaTestResult.TestNegative(test = this)
-        isPositive -> when (isAdvancedConsentGiven) {
-            true -> CoronaTestResult.TestPositive(test = this)
-            false -> CoronaTestResult.WarnOthers(test = this)
-        }
-        else -> CoronaTestResult.TestInvalid(test = this)
+        val coronaTestResult = coronaTestQRCodeHandler.restoreCoronaTest(recycledCoronaTest)
+        result.postValue(coronaTestResult)
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
@@ -190,14 +164,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
-        Timber.tag(TAG).d("onCoronaTestQrCode()")
-        val recycledCoronaTest = recycledCoronaTestsProvider.findCoronaTest(qrCode.rawQrCode.toSHA256())
-
-        val coronaTestResult = when {
-            recycledCoronaTest != null -> CoronaTestResult.InRecycleBin(recycledCoronaTest)
-            else -> CoronaTestResult.TestRegistrationSelection(qrCode)
-        }
-        Timber.tag(TAG).d("coronaTestResult=${coronaTestResult::class.simpleName}")
+        val coronaTestResult = coronaTestQRCodeHandler.handleQrCode(qrCode)
         result.postValue(coronaTestResult)
     }
 
