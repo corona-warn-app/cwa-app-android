@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
@@ -69,8 +69,8 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        every { viewModel.uiState } returns MutableLiveData(
-            TestResultUIState(
+        every { viewModel.submissionUiState } returns MutableLiveData(
+            TestResultSubmissionUIState(
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()

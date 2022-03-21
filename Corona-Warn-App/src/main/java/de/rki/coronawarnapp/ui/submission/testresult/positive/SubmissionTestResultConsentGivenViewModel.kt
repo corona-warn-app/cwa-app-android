@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Analyti
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -38,10 +38,10 @@ class SubmissionTestResultConsentGivenViewModel @AssistedInject constructor(
     val showUploadDialog = autoSubmission.isSubmissionRunning
         .asLiveData(context = dispatcherProvider.Default)
 
-    val uiState: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
+    val submissionUiState: LiveData<TestResultSubmissionUIState> = submissionRepository.testForType(type = testType)
         .filterNotNull()
         .map { test ->
-            TestResultUIState(coronaTest = test)
+            TestResultSubmissionUIState(coronaTest = test)
         }.asLiveData(context = Dispatchers.Default)
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()

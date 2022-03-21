@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -141,7 +142,7 @@ class TestCertificateRepository @Inject constructor(
      * Throws an exception if there already is a test certificate entry for this test
      * or this is not a valid test (no consent, not supported by PoC).
      */
-    suspend fun requestCertificate(test: CoronaTest): TestCertificateContainer {
+    suspend fun requestCertificate(test: PersonalCoronaTest): TestCertificateContainer {
         Timber.tag(TAG).d("requestCertificate(test.identifier=%s)", test.identifier)
 
         val newData = internalData.updateBlocking {

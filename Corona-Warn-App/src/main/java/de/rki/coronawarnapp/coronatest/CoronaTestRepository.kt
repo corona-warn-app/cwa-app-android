@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -44,7 +45,7 @@ class CoronaTestRepository @Inject constructor(
     private val contactDiaryRepository: ContactDiaryRepository
 ) {
 
-    private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
+    private val internalData: HotDataFlow<Map<CoronaTestGUID, PersonalCoronaTest>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Eagerly,
@@ -59,19 +60,19 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Returns a flow with an unfiltered set of [CoronaTest]
      */
-    val allCoronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
+    val allCoronaTests: Flow<Set<PersonalCoronaTest>> = internalData.data.map { it.values.toSet() }
 
     /**
      * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isNotRecycled]
      */
-    val coronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+    val coronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isNotRecycled }.toSet()
     }
 
     /**
      * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isRecycled]
      */
-    val recycledCoronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+    val recycledCoronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
     }
 
@@ -143,13 +144,13 @@ class CoronaTestRepository @Inject constructor(
                 existing?.let {
                     Timber.tag(TAG).w("We already have a test of this type, moving old test to recycle bin: %s", it)
                     try {
-                        this[it.identifier] = getProcessor(it.type).recycle(it)
+                        this[it.identifier] = getProcessor(it.type).recycle(it) as PersonalCoronaTest
                     } catch (e: Exception) {
                         e.report(ExceptionCategory.INTERNAL)
                     }
                 }
 
-                this[newTest.identifier] = newTest
+                this[newTest.identifier] = newTest as PersonalCoronaTest
             }
         }
 
@@ -242,7 +243,7 @@ class CoronaTestRepository @Inject constructor(
 
             this.toMutableMap().apply {
                 for (updatedResult in pollingResults) {
-                    this[updatedResult.identifier] = updatedResult
+                    this[updatedResult.identifier] = updatedResult as PersonalCoronaTest
                 }
             }
         }
@@ -317,7 +318,7 @@ class CoronaTestRepository @Inject constructor(
             val updated = update(processor, original)
             Timber.tag(TAG).d("Updated %s to %s", original, updated)
 
-            toMutableMap().apply { this[original.identifier] = updated }
+            toMutableMap().apply { this[original.identifier] = updated as PersonalCoronaTest }
         }
     }
 

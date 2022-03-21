@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.reyclebin.coronatest.request
 
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import kotlinx.parcelize.Parcelize
 import org.joda.time.LocalDate
 
@@ -15,7 +16,7 @@ data class RestoreRecycledTestRequest(
     val fromRecycleBin: Boolean = false
 ) : TestRegistrationRequest
 
-fun CoronaTest.toRestoreRecycledTestRequest(fromRecycleBin: Boolean = false) = RestoreRecycledTestRequest(
+fun PersonalCoronaTest.toRestoreRecycledTestRequest(fromRecycleBin: Boolean = false) = RestoreRecycledTestRequest(
     type = type,
     identifier = identifier,
     isDccSupportedByPoc = isDccSupportedByPoc,

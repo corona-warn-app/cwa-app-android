@@ -8,7 +8,7 @@
 
         <variable
             name="uiState"
-            type="de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState" />
+            type="de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

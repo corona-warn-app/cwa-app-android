@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
@@ -71,9 +71,9 @@ class CoronaTestCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val test: CoronaTest,
-        val onRemove: (CoronaTest, Int?) -> Unit,
-        val onRestore: (CoronaTest) -> Unit
+        val test: PersonalCoronaTest,
+        val onRemove: (PersonalCoronaTest, Int?) -> Unit,
+        val onRestore: (PersonalCoronaTest) -> Unit
     ) : RecyclerBinItem, HasPayloadDiffer {
         override val stableId = test.hashCode().toLong()
     }

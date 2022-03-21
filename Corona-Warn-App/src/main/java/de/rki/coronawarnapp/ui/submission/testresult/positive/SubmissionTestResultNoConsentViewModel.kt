@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvaila
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
@@ -30,10 +30,10 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
         Timber.v("init() coronaTestType=%s", testType)
     }
 
-    val uiState: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
+    val submissionUiState: LiveData<TestResultSubmissionUIState> = submissionRepository.testForType(type = testType)
         .filterNotNull()
         .map { test ->
-            TestResultUIState(coronaTest = test)
+            TestResultSubmissionUIState(coronaTest = test)
         }.asLiveData(context = Dispatchers.Default)
 
     fun onTestOpened() = launch {
