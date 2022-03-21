@@ -204,6 +204,21 @@ internal class DccWalletInfoUpdateTriggerTest : BaseTest() {
         }
     }
 
+    @Test
+    fun triggerNow_2() = runBlockingTest {
+        coEvery { cclSettings.getAdmissionScenarioId() } returns "BW"
+        coEvery { dccWalletInfoCalculationManager.triggerNow("BW") } returns
+            DccWalletInfoCalculationManager.Result.Success
+
+        instance(this).triggerNow()
+
+        coVerify {
+            dccWalletInfoCalculationManager.triggerNow("BW")
+            dccWalletInfoCleaner.clean()
+            personCertificatesSettings.cleanSettingsNotIn(any())
+        }
+    }
+
     private fun instance(scope: CoroutineScope) = DccWalletInfoUpdateTrigger(
         appScope = scope,
         cclSettings = cclSettings,

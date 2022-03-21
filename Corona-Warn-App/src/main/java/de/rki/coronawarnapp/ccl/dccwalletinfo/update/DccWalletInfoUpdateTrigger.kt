@@ -67,11 +67,15 @@ class DccWalletInfoUpdateTrigger @Inject constructor(
         cleanupAfterCalculation()
     }
 
+    suspend fun triggerNow() {
+        triggerNow(admissionScenarioId = admissionScenarioId())
+    }
+
     private suspend fun cleanupAfterCalculation() {
         dccWalletInfoCleaner.clean()
 
         val personIdentifiers = personCertificateProvider.personCertificates.first()
-            .mapNotNull { it.personIdentifier }.toSet()
+            .map { it.personIdentifier }.toSet()
 
         /*
         After person certificates change a merge or a split could happen and this will lead to outdated PersonSettings,

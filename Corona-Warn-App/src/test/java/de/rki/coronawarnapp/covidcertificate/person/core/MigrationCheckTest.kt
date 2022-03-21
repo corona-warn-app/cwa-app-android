@@ -1,16 +1,20 @@
 package de.rki.coronawarnapp.covidcertificate.person.core
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.main.CWASettings
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
@@ -19,6 +23,7 @@ import testhelpers.BaseTest
 class MigrationCheckTest : BaseTest() {
 
     @MockK private lateinit var cwaSettings: CWASettings
+    @MockK private lateinit var dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
 
     @BeforeEach
     fun setup() {
@@ -26,6 +31,7 @@ class MigrationCheckTest : BaseTest() {
 
         every { cwaSettings.wasCertificateGroupingMigrationAcknowledged } returns false
         every { cwaSettings.wasCertificateGroupingMigrationAcknowledged = any() } just Runs
+        coEvery { dccWalletInfoUpdateTrigger.triggerNow() } just Runs
     }
 
     @Test
@@ -62,6 +68,7 @@ class MigrationCheckTest : BaseTest() {
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe false
         verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
+        coVerify(exactly = 0) { dccWalletInfoUpdateTrigger.triggerNow() }
     }
 
     @Test
@@ -87,8 +94,16 @@ class MigrationCheckTest : BaseTest() {
         val persons = setOf(person1)
 
         getInstance().shouldShowMigrationInfo(persons) shouldBe true
-        verify { cwaSettings.wasCertificateGroupingMigrationAcknowledged = true }
+        verify {
+            cwaSettings.wasCertificateGroupingMigrationAcknowledged = true
+        }
+
+        coVerify { dccWalletInfoUpdateTrigger.triggerNow() }
     }
 
-    private fun getInstance() = MigrationCheck(cwaSettings)
+    private fun getInstance() = MigrationCheck(
+        appScope = TestCoroutineScope(),
+        cwaSettings = cwaSettings,
+        dccWalletInfoUpdateTrigger = dccWalletInfoUpdateTrigger
+    )
 }

@@ -51,7 +51,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     private val loadingButtonState = MutableStateFlow(false)
     private val personCertificatesFlow = personCertificatesProvider.personCertificates.mapNotNull { certificateSet ->
-        certificateSet.first { it.personIdentifier?.codeSHA256 == personIdentifierCode }
+        certificateSet.first { it.personIdentifier.codeSHA256 == personIdentifierCode }
     }.catch { error ->
         Timber.d(error, "No person found for $personIdentifierCode")
         events.postValue(Back)
