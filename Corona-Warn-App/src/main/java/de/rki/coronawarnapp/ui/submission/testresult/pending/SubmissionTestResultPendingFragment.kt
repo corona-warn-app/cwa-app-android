@@ -51,7 +51,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             binding.consentStatus.consent = it
         }
 
-        viewModel.testStateSubmission.observe2(this) { result ->
+        viewModel.testState.observe2(this) { result ->
             val hasResult = !result.coronaTest.isProcessing
             binding.apply {
                 submissionTestResultSection.setTestResultSection(result.coronaTest)

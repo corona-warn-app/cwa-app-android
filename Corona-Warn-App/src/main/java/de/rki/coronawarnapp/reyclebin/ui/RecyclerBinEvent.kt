@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.reyclebin.ui
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.reyclebin.coronatest.request.RestoreRecycledTestRequest
 
@@ -15,7 +14,7 @@ sealed class RecyclerBinEvent {
 
     data class ConfirmRestoreCertificate(val certificate: CwaCovidCertificate) : RecyclerBinEvent()
 
-    data class ConfirmRestoreTest(val test: PersonalCoronaTest) : RecyclerBinEvent()
+    data class ConfirmRestoreTest(val test: CoronaTest) : RecyclerBinEvent()
 
     data class RestoreDuplicateTest(val restoreRecycledTestRequest: RestoreRecycledTestRequest) : RecyclerBinEvent()
 }

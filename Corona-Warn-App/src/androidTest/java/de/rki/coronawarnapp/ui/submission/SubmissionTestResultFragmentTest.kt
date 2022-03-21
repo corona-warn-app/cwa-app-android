@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
@@ -64,8 +64,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
         with(viewModel) {
             every { consentGiven } returns MutableLiveData(true)
-            every { testStateSubmission } returns MutableLiveData(
-                TestResultSubmissionUIState(
+            every { testState } returns MutableLiveData(
+                TestResultUIState(
                     coronaTest = mockk<CoronaTest>().apply {
                         every { testResult } returns CoronaTestResult.PCR_POSITIVE
                         every { registeredAt } returns Instant.now()
@@ -114,8 +114,8 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment() {
-        every { viewModel.testStateSubmission } returns MutableLiveData(
-            TestResultSubmissionUIState(
+        every { viewModel.testState } returns MutableLiveData(
+            TestResultUIState(
                 coronaTest = mockk<CoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
                     every { registeredAt } returns Instant.now()

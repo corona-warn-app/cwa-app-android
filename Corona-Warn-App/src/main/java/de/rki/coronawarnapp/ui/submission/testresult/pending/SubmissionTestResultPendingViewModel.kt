@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.toDeviceUIState
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.LazyString
@@ -65,10 +65,10 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                     showRedeemedTokenWarning.postValue(Unit)
                 }
             }
-            TestResultSubmissionUIState(coronaTest = test)
+            TestResultUIState(coronaTest = test)
         }
 
-    val testStateSubmission: LiveData<TestResultSubmissionUIState> = testResultFlow
+    val testState: LiveData<TestResultUIState> = testResultFlow
         .onEach { testResultUIState ->
             when (val deviceState = testResultUIState.coronaTest.testResult) {
                 CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->

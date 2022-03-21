@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -35,10 +35,10 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
 
-    val testResultSubmission: LiveData<TestResultSubmissionUIState> = submissionRepository.testForType(type = testType)
+    val testResult: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
         .filterNotNull()
         .map { test ->
-            TestResultSubmissionUIState(coronaTest = test)
+            TestResultUIState(coronaTest = test)
         }.asLiveData(context = dispatcherProvider.Default)
 
     fun moveTestToRecycleBinStorage() = launch {

@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.testresult.TestResultSubmissionUIState
+import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -32,10 +32,10 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
         Timber.v("init() coronaTestType=%s", testType)
     }
 
-    val submissionUiState: LiveData<TestResultSubmissionUIState> = submissionRepository.testForType(type = testType)
+    val uiState: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
         .filterNotNull()
         .map { test ->
-            TestResultSubmissionUIState(coronaTest = test)
+            TestResultUIState(coronaTest = test)
         }.asLiveData(context = Dispatchers.Default)
 
     val showDeleteTestDialog = SingleLiveEvent<Unit>()

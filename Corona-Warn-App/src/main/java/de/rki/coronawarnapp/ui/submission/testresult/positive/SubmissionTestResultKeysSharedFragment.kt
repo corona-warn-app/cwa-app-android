@@ -58,7 +58,7 @@ class SubmissionTestResultKeysSharedFragment :
             viewModel.onShowDeleteTestDialog()
         }
 
-        viewModel.submissionUiState.observe2(this) {
+        viewModel.uiState.observe2(this) {
             binding.apply {
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
             }

@@ -137,7 +137,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         recycledCoronaTestsProvider.deleteCoronaTest(coronaTest.identifier)
     }
 
-    fun onRestoreTestConfirmation(coronaTest: PersonalCoronaTest) = launch {
+    fun onRestoreTestConfirmation(coronaTest: CoronaTest) = launch {
         Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
         val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
         when {

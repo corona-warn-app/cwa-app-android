@@ -39,7 +39,7 @@ interface TestResultSubmission {
     val isAdvancedConsentGiven: Boolean
 }
 
-interface CoronaTest : CoronaTestUiState, BaseCoronaTest, Recyclable {
+interface CoronaTest : CoronaTestUiState, DccCoronaTest, BaseCoronaTest, Recyclable {
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")

@@ -61,7 +61,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             }
         }
 
-        viewModel.testResultSubmission.observe2(this) {
+        viewModel.testResult.observe2(this) {
             binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
         }
 
