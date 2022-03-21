@@ -45,7 +45,7 @@ class SubmissionConsentViewModelTest {
         coEvery { submissionRepository.giveConsentToSubmission(any()) } just Runs
         testRegistrationStateProcessor.apply {
             every { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
-            coEvery { startRegistration(any(), any(), any()) } returns mockk()
+            coEvery { startTestRegistration(any(), any(), any()) } returns mockk()
         }
 
         viewModel = SubmissionConsentViewModel(
