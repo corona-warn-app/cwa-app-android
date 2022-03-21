@@ -61,4 +61,16 @@ internal class CclSettingsTest : BaseTest() {
         cclSettings.clear()
         cclSettings.admissionCheckScenarios.first() shouldBe null
     }
+
+    @Test
+    fun `test CclSettings - forceCclCalculation`() = runBlockingTest {
+        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe null
+        cclSettings.forceCclCalculation() shouldBe true
+
+        cclSettings.forceCclCalculation() shouldBe false
+        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
+
+        cclSettings.forceCclCalculation() shouldBe false
+        fakeDataStore[CclSettings.FORCE_CCL_CALCULATION_KEY] shouldBe false
+    }
 }
