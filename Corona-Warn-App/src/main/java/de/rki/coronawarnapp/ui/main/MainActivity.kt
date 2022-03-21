@@ -189,32 +189,39 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             showRestoreCoronaTestConfirmation(coronaTestResult.recycledCoronaTest)
             null
         }
-        is CoronaTestResult.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
-            coronaTestResult.restoreRecycledTestRequest
-        )
-        is CoronaTestResult.TestInvalid -> NavGraphDirections.actionGlobalSubmissionTestResultInvalidFragment(
-            testType = coronaTestResult.test.type,
-            testIdentifier = coronaTestResult.test.identifier
-        )
-        is CoronaTestResult.TestNegative -> NavGraphDirections.actionGlobalSubmissionTestResultNegativeFragment(
-            testType = coronaTestResult.test.type,
-            testIdentifier = coronaTestResult.test.identifier
-        )
-        is CoronaTestResult.TestPending -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
-            testType = coronaTestResult.test.type,
-            testIdentifier = coronaTestResult.test.identifier,
-            forceTestResultUpdate = true
-        )
-        is CoronaTestResult.TestPositive -> NavGraphDirections.actionGlobalSubmissionTestResultKeysSharedFragment(
-            testType = coronaTestResult.test.type,
-            testIdentifier = coronaTestResult.test.identifier
-        )
-        is CoronaTestResult.TestRegistrationSelection -> NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
-            coronaTestQrCode = coronaTestResult.coronaTestQrCode
-        )
-        is CoronaTestResult.WarnOthers -> NavGraphDirections.actionGlobalSubmissionResultPositiveOtherWarningNoConsentFragment(
-            testType = coronaTestResult.test.type
-        )
+        is CoronaTestResult.RestoreDuplicateTest ->
+            NavGraphDirections.actionToSubmissionDeletionWarningFragment(
+                coronaTestResult.restoreRecycledTestRequest
+            )
+        is CoronaTestResult.TestInvalid ->
+            NavGraphDirections.actionGlobalSubmissionTestResultInvalidFragment(
+                testType = coronaTestResult.test.type,
+                testIdentifier = coronaTestResult.test.identifier
+            )
+        is CoronaTestResult.TestNegative ->
+            NavGraphDirections.actionGlobalSubmissionTestResultNegativeFragment(
+                testType = coronaTestResult.test.type,
+                testIdentifier = coronaTestResult.test.identifier
+            )
+        is CoronaTestResult.TestPending ->
+            NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                testType = coronaTestResult.test.type,
+                testIdentifier = coronaTestResult.test.identifier,
+                forceTestResultUpdate = true
+            )
+        is CoronaTestResult.TestPositive ->
+            NavGraphDirections.actionGlobalSubmissionTestResultKeysSharedFragment(
+                testType = coronaTestResult.test.type,
+                testIdentifier = coronaTestResult.test.identifier
+            )
+        is CoronaTestResult.TestRegistrationSelection ->
+            NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
+                coronaTestQrCode = coronaTestResult.coronaTestQrCode
+            )
+        is CoronaTestResult.WarnOthers ->
+            NavGraphDirections.actionGlobalSubmissionResultPositiveOtherWarningNoConsentFragment(
+                testType = coronaTestResult.test.type
+            )
     }?.let { navController.doNavigate(it) }
 
     private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) = RestoreCoronaTestConfirmationDialog
