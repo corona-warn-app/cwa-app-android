@@ -86,6 +86,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -129,7 +130,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
             .onEach {
                 events.postValue(
                     HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
-                        maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
             }
@@ -144,7 +145,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                     isLoweredRiskLevelDialogBeingShown = true
                     events.postValue(
                         HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
-                            maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                            maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                         )
                     )
                 }
