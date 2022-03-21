@@ -239,13 +239,18 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest calls CoronaTestQRCodeHandler`() {
-        val scannerResult = RestoreDuplicateTest(restoreRecycledTestRequest = recycledRAT.toRestoreRecycledTestRequest())
+        val scannerResult =
+            RestoreDuplicateTest(restoreRecycledTestRequest = recycledRAT.toRestoreRecycledTestRequest())
         coEvery { coronaTestQRCodeHandler.restoreCoronaTest(recycledRAT) } returns scannerResult
 
         with(viewModel()) {
             restoreCoronaTest(recycledRAT)
 
             result.getOrAwaitValue() shouldBe scannerResult
+        }
+
+        coVerify {
+            coronaTestQRCodeHandler.restoreCoronaTest(recycledRAT)
         }
     }
 
