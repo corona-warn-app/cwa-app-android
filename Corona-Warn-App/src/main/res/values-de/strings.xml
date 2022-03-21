@@ -752,7 +752,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Unser Kundenservice ist in den folgenden Sprachen für Sie da:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Deutsch, Englisch, Türkisch\n\nErreichbarkeit:\nMo – Sa: 07:00 – 22:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
+    <string name="information_contact_body_open">"Deutsch\n\nErreichbarkeit:\nMo – Fr: 09:00 – 17:00 Uhr\n(außer an bundesweiten Feiertagen)</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Bei Fragen rufen Sie die 116 117 an. Wählen Sie bei der Telefonansage dann die 2, um die Servicestelle des Bundesministeriums für Gesundheit zu erreichen. Nur bei Krankheitssymptomen wählen Sie die 1 (kassenärztlicher Bereitschaftsdienst)."</string>
     <!-- XACT: describes illustration -->

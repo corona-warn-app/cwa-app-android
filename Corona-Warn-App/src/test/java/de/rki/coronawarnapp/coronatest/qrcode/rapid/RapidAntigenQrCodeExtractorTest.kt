@@ -109,7 +109,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     }
 
     @Test
-    fun `isDccSupportedByPoc is true only if dgc is true and has full personal data`() = runBlockingTest {
+    fun `isDccSupportedByPoc is true only if dgc is true`() = runBlockingTest {
         val prefix = "https://s.coronawarn.app?v=1#"
         val qrCodeWithDgcAndFullPersonalData = prefix + rawPayloadWithDgcAndFullPersonalData
         val qrCodeWithDgcWithoutPersonalData = prefix + rawPayloadWithDgcWithoutPersonalData
@@ -123,7 +123,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
             }
 
             extract(rawString = qrCodeWithDgcWithoutPersonalData).also {
-                it.isDccSupportedByPoc shouldBe false
+                it.isDccSupportedByPoc shouldBe true
                 it.firstName shouldBe null
                 it.lastName shouldBe null
                 it.dateOfBirth shouldBe null
