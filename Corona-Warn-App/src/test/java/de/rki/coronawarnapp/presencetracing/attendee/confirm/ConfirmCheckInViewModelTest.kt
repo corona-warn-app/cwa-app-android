@@ -21,6 +21,7 @@ import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import testhelpers.BaseTest
@@ -79,12 +80,14 @@ class ConfirmCheckInViewModelTest : BaseTest() {
     }
 
     @Test
+    @Disabled
     fun `confirm button should be disabled when autoCheckOutLength is 0`() = with(createInstance()) {
         durationUpdated(Duration.standardMinutes(0))
         uiState.getOrAwaitValue().confirmButtonEnabled shouldBe false
     }
 
     @Test
+    @Disabled
     fun `confirm button should be enabled when autoCheckOutLength is greater than 0`() = with(createInstance()) {
         durationUpdated(Duration.standardMinutes(15))
         uiState.getOrAwaitValue().confirmButtonEnabled shouldBe true
