@@ -31,7 +31,7 @@ class PersonCertificatesProvider @Inject constructor(
         personCertificatesSettings.currentCwaUser,
         dccWalletInfoRepository.personWallets,
         personCertificatesSettings.personsSettings
-    ) { certificateContainer, cwaUser, personWallets, personSettings ->
+    ) { certificateContainer, cwaUser, personWallets, personsSettings ->
 
         val personWalletsGroup = personWallets.associateBy { it.personGroupKey }
         val groupedCerts = certificateContainer.allCwaCertificates.groupByPerson()
@@ -41,30 +41,39 @@ class PersonCertificatesProvider @Inject constructor(
             personCertificatesSettings.removeCurrentCwaUser()
         }
 
-        groupedCerts.map { certs ->
-            val firstPersonIdentifier = certs.first().personIdentifier
-            Timber.tag(TAG).v("PersonCertificates for %s with %d certs.", firstPersonIdentifier, certs.size)
+        groupedCerts
+            .filterNot { certs ->
+                certs.isEmpty() // Any person should have at least one certificate to show up in the list
+            }.map { certs ->
+                val personIdentifier = certs.identifier
+                val dccWalletInfo = personWalletsGroup[personIdentifier.groupingKey]?.dccWalletInfo
+                val settings = personsSettings[personIdentifier]
 
-            val dccWalletInfo =
-                personWalletsGroup[firstPersonIdentifier.groupingKey]?.dccWalletInfo
+                Timber.tag(TAG).v(
+                    "Person [code=%s, certsCount=%d, walletExist=%s, settings=%s]",
+                    personIdentifier.codeSHA256,
+                    certs.size,
+                    dccWalletInfo != null,
+                    settings
+                )
 
-            val hasBooster = personSettings[firstPersonIdentifier].hasBoosterBadge(dccWalletInfo?.boosterNotification)
-            val hasDccReissuance = personSettings[firstPersonIdentifier]?.showDccReissuanceBadge ?: false
-            val hasNewAdmissionState = personSettings[firstPersonIdentifier]?.showAdmissionStateChangedBadge ?: false
-            val badgeCount = certs.count { it.hasNotificationBadge } +
-                hasBooster.toInt() + hasDccReissuance.toInt() + hasNewAdmissionState.toInt()
-            Timber.tag(TAG).d("Badge count of %s =%s", firstPersonIdentifier.codeSHA256, badgeCount)
+                val hasBooster = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
+                val hasDccReissuance = settings?.showDccReissuanceBadge ?: false
+                val hasNewAdmissionState = settings?.showAdmissionStateChangedBadge ?: false
+                val badgeCount = certs.count { it.hasNotificationBadge } +
+                    hasBooster.toInt() + hasDccReissuance.toInt() + hasNewAdmissionState.toInt()
+                Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
 
-            PersonCertificates(
-                certificates = certs.toCertificateSortOrder(),
-                isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
-                badgeCount = badgeCount,
-                dccWalletInfo = dccWalletInfo,
-                hasBoosterBadge = hasBooster,
-                hasDccReissuanceBadge = hasDccReissuance,
-                hasNewAdmissionState = hasNewAdmissionState
-            )
-        }.toSet()
+                PersonCertificates(
+                    certificates = certs.toCertificateSortOrder(),
+                    isCwaUser = certs.any { it.personIdentifier.belongsToSamePerson(cwaUser) },
+                    badgeCount = badgeCount,
+                    dccWalletInfo = dccWalletInfo,
+                    hasBoosterBadge = hasBooster,
+                    hasDccReissuanceBadge = hasDccReissuance,
+                    hasNewAdmissionState = hasNewAdmissionState
+                )
+            }.toSet()
     }.shareLatest(scope = appScope)
 
     /**
@@ -85,7 +94,7 @@ class PersonCertificatesProvider @Inject constructor(
      */
     fun findPersonByIdentifierCode(personIdentifierCode: String): Flow<PersonCertificates?> =
         personCertificates.map { persons ->
-            persons.find { it.personIdentifier?.codeSHA256 == personIdentifierCode }
+            persons.find { it.personIdentifier.codeSHA256 == personIdentifierCode }
         }
 
     private fun PersonSettings?.hasBoosterBadge(boosterNotification: BoosterNotification?): Boolean {
