@@ -5,39 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:focusable="true"
     tools:context=".familytest.ui.selection.TestRegistrationSelectionFragment">
 
-    <include
-        android:id="@+id/submission_test_result_available_header"
-        layout="@layout/include_header"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAToolbar.Close.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:icon="@{@drawable/ic_close}"
-        app:title="@{@string/family_test_reg_selection_header}"/>
+        app:title="@string/family_test_reg_selection_header" />
 
     <TextView
         android:id="@+id/subtitle"
         style="@style/subtitleMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/family_test_reg_selection_subtitle" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/person"
+        style="@style/GreyCard.Ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="24dp"
-        style="@style/GreyCard">
+        android:layout_marginTop="16dp"
+        android:focusable="true"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/person_icon"
             android:layout_width="@dimen/circle_icon"
             android:layout_height="@dimen/circle_icon"
-            android:layout_marginTop="14dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/circle"
             android:backgroundTint="@color/card_dark"
@@ -49,12 +51,12 @@
         <TextView
             android:id="@+id/person_title"
             style="@style/headline6"
-            android:textSize="16sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="32dp"
             android:text="@string/family_test_reg_selection_person_title"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/person_icon"
             app:layout_constraintTop_toTopOf="@id/person_icon" />
 
@@ -70,22 +72,35 @@
             app:layout_constraintStart_toEndOf="@id/person_icon"
             app:layout_constraintTop_toBottomOf="@id/person_title" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="16dp"
+            android:hyphenationFrequency="normal"
+            android:src="@drawable/ic_contact_diary_right_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/family"
+        style="@style/GreyCard.Ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="24dp"
-        style="@style/GreyCard">
+        android:layout_marginTop="16dp"
+        android:focusable="true"
+        android:clickable="true">
 
         <ImageView
             android:id="@+id/family_icon"
             android:layout_width="@dimen/circle_icon"
             android:layout_height="@dimen/circle_icon"
-            android:layout_marginTop="14dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/circle"
             android:backgroundTint="@color/card_dark"
@@ -97,12 +112,12 @@
         <TextView
             android:id="@+id/family_title"
             style="@style/headline6"
-            android:textSize="16sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="32dp"
             android:text="@string/family_test_reg_selection_family_title"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/family_icon"
             app:layout_constraintTop_toTopOf="@id/family_icon" />
 
@@ -118,8 +133,17 @@
             app:layout_constraintStart_toEndOf="@id/family_icon"
             app:layout_constraintTop_toBottomOf="@id/family_title" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="16dp"
+            android:hyphenationFrequency="normal"
+            android:src="@drawable/ic_contact_diary_right_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </LinearLayout>

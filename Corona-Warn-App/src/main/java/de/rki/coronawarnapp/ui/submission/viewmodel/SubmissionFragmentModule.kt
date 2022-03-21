@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragment
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentModule
 import de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeFragment
 import de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
@@ -110,4 +112,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [RequestCovidCertificateFragmentModule::class])
     abstract fun requestCovidCertificateFragment(): RequestCovidCertificateFragment
+
+    @ContributesAndroidInjector(modules = [FamilyTestConsentModule::class])
+    abstract fun familyTestConsentFragment(): FamilyTestConsentFragment
 }

@@ -7,7 +7,7 @@
     tools:context=".familytest.ui.consent.FamilyTestConsentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/consent_header"
+        android:id="@+id/toolbar"
         style="@style/CWAToolbar.Close.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline_action"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/consent_header">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:id="@+id/name_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="textCapWords" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -203,7 +203,7 @@
                 app:layout_constraintTop_toBottomOf="@id/consent_layout" />
 
             <TextView
-                android:id="@+id/legal_info"
+                android:id="@+id/data_privacy"
                 style="@style/subtitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -222,7 +222,7 @@
                 android:background="@color/dividerColor"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/legal_info" />
+                app:layout_constraintTop_toBottomOf="@id/data_privacy" />
 
             <include layout="@layout/merge_guidelines_side" />
 
