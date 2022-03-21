@@ -4,6 +4,8 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
+import de.rki.coronawarnapp.environment.BuildConfigWrap
+import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.repositories.UpdateResult
@@ -18,6 +20,7 @@ import javax.inject.Singleton
 class CclConfigurationUpdater @Inject constructor(
     private val timeStamper: TimeStamper,
     private val cclSettings: CclSettings,
+    private val cwaSettings: CWASettings,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val cclConfigurationRepository: CclConfigurationRepository,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
@@ -31,7 +34,9 @@ class CclConfigurationUpdater @Inject constructor(
             updateAndTriggerRecalculation()
         } else {
             Timber.d("No CCLConfig update required!")
-            triggerRecalculation(configurationChanged = false)
+            triggerRecalculation(
+                configurationChanged = cwaSettings.lastChangelogVersion.value < BuildConfigWrap.VERSION_CODE
+            )
         }
     }
 
