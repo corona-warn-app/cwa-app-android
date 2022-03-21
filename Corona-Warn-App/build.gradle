@@ -305,7 +305,7 @@ task jacocoTestReportDeviceRelease(type: JacocoReport, dependsOn: 'testDeviceRel
 configurations.all {
     resolutionStrategy {
         force "androidx.test:monitor:1.4.0"
-        force "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+        force "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
     }
 }
 
