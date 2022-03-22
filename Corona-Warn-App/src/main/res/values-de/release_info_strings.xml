@@ -32,7 +32,7 @@
         <item>Wenn Sie nach einer Risikobegegnung eine weitere Begegnung mit erhöhtem Risiko hatten, dann wird Ihnen darüber jetzt eine Benachrichtigung angezeigt.</item>
         <item>Wenn sich Ihr Status geändert hat (z. B. durch Hinzufügen eines Zertifikats, oder weil sich die Regeln geändert haben) werden Sie auf der Zertifikate-Registerkarte darüber informiert.</item>
         <item>Für Genesenenzertifikate werden keine Gültigkeitsdaten mehr angezeigt, da die Gültigkeit von lokalen Regeln bestimmt wird. Stattdessen wird nun das Datum des ersten positiven Tests angezeigt.</item>
-        <item>Vom Detail-Bildschirm für Ihre Person wurde der QR-Code für Ihr aktuell verwendetes Zertifikat entfernt. Der QR-Code befindet sich ebenfalls auf der Zertifikate-Übersicht, wird also auf dem Detail-Bildschirm nicht benötigt.</item>
+        <item>Vom Detail-Bildschirm für Personen wurde der QR-Code für das aktuell verwendete Zertifikat entfernt. Dadurch wurde Platz für Benachrichtigungen geschaffen und die Übersichtlichkeit erhöht. Der QR-Code befindet sich ebenfalls auf der Zertifikate-Übersicht, wird also auf dem Detail-Bildschirm nicht benötigt.</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->

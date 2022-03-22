@@ -86,7 +86,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
-        viewModel.showLoweredRiskLevelDialog.observe2(this) { if (it) showRiskLevelLoweredDialog() }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
@@ -166,11 +165,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
     }
 
-    private fun showRiskLevelLoweredDialog() {
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) {
         val riskLevelLoweredDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
             title = R.string.risk_lowered_dialog_headline,
-            message = R.string.risk_lowered_dialog_body,
+            message = getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays),
             positiveButton = R.string.risk_lowered_dialog_button_confirm,
             negativeButton = null,
             cancelable = false,
@@ -204,6 +203,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
             is HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent -> {
                 showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
+            }
+            is HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent -> {
+                showRiskLevelLoweredDialog(event.maxEncounterAgeInDays)
             }
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
