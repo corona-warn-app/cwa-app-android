@@ -18,6 +18,7 @@ import androidx.transition.Slide
 import androidx.transition.TransitionSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
+import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -240,32 +241,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionDeletionWarningFragment(
                     scannerResult.restoreRecycledTestRequest
                 )
-            is CoronaTestResult.TestPending ->
-                QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
-                    testType = scannerResult.test.type,
-                    testIdentifier = scannerResult.test.identifier,
-                    forceTestResultUpdate = true
-                )
-            is CoronaTestResult.TestInvalid ->
-                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultInvalidFragment(
-                    testType = scannerResult.test.type,
-                    testIdentifier = scannerResult.test.identifier
-                )
-            is CoronaTestResult.TestNegative ->
-                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultNegativeFragment(
-                    testType = scannerResult.test.type,
-                    testIdentifier = scannerResult.test.identifier
-                )
-            is CoronaTestResult.TestPositive ->
-                QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
-                    testType = scannerResult.test.type,
-                    testIdentifier = scannerResult.test.identifier
-                )
-            is CoronaTestResult.WarnOthers ->
-                QrCodeScannerFragmentDirections
-                    .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                        testType = scannerResult.test.type
-                    )
+            CoronaTestResult.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
         }
             ?.let { doNavigate(it) }
     }
