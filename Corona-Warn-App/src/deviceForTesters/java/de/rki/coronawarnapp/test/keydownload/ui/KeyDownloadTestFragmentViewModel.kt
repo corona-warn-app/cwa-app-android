@@ -73,7 +73,7 @@ class KeyDownloadTestFragmentViewModel @AssistedInject constructor(
     }
 
     fun deleteKeyFile(it: CachedKeyListItem) = launchWithSyncProgress {
-        keyCacheRepository.delete(listOf(it.info))
+        keyCacheRepository.deleteInfoAndFile(listOf(it.info))
     }
 
     @AssistedFactory

@@ -15,6 +15,7 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -181,6 +182,17 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.additional_high_risk_dialog_headline)
+            setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
+            setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
+                viewModel.userHasAcknowledgedAdditionalHighRiskLevel()
+            }
+            setCancelable(false)
+        }.show()
+    }
+
     private fun navigate(event: HomeFragmentEvents) {
         resetTransitions()
         when (event) {
@@ -189,6 +201,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     detailsLink = R.string.errors_generic_text_catastrophic_error_encryption_failure,
                     onPositive = { viewModel.errorResetDialogDismissed() }
                 )
+            }
+            is HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent -> {
+                showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
             }
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()

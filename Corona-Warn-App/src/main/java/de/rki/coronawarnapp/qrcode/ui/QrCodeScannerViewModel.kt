@@ -195,8 +195,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
         val coronaTestResult = when {
             recycledCoronaTest != null -> CoronaTestResult.InRecycleBin(recycledCoronaTest)
-            submissionRepository.testForType(qrCode.type).first() != null -> CoronaTestResult.DuplicateTest(qrCode)
-            else -> CoronaTestResult.ConsentTest(qrCode)
+            else -> CoronaTestResult.TestRegistrationSelection(qrCode)
         }
         Timber.tag(TAG).d("coronaTestResult=${coronaTestResult::class.simpleName}")
         result.postValue(coronaTestResult)
