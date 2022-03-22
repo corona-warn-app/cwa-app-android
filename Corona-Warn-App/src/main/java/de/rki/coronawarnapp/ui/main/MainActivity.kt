@@ -164,12 +164,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is MainActivityEvent.GoToDeletionScreen -> navController.navigate(
-                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(event.request)
-                )
-                is MainActivityEvent.GoToSubmissionConsentFragment -> navController.navigate(
-                    NavGraphDirections.actionSubmissionConsentFragment(event.request)
-                )
                 is MainActivityEvent.Error -> event.error.toErrorDialogBuilder(this).show()
                 is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
