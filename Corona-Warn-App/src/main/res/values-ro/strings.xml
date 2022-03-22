@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Modificarea stării riscului dvs."</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Ultima expunere care a generat riscul dvs. crescut a avut loc cu mai mult de 14 zile în urmă. Prin urmare, riscul dvs. de infectare a fost clasificat ca fiind din nou redus.\n\nIată ce trebuie să faceți:\n1. Dacă nu aveți simptome specifice COVID-19, continuați să respectați regulile generale privind distanțarea și igiena.\n2. Dacă aveți simptome specifice COVID-19, vă recomandăm să mergeți la medic și să vă testați."</string>
+    <string name="risk_lowered_dialog_body">"Ultima expunere care a generat riscul dvs. crescut a avut loc cu mai mult de %d zile în urmă. Prin urmare, riscul dvs. de infectare a fost clasificat ca fiind din nou redus.\n\nIată ce trebuie să faceți:\n1. Dacă nu aveți simptome specifice COVID-19, continuați să respectați regulile generale privind distanțarea și igiena.\n2. Dacă aveți simptome specifice COVID-19, vă recomandăm să mergeți la medic și să vă testați."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 

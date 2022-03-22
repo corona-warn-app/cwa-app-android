@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Zmiana Twojego statusu ryzyka"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Ostatnie narażenie, które spowodowało zwiększenie Twojego ryzyka, miało miejsce ponad 14 dni temu. Z tego powodu ryzyko zakażenia zostało ponownie sklasyfikowane jako niskie.\n\nZalecenia:\n1. Jeśli nie masz żadnych objawów zakażenia COVID-19, przestrzegaj nadal obowiązujących zasad dotyczących zachowania dystansu i higieny.\n2. Jeżeli masz objawy zakażenia COVID-19, zalecamy wizytę u lekarza i wykonanie testu."</string>
+    <string name="risk_lowered_dialog_body">"Ostatnie narażenie, które spowodowało zwiększenie Twojego ryzyka, miało miejsce ponad %d dni temu. Z tego powodu ryzyko zakażenia zostało ponownie sklasyfikowane jako niskie.\n\nZalecenia:\n1. Jeśli nie masz żadnych objawów zakażenia COVID-19, przestrzegaj nadal obowiązujących zasad dotyczących zachowania dystansu i higieny.\n2. Jeżeli masz objawy zakażenia COVID-19, zalecamy wizytę u lekarza i wykonanie testu."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 

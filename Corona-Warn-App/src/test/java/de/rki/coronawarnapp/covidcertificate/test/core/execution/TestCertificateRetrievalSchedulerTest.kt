@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -28,8 +30,9 @@ import testhelpers.gms.MockListenableFuture
 class TestCertificateRetrievalSchedulerTest : BaseTest() {
 
     @MockK lateinit var workManager: WorkManager
-    @MockK lateinit var certificateRepo: TestCertificateRepository
-    @MockK lateinit var testRepo: CoronaTestRepository
+    @MockK lateinit var testCertificateRepository: TestCertificateRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var workInfo: WorkInfo
 
@@ -47,8 +50,23 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         every { isUpdatingData } returns false
     }
 
+    private val mockFamilyTest = mockk<FamilyCoronaTest>().apply {
+        every { identifier } returns "identifier1-family"
+        every { isDccConsentGiven } returns true
+        every { isDccDataSetCreated } returns false
+        every { isDccSupportedByPoc } returns true
+        every { isNegative } returns true
+    }
+
+    private val mockFamilyCertificate = mockk<TestCertificateWrapper>().apply {
+        every { containerId } returns TestCertificateContainerId("UUID-family")
+        every { isCertificateRetrievalPending } returns true
+        every { isUpdatingData } returns false
+    }
+
     private val testsFlow = MutableStateFlow(setOf(mockTest))
-    private val certificatesFlow = MutableStateFlow(setOf(mockCertificate))
+    private val familyTestsFlow = MutableStateFlow(setOf(mockFamilyTest))
+    private val certificatesFlow = MutableStateFlow(setOf(mockCertificate, mockFamilyCertificate))
     private val foregroundFlow = MutableStateFlow(false)
 
     @BeforeEach
@@ -62,11 +80,17 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
 
         every { workInfo.state } returns WorkInfo.State.SUCCEEDED
 
-        testRepo.apply {
-            every { testRepo.coronaTests } returns testsFlow
+        coronaTestRepository.apply {
+            every { coronaTestRepository.coronaTests } returns testsFlow
             coEvery { markDccAsCreated(any(), any()) } just Runs
         }
-        certificateRepo.apply {
+
+        familyTestRepository.apply {
+            every { familyTests } returns familyTestsFlow
+            coEvery { markDccAsCreated(any(), any()) } just Runs
+        }
+
+        testCertificateRepository.apply {
             every { certificates } returns certificatesFlow
             coEvery { requestCertificate(any()) } returns mockk()
         }
@@ -77,31 +101,40 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = TestCertificateRetrievalScheduler(
         appScope = scope,
         workManager = workManager,
-        certificateRepo = certificateRepo,
+        testCertificateRepository = testCertificateRepository,
         foregroundState = foregroundState,
-        testRepo = testRepo,
+        coronaTestRepository = coronaTestRepository,
+        familyTestRepository = familyTestRepository,
     )
 
     @Test
     fun `new negative corona tests create a dcc if supported and consented`() = runBlockingTest2(ignoreActive = true) {
         createInstance(scope = this).setup()
-        coVerify { certificateRepo.requestCertificate(mockTest) }
+        coVerify {
+            testCertificateRepository.requestCertificate(mockTest)
+            coronaTestRepository.markDccAsCreated("identifier1", true)
+
+            testCertificateRepository.requestCertificate(mockFamilyTest)
+            familyTestRepository.markDccAsCreated("identifier1-family", true)
+        }
     }
 
     @Test
     fun `certificates only for negative results`() = runBlockingTest2(ignoreActive = true) {
         every { mockTest.isNegative } returns false
+        every { mockFamilyTest.isNegative } returns false
         createInstance(scope = this).setup()
         advanceUntilIdle()
-        coVerify(exactly = 0) { certificateRepo.requestCertificate(any()) }
+        coVerify(exactly = 0) { testCertificateRepository.requestCertificate(any()) }
     }
 
     @Test
     fun `no duplicate certificates for flaky test results`() = runBlockingTest2(ignoreActive = true) {
         every { mockTest.isDccDataSetCreated } returns true
+        every { mockFamilyTest.isDccDataSetCreated } returns true
         createInstance(scope = this).setup()
         advanceUntilIdle()
-        coVerify(exactly = 0) { certificateRepo.requestCertificate(any()) }
+        coVerify(exactly = 0) { testCertificateRepository.requestCertificate(any()) }
     }
 
     @Test
@@ -131,7 +164,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
             every { isUpdatingData } returns false
         }
 
-        certificatesFlow.value = setOf(mockCertificate, mockCertificate2)
+        certificatesFlow.value = setOf(mockCertificate, mockFamilyCertificate, mockCertificate2)
         advanceUntilIdle()
         coVerify(exactly = 2) { workManager.enqueueUniqueWork(any(), any(), any<OneTimeWorkRequest>()) }
     }
