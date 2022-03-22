@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
-interface PersonalCoronaTest : CoronaTest, KeySubmission, CoronaTestProcessorState
+interface PersonalCoronaTest : CoronaTest, CoronaTestKeySubmission, CoronaTestProcessorState
 
 interface CoronaTestProcessorState {
     val isProcessing: Boolean
@@ -32,7 +32,7 @@ interface CoronaTestDcc {
     val qrCodeHash: String?
 }
 
-interface KeySubmission {
+interface CoronaTestKeySubmission {
     val isSubmissionAllowed: Boolean
     val isSubmitted: Boolean
     val isAdvancedConsentGiven: Boolean
