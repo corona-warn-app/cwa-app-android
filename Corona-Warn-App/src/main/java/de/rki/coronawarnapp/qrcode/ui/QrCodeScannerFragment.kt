@@ -247,7 +247,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     }
 
     private fun onDccResult(scannerResult: DccResult) {
-        Timber.tag(TAG).d(" onDccResult(scannerResult=%s)", scannerResult)
+        Timber.tag(TAG).d("onDccResult(scannerResult=%s)", scannerResult)
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
