@@ -9,19 +9,14 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
-import java.lang.Exception
 
 class FamilyTestConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val coronaTestQRCode: CoronaTestQRCode,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
-
-    private val registrationStateInternal = MutableStateFlow<State>(State.Idle) // TODO: FOR TEST ONLY
-    val registrationState = registrationStateInternal.asLiveData() // TODO: FOR TEST ONLY
 
     val routeToScreen = SingleLiveEvent<FamilyTestConsentNavigationEvents>()
 
@@ -44,25 +39,12 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
     }
 
     fun onConsentButtonClick() = launch {
-        try {
-            // TODO: Replace with proper test registration process
-            registrationStateInternal.value = State.Working // TODO: FOR TEST ONLY
-            delay(2000) // TODO: FOR TEST ONLY
-            FamilyTestConsentNavigationEvents.NavigateToCertificateRequest(
-                coronaTestQRCode = coronaTestQRCode,
-                consentGiven = true,
-                allowReplacement = false // TODO: check if it should be passed as navArg
-            ).run { routeToScreen.postValue(this) }
-        } catch (exception: Exception) {
-            // TODO: exception handler
-            Timber.d(exception, "Something went wrong...")
-        }
-    }
-
-    // TODO: FOR TEST ONLY
-    sealed class State {
-        object Idle : State()
-        object Working : State()
+        FamilyTestConsentNavigationEvents.NavigateToCertificateRequest(
+            coronaTestQRCode = coronaTestQRCode,
+            consentGiven = true,
+            allowReplacement = true,
+            personName = personName.first()
+        ).run { routeToScreen.postValue(this) }
     }
 
     @AssistedFactory

@@ -16,6 +16,8 @@
 
     <!-- XHED: Test registration selection: header -->
     <string name="family_consent_header">"Ihr Einverständnis"</string>
+    <!-- XACT: Test registration selection: description for screen readers -->
+    <string name="family_consent_image_descr">"Eine Familie mit mehreren Mitgliedern; im Hintergrund ein Dokument mit QR-Code darauf."</string>
     <!-- XTXT: Test registration selection: subtitle -->
     <string name="family_consent_subtitle">"Testergebnis für Familienmitglieder abrufen"</string>
     <!-- XTXT: Test registration selection: person name label -->

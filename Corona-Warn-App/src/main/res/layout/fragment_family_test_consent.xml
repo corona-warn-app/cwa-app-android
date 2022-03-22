@@ -19,6 +19,7 @@
         app:titleTextColor="@color/colorQrCodeScanToolbar" />
 
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_action"
@@ -35,7 +36,7 @@
                 android:id="@+id/consent_illustration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/family_consent_image_descr"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

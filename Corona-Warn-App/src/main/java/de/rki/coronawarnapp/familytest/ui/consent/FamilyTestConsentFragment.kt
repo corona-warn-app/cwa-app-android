@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.familytest.ui.consent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
@@ -11,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.contactdiary.util.focusAndShowKeyboard
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestConsentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -53,7 +51,8 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                     NavGraphDirections.actionRequestCovidCertificateFragment(
                         testRegistrationRequest = it.coronaTestQRCode,
                         coronaTestConsent = it.consentGiven,
-                        allowTestReplacement = it.allowReplacement
+                        allowTestReplacement = it.allowReplacement,
+                        personName = it.personName
                     ),
                     navOptions
                 )
@@ -62,7 +61,6 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         }
 
         binding.apply {
-            nameInputEdit.focusAndShowKeyboard()
             nameInputEdit.doAfterTextChanged {
                 viewModel.nameChanged(it.toString())
             }
@@ -90,14 +88,6 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
 
         viewModel.isValid.observe2(this) {
             binding.consentButton.isEnabled = it
-        }
-        // TODO: FOR TEST ONLY
-        viewModel.registrationState.observe2(this) { state ->
-            val isWorking = state is FamilyTestConsentViewModel.State.Working
-            binding.apply {
-                progressSpinner.isVisible = isWorking
-                consentButton.isEnabled = !isWorking
-            }
         }
     }
 }
