@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.familytest.core.model.FamilyTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +13,13 @@ class FamilyTestRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope
 ) {
 
-    val familyTests: Flow<Set<FamilyTest>> = flowOf(emptySet())
-    val recycledFamilyTests: Flow<Set<FamilyTest>> = flowOf()
+    val familyTests: Flow<Set<FamilyCoronaTest>> = flowOf(emptySet())
+    val recycledFamilyTests: Flow<Set<FamilyCoronaTest>> = flowOf(emptySet())
 
     suspend fun registerTest(
         request: TestRegistrationRequest,
         personName: String
-    ): FamilyTest {
+    ): FamilyCoronaTest {
         // TBD
         throw NotImplementedError()
     }

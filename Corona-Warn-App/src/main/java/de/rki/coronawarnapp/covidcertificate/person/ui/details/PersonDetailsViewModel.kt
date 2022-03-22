@@ -258,12 +258,12 @@ class PersonDetailsViewModel @AssistedInject constructor(
         }
     )
 
-    fun dismissAdmissionStateBadge() {
+    fun dismissAdmissionStateBadge(shouldPopBackstack: Boolean = false) {
         viewModelScope.launch {
             personCertificatesProvider.findPersonByIdentifierCode(personIdentifierCode)
                 .firstOrNull()?.personIdentifier
                 ?.let { personCertificatesSettings.dismissGStatusBadge(it) }
-            events.postValue(Back)
+            if (shouldPopBackstack) events.postValue(Back)
         }
     }
 

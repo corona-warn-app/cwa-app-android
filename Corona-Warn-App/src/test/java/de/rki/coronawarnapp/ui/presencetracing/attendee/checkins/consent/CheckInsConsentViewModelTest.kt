@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 
 import androidx.lifecycle.SavedStateHandle
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -93,7 +94,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
     )
 
     private val coronaTestFlow = MutableStateFlow(
-        mockk<CoronaTest>().apply { every { isViewed } returns false }
+        mockk<PersonalCoronaTest>().apply { every { isViewed } returns false }
     )
 
     @BeforeEach
@@ -263,7 +264,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `Close opens skipDialog when test result has been shown`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns true }
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply { every { isViewed } returns true }
         createViewModel().apply {
             onCloseClick()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenSkipDialog
@@ -272,7 +273,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `Close opens closeDialog when test result has not been shown`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns false }
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply { every { isViewed } returns false }
         createViewModel().apply {
             onCloseClick()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.OpenCloseDialog
@@ -281,7 +282,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `shareSelectedCheckIns when test result has been shown`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns true }
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply { every { isViewed } returns true }
         createViewModel().apply {
             shareSelectedCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
@@ -295,7 +296,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `shareSelectedCheckIns when test result has not been shown`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns false }
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply { every { isViewed } returns false }
         createViewModel().apply {
             shareSelectedCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment
@@ -309,7 +310,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `doNotShareCheckIns when test result has been shown`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns true }
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply { every { isViewed } returns true }
         createViewModel().apply {
             doNotShareCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionResultReadyFragment
@@ -322,7 +323,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
 
     @Test
     fun `doNotShareCheckIns when test result has not been shown`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply { every { isViewed } returns false }
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply { every { isViewed } returns false }
         createViewModel().apply {
             doNotShareCheckIns()
             events.getOrAwaitValue() shouldBe CheckInsConsentNavigation.ToSubmissionTestResultConsentGivenFragment

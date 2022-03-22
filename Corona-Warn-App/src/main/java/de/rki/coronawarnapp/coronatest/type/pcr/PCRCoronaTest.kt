@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
@@ -61,7 +62,7 @@ data class PCRCoronaTest(
 
     @SerializedName("recycledAt")
     override var recycledAt: Instant? = null,
-) : CoronaTest {
+) : PersonalCoronaTest {
 
     override val type: CoronaTest.Type
         get() = CoronaTest.Type.PCR

@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.recyclebin.cleanup
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
-import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.coVerify
@@ -54,7 +54,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
 
     private fun createTest(days: Int) = createTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
 
-    private fun createTest(recycleTime: Instant): CoronaTest = mockk {
+    private fun createTest(recycleTime: Instant): PersonalCoronaTest = mockk {
         every { recycledAt } returns recycleTime
         every { identifier } returns recycleTime.toString()
     }
