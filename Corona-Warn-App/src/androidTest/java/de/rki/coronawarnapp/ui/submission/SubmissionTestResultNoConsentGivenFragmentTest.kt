@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -71,7 +72,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     fun capture_fragment() {
         every { viewModel.uiState } returns MutableLiveData(
             TestResultUIState(
-                coronaTest = mockk<CoronaTest>().apply {
+                coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
                     every { type } returns CoronaTest.Type.PCR

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.flow.combine
@@ -38,7 +39,7 @@ val CoronaTestRepository.positiveViewedTests: Flow<List<CoronaTest>>
 // CoronaTest.lastError is also only in memory
 private val consumedErrors = mutableMapOf<String, Throwable?>()
 
-val CoronaTestRepository.testErrorsSingleEvent: Flow<List<CoronaTest>>
+val CoronaTestRepository.testErrorsSingleEvent: Flow<List<PersonalCoronaTest>>
     get() = coronaTests
         .map { tests ->
             tests

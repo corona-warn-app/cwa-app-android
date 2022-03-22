@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission.warnothers
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.nearby.ENFClient
@@ -45,7 +46,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var testType: CoronaTest.Type
 
     private val coronaTestFlow = MutableStateFlow(
-        mockk<CoronaTest>().apply {
+        mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
     )
@@ -81,7 +82,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
     @Test
     fun `consent is stored and tek history updated`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 

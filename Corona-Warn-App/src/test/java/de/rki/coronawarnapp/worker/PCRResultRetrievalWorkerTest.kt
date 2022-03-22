@@ -7,6 +7,7 @@ import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
@@ -50,7 +51,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     private val currentInstant = Instant.ofEpochSecond(1611764225)
     private val testToken = "test token"
 
-    private val coronaTestFlow = MutableStateFlow(emptySet<CoronaTest>())
+    private val coronaTestFlow = MutableStateFlow(emptySet<PersonalCoronaTest>())
 
     @Before
     fun setUp() {
@@ -78,7 +79,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
         viewed: Boolean = false,
         result: CoronaTestResult = CoronaTestResult.PCR_POSITIVE,
         isNotificationSent: Boolean = false,
-    ): CoronaTest {
+    ): PersonalCoronaTest {
         return mockk<PCRCoronaTest>().apply {
             every { identifier } returns ""
             every { type } returns CoronaTest.Type.PCR

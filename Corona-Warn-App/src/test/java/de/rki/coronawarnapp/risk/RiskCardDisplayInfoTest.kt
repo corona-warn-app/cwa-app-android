@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
@@ -240,7 +241,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
 
     data class TestCase(
         val riskState: RiskState?,
-        val testSet: Set<CoronaTest>,
+        val testSet: Set<PersonalCoronaTest>,
         val durationPassed: Duration,
         val showRiskCardExpectedReturnValue: Boolean
     )
