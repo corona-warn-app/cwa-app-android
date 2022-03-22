@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
+import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.TrackedExposureDetection
@@ -33,6 +34,7 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
+    private val keyCacheRepository: KeyCacheRepository,
 ) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
     private val internalProgress = MutableStateFlow<Progress>(Progress.Started)
@@ -99,20 +101,25 @@ class DownloadDiagnosisKeysTask @Inject constructor(
                 return Result()
             }
 
-            val availableKeyFiles = keySyncResult.availableKeys.map { it.path }
-            val totalFileSize = availableKeyFiles.fold(0L) { acc, file -> file.length() + acc }
+            val deltaKeyFiles = keySyncResult.deltaKeys.map { it.path }
+            val totalFileSize = deltaKeyFiles.fold(0L) { acc, file -> file.length() + acc }
 
-            internalProgress.value = Progress.KeyFilesDownloadFinished(availableKeyFiles.size, totalFileSize)
+            internalProgress.value = Progress.KeyFilesDownloadFinished(deltaKeyFiles.size, totalFileSize)
 
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(
-                availableKeyFiles,
+                deltaKeyFiles,
                 exposureConfig.diagnosisKeysDataMapping
             )
             Timber.tag(TAG).d("Diagnosis Keys provided (success=%s)", isSubmissionSuccessful)
+
+            if (isSubmissionSuccessful) {
+                // mark key files as checked
+                keyCacheRepository.markKeyChecked(keySyncResult.deltaKeys.map { it.info }.toList())
+            }
 
             internalProgress.value = Progress.ApiSubmissionFinished
 

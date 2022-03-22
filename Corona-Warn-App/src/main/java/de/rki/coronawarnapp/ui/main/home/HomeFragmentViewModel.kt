@@ -14,15 +14,17 @@ import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.shouldShowRiskCard
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
 import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
@@ -84,6 +86,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -109,6 +112,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
+    private val riskCardDisplayInfo: RiskCardDisplayInfo,
+    private val familyTestRepository: FamilyTestRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private var isLoweredRiskLevelDialogBeingShown = false
@@ -117,6 +122,21 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<HomeFragmentEvents>()
+
+    init {
+        tracingSettings
+            .isUserToBeNotifiedOfAdditionalHighRiskLevel
+            .flow
+            .filter { it }
+            .onEach {
+                events.postValue(
+                    HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                    )
+                )
+            }
+            .launchInViewModel()
+    }
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
@@ -172,32 +192,25 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.latestPCRT,
         coronaTestRepository.latestRAT,
         combinedStatistics,
-        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
-    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters ->
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
+        familyTestRepository.familyTests
+    ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, familyTests ->
         val statePCR = testPCR.toSubmissionState()
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val pcrIdentifier = testPCR?.identifier ?: ""
         val ratIdentifier = testRAT?.identifier ?: ""
 
-        val positiveCoronaTests = listOfNotNull(testRAT, testPCR).filter { it.isPositive && it.isViewed }
-
         mutableListOf<HomeItem>().apply {
-            when {
-                // High risk is always visible regardless of test result
-                tracingItem is IncreasedRiskCard.Item -> add(tracingItem)
 
-                // No high risk card -> check corona test age against config duration
-                positiveCoronaTests.isNotEmpty() -> {
-                    if (positiveCoronaTests.all {
-                        it.shouldShowRiskCard(coronaTestParameters, timeStamper.nowUTC)
-                    }
-                    ) {
-                        add(tracingItem)
-                    } // else -> // Don't show risk card
-                }
+            val currentRiskState = when (tracingItem) {
+                is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
+                is LowRiskCard.Item -> RiskState.LOW_RISK
+                is TracingFailedCard.Item -> RiskState.CALCULATION_FAILED
+                else -> null // tracing is disabled or calculation is currently in progress
+            }
 
-                // Otherwise show risk card
-                else -> add(tracingItem)
+            if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
+                add(tracingItem)
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
@@ -210,6 +223,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
+            // My own tests
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
@@ -232,6 +246,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
                         add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
                     }
                 }
+            }
+
+            // Family tests tile
+            if (familyTests.isNotEmpty()) {
+                val badgeCount = familyTests.count { !it.didShowBadge }
+                // TBD family tests tile
             }
 
             if (statsData.isDataAvailable) {
@@ -300,6 +320,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
         launch {
             try {
                 submissionRepository.refreshTest()
+                familyTestRepository.refresh()
             } catch (e: CoronaTestNotFoundException) {
                 Timber.e(e, "refreshTest failed")
                 errorEvent.postValue(e)
@@ -324,6 +345,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
     fun userHasAcknowledgedTheLoweredRiskLevel() {
         isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
+    }
+
+    fun userHasAcknowledgedAdditionalHighRiskLevel() {
+        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {

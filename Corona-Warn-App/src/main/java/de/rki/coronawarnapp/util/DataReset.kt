@@ -27,6 +27,7 @@ import de.rki.coronawarnapp.dccticketing.core.allowlist.repo.DccTicketingAllowLi
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeSettings
 import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysSettings
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
@@ -93,6 +94,7 @@ class DataReset @Inject constructor(
     private val cclConfigurationRepository: CclConfigurationRepository,
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
+    private val familyTestRepository: FamilyTestRepository,
 ) {
 
     private val mutex = Mutex()
@@ -160,6 +162,8 @@ class DataReset @Inject constructor(
         cclConfigurationRepository.clear()
 
         dccWalletInfoRepository.clear()
+
+        familyTestRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

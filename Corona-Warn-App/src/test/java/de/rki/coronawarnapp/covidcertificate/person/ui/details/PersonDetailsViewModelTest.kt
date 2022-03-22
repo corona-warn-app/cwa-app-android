@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.CwaUserCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.RecoveryCertificateCard
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.items.TestCertificateCard
@@ -50,6 +51,7 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 class PersonDetailsViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
+    @MockK lateinit var personCertificatesSettings: PersonCertificatesSettings
     @MockK lateinit var dccValidationRepository: DccValidationRepository
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var viewModel: PersonDetailsViewModel
@@ -160,6 +162,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         dispatcherProvider = TestDispatcherProvider(),
         dccValidationRepository = dccValidationRepository,
         personCertificatesProvider = personCertificatesProvider,
+        personCertificatesSettings = personCertificatesSettings,
         personIdentifierCode = personCode,
         colorShade = PersonColorShade.COLOR_1,
         format = CclTextFormatter(cclJsonFunctions, mapper)
