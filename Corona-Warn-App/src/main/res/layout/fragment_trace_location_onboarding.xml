@@ -8,6 +8,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/check_in_onboarding_toolbar"
         android:layout_width="0dp"
+        style="@style/CWAMaterialToolbar"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

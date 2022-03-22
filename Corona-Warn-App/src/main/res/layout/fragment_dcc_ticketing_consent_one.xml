@@ -42,12 +42,11 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
-                    style="@style/CWAToolbar.Close.Transparent"
+                    style="@style/CWAMaterialToolbar.Close"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_close"
                     app:title="@string/dcc_ticketing_consent_one_header" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
