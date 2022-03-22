@@ -460,8 +460,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     // PERSISTENCE
-    def room_version = "2.2.6"
-    implementation "androidx.sqlite:sqlite-ktx:2.1.0"
+    def room_version = "2.4.2"
+    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-guava:$room_version"
