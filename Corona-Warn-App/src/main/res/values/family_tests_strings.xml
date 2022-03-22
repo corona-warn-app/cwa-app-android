@@ -4,7 +4,7 @@
     <!-- XHED: Test registration selection: header -->
     <string name="family_test_reg_selection_header">"Test registrieren"</string>
     <!-- XTXT: Test registration selection: subtitle -->
-    <string name="family_test_reg_selection_subtitle">"Sie erhalten das Ergebnis auf Ihrem Smartphone und können ein digitales COVID-Testzertifikat anfordern. Nur wenn es Ihr eigener Test ist, können Sie im Fall eines positiven Testergebnis andere warnen."</string>
+    <string name="family_test_reg_selection_subtitle">"Sie erhalten das Ergebnis auf Ihrem Smartphone und können ein digitales COVID-Testzertifikat anfordern. Nur wenn es Ihr eigener Test ist, können Sie im Fall eines positiven Testergebnisses andere warnen."</string>
     <!-- XTXT: Test registration selection: person title -->
     <string name="family_test_reg_selection_person_title">"Für mich"</string>
     <!-- XTXT: Test registration selection: person subtitle -->
@@ -23,9 +23,9 @@
     <!-- XTXT: Test registration selection: person name tooltip -->
     <string name="family_consent_person_name_tooltip">"Name"</string>
     <!-- XTXT: Test registration selection: test type -->
-    <string name="family_consent_test_type">"Sie registrieren einien Test für ein Familienmitglied. Sollte es ihr eigener sein gehen Sie bitte zurück und wählen das aus. Nur so können Sie Ihre Begegnungen warnen!"</string>
+    <string name="family_consent_test_type">"Sie registrieren einen Test für ein Familienmitglied. Wurden Sie selber getestet, gehen Sie bitte zurück und wählen dies aus. Nur dann können Sie andere im Falle eines positiven Testergebnisses warnen!"</string>
     <!-- XTXT: Test registration selection: test type -->
-    <string name="family_consent_test_result">"Wenn Ihr Testergebnis negativ ist, können Sie dies in Form eines offiziellen COVID-Testzertifikats bestätigen lassen. Fordern Sie hierfür in den folgenden Schritten das Testzertifikat an."</string>
+    <string name="family_consent_test_result">"Wenn das Testergebnis Ihres Familienmitglieds negativ ist, können Sie in den folgenden Schritten ein offizielles COVID-Testzertifikat anfordern."</string>
     <!-- XBUT: Test registration selection: confirm button -->
     <string name="family_consent_cofirm_button">"Einverstanden"</string>
 
