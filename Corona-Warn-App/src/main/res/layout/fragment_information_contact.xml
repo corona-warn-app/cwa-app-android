@@ -9,28 +9,27 @@
         android:contentDescription="@string/information_contact_title"
         android:focusable="true">
 
-        <include
-            android:id="@+id/information_contact_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/information_contact_title}" />
+            app:title="@string/information_contact_title" />
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:fillViewport="true"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/information_contact_header">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -105,8 +104,8 @@
                     style="@style/body2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
                     android:layout_marginTop="@dimen/spacing_normal"
+                    android:focusable="true"
                     android:text="@string/information_contact_body_phone"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"

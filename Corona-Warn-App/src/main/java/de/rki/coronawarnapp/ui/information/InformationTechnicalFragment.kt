@@ -21,7 +21,7 @@ class InformationTechnicalFragment : Fragment(R.layout.fragment_information_tech
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 
     override fun onResume() {
@@ -29,9 +29,4 @@ class InformationTechnicalFragment : Fragment(R.layout.fragment_information_tech
         binding.informationTechnicalContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun setButtonOnClickListener() {
-        binding.informationTechnicalHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
-    }
 }

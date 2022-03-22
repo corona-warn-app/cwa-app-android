@@ -40,8 +40,6 @@ class InformationLegalFragment : Fragment(R.layout.fragment_information_legal) {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationLegalHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 }

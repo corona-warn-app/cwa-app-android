@@ -18,13 +18,12 @@
         android:focusable="true"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/information_technical_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
-            app:title="@{@string/information_technical_title}" />
+            app:title="@string/information_technical_title" />
 
         <ScrollView
             android:layout_width="match_parent"

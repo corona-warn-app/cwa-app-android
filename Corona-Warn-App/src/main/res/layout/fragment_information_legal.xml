@@ -14,31 +14,30 @@
         android:id="@+id/information_legal_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:contentDescription="@string/information_legal_title">
+        android:contentDescription="@string/information_legal_title"
+        android:focusable="true">
 
-        <include
-            android:id="@+id/information_legal_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/information_legal_title}" />
+            app:title="@string/information_legal_title" />
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:focusable="true"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/information_legal_header">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -63,8 +62,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="@string/information_legal_body_publisher"
                     android:focusable="true"
+                    android:text="@string/information_legal_body_publisher"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_header_details" />
@@ -83,12 +82,12 @@
                 <TextView
                     android:id="@+id/information_legal_headline_contact"
                     style="@style/headline6"
-                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@string/information_legal_headline_contact"
+                    android:accessibilityHeading="true"
                     android:focusable="true"
+                    android:text="@string/information_legal_headline_contact"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_divider_contact" />
@@ -99,9 +98,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="@string/information_legal_subtitle_contact"
-                    android:focusable="true"
                     android:autoLink="email"
+                    android:focusable="true"
+                    android:text="@string/information_legal_subtitle_contact"
                     android:textColorLink="@color/colorTextTint"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
@@ -129,12 +128,12 @@
                 <TextView
                     android:id="@+id/information_legal_headline_taxid"
                     style="@style/headline6"
-                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
-                    android:text="@string/information_legal_headline_taxid"
+                    android:accessibilityHeading="true"
                     android:focusable="true"
+                    android:text="@string/information_legal_headline_taxid"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_divider_taxid" />
@@ -145,8 +144,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
-                    android:text="@string/information_legal_subtitle_taxid"
                     android:focusable="true"
+                    android:text="@string/information_legal_subtitle_taxid"
                     app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                     app:layout_constraintStart_toEndOf="@+id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@+id/information_legal_headline_taxid" />
