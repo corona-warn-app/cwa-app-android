@@ -238,5 +238,5 @@
     <!-- XTXT: Family Consent Screen: Legal: Point 1 -->
     <string name="family_consent_legal_point_1" translatable="false">"<b>Die App ruft das Testergebnis Ihres Familienmitglieds ab.</b>\nWenn Sie es sich später anders überlegen, können Sie den Test in der App löschen."</string>
     <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
-    <string name="family_consent_legal_bottom_link">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis."</string>
+    <string name="family_consent_legal_bottom_link" translatable="false">"Ausführliche Informationen zur Datenverarbeitung und Ihrem Einverständnis."</string>
 </resources>
