@@ -74,11 +74,12 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         }
     }
 
+    // TODO: (Temporary) - add the first element back after 2.19 is released
     private fun getItems(): List<NewReleaseInfoItem> {
-        val titles = resources.getStringArray(R.array.new_release_title)
-        val textBodies = resources.getStringArray(R.array.new_release_body)
-        val linkifiedLabels = resources.getStringArray(R.array.new_release_linkified_labels)
-        val linkTargets = resources.getStringArray(R.array.new_release_target_urls)
+        val titles = resources.getStringArray(R.array.new_release_title).drop(1).toTypedArray()
+        val textBodies = resources.getStringArray(R.array.new_release_body).drop(1).toTypedArray()
+        val linkifiedLabels = resources.getStringArray(R.array.new_release_linkified_labels).drop(1).toTypedArray()
+        val linkTargets = resources.getStringArray(R.array.new_release_target_urls).drop(1).toTypedArray()
         return vm.getItems(titles, textBodies, linkifiedLabels, linkTargets)
     }
 
@@ -97,18 +98,18 @@ private class ItemAdapter(
         BindableVH<NewReleaseInfoItem, NewReleaseInfoItemBinding> {
         override val viewBinding:
             Lazy<NewReleaseInfoItemBinding> =
-                lazy { NewReleaseInfoItemBinding.bind(itemView) }
+            lazy { NewReleaseInfoItemBinding.bind(itemView) }
 
         override val onBindData:
             NewReleaseInfoItemBinding.(item: NewReleaseInfoItem, payloads: List<Any>) -> Unit =
-                { item, _ ->
-                    title.text = item.title
-                    if (item is NewReleaseInfoItemLinked) {
-                        body.setTextWithUrl(item.body, item.linkifiedLabel, item.linkTarget)
-                    } else {
-                        body.text = item.body
-                    }
+            { item, _ ->
+                title.text = item.title
+                if (item is NewReleaseInfoItemLinked) {
+                    body.setTextWithUrl(item.body, item.linkifiedLabel, item.linkTarget)
+                } else {
+                    body.text = item.body
                 }
+            }
     }
 
     override fun onCreateBaseVH(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(parent)
