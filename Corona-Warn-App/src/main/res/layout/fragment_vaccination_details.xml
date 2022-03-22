@@ -79,10 +79,10 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
+                    style="@style/CWAMaterialToolbar.BackArrow.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:theme="@style/Theme.Material3.Dark"
-                    style="@style/CWAMaterialToolbar.BackArrow.Transparent"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:menu="@menu/menu_covid_certificate_detail"
