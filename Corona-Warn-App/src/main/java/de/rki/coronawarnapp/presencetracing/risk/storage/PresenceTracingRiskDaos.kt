@@ -43,12 +43,6 @@ interface TraceTimeIntervalMatchDao {
 @Entity
 data class TraceTimeIntervalMatchEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long? = null,
-    @ForeignKey(
-        entity = TraceLocationCheckInEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["checkInId"],
-        onDelete = ForeignKey.CASCADE
-    )
     @ColumnInfo(name = "checkInId") val checkInId: Long,
     @ColumnInfo(name = "traceWarningPackageId") val traceWarningPackageId: String,
     @ColumnInfo(name = "transmissionRiskLevel") val transmissionRiskLevel: Int,

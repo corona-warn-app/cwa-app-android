@@ -131,13 +131,6 @@ data class AnalyticsExposureWindowEntity(
 @Entity
 data class AnalyticsScanInstanceEntity(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
-    @ForeignKey(
-        entity = AnalyticsExposureWindowEntity::class,
-        parentColumns = [PARENT_COLUMN],
-        childColumns = [CHILD_COLUMN],
-        onDelete = ForeignKey.CASCADE,
-        deferred = true
-    )
     val fkSha256Hash: String,
     val minAttenuation: Int,
     val typicalAttenuation: Int,
