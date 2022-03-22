@@ -5,7 +5,7 @@ import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -112,7 +112,7 @@ class MainActivityViewModelTest2 : BaseTest() {
 
     @Test
     fun `Home screen badge count shows tests badges only`() {
-        val coronaTest = mockk<CoronaTest>().apply { every { didShowBadge } returns false }
+        val coronaTest = mockk<PersonalCoronaTest>().apply { every { didShowBadge } returns false }
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
@@ -129,7 +129,7 @@ class MainActivityViewModelTest2 : BaseTest() {
 
     @Test
     fun `Home screen badge count shows risk + tests badges only`() {
-        val coronaTest = mockk<CoronaTest>().apply { every { didShowBadge } returns false }
+        val coronaTest = mockk<PersonalCoronaTest>().apply { every { didShowBadge } returns false }
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(true)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
@@ -138,7 +138,7 @@ class MainActivityViewModelTest2 : BaseTest() {
 
     @Test
     fun `Home screen badge count shows risk + tests badges is ZERO`() {
-        val coronaTest = mockk<CoronaTest>().apply { every { didShowBadge } returns true }
+        val coronaTest = mockk<PersonalCoronaTest>().apply { every { didShowBadge } returns true }
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 

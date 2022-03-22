@@ -31,7 +31,7 @@ class CclConfigurationUpdater @Inject constructor(
             updateAndTriggerRecalculation()
         } else {
             Timber.d("No CCLConfig update required!")
-            triggerRecalculation(configurationChanged = false)
+            triggerRecalculation(configurationChanged = cclSettings.forceCclCalculation())
         }
     }
 

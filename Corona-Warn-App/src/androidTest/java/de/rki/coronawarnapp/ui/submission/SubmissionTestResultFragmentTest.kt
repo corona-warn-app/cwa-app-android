@@ -10,6 +10,7 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -66,7 +67,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
             every { consentGiven } returns MutableLiveData(true)
             every { testState } returns MutableLiveData(
                 TestResultUIState(
-                    coronaTest = mockk<CoronaTest>().apply {
+                    coronaTest = mockk<PersonalCoronaTest>().apply {
                         every { testResult } returns CoronaTestResult.PCR_POSITIVE
                         every { registeredAt } returns Instant.now()
                         every { isProcessing } returns false
@@ -116,7 +117,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     fun capture_fragment() {
         every { viewModel.testState } returns MutableLiveData(
             TestResultUIState(
-                coronaTest = mockk<CoronaTest>().apply {
+                coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
                     every { registeredAt } returns Instant.now()
                     every { isProcessing } returns false

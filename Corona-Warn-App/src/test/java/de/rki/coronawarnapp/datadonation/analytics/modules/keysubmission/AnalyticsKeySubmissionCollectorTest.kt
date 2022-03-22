@@ -167,13 +167,26 @@ class AnalyticsKeySubmissionCollectorTest : BaseTest() {
     @Test
     fun `PCR save positive test result received`() {
         coEvery { analyticsSettings.analyticsEnabled.value } returns true
-        val flow = mockFlowPreference(now.millis)
+        val flow = mockFlowPreference(-1L)
         every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
 
         runBlockingTest {
             val collector = createInstance()
             collector.reportPositiveTestResultReceived(PCR)
             verify { flow.update(any()) }
+        }
+    }
+
+    @Test
+    fun `PCR positive test result received is not overwritten`() {
+        coEvery { analyticsSettings.analyticsEnabled.value } returns true
+        val flow = mockFlowPreference(now.millis)
+        every { analyticsPcrKeySubmissionStorage.testResultReceivedAt } returns flow
+
+        runBlockingTest {
+            val collector = createInstance()
+            collector.reportPositiveTestResultReceived(PCR)
+            verify(exactly = 0) { flow.update(any()) }
         }
     }
 
