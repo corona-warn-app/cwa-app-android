@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.familytest.core.model.FamilyTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -81,7 +81,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
                     try {
                         val cert = testCertificateRepository.requestCertificate(test)
                         Timber.tag(TAG).v("Certificate was created: %s", cert)
-                        if (test is FamilyTest) {
+                        if (test is FamilyCoronaTest) {
                             familyTestRepository.markDccAsCreated(test.identifier, created = true)
                         } else {
                             coronaTestRepository.markDccAsCreated(test.identifier, created = true)

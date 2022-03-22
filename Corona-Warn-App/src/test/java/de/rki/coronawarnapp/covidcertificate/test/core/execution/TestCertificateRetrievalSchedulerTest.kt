@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
-import de.rki.coronawarnapp.familytest.core.model.FamilyTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.util.device.ForegroundState
 import io.mockk.MockKAnnotations
@@ -50,7 +50,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         every { isUpdatingData } returns false
     }
 
-    private val mockFamilyTest = mockk<FamilyTest>().apply {
+    private val mockFamilyTest = mockk<FamilyCoronaTest>().apply {
         every { identifier } returns "identifier1-family"
         every { isDccConsentGiven } returns true
         every { isDccDataSetCreated } returns false
