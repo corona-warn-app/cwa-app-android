@@ -4,7 +4,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
@@ -33,7 +33,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var workInfo: WorkInfo
 
-    private val mockTest = mockk<CoronaTest>().apply {
+    private val mockTest = mockk<PersonalCoronaTest>().apply {
         every { identifier } returns "identifier1"
         every { isDccConsentGiven } returns true
         every { isDccDataSetCreated } returns false

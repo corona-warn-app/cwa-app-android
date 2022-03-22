@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -124,7 +125,13 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(containerId.toDccDetails())
     }
 
-    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) =
+        when (recycledCoronaTest) {
+            is PersonalCoronaTest -> restorePersonalCoronaTest(recycledCoronaTest)
+            else -> { /* to do */ }
+        }
+
+    private fun restorePersonalCoronaTest(recycledCoronaTest: PersonalCoronaTest) = launch {
         val currentCoronaTest = submissionRepository.testForType(recycledCoronaTest.type).first()
         when {
             currentCoronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
@@ -140,7 +147,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         }
     }
 
-    private fun CoronaTest.toCoronaTestResult(): CoronaTestResult = when {
+    private fun PersonalCoronaTest.toCoronaTestResult(): CoronaTestResult = when {
         isPending -> CoronaTestResult.TestPending(test = this)
         isNegative -> CoronaTestResult.TestNegative(test = this)
         isPositive -> when (isAdvancedConsentGiven) {
