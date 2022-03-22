@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.presencetracing.risk.storage
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.TraceLocationCheckInRisk
 import de.rki.coronawarnapp.presencetracing.risk.calculation.CheckInWarningOverlap
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
-import de.rki.coronawarnapp.presencetracing.storage.entity.TraceLocationCheckInEntity
 import de.rki.coronawarnapp.risk.RiskState
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.Instant
