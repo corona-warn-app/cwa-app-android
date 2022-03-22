@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="24dp"
+    android:paddingEnd="24dp"
+    android:paddingStart="24dp">
+
+    <ImageView
+        android:id="@+id/family_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_family_test" />
+
+    <TextView
+        android:id="@+id/family_badge_count"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/circle_certificate_notification_badge"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:translationX="7dp"
+        android:translationY="-7dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/family_icon"
+        app:layout_constraintTop_toTopOf="@id/family_icon"
+        tools:text="1"
+        tools:visibility="visible" />
+    <TextView
+        android:id="@+id/family_test_title"
+        style="@style/headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:lines="2"
+        android:maxLines="2"
+        android:text="@string/family_test_card_title"
+        app:layout_constraintStart_toEndOf="@id/family_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/family_test_subtitle_news"
+        style="@style/subtitleMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/family_test_card_subtitle_news"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/family_test_title"
+        app:layout_constraintTop_toBottomOf="@id/family_test_title"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
