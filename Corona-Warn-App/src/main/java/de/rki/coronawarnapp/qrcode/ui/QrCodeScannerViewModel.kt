@@ -131,7 +131,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         is CoronaTestRestoreEvent.RestoreDuplicateTest -> CoronaTestResult.RestoreDuplicateTest(
             restoreRecycledTestRequest
         )
-        else -> TODO()
+        is CoronaTestRestoreEvent.RestoredTest -> CoronaTestResult.RestoredTest
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
