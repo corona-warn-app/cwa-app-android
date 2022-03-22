@@ -84,6 +84,9 @@
         <action
             android:id="@+id/action_RecyclerBinOverviewFragment_self"
             app:destination="@id/recyclerBinOverviewFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_familyTestListFragment"
+            app:destination="@id/familyTestListFragment" />
     </fragment>
 
     <fragment

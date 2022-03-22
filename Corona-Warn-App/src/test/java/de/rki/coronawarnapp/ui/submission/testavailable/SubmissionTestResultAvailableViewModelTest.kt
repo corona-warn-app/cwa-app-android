@@ -4,6 +4,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -42,7 +43,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var testType: CoronaTest.Type
 
     private val coronaTestFlow = MutableStateFlow(
-        mockk<CoronaTest>().apply {
+        mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
     )
@@ -73,7 +74,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     @Test
     fun `consent repository changed`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 
@@ -82,7 +83,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         viewModel.consent.observeForever { }
         viewModel.consent.value shouldBe false
 
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
         viewModel.consent.value shouldBe true
@@ -121,7 +122,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
 
     @Test
     fun `go to test result without updating TEK history if NO consent is given`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
         every { analyticsKeySubmissionCollector.reportConsentWithdrawn(any()) } just Runs
@@ -136,7 +137,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @Test
     fun `proceed() should call analyticsKeySubmissionCollector for PCR tests`() {
         testType = PCR
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 
@@ -149,7 +150,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @Test
     fun `proceed() should call analyticsKeySubmissionCollector for RAT tests`() {
         testType = RAPID_ANTIGEN
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 

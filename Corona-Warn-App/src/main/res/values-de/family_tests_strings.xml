@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
+    <!-- Family Test Home Card Tile -->
+    <!-- XHED Title of the family test card -->
+    <string name="family_test_card_title">"Tests von\nFamilienmitgliedern"</string>
+    <!-- XTXT News about family test subtitle -->
+    <string name="family_test_card_subtitle_news">"Es gibt Neuigkeiten"</string>
+
     <!-- XHED: Test registration selection: header -->
     <string name="family_test_reg_selection_header">"Test registrieren"</string>
     <!-- XTXT: Test registration selection: subtitle -->

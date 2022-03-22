@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
@@ -251,7 +252,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             // Family tests tile
             if (familyTests.isNotEmpty()) {
                 val badgeCount = familyTests.count { !it.didShowBadge }
-                // TBD family tests tile
+                add(
+                    FamilyTestCard.Item(
+                        badgeCount = badgeCount,
+                        onCLickAction = { events.postValue(HomeFragmentEvents.GoToFamilyTests) }
+                    )
+                )
             }
 
             if (statsData.isDataAvailable) {

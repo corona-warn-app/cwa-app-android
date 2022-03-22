@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
@@ -38,7 +39,7 @@ class CoronaTestStorage @Inject constructor(
         object : TypeToken<Set<RACoronaTest>>() {}.type
     }
 
-    var coronaTests: Collection<CoronaTest>
+    var coronaTests: Collection<PersonalCoronaTest>
         get() {
             Timber.tag(TAG).d("load()")
 

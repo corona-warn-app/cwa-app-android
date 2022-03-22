@@ -258,6 +258,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
+            is HomeFragmentEvents.GoToFamilyTests -> doNavigate(
+                HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()
+            )
         }
     }
 

@@ -27,6 +27,8 @@ sealed class HomeFragmentEvents {
 
     object OpenFAQUrl : HomeFragmentEvents()
 
+    object GoToFamilyTests : HomeFragmentEvents()
+
     data class GoToRapidTestResultNegativeFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
 
     data class GoToPcrTestResultNegativeFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
