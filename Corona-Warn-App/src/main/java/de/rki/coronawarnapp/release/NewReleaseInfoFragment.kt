@@ -74,12 +74,11 @@ class NewReleaseInfoFragment : Fragment(R.layout.new_release_info_screen_fragmen
         }
     }
 
-    // TODO: (Temporary) - add the first element back after 2.19 is released
     private fun getItems(): List<NewReleaseInfoItem> {
-        val titles = resources.getStringArray(R.array.new_release_title).drop(1).toTypedArray()
-        val textBodies = resources.getStringArray(R.array.new_release_body).drop(1).toTypedArray()
-        val linkifiedLabels = resources.getStringArray(R.array.new_release_linkified_labels).drop(1).toTypedArray()
-        val linkTargets = resources.getStringArray(R.array.new_release_target_urls).drop(1).toTypedArray()
+        val titles = resources.getStringArray(R.array.new_release_title)
+        val textBodies = resources.getStringArray(R.array.new_release_body)
+        val linkifiedLabels = resources.getStringArray(R.array.new_release_linkified_labels)
+        val linkTargets = resources.getStringArray(R.array.new_release_target_urls)
         return vm.getItems(titles, textBodies, linkifiedLabels, linkTargets)
     }
 
