@@ -19,7 +19,7 @@ interface CoronaTestUiState {
     val isResultAvailableNotificationSent: Boolean
 }
 
-interface DccCoronaTest {
+interface CoronaTestDcc {
     // Is the digital green certificate supported by the point of care that issued the test
     val isDccSupportedByPoc: Boolean
 
@@ -38,7 +38,7 @@ interface KeySubmission {
     val isAdvancedConsentGiven: Boolean
 }
 
-interface CoronaTest : CoronaTestUiState, DccCoronaTest, Recyclable {
+interface CoronaTest : CoronaTestUiState, CoronaTestDcc, Recyclable {
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")

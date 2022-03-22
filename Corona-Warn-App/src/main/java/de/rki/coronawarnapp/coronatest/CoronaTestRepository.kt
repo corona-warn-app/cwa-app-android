@@ -57,19 +57,19 @@ class CoronaTestRepository @Inject constructor(
     }
 
     /**
-     * Returns a flow with an unfiltered set of [CoronaTest]
+     * Returns a flow with an unfiltered set of [PersonalCoronaTest]
      */
     val allCoronaTests: Flow<Set<PersonalCoronaTest>> = internalData.data.map { it.values.toSet() }
 
     /**
-     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isNotRecycled]
+     * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isNotRecycled]
      */
     val coronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isNotRecycled }.toSet()
     }
 
     /**
-     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isRecycled]
+     * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isRecycled]
      */
     val recycledCoronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
