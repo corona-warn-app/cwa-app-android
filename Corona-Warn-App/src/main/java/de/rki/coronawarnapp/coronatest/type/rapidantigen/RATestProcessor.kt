@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -45,7 +46,7 @@ class RATestProcessor @Inject constructor(
 
     override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
 
-    override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
+    override suspend fun create(request: TestRegistrationRequest): PersonalCoronaTest = when (request) {
         is CoronaTestQRCode.RapidAntigen -> createQR(request)
         else -> throw IllegalArgumentException("RAProcessor: Unknown test request: $request")
     }
@@ -107,7 +108,7 @@ class RATestProcessor @Inject constructor(
         else -> null
     }
 
-    override suspend fun pollServer(test: CoronaTest): CoronaTest {
+    override suspend fun pollServer(test: PersonalCoronaTest): PersonalCoronaTest {
         return try {
             Timber.tag(TAG).v("pollServer(test=%s)", test)
             test as RACoronaTest
@@ -179,68 +180,68 @@ class RATestProcessor @Inject constructor(
         }
     }
 
-    override suspend fun onRemove(toBeRemoved: CoronaTest) {
+    override suspend fun onRemove(toBeRemoved: PersonalCoronaTest) {
         Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
         // Currently nothing to do
     }
 
-    override suspend fun markSubmitted(test: CoronaTest): RACoronaTest {
+    override suspend fun markSubmitted(test: PersonalCoronaTest): RACoronaTest {
         Timber.tag(TAG).d("markSubmitted(test=%s)", test)
         test as RACoronaTest
 
         return test.copy(isSubmitted = true)
     }
 
-    override suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest {
+    override suspend fun markProcessing(test: PersonalCoronaTest, isProcessing: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test, isProcessing)
         test as RACoronaTest
 
         return test.copy(isProcessing = isProcessing)
     }
 
-    override suspend fun markViewed(test: CoronaTest): CoronaTest {
+    override suspend fun markViewed(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("markViewed(test=%s)", test)
         test as RACoronaTest
 
         return test.copy(isViewed = true)
     }
 
-    override suspend fun markBadgeAsViewed(test: CoronaTest): CoronaTest {
+    override suspend fun markBadgeAsViewed(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test)
         test as RACoronaTest
 
         return test.copy(didShowBadge = true)
     }
 
-    override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+    override suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as RACoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
     }
 
-    override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {
+    override suspend fun updateResultNotification(test: PersonalCoronaTest, sent: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
         test as RACoronaTest
 
         return test.copy(isResultAvailableNotificationSent = sent)
     }
 
-    override suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest {
+    override suspend fun markDccCreated(test: PersonalCoronaTest, created: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
         test as RACoronaTest
 
         return test.copy(isDccDataSetCreated = created)
     }
 
-    override suspend fun recycle(test: CoronaTest): CoronaTest {
+    override suspend fun recycle(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("recycle(test=%s)", test)
         test as RACoronaTest
 
         return test.copy(recycledAt = timeStamper.nowUTC)
     }
 
-    override suspend fun restore(test: CoronaTest): CoronaTest {
+    override suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("restore(test=%s)", test)
         test as RACoronaTest
 
