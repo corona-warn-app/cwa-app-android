@@ -18,17 +18,16 @@
         android:fillViewport="true"
         tools:context=".ui.submission.tan.SubmissionTanFragment">
 
-        <include
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/submission_tan_header"
-            layout="@layout/include_header"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="false"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_tan_title}" />
+            app:title="@string/submission_tan_title" />
 
         <include
             android:id="@+id/submission_tan_content"

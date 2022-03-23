@@ -15,18 +15,17 @@
         android:background="@color/colorSurface"
         android:focusable="true">
 
-        <include
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settings_background_priority_header"
-            layout="@layout/include_header"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/settings_background_priority_title"
             android:focusable="true"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_background_priority_title}" />
+            app:title="@string/settings_background_priority_title" />
 
         <ScrollView
             android:layout_width="0dp"
