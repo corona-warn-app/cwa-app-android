@@ -175,7 +175,14 @@ class QrCodeScannerViewModel @AssistedInject constructor(
 
     private suspend fun onCoronaTestQrCode(qrCode: CoronaTestQRCode) {
         val coronaTestResult = coronaTestQRCodeHandler.handleQrCode(qrCode)
-        result.postValue(coronaTestResult)
+        result.postValue(coronaTestResult.toCoronaTestResult())
+    }
+
+    private fun CoronaTestQRCodeHandler.Result.toCoronaTestResult(): CoronaTestResult = when (this) {
+        is CoronaTestQRCodeHandler.InRecycleBin -> CoronaTestResult.InRecycleBin(recycledCoronaTest)
+        is CoronaTestQRCodeHandler.TestRegistrationSelection -> CoronaTestResult.TestRegistrationSelection(
+            coronaTestQrCode
+        )
     }
 
     @AssistedFactory
