@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Contact Diary
+    ###################################### -->
+    <string name="contact_diary_day_person_tab_title">"Люди"</string>
+    <string name="contact_diary_day_person_fab_title">"Особа"</string>
+    <string name="contact_diary_day_location_tab_title">"Місця"</string>
+    <string name="contact_diary_day_location_fab_title">"Місце"</string>
+    <string name="contact_diary_location_list_no_items_title">"Місця ще не визначені"</string>
+    <string name="contact_diary_location_list_no_items_subtitle">"Створіть місце та додайте його до свого журналу контактів."</string>
+    <string name="contact_diary_person_list_no_items_title">"Ще не визначено людей"</string>
+    <string name="contact_diary_person_list_no_items_subtitle">"Створіть людину та додайте її до свого журналу контактів."</string>
+    <string name="contact_diary_add_person_title">"Особа"</string>
+    <string name="contact_diary_add_person_text_input_name_hint">"Ім\'я"</string>
+    <string name="contact_diary_add_text_input_phone_hint">"Телефон"</string>
+    <string name="contact_diary_add_text_input_email_hint">"Електронна пошта"</string>
+    <string name="contact_diary_add_person_save_button">"Зберегти"</string>
+    <string name="contact_diary_add_location_title">"Місце"</string>
+    <string name="contact_diary_add_location_text_input_hint">"Опис"</string>
+    <string name="contact_diary_add_location_save_button">"Зберегти"</string>
+
+    <!-- XBUT: Button text for the contact diary card button in the homescreen   -->
+    <string name="contact_diary_onboarding_button_text">"Відкрити журнал"</string>
+
+    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_information_card_title">"Слідкуйте за своїми контактами."</string>
+    <!-- XTXT: Contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_body">"Створіть огляд своїх контактів за останні 15 днів, щоб у разі потреби швидко мати повний список під рукою. Тут також відображаються ваші ризики."</string>
+    <!-- XTXT: Contact diary onboarding screen first functionality -->
+    <string name="contact_diary_onboarding_functionality_first_section">"Введіть людей, яких ви зустріли."</string>
+    <!-- XTXT: Contact diary onboarding screen second functionality -->
+    <string name="contact_diary_onboarding_functionality_second_section">"Введіть місця, де ви зустрічалися з іншими."</string>
+    <!-- XTXT: Contact diary onboarding screen third functionality -->
+    <string name="contact_diary_onboarding_functionality_third_section">"Ви єдиний, хто має доступ до своїх записів журналу. Ваші записи будуть збережені лише на вашому смартфоні."</string>
+    <!-- XTXT: Contact diary onboarding screen fourth functionality -->
+    <string name="contact_diary_onboarding_functionality_fourth_section">"Ви можете будь-коли видалити записи про людей і місця зі свого журналу. Записи журналу будуть автоматично видалені через 16 днів."</string>
+    <!-- XTXT: Contact diary onboarding screen fifth functionality -->
+    <string name="contact_diary_onboarding_functionality_fifth_section">"Ви можете експортувати свій журнал контактів у форматі звичайного тексту, а потім роздрукувати записи, відредагувати їх або за потреби надати їх державному органу охорони здоров’я."</string>
+    <!-- XTXT: Contact diary onboarding screen sixth functionality -->
+    <string name="contact_diary_onboarding_functionality_sixth_section">"Зазначені ризики не обов’язково стосуються людей і місць, які ви записали. Будь ласка, не робіть неправильних висновків."</string>
+    <!-- XTXT: Title for the contact diary onboarding screen -->
+    <string name="contact_diary_title">"Журнал контактів"</string>
+    <!-- XTXT: Body for legal information of the contact diary onboarding screen -->
+    <string name="contact_diary_onboarding_legal_information">"Для отримання додаткової інформації дивіться сповіщення про конфіденційність."</string>
+
+
+    <!-- XTXT: Menu information entry for contact diary overview screen -->
+    <string name="menu_contact_diary_information">"Інформація"</string>
+    <!-- XTXT: Menu export entry for contact diary overview screen -->
+    <string name="menu_contact_export_entries">"Експортувати записи"</string>
+    <!-- XTXT: Menu edit persons entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_persons">"Редагувати людей"</string>
+    <!-- XTXT: Menu edit locations entry for contact diary overview screen -->
+    <string name="menu_contact_diary_edit_locations">"Редагувати місця"</string>
+    <!-- XTXT: Title for contact diary overview screen -->
+    <string name="contact_diary_overview_title">"Журнал контактів"</string>
+    <!-- XTXT: Subtitle for contact diary overview screen -->
+    <string name="contact_diary_overview_subtitle">"Запишіть людей, яких ви зустріли, і місця, які ви відвідали. Якщо ризик відображається протягом дня, ви можете попередити людей, з якими ви були в цей день, якщо вони самі не використовують Corona-Warn-App."</string>
+
+    <!-- XTXT: Title for contact diary overview screen high risk information -->
+    <string name="contact_diary_high_risk_title">"Підвищений ризик"</string>
+    <!-- XTXT: Title for contact diary overview screen low risk information -->
+    <string name="contact_diary_low_risk_title">"Низький ризик"</string>
+    <!-- XTXT: Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body">"на основі зустрічей, оцінених застосунком."</string>
+    <!-- XTXT: Body for contact diary overview screen risk information when high risk due to low risk encounters-->
+    <string name="contact_diary_risk_body_high_risk_due_to_low_risk_encounters">"на основі багаторазових ризиків з низьким ризиком."</string>
+    <!-- XTXT: Extended Body for contact diary overview screen risk information -->
+    <string name="contact_diary_risk_body_extended">"Вони не обов’язково пов’язані з людьми та місцями, які ви записали."</string>
+    <!-- XTXT: Body for contact diary overview screen trace location risk information prelude -->
+    <string name="contact_diary_trace_location_risk_body">"на основі їх наявності в:"</string>
+    <!-- XTXT: Indicates this trace location caused a high risk  -->
+    <string name="contact_diary_trace_location_risk_high">"підвищений ризик"</string>
+    <!-- XTXT: Indicates this trace location caused a lows risk -->
+    <string name="contact_diary_trace_location_risk_low">"низький ризик"</string>
+
+    <!-- XTXT: content description of contact journal image on home screen -->
+    <string name="contact_diary_homescreen_card_image_content_description">"Закрита книга із вкладкою"</string>
+    <!-- XTXT: content description of contact journal header image on onboarding screen -->
+    <string name="contact_diary_onboarding_image_content_description">"Декілька людей знаходяться на вулиці і дивляться на свої смартфони."</string>
+    <!-- XTXT: content description of contact journal background image on edit persons screen -->
+    <string name="contact_diary_edit_persons_image_content_description">"Силует жінки, яка йде по лузі."</string>
+    <!-- XTXT: content description of contact journal background image on edit locations screen -->
+    <string name="contact_diary_edit_locations_image_content_description">"Будівля позначена прапорцем місцезнаходження."</string>
+
+    <!-- XHED: Title for the contact diary edit locations -->
+    <string name="contact_diary_edit_locations_title">"Редагувати місця"</string>
+    <!-- XHED: Title for the contact diary edit persons -->
+    <string name="contact_diary_edit_persons_title">"Редагувати людей"</string>
+    <!-- XBUT: Button text for the contact diary edit screen button to delete all locations/persons -->
+    <string name="contact_diary_remove_all_button">"Видалити все"</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_positive">"Видалити"</string>
+    <!-- XBUT: Button text for the contact diary dialog to delete all locations/persons -->
+    <string name="contact_diary_delete_button_negative">"Скасувати"</string>
+    <!-- XHED: Title for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_title">"Ви дійсно хочете видалити всі місця?"</string>
+    <!-- XHED: Title for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_title">"Ви дійсно хочете видалити всіх людей?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all locations -->
+    <string name="contact_diary_delete_locations_message">"Якщо ви видалите всі місця, усі записи для всіх місць будуть видалені з вашого журналу."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete all persons -->
+    <string name="contact_diary_delete_persons_message">"Якщо ви видалите всіх людей, усі записи про всіх людей буде видалено з вашого журналу."</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_edit_icon_content_description">"Редагувати запис"</string>
+    <!-- XACT: edit icon description for screen readers -->
+    <string name="contact_diary_delete_icon_content_description">"Видалити запис"</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single location -->
+    <string name="contact_diary_delete_location_title">"Ви дійсно хочете видалити це місце?"</string>
+    <!-- XHED: Title for the contact diary dialog to delete delete a single person -->
+    <string name="contact_diary_delete_person_title">"Ви дійсно хочете видалити цю людину?"</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single location -->
+    <string name="contact_diary_delete_location_message">"Якщо ви видалите місце, усі записи про це місце будуть видалені з вашого журналу."</string>
+    <!-- XTXT: Message for the contact diary dialog to delete a single person -->
+    <string name="contact_diary_delete_person_message">"Якщо ви видалите особу, усі записи про неї будуть видалені з вашого журналу."</string>
+
+    <!-- XHED: Title for the contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_title">"Нотатка"</string>
+    <!-- XTXT: Description for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_description">"Ви можете ввести тут нотатки, які допоможуть вам краще оцінити ризик зараження."</string>
+    <!-- XTXT: Body for contact diary comment info screen -->
+    <string name="contact_diary_comment_info_screen_body">"Запишіть додаткові обставини вашої зустрічі або перебування тут, які можуть вплинути на ризик вашого зараження, наприклад, наскільки ви були близькі до інших людей і що ви робили (приклади: «сиділи близько один до одного», «займалися спортом», «мало місця», «ми співали»).\n\nЦі нотатки можуть допомогти вам освіжити пам’ять пізніше. У разі потреби вони також дозволять вам попередити людей, з якими ви були, на ранній стадії контакту, а також допоможуть державним органам охорони здоров’я відстежити потенційні ланцюги зараження."</string>
+
+    <!-- XTXT: location (description for screen readers) -->
+    <string name="accessibility_location">"Місце %s"</string>
+    <!-- XTXT: person (description for screen readers) -->
+    <string name="accessibility_person">"Особа %s"</string>
+    <!-- XTXT: location is not selected (description for screen readers) -->
+    <string name="accessibility_location_unselected">"Місце %s не вибрано"</string>
+    <!-- XTXT: person is not selected (description for screen readers) -->
+    <string name="accessibility_person_unselected">"Особа %s не вибрана"</string>
+    <!-- XTXT: location is selected (description for screen readers) -->
+    <string name="accessibility_location_selected">"Місце %s вибрано"</string>
+    <!-- XTXT: person is selected (description for screen readers) -->
+    <string name="accessibility_person_selected">"Особа %s вибрана"</string>
+    <!-- XTXT: Day View headline (description for screen readers) -->
+    <string name="accessibility_day_view_header">"Подання дня"</string>
+
+    <!-- XTXT: Select (description for screen readers) -->
+    <string name="accessibility_action_select">"Вибрати"</string>
+    <!-- XTXT: Deselect (description for screen readers) -->
+    <string name="accessibility_action_deselect">"Скасувати вибір"</string>
+    <!-- XTXT: Edit (description for screen readers) -->
+    <string name="accessibility_edit">"Редагувати"</string>
+
+    <!-- XACT: Add Person Button (description for screen readers) -->
+    <string name="accessibility_day_add_person">"Додати особу"</string>
+    <!-- XACT: Add Location Button (description for screen readers) -->
+    <string name="accessibility_day_add_location">"Додати місце"</string>
+
+    <!-- XBUT: Option - person encounter - below 10 Min -->
+    <string name="contact_diary_person_encounter_duration_below_10_min">"Менше 10 хв"</string>
+    <!-- XBUT: Option - person encounter - above 10 Min -->
+    <string name="contact_diary_person_encounter_duration_above_10_min">"Більше 10 хв"</string>
+    <!-- XBUT: Option - person encounter - with mask -->
+    <string name="contact_diary_person_encounter_mask_with">"З маскою"</string>
+    <!-- XBUT: Option - person encounter - without mask -->
+    <string name="contact_diary_person_encounter_mask_without">"Без маски"</string>
+    <!-- XBUT: Option - person encounter - outside -->
+    <string name="contact_diary_person_encounter_environment_outside">"На відкритому повітрі"</string>
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_person_encounter_environment_inside">"У приміщенні"</string>
+    <!-- XTXT: Option - person encounter - circumstances hint-->
+    <string name="contact_diary_person_encounter_circumstances_hint">"Нотатка (наприклад, близька відстань)"</string>
+
+    <!-- XBUT: Option - person encounter - inside-->
+    <string name="contact_diary_location_visit_duration_label">"Тривалість"</string>
+    <!-- XTXT: Option - location encounter - duration in hours label-->
+    <string name="contact_diary_location_visit_duration_hour">"год"</string>
+
+    <!-- XTXT: PCR test title in the day overview -->
+    <string name="contact_diary_corona_test_pcr_title">"ПЛР-тест зареєстрований"</string>
+    <!-- XTXT: RAT test title in the day overview -->
+    <string name="contact_diary_corona_test_rat_title">"Виконано швидкий тест"</string>
+    <!-- XTXT: positive test result in the day overview -->
+    <string name="contact_diary_corona_test_positive">"Позитивний діагноз"</string>
+    <!-- XTXT: negative test result in the day overview -->
+    <string name="contact_diary_corona_test_negative">"Негативний діагноз"</string>
+</resources>
