@@ -276,7 +276,7 @@ class PCRTestProcessor @Inject constructor(
         Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test)
         test as PCRCoronaTest
 
-        return test.copy(didShowBadge = true)
+        return test.copy(didShowBadge = true, hasResultChangeBadge = false)
     }
 
     override suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest {

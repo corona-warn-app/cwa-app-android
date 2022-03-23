@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -67,6 +68,7 @@ class MainActivityViewModelTest2 : BaseTest() {
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
     @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
     private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
@@ -97,6 +99,7 @@ class MainActivityViewModelTest2 : BaseTest() {
         }
 
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { familyTestRepository.familyTests } returns flowOf(setOf())
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -116,7 +119,8 @@ class MainActivityViewModelTest2 : BaseTest() {
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
         coronaTestQRCodeHandler = coronaTestQRCodeHandler,
-        coronaTestRestoreHandler = coronaTestRestoreHandler
+        coronaTestRestoreHandler = coronaTestRestoreHandler,
+        familyTestRepository = familyTestRepository,
     )
 
     @Test
