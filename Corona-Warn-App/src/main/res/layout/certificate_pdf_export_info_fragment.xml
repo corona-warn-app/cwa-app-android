@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
+                app:contentScrim="@drawable/top_app_bar_shape"
                 android:background="@drawable/covid_certificate_validation_gradient"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
