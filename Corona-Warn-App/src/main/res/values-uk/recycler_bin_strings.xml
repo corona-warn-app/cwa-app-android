@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                Recycler Bin
+    ###################################### -->
+
+    <!-- XHED: recycler bin overview title -->
+    <string name="recycler_bin_title">"Кошик"</string>
+    <!-- XHED: empty recycler bin label -->
+    <string name="recycler_bin_empty_label">"Кошик порожній"</string>
+    <!-- XHED: empty recycler bin description -->
+    <string name="recycler_bin_empty_description">"Коли ви видаляєте сертифікати та тести, вони переміщуються в кошик і відображаються тут."</string>
+    <!-- XHED: recycler bin remove all menu items -->
+    <string name="recycler_bin_remove_all">"Видалити все назавжди"</string>
+
+    <!-- Recycle Bin  - Restore Dgc on scanning confirmation-->
+    <!-- XHED: Recycle Bin  - Restore DGC dialog title -->
+    <string name="recycle_bin_restore_dgc_dialog_title">"Відновити сертифікат"</string>
+    <!-- XTXT: Recycle Bin  - Restore DGC dialog message -->
+    <string name="recycle_bin_restore_dgc_dialog_message">"QR-код вже зареєстровано на вашому смартфоні. Сертифікат буде відновлено з кошика."</string>
+
+    <!-- DGC  - Recycle certificate dialog-->
+    <!-- XHED: Recycle Bin - recycle certificate dialog title -->
+    <string name="recycle_bin_recycle_certificate_dialog_title">"Ви хочете видалити сертифікат?"</string>
+    <!-- XTXT: Recycle Bin - recycle certificate dialog message -->
+    <string name="recycle_bin_recycle_certificate_dialog_message">"Сертифікат буде переміщено в кошик. Ви знайдете кошик на закладці «Статус» під трьома крапками у верхньому правому куті. Ви можете назавжди видалити або відновити його там. Результат тесту буде автоматично видалено через 30 днів."</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog positive button -->
+    <string name="recycle_bin_recycle_certificate_dialog_positive_button">"Видалити сертифікат"</string>
+    <!-- XBUT: Recycle Bin - recycle certificate dialog negative button -->
+    <string name="recycle_bin_recycle_certificate_dialog_negative_button">"Скасувати"</string>
+
+    <!-- XTXT: Recycle Bin - overview subheader -->
+    <string name="recycle_bin_overview_subheader">"Торкніться трьох крапок біля елемента, щоб відновити його. Елементи будуть автоматично видалені через 30 днів."</string>
+    <!-- XTXT: Recycle Bin - restore -->
+    <string name="recycle_bin_restore">"Відновити"</string>
+    <!-- XTXT: Recycle Bin - remove selected item permanently -->
+    <string name="recycle_bin_remove_permanently">"Видалити назавжди"</string>
+
+    <!-- Recycle bin remove all dialog-->
+    <!-- XHED: Recycle Bin - remove all dialog title -->
+    <string name="recycle_bin_remove_all_dialog_title">"Бажаєте очистити кошик?"</string>
+    <!-- XTXT: Recycle Bin - remove all dialog message -->
+    <string name="recycle_bin_remove_all_dialog_message">"Ви більше не зможете відновити його вміст."</string>
+    <!-- XBUT: Recycle Bin - remove all dialog positive button -->
+    <string name="recycle_bin_remove_all_dialog_positive_button">"Видалити"</string>
+    <!-- XBUT: Recycle Bin - remove all dialog negative button -->
+    <string name="recycle_bin_remove_all_dialog_negative_button">"Скасувати"</string>
+
+    <!-- Recycle bin restore certificate dialog-->
+    <!-- XHED: Recycle Bin - restore certificate dialog title -->
+    <string name="recycle_bin_restore_certificate_dialog_title">"Відновити сертифікат"</string>
+    <!-- XTXT: Recycle Bin - restore certificate dialog message -->
+    <string name="recycle_bin_restore_certificate_dialog_message">"Відновлений сертифікат буде переміщено на початкове місце. Потім ви знайдете його у закладці «Сертифікати»."</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog positive button -->
+    <string name="recycle_bin_restore_certificate_dialog_positive_button">"Відновити"</string>
+    <!-- XBUT: Recycle Bin - restore certificate dialog negative button -->
+    <string name="recycle_bin_restore_certificate_dialog_negative_button">"Скасувати"</string>
+
+    <!-- Recycle bin restore test dialog-->
+    <!-- XHED: Recycle Bin - restore test dialog title -->
+    <string name="recycle_bin_restore_test_dialog_title">"Відновити тест"</string>
+    <!-- XTXT: Recycle Bin - restore test dialog message -->
+    <string name="recycle_bin_restore_test_dialog_message">"Відновлений тест буде переміщено на його початкове місце. Потім ви знайдете його у закладці «Статус»."</string>
+    <!-- XBUT: Recycle Bin - restore test dialog positive button -->
+    <string name="recycle_bin_restore_test_dialog_positive_button">"Відновити"</string>
+    <!-- XBUT: Recycle Bin - restore test dialog negative button -->
+    <string name="recycle_bin_restore_test_dialog_negative_button">"Скасувати"</string>
+
+    <!-- XHED: Recycle Bin  - Restore Corona Test dialog title -->
+    <string name="recycle_bin_restore_corona_test_dialog_title">"Відновити тест"</string>
+    <!-- XTXT: Recycle Bin  - Restore Corona Test dialog message -->
+    <string name="recycle_bin_restore_corona_test_dialog_message">"QR-код вже зареєстровано на вашому смартфоні. Тест буде відновлено з кошика."</string>
+
+    <!-- Recycle bin item-->
+    <!-- XTXT: Recycle Bin - test item name -->
+    <string name="recycle_bin_test_item_name">"Тест"</string>
+    <!-- XTXT: Recycle Bin  - Restore Corona PCR Test date-->
+    <string name="reycle_bin_pcr_test_date">"Дата реєстрації %1$s"</string>
+    <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->
+    <string name="reycle_bin_rat_test_date">"Дата виконання %1$s"</string>
+    <!-- XTXT: Recycle Bin  - Information when the item gets finally deleted-->
+    <string name="recycle_bin_item_deletion_date_info">"Дата %1$s час %2$s видалення назавжди"</string>
+
+</resources>
