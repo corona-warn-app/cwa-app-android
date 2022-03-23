@@ -2,9 +2,11 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
@@ -24,13 +26,12 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.familytest.core.model.AdditionalTestInfo
 import de.rki.coronawarnapp.familytest.core.model.BaseCoronaTest
-import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -51,7 +52,7 @@ class BaseCoronaTestProcessor @Inject constructor(
             RAPID_ANTIGEN -> registrationData.testResultResponse.coronaTestResult.toValidatedRaResult()
         }
 
-        val additionalInfo = if (qrCode is CoronaTestQRCode.RapidAntigen) AdditionalTestInfo(
+        val additionalInfo = if (qrCode is CoronaTestQRCode.RapidAntigen) BaseCoronaTest.AdditionalInfo(
             testedAt = qrCode.createdAt,
             firstName = qrCode.firstName,
             lastName = qrCode.lastName,
@@ -67,7 +68,7 @@ class BaseCoronaTestProcessor @Inject constructor(
 
             labId = registrationData.testResultResponse.labId,
             qrCodeHash = qrCode.rawQrCode.toSHA256(),
-            dcc = FamilyCoronaTest.Dcc(
+            dcc = BaseCoronaTest.Dcc(
                 isDccSupportedByPoc = qrCode.isDccSupportedByPoc,
                 isDccConsentGiven = qrCode.isDccConsentGiven,
             ),
@@ -75,9 +76,8 @@ class BaseCoronaTestProcessor @Inject constructor(
         ).updateTestResult(testResult, timeStamper.nowUTC)
     }
 
-    suspend fun pollServer(test: BaseCoronaTest): BaseCoronaTest {
-
-        if (test.canStopPolling()) return test
+    suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean = false): BaseCoronaTest {
+        if (test.isPollingStopped(forceUpdate, timeStamper.nowUTC)) return test
 
         return try {
             val response = try {
@@ -124,13 +124,18 @@ class BaseCoronaTestProcessor @Inject constructor(
     }
 }
 
-private fun BaseCoronaTest.canStopPolling(): Boolean = this.testResult in setOf(
+private fun BaseCoronaTest.isPollingStopped(forceUpdate: Boolean, now: Instant): Boolean =
+    (!forceUpdate && testResult in finalStates) || isOlderThan21Days(now) && testResult in redeemedStates
+
+private val finalStates = setOf(
     PCR_POSITIVE,
     PCR_NEGATIVE,
     PCR_OR_RAT_REDEEMED,
     RAT_REDEEMED,
     RAT_POSITIVE,
-    RAT_NEGATIVE
+    RAT_NEGATIVE,
+    PCR_INVALID,
+    RAT_INVALID
 )
 
-
+private val redeemedStates = setOf(PCR_OR_RAT_REDEEMED, RAT_REDEEMED)

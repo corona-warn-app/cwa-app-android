@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 
 data class BaseCoronaTest(
     @SerializedName("type")
@@ -37,10 +38,9 @@ data class BaseCoronaTest(
     @SerializedName("recycledAt")
     override var recycledAt: Instant? = null,
 
-    val dcc: FamilyCoronaTest.Dcc = FamilyCoronaTest.Dcc(),
-    val uiState: FamilyCoronaTest.UiState = FamilyCoronaTest.UiState(),
-    val additionalInfo: AdditionalTestInfo? = null
-
+    val dcc: Dcc = Dcc(),
+    val uiState: UiState = UiState(),
+    val additionalInfo: AdditionalInfo? = null
 ):
     CoronaTest,
     CoronaTestUiState by uiState,
@@ -78,4 +78,45 @@ data class BaseCoronaTest(
 
     override val isPending: Boolean
         get() = state == FamilyCoronaTest.State.PENDING
+
+    data class Dcc(
+        @SerializedName("isDccSupportedByPoc")
+        override val isDccSupportedByPoc: Boolean = true,
+
+        @SerializedName("isDccConsentGiven")
+        override val isDccConsentGiven: Boolean = false,
+
+        @SerializedName("isDccDataSetCreated")
+        override val isDccDataSetCreated: Boolean = false,
+    ) : CoronaTestDcc
+
+    data class UiState(
+        @SerializedName("isViewed")
+        override val isViewed: Boolean = false,
+
+        @SerializedName("didShowBadge")
+        override val didShowBadge: Boolean = false,
+
+        @SerializedName("isResultAvailableNotificationSent")
+        override val isResultAvailableNotificationSent: Boolean = false,
+    ): CoronaTestUiState
+
+    data class AdditionalInfo(
+        @SerializedName("testedAt")
+        val testedAt: Instant,
+
+        @SerializedName("firstName")
+        val firstName: String? = null,
+
+        @SerializedName("lastName")
+        val lastName: String? = null,
+
+        @SerializedName("dateOfBirth")
+        val dateOfBirth: LocalDate? = null,
+
+        @SerializedName("sampleCollectedAt")
+        val sampleCollectedAt: Instant? = null,
+    )
 }
+
+

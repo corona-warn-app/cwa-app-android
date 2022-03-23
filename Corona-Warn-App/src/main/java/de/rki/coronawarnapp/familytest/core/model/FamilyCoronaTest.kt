@@ -4,10 +4,7 @@ import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.isFinalResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTestDcc
-import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
 import org.joda.time.Instant
-import org.joda.time.LocalDate
 
 data class FamilyCoronaTest(
     @SerializedName("personName")
@@ -23,28 +20,6 @@ data class FamilyCoronaTest(
         REDEEMED,
         RECYCLED,
     }
-
-    data class Dcc(
-        @SerializedName("isDccSupportedByPoc")
-        override val isDccSupportedByPoc: Boolean = true,
-
-        @SerializedName("isDccConsentGiven")
-        override val isDccConsentGiven: Boolean = false,
-
-        @SerializedName("isDccDataSetCreated")
-        override val isDccDataSetCreated: Boolean = false,
-    ) : CoronaTestDcc
-
-    data class UiState(
-        @SerializedName("isViewed")
-        override val isViewed: Boolean = false,
-
-        @SerializedName("didShowBadge")
-        override val didShowBadge: Boolean = false,
-
-        @SerializedName("isResultAvailableNotificationSent")
-        override val isResultAvailableNotificationSent: Boolean = false,
-    ): CoronaTestUiState
 }
 
 fun BaseCoronaTest.markViewed(): BaseCoronaTest {
@@ -82,22 +57,6 @@ fun BaseCoronaTest.updateLabId(labId: String?): BaseCoronaTest {
     return if (labId == null) copy(labId = labId) else this
 }
 
-data class AdditionalTestInfo(
-    @SerializedName("testedAt")
-    val testedAt: Instant,
-
-    @SerializedName("firstName")
-    val firstName: String? = null,
-
-    @SerializedName("lastName")
-    val lastName: String? = null,
-
-    @SerializedName("dateOfBirth")
-    val dateOfBirth: LocalDate? = null,
-
-    @SerializedName("sampleCollectedAt")
-    val sampleCollectedAt: Instant? = null,
-)
 
 
 
