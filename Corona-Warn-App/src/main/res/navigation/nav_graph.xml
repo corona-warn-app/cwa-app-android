@@ -48,6 +48,9 @@
         android:id="@+id/action_global_qrCodeFullScreenFragment"
         app:destination="@id/qrCodeFullScreenFragment" />
     <action
+        android:id="@+id/action_global_testRegistrationSelectionFragment"
+        app:destination="@id/testRegistrationSelectionFragment" />
+    <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/mainFragment"
         app:popUpToInclusive="true" />
