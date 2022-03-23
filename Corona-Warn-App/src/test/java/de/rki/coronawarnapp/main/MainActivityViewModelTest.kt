@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -56,6 +57,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var coronTestRepository: CoronaTestRepository
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var tracingSettings: TracingSettings
 
@@ -89,6 +91,7 @@ class MainActivityViewModelTest : BaseTest() {
         }
 
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { familyTestRepository.familyTests } returns flowOf(setOf())
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -108,6 +111,7 @@ class MainActivityViewModelTest : BaseTest() {
         coronaTestRepository = coronTestRepository,
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
+        familyTestRepository = familyTestRepository,
     )
 
     @Test

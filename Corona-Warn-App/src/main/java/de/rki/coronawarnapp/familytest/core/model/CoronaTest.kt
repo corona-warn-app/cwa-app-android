@@ -62,7 +62,8 @@ data class CoronaTest(
             isRecycled -> State.RECYCLED
             else -> when (testResult) {
                 CoronaTestResult.PCR_OR_RAT_PENDING,
-                CoronaTestResult.RAT_PENDING, -> State.PENDING
+                CoronaTestResult.RAT_PENDING,
+                -> State.PENDING
 
                 CoronaTestResult.RAT_NEGATIVE,
                 CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
@@ -110,7 +111,11 @@ data class CoronaTest(
 
         @SerializedName("isResultAvailableNotificationSent")
         override val isResultAvailableNotificationSent: Boolean = false,
-    ) : CoronaTestUiState
+
+        @SerializedName("hasResultChangeBadge")
+        override val hasResultChangeBadge: Boolean = false,
+
+        ) : CoronaTestUiState
 
     data class AdditionalInfo(
         @SerializedName("firstName")
