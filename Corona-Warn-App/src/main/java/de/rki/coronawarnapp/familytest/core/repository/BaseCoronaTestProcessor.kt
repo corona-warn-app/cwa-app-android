@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
@@ -77,9 +76,10 @@ class BaseCoronaTestProcessor @Inject constructor(
     }
 
     suspend fun pollServer(test: BaseCoronaTest): BaseCoronaTest {
-        return try {
-            if (test.testResult.stopPolling()) return test
 
+        if (test.canStopPolling()) return test
+
+        return try {
             val response = try {
                 coronaTestService.checkTestResult(test.registrationToken)
                     .let { orig ->
@@ -90,10 +90,9 @@ class BaseCoronaTestProcessor @Inject constructor(
                     }
             } catch (e: BadRequestException) {
                 if (test.isOlderThan21Days(timeStamper.nowUTC)) {
-                    Timber.w("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
+                    Timber.v("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
                     CoronaTestResultResponse(coronaTestResult = PCR_OR_RAT_REDEEMED)
                 } else {
-                    Timber.v("Unexpected HTTP 400 error, rethrowing...")
                     throw e
                 }
             }
@@ -125,7 +124,7 @@ class BaseCoronaTestProcessor @Inject constructor(
     }
 }
 
-private fun CoronaTestResult?.stopPolling(): Boolean = this in setOf(
+private fun BaseCoronaTest.canStopPolling(): Boolean = this.testResult in setOf(
     PCR_POSITIVE,
     PCR_NEGATIVE,
     PCR_OR_RAT_REDEEMED,
