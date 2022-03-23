@@ -3,21 +3,35 @@ package de.rki.coronawarnapp.familytest.core.repository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
+import de.rki.coronawarnapp.familytest.core.model.markDccCreated
+import de.rki.coronawarnapp.familytest.core.model.recycle
+import de.rki.coronawarnapp.familytest.core.model.restore
+import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
+import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
+import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FamilyTestRepository @Inject constructor(
-    private val processor: BaseCoronaTestProcessor
+    private val processor: BaseCoronaTestProcessor,
+    private val storage: FamilyTestStorage,
+    private val timeStamper: TimeStamper,
 ) {
 
-    private val familyTestMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = flowOf(emptyMap())
+    private val familyTestMap = storage.familyTestMap
 
-    val familyTests: Flow<Set<FamilyCoronaTest>> = familyTestMap.map { it.values.toSet() }
-    val recycledFamilyTests: Flow<Set<FamilyCoronaTest>> = flowOf(emptySet())
+    val familyTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
+        it.values.filter { !it.isRecycled }.toSet()
+    }
 
+    val familyTestRecyclingBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
+        it.values.filter { it.isRecycled }.toSet()
+    }
 
     suspend fun registerTest(
         qrCode: CoronaTestQRCode,
@@ -27,28 +41,31 @@ class FamilyTestRepository @Inject constructor(
             personName = personName,
             coronaTest = processor.register(qrCode)
         )
-
-        // store test
-
+        storage.save(test)
         return test
     }
 
     suspend fun restoreTest(
         identifier: TestIdentifier
     ) {
-        // TBD
+        val test = getTest(identifier) ?: return
+        val updated = test.copy(coronaTest = test.coronaTest.restore())
+        storage.update(updated)
     }
 
-    suspend fun recycleTest(
+    suspend fun moveTestToRecyclingBin(
         identifier: TestIdentifier
     ) {
-        // TBD
+        val test = getTest(identifier) ?: return
+        val updated = test.copy(coronaTest = test.coronaTest.recycle(timeStamper.nowUTC))
+        storage.update(updated)
     }
 
     suspend fun deleteTest(
         identifier: TestIdentifier
     ) {
-        // TBD
+        val test = getTest(identifier) ?: return
+        storage.delete(test)
     }
 
     /**
@@ -64,30 +81,41 @@ class FamilyTestRepository @Inject constructor(
             )
         }
 
-        // store refreshed
+        refreshed.forEach {
+            storage.update(it)
+        }
     }
 
     suspend fun markBadgeAsViewed(
         identifier: TestIdentifier
     ) {
-        // TBD
+        val test = getTest(identifier) ?: return
+        val updated = test.copy(coronaTest = test.coronaTest.markBadgeAsViewed())
+        storage.update(updated)
     }
 
     suspend fun updateResultNotification(
         identifier: TestIdentifier,
         sent: Boolean
     ) {
-        // TBD
+        val test = getTest(identifier) ?: return
+        val updated = test.copy(coronaTest = test.coronaTest.updateResultNotification(sent))
+        storage.update(updated)
     }
 
     suspend fun markDccAsCreated(
         identifier: TestIdentifier,
         created: Boolean
     ) {
-        // TBD
+        val test = getTest(identifier) ?: return
+        val updated = test.copy(coronaTest = test.coronaTest.markDccCreated(created))
+        storage.update(updated)
     }
 
     suspend fun clear() {
         // TBD
     }
+
+    private suspend fun getTest(identifier: TestIdentifier) = familyTestMap.first()[identifier]
+
 }
