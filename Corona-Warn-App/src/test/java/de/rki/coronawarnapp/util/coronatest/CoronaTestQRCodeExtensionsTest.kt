@@ -18,7 +18,7 @@ class CoronaTestQRCodeExtensionsTest : BaseTest() {
         )
 
         val updated = request.modifyCategoryType(CoronaTestQRCode.CategoryType.FAMILY)
-        with (updated) {
+        with(updated) {
             isDccConsentGiven shouldBe true
             registrationIdentifier shouldBe "qrCodeGUID"
             rawQrCode shouldBe "rawQrCode"
@@ -42,7 +42,7 @@ class CoronaTestQRCodeExtensionsTest : BaseTest() {
         )
 
         val updated = request.modifyCategoryType(CoronaTestQRCode.CategoryType.FAMILY)
-        with (updated as CoronaTestQRCode.RapidAntigen) {
+        with(updated as CoronaTestQRCode.RapidAntigen) {
             isDccConsentGiven shouldBe true
             isDccSupportedByPoc shouldBe true
             rawQrCode shouldBe "rawQrCode"
@@ -72,7 +72,7 @@ class CoronaTestQRCodeExtensionsTest : BaseTest() {
         )
 
         val updated = request.modifyCategoryType(CoronaTestQRCode.CategoryType.FAMILY)
-        with (updated as CoronaTestQRCode.RapidPCR) {
+        with(updated as CoronaTestQRCode.RapidPCR) {
             isDccConsentGiven shouldBe true
             isDccSupportedByPoc shouldBe true
             rawQrCode shouldBe "rawQrCode"

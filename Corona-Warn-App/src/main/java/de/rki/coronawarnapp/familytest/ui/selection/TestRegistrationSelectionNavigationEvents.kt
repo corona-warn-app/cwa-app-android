@@ -18,6 +18,4 @@ sealed class TestRegistrationSelectionNavigationEvents {
     ) : TestRegistrationSelectionNavigationEvents()
 
     object NavigateBack : TestRegistrationSelectionNavigationEvents()
-
-
 }

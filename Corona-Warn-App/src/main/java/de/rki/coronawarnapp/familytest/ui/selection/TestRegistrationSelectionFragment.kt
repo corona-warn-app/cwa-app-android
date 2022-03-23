@@ -63,7 +63,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
             }
         }
 
-        with (binding) {
+        with(binding) {
             toolbar.setNavigationOnClickListener { viewModel.onNavigateBack() }
             person.setOnClickListener { viewModel.onNavigateToPerson() }
             family.setOnClickListener { viewModel.onNavigateToFamily() }

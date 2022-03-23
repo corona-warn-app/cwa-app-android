@@ -23,7 +23,7 @@ class TestRegistrationSelectionFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
 
     private val request = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID", rawQrCode = "rawQrCode")
-    private lateinit var viewModel:TestRegistrationSelectionViewModel
+    private lateinit var viewModel: TestRegistrationSelectionViewModel
 
     private val fragmentArgs = TestRegistrationSelectionFragmentArgs(
         coronaTestQrCode = request
