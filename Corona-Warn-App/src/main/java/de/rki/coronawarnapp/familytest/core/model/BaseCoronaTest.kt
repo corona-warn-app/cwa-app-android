@@ -33,7 +33,7 @@ data class BaseCoronaTest(
     override val labId: String? = null,
 
     @SerializedName("qrCodeHash")
-    override val qrCodeHash : String? = null,
+    override val qrCodeHash: String? = null,
 
     @SerializedName("recycledAt")
     override var recycledAt: Instant? = null,
@@ -41,7 +41,7 @@ data class BaseCoronaTest(
     val dcc: Dcc = Dcc(),
     val uiState: UiState = UiState(),
     val additionalInfo: AdditionalInfo? = null
-):
+) :
     CoronaTest,
     CoronaTestUiState by uiState,
     CoronaTestDcc by dcc {
@@ -99,7 +99,7 @@ data class BaseCoronaTest(
 
         @SerializedName("isResultAvailableNotificationSent")
         override val isResultAvailableNotificationSent: Boolean = false,
-    ): CoronaTestUiState
+    ) : CoronaTestUiState
 
     data class AdditionalInfo(
         @SerializedName("testedAt")
@@ -118,5 +118,3 @@ data class BaseCoronaTest(
         val sampleCollectedAt: Instant? = null,
     )
 }
-
-

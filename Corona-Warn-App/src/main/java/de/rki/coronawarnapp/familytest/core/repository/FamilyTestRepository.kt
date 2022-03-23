@@ -68,13 +68,9 @@ class FamilyTestRepository @Inject constructor(
         storage.delete(test)
     }
 
-    /**
-     * Try to refresh available family tests
-     * Does not throw any error
-     */
-    suspend fun refresh() {
+    suspend fun refresh(forceRefresh: Boolean = false) {
         val refreshed = familyTests.first().map {
-            val updatedTest = processor.pollServer(it.coronaTest)
+            val updatedTest = processor.pollServer(it.coronaTest, forceRefresh)
             FamilyCoronaTest(
                 it.personName,
                 updatedTest
@@ -117,5 +113,4 @@ class FamilyTestRepository @Inject constructor(
     }
 
     private suspend fun getTest(identifier: TestIdentifier) = familyTestMap.first()[identifier]
-
 }

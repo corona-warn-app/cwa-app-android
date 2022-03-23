@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.isFinalResult
+import de.rki.coronawarnapp.coronatest.server.isPending
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.common.isFinalResult
-import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData

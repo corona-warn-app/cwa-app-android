@@ -56,7 +56,3 @@ fun BaseCoronaTest.updateTestResult(testResult: CoronaTestResult, now: Instant):
 fun BaseCoronaTest.updateLabId(labId: String?): BaseCoronaTest {
     return if (labId == null) copy(labId = labId) else this
 }
-
-
-
-

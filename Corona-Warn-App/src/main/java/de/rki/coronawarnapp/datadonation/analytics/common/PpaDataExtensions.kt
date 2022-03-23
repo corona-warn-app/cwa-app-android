@@ -72,4 +72,3 @@ fun RiskState.toMetadataRiskLevel(): PpaData.PPARiskLevel =
         RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
         else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
     }
-

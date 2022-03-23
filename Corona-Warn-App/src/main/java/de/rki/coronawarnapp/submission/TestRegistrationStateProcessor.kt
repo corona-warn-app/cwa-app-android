@@ -122,7 +122,7 @@ class TestRegistrationStateProcessor @Inject constructor(
     }
 
     suspend fun startFamilyTestRegistration(
-        request: TestRegistrationRequest,
+        request: CoronaTestQRCode,
         personName: String
     ): CoronaTest? = mutex.withLock {
         return try {

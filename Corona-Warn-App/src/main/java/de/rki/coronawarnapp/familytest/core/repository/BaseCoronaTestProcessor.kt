@@ -18,9 +18,7 @@ import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
-import de.rki.coronawarnapp.coronatest.type.pcr.check60DaysPcr
 import de.rki.coronawarnapp.coronatest.type.pcr.toValidatedPcrResult
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.check60DaysRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toValidatedRaResult
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -76,18 +74,12 @@ class BaseCoronaTestProcessor @Inject constructor(
         ).updateTestResult(testResult, timeStamper.nowUTC)
     }
 
-    suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean = false): BaseCoronaTest {
+    suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean): BaseCoronaTest {
         if (test.isPollingStopped(forceUpdate, timeStamper.nowUTC)) return test
 
         return try {
             val response = try {
                 coronaTestService.checkTestResult(test.registrationToken)
-                    .let { orig ->
-                        when(test.type) {
-                            RAPID_ANTIGEN -> orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedRaResult())
-                            PCR -> orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedPcrResult())
-                        }
-                    }
             } catch (e: BadRequestException) {
                 if (test.isOlderThan21Days(timeStamper.nowUTC)) {
                     Timber.v("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
@@ -97,13 +89,12 @@ class BaseCoronaTestProcessor @Inject constructor(
                 }
             }
 
-            val testResult = when(test.type) {
-                RAPID_ANTIGEN -> check60DaysRAT(test, response.coronaTestResult, timeStamper.nowUTC)
-                PCR -> check60DaysPcr(test, response.coronaTestResult, timeStamper.nowUTC)
+            val testResult = when (test.type) {
+                RAPID_ANTIGEN -> response.coronaTestResult.toValidatedRaResult()
+                PCR -> response.coronaTestResult.toValidatedPcrResult()
             }
 
-            test.updateTestResult(testResult, timeStamper.nowUTC)
-                .updateLabId(response.labId)
+            test.updateTestResult(testResult, timeStamper.nowUTC).updateLabId(response.labId)
         } catch (e: Exception) {
             Timber.e(e, "Failed to poll server for  %s", test)
             if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
@@ -111,12 +102,12 @@ class BaseCoronaTestProcessor @Inject constructor(
         }
     }
 
-    private fun createServerRequest(qrCode: CoronaTestQRCode) : RegistrationRequest {
+    private fun createServerRequest(qrCode: CoronaTestQRCode): RegistrationRequest {
         val dateOfBirthKey = if (qrCode.isDccConsentGiven && qrCode.dateOfBirth != null) {
             DateOfBirthKey(qrCode.registrationIdentifier, qrCode.dateOfBirth!!)
         } else null
 
-        return  RegistrationRequest(
+        return RegistrationRequest(
             key = qrCode.registrationIdentifier,
             dateOfBirthKey = dateOfBirthKey,
             type = VerificationKeyType.GUID,
