@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragment
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentModule
+import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragment
+import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionModule
 import de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeFragment
 import de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
@@ -115,4 +117,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [FamilyTestConsentModule::class])
     abstract fun familyTestConsentFragment(): FamilyTestConsentFragment
+
+    @ContributesAndroidInjector(modules = [TestRegistrationSelectionModule::class])
+    abstract fun testRegistrationSelectionFragment(): TestRegistrationSelectionFragment
 }

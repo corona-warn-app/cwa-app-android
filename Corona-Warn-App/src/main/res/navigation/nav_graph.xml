@@ -1008,6 +1008,10 @@
             android:id="@+id/action_testRegistrationSelectionFragment_to_submissionConsentFragment"
             app:destination="@id/submissionConsentFragment" />
 
+        <action
+            android:id="@+id/action_testRegistrationSelectionFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment"/>
+
     </fragment>
 
     <fragment

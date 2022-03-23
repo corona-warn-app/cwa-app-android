@@ -42,7 +42,7 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
         FamilyTestConsentNavigationEvents.NavigateToCertificateRequest(
             coronaTestQRCode = coronaTestQRCode,
             consentGiven = true,
-            allowReplacement = true,
+            allowReplacement = false,
             personName = personName.first()
         ).run { routeToScreen.postValue(this) }
     }

@@ -6,33 +6,67 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRegistrationSelectionBinding
+import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
+import javax.inject.Inject
 
-class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_registration_selection) {
+class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_registration_selection), AutoInject {
 
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val navArgs by navArgs<TestRegistrationSelectionFragmentArgs>()
+    private val viewModel: TestRegistrationSelectionViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as TestRegistrationSelectionViewModel.Factory
+            factory.create(navArgs.coronaTestQrCode)
+        }
+    )
     private val binding: FragmentTestRegistrationSelectionBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { popBackStack() }
-        binding.person.setOnClickListener {
-            doNavigate(
-                TestRegistrationSelectionFragmentDirections
-                    .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
-                        coronaTestQrCode = navArgs.coronaTestQrCode
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is TestRegistrationSelectionNavigationEvents.NavigateBack -> {
+                    popBackStack()
+                }
+                is TestRegistrationSelectionNavigationEvents.NavigateToPerson -> {
+                    doNavigate(
+                        TestRegistrationSelectionFragmentDirections
+                            .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
+                                coronaTestQrCode = it.coronaTestQRCode
+                            )
                     )
-            )
+                }
+                is TestRegistrationSelectionNavigationEvents.NavigateToDeletionWarning -> {
+                    doNavigate(
+                        TestRegistrationSelectionFragmentDirections
+                            .actionTestRegistrationSelectionFragmentToSubmissionDeletionWarningFragment(
+                                testRegistrationRequest = it.testRegistrationRequest
+                            )
+                    )
+                }
+                is TestRegistrationSelectionNavigationEvents.NavigateToFamily -> {
+                    doNavigate(
+                        TestRegistrationSelectionFragmentDirections
+                            .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
+                                coronaTestQrCode = it.coronaTestQRCode
+                            )
+                    )
+                }
+            }
         }
-        binding.family.setOnClickListener {
-            doNavigate(
-                TestRegistrationSelectionFragmentDirections
-                    .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
-                        coronaTestQrCode = navArgs.coronaTestQrCode
-                    )
-            )
+
+        with (binding) {
+            toolbar.setNavigationOnClickListener { viewModel.onNavigateBack() }
+            person.setOnClickListener { viewModel.onNavigateToPerson() }
+            family.setOnClickListener { viewModel.onNavigateToFamily() }
         }
     }
 }
