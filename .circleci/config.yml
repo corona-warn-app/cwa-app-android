@@ -437,7 +437,7 @@ jobs:
               --environment-variables clearPackageData=true \
               --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
-              --device-ids flame \
+              --device-ids x1q \
               --os-version-ids 29 \
               --locales de_DE,en_US \
               --orientations portrait \
@@ -451,7 +451,7 @@ jobs:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
-            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/flame* firebase-screenshots
+            sudo gsutil -m cp -R -U gs://${GOOGLE_PROJECT_ID}-circleci-android/${BUCKETDIR}/x1q* firebase-screenshots
             sudo chown -R circleci:circleci firebase-screenshots
           when: always
       - store_test_results:
