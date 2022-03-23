@@ -4,6 +4,7 @@
     android:id="@+id/settings_notifications_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     android:contentDescription="@string/settings_notifications_title"
     android:focusable="true">
 

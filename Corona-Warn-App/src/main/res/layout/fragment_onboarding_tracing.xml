@@ -12,9 +12,10 @@
         android:id="@+id/onboarding_tracing_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/onboarding_tracing_accessibility_title"
-        android:focusable="true"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:focusable="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/onboarding_header"
@@ -52,18 +53,18 @@
             app:body="@{@string/onboarding_tracing_body}"
             app:bodyCard="@{@string/onboarding_tracing_body_consent}"
             app:bodyEmphasized="@{@string/onboarding_tracing_body_emphasized}"
+            app:countryData="@{countryData}"
             app:headline="@{@string/onboarding_tracing_headline}"
             app:headlineCard="@{@string/onboarding_tracing_headline_consent}"
             app:illustration="@{@drawable/ic_illustration_tracing_on}"
             app:illustrationDescription="@{@string/onboarding_tracing_illustration_description}"
-            app:locationBodyCard="@{@string/onboarding_tracing_location_body}"
-            app:locationHeadlineCard="@{@string/onboarding_tracing_location_headline}"
-            app:locationIconCard="@{@drawable/ic_location}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
-            app:countryData="@{countryData}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/onboarding_header"
+            app:locationBodyCard="@{@string/onboarding_tracing_location_body}"
+            app:locationHeadlineCard="@{@string/onboarding_tracing_location_headline}"
+            app:locationIconCard="@{@drawable/ic_location}"
             app:subtitle="@{@string/onboarding_tracing_subtitle}" />
 
         <Button

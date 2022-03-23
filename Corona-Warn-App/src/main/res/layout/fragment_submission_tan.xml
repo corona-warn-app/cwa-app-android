@@ -13,6 +13,7 @@
         android:id="@+id/submission_tan_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_tan_accessibility_title"
         android:fillViewport="true"
         tools:context=".ui.submission.tan.SubmissionTanFragment">

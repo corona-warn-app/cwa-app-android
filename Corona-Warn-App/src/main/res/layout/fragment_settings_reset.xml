@@ -4,10 +4,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_reset_container"
-        android:contentDescription="@string/settings_reset_title"
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorSurface"
+        android:contentDescription="@string/settings_reset_title"
+        android:focusable="true">
 
         <include
             android:id="@+id/settings_reset_header"

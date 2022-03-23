@@ -8,6 +8,7 @@
         android:id="@+id/submission_done_no_consent_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_done_no_consent_title"
         android:fillViewport="true"
         tools:context=".ui.submission.resultready.SubmissionResultReadyFragment">

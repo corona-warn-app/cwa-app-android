@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="assertive"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_test_result_headline">
 
         <include
@@ -64,8 +65,8 @@
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                     android:id="@+id/test_result_invalid_steps_pcr_added"
                     android:layout_width="0dp"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
                     app:layout_constraintTop_toBottomOf="@id/submission_test_result_subtitle"
@@ -76,16 +77,16 @@
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                     android:id="@+id/test_result_invalid_steps_rat_added"
                     android:layout_width="0dp"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
                     app:layout_constraintTop_toBottomOf="@id/test_result_invalid_steps_pcr_added"
                     app:simple_step_entry_title="@string/submission_test_result_steps_added_rat_heading"
                     app:step_entry_final="false"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    app:step_entry_icon="@drawable/ic_test_result_step_done" />
+                    app:step_entry_icon="@drawable/ic_test_result_step_done"
+                    tools:visibility="visible" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                     android:id="@+id/test_result_invalid_steps_invalid_result"

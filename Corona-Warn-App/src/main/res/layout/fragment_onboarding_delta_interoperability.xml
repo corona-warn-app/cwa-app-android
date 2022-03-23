@@ -13,6 +13,7 @@
         android:id="@+id/onboarding_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,20 +52,20 @@
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_small"
             android:focusable="false"
-            app:title="@{@string/interoperability_onboarding_delta_title}"
-            app:firstSection="@{@string/interoperability_onboarding_delta_subtitle}"
-            app:secondSection="@{@string/interoperability_onboarding_randomid_download_free}"
-            app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
             app:countryData="@{countryData}"
+            app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
+            app:firstSection="@{@string/interoperability_onboarding_delta_subtitle}"
+            app:footerDescription="@{@string/interoperability_onboarding_delta_footerDescription}"
+            app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"
             app:isOnboarding="@{false}"
             app:isRiskdetection="@{false}"
-            app:showFooter="@{true}"
-            app:footerTitle="@{@string/interoperability_onboarding_delta_footerTitle}"
-            app:footerDescription="@{@string/interoperability_onboarding_delta_footerDescription}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/guideline_top" />
+            app:layout_constraintTop_toBottomOf="@+id/guideline_top"
+            app:secondSection="@{@string/interoperability_onboarding_randomid_download_free}"
+            app:showFooter="@{true}"
+            app:title="@{@string/interoperability_onboarding_delta_title}" />
 
         <Button
             android:id="@+id/onboarding_button_next"

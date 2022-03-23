@@ -3,6 +3,7 @@
     android:id="@+id/settings_notifications_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     android:contentDescription="@string/risk_details_stay_at_home_title"
     android:focusable="true">
 
@@ -41,8 +42,8 @@
                 android:focusable="true"
                 android:paddingBottom="@dimen/spacing_small"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_illustration_stay_at_home"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_stay_at_home" />
 
             <TextView
                 style="@style/subtitle"

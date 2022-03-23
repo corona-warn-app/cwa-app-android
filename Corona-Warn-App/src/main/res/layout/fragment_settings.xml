@@ -22,10 +22,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_container"
-        android:contentDescription="@string/settings_title"
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorSurface"
+        android:contentDescription="@string/settings_title"
+        android:focusable="true">
 
         <include
             android:id="@+id/settings_header"
@@ -42,9 +43,9 @@
             android:id="@+id/scrollview"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:fillViewport="true"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,9 +92,9 @@
                     layout="@layout/include_setting_row"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:gone="@{!backgroundState.showBackgroundPrioritySettings()}"
                     app:body="@{@string/settings_background_priority_body_description}"
                     app:color="@{backgroundState.getBackgroundPriorityIconColor(context)}"
+                    app:gone="@{!backgroundState.showBackgroundPrioritySettings()}"
                     app:icon="@{backgroundState.getBackgroundPriorityIcon(context)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +116,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/settings_background_priority"
                     app:showDivider="@{true}"
                     app:statusText="@{analyticsState.getPrivacyPreservingAnalyticsText(context)}"
-                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}"/>
+                    app:subtitle="@{@string/settings_privacy_preserving_analytics_title}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_reset"

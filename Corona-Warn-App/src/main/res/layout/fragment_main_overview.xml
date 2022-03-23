@@ -6,6 +6,7 @@
         android:id="@+id/main_overview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/main_overview_accessibility_title">
 
         <com.google.android.material.appbar.MaterialToolbar

@@ -5,10 +5,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/submission_test_result_layout"
-        android:contentDescription="@string/submission_test_result_headline"
-        android:accessibilityLiveRegion="assertive"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:accessibilityLiveRegion="assertive"
+        android:background="@color/colorSurface"
+        android:contentDescription="@string/submission_test_result_headline">
 
         <include
             android:id="@+id/submission_test_result_consent_given_header"
@@ -25,18 +26,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintBottom_toTopOf="@id/submission_test_result_positive_no_consent_button_warn_others"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_header"
-            app:layout_constraintBottom_toTopOf="@id/submission_test_result_positive_no_consent_button_warn_others">
+            app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_header">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/submission_test_result_container"
-                android:contentDescription="@string/submission_test_result_headline"
-                android:accessibilityLiveRegion="assertive"
-                android:paddingHorizontal="@dimen/spacing_normal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:accessibilityLiveRegion="assertive"
+                android:contentDescription="@string/submission_test_result_headline"
+                android:paddingHorizontal="@dimen/spacing_normal">
 
                 <de.rki.coronawarnapp.ui.view.TestResultSectionView
                     android:id="@+id/submission_test_result_section"
@@ -52,15 +53,15 @@
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_subtitle"
                     style="@style/headline5"
-                    android:accessibilityHeading="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
+                    android:accessibilityHeading="true"
                     android:text="@string/submission_test_result_positive_no_consent_subtitle"
-                    tools:text="Bitte helfen Sie mit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section"
+                    tools:text="Bitte helfen Sie mit" />
 
                 <ImageView
                     android:id="@+id/submission_test_result_positive_no_consent_icon_1"
@@ -71,23 +72,23 @@
                     android:backgroundTint="@color/button_red"
                     android:importantForAccessibility="no"
                     android:padding="@dimen/circle_icon_padding"
-                    app:srcCompat="@drawable/ic_submission_share"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
+                    app:srcCompat="@drawable/ic_submission_share"
                     app:tint="@color/colorStableLight" />
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_text_1"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
-                    tools:text="Helfen Sie mit, Ihre Mitmenschen vor Ansteckungen zu schützen und teilen Sie Ihr Testergebnis."
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
-                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_1"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_positive_no_consent_text_1"
-                    style="@style/subtitle" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_1"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_subtitle"
+                    tools:text="Helfen Sie mit, Ihre Mitmenschen vor Ansteckungen zu schützen und teilen Sie Ihr Testergebnis." />
 
                 <ImageView
                     android:id="@+id/submission_test_result_positive_no_consent_icon_2"
@@ -96,23 +97,23 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:background="@drawable/circle"
                     android:backgroundTint="@color/button_red"
-                    app:srcCompat="@drawable/ic_lock"
                     android:importantForAccessibility="no"
                     android:padding="@dimen/circle_icon_big_padding"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_1"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:srcCompat="@drawable/ic_lock" />
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_text_2"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_1"
-                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_2"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_positive_no_consent_text_2"
-                    style="@style/subtitle" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_2"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_1" />
 
                 <ImageView
                     android:id="@+id/submission_test_result_positive_no_consent_icon_3"
@@ -121,23 +122,23 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:background="@drawable/circle"
                     android:backgroundTint="@color/button_red"
-                    app:srcCompat="@drawable/ic_risk_details_home"
                     android:importantForAccessibility="no"
                     android:padding="@dimen/circle_icon_big_padding"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_2"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:srcCompat="@drawable/ic_risk_details_home" />
 
                 <TextView
                     android:id="@+id/submission_test_result_positive_no_consent_text_3"
+                    style="@style/subtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:layout_marginStart="@dimen/spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_2"
-                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_3"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:text="@string/submission_test_result_positive_no_consent_text_3"
-                    style="@style/subtitle" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/submission_test_result_positive_no_consent_icon_3"
+                    app:layout_constraintTop_toBottomOf="@+id/submission_test_result_positive_no_consent_text_2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,6 +6,7 @@
         android:id="@+id/information_contact_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/information_contact_title"
         android:focusable="true">
 

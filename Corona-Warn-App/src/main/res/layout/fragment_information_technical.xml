@@ -14,6 +14,7 @@
         android:id="@+id/information_technical_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/information_technical_title"
         android:focusable="true"
         android:orientation="vertical">
@@ -28,9 +29,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:fillViewport="true"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay">
 
             <!-- Won't be translated, for that it's hardcoded -->

@@ -6,6 +6,7 @@
         android:id="@+id/onboarding_ppa_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription=""
         android:fillViewport="true"
         android:focusable="true">

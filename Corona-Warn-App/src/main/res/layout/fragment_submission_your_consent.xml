@@ -7,6 +7,7 @@
         android:id="@+id/submission_your_consent_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_your_consent_title"
         android:fillViewport="true"
         tools:context=".ui.submission.yourconsent.SubmissionYourConsentFragment">
@@ -95,7 +96,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:text="@string/submission_your_consent_agreement_share_test_results"/>
+                        android:text="@string/submission_your_consent_agreement_share_test_results" />
 
                     <de.rki.coronawarnapp.ui.view.CountryListView
                         android:id="@+id/submission_your_consent_agreement_country_list"
@@ -109,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:text="@string/submission_your_consent_agreement_share_symptoms"/>
+                        android:text="@string/submission_your_consent_agreement_share_symptoms" />
 
                 </LinearLayout>
 

@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/information_privacy_title"
         android:focusable="true"
+        android:background="@color/colorSurface"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
