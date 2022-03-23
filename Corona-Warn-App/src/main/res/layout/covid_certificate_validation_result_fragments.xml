@@ -5,6 +5,7 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     tools:context=".covidcertificate.validation.ui.validationresult.failed.DccValidationFailedFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -15,6 +16,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
+            app:contentScrim="@drawable/top_app_bar_shape"
             android:layout_height="wrap_content"
             android:background="@drawable/covid_certificate_validation_gradient"
             android:nestedScrollingEnabled="true"

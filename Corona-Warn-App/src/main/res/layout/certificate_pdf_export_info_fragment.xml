@@ -19,6 +19,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
+            app:contentScrim="@drawable/top_app_bar_shape"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

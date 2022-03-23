@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/covid_certificate_validation_gradient"
                 android:nestedScrollingEnabled="true"
+                app:contentScrim="@drawable/top_app_bar_shape"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 
@@ -46,8 +47,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:expandedTitleGravity="top"
-                    app:title="@string/cov_pass_info_title"
-                    app:layout_collapseMode="pin">
+                    app:layout_collapseMode="pin"
+                    app:title="@string/cov_pass_info_title">
 
                 </com.google.android.material.appbar.MaterialToolbar>
 
