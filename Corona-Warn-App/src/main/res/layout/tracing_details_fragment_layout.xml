@@ -11,9 +11,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/risk_details_container"
-        android:layout_width="match_parent"
         invisible="@{tracingDetailsState == null}"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/risk_details_accessibility_title">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -22,10 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@{tracingDetailsState.getRiskColor(context)}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/risk_details_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/risk_details_title"
             app:titleTextColor="@{tracingDetailsState.getStableTextColor(context)}" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/risk_details_button"
+            gone="@{!tracingDetailsState.isRiskLevelButtonGroupVisible()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorSurface"
@@ -47,7 +49,6 @@
             android:paddingTop="@dimen/spacing_small"
             android:paddingEnd="@dimen/spacing_normal"
             android:paddingBottom="@dimen/spacing_small"
-            gone="@{!tracingDetailsState.isRiskLevelButtonGroupVisible()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -55,10 +56,10 @@
             <Button
                 android:id="@+id/risk_details_button_enable_tracing"
                 style="@style/buttonPrimary"
+                gone="@{!tracingDetailsState.isRiskDetailsEnableTracingButtonVisible()}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/risk_card_button_enable_tracing"
-                gone="@{!tracingDetailsState.isRiskDetailsEnableTracingButtonVisible()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,11 +68,11 @@
             <Button
                 android:id="@+id/risk_details_button_update"
                 style="@style/buttonPrimary"
+                gone="@{!tracingDetailsState.isRiskDetailsUpdateButtonVisible()}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:enabled="@{tracingDetailsState.isUpdateButtonEnabled()}"
                 android:text="@{tracingDetailsState.getUpdateButtonText(context)}"
-                gone="@{!tracingDetailsState.isRiskDetailsUpdateButtonVisible()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

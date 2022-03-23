@@ -244,7 +244,7 @@ class HomeFragmentTest : BaseUITest() {
             homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
         launchInMainActivity<HomeFragment>()
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
-        captureHomeFragment("compatibility_ble_broadcast_not_supported")
+        takeScreenshot<HomeFragment>("compatibility_ble_broadcast_not_supported")
     }
 
     @Screenshot
@@ -254,7 +254,7 @@ class HomeFragmentTest : BaseUITest() {
             homeFragmentItemsLiveData(HomeData.Tracing.TRACING_FAILED_ITEM)
         launchInMainActivity<HomeFragment>()
         onView(withId(R.id.recycler_view)).perform(recyclerScrollTo(2))
-        captureHomeFragment("compatibility_ble_scan_not_supported")
+        takeScreenshot<HomeFragment>("compatibility_ble_scan_not_supported")
     }
 
     @Screenshot
@@ -279,6 +279,7 @@ class HomeFragmentTest : BaseUITest() {
 
     private fun captureHomeFragment(nameSuffix: String) {
         launchInMainActivity<HomeFragment>()
+        onView(withId(R.id.fake_fab_tooltip)).perform(setViewVisibility(false))
         takeScreenshot<HomeFragment>(nameSuffix)
     }
 

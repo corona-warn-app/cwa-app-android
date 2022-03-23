@@ -5,6 +5,7 @@
     android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     android:contentDescription="@string/contact_diary_title"
     android:focusable="true">
 
