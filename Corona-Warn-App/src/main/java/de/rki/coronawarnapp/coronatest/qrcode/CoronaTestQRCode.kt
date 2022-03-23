@@ -94,7 +94,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
 
     enum class CategoryType {
         FAMILY,
-        OWN,
+        PERSONAL,
         NOT_SELECTED,
     }
 }

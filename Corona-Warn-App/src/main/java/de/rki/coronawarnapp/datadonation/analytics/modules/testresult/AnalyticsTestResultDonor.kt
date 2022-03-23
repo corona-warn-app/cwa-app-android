@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
+import de.rki.coronawarnapp.datadonation.analytics.common.isFinalResult
 import de.rki.coronawarnapp.datadonation.analytics.common.isPending
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
@@ -66,7 +66,7 @@ abstract class AnalyticsTestResultDonor(
              * it is included in the next submission. Afterwards,
              * the collected metric data is removed.
              */
-            testResult.isFinal -> {
+            testResult.isFinalResult -> {
                 createDonation(
                     hoursSinceTestRegistrationTime,
                     testResult,

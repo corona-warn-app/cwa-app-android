@@ -74,7 +74,7 @@ class PCRTestProcessor @Inject constructor(
 
         val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
-            it.toValidatedResult()
+            it.toValidatedPcrResult()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered(type)
@@ -153,7 +153,7 @@ class PCRTestProcessor @Inject constructor(
         val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
 
-            it.toValidatedResult()
+            it.toValidatedPcrResult()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered(type)
@@ -207,7 +207,7 @@ class PCRTestProcessor @Inject constructor(
                         Timber.tag(TAG).d("Raw test result was %s", it)
                     }
                     .let { orig ->
-                        orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedResult())
+                        orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedPcrResult())
                     }
             } catch (e: BadRequestException) {
                 if (isOlderThan21Days) {
@@ -225,7 +225,7 @@ class PCRTestProcessor @Inject constructor(
             analyticsTestResultCollector.reportTestResultReceived(response.coronaTestResult, type)
 
             test.copy(
-                testResult = check60Days(test, response.coronaTestResult),
+                testResult = check60DaysPcr(test, response.coronaTestResult, timeStamper.nowUTC),
                 testResultReceivedAt = determineReceivedDate(test, response.coronaTestResult),
                 lastUpdatedAt = nowUTC,
                 labId = response.labId ?: test.labId,
@@ -237,19 +237,6 @@ class PCRTestProcessor @Inject constructor(
 
             test as PCRCoronaTest
             test.copy(lastError = e)
-        }
-    }
-
-    // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
-    private fun check60Days(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
-        val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC)
-        Timber.tag(TAG).d("Calculated test age: %d days, newResult=%s", calculateDays.standardDays, newResult)
-
-        return if (newResult == PCR_OR_RAT_PENDING && calculateDays > VerificationServer.TEST_AVAILABLBILITY) {
-            Timber.tag(TAG).d("$calculateDays is exceeding the test availability.")
-            PCR_OR_RAT_REDEEMED
-        } else {
-            newResult
         }
     }
 
@@ -333,7 +320,7 @@ class PCRTestProcessor @Inject constructor(
     }
 }
 
-private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
+fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
     val isValid = when (this) {
         PCR_OR_RAT_PENDING,
         PCR_NEGATIVE,
@@ -353,5 +340,18 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     } else {
         Timber.tag(PCRTestProcessor.TAG).e("Server returned invalid PCR testresult $this")
         PCR_INVALID
+    }
+}
+
+// After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
+fun check60DaysPcr(test: CoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
+    val calculateDays = Duration(test.registeredAt, now)
+    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", calculateDays.standardDays, newResult)
+
+    return if (newResult == PCR_OR_RAT_PENDING && calculateDays > VerificationServer.TEST_AVAILABLBILITY) {
+        Timber.tag(PCRTestProcessor.TAG).d("$calculateDays is exceeding the test availability.")
+        PCR_OR_RAT_REDEEMED
+    } else {
+        newResult
     }
 }

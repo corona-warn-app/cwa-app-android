@@ -2,15 +2,18 @@ package de.rki.coronawarnapp.familytest.core.model
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.isFinalResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestDcc
 import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
-import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 
-interface FamilyCoronaTest : CoronaTest {
-    val personName: String
+data class FamilyCoronaTest(
+    @SerializedName("personName")
+    val personName: String,
+    val coronaTest: BaseCoronaTest,
+) : CoronaTest by coronaTest {
 
     enum class State {
         PENDING,
@@ -19,80 +22,6 @@ interface FamilyCoronaTest : CoronaTest {
         NEGATIVE,
         REDEEMED,
         RECYCLED,
-    }
-}
-
-data class FamilyTest(
-    @SerializedName("personName")
-    override val personName: String,
-    private val coronaTest: Test,
-) : FamilyCoronaTest, CoronaTest by coronaTest {
-
-    data class Test(
-        @SerializedName("type")
-        override val type: CoronaTest.Type,
-
-        @SerializedName("identifier")
-        override val identifier: TestIdentifier,
-
-        @SerializedName("registeredAt")
-        override val registeredAt: Instant,
-
-        @SerializedName("registrationToken")
-        override val registrationToken: RegistrationToken,
-
-        @SerializedName("testResultReceivedAt")
-        override val testResultReceivedAt: Instant? = null,
-
-        @SerializedName("testResult")
-        override val testResult: CoronaTestResult,
-
-        @SerializedName("labId")
-        override val labId: String? = null,
-
-        @SerializedName("recycledAt")
-        override var recycledAt: Instant? = null,
-
-        private val dcc: Dcc,
-        private val uiState: UiState
-
-    ):
-        CoronaTest,
-        CoronaTestUiState by uiState,
-        CoronaTestDcc by dcc {
-
-        val state: FamilyCoronaTest.State
-            get() = when {
-                isRecycled -> FamilyCoronaTest.State.RECYCLED
-                else -> when (testResult) {
-                    CoronaTestResult.PCR_OR_RAT_PENDING,
-                    CoronaTestResult.RAT_PENDING, -> FamilyCoronaTest.State.PENDING
-
-                    CoronaTestResult.RAT_NEGATIVE,
-                    CoronaTestResult.PCR_NEGATIVE-> FamilyCoronaTest.State.NEGATIVE
-
-                    CoronaTestResult.RAT_POSITIVE,
-                    CoronaTestResult.PCR_POSITIVE-> FamilyCoronaTest.State.POSITIVE
-
-                    CoronaTestResult.RAT_INVALID,
-                    CoronaTestResult.PCR_INVALID-> FamilyCoronaTest.State.INVALID
-
-                    CoronaTestResult.PCR_OR_RAT_REDEEMED,
-                    CoronaTestResult.RAT_REDEEMED -> FamilyCoronaTest.State.REDEEMED
-                }
-            }
-
-        override val isRedeemed: Boolean
-            get() = state == FamilyCoronaTest.State.REDEEMED
-
-        override val isPositive: Boolean
-            get() = state == FamilyCoronaTest.State.POSITIVE
-
-        override val isNegative: Boolean
-            get() = state == FamilyCoronaTest.State.NEGATIVE
-
-        override val isPending: Boolean
-            get() = state == FamilyCoronaTest.State.PENDING
     }
 
     data class Dcc(
@@ -104,9 +33,6 @@ data class FamilyTest(
 
         @SerializedName("isDccDataSetCreated")
         override val isDccDataSetCreated: Boolean = false,
-
-        @SerializedName("qrCodeHash")
-        override val qrCodeHash: String? = null,
     ) : CoronaTestDcc
 
     data class UiState(
@@ -120,6 +46,58 @@ data class FamilyTest(
         override val isResultAvailableNotificationSent: Boolean = false,
     ): CoronaTestUiState
 }
+
+fun BaseCoronaTest.markViewed(): BaseCoronaTest {
+    return copy(uiState = uiState.copy(isViewed = true))
+}
+
+fun BaseCoronaTest.markBadgeAsViewed(): BaseCoronaTest {
+    return copy(uiState = uiState.copy(didShowBadge = true))
+}
+
+fun BaseCoronaTest.updateResultNotification(sent: Boolean): BaseCoronaTest {
+    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
+}
+
+fun BaseCoronaTest.markDccCreated(created: Boolean): BaseCoronaTest {
+    return copy(dcc = dcc.copy(isDccDataSetCreated = created))
+}
+
+fun BaseCoronaTest.recycle(now: Instant): BaseCoronaTest {
+    return copy(recycledAt = now)
+}
+
+fun BaseCoronaTest.restore(): BaseCoronaTest {
+    return copy(recycledAt = null)
+}
+
+fun BaseCoronaTest.updateTestResult(testResult: CoronaTestResult, now: Instant): BaseCoronaTest {
+    return copy(testResult = testResult).let {
+        if (testResult.isFinalResult && it.testResultReceivedAt == null) it.copy(testResultReceivedAt = now)
+        else it
+    }
+}
+
+fun BaseCoronaTest.updateLabId(labId: String?): BaseCoronaTest {
+    return if (labId == null) copy(labId = labId) else this
+}
+
+data class AdditionalTestInfo(
+    @SerializedName("testedAt")
+    val testedAt: Instant,
+
+    @SerializedName("firstName")
+    val firstName: String? = null,
+
+    @SerializedName("lastName")
+    val lastName: String? = null,
+
+    @SerializedName("dateOfBirth")
+    val dateOfBirth: LocalDate? = null,
+
+    @SerializedName("sampleCollectedAt")
+    val sampleCollectedAt: Instant? = null,
+)
 
 
 

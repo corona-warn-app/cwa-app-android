@@ -1,27 +1,36 @@
 package de.rki.coronawarnapp.familytest.core.repository
 
-import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FamilyTestRepository @Inject constructor(
-    @AppScope private val appScope: CoroutineScope
+    private val processor: BaseCoronaTestProcessor
 ) {
 
-    val familyTests: Flow<Set<FamilyCoronaTest>> = flowOf(emptySet())
+    private val familyTestMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = flowOf(emptyMap())
+
+    val familyTests: Flow<Set<FamilyCoronaTest>> = familyTestMap.map { it.values.toSet() }
     val recycledFamilyTests: Flow<Set<FamilyCoronaTest>> = flowOf(emptySet())
 
+
     suspend fun registerTest(
-        request: TestRegistrationRequest,
+        qrCode: CoronaTestQRCode,
         personName: String
     ): FamilyCoronaTest {
-        // TBD
-        throw NotImplementedError()
+        val test = FamilyCoronaTest(
+            personName = personName,
+            coronaTest = processor.register(qrCode)
+        )
+
+        // store test
+
+        return test
     }
 
     suspend fun restoreTest(
@@ -47,7 +56,15 @@ class FamilyTestRepository @Inject constructor(
      * Does not throw any error
      */
     suspend fun refresh() {
-        // TBD
+        val refreshed = familyTests.first().map {
+            val updatedTest = processor.pollServer(it.coronaTest)
+            FamilyCoronaTest(
+                it.personName,
+                updatedTest
+            )
+        }
+
+        // store refreshed
     }
 
     suspend fun markBadgeAsViewed(

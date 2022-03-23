@@ -28,8 +28,6 @@ interface CoronaTestDcc {
 
     // Has the corresponding entry been created in the test certificate storage
     val isDccDataSetCreated: Boolean
-
-    val qrCodeHash: String?
 }
 
 interface CoronaTestKeySubmission {
@@ -50,6 +48,7 @@ interface CoronaTest : CoronaTestUiState, CoronaTestDcc, Recyclable {
 
     val identifier: TestIdentifier
     val type: Type
+    val qrCodeHash: String?
 
     val registeredAt: Instant
     val registrationToken: RegistrationToken

@@ -4,13 +4,13 @@ import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.server.isFinalResult
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
-import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
@@ -127,7 +127,7 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.testResult.update { testResult }
 
-        if (testResult.isFinal && type.settings.finalTestResultReceivedAt.value == null) {
+        if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.value == null) {
             type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
 
             val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
