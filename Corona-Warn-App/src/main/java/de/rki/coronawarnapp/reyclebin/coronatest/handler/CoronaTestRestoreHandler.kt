@@ -2,44 +2,31 @@ package de.rki.coronawarnapp.reyclebin.coronatest.handler
 
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.submission.SubmissionRepository
+import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.first
+import timber.log.Timber
 import javax.inject.Inject
 
 class CoronaTestRestoreHandler @Inject constructor(
     private val submissionRepository: SubmissionRepository,
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider
-){
+) {
 
     suspend fun restoreCoronaTest(recycledCoronaTest: CoronaTest): CoronaTestRestoreEvent {
-        /* to do */
-        return CoronaTestRestoreEvent.NotYetImplemented
-    }
-
-    private suspend fun restorePersonalCoronaTest(recycledCoronaTest: PersonalCoronaTest) {
-        val currentCoronaTest = submissionRepository.testForType(recycledCoronaTest.type).first()
-        when {
-            currentCoronaTest != null -> CoronaTestResult.RestoreDuplicateTest(
-                recycledCoronaTest.toRestoreRecycledTestRequest()
-            )
-
+        Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%S)", recycledCoronaTest::class.java.simpleName)
+        val currentCoronaTest by lazy { submissionRepository.testForType(recycledCoronaTest.type) }
+        return when {
+            recycledCoronaTest is PersonalCoronaTest && currentCoronaTest.first() != null -> CoronaTestRestoreEvent
+                .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
             else -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
-                recycledCoronaTest.toCoronaTestResult()
+                CoronaTestRestoreEvent.RestoredTest
             }
-        }
-    }
-
-    private fun PersonalCoronaTest.toCoronaTestResult(): CoronaTestResult = when {
-        isPending -> CoronaTestResult.TestPending(test = this)
-        isNegative -> CoronaTestResult.TestNegative(test = this)
-        isPositive -> when (isAdvancedConsentGiven) {
-            true -> CoronaTestResult.TestPositive(test = this)
-            false -> CoronaTestResult.WarnOthers(test = this)
-        }
-        else -> CoronaTestResult.TestInvalid(test = this)
+        }.also { Timber.tag(TAG).d("returning %S", it::class.java.simpleName) }
     }
 }
+
+private val TAG = tag<CoronaTestRestoreHandler>()
