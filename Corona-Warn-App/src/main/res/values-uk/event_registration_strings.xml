@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+             Event Registration
+    ###################################### -->
+
+    <!-- XHED: My check-ins: screen title -->
+    <string name="trace_location_checkins_title">"Мої реєстрації"</string>
+    <!-- XHED: My check-ins: Title for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_label">"Ще немає записів"</string>
+    <!-- XTXT: My check-ins: First Description for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_1">"Коли ви скануєте QR-код, щоб зареєструватися на захід або місце, запис створюється автоматично."</string>
+    <!-- XTXT: My check-ins: Second Descriptiontrace_location_checkins_empty_description_2 for list explanation when there are no check-ins -->
+    <string name="trace_location_checkins_empty_description_2">"Щоб відсканувати QR-код заходу або місця, скористайтеся кнопкою «Сканувати» на нижній панелі навігації."</string>
+    <!-- XTXT: My check-ins: Accessibility description for empty check-ins illustration -->
+    <string name="trace_location_checkins_empty_illustration_accessibility">"Будівля із символом QR-коду на задньому плані."</string>
+
+    <!-- XBUT: My check-ins: menu entry to remove all -->
+    <string name="trace_location_checkins_menu_remove_all">"Видалити все"</string>
+    <!-- XBUT: My check-ins: menu entry to show information -->
+    <string name="trace_location_checkins_menu_information">"Інформація"</string>
+
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing all items -->
+    <string name="trace_location_checkins_remove_all_title">"Ви дійсно хочете видалити всі записи?"</string>
+    <!-- XHED: My checkin-ins: Confirmation dialog title when removing a single item -->
+    <string name="trace_location_checkins_remove_single_title">"Видалити цей запис?"</string>
+    <!-- XTXT: My checkin-ins: Confirmation dialog description when removing all/single items -->
+    <string name="trace_location_checkins_remove_message">"Ви більше не зможете попереджати людей, які зареєструвалися на цьому місці чи заході одночасно, і ви не будете попереджені ними."</string>
+
+    <!-- XBUT: My check-ins card: Menu, remove item -->
+    <string name="trace_location_checkins_menu_remove_item">"Видалити"</string>
+    <!-- XBUT: My check-ins card: Active event, checkout button -->
+    <string name="trace_location_checkins_card_action_checkout">"Зареєструватися при виході зараз"</string>
+    <!-- XTXT: My check-ins card: Active event, duration label in highlight view -->
+    <string name="trace_location_checkins_card_highlight_duration_label">"Тривалість"</string>
+    <!-- XTXT: My check-ins card: Active event, checkin information, automatic checkout info -->
+    <string name="trace_location_checkins_card_automatic_checkout_info_format">"%1$s %2$s - зареєструватися при виході автоматично після %3$s."</string>
+
+    <!-- XHED: Title of the category list screen of the event creation  -->
+    <string name="tracelocation_organizer_category_title">"Створити QR-код"</string>
+
+    <!-- XHED: Title of location types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_location_header">"Місце"</string>
+
+    <!-- XTXT: Title for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_title">"Роздрібна торгівля"</string>
+    <!-- XTXT: Subtitle for the retail category  -->
+    <string name="tracelocation_organizer_category_retail_subtitle">"Магазин, торговий зал"</string>
+
+    <!-- XTXT: Title for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_title">"Готельна індустрія"</string>
+    <!-- XTXT: Subtitle for the food service category  -->
+    <string name="tracelocation_organizer_category_food_service_subtitle">"Кафе, бар, ресторан, готель"</string>
+
+    <!-- XTXT: Title for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_title">"Ремісничий бізнес"</string>
+    <!-- XTXT: Subtitle for the craft category  -->
+    <string name="tracelocation_organizer_category_craft_subtitle">"Перукар, столяр"</string>
+
+    <!-- XTXT: Title for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_title">"Робоче місце"</string>
+    <!-- XTXT: Subtitle for the workplace category  -->
+    <string name="tracelocation_organizer_category_workplace_subtitle">"Офіс, конференц-зал, кафетерій"</string>
+
+    <!-- XTXT: Title for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_title">"Навчальний заклад"</string>
+    <!-- XTXT: Subtitle for the educational institution category  -->
+    <string name="tracelocation_organizer_category_educational_institution_subtitle">"Класна кімната, лекційна зала, бібліотека"</string>
+
+    <!-- XTXT: Title for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_title">"Громадська будівля"</string>
+    <!-- XTXT: Subtitle for the public building category  -->
+    <string name="tracelocation_organizer_category_public_building_subtitle">"Муніципалітет, музей"</string>
+
+    <!-- XTXT: Title for other location  -->
+    <string name="tracelocation_organizer_category_other_location_title">"Інше місце"</string>
+
+    <!-- XHED: Title of event types in the category list screen of the event creation -->
+    <string name="tracelocation_organizer_category_type_event_header">"Захід"</string>
+
+    <!-- XTXT: Title for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_title">"Культурна подія"</string>
+    <!-- XTXT: Subtitle for the cultural event category  -->
+    <string name="tracelocation_organizer_category_cultural_event_subtitle">"Концерт, художня виставка"</string>
+
+    <!-- XTXT: Title for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_title">"Клубні заходи"</string>
+    <!-- XTXT: Subtitle for the club activity category  -->
+    <string name="tracelocation_organizer_category_club_activity_subtitle">"Спортивне тренування, загальні збори"</string>
+
+    <!-- XTXT: Title for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_title">"Приватна вечірка"</string>
+    <!-- XTXT: Subtitle for the private event category  -->
+    <string name="tracelocation_organizer_category_private_event_subtitle">"День народження, сімейні зустрічі"</string>
+
+    <!-- XTXT: Title for the worship service category  -->
+    <string name="tracelocation_organizer_category_worship_service_title">"Релігійна служба"</string>
+
+    <!-- XTXT: Title for other event  -->
+    <string name="tracelocation_organizer_category_other_event_title">"Інший захід"</string>
+
+    <!-- XTXT: Title for event description  -->
+    <string name="tracelocation_organizer_add_event_description">"Опис"</string>
+    <!-- XTXT: Title for event location  -->
+    <string name="tracelocation_organizer_add_event_location">"Місце"</string>
+    <!-- XTXT: Title for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay">"Типове перебування"</string>
+    <!-- XTXT: Description for event length of stay  -->
+    <string name="tracelocation_organizer_add_event_length_of_stay_description">"Вкажіть, як довго гості зазвичай залишаються у вас."</string>
+    <!-- XTXT: Title for event start time  -->
+    <string name="tracelocation_organizer_add_event_begin">"Розпочати"</string>
+    <!-- XTXT: Title for event end time  -->
+    <string name="tracelocation_organizer_add_event_end">"Завершити"</string>
+    <!-- XTXT: Duration suffix -->
+    <string name="tracelocation_organizer_duration_suffix">"год"</string>
+    <!-- XTXT: Save button text -->
+    <string name="tracelocation_organizer_save">"Зберегти"</string>
+
+    <!-- XMSG: generic web request error without status code -->
+    <string name="tracelocation_generic_qr_code_error_body">"Не вдалося створити QR-код. Спробуйте пізніше."</string>
+    <!-- XHED: error message title -->
+    <string name="tracelocation_generic_error_title">"Помилка"</string>
+
+    <!--    Trace Location Homescreen Card-->
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="create_trace_location_card_headline">"Плануєте\nподію?"</string>
+    <!-- XTXT: Subtitle for trace location creation card -->
+    <string name="create_trace_location_card_subtitle">"Плануєте подію чи займаєтесь бізнесом? Створіть QR-код, щоб гості могли зареєструватися, коли прийдуть."</string>
+    <!-- XTXT: Text for trace location creation card -->
+    <string name="create_trace_location_card_button">"Створити QR-код"</string>
+
+    <!--    Trace Location QR Code Info Screen-->
+    <!-- XTXT: Text for content description of info screen image -->
+    <string name="trace_location_qr_info_content_description">"Одна людина показує на фліп-чарт, а двоє сидять поруч і дивляться на фліп-чарт."</string>
+    <!-- XHED: Headline for trace location creation card -->
+    <string name="trace_location_qr_info_headline_text">"Підвищена безпека для вас і ваших гостей"</string>
+    <!-- XTXT: Text for subtitle of qr info screen -->
+    <string name="trace_location_qr_info_subtitle_text">"Створіть QR-код, який ваші гості зможуть відсканувати, коли прийдуть. Це дозволить їм попередити інших гостей або отримати від них попередження, якщо це необхідно."</string>
+    <!-- XTXT: Text for tracing icon of qr info screen -->
+    <string name="trace_location_qr_info_tracing_text">"Кожна реєстрація при вході також враховується при обчисленні статусу ризику. Якщо у когось, хто зареєструвався на цьому заході чи місці, пізніше діагностують коронавірус, гості можуть бути сповіщені, якщо вони перебували в одній кімнаті одночасно або через 30 хвилин після того, як діагностовано людину."</string>
+    <!-- XTXT: Text for qr icon of qr info screen -->
+    <string name="trace_location_qr_info_qr_code_text">"Ви можете надати своїм гостям QR-код на своєму смартфоні або у роздрукованому вигляді."</string>
+    <!-- XTXT: Text for time sheet icon of qr info screen -->
+    <string name="trace_location_qr_info_time_text">"Якщо ви хочете використовувати QR-код протягом тривалого періоду, вам слід генерувати його знову щодня, поза межами робочого часу."</string>
+    <!-- XTXT: Text for warning icon of qr info screen -->
+    <string name="trace_location_qr_info_warn_text">"Ви можете попередити своїх гостей від імені когось, у кого був діагностований коронавірус і який відвідав захід, але не був зареєстрований при вході за допомогою Corona-Warn-App."</string>
+    <!-- XTXT: Text for I understand button -->
+    <string name="acknowledge_button">"Далі"</string>
+
+    <!-- XHED: Title of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_title">"Мої реєстрації при вході"</string>
+    <!-- XTXT: Description of the notification channel for event registration related notifications. -->
+    <string name="tracelocation_notification_channel_description">"Сповіщення про ваші реєстрації при вході, наприклад автоматична реєстрація при виході."</string>
+    <!-- XHED: Title of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_title">"Вас зареєстрували при виході автоматично"</string>
+    <!-- XTXT: Description of the automatic check-out notification. -->
+    <string name="tracelocation_notification_autocheckout_description">"Відкоригуйте тривалість вашого перебування, якщо це необхідно."</string>
+
+    <!-- ####################################
+       Event Organiser Trace Locations List
+    ###################################### -->
+
+    <!-- XHED: Event organiser qr codes list: title -->
+    <string name="trace_location_organiser_list_title">"Мої QR-коди"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button -->
+    <string name="trace_location_organiser_list_new_button">"Код QR"</string>
+    <!-- XBUT: Event organiser qr codes list: new qr code button description -->
+    <string name="trace_location_organiser_list_new_button_description">"Додайте QR-код"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_title">"Ще не створено QR-код"</string>
+    <!-- XTXT: Event organiser qr codes list: new qr code button  -->
+    <string name="trace_location_organiser_list_no_codes_subtitle">"Тут відображаються всі QR-коди, які ви створили для місця чи заходу. Ви можете видалити QR-коди, які ви більше не збираєтеся використовувати."</string>
+
+    <!-- XBUT: Event organiser qr codes list: menu: information button  -->
+    <string name="trace_location_organizer_list_menu_information_btn">"Інформація"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: remove all button  -->
+    <string name="trace_location_organizer_list_menu_remove_all_btn">"Видалити все"</string>
+    <!-- XBUT: Event organiser qr codes list: menu: warn guests button  -->
+    <string name="trace_location_organizer_list_menu_warn_guests_btn">"Попереджати для інших"</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete single popup title -->
+    <string name="trace_location_organiser_list_delete_single_popup_title">"Ви хочете видалити QR-код?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete single popup message -->
+    <string name="trace_location_organiser_list_delete_single_popup_message">"Зверніть увагу, що якщо ви це зробите, QR-код більше не можна буде використовувати для реєстрації на вході."</string>
+
+    <!-- XHED:  Event organiser qr codes list: delete all popup title -->
+    <string name="trace_location_organiser_list_delete_all_popup_title">"Ви дійсно хочете видалити всі QR-коди?"</string>
+    <!-- XTXT:  Event organiser qr codes list: delete all popup message -->
+    <string name="trace_location_organiser_list_delete_all_popup_message">"Зверніть увагу, що якщо ви це зробите, ці QR-коди більше не можна буде використовувати для реєстрації при вході."</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup negative button -->
+    <string name="trace_location_organiser_list_delete_all_popup_negative_button">"Скасувати"</string>
+    <!-- XBUT:  Event organiser qr codes list: delete all popup positive button -->
+    <string name="trace_location_organiser_list_delete_all_popup_positive_button">"Видалити"</string>
+
+    <!-- XTXT: Event organiser list item: duration-->
+    <string name="trace_location_organizer_list_item_duration">"%1$s - %2$s"</string>
+
+    <!-- XTXT: Event organiser list item: duration same day-->
+    <string name="trace_location_organizer_list_item_duration_same_day">"%1$s %2$s - %3$s "</string>
+
+    <!-- XBUT: Event organiser list item: checkin button -->
+    <string name="trace_location_organizer_list_item_action_checkin">"Реєстрація при вході"</string>
+
+    <!-- XTXT: Event organizer detail qr-code: duration with date -->
+    <string name="trace_location_organizer_detail_item_duration">"%1$s, %2$s - %3$s"</string>
+    <!-- XTXT: Event organizer detail qr-code: duration with multiple date -->
+    <string name="trace_location_organizer_detail_item_duration_multiple_days">"%1$s, %2$s - %3$s, %4$s"</string>
+    <!-- XTXT: Past Event Info duration -->
+    <string name="trace_location_attendee_past_event_duration">"%1$s"</string>
+
+    <!-- XBUT: Event organiser list item: menu: information button  -->
+    <string name="trace_location_organizer_list_item_menu_duplicate_btn">"Дублювати"</string>
+    <!-- XBUT: Event organiser list item: menu: show print button  -->
+    <string name="trace_location_organizer_list_item_menu_show_print_btn">"Відобразити версію для друку"</string>
+    <!-- XBUT: Event organiser list item: menu: clear button  -->
+    <string name="trace_location_organizer_list_item_menu_clear_btn">"Видалити"</string>
+
+    <!-- Trace Location Checkin Confirmation -->
+    <!-- XHED: Checkin Confirm: title for screen -->
+    <string name="confirm_checkin_title_text">"Реєстрація при вході для:"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in future info card -->
+    <string name="confirm_checkin_event_in_future_card_text">"Цей захід не почнеться до %2$s на %1$s. Ви вже хочете зареєструватися?"</string>
+    <!-- XTXT: Checkin Confirm: text for event is in past info card -->
+    <string name="confirm_checkin_event_in_past_card_text">"Цей захід вже закінчився. Бажаєте зареєструватися при вході заднім числом?"</string>
+    <!-- XTXT: Checkin Confirm: label for save to contact diary toggle -->
+    <string name="confirm_checkin_settings_card_checkout_toggle_label">"Записати в мій журнал контактів після реєстрації при виході?"</string>
+    <!-- XTXT: Checkin Confirm: label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_label">"Реєстрація при виході автоматично після"</string>
+    <!-- XTXT: Checkin Confirm: time length label for checkout delay selection -->
+    <string name="confirm_checkin_settings_card_checkout_time_tag">"год"</string>
+    <!-- XBUT: Checkin Confirm: Checkin Button -->
+    <string name="confirm_checkin_confirm_button_text">"Реєстрація при вході"</string>
+
+    <!-- Trace Location Checkin Editing -->
+    <!-- XHED: Checkin Edit: title for screen -->
+    <string name="edit_checkin_title_text">"Змінити тривалість перебування на:"</string>
+    <!-- XTXT: Checkin Edit: label for checkout time -->
+    <string name="edit_checkin_edit_card_checkout_time_label">"Зареєстровано при виході"</string>
+    <!-- XTXT: Checkin Edit: label for checkin time -->
+    <string name="edit_checkin_edit_card_checkin_time_label">"Зареєстровано при вході"</string>
+    <!-- XTXT: Checkin Edit: hint for unchanged contact diary checkin duration -->
+    <string name="edit_checkin_duration_edit_hint_card_text">"Тривалість перебування не буде автоматично коригуватися у вашому журналі контактів."</string>
+    <!-- XTXT: Checkin Edit: warning if user input is incorrect -->
+    <string name="edit_checkin_wrong_input_warning_text">"Ви можете залишатися зареєстрованими до 24 годин. Час реєстрації при виході має бути пізніше, ніж час реєстрації при вході."</string>
+    <!-- XBUT: Checkin Edit: Save Button -->
+    <string name="edit_checkin_confirm_button_text">"Зберегти"</string>
+
+    <!--  Organizer Flow: Event Detail Screen-->
+    <!-- XTXT: Organizer Flow : Accessibility description for qr-code illustration -->
+    <string name="trace_location_event_detail_qr_code_accessibility">"Код QR"</string>
+    <!-- XHED: Organizer Flow : Accessibility title for event-overview -->
+    <string name="trace_location_event_detail_title_accessibility">"Подання заходу"</string>
+    <!-- XBUT: Organizer Flow : Title for show print version button -->
+    <string name="trace_location_event_detail_show_print_qr_code_button">"Відобразити версію для друку"</string>
+    <!-- XBUT: Organizer Flow : Title for save as template button -->
+    <string name="trace_location_event_detail_save_as_template_button">"Використовувати як шаблон"</string>
+
+    <!-- Qr Code Validation Messages -->
+    <!-- XTXT: My check-ins: qr code validation wrong description field -->
+    <string name="trace_location_checkins_qr_code_invalid_description">"Реєстрація при вході заблокована через недійсний QR-код. Відповідальна сторона має згенерувати новий QR-код (код помилки INVALID_DESCRIPTION)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong address field -->
+    <string name="trace_location_checkins_qr_code_invalid_address">"Реєстрація при вході заблокована через недійсний QR-код. Відповідальна сторона має згенерувати новий QR-код (код помилки INVALID_ADDRESS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong start end time field -->
+    <string name="trace_location_checkins_qr_code_invalid_times">"Реєстрація при вході заблокована через недійсний QR-код. Відповідальна сторона має згенерувати новий QR-код (код помилки INVALID_TIMESTAMPS)."</string>
+    <!-- XTXT: My check-ins: qr code validation wrong cryptographic seed field -->
+    <string name="trace_location_checkins_qr_code_invalid_cryptographic_seed">"Реєстрація при вході заблокована через недійсний QR-код. Відповідальна сторона має згенерувати новий QR-код (код помилки INVALID_CRYPTO_SEED)."</string>
+
+    <!--  Warn Info Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_warn_info_header">"Попереджати для інших"</string>
+    <!-- XHED: Warn Info Screen: title -->
+    <string name="trace_location_organiser_warn_info_title">"Підвищена безпека для вас і ваших гостей"</string>
+    <!-- XTXT: Warn Info Screen: body -->
+    <string name="trace_location_organiser_warn_info_body">"Ви можете попередити своїх гостей від імені когось, у кого був діагностований коронавірус і який відвідав захід, але не був зареєстрований при вході за допомогою Corona-Warn-App."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_guests">"Якщо у когось, хто не зареєструвався при вході на цьому заході чи місці, пізніше діагностують коронавірус, гості можуть бути сповіщені, якщо вони перебували в одній кімнаті одночасно або через 30 хвилин після того, як діагностовано людину."</string>
+    <!-- XTXT: Warn Info Screen: guests -->
+    <string name="trace_location_organiser_warn_info_authority">"Ви можете попереджати своїх гостей від імені інших, лише якщо ви отримали вказівку про це від державних органів охорони здоров’я. У цьому випадку вам надішлють TAN."</string>
+
+    <!--  Selection List Screen -->
+    <!-- XTXT: Event organiser selection list: no events title  -->
+    <string name="trace_location_organiser_list_no_events_title">"Немає доступних заходів"</string>
+    <!-- XTXT: Event organiser selection list: no events subtitle  -->
+    <string name="trace_location_organiser_list_no_events_subtitle">"Знову відскануйте QR-код відповідного заходу, щоб попередити від імені інших."</string>
+    <!-- XTXT: Event organiser selection list: no events info  -->
+    <string name="trace_location_organiser_list_no_events_info">"Виберіть захід, про який ви хочете попередити інших від імені людини, у якої діагностовано коронавірус."</string>
+    <!-- XTXT: Event organiser selection list: title  -->
+    <string name="trace_location_organiser_list_subtitle">"Виберіть захід, про який ви хочете попередити інших від імені людини, у якої діагностовано коронавірус, або відновіть видалений захід, знову відсканувавши QR-код цього заходу."</string>
+    <!-- XTXT: Event organiser selection list: qr code scann  -->
+    <string name="trace_location_organiser_qr_code_scan">"Сканувати QR-код"</string>
+
+    <!--  Warn Duration Screen -->
+    <!-- XHED: Warn Duration Screen: header -->
+    <string name="trace_location_organiser_warn_duration_header">"Попереджати для інших"</string>
+    <!-- XTXT: Warn Duration Screen: body -->
+    <string name="trace_location_organiser_warn_duration_body">"Вкажіть термін перебування людини, у якої виявили коронавірус, від імені якої ви хочете попередити інших. Ви отримуєте цю інформацію від державних органів охорони здоров’я."</string>
+    <!-- XTXT: Warn Duration Screen: start hint -->
+    <string name="trace_location_organiser_warn_duration_start_hint">"Початок/Прибуття"</string>
+    <!-- XTXT: Warn Duration Screen: duration hint -->
+    <string name="trace_location_organiser_warn_duration_duration_hint">"Тривалість"</string>
+
+    <!--  Warn Tan Screen -->
+    <!-- XHED: Warn Tan Screen: header -->
+    <string name="trace_location_organiser_warn_tan_header">"Попереджати для інших"</string>
+    <!-- XBUT: Warn Tan Screen: submit button text -->
+    <string name="trace_location_organizer_warn_tan_submit_button">"Відправити застереження"</string>
+
+    <!--  Thank You Final Screen -->
+    <!-- XHED: Warn Info Screen: header -->
+    <string name="trace_location_organiser_thank_you_header">"Попереджати для інших"</string>
+    <!-- XHED: Thank You Screen: top text -->
+    <string name="trace_location_organiser_thank_you_title">"Дякуємо!"</string>
+    <!-- XTXT: Thank You Screen: main text -->
+    <string name="trace_location_organiser_thank_you_body">"Завдяки вашій підтримці інші люди тепер можуть бути попереджені та належним чином реагувати."</string>
+    <!-- XBUT: Thank You Screen: finish button text -->
+    <string name="trace_location_organiser_thank_you_finish_button">"Вийти"</string>
+
+    <!--  Organizer submission error texts -->
+    <!-- XTXT: Text key: SUBMISSION_OB_FAILED -->
+    <string name="submission_ob_failed">"Сталася помилка. Зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TAN_ERROR -->
+    <string name="submission_ob_tan_error">"Недійсний TAN. Перевірте свій запис або зв’яжіться з організацією, яка надіслала вам TAN."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_TRY_AGAIN -->
+    <string name="submission_ob_try_again">"Сталась помилка. Спробуйте пізніше або зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+    <!-- XTXT: Text key: SUBMISSION_OB_NO_NETWORK -->
+    <string name="submission_ob_no_network">"Ваше з’єднання з Інтернетом було втрачено. Перевірте з’єднання та спробуйте ще раз."</string>
+
+</resources>
