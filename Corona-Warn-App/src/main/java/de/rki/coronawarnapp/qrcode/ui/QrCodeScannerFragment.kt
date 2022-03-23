@@ -80,7 +80,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     ) {
         _binding = this
 
-        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner, activity = requireActivity())
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
         buttonOpenFile.setOnClickListener {
