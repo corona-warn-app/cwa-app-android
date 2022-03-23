@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Нові функції"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Версія %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Поряд із виправленнями помилок, це оновлення також містить нові й розширені функції."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Далі"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Зміни у цій версії можна знайти в інформації про застосунок в розділі «Нові функції»."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Звіт про підвищений ступінь ризику скорочено"</item>
+        <item>"Звіт про ризики після позитивного результату тесту"</item>
+        <item>"Повідомлення для нового ризику зараження"</item>
+        <item>"Звіт про зміну статусу"</item>
+        <item>"Сертифікати про одужання без даних про строки дії"</item>
+        <item>"Дублікат QR-коду видалено"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Підвищений ступінь ризик після виникнення ризику зараження тепер відображається лише протягом десяти днів замість 14."</item>
+        <item>"Червона плитка підвищеного ступеня ризику тепер відображається після виникнення ризику зараження, навіть якщо ви зареєстрували позитивний тест у Corona-Warn-App. Ваш статус ризику знову відображається через сім днів після позитивного тесту."</item>
+        <item>"Якщо у вас є інший ризик зараження з підвищеним ступенем ризику після попереднього зараження, тепер також буде відображатися сповіщення для цього ризику."</item>
+        <item>"Якщо ваш статус змінився (наприклад, оскільки ви додали сертифікат або змінилися правила), ви отримаєте сповіщення про це на закладці «Сертифікати»."</item>
+        <item>"Дані про строки дії більше не відображаються для сертифікатів про одужання, оскільки їх строк дії залежить від локальних правил. Замість цього відображається дата першого позитивного тесту."</item>
+        <item>"QR-код для вашого наразі використаного сертифіката видалено з вашого персонального докладного екрана, таким чином створюючи більше місця для сповіщень і загалом розвантажуючи екран. QR-код також міститься в огляді сертифіката, тому він не потрібен на докладному екрані."</item>
+    </string-array>
+
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+        <item/>
+    </string-array>
+
+</resources>
