@@ -16,16 +16,22 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Înregistrarea testelor PCR rapide"</item>
-        <item>"Atribuirea certificatului"</item>
-        <item>"Actualizarea certificatului"</item>
+        <item>"Raportul despre riscul crescut a fost scurtat"</item>
+        <item>"Raport de risc după un rezultat de test pozitiv"</item>
+        <item>"Mesaj pentru expunere nouă"</item>
+        <item>"Raport despre modificarea de stare"</item>
+        <item>"Certificate de recuperare fără date de valabilitate"</item>
+        <item>"Codul QR duplicat a fost eliminat"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți înregistra teste PCR rapide în Corona-Warn-App și puteți primi rezultatul și certificatul dvs. de test prin aplicație."</item>
-        <item>"Atribuirea certificatelor la persoane a fost făcută mai tolerantă la erori. Sunt ignorate diferențele minore de ortografie în cazul prenumelor și numelor, astfel încât certificatele afectate pot fi totuși atribuite persoanelor în cauză."</item>
-        <item>"Prevederile UE pentru certificatele de vaccinare care presupun vaccinarea cu doza booster s-au modificat. Dacă certificatul dvs. nu mai corespunde cu prevederile curente, puteți solicita un certificat nou direct din Corona-Warn-App."</item>
+        <item>"Un risc crescut după o expunere este afișat acum pentru doar 10 zile, în loc de 14."</item>
+        <item>"Mozaicul roșu pentru risc crescut este afișat acum după o expunere, chiar dacă ați înregistrat un test pozitiv în aplicația Corona-Warn. Starea riscului este afișată din nou la șapte zile după testul pozitiv."</item>
+        <item>"Dacă aveți o altă expunere cu risc crescut după o expunere anterioară, acum se va afișa o notificare și pentru această expunere."</item>
+        <item>"Dacă starea dvs. s-a modificat (deoarece, de exemplu, ați adăugat un certificat sau pentru că s-au schimbat regulile), veți fi notificat despre acest lucru pe tabul Certificate."</item>
+        <item>"Datele de valabilitate nu mai sunt afișate pentru certificatele de recuperare, deoarece valabilitatea acestora depinde de regulile locale. În schimb, acum este afișată data primului test pozitiv."</item>
+        <item>"Codul QR pentru certificatul utilizat în mod curent a fost eliminat din ecranul detaliat personal, ceea ce a creat mai mult spațiu pentru notificări și a făcut mai mult loc pe ecranul general. Codul QR este, de asemenea, conținut în sumarul certificatului și, astfel, nu este necesar pe ecranul detaliat."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +39,16 @@
         <item/>
         <item/>
         <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+        <item/>
         <item/>
         <item/>
         <item/>
