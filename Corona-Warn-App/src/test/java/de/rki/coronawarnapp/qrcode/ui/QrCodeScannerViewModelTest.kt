@@ -25,6 +25,8 @@ import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoredTest
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestRegistrationSelection
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.InRecycleBin
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
 import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreHandler
@@ -260,14 +262,21 @@ class QrCodeScannerViewModelTest : BaseTest() {
     @Test
     fun `forwards CoronaTestQRCode to CoronaTestQRCodeHandler`() {
         val coronaTestQRCode = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID", rawQrCode = "rawQrCode")
-        val scannerResult = de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestRegistrationSelection(coronaTestQRCode)
+        val coronaTestQRCodeHandlerResult = CoronaTestQRCodeHandler.TestRegistrationSelection(coronaTestQRCode)
+        val scannerResult = TestRegistrationSelection(coronaTestQRCode)
 
         coEvery { qrCodeValidator.validate(rawResult) } returns coronaTestQRCode
-        coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQRCode) } returns scannerResult
+        coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQRCode) } returns coronaTestQRCodeHandlerResult
         with(viewModel()) {
             onParseResult(parsedResult)
-
             result.getOrAwaitValue() shouldBe scannerResult
+
+            val coronaTestQRCodeHandlerResult2 = CoronaTestQRCodeHandler.InRecycleBin(recycledRAT)
+            val scannerResult2 = InRecycleBin(recycledRAT)
+            coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQRCode) } returns coronaTestQRCodeHandlerResult2
+
+            onParseResult(parsedResult)
+            result.getOrAwaitValue() shouldBe scannerResult2
         }
     }
 
