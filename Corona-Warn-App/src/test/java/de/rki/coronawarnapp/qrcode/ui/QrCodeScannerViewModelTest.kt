@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -84,35 +83,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         testedAt = Instant.EPOCH,
         isDccConsentGiven = false,
         isDccSupportedByPoc = false,
-    )
-
-    private val anotherRAT = RACoronaTest(
-        identifier = "rat-identifier-another",
-        lastUpdatedAt = Instant.EPOCH,
-        registeredAt = Instant.EPOCH,
-        registrationToken = "token-another",
-        testResult = CoronaTestResult.RAT_REDEEMED,
-        testedAt = Instant.EPOCH,
-        isDccConsentGiven = false,
-        isDccSupportedByPoc = false
-    )
-
-    private val recycledPCR = PCRCoronaTest(
-        identifier = "pcr-identifier",
-        lastUpdatedAt = Instant.EPOCH,
-        registeredAt = Instant.EPOCH,
-        registrationToken = "token",
-        testResult = CoronaTestResult.PCR_NEGATIVE,
-        isDccConsentGiven = true
-    )
-
-    private val anotherPCR = PCRCoronaTest(
-        identifier = "pcr-identifier-another",
-        lastUpdatedAt = Instant.EPOCH,
-        registeredAt = Instant.EPOCH,
-        registrationToken = "token-another",
-        testResult = CoronaTestResult.PCR_NEGATIVE,
-        isDccConsentGiven = true
     )
 
     private val rawResult = "rawResult"
