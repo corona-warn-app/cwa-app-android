@@ -14,7 +14,7 @@
         tools:context=".ui.submission.resultavailable.SubmissionTestResultAvailableFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/submission_test_result_available_header"
+            android:id="@+id/toolbar"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_available_header"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout

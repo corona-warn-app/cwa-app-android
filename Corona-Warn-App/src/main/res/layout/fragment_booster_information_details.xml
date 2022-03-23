@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorSurface"
                 android:nestedScrollingEnabled="true"
+                app:contentScrim="@drawable/top_app_bar_shape"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 

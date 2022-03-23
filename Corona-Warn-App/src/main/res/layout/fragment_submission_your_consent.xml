@@ -13,7 +13,7 @@
         tools:context=".ui.submission.yourconsent.SubmissionYourConsentFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/submission_your_consent_title"
+            android:id="@+id/toolbar"
             style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_your_consent_title"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout

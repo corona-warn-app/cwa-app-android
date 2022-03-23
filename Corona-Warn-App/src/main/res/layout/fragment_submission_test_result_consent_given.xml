@@ -20,7 +20,7 @@
         android:contentDescription="@string/submission_test_result_headline">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/submission_test_result_consent_given_header"
+            android:id="@+id/toolbar"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_header">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

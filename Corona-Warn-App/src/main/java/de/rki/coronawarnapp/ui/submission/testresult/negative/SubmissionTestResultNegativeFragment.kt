@@ -47,7 +47,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            binding.toolbar.setNavigationOnClickListener { popBackStack() }
             testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
 

@@ -13,7 +13,7 @@
         tools:context=".ui.submission.fragment.SubmissionContactFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/submission_contact_header"
+            android:id="@+id/toolbar"
             style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
