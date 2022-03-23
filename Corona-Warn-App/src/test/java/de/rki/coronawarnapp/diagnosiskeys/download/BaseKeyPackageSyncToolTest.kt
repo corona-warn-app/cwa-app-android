@@ -43,7 +43,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
         testDir.exists() shouldBe true
 
         coEvery { deviceStorage.requireSpacePrivateStorage(any()) } returns mockk()
-        coEvery { keyCache.delete(any()) } just Runs
+        coEvery { keyCache.deleteInfoAndFile(any()) } just Runs
     }
 
     @AfterEach
@@ -111,7 +111,7 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
 
         instance.revokeCachedKeys(emptyList()) shouldBe false
 
-        coVerify { keyCache.delete(listOf(badDayInfo, badHourInfo)) }
+        coVerify { keyCache.deleteInfoAndFile(listOf(badDayInfo, badHourInfo)) }
     }
 
     @Test
@@ -271,31 +271,41 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
     }
 
     @Test
-    fun `getting completed keys`() = runBlockingTest {
+    fun `getting completed or checked keys`() = runBlockingTest {
+        // incomplete -> no delta
         val key1 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { isDownloadComplete } returns false
+                every { checkedForExposures } returns false
                 every { location } returns LocationCode("EUR")
             }
             every { path } returns mockk<File>().apply { every { exists() } returns true }
         }
+        // delta
         val key2 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { isDownloadComplete } returns true
+                every { checkedForExposures } returns true
                 every { location } returns LocationCode("EUR")
             }
             every { path } returns mockk<File>().apply { every { exists() } returns false }
         }
+
+        // delta -> not checked but existing
         val key3 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { isDownloadComplete } returns true
+                every { checkedForExposures } returns false
                 every { location } returns LocationCode("EUR")
             }
             every { path } returns mockk<File>().apply { every { exists() } returns true }
         }
+
+        //  DE location
         val key4 = mockk<CachedKey>().apply {
             every { info } returns mockk<CachedKeyInfo>().apply {
                 every { isDownloadComplete } returns true
+                every { checkedForExposures } returns true
                 every { location } returns LocationCode("DE")
             }
             every { path } returns mockk<File>().apply { every { exists() } returns true }
@@ -303,16 +313,22 @@ class BaseKeyPackageSyncToolTest : BaseIOTest() {
         coEvery { keyCache.getEntriesForType(any()) } returns listOf(key1, key2, key3, key4)
 
         val instance = createInstance()
-        instance.getDownloadedCachedKeys(
+        instance.getCachedKeys(
             LocationCode("EUR"),
             CachedKeyInfo.Type.LOCATION_DAY
-        ) shouldBe listOf(key3)
+        ) shouldBe listOf(key2, key3)
         coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_DAY) }
 
-        instance.getDownloadedCachedKeys(
+        instance.getCachedKeys(
             LocationCode("EUR"),
             CachedKeyInfo.Type.LOCATION_HOUR
-        ) shouldBe listOf(key3)
+        ) shouldBe listOf(key2, key3)
+        coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR) }
+
+        instance.getCachedKeys(
+            LocationCode("DE"),
+            CachedKeyInfo.Type.LOCATION_HOUR
+        ) shouldBe listOf(key4)
         coVerify { keyCache.getEntriesForType(CachedKeyInfo.Type.LOCATION_HOUR) }
     }
 }

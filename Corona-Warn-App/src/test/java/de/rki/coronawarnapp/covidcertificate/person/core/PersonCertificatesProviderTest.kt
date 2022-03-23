@@ -42,7 +42,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         every { codeSHA256 } returns groupingKey.toSHA256()
     }
 
-    private val vaccinatedPersonACertificate1 = mockk<VaccinationCertificate>().apply {
+    private val vaccinationCertA = mockk<VaccinationCertificate>().apply {
         every { personIdentifier } returns identifierA
         every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
         every { hasNotificationBadge } returns false
@@ -77,11 +77,9 @@ class PersonCertificatesProviderTest : BaseTest() {
     private val rcSet = setOf(recoveryCertA, recoveryCertB)
     private val tcSet = setOf(testCertA, testCertB)
 
-    //    private val vcInfoSet = setOf(vaccinatedPersonA)
-    private val vcSet = setOf(vaccinatedPersonACertificate1)
+    private val vcSet = setOf(vaccinationCertA)
 
     private val certificateContainer: CertificateProvider.CertificateContainer = mockk {
-//        every { vaccinationInfos } returns vcInfoSet
         every { vaccinationCwaCertificates } returns vcSet
         every { testCwaCertificates } returns tcSet
         every { recoveryCwaCertificates } returns rcSet
@@ -138,25 +136,39 @@ class PersonCertificatesProviderTest : BaseTest() {
     fun `data combination`() = runBlockingTest2(ignoreActive = true) {
         val instance = createInstance(this)
 
-        instance.personCertificates.first() shouldBe listOf(
-            PersonCertificates(
-                certificates = listOf(
-                    vaccinatedPersonACertificate1,
-                    testCertA,
-                    recoveryCertA
-                ),
-                isCwaUser = true,
-                badgeCount = 2
-            ),
-            PersonCertificates(
-                certificates = listOf(
-                    testCertB,
-                    recoveryCertB
-                ),
-                isCwaUser = false,
-                badgeCount = 2
-            )
+        val personCertificates = instance.personCertificates.first()
+        val certificatesPersonA = listOf(
+            vaccinationCertA,
+            testCertA,
+            recoveryCertA
         )
+        val personA = PersonCertificates(
+            certificates = certificatesPersonA,
+            isCwaUser = true,
+            badgeCount = 2
+        )
+
+        val certificatesPersonB = listOf(
+            testCertB,
+            recoveryCertB
+        )
+        val personB = PersonCertificates(
+            certificates = certificatesPersonB,
+            isCwaUser = false,
+            badgeCount = 2
+        )
+
+        personCertificates shouldBe listOf(personA, personB)
+
+        // Verify person A identifier
+        personA.personIdentifier shouldBe vaccinationCertA.personIdentifier
+        personA.personIdentifier shouldBe certificatesPersonA.identifier
+        certificatesPersonA.identifier shouldBe vaccinationCertA.personIdentifier
+
+        // Verify person B identifier
+        personB.personIdentifier shouldBe recoveryCertB.personIdentifier
+        personB.personIdentifier shouldBe certificatesPersonB.identifier
+        certificatesPersonB.identifier shouldBe recoveryCertB.personIdentifier
 
         instance.personsBadgeCount.first() shouldBe 4
 
@@ -173,7 +185,7 @@ class PersonCertificatesProviderTest : BaseTest() {
         instance.personCertificates.first() shouldBe listOf(
             PersonCertificates(
                 certificates = listOf(
-                    vaccinatedPersonACertificate1,
+                    vaccinationCertA,
                     testCertA,
                     recoveryCertA
                 ),
