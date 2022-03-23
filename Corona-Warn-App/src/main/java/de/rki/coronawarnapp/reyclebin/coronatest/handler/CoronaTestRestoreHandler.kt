@@ -19,8 +19,9 @@ class CoronaTestRestoreHandler @Inject constructor(
         Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%S)", recycledCoronaTest::class.java.simpleName)
         val currentCoronaTest by lazy { submissionRepository.testForType(recycledCoronaTest.type) }
         return when {
-            recycledCoronaTest is PersonalCoronaTest && currentCoronaTest.first() != null -> CoronaTestRestoreEvent
-                .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
+            recycledCoronaTest is PersonalCoronaTest && currentCoronaTest.first() != null ->
+                CoronaTestRestoreEvent
+                    .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
             else -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
                 CoronaTestRestoreEvent.RestoredTest
