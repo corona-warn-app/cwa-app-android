@@ -111,7 +111,7 @@
         <item quantity="one">"Ризики зараження з низьким ступенем ризику за один день"</item>
         <item quantity="other">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
         <item quantity="zero">"Немає ризиків зараження"</item>
-        <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
+        <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d день"</item>
         <item quantity="few">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
         <item quantity="many">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
     </plurals>
@@ -122,7 +122,7 @@
 
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
-        <item quantity="one">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
+        <item quantity="one">"Ризики зараження за %1$d день з підвищеним ступенем ризику"</item>
         <item quantity="other">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
         <item quantity="zero">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
         <item quantity="two">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
