@@ -222,7 +222,7 @@ class MainActivityViewModelTest2 : BaseTest() {
             restoreCoronaTest(recycledPCR)
             coronaTestRestoreEvent.getOrAwaitValue() shouldBe restoreEvent
 
-            val restoreEvent2 = CoronaTestRestoreEvent.RestoredTest
+            val restoreEvent2 = CoronaTestRestoreEvent.RestoredTest(recycledPCR)
             coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledPCR) } returns restoreEvent2
             restoreCoronaTest(recycledPCR)
             coronaTestRestoreEvent.getOrAwaitValue() shouldBe restoreEvent2

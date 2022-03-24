@@ -23,7 +23,7 @@ class CoronaTestRestoreHandler @Inject constructor(
                 .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
             else -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
-                CoronaTestRestoreEvent.RestoredTest
+                CoronaTestRestoreEvent.RestoredTest(recycledCoronaTest)
             }
         }.also { Timber.tag(TAG).d("returning %S", it::class.java.simpleName) }
     }

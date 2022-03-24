@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         is CoronaTestRestoreEvent.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
             event.restoreRecycledTestRequest
         )
-        CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
+        is CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
     }.let { navController.doNavigate(it) }
 
     private fun ActivityMainBinding.checkToolTipVisibility(

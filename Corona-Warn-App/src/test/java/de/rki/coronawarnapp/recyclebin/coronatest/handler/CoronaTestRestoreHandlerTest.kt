@@ -95,7 +95,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
     @Test
     fun `restore personal corona test PCR whether no other PCR is active`() = runBlockingTest {
-        instance.restoreCoronaTest(recycledPCR) shouldBe CoronaTestRestoreEvent.RestoredTest
+        instance.restoreCoronaTest(recycledPCR) shouldBe CoronaTestRestoreEvent.RestoredTest(recycledPCR)
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(recycledPCR.identifier)
@@ -105,7 +105,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
     @Test
     fun `restore personal corona test RAT whether no other RAT is active`() = runBlockingTest {
-        instance.restoreCoronaTest(recycledRAT) shouldBe CoronaTestRestoreEvent.RestoredTest
+        instance.restoreCoronaTest(recycledRAT) shouldBe CoronaTestRestoreEvent.RestoredTest(recycledRAT)
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(recycledRAT.identifier)
@@ -117,7 +117,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     fun `restore family corona test PCR regardless of whether another PCR is active`() = runBlockingTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(recycledPCR)
 
-        instance.restoreCoronaTest(familyCoronaTest) shouldBe CoronaTestRestoreEvent.RestoredTest
+        instance.restoreCoronaTest(familyCoronaTest) shouldBe CoronaTestRestoreEvent.RestoredTest(familyCoronaTest)
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(familyCoronaTest.identifier)
