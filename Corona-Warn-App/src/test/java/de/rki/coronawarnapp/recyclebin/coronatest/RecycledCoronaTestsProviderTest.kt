@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsT
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -126,12 +127,13 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     fun `Delete recycled test does not throw if test not found`() = runBlockingTest2(ignoreActive = true) {
         coEvery { personalTestsRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
 
-        shouldNotThrowAnyUnit {
+        shouldNotThrowAny {
             createInstance().deleteCoronaTest("I do not exist")
         }
 
-        coVerify {
+        coVerify(exactly = 0) {
             personalTestsRepository.removeTest(any())
+            familyTestRepository.removeTest(any())
         }
     }
 
