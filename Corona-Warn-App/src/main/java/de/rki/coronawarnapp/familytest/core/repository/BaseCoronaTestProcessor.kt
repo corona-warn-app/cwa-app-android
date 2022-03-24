@@ -94,7 +94,10 @@ class BaseCoronaTestProcessor @Inject constructor(
                 PCR -> response.coronaTestResult.toValidatedPcrResult()
             }
 
-            test.updateTestResult(testResult).updateLabId(response.labId)
+            test.apply {
+                updateTestResult(testResult)
+                response.labId?.let { updateLabId(it) }
+            }
         } catch (e: Exception) {
             Timber.e(e, "Failed to poll server for  %s", test)
             if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
