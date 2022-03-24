@@ -62,7 +62,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     @Test
     fun `No recycled items, nothing to delete`() = runBlockingTest {
         every { recycledCertificatesProvider.recycledCertificates } returns flowOf(emptySet())
-        every { recycledCoronaTestsProvider.testsMap } returns flowOf(emptySet())
+        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
 
         createInstance().clearRecycledItems()
 
@@ -83,7 +83,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
             setOf(certWith0DaysOfRetention, certWith30DaysOfRetention)
         )
 
-        every { recycledCoronaTestsProvider.testsMap } returns flowOf(
+        every { recycledCoronaTestsProvider.tests } returns flowOf(
             setOf(testWith0DaysOfRetention, testWith30DaysOfRetention)
         )
 
@@ -109,7 +109,7 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
             setOf(certExact30Days, cert30DaysAnd1Ms)
         )
 
-        every { recycledCoronaTestsProvider.testsMap } returns flowOf(
+        every { recycledCoronaTestsProvider.tests } returns flowOf(
             setOf(testExact30Days, test30DaysAnd1Ms)
         )
 

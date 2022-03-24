@@ -39,7 +39,7 @@ class RecycleBinCleanUpService @Inject constructor(
     private suspend fun allRecycledCerts() = recycledCertificatesProvider.recycledCertificates.first()
         .also { Timber.tag(TAG).d("allRecycledCerts=%s", it) }
 
-    private suspend fun allRecycledCoronaTests() = recycledCoronaTestsProvider.testsMap.first()
+    private suspend fun allRecycledCoronaTests() = recycledCoronaTestsProvider.tests.first()
         .also { Timber.tag(TAG).d("allRecycledCoronaTests=%s", it) }
 
     private suspend fun deleteRecycledCerts(now: Instant) {

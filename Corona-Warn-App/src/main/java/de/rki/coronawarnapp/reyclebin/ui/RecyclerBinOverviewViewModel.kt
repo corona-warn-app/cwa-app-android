@@ -24,7 +24,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
@@ -38,7 +37,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     val events: LiveData<RecyclerBinEvent> = currentEvent
 
     private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
-    private val recycledTests = recycledCoronaTestsProvider.testsMap.map { it.values }
+    private val recycledTests = recycledCoronaTestsProvider.tests
 
     val listItems: LiveData<List<RecyclerBinItem>> = combine(
         recycledCertificates,

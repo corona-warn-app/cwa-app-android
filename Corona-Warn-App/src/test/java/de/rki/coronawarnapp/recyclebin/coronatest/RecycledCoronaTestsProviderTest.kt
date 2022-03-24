@@ -85,10 +85,10 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     @Test
     fun `Recycled Tests are retrieved`() =
         runBlockingTest2(ignoreActive = true) {
-            createInstance().testsMap.first() shouldBe recycledTests
+            createInstance().tests.first() shouldBe recycledTests
 
             coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(emptySet())
-            createInstance().testsMap.first() shouldBe emptyMap()
+            createInstance().tests.first() shouldBe emptySet()
 
             coVerify(exactly = 2) {
                 coronaTestsRepository.recycledCoronaTests
@@ -98,7 +98,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     @Test
     fun `Delete recycled tests one by one`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            testsMap.first() shouldBe recycledTests
+            tests.first() shouldBe recycledTests
             deleteCoronaTest(recycledPcrTest.identifier)
             deleteCoronaTest(recycledRatTest.identifier)
         }
@@ -112,7 +112,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     @Test
     fun `Delete all recycled tests at once`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            testsMap.first() shouldBe recycledTests
+            tests.first() shouldBe recycledTests
             deleteAllCoronaTest(recycledTests.map { it.identifier })
         }
 

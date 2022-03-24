@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,12 +26,13 @@ class RecycledCoronaTestsProvider @Inject constructor(
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) {
 
-    val testsMap: Flow<Map<TestIdentifier, CoronaTest>> = combine(
+    private val testsMaps: Flow<Map<TestIdentifier, CoronaTest>> = combine(
         coronaTestRepository.recycledCoronaTests,
         familyTestRepository.recycledFamilyTests
     ) { personalTests, familyTests ->
         personalTests.plus(familyTests).associateBy { it.identifier }
     }
+    val tests: Flow<Set<CoronaTest>> = testsMaps.map { it.values.toSet() }
 
     /**
      * Find corona test in recycled items
@@ -39,8 +41,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
     suspend fun findCoronaTest(coronaTestQrCodeHash: String?): CoronaTest? {
         if (coronaTestQrCodeHash == null) return null
         Timber.tag(TAG).d("findCoronaTest(coronaTestQrCodeHash=%s)", coronaTestQrCodeHash)
-        return testsMap.first()
-            .values
+        return tests.first()
             .find { it.qrCodeHash == coronaTestQrCodeHash }
             .also { Timber.tag(TAG).d("returning %s", it) }
     }
@@ -93,7 +94,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
     }
 
     private suspend fun findTest(identifier: TestIdentifier): CoronaTest? {
-        return testsMap.first()[identifier]
+        return testsMaps.first()[identifier]
     }
 
     companion object {
