@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+                  Common
+    ###################################### -->
+    <!-- XHED: notification management: delta onboarding: header -->
+    <string name="nm_notification_settings">"Керувати сповіщеннями"</string>
+    <!-- XHED: notification management: delta onboarding: header -->
+    <string name="nm_notification_enabled">"Активувати сповіщення"</string>
+    <!-- XTXT: notification management: active text -->
+    <string name="nm_notifications_body_active_beginning">"Тут можна визначити наступні настройки:"</string>
+    <!-- XTXT: notification management: delta onboarding: point 1 -->
+    <string name="nm_point_overall">"Ви хочете отримувати сповіщення загалом"</string>
+    <!-- XTXT: notification management: delta onboarding: point 2 -->
+    <string name="nm_point_block_screen">"Ви хочете, щоб тексти сповіщень відображалися на вашому екрані блокування"</string>
+    <!-- XTXT: notification management: delta onboarding: point 3 -->
+    <string name="nm_point_unclock_screen">"Ви не хочете, щоб тексти сповіщень відображалися, доки ви не розблокуєте свій смартфон"</string>
+    <!-- XHED: notification management: delta onboarding: faq -->
+    <string name="nm_faq">"Щоб дізнатися більше про настройки вашої операційної системи, перегляньте нашу сторінку ЗіВ."</string>
+    <!-- XTXT: notification management: delta onboarding: faq label -->
+    <string name="nm_faq_label">"ЗіВ"</string>
+
+    <!-- ####################################
+                  Delta Onboarding
+    ###################################### -->
+
+    <!-- XTXT: notification management: delta onboarding: body -->
+    <string name="nm_delta_onboarding_body">"Настройками для сповіщень тепер можна керувати централізовано в настройках пристрою вашого смартфона."</string>
+    <!-- XTXT: notification management: delta onboarding: subtitle -->
+    <string name="nm_delta_onboarding_subtitle">"Залежно від версії операційної системи та моделі пристрою можна визначити:"</string>
+    <!-- XBUT: notification management: delta onboarding: device settings button -->
+    <string name="nm_delta_onboarding_device_settings_button">"Відкрити настройки пристрою"</string>
+
+</resources>

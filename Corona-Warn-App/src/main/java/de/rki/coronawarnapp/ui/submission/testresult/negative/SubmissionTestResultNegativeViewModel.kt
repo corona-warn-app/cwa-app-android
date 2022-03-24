@@ -4,7 +4,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -24,7 +24,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     certificateRepository: TestCertificateRepository,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
-    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testType: BaseCoronaTest.Type,
     @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -88,13 +88,13 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     }
 
     data class UIState(
-        val coronaTest: CoronaTest,
+        val coronaTest: BaseCoronaTest,
         val certificateState: CertificateState
     )
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultNegativeViewModel> {
-        fun create(testType: CoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
+        fun create(testType: BaseCoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
     }
 
     companion object {

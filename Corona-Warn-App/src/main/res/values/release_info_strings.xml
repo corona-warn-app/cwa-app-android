@@ -16,16 +16,22 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Registration of Rapid PCR Tests"</item>
-        <item>"Certificate Assignment"</item>
-        <item>"Certificate Update"</item>
+        <item>"Report of Increased Risk Shortened"</item>
+        <item>"Risk Report after Positive Test Result"</item>
+        <item>"Message for New Exposure"</item>
+        <item>"Report of Status Change"</item>
+        <item>"Certificates of Recovery without Validity Data"</item>
+        <item>"Duplicate QR Code Removed"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now register rapid PCR tests in the Corona-Warn-App and receive the result and your test certificate through the app."</item>
-        <item>"The assignment of certificates to people has been made more error-tolerant. Minor differences in the spelling of first and last names are ignored, so affected certificates can still be assigned to the same person."</item>
-        <item>"The EU specifications for vaccination certificates for booster vaccinations have changed. If your certificate no longer matches the current specifications, you can request a new one directly in the Corona-Warn-App."</item>
+        <item>"An increased risk after an exposure is now only displayed for ten days instead of 14."</item>
+        <item>"The red tile for increased risk is now displayed after an exposure even if you have registered a positive test in the Corona-Warn-App. Your risk status is shown again seven days after the positive test."</item>
+        <item>"If you have another exposure with increased risk after a previous exposure, a notification will now be displayed for this exposure as well."</item>
+        <item>"If your status has changed (because you added a certificate, for example, or because the rules have changed), you will be notified of this on the Certificates tab."</item>
+        <item>"Validity data is no longer displayed for certificates of recovery, because their validity depends on the local rules. The date of the first positive test is now displayed instead."</item>
+        <item>"The QR code for your currently used certificate has been removed from the detail screen for individuals, creating more space for notifications and decluttering the screen in general. The QR code is also contained in the certificate overview and is therefore not needed on the detail screen."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +39,16 @@
         <item/>
         <item/>
         <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+        <item/>
         <item/>
         <item/>
         <item/>

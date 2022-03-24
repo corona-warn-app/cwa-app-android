@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -67,8 +67,8 @@ class SubmissionRepositoryTest : BaseTest() {
 
     @Test
     fun `tryReplaceTest overrides register test conditions`() = runBlockingTest {
-        val precondition = slot<(Collection<CoronaTest>) -> Boolean>()
-        val postcondition = slot<(CoronaTest) -> Boolean>()
+        val precondition = slot<(Collection<BaseCoronaTest>) -> Boolean>()
+        val postcondition = slot<(BaseCoronaTest) -> Boolean>()
 
         val instance = createInstance(scope = this)
 

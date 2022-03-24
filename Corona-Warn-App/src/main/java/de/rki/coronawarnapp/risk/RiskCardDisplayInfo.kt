@@ -4,7 +4,7 @@ import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.positiveViewedTests
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
@@ -35,7 +35,7 @@ class RiskCardDisplayInfo @Inject constructor(
         return allPositiveTests.all { it.shouldShowRiskCardForTestType() }
     }
 
-    private suspend fun CoronaTest.shouldShowRiskCardForTestType(): Boolean {
+    private suspend fun BaseCoronaTest.shouldShowRiskCardForTestType(): Boolean {
         val coronaTestConfig = appConfigProvider.currentConfig.first().coronaTestParameters
 
         val (testTimestamp, thresholdDuration) = when (this) {

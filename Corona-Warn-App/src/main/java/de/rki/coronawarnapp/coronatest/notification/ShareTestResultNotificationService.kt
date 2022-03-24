@@ -4,9 +4,9 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
@@ -40,7 +40,7 @@ class ShareTestResultNotificationService @Inject constructor(
         resetPositiveRATTestReminder()
     }
 
-    fun maybeShowSharePositiveTestResultNotification(notificationId: Int, testType: CoronaTest.Type) {
+    fun maybeShowSharePositiveTestResultNotification(notificationId: Int, testType: BaseCoronaTest.Type) {
         Timber.tag(TAG).d(
             "maybeShowSharePositiveTestResultNotification(notificationId=%s,testType=%s)",
             notificationId,
@@ -117,7 +117,7 @@ class ShareTestResultNotificationService @Inject constructor(
             .launchIn(appScope)
     }
 
-    private fun maybeScheduleSharePositiveTestResultReminder(testType: CoronaTest.Type, testId: TestIdentifier) {
+    private fun maybeScheduleSharePositiveTestResultReminder(testType: BaseCoronaTest.Type, testId: TestIdentifier) {
         when (testType) {
             PCR -> {
                 if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr < 0 ||
@@ -158,7 +158,7 @@ class ShareTestResultNotificationService @Inject constructor(
         }
     }
 
-    private fun resetSharePositiveTestResultNotification(testType: CoronaTest.Type, notificationId: Int) {
+    private fun resetSharePositiveTestResultNotification(testType: BaseCoronaTest.Type, notificationId: Int) {
         Timber.tag(TAG).v("resetSharePositiveTestResultNotification(testType=%s)", testType)
         notification.cancelSharePositiveTestResultNotification(testType, notificationId)
 

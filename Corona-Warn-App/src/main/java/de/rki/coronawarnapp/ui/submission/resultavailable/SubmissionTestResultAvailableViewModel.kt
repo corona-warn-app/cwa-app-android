@@ -8,7 +8,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -33,7 +33,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     private val checkInRepository: CheckInRepository,
     private val autoSubmission: AutoSubmission,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: BaseCoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
@@ -143,7 +143,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultAvailableViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionTestResultAvailableViewModel
+        fun create(testType: BaseCoronaTest.Type): SubmissionTestResultAvailableViewModel
     }
 
     companion object {

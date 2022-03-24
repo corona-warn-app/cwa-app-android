@@ -6,11 +6,11 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.model.sortByNameAndIdASC
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryDatabase
+import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryLocationVisitDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonDao
 import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryPersonEncounterDao
-import de.rki.coronawarnapp.contactdiary.storage.dao.ContactDiaryCoronaTestDao
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.asTestResultEntity
 import de.rki.coronawarnapp.contactdiary.storage.entity.canBeAddedToJournal
@@ -23,7 +23,7 @@ import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEnco
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEncounterSortedList
 import de.rki.coronawarnapp.contactdiary.storage.entity.toContactDiaryPersonEntity
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
@@ -263,7 +263,7 @@ class DefaultContactDiaryRepository @Inject constructor(
         contactDiaryCoronaTestDao.allTests()
     }
 
-    override suspend fun updateTests(tests: Map<CoronaTestGUID, CoronaTest>) {
+    override suspend fun updateTests(tests: Map<CoronaTestGUID, BaseCoronaTest>) {
         tests.filter { it.value.canBeAddedToJournal() }
             .map { it.asTestResultEntity() }
             .forEach { contactDiaryCoronaTestDao.insertTest(it) }

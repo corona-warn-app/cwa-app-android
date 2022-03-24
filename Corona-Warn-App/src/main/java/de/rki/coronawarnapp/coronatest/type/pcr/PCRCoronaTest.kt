@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.type.pcr
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -64,8 +64,8 @@ data class PCRCoronaTest(
     override var recycledAt: Instant? = null,
 ) : PersonalCoronaTest {
 
-    override val type: CoronaTest.Type
-        get() = CoronaTest.Type.PCR
+    override val type: BaseCoronaTest.Type
+        get() = BaseCoronaTest.Type.PCR
 
     override val isRedeemed: Boolean
         get() = testResult == CoronaTestResult.PCR_OR_RAT_REDEEMED

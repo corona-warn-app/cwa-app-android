@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import io.kotest.matchers.shouldBe
@@ -20,37 +20,37 @@ internal class CoronaTestRepositoryExtensionsTest : BaseTest() {
     @MockK lateinit var testRepository: CoronaTestRepository
 
     private val negativeRatTest = mockk<RACoronaTest> {
-        every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+        every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { isPositive } returns false
         every { isViewed } returns false
     }
 
     private val negativePcrTest = mockk<PCRCoronaTest> {
-        every { type } returns CoronaTest.Type.PCR
+        every { type } returns BaseCoronaTest.Type.PCR
         every { isPositive } returns false
         every { isViewed } returns false
     }
 
     private val positiveNotViewedRatTest = mockk<RACoronaTest> {
-        every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+        every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { isPositive } returns true
         every { isViewed } returns false
     }
 
     private val positiveNotViewedPcrTest = mockk<PCRCoronaTest> {
-        every { type } returns CoronaTest.Type.PCR
+        every { type } returns BaseCoronaTest.Type.PCR
         every { isPositive } returns true
         every { isViewed } returns false
     }
 
     private val positiveViewedRatTest = mockk<RACoronaTest> {
-        every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+        every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { isPositive } returns true
         every { isViewed } returns true
     }
 
     private val positiveViewedPcrTest = mockk<PCRCoronaTest> {
-        every { type } returns CoronaTest.Type.PCR
+        every { type } returns BaseCoronaTest.Type.PCR
         every { isPositive } returns true
         every { isViewed } returns true
     }
