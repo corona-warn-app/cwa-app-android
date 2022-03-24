@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
