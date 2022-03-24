@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.qrcode.ui
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.*
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
@@ -23,7 +25,6 @@ import de.rki.coronawarnapp.qrcode.scanner.ImportDocumentException
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeValidator
 import de.rki.coronawarnapp.qrcode.scanner.UnsupportedQrCodeException
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoreDuplicateTest
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.RestoredTest
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestRegistrationSelection
 import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.InRecycleBin
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -261,16 +262,34 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledRAT)
             result.getOrAwaitValue() shouldBe scannerResult
 
-            val coronaTestRestoreEvent2 = CoronaTestRestoreEvent.RestoredTest(recycledRAT)
-            val scannerResult2 = RestoredTest
-            coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledRAT) } returns coronaTestRestoreEvent2
-            restoreCoronaTest(recycledRAT)
-            result.getOrAwaitValue() shouldBe scannerResult2
+
+            checkResultMapping(testResult = CoronaTestResult.RAT_PENDING) { TestPending(it) }
+            checkResultMapping(testResult = CoronaTestResult.RAT_NEGATIVE) { TestNegative(it) }
+            checkResultMapping(testResult = CoronaTestResult.RAT_POSITIVE, isAdvancedConsentGiven = true) {
+                TestPositive(it)
+            }
+            checkResultMapping(testResult = CoronaTestResult.RAT_POSITIVE) { WarnOthers(it) }
+            checkResultMapping(testResult = CoronaTestResult.RAT_REDEEMED) { TestInvalid(it) }
         }
 
         coVerify {
             coronaTestRestoreHandler.restoreCoronaTest(recycledRAT)
         }
+    }
+
+    private fun QrCodeScannerViewModel.checkResultMapping(
+        testResult: CoronaTestResult,
+        isAdvancedConsentGiven: Boolean = false,
+        createScannerResult: (BaseCoronaTest) -> de.rki.coronawarnapp.qrcode.ui.CoronaTestResult
+    ) {
+        val test = recycledRAT.copy(testResult = testResult, isAdvancedConsentGiven = isAdvancedConsentGiven)
+        val restoreEvent = CoronaTestRestoreEvent.RestoredTest(test)
+        val scannerResult = createScannerResult(test)
+
+        coEvery { coronaTestRestoreHandler.restoreCoronaTest(test) } returns restoreEvent
+
+        restoreCoronaTest(test)
+        result.getOrAwaitValue() shouldBe scannerResult
     }
 
     fun viewModel() = QrCodeScannerViewModel(

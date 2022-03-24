@@ -5,6 +5,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -131,7 +132,17 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         is CoronaTestRestoreEvent.RestoreDuplicateTest -> CoronaTestResult.RestoreDuplicateTest(
             restoreRecycledTestRequest
         )
-        is CoronaTestRestoreEvent.RestoredTest -> CoronaTestResult.RestoredTest
+        is CoronaTestRestoreEvent.RestoredTest -> restoredTest.toCoronaResult()
+    }
+
+    private fun BaseCoronaTest.toCoronaResult(): CoronaTestResult = when {
+        isPending -> CoronaTestResult.TestPending(test = this)
+        isNegative -> CoronaTestResult.TestNegative(test = this)
+        isPositive -> when {
+            this is PersonalCoronaTest && isAdvancedConsentGiven -> CoronaTestResult.TestPositive(test = this)
+            else -> CoronaTestResult.WarnOthers(test = this)
+        }
+        else -> CoronaTestResult.TestInvalid(test = this)
     }
 
     private suspend fun onDccQrCode(dccQrCode: DccQrCode) {
