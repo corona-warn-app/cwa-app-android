@@ -94,9 +94,8 @@ class BaseCoronaTestProcessor @Inject constructor(
                 PCR -> response.coronaTestResult.toValidatedPcrResult()
             }
 
-            test.apply {
-                updateTestResult(testResult)
-                response.labId?.let { updateLabId(it) }
+            test.updateTestResult(testResult).let { updated ->
+                response.labId?.let { updated.updateLabId(it) } ?: updated
             }
         } catch (e: Exception) {
             Timber.e(e, "Failed to poll server for  %s", test)
