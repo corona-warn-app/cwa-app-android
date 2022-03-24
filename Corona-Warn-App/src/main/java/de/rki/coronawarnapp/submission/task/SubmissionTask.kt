@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
@@ -45,7 +45,7 @@ class SubmissionTask @Inject constructor(
     private val checkInsRepository: CheckInRepository,
     private val checkInsTransformer: CheckInsTransformer,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
 ) : Task<DefaultProgress, SubmissionTask.Result> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -68,7 +68,7 @@ class SubmissionTask @Inject constructor(
                     inBackground = true
                 }
             }
-            val hasGivenConsent = coronaTestRepository.coronaTests.first().any { it.isAdvancedConsentGiven }
+            val hasGivenConsent = personalTestRepository.coronaTests.first().any { it.isAdvancedConsentGiven }
             if (!hasGivenConsent) {
                 Timber.tag(TAG).w("Consent unavailable. Skipping execution, disabling auto submission.")
                 autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
@@ -130,7 +130,7 @@ class SubmissionTask @Inject constructor(
      * automatically by periodic worker where the [BaseCoronaTest.Type] parameter is not required
      */
     private suspend fun performSubmission(testType: BaseCoronaTest.Type?): Result {
-        val availableTests = coronaTestRepository.coronaTests.first()
+        val availableTests = personalTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
         val coronaTest = availableTests
             .filter { testType == null || it.type == testType }
@@ -205,7 +205,7 @@ class SubmissionTask @Inject constructor(
 
     private suspend fun setSubmissionFinished(coronaTest: BaseCoronaTest) {
         Timber.tag(TAG).d("setSubmissionFinished()")
-        coronaTestRepository.markAsSubmitted(coronaTest.identifier)
+        personalTestRepository.markAsSubmitted(coronaTest.identifier)
 
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }

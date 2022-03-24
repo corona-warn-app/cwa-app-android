@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk
 
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.positiveViewedTests
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @Reusable
 class RiskCardDisplayInfo @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
-    private val testRepository: CoronaTestRepository,
+    private val testRepository: PersonalTestRepository,
     private val timeStamper: TimeStamper
 ) {
 

@@ -7,7 +7,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -27,13 +27,13 @@ import javax.inject.Singleton
 class PCRResultScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
 ) : ResultScheduler(
     workManager = workManager
 ) {
 
     @VisibleForTesting
-    internal val shouldBePolling = coronaTestRepository.latestPCRT
+    internal val shouldBePolling = personalTestRepository.latestPCRT
         .map { test: PCRCoronaTest? ->
             if (test == null) return@map false
             !test.isRedeemed

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.notification
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -27,7 +27,7 @@ import javax.inject.Singleton
 class ShareTestResultNotificationService @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val cwaSettings: CWASettings,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
     private val notification: ShareTestResultNotification
 ) {
 
@@ -65,7 +65,7 @@ class ShareTestResultNotificationService @Inject constructor(
 
     private fun resetPositivePCRTestReminder() {
         Timber.tag(TAG).v("resetPositivePCRTestReminder")
-        coronaTestRepository.latestPCRT // This should not crash ,it is just a flow already constructed
+        personalTestRepository.latestPCRT // This should not crash ,it is just a flow already constructed
             .onEach {
                 if (it == null) {
                     resetSharePositiveTestResultNotification(PCR, POSITIVE_PCR_RESULT_NOTIFICATION_ID)
@@ -78,7 +78,7 @@ class ShareTestResultNotificationService @Inject constructor(
 
     private fun resetPositiveRATTestReminder() {
         Timber.tag(TAG).v("resetPositiveRATTestReminder")
-        coronaTestRepository.latestRAT // This should not crash ,it is just a flow already constructed
+        personalTestRepository.latestRAT // This should not crash ,it is just a flow already constructed
             .onEach {
                 if (it == null) {
                     resetSharePositiveTestResultNotification(RAPID_ANTIGEN, POSITIVE_RAT_RESULT_NOTIFICATION_ID)
@@ -91,7 +91,7 @@ class ShareTestResultNotificationService @Inject constructor(
 
     private fun schedulePositiveTestsReminder() {
         Timber.tag(TAG).v("schedulePositiveTestsReminder")
-        coronaTestRepository.coronaTests // This should not crash ,it is just a flow already constructed
+        personalTestRepository.coronaTests // This should not crash ,it is just a flow already constructed
             .onEach { tests ->
                 // schedule reminder if test wasn't submitted
                 tests.filter { test ->

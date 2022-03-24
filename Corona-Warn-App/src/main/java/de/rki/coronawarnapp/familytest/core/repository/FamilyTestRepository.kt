@@ -30,7 +30,7 @@ class FamilyTestRepository @Inject constructor(
         it.values.filter { !it.isRecycled }.toSet()
     }
 
-    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
+    val recycledTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
         it.values.filter { it.isRecycled }.toSet()
     }
 
@@ -54,7 +54,7 @@ class FamilyTestRepository @Inject constructor(
         storage.update(updated)
     }
 
-    suspend fun moveTestToRecycleBin(
+    suspend fun recycleTest(
         identifier: TestIdentifier
     ) {
         val test = getTest(identifier) ?: return

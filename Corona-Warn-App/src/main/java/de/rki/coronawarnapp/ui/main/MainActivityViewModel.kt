@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
@@ -46,7 +46,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val raExtractor: RapidAntigenQrCodeExtractor,
     private val rPcrExtractor: RapidPcrQrCodeExtractor,
     private val submissionRepository: SubmissionRepository,
-    coronaTestRepository: CoronaTestRepository,
+    personalTestRepository: PersonalTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
@@ -77,7 +77,7 @@ class MainActivityViewModel @AssistedInject constructor(
     val personsBadgeCount: LiveData<Int> = personCertificatesProvider.personsBadgeCount.asLiveData2()
 
     val mainBadgeCount: LiveData<Int> = combine(
-        coronaTestRepository.coronaTests,
+        personalTestRepository.coronaTests,
         tracingSettings.showRiskLevelBadge.flow
     ) { coronaTests, showBadge ->
         coronaTests.filter { !it.didShowBadge }

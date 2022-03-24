@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.submission
 
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -24,14 +24,14 @@ class SubmissionRepository @Inject constructor(
     @AppScope private val scope: CoroutineScope,
     private val submissionSettings: SubmissionSettings,
     private val tekHistoryStorage: TEKHistoryStorage,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
 ) {
 
-    val pcrTest: Flow<PCRCoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
+    val pcrTest: Flow<PCRCoronaTest?> = personalTestRepository.coronaTests.map { tests ->
         tests.singleOrNull { it.type == BaseCoronaTest.Type.PCR } as? PCRCoronaTest
     }
 
-    val raTest: Flow<RACoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
+    val raTest: Flow<RACoronaTest?> = personalTestRepository.coronaTests.map { tests ->
         tests.singleOrNull { it.type == BaseCoronaTest.Type.RAPID_ANTIGEN } as? RACoronaTest
     }
 
@@ -46,10 +46,10 @@ class SubmissionRepository @Inject constructor(
     suspend fun giveConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("giveConsentToSubmission(type=%s)", type)
         withContext(scope.coroutineContext) {
-            val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
+            val test = personalTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
             Timber.tag(TAG).v("giveConsentToSubmission(type=$type): %s", test)
-            coronaTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = true)
+            personalTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = true)
         }
     }
 
@@ -57,10 +57,10 @@ class SubmissionRepository @Inject constructor(
     suspend fun revokeConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("revokeConsentToSubmission(type=%s)", type)
         withContext(scope.coroutineContext) {
-            val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
+            val test = personalTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
 
-            coronaTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = false)
+            personalTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = false)
         }
     }
 
@@ -68,10 +68,10 @@ class SubmissionRepository @Inject constructor(
     suspend fun setViewedTestResult(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("setViewedTestResult(type=%s)", type)
         withContext(scope.coroutineContext) {
-            val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
+            val test = personalTestRepository.coronaTests.first().singleOrNull { it.type == type }
                 ?: throw IllegalStateException("No test of type $type available")
 
-            coronaTestRepository.markAsViewed(identifier = test.identifier)
+            personalTestRepository.markAsViewed(identifier = test.identifier)
         }
     }
 
@@ -79,13 +79,13 @@ class SubmissionRepository @Inject constructor(
         Timber.tag(TAG).v("refreshTest(type=%s)", type)
 
         withContext(scope.coroutineContext) {
-            coronaTestRepository.refresh(type = type)
+            personalTestRepository.refresh(type = type)
         }
     }
 
     suspend fun registerTest(request: TestRegistrationRequest): BaseCoronaTest {
         Timber.tag(TAG).v("registerTest(request=%s)", request)
-        val coronaTest = coronaTestRepository.registerTest(request)
+        val coronaTest = personalTestRepository.registerTest(request)
         Timber.d("Registered test %s -> %s", request, coronaTest)
         return coronaTest
     }
@@ -96,7 +96,7 @@ class SubmissionRepository @Inject constructor(
     suspend fun tryReplaceTest(request: TestRegistrationRequest): BaseCoronaTest {
         Timber.tag(TAG).v("tryReplaceTest(request=%s)", request)
 
-        val coronaTest = coronaTestRepository.registerTest(
+        val coronaTest = personalTestRepository.registerTest(
             request = request,
             preCondition = { currentTests ->
                 if (currentTests.any { it.type == request.type && it.isNotRecycled }) {

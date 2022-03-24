@@ -6,7 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -30,7 +30,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
     private val testCertificateRepository: TestCertificateRepository,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
     private val familyTestRepository: FamilyTestRepository,
     foregroundState: ForegroundState,
 ) : ResultScheduler(
@@ -40,7 +40,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
     private var lastForegroundState = false
 
     private val combinedTestsTrigger = combine(
-        coronaTestRepository.coronaTests,
+        personalTestRepository.coronaTests,
         familyTestRepository.familyTests,
     ) { myTests, familyTest ->
         myTests.plus(familyTest)
@@ -84,7 +84,7 @@ class TestCertificateRetrievalScheduler @Inject constructor(
                         if (test is FamilyCoronaTest) {
                             familyTestRepository.markDccAsCreated(test.identifier, created = true)
                         } else {
-                            coronaTestRepository.markDccAsCreated(test.identifier, created = true)
+                            personalTestRepository.markDccAsCreated(test.identifier, created = true)
                         }
                     } catch (e: Exception) {
                         Timber.tag(TAG).e(e, "Creation trigger failed.")

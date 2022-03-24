@@ -4,7 +4,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -27,7 +27,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val timeStamper: TimeStamper,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
-    coronaTestRepository: CoronaTestRepository,
+    personalTestRepository: PersonalTestRepository,
     certificateRepository: TestCertificateRepository,
     @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider) {
@@ -35,7 +35,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<RATResultNegativeNavigation>()
     val testAge = combine(
         intervalFlow(1),
-        coronaTestRepository.coronaTests,
+        personalTestRepository.coronaTests,
         certificateRepository.certificates
     ) { _, tests, certs ->
         val rapidTest = tests.firstOrNull {
@@ -51,7 +51,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
 
     val certificate = combine(
         intervalFlow(1),
-        coronaTestRepository.coronaTests,
+        personalTestRepository.coronaTests,
         certificateRepository.certificates
     ) { _, tests, certs ->
         val rapidTest = tests.firstOrNull {

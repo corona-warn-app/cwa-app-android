@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.bugreporting.censors
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import io.kotest.matchers.shouldBe
@@ -21,7 +21,7 @@ import testhelpers.BaseTest
 
 @Suppress("MaxLineLength")
 class CoronaTestCensorTest : BaseTest() {
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var personalTestRepository: PersonalTestRepository
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
 
     private val testToken = "63b4d3ff-e0de-4bd4-90c1-17c2bb683a2f"
@@ -65,13 +65,13 @@ class CoronaTestCensorTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { coronaTestRepository.allCoronaTests } returns coronaTests
+        every { personalTestRepository.allCoronaTests } returns coronaTests
         every { contactDiaryRepository.testResults } returns contactDiaryTestResults
     }
 
     private fun createInstance() = CoronaTestCensor(
         debugScope = TestCoroutineScope(),
-        coronaTestRepository = coronaTestRepository,
+        personalTestRepository = personalTestRepository,
         contactDiaryRepository = contactDiaryRepository
     )
 
@@ -85,7 +85,7 @@ class CoronaTestCensorTest : BaseTest() {
         instance.checkLog(filterMe)!!
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and ########-####-####-####-########9876"
 
-        verify { coronaTestRepository.allCoronaTests }
+        verify { personalTestRepository.allCoronaTests }
     }
 
     @Test
@@ -96,7 +96,7 @@ class CoronaTestCensorTest : BaseTest() {
         instance.checkLog(filterMe)!!
             .compile()!!.censored shouldBe "I'm a shy registration token: ########-####-####-####-########3a2f and we are extrovert qrcode-pcr-CoronaTest/Identifier and qrcode-rat-CoronaTest/Identifier and ########-####-####-####-########9876"
 
-        verify { coronaTestRepository.allCoronaTests }
+        verify { personalTestRepository.allCoronaTests }
     }
 
     @Test

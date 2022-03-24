@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors
 
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -20,7 +20,7 @@ import testhelpers.BaseTest
 @Suppress("MaxLineLength")
 internal class RACoronaTestCensorTest : BaseTest() {
 
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var personalTestRepository: PersonalTestRepository
 
     @BeforeEach
     fun setUp() {
@@ -29,12 +29,12 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     private fun createInstance(scope: CoroutineScope) = RACoronaTestCensor(
         debugScope = scope,
-        coronaTestRepository = coronaTestRepository
+        personalTestRepository = personalTestRepository
     )
 
     @Test
     fun `checkLog() should return censored LogLine`() = runBlockingTest {
-        every { coronaTestRepository.allCoronaTests } returns flowOf(
+        every { personalTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
                     every { firstName } returns "John"
@@ -59,7 +59,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `censoring should still work when test gets deleted`() = runBlockingTest {
-        every { coronaTestRepository.allCoronaTests } returns flowOf(
+        every { personalTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
                     every { firstName } returns "John"
@@ -86,7 +86,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return return null if no corona tests are stored`() = runBlocking {
-        every { coronaTestRepository.allCoronaTests } returns flowOf(emptySet())
+        every { personalTestRepository.allCoronaTests } returns flowOf(emptySet())
 
         val censor = createInstance(this)
 
@@ -97,7 +97,7 @@ internal class RACoronaTestCensorTest : BaseTest() {
 
     @Test
     fun `checkLog() should return null if LogLine doesn't need to be censored`() = runBlocking {
-        every { coronaTestRepository.allCoronaTests } returns flowOf(
+        every { personalTestRepository.allCoronaTests } returns flowOf(
             setOf(
                 mockk<RACoronaTest>().apply {
                     every { firstName } returns "John"

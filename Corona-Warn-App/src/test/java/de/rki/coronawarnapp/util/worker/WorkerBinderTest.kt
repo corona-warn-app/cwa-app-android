@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdater
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
@@ -165,7 +165,7 @@ class MockProvider {
     fun submissionRepository(): SubmissionRepository = mockk()
 
     @Provides
-    fun coronaTestRepository(): CoronaTestRepository = mockk()
+    fun coronaTestRepository(): PersonalTestRepository = mockk()
 
     @Provides
     fun noiseScheduler(): NoiseScheduler = mockk()

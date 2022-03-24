@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.PHASE1
@@ -24,7 +24,7 @@ import timber.log.Timber
 class RAResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
     private val timeStamper: TimeStamper,
     private val ratResultScheduler: RAResultScheduler,
 ) : CoroutineWorker(context, workerParams) {
@@ -38,7 +38,7 @@ class RAResultRetrievalWorker @AssistedInject constructor(
         }
 
         try {
-            val rat = coronaTestRepository.latestRAT.first()
+            val rat = personalTestRepository.latestRAT.first()
             Timber.tag(TAG).v("Current RA test: %s", rat)
 
             if (rat == null) {
@@ -47,7 +47,7 @@ class RAResultRetrievalWorker @AssistedInject constructor(
                 return Result.success()
             }
             Timber.tag(TAG).v("$id Running RA test result refresh.")
-            coronaTestRepository.refresh(BaseCoronaTest.Type.RAPID_ANTIGEN)
+            personalTestRepository.refresh(BaseCoronaTest.Type.RAPID_ANTIGEN)
             Timber.tag(TAG).d("$id: RA test result refreshed.")
 
             val nowUTC = timeStamper.nowUTC

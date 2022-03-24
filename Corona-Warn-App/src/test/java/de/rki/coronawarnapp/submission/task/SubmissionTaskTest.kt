@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.submission.task
 import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -66,7 +66,7 @@ class SubmissionTaskTest : BaseTest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInsTransformer: CheckInsTransformer
     @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var personalTestRepository: PersonalTestRepository
 
     private lateinit var settingSymptomsPreference: FlowPreference<Symptoms?>
 
@@ -116,7 +116,7 @@ class SubmissionTaskTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        coronaTestRepository.apply {
+        personalTestRepository.apply {
             every { coronaTests } returns coronaTestsFlow
             coEvery { markAsSubmitted("coronatest-identifier") } just Runs
         }
@@ -176,7 +176,7 @@ class SubmissionTaskTest : BaseTest() {
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInsRepository = checkInRepository,
         checkInsTransformer = checkInsTransformer,
-        coronaTestRepository = coronaTestRepository,
+        coronaTestRepository = personalTestRepository,
     )
 
     @Test
@@ -189,14 +189,14 @@ class SubmissionTaskTest : BaseTest() {
         coVerifySequence {
             submissionSettings.lastSubmissionUserActivityUTC
             settingLastUserActivityUTC.value
-            coronaTestRepository.coronaTests
+            personalTestRepository.coronaTests
 
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
             submissionSettings.autoSubmissionAttemptsCount
             submissionSettings.autoSubmissionAttemptsLast
 
-            coronaTestRepository.coronaTests
+            personalTestRepository.coronaTests
             tekHistoryStorage.tekData
             submissionSettings.symptoms
             settingSymptomsPreference.value
@@ -226,7 +226,7 @@ class SubmissionTaskTest : BaseTest() {
 
             autoSubmission.updateMode(AutoSubmission.Mode.DISABLED)
 
-            coronaTestRepository.markAsSubmitted(any())
+            personalTestRepository.markAsSubmitted(any())
 
             testResultAvailableNotificationService.cancelTestResultAvailableNotification()
         }
@@ -262,8 +262,8 @@ class SubmissionTaskTest : BaseTest() {
         }
 
         coVerifySequence {
-            coronaTestRepository.coronaTests // Consent
-            coronaTestRepository.coronaTests // regToken
+            personalTestRepository.coronaTests // Consent
+            personalTestRepository.coronaTests // regToken
             tekHistoryStorage.tekData
             settingSymptomsPreference.value
 

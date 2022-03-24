@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.main
 
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
@@ -55,7 +55,7 @@ class MainActivityViewModelTest : BaseTest() {
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var coronTestRepository: CoronaTestRepository
+    @MockK lateinit var coronTestRepository: PersonalTestRepository
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var tracingSettings: TracingSettings
 
@@ -105,7 +105,7 @@ class MainActivityViewModelTest : BaseTest() {
         raExtractor = raExtractor,
         rPcrExtractor = rPcrExtractor,
         submissionRepository = submissionRepository,
-        coronaTestRepository = coronTestRepository,
+        personalTestRepository = coronTestRepository,
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
     )

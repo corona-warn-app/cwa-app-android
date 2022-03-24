@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest.notification
 
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -25,7 +25,7 @@ import testhelpers.coroutines.runBlockingTest2
 
 class ShareTestResultNotificationServiceTest : BaseTest() {
     @MockK lateinit var cwaSettings: CWASettings
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var personalTestRepository: PersonalTestRepository
     @MockK lateinit var shareTestResultNotification: ShareTestResultNotification
 
     private val coronaTestFlow = MutableStateFlow(
@@ -39,7 +39,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { coronaTestRepository.coronaTests } returns coronaTestFlow
+        every { personalTestRepository.coronaTests } returns coronaTestFlow
         every { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = any() } answers {
             numberOfRemainingSharePositiveTestResultRemindersPcr = arg(0)
         }
@@ -73,7 +73,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = ShareTestResultNotificationService(
         appScope = scope,
         cwaSettings = cwaSettings,
-        coronaTestRepository = coronaTestRepository,
+        coronaTestRepository = personalTestRepository,
         notification = shareTestResultNotification,
     )
 

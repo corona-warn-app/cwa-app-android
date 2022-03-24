@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.bugreporting.BugReportingSharedModule
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -85,10 +85,10 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun coronaTestRepository(): CoronaTestRepository = mockk {
+    fun coronaTestRepository(): PersonalTestRepository = mockk {
         every { coronaTests } returns flowOf(emptySet())
         every { allCoronaTests } returns flowOf(emptySet())
-        every { recycledCoronaTests } returns flowOf(emptySet())
+        every { recycledTests } returns flowOf(emptySet())
     }
 
     @Singleton

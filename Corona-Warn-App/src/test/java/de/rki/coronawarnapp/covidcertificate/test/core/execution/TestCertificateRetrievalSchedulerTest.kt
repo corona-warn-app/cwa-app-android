@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.execution
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -31,7 +31,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
 
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var personalTestRepository: PersonalTestRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var foregroundState: ForegroundState
     @MockK lateinit var workInfo: WorkInfo
@@ -80,8 +80,8 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
 
         every { workInfo.state } returns WorkInfo.State.SUCCEEDED
 
-        coronaTestRepository.apply {
-            every { coronaTestRepository.coronaTests } returns testsFlow
+        personalTestRepository.apply {
+            every { personalTestRepository.coronaTests } returns testsFlow
             coEvery { markDccAsCreated(any(), any()) } just Runs
         }
 
@@ -103,7 +103,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         workManager = workManager,
         testCertificateRepository = testCertificateRepository,
         foregroundState = foregroundState,
-        coronaTestRepository = coronaTestRepository,
+        coronaTestRepository = personalTestRepository,
         familyTestRepository = familyTestRepository,
     )
 
@@ -112,7 +112,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         createInstance(scope = this).setup()
         coVerify {
             testCertificateRepository.requestCertificate(mockTest)
-            coronaTestRepository.markDccAsCreated("identifier1", true)
+            personalTestRepository.markDccAsCreated("identifier1", true)
 
             testCertificateRepository.requestCertificate(mockFamilyTest)
             familyTestRepository.markDccAsCreated("identifier1-family", true)

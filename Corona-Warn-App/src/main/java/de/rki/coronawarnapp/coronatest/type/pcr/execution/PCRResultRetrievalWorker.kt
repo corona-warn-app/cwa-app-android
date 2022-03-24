@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
@@ -20,7 +20,7 @@ import timber.log.Timber
 class PCRResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val coronaTestRepository: CoronaTestRepository,
+    private val personalTestRepository: PersonalTestRepository,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -32,7 +32,7 @@ class PCRResultRetrievalWorker @AssistedInject constructor(
         }
 
         try {
-            val pcrTest = coronaTestRepository.latestPCRT.first()
+            val pcrTest = personalTestRepository.latestPCRT.first()
             Timber.tag(TAG).v("Current PCR test: %s", pcrTest)
 
             if (pcrTest == null) {
@@ -42,7 +42,7 @@ class PCRResultRetrievalWorker @AssistedInject constructor(
             }
 
             Timber.tag(TAG).v("$id Running PCR test result refresh.")
-            coronaTestRepository.refresh(type = BaseCoronaTest.Type.PCR)
+            personalTestRepository.refresh(type = BaseCoronaTest.Type.PCR)
             Timber.tag(TAG).d("$id: PCR test result refreshed.")
 
             return Result.success()
