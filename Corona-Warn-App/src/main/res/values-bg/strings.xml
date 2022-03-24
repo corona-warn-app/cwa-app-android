@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Промяна на Вашия статус на риск"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nЕто какво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
+    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Английски, немски, турски\n\nРаботно време:\nот понеделник до неделя: 7:00 - 22:00\n(с изключение на национални празници)"</string>
+    <string name="information_contact_body_open">"Немски\n\nРаботно време:\nот понеделник до петък: 9:00 - 17:00 (CET)\n(с изключение на национални празници)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XACT: describes illustration -->

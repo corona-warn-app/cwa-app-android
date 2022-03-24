@@ -16,16 +16,22 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Hızlı PCR Testlerinin Kaydı"</item>
-        <item>"Sertifika Ataması"</item>
-        <item>"Sertifika Güncellemesi"</item>
+        <item>"Artmış Risk Raporunun Süresi Kısaltıldı"</item>
+        <item>"Pozitif Test Sonucundan Sonra Risk Raporu"</item>
+        <item>"Yeni Maruz Kalma Mesajı"</item>
+        <item>"Durum Değişikliği Raporu"</item>
+        <item>"Geçerlilik Verileri Olmayan İyileşme Sertifikaları"</item>
+        <item>"Çift QR Kod Kaldırıldı"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık Corona-Warn-App uygulamasında hızlı PCR testlerini kaydedebilir ve sonucunuzu ve test sertifikanızı uygulama üzerinden alabilirsiniz."</item>
-        <item>"Kişilere sertifika ataması daha hata toleranslı hale getirildi. Ad ve soyadı yazımlarındaki ufak farklılıklar göz ardı edilir ve böylece etkilenen sertifikalar yine de aynı kişiye atanabilir."</item>
-        <item>"Hatırlatma aşılarının sertifikalarına ilişkin AB spesifikasyonları değişti. Sertifikanız güncel spesifikasyonları karşılamıyorsa doğrudan Corona-Warn-App uygulamasından yeni bir sertifika talebi oluşturabilirsiniz."</item>
+        <item>"Bir maruz kalmadan sonra artmış risk raporu artık 14 yerine yalnızca on gün süreyle gösterilmektedir."</item>
+        <item>"Artık Corona-Warn-App uygulamasında pozitif test sonucu kaydetseniz bile bir maruz kalmadan sonra kırmızı renkli artmış risk kutucuğu görüntülenmektedir. Risk durumunuz, pozitif testten yedi gün sonra yeniden gösterilir."</item>
+        <item>"Daha önceki bir maruz kalmadan sonra artmış riskli başka bir maruz kalma yaşarsanız bu maruz kalma için de bir bildirim görüntülenecektir."</item>
+        <item>"Durumunuz değişmişse (örneğin, bir sertifika eklediğiniz için veya kurallar değiştiği için), Sertifikalar sekmesinde bu yönde bir bildirim gösterilecektir."</item>
+        <item>"Geçerlilikleri yerel kurallara bağlı olduğundan artık iyileşme sertifikaları için geçerlilik verileri görüntülenmemektedir. Bunun yerine ilk pozitif test sonucunun tarihi görüntülenmektedir."</item>
+        <item>"Geçerli olarak kullandığınız sertifikanızın QR kodu, bireyler için ayrıntı ekranından kaldırılarak bildirimler için daha fazla alan oluşturulmuş ve genel olarak ekran dağınıklığı giderilmiştir. QR kod, sertifikaya genel bakış bölümünde de bulunmaktadır ve bu nedenle ayrıntı ekranında bulunması gerekmez."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
@@ -33,10 +39,16 @@
         <item/>
         <item/>
         <item/>
+        <item/>
+        <item/>
+        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
+        <item/>
+        <item/>
+        <item/>
         <item/>
         <item/>
         <item/>
