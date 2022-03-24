@@ -315,8 +315,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) = RestoreCoronaTestConfirmationDialog
-        .showDialog(context = requireContext()) { viewModel.restoreCoronaTest(recycledCoronaTest) }
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
+        RestoreCoronaTestConfirmationDialog
+            .showDialog(context = requireContext()) { viewModel.restoreCoronaTest(recycledCoronaTest) }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {
         MaterialAlertDialogBuilder(requireContext())
