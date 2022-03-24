@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
-val CoronaTestRepository.latestPCRT: Flow<PCRCoronaTest?>
+val PersonalTestRepository.latestPCRT: Flow<PCRCoronaTest?>
     get() = this.coronaTests
         .map { allTests ->
             allTests.singleOrNull {
@@ -21,7 +21,7 @@ val CoronaTestRepository.latestPCRT: Flow<PCRCoronaTest?>
         }
         .distinctUntilChanged()
 
-val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
+val PersonalTestRepository.latestRAT: Flow<RACoronaTest?>
     get() = this.coronaTests
         .map { allTests ->
             allTests.singleOrNull {
@@ -30,7 +30,7 @@ val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
         }
         .distinctUntilChanged()
 
-val CoronaTestRepository.positiveViewedTests: Flow<List<BaseCoronaTest>>
+val PersonalTestRepository.positiveViewedTests: Flow<List<BaseCoronaTest>>
     get() = combine(latestPCRT, latestRAT) { testPcr, testRat ->
         listOfNotNull(testPcr, testRat).filter { it.isPositive && it.isViewed }
     }
@@ -39,7 +39,7 @@ val CoronaTestRepository.positiveViewedTests: Flow<List<BaseCoronaTest>>
 // CoronaTest.lastError is also only in memory
 private val consumedErrors = mutableMapOf<String, Throwable?>()
 
-val CoronaTestRepository.testErrorsSingleEvent: Flow<List<PersonalCoronaTest>>
+val PersonalTestRepository.testErrorsSingleEvent: Flow<List<PersonalCoronaTest>>
     get() = coronaTests
         .map { tests ->
             tests

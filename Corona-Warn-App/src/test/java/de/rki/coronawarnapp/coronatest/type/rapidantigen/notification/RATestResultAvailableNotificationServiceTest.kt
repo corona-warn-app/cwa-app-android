@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.PersonalTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
@@ -39,7 +39,7 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
     @MockK lateinit var navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var cwaSettings: CWASettings
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
+    @MockK lateinit var personalTestRepository: PersonalTestRepository
 
     @BeforeEach
     fun setUp() {
@@ -59,7 +59,7 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
         notificationHelper = notificationHelper,
-        coronaTestRepository = coronaTestRepository,
+        coronaTestRepository = personalTestRepository,
         appScope = scope,
     )
 

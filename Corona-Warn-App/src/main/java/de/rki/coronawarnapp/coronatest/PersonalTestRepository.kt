@@ -35,7 +35,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CoronaTestRepository @Inject constructor(
+class PersonalTestRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: CoronaTestStorage,
@@ -71,7 +71,7 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isRecycled]
      */
-    val recycledCoronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
+    val recycledTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
     }
 
