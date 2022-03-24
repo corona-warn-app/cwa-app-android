@@ -124,7 +124,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         every { recycledCertificatesProvider.recycledCertificates } returns
             flowOf(setOf(recCert, testCert, vaccCert))
 
-        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
+        every { recycledCoronaTestsProvider.testsMap } returns flowOf(emptySet())
         coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
     }
 

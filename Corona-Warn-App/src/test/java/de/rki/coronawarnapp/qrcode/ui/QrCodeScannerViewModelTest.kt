@@ -122,7 +122,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
         every { Uri.parse(any()) } returns mockk()
         coEvery { qrCodeFileParser.decodeQrCodeFile(any()) } returns QrCodeFileParser.ParseResult.Success("qrcode")
-        every { recycledCoronaTestsProvider.tests } returns flowOf(emptySet())
+        every { recycledCoronaTestsProvider.testsMap } returns flowOf(emptySet())
         coEvery { recycledCoronaTestsProvider.restoreCoronaTest(any()) } just Runs
     }
 

@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
@@ -32,6 +33,7 @@ import testhelpers.coroutines.runBlockingTest2
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
     @RelaxedMockK private lateinit var coronaTestsRepository: CoronaTestRepository
+    @RelaxedMockK private lateinit var familyTestRepository: FamilyTestRepository
     @RelaxedMockK private lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @RelaxedMockK private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
     @MockK private lateinit var timeStamper: TimeStamper
@@ -67,6 +69,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns now
         coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(recycledTests)
+        coEvery { familyTestRepository.recycledFamilyTests } returns flowOf(setOf())
         coEvery { coronaTestsRepository.removeTest(any()) } returns mockk()
         every { analyticsKeySubmissionCollector.reset(any()) } just Runs
         every { analyticsTestResultCollector.clear(any()) } just Runs
@@ -75,16 +78,17 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     private fun createInstance() = RecycledCoronaTestsProvider(
         coronaTestRepository = coronaTestsRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        analyticsTestResultCollector = analyticsTestResultCollector
+        analyticsTestResultCollector = analyticsTestResultCollector,
+        familyTestRepository = familyTestRepository
     )
 
     @Test
     fun `Recycled Tests are retrieved`() =
         runBlockingTest2(ignoreActive = true) {
-            createInstance().tests.first() shouldBe recycledTests
+            createInstance().testsMap.first() shouldBe recycledTests
 
             coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(emptySet())
-            createInstance().tests.first() shouldBe emptySet()
+            createInstance().testsMap.first() shouldBe emptySet()
 
             coVerify(exactly = 2) {
                 coronaTestsRepository.recycledCoronaTests
@@ -94,7 +98,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     @Test
     fun `Delete recycled tests one by one`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            tests.first() shouldBe recycledTests
+            testsMap.first() shouldBe recycledTests
             deleteCoronaTest(recycledPcrTest.identifier)
             deleteCoronaTest(recycledRatTest.identifier)
         }
@@ -108,7 +112,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     @Test
     fun `Delete all recycled tests at once`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            tests.first() shouldBe recycledTests
+            testsMap.first() shouldBe recycledTests
             deleteAllCoronaTest(recycledTests.map { it.identifier })
         }
 

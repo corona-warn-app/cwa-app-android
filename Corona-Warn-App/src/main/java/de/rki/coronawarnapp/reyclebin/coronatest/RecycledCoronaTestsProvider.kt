@@ -8,8 +8,11 @@ import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.tag
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
@@ -17,27 +20,37 @@ import javax.inject.Inject
 @Reusable
 class RecycledCoronaTestsProvider @Inject constructor(
     private val coronaTestRepository: CoronaTestRepository,
+    private val familyTestRepository: FamilyTestRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) {
 
-    val tests: Flow<Set<PersonalCoronaTest>> = coronaTestRepository.recycledCoronaTests
+    val testsMap: Flow<Map<TestIdentifier, CoronaTest>> = combine(
+        coronaTestRepository.recycledCoronaTests,
+        familyTestRepository.recycledFamilyTests
+    ) { personalTests, familyTests ->
+        personalTests.plus(familyTests).associateBy { it.identifier }
+    }
 
     /**
      * Find corona test in recycled items
      * @return [CoronaTest] if found , otherwise `null`
      */
-    suspend fun findCoronaTest(coronaTestQrCodeHash: String?): PersonalCoronaTest? {
+    suspend fun findCoronaTest(coronaTestQrCodeHash: String?): CoronaTest? {
         if (coronaTestQrCodeHash == null) return null
         Timber.tag(TAG).d("findCoronaTest(coronaTestQrCodeHash=%s)", coronaTestQrCodeHash)
-        return tests.first()
+        return testsMap.first()
+            .values
             .find { it.qrCodeHash == coronaTestQrCodeHash }
             .also { Timber.tag(TAG).d("returning %s", it) }
     }
 
     suspend fun recycleCoronaTest(identifier: TestIdentifier) {
         Timber.tag(TAG).d("recycleCoronaTest(identifier=%s)", identifier)
-        coronaTestRepository.recycleTest(identifier)
+        when (findTest(identifier)) {
+            is PersonalCoronaTest -> coronaTestRepository.recycleTest(identifier)
+            is FamilyCoronaTest -> coronaTestRepository.recycleTest(identifier)
+        }
     }
 
     suspend fun restoreCoronaTest(identifier: TestIdentifier) {
@@ -57,19 +70,22 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     suspend fun deleteAllCoronaTest(identifiers: Collection<TestIdentifier>) {
         Timber.tag(TAG).d("deleteAllCoronaTest(identifiers=%s)", identifiers)
-        identifiers
-            .toSet()
-            .forEach { deleteCoronaTest(identifier = it) }
+        identifiers.toSet().forEach { deleteCoronaTest(identifier = it) }
     }
 
     private suspend fun resetAnalytics(identifier: TestIdentifier) {
         Timber.tag(TAG).d("resetAnalytics(identifier=%s)", identifier)
-        tests.first().find { it.identifier == identifier }?.type
+        coronaTestRepository.recycledCoronaTests
+            .first().find { it.identifier == identifier }?.type
             ?.let {
                 analyticsKeySubmissionCollector.reset(it)
                 analyticsTestResultCollector.clear(it)
                 Timber.tag(TAG).d("resetAnalytics() - end")
             }
+    }
+
+    private suspend fun findTest(identifier: TestIdentifier): CoronaTest? {
+        return testsMap.first()[identifier]
     }
 
     companion object {

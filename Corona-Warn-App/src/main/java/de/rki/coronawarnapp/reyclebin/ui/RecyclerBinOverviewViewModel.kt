@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -25,6 +24,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
@@ -38,7 +38,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
     val events: LiveData<RecyclerBinEvent> = currentEvent
 
     private val recycledCertificates = recycledCertificatesProvider.recycledCertificates
-    private val recycledTests = recycledCoronaTestsProvider.tests
+    private val recycledTests = recycledCoronaTestsProvider.testsMap.map { it.values }
 
     val listItems: LiveData<List<RecyclerBinItem>> = combine(
         recycledCertificates,
@@ -54,7 +54,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         val recyclerBinItems = mapNotNull {
             when (it) {
                 is CwaCovidCertificate -> mapCertToRecyclerBinItem(it)
-                is PersonalCoronaTest -> mapTestToRecyclerBinItem(it)
+                is CoronaTest -> mapTestToRecyclerBinItem(it)
                 else -> throw IllegalArgumentException("Can't convert $it to RecyclerBinItem")
             }
         }
@@ -65,7 +65,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         }
     }
 
-    private fun mapTestToRecyclerBinItem(recycledTest: PersonalCoronaTest): RecyclerBinItem = CoronaTestCard.Item(
+    private fun mapTestToRecyclerBinItem(recycledTest: CoronaTest): RecyclerBinItem = CoronaTestCard.Item(
         test = recycledTest,
         onRemove = { test, position ->
             currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))
@@ -118,7 +118,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         val containerIds = recycledCertificates.first().map { it.containerId }
         recycledCertificatesProvider.deleteAllCertificate(containerIds)
 
-        val testsIdentifiers = recycledCoronaTestsProvider.tests.first().map { it.identifier }
+        val testsIdentifiers = recycledTests.first().map { it.identifier }
         recycledCoronaTestsProvider.deleteAllCoronaTest(testsIdentifiers)
     }
 
