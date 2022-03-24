@@ -14,7 +14,11 @@ import de.rki.coronawarnapp.dccticketing.core.common.DccTicketingException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingInvalidQrCodeException
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCode
 import de.rki.coronawarnapp.dccticketing.core.qrcode.DccTicketingQrCodeHandler
-import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.*
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestPositive
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestNegative
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestInvalid
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.TestPending
+import de.rki.coronawarnapp.qrcode.ui.CoronaTestResult.WarnOthers
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.qrcode.QrCodeFileParser
 import de.rki.coronawarnapp.qrcode.handler.CheckInQrCodeHandler
@@ -261,7 +265,6 @@ class QrCodeScannerViewModelTest : BaseTest() {
         with(viewModel()) {
             restoreCoronaTest(recycledRAT)
             result.getOrAwaitValue() shouldBe scannerResult
-
 
             checkResultMapping(testResult = CoronaTestResult.RAT_PENDING) { TestPending(it) }
             checkResultMapping(testResult = CoronaTestResult.RAT_NEGATIVE) { TestNegative(it) }
