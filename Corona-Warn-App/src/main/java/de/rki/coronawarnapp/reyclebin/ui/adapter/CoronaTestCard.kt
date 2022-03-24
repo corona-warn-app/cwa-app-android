@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.reyclebin.ui.adapter
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
@@ -34,9 +36,17 @@ class CoronaTestCard(parent: ViewGroup) :
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val test = latestItem!!.test
 
-        certificateType.setText(R.string.recycle_bin_test_item_name)
-        certificateIcon.setImageResource(R.drawable.ic_test_filled_white)
-        certificatePersonName.isGone = true
+        val isFamilyTest = test is FamilyCoronaTest
+        val (titleRes, iconRes) = when {
+            isFamilyTest -> {
+                certificatePersonName.text = (test as FamilyCoronaTest).personName
+                R.string.recycle_bin_family_test_item_name to R.drawable.ic_family_test_recycled
+            }
+            else -> R.string.recycle_bin_test_item_name to R.drawable.ic_personal_test_recycled
+        }
+        certificateType.setText(titleRes)
+        certificateIcon.setImageResource(iconRes)
+        certificatePersonName.isVisible = isFamilyTest
         certificateInfoLine1.isGone = false
 
         certificateInfoLine1.setText(
