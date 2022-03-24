@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.familytest.ui.selection
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentTestRegistrationSelectionBinding
@@ -27,6 +29,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
         }
     )
     private val binding: FragmentTestRegistrationSelectionBinding by viewBinding()
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.testRegistrationSelectionFragment, true).build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,27 +40,30 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                     popBackStack()
                 }
                 is TestRegistrationSelectionNavigationEvents.NavigateToPerson -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            )
+                            ),
+                        navOptions
                     )
                 }
                 is TestRegistrationSelectionNavigationEvents.NavigateToDeletionWarning -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionDeletionWarningFragment(
                                 testRegistrationRequest = it.testRegistrationRequest
-                            )
+                            ),
+                        navOptions
                     )
                 }
                 is TestRegistrationSelectionNavigationEvents.NavigateToFamily -> {
-                    doNavigate(
+                    findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            )
+                            ),
+                        navOptions
                     )
                 }
             }
