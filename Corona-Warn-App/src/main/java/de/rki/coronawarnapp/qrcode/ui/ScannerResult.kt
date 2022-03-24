@@ -36,7 +36,7 @@ sealed class CheckInResult : ScannerResult {
 sealed class CoronaTestResult : ScannerResult {
     data class RestoreDuplicateTest(val restoreRecycledTestRequest: RestoreRecycledTestRequest) : CoronaTestResult()
     data class TestRegistrationSelection(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
-    data class InRecycleBin(val recycledCoronaTest: PersonalCoronaTest) : CoronaTestResult()
+    data class InRecycleBin(val recycledCoronaTest: CoronaTest) : CoronaTestResult()
     data class TestPositive(val test: CoronaTest) : CoronaTestResult()
     data class TestNegative(val test: CoronaTest) : CoronaTestResult()
     data class TestInvalid(val test: CoronaTest) : CoronaTestResult()
