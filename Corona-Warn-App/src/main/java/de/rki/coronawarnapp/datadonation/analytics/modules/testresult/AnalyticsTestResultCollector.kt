@@ -4,13 +4,13 @@ import androidx.annotation.VisibleForTesting
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import com.google.android.gms.nearby.exposurenotification.ScanInstance
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.server.isFinalResult
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
-import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
 import de.rki.coronawarnapp.datadonation.analytics.common.toMetadataRiskLevel
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsScanInstance
@@ -43,7 +43,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         }
     }
 
-    suspend fun reportTestRegistered(type: CoronaTest.Type) {
+    suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
         if (analyticsDisabled) return
 
         val testRegisteredAt = timeStamper.nowUTC
@@ -108,7 +108,7 @@ class AnalyticsTestResultCollector @Inject constructor(
         }
     }
 
-    fun reportTestResultReceived(testResult: CoronaTestResult, type: CoronaTest.Type) {
+    fun reportTestResultReceived(testResult: CoronaTestResult, type: BaseCoronaTest.Type) {
         if (analyticsDisabled) return
         val validTestResults = when (type) {
             PCR -> listOf(
@@ -127,7 +127,7 @@ class AnalyticsTestResultCollector @Inject constructor(
 
         type.settings.testResult.update { testResult }
 
-        if (testResult.isFinal && type.settings.finalTestResultReceivedAt.value == null) {
+        if (testResult.isFinalResult && type.settings.finalTestResultReceivedAt.value == null) {
             type.settings.finalTestResultReceivedAt.update { timeStamper.nowUTC }
 
             val newExposureWindows = exposureWindowsSettings.currentExposureWindows.value?.filterExposureWindows(
@@ -143,7 +143,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     /**
      * Clear saved test donor saved metadata
      */
-    fun clear(type: CoronaTest.Type) {
+    fun clear(type: BaseCoronaTest.Type) {
         Timber.d("clear TestResultDonorSettings")
         type.settings.clear()
     }
@@ -151,7 +151,7 @@ class AnalyticsTestResultCollector @Inject constructor(
     private val analyticsDisabled: Boolean
         get() = !analyticsSettings.analyticsEnabled.value
 
-    private val CoronaTest.Type.settings: AnalyticsTestResultSettings
+    private val BaseCoronaTest.Type.settings: AnalyticsTestResultSettings
         get() = when (this) {
             PCR -> pcrSettings
             RAPID_ANTIGEN -> raSettings

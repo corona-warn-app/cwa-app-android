@@ -6,7 +6,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -83,8 +83,8 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         } just Runs
 
         val instance = createInstance()
-        val coronaTest = mockk<CoronaTest>().apply {
-            every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+        val coronaTest = mockk<BaseCoronaTest>().apply {
+            every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
             every { identifier } returns TestIdentifier()
         }
         instance.showTestResultAvailableNotification(coronaTest)

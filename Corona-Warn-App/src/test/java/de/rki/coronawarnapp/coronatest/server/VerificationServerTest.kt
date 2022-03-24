@@ -274,6 +274,6 @@ class VerificationServerTest : BaseIOTest() {
 
     @Test
     fun `test availability constant`() {
-        VerificationServer.TEST_AVAILABLBILITY shouldBe Duration.standardDays(60)
+        VerificationServer.TestAvailabilityDuration shouldBe Duration.standardDays(60)
     }
 }

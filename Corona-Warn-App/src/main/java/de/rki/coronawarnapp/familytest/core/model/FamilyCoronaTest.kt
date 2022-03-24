@@ -1,7 +1,11 @@
 package de.rki.coronawarnapp.familytest.core.model
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 
-interface FamilyCoronaTest : CoronaTest {
-    val personName: String
-}
+data class FamilyCoronaTest(
+    @SerializedName("personName")
+    val personName: String,
+    @SerializedName("coronaTest")
+    val coronaTest: CoronaTest,
+) : BaseCoronaTest by coronaTest

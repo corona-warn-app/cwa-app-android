@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
@@ -24,7 +24,7 @@ class ShareTestResultNotification @Inject constructor(
     private val notificationHelper: GeneralNotifications,
 ) {
 
-    fun scheduleSharePositiveTestResultReminder(testType: CoronaTest.Type, notificationId: Int) {
+    fun scheduleSharePositiveTestResultReminder(testType: BaseCoronaTest.Type, notificationId: Int) {
         notificationHelper.scheduleRepeatingNotification(
             testType,
             timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
@@ -33,7 +33,7 @@ class ShareTestResultNotification @Inject constructor(
         )
     }
 
-    fun showSharePositiveTestResultNotification(notificationId: Int, testType: CoronaTest.Type) {
+    fun showSharePositiveTestResultNotification(notificationId: Int, testType: BaseCoronaTest.Type) {
         Timber.tag(TAG).d("showSharePositiveTestResultNotification(notificationId=$notificationId)")
 
         val args = Bundle().apply { putSerializable("testType", testType) }
@@ -57,7 +57,7 @@ class ShareTestResultNotification @Inject constructor(
         )
     }
 
-    fun cancelSharePositiveTestResultNotification(testType: CoronaTest.Type, notificationId: Int) {
+    fun cancelSharePositiveTestResultNotification(testType: BaseCoronaTest.Type, notificationId: Int) {
         notificationHelper.cancelFutureNotifications(notificationId, testType)
         Timber.tag(TAG).v("Future positive test result notifications have been canceled")
     }

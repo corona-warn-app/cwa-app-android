@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeysSharedBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
@@ -46,9 +46,9 @@ class SubmissionTestResultKeysSharedFragment :
 
         viewModel.onTestOpened()
 
-        binding.submissionDonePcrValidation.root.isVisible = viewModel.testType == CoronaTest.Type.RAPID_ANTIGEN
+        binding.submissionDonePcrValidation.root.isVisible = viewModel.testType == BaseCoronaTest.Type.RAPID_ANTIGEN
 
-        binding.submissionDoneIllness.root.isVisible = viewModel.testType == CoronaTest.Type.PCR
+        binding.submissionDoneIllness.root.isVisible = viewModel.testType == BaseCoronaTest.Type.PCR
 
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()

@@ -90,3 +90,15 @@ enum class CoronaTestResult(val value: Int) {
         }
     }
 }
+
+val CoronaTestResult?.isFinalResult
+    get() = when (this) {
+        CoronaTestResult.PCR_POSITIVE,
+        CoronaTestResult.PCR_NEGATIVE,
+        CoronaTestResult.RAT_POSITIVE,
+        CoronaTestResult.RAT_NEGATIVE -> true
+        else -> false
+    }
+
+val CoronaTestResult?.isPending
+    get() = this == CoronaTestResult.PCR_OR_RAT_PENDING
