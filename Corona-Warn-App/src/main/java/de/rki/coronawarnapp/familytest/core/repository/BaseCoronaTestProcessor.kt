@@ -63,6 +63,7 @@ class BaseCoronaTestProcessor @Inject constructor(
             identifier = qrCode.identifier,
             registeredAt = timeStamper.nowUTC,
             registrationToken = registrationData.registrationToken,
+            testResult = testResult,
             qrCodeHash = qrCode.rawQrCode.toSHA256(),
             dcc = BaseCoronaTest.Dcc(
                 isDccSupportedByPoc = qrCode.isDccSupportedByPoc,
@@ -70,7 +71,7 @@ class BaseCoronaTestProcessor @Inject constructor(
             ),
             additionalInfo = additionalInfo,
             labId = registrationData.testResultResponse.labId,
-        ).updateTestResult(testResult)
+        )
     }
 
     suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean): BaseCoronaTest {

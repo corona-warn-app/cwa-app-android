@@ -159,5 +159,6 @@ fun BaseCoronaTest.updateTestResult(testResult: CoronaTestResult): BaseCoronaTes
 }
 
 fun BaseCoronaTest.updateLabId(labId: String?): BaseCoronaTest {
-    return if (labId == null) copy(labId = labId) else this
+    // do not overwrite with null
+    return if (labId != null) copy(labId = labId) else this
 }
