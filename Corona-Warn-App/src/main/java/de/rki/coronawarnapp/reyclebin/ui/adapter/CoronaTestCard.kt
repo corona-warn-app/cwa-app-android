@@ -50,18 +50,28 @@ class CoronaTestCard(parent: ViewGroup) :
         certificateInfoLine1.isGone = false
 
         certificateInfoLine1.setText(
-            when (test) {
-                is PCRCoronaTest -> R.string.test_certificate_pcr_test_type
+            when (test.type) {
+                BaseCoronaTest.Type.PCR -> R.string.test_certificate_pcr_test_type
                 else -> R.string.test_certificate_rapid_test_type
             }
         )
+
+        val typeString = when (test.type) {
+            BaseCoronaTest.Type.PCR -> R.string.reycle_bin_pcr_test_date
+            else -> R.string.reycle_bin_rat_test_date
+        }
         certificateInfoLine2.text = when (test) {
+            is FamilyCoronaTest -> context.getString(
+                typeString,
+                test.registeredAt.toDate().toUIFormat(context)
+            )
+
             is PCRCoronaTest -> context.getString(
-                R.string.reycle_bin_pcr_test_date,
+                typeString,
                 test.registeredAt.toDate().toUIFormat(context)
             )
             is RACoronaTest -> context.getString(
-                R.string.reycle_bin_rat_test_date,
+                typeString,
                 test.testTakenAt.toDate().toUIFormat(context)
             )
             else -> throw IllegalStateException("Unknown test type ${test.type}")
