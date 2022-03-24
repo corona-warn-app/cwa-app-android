@@ -26,19 +26,19 @@ class RecycledCoronaTestsProvider @Inject constructor(
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) {
 
-    private val testsMaps: Flow<Map<TestIdentifier, CoronaTest>> = combine(
+    private val testsMaps: Flow<Map<TestIdentifier, BaseCoronaTest>> = combine(
         coronaTestRepository.recycledCoronaTests,
-        familyTestRepository.recycledFamilyTests
+        familyTestRepository.familyTestRecycleBin
     ) { personalTests, familyTests ->
         personalTests.plus(familyTests).associateBy { it.identifier }
     }
-    val tests: Flow<Set<CoronaTest>> = testsMaps.map { it.values.toSet() }
+    val tests: Flow<Set<BaseCoronaTest>> = testsMaps.map { it.values.toSet() }
 
     /**
      * Find corona test in recycled items
      * @return [BaseCoronaTest] if found , otherwise `null`
      */
-    suspend fun findCoronaTest(coronaTestQrCodeHash: String?): CoronaTest? {
+    suspend fun findCoronaTest(coronaTestQrCodeHash: String?): BaseCoronaTest? {
         if (coronaTestQrCodeHash == null) return null
         Timber.tag(TAG).d("findCoronaTest(coronaTestQrCodeHash=%s)", coronaTestQrCodeHash)
         return tests.first()
@@ -50,7 +50,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
         Timber.tag(TAG).d("recycleCoronaTest(identifier=%s)", identifier)
         when (findTest(identifier)) {
             is PersonalCoronaTest -> coronaTestRepository.recycleTest(identifier)
-            is FamilyCoronaTest -> familyTestRepository.recycleTest(identifier)
+            is FamilyCoronaTest -> familyTestRepository.moveTestToRecycleBin(identifier)
         }
     }
 
@@ -93,7 +93,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
             }
     }
 
-    private suspend fun findTest(identifier: TestIdentifier): CoronaTest? {
+    private suspend fun findTest(identifier: TestIdentifier): BaseCoronaTest? {
         return testsMaps.first()[identifier]
     }
 
