@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.recyclebin.coronatest.handler
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
@@ -77,28 +76,15 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
         isDccConsentGiven = true
     )
 
-    private val familyCoronaTest = object : FamilyCoronaTest {
-        override val identifier: TestIdentifier = "family-pcr-identifier"
-        override val personName: String = "personName"
-        override val type: CoronaTest.Type = CoronaTest.Type.PCR
-        override val registeredAt: Instant = Instant.EPOCH
-        override val registrationToken: RegistrationToken = "registrationToken"
-        override val testResultReceivedAt: Instant = Instant.EPOCH
-        override val testResult: CoronaTestResult = CoronaTestResult.PCR_POSITIVE
-        override val isRedeemed: Boolean = true
-        override val isPositive: Boolean = true
-        override val isNegative: Boolean = false
-        override val isPending: Boolean = false
-        override val labId: String = "labId"
-        override val isViewed: Boolean = true
-        override val didShowBadge: Boolean = false
-        override val isResultAvailableNotificationSent: Boolean = true
-        override val isDccSupportedByPoc: Boolean = true
-        override val isDccConsentGiven: Boolean = true
-        override val isDccDataSetCreated: Boolean = true
-        override val qrCodeHash: String = "qrCodeHash"
-        override val recycledAt: Instant = Instant.EPOCH
-    }
+    private val familyCoronaTest = FamilyCoronaTest(
+        personName = "personName",
+        coronaTest = CoronaTest(
+            type = BaseCoronaTest.Type.PCR,
+            identifier = "family-pcr-identifier",
+            registeredAt = Instant.EPOCH,
+            registrationToken = "registrationToken"
+        )
+    )
 
     @BeforeEach
     fun setup() {
@@ -113,7 +99,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(recycledPCR.identifier)
-            submissionRepository.testForType(CoronaTest.Type.PCR)
+            submissionRepository.testForType(BaseCoronaTest.Type.PCR)
         }
     }
 
@@ -123,13 +109,13 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(recycledRAT.identifier)
-            submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN)
+            submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN)
         }
     }
 
     @Test
     fun `restore family corona test PCR regardless of whether another PCR is active`() = runBlockingTest {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(recycledPCR)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(recycledPCR)
 
         instance.restoreCoronaTest(familyCoronaTest) shouldBe CoronaTestRestoreEvent.RestoredTest
 
@@ -141,7 +127,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
     @Test
     fun `show duplicate warning if another personal test PCR is active`() = runBlockingTest {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(anotherPCR)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(anotherPCR)
 
         instance.restoreCoronaTest(recycledPCR) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
             restoreRecycledTestRequest = recycledPCR.toRestoreRecycledTestRequest()
@@ -149,13 +135,13 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
         coVerify {
             recycledCoronaTestsProvider wasNot Called
-            submissionRepository.testForType(CoronaTest.Type.PCR)
+            submissionRepository.testForType(BaseCoronaTest.Type.PCR)
         }
     }
 
     @Test
     fun `show duplicate warning if another personal test RAT is active`() = runBlockingTest {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
 
         instance.restoreCoronaTest(recycledRAT) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
             restoreRecycledTestRequest = recycledRAT.toRestoreRecycledTestRequest()
@@ -163,7 +149,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
         coVerify {
             recycledCoronaTestsProvider wasNot Called
-            submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN)
+            submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN)
         }
     }
 }

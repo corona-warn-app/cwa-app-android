@@ -21,7 +21,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
@@ -49,7 +49,6 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
-@Suppress("TooManyFunctions")
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
         val TAG = tag<MainActivity>()
@@ -184,13 +183,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             showRestoreCoronaTestConfirmation(coronaTestResult.recycledCoronaTest)
             null
         }
-        is CoronaTestQRCodeHandler.TestRegistrationSelection ->
-            NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
-                coronaTestQrCode = coronaTestResult.coronaTestQrCode
-            )
+        is CoronaTestQRCodeHandler.TestRegistrationSelection -> NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
+            coronaTestQrCode = coronaTestResult.coronaTestQrCode
+        )
     }?.let { navController.doNavigate(it) }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) = RestoreCoronaTestConfirmationDialog
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) = RestoreCoronaTestConfirmationDialog
         .showDialog(context = this) { viewModel.restoreCoronaTest(recycledCoronaTest) }
 
     private fun handCoronaTestRestoreEvent(event: CoronaTestRestoreEvent) = when (event) {

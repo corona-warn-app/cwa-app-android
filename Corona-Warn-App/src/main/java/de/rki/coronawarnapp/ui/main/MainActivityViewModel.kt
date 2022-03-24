@@ -9,7 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -162,7 +162,7 @@ class MainActivityViewModel @AssistedInject constructor(
         event.postValue(MainActivityEvent.Error(e))
     }
 
-    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+    fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest) = launch {
         val coronaTestRestoreEvent = coronaTestRestoreHandler.restoreCoronaTest(recycledCoronaTest)
         mutableCoronaTestRestoreEvent.postValue(coronaTestRestoreEvent)
     }

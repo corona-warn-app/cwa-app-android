@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.reyclebin.coronatest.handler
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
@@ -15,13 +15,12 @@ class CoronaTestRestoreHandler @Inject constructor(
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 ) {
 
-    suspend fun restoreCoronaTest(recycledCoronaTest: CoronaTest): CoronaTestRestoreEvent {
+    suspend fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest): CoronaTestRestoreEvent {
         Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%S)", recycledCoronaTest::class.java.simpleName)
         val currentCoronaTest by lazy { submissionRepository.testForType(recycledCoronaTest.type) }
         return when {
-            recycledCoronaTest is PersonalCoronaTest && currentCoronaTest.first() != null ->
-                CoronaTestRestoreEvent
-                    .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
+            recycledCoronaTest is PersonalCoronaTest && currentCoronaTest.first() != null -> CoronaTestRestoreEvent
+                .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
             else -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
                 CoronaTestRestoreEvent.RestoredTest

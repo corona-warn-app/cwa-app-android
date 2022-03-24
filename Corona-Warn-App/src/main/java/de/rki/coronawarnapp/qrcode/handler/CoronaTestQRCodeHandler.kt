@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.qrcode.handler
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
@@ -22,7 +22,7 @@ class CoronaTestQRCodeHandler @Inject constructor(
     }
 
     sealed interface Result
-    data class InRecycleBin(val recycledCoronaTest: CoronaTest) : Result
+    data class InRecycleBin(val recycledCoronaTest: BaseCoronaTest) : Result
     data class TestRegistrationSelection(val coronaTestQrCode: CoronaTestQRCode) : Result
 }
 
