@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.reyclebin.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
@@ -132,12 +132,12 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         recycledCertificatesProvider.restoreCertificate(item.containerId)
     }
 
-    fun onRemoveTest(coronaTest: CoronaTest) = launch {
+    fun onRemoveTest(coronaTest: BaseCoronaTest) = launch {
         Timber.d("onRemoveTest(item=%s)", coronaTest.identifier)
         recycledCoronaTestsProvider.deleteCoronaTest(coronaTest.identifier)
     }
 
-    fun onRestoreTestConfirmation(coronaTest: CoronaTest) = launch {
+    fun onRestoreTestConfirmation(coronaTest: BaseCoronaTest) = launch {
         Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
         val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
         when {

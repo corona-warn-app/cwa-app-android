@@ -13,8 +13,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
@@ -24,7 +24,7 @@ import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
-import de.rki.coronawarnapp.familytest.core.model.BaseCoronaTest
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
@@ -39,7 +39,7 @@ class BaseCoronaTestProcessor @Inject constructor(
     private val coronaTestService: CoronaTestService,
 ) {
 
-    suspend fun register(qrCode: CoronaTestQRCode): BaseCoronaTest {
+    suspend fun register(qrCode: CoronaTestQRCode): CoronaTest {
 
         val serverRequest = createServerRequest(qrCode)
 
@@ -50,7 +50,7 @@ class BaseCoronaTestProcessor @Inject constructor(
             RAPID_ANTIGEN -> registrationData.testResultResponse.coronaTestResult.toValidatedRaResult()
         }
 
-        val additionalInfo = if (qrCode is CoronaTestQRCode.RapidAntigen) BaseCoronaTest.AdditionalInfo(
+        val additionalInfo = if (qrCode is CoronaTestQRCode.RapidAntigen) CoronaTest.AdditionalInfo(
             firstName = qrCode.firstName,
             lastName = qrCode.lastName,
             dateOfBirth = qrCode.dateOfBirth,
@@ -58,14 +58,14 @@ class BaseCoronaTestProcessor @Inject constructor(
             sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt,
         ) else null
 
-        return BaseCoronaTest(
+        return CoronaTest(
             type = qrCode.type,
             identifier = qrCode.identifier,
             registeredAt = timeStamper.nowUTC,
             registrationToken = registrationData.registrationToken,
             testResult = testResult,
             qrCodeHash = qrCode.rawQrCode.toSHA256(),
-            dcc = BaseCoronaTest.Dcc(
+            dcc = CoronaTest.Dcc(
                 isDccSupportedByPoc = qrCode.isDccSupportedByPoc,
                 isDccConsentGiven = qrCode.isDccConsentGiven,
             ),
@@ -74,7 +74,7 @@ class BaseCoronaTestProcessor @Inject constructor(
         )
     }
 
-    suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean): BaseCoronaTest {
+    suspend fun pollServer(test: CoronaTest, forceUpdate: Boolean): CoronaTest {
         if (test.isPollingStopped(forceUpdate, timeStamper.nowUTC)) return test
 
         return try {
@@ -118,7 +118,7 @@ class BaseCoronaTestProcessor @Inject constructor(
     }
 }
 
-private fun BaseCoronaTest.isPollingStopped(forceUpdate: Boolean, now: Instant): Boolean =
+private fun CoronaTest.isPollingStopped(forceUpdate: Boolean, now: Instant): Boolean =
     (!forceUpdate && testResult in finalStates) || isOlderThan21Days(now) && testResult in redeemedStates
 
 private val finalStates = setOf(

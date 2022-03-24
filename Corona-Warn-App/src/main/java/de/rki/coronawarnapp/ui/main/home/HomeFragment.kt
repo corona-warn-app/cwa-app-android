@@ -18,7 +18,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
@@ -93,8 +93,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             tests.forEach { test ->
                 test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
                     val testName = when (test.type) {
-                        CoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                        CoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
                     }
                     setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                 }?.show()

@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.BadRequestException
@@ -34,7 +34,7 @@ class TestRegistrationStateProcessor @Inject constructor(
     sealed class State {
         object Idle : State()
         object Working : State()
-        data class TestRegistered(val test: CoronaTest) : State()
+        data class TestRegistered(val test: BaseCoronaTest) : State()
 
         data class Error(val exception: Exception) : State() {
             fun getDialogBuilder(context: Context, comingFromTan: Boolean = false): MaterialAlertDialogBuilder {
@@ -94,7 +94,7 @@ class TestRegistrationStateProcessor @Inject constructor(
         request: TestRegistrationRequest,
         isSubmissionConsentGiven: Boolean,
         allowTestReplacement: Boolean,
-    ): CoronaTest? = mutex.withLock {
+    ): BaseCoronaTest? = mutex.withLock {
         return try {
             stateInternal.value = State.Working
 
@@ -124,7 +124,7 @@ class TestRegistrationStateProcessor @Inject constructor(
     suspend fun startFamilyTestRegistration(
         request: CoronaTestQRCode,
         personName: String
-    ): CoronaTest? = mutex.withLock {
+    ): BaseCoronaTest? = mutex.withLock {
         return try {
             stateInternal.value = State.Working
 

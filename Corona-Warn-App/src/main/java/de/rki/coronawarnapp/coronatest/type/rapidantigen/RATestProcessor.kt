@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -44,7 +44,7 @@ class RATestProcessor @Inject constructor(
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) : CoronaTestProcessor {
 
-    override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+    override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.RAPID_ANTIGEN
 
     override suspend fun create(request: TestRegistrationRequest): PersonalCoronaTest = when (request) {
         is CoronaTestQRCode.RapidAntigen -> createQR(request)
@@ -263,7 +263,7 @@ fun CoronaTestResult.toValidatedRaResult(): CoronaTestResult {
 }
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
-fun check60DaysRAT(test: CoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
+fun check60DaysRAT(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
     val testAge = Duration(test.registeredAt, now)
     Timber.tag(RATestProcessor.TAG)
         .d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)

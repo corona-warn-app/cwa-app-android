@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.familytest.core.model
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestDcc
 import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
@@ -10,9 +10,9 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
-data class BaseCoronaTest(
+data class CoronaTest(
     @SerializedName("type")
-    override val type: CoronaTest.Type,
+    override val type: BaseCoronaTest.Type,
 
     @SerializedName("identifier")
     override val identifier: TestIdentifier,
@@ -44,7 +44,7 @@ data class BaseCoronaTest(
     @SerializedName("additionalInfo")
     val additionalInfo: AdditionalInfo? = null
 ) :
-    CoronaTest,
+    BaseCoronaTest,
     CoronaTestUiState by uiState,
     CoronaTestDcc by dcc {
 
@@ -130,34 +130,34 @@ data class BaseCoronaTest(
     )
 }
 
-fun BaseCoronaTest.markViewed(): BaseCoronaTest {
+fun CoronaTest.markViewed(): CoronaTest {
     return copy(uiState = uiState.copy(isViewed = true))
 }
 
-fun BaseCoronaTest.markBadgeAsViewed(): BaseCoronaTest {
+fun CoronaTest.markBadgeAsViewed(): CoronaTest {
     return copy(uiState = uiState.copy(didShowBadge = true))
 }
 
-fun BaseCoronaTest.updateResultNotification(sent: Boolean): BaseCoronaTest {
+fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
     return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
 }
 
-fun BaseCoronaTest.markDccCreated(created: Boolean): BaseCoronaTest {
+fun CoronaTest.markDccCreated(created: Boolean): CoronaTest {
     return copy(dcc = dcc.copy(isDccDataSetCreated = created))
 }
 
-fun BaseCoronaTest.recycle(now: Instant): BaseCoronaTest {
+fun CoronaTest.recycle(now: Instant): CoronaTest {
     return copy(recycledAt = now)
 }
 
-fun BaseCoronaTest.restore(): BaseCoronaTest {
+fun CoronaTest.restore(): CoronaTest {
     return copy(recycledAt = null)
 }
 
-fun BaseCoronaTest.updateTestResult(testResult: CoronaTestResult): BaseCoronaTest {
+fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
     return copy(testResult = testResult)
 }
 
-fun BaseCoronaTest.updateLabId(labId: String): BaseCoronaTest {
+fun CoronaTest.updateLabId(labId: String): CoronaTest {
     return copy(labId = labId)
 }

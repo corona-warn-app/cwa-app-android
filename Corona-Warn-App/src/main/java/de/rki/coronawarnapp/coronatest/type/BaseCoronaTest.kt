@@ -6,9 +6,9 @@ import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import org.joda.time.Instant
 
 // test belonging to the main user of the app
-interface PersonalCoronaTest : CoronaTest, CoronaTestKeySubmission, CoronaTestProcessorState, CoronaTestLegacy
+interface PersonalCoronaTest : BaseCoronaTest, CoronaTestKeySubmission, CoronaTestProcessorState, CoronaTestLegacy
 
-interface CoronaTest : CoronaTestUiState, CoronaTestDcc, Recyclable {
+interface BaseCoronaTest : CoronaTestUiState, CoronaTestDcc, Recyclable {
 
     enum class Type(val raw: String) {
         @SerializedName("PCR")

@@ -20,7 +20,7 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -47,7 +47,7 @@ class PCRTestProcessor @Inject constructor(
     private val analyticsTestResultCollector: AnalyticsTestResultCollector
 ) : CoronaTestProcessor {
 
-    override val type: CoronaTest.Type = CoronaTest.Type.PCR
+    override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.PCR
 
     override suspend fun create(request: TestRegistrationRequest): PersonalCoronaTest = when (request) {
         is CoronaTestQRCode.PCR -> createQR(request)
@@ -344,7 +344,7 @@ fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
 }
 
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
-fun check60DaysPcr(test: CoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
+fun check60DaysPcr(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
     val testAge = Duration(test.registeredAt, now)
     Timber.tag(PCRTestProcessor.TAG)
         .d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)

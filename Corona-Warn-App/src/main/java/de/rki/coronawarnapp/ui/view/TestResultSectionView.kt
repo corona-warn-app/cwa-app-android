@@ -9,7 +9,7 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.withStyledAttributes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
 import de.rki.coronawarnapp.submission.toDeviceUIState
@@ -47,13 +47,13 @@ constructor(
         }
     }
 
-    fun setTestResultSection(coronaTest: CoronaTest?) {
+    fun setTestResultSection(coronaTest: BaseCoronaTest?) {
         binding.apply {
             when (coronaTest?.type) {
-                CoronaTest.Type.PCR ->
+                BaseCoronaTest.Type.PCR ->
                     testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
                         .format(context.getString(R.string.ag_homescreen_card_pcr_title))
-                CoronaTest.Type.RAPID_ANTIGEN ->
+                BaseCoronaTest.Type.RAPID_ANTIGEN ->
                     testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
                         .format(context.getString(R.string.submission_test_result_antigen_title))
 
@@ -67,7 +67,7 @@ constructor(
         }
     }
 
-    private fun formatTestStatusIcon(coronaTest: CoronaTest?): Drawable? {
+    private fun formatTestStatusIcon(coronaTest: BaseCoronaTest?): Drawable? {
         val drawable = when (coronaTest?.testResult.toDeviceUIState()) {
             DeviceUIState.PAIRED_NO_RESULT -> R.drawable.ic_test_result_illustration_pending
             DeviceUIState.PAIRED_POSITIVE -> R.drawable.ic_test_result_illustration_positive
@@ -79,7 +79,7 @@ constructor(
         return context.getDrawableCompat(drawable)
     }
 
-    private fun formatTestResultTimestampText(coronaTest: CoronaTest?): String {
+    private fun formatTestResultTimestampText(coronaTest: BaseCoronaTest?): String {
         return if (coronaTest is RACoronaTest) {
             context.getString(
                 R.string.ag_homescreen_card_rapid_body_result_date,
@@ -93,7 +93,7 @@ constructor(
         }
     }
 
-    private fun formatTestResultSectionContent(coronaTest: CoronaTest?): Spannable {
+    private fun formatTestResultSectionContent(coronaTest: BaseCoronaTest?): Spannable {
         return when (val uiState = coronaTest?.testResult.toDeviceUIState()) {
             DeviceUIState.PAIRED_NO_RESULT ->
                 SpannableString(context.getString(R.string.test_result_card_status_pending))
