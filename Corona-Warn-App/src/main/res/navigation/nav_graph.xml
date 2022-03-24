@@ -1012,6 +1012,10 @@
             android:id="@+id/action_testRegistrationSelectionFragment_to_submissionConsentFragment"
             app:destination="@id/submissionConsentFragment" />
 
+        <action
+            android:id="@+id/action_testRegistrationSelectionFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment"/>
+
     </fragment>
 
     <fragment
@@ -1022,6 +1026,11 @@
         <argument
             android:name="coronaTestQrCode"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+
+        <action
+            android:id="@+id/action_familyTestConsentFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+
     </fragment>
 
     <fragment
