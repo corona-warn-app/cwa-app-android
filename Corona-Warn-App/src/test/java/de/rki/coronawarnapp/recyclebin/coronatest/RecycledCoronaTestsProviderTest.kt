@@ -88,7 +88,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
             createInstance().testsMap.first() shouldBe recycledTests
 
             coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(emptySet())
-            createInstance().testsMap.first() shouldBe emptySet()
+            createInstance().testsMap.first() shouldBe emptyMap()
 
             coVerify(exactly = 2) {
                 coronaTestsRepository.recycledCoronaTests

@@ -49,20 +49,28 @@ class RecycledCoronaTestsProvider @Inject constructor(
         Timber.tag(TAG).d("recycleCoronaTest(identifier=%s)", identifier)
         when (findTest(identifier)) {
             is PersonalCoronaTest -> coronaTestRepository.recycleTest(identifier)
-            is FamilyCoronaTest -> coronaTestRepository.recycleTest(identifier)
+            is FamilyCoronaTest -> familyTestRepository.recycleTest(identifier)
         }
     }
 
     suspend fun restoreCoronaTest(identifier: TestIdentifier) {
         Timber.tag(TAG).d("restoreCoronaTest(identifier=%s)", identifier)
-        resetAnalytics(identifier)
-        coronaTestRepository.restoreTest(identifier)
+        when (findTest(identifier)) {
+            is PersonalCoronaTest -> {
+                resetAnalytics(identifier)
+                coronaTestRepository.restoreTest(identifier)
+            }
+            is FamilyCoronaTest -> familyTestRepository.restoreTest(identifier)
+        }
     }
 
     suspend fun deleteCoronaTest(identifier: TestIdentifier) {
         try {
             Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
-            coronaTestRepository.removeTest(identifier)
+            when (findTest(identifier)) {
+                is PersonalCoronaTest -> coronaTestRepository.removeTest(identifier)
+                is FamilyCoronaTest -> familyTestRepository.removeTest(identifier)
+            }
         } catch (e: CoronaTestNotFoundException) {
             Timber.tag(TAG).e(e)
         }

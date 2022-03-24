@@ -36,7 +36,7 @@ class FamilyTestRepository @Inject constructor(
         // TBD
     }
 
-    suspend fun deleteTest(
+    suspend fun removeTest(
         identifier: TestIdentifier
     ) {
         // TBD
