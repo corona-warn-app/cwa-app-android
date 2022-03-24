@@ -23,9 +23,6 @@ data class BaseCoronaTest(
     @SerializedName("registrationToken")
     override val registrationToken: RegistrationToken,
 
-    @SerializedName("testResultReceivedAt")
-    override val testResultReceivedAt: Instant? = null,
-
     @SerializedName("testResult")
     override val testResult: CoronaTestResult = CoronaTestResult.PCR_OR_RAT_PENDING,
 
@@ -38,46 +35,60 @@ data class BaseCoronaTest(
     @SerializedName("recycledAt")
     override var recycledAt: Instant? = null,
 
+    @SerializedName("dcc")
     val dcc: Dcc = Dcc(),
+
+    @SerializedName("uiState")
     val uiState: UiState = UiState(),
+
+    @SerializedName("additionalInfo")
     val additionalInfo: AdditionalInfo? = null
 ) :
     CoronaTest,
     CoronaTestUiState by uiState,
     CoronaTestDcc by dcc {
 
-    val state: FamilyCoronaTest.State
+    enum class State {
+        PENDING,
+        INVALID,
+        POSITIVE,
+        NEGATIVE,
+        REDEEMED,
+        RECYCLED,
+    }
+
+    val state: State
         get() = when {
-            isRecycled -> FamilyCoronaTest.State.RECYCLED
+            isRecycled -> State.RECYCLED
             else -> when (testResult) {
                 CoronaTestResult.PCR_OR_RAT_PENDING,
-                CoronaTestResult.RAT_PENDING, -> FamilyCoronaTest.State.PENDING
+                CoronaTestResult.RAT_PENDING, -> State.PENDING
 
                 CoronaTestResult.RAT_NEGATIVE,
-                CoronaTestResult.PCR_NEGATIVE -> FamilyCoronaTest.State.NEGATIVE
+                CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
 
                 CoronaTestResult.RAT_POSITIVE,
-                CoronaTestResult.PCR_POSITIVE -> FamilyCoronaTest.State.POSITIVE
+                CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
 
                 CoronaTestResult.RAT_INVALID,
-                CoronaTestResult.PCR_INVALID -> FamilyCoronaTest.State.INVALID
+                CoronaTestResult.PCR_INVALID -> State.INVALID
 
                 CoronaTestResult.PCR_OR_RAT_REDEEMED,
-                CoronaTestResult.RAT_REDEEMED -> FamilyCoronaTest.State.REDEEMED
+                CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
             }
         }
 
     override val isRedeemed: Boolean
-        get() = state == FamilyCoronaTest.State.REDEEMED
+        get() = state == State.REDEEMED
 
     override val isPositive: Boolean
-        get() = state == FamilyCoronaTest.State.POSITIVE
+        get() = state == State.POSITIVE
 
     override val isNegative: Boolean
-        get() = state == FamilyCoronaTest.State.NEGATIVE
+        get() = state == State.NEGATIVE
 
     override val isPending: Boolean
-        get() = state == FamilyCoronaTest.State.PENDING
+        get() = state == State.PENDING
 
     data class Dcc(
         @SerializedName("isDccSupportedByPoc")
@@ -102,9 +113,6 @@ data class BaseCoronaTest(
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
-        @SerializedName("testedAt")
-        val testedAt: Instant,
-
         @SerializedName("firstName")
         val firstName: String? = null,
 
@@ -114,7 +122,43 @@ data class BaseCoronaTest(
         @SerializedName("dateOfBirth")
         val dateOfBirth: LocalDate? = null,
 
+        @SerializedName("createdAt")
+        val createdAt: Instant,
+
         @SerializedName("sampleCollectedAt")
         val sampleCollectedAt: Instant? = null,
     )
 }
+
+fun BaseCoronaTest.markViewed(): BaseCoronaTest {
+    return copy(uiState = uiState.copy(isViewed = true))
+}
+
+fun BaseCoronaTest.markBadgeAsViewed(): BaseCoronaTest {
+    return copy(uiState = uiState.copy(didShowBadge = true))
+}
+
+fun BaseCoronaTest.updateResultNotification(sent: Boolean): BaseCoronaTest {
+    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
+}
+
+fun BaseCoronaTest.markDccCreated(created: Boolean): BaseCoronaTest {
+    return copy(dcc = dcc.copy(isDccDataSetCreated = created))
+}
+
+fun BaseCoronaTest.recycle(now: Instant): BaseCoronaTest {
+    return copy(recycledAt = now)
+}
+
+fun BaseCoronaTest.restore(): BaseCoronaTest {
+    return copy(recycledAt = null)
+}
+
+fun BaseCoronaTest.updateTestResult(testResult: CoronaTestResult): BaseCoronaTest {
+    return copy(testResult = testResult)
+}
+
+fun BaseCoronaTest.updateLabId(labId: String?): BaseCoronaTest {
+    return if (labId == null) copy(labId = labId) else this
+}
+

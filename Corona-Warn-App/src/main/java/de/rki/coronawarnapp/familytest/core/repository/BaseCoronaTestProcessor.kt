@@ -51,10 +51,10 @@ class BaseCoronaTestProcessor @Inject constructor(
         }
 
         val additionalInfo = if (qrCode is CoronaTestQRCode.RapidAntigen) BaseCoronaTest.AdditionalInfo(
-            testedAt = qrCode.createdAt,
             firstName = qrCode.firstName,
             lastName = qrCode.lastName,
             dateOfBirth = qrCode.dateOfBirth,
+            createdAt = qrCode.createdAt,
             sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt,
         ) else null
 
@@ -63,15 +63,14 @@ class BaseCoronaTestProcessor @Inject constructor(
             identifier = qrCode.identifier,
             registeredAt = timeStamper.nowUTC,
             registrationToken = registrationData.registrationToken,
-
-            labId = registrationData.testResultResponse.labId,
             qrCodeHash = qrCode.rawQrCode.toSHA256(),
             dcc = BaseCoronaTest.Dcc(
                 isDccSupportedByPoc = qrCode.isDccSupportedByPoc,
                 isDccConsentGiven = qrCode.isDccConsentGiven,
             ),
             additionalInfo = additionalInfo,
-        ).updateTestResult(testResult, timeStamper.nowUTC)
+            labId = registrationData.testResultResponse.labId,
+        ).updateTestResult(testResult)
     }
 
     suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean): BaseCoronaTest {
@@ -94,7 +93,7 @@ class BaseCoronaTestProcessor @Inject constructor(
                 PCR -> response.coronaTestResult.toValidatedPcrResult()
             }
 
-            test.updateTestResult(testResult, timeStamper.nowUTC).updateLabId(response.labId)
+            test.updateTestResult(testResult).updateLabId(response.labId)
         } catch (e: Exception) {
             Timber.e(e, "Failed to poll server for  %s", test)
             if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
