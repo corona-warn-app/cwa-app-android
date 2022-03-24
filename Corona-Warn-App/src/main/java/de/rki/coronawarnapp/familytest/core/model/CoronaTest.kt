@@ -11,11 +11,11 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class CoronaTest(
-    @SerializedName("type")
-    override val type: BaseCoronaTest.Type,
-
     @SerializedName("identifier")
     override val identifier: TestIdentifier,
+
+    @SerializedName("type")
+    override val type: BaseCoronaTest.Type,
 
     @SerializedName("registeredAt")
     override val registeredAt: Instant,
@@ -32,9 +32,6 @@ data class CoronaTest(
     @SerializedName("qrCodeHash")
     override val qrCodeHash: String? = null,
 
-    @SerializedName("recycledAt")
-    override var recycledAt: Instant? = null,
-
     @SerializedName("dcc")
     val dcc: Dcc = Dcc(),
 
@@ -42,7 +39,10 @@ data class CoronaTest(
     val uiState: UiState = UiState(),
 
     @SerializedName("additionalInfo")
-    val additionalInfo: AdditionalInfo? = null
+    val additionalInfo: AdditionalInfo? = null,
+
+    @Transient
+    override var recycledAt: Instant? = null,
 ) :
     BaseCoronaTest,
     CoronaTestUiState by uiState,

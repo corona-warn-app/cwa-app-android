@@ -4,21 +4,45 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import javax.inject.Inject
 
-class FamilyTestStorage @Inject constructor() {
+class FamilyTestStorage @Inject constructor(
+    private val dao: FamilyCoronaTestDao
+) {
 
     val familyTestMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = flowOf(emptyMap())
 
-    fun save(test: FamilyCoronaTest) {
-        // ticket 12336
+    val familyTestRecycleBinMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = flowOf(emptyMap())
+
+    suspend fun save(test: FamilyCoronaTest) {
+        dao.insert(test.toEntity())
     }
 
-    fun update(test: FamilyCoronaTest) {
-        // ticket 12336
+    suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
+        dao.update(identifier, update)
     }
 
-    fun delete(test: FamilyCoronaTest) {
-        // ticket 12336
+    suspend fun delete(test: FamilyCoronaTest) {
+        dao.delete(test.toEntity())
     }
+
+    suspend fun clear() {
+        dao.deleteAll()
+    }
+}
+
+fun FamilyCoronaTest.toEntity(): FamilyCoronaTestEntity {
+    return FamilyCoronaTestEntity(
+        identifier = coronaTest.identifier,
+        movedToRecycleBinAtMillis = coronaTest.recycledAt?.millis,
+        test = this,
+    )
+}
+
+fun FamilyCoronaTestEntity.fromEntity(): FamilyCoronaTest {
+    val recycledAt = movedToRecycleBinAtMillis?.let { Instant.ofEpochMilli(it) }
+    return test.copy(
+        coronaTest = test.coronaTest.copy(recycledAt = recycledAt)
+    )
 }

@@ -1,19 +1,25 @@
 package de.rki.coronawarnapp.familytest.core.repository
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
 import de.rki.coronawarnapp.familytest.core.model.recycle
 import de.rki.coronawarnapp.familytest.core.model.restore
+import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
+import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,13 +30,11 @@ class FamilyTestRepository @Inject constructor(
     private val timeStamper: TimeStamper,
 ) {
 
-    private val familyTestMap = storage.familyTestMap
-
     val familyTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
-        it.values.filter { !it.isRecycled }.toSet()
+        it.values.toSet()
     }
 
-    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
+    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestRecycleBinMap.map {
         it.values.filter { it.isRecycled }.toSet()
     }
 
@@ -49,17 +53,17 @@ class FamilyTestRepository @Inject constructor(
     suspend fun restoreTest(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.restore())
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.restore())
+        }
     }
 
     suspend fun moveTestToRecycleBin(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.recycle(timeStamper.nowUTC))
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.recycle(timeStamper.nowUTC))
+        }
     }
 
     suspend fun deleteTest(
@@ -70,56 +74,75 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun refresh(forceRefresh: Boolean = false) {
-        val refreshed = familyTests.first().map {
-            val updatedTest = processor.pollServer(it.coronaTest, forceRefresh)
-            FamilyCoronaTest(
-                it.personName,
-                updatedTest
-            )
-        }
-
-        refreshed.forEach {
-            storage.update(it)
+        familyTests.first().map {
+            if (it.coronaTest.isPollingStopped(forceRefresh, timeStamper.nowUTC)) null
+            else {
+                val updateResult = processor.pollServer(it.coronaTest, forceRefresh) ?: return@map null
+                storage.update(it.identifier) { test ->
+                    val coronaTest = test.coronaTest.updateTestResult(updateResult.coronaTestResult).let { updated ->
+                        updateResult.labId?.let { labId -> updated.updateLabId(labId) } ?: updated
+                    }
+                    test.copy(
+                        coronaTest = coronaTest)
+                }
+            }
         }
     }
 
     suspend fun markViewed(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.markViewed())
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markViewed())
+        }
     }
 
     suspend fun markBadgeAsViewed(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.markBadgeAsViewed())
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markBadgeAsViewed())
+        }
     }
 
     suspend fun updateResultNotification(
         identifier: TestIdentifier,
         sent: Boolean
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.updateResultNotification(sent))
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.updateResultNotification(sent))
+        }
     }
 
     suspend fun markDccAsCreated(
         identifier: TestIdentifier,
         created: Boolean
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.markDccCreated(created))
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markDccCreated(created))
+        }
     }
 
     suspend fun clear() {
-        // TBD
+        storage.clear()
     }
 
-    private suspend fun getTest(identifier: TestIdentifier) = familyTestMap.first()[identifier]
+    private suspend fun getTest(identifier: TestIdentifier) = storage.familyTestMap.first()[identifier]
 }
+
+private fun CoronaTest.isPollingStopped(forceUpdate: Boolean, now: Instant): Boolean =
+    (!forceUpdate && testResult in finalStates) || isOlderThan21Days(now) && testResult in redeemedStates
+
+private val finalStates = setOf(
+    CoronaTestResult.PCR_POSITIVE,
+    CoronaTestResult.PCR_NEGATIVE,
+    CoronaTestResult.PCR_OR_RAT_REDEEMED,
+    CoronaTestResult.RAT_REDEEMED,
+    CoronaTestResult.RAT_POSITIVE,
+    CoronaTestResult.RAT_NEGATIVE,
+    CoronaTestResult.PCR_INVALID,
+    CoronaTestResult.RAT_INVALID
+)
+
+private val redeemedStates = setOf(CoronaTestResult.PCR_OR_RAT_REDEEMED, CoronaTestResult.RAT_REDEEMED)
+
