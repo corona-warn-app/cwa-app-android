@@ -69,14 +69,14 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns now
         coEvery { personalTestsRepository.recycledTests } returns flowOf(recycledTests)
-        coEvery { familyTestRepository.recycledFamilyTests } returns flowOf(setOf())
+        coEvery { familyTestRepository.recycledTests } returns flowOf(setOf())
         coEvery { personalTestsRepository.removeTest(any()) } returns mockk()
         every { analyticsKeySubmissionCollector.reset(any()) } just Runs
         every { analyticsTestResultCollector.clear(any()) } just Runs
     }
 
     private fun createInstance() = RecycledCoronaTestsProvider(
-        coronaTestRepository = personalTestsRepository,
+        personalTestRepository = personalTestsRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         analyticsTestResultCollector = analyticsTestResultCollector,
         familyTestRepository = familyTestRepository

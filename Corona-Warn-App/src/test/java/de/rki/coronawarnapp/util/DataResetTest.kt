@@ -122,7 +122,7 @@ internal class DataResetTest : BaseTest() {
         checkInRepository = checkInRepository,
         traceLocationSettings = traceLocationSettings,
         traceWarningRepository = traceWarningRepository,
-        coronaTestRepository = personalTestRepository,
+        personalTestRepository = personalTestRepository,
         ratProfileSettings = ratProfileSettings,
         covidCertificateSettings = covidCertificateSettings,
         vaccinationCertificateRepository = vaccinationCertificateRepository,

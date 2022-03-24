@@ -31,7 +31,7 @@ class PCRResultSchedulerTest : BaseTest() {
 
     private fun createInstance() = PCRResultScheduler(
         appScope = TestCoroutineScope(),
-        coronaTestRepository = personalTestRepository,
+        personalTestRepository = personalTestRepository,
         workManager = workManager
     )
 
