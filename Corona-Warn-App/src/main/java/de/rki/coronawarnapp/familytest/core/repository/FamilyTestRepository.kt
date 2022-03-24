@@ -27,7 +27,7 @@ class FamilyTestRepository @Inject constructor(
     private val familyTestMap = storage.familyTestMap
 
     val familyTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
-        it.values.filter { !it.isRecycled }.toSet()
+        it.values.filter { it.isNotRecycled }.toSet()
     }
 
     val recycledTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
