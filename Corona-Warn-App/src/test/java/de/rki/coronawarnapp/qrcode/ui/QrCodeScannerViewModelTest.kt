@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
@@ -182,7 +182,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test when another PCR is active`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(anotherPCR)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(anotherPCR)
         viewModel().apply {
             restoreCoronaTest(recycledPCR)
             result.getOrAwaitValue() shouldBe RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest())
@@ -192,7 +192,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test when another RAT is active`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
 
         viewModel().apply {
             restoreCoronaTest(recycledRAT)
@@ -203,7 +203,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test is pending`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(null)
         val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
@@ -214,7 +214,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test is pending`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
 
         val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.PCR_OR_RAT_PENDING)
         viewModel().apply {
@@ -226,7 +226,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test is negative`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(null)
         val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_NEGATIVE)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
@@ -237,7 +237,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test is negative`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
 
         val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.RAT_NEGATIVE)
         viewModel().apply {
@@ -249,7 +249,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test is invalid`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(null)
         val recycledCoronaTest = recycledPCR.copy(testResult = CoronaTestResult.PCR_INVALID)
         viewModel().apply {
             restoreCoronaTest(recycledCoronaTest)
@@ -260,7 +260,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test is invalid`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
 
         val recycledCoronaTest = recycledRAT.copy(testResult = CoronaTestResult.RAT_INVALID)
         viewModel().apply {
@@ -272,7 +272,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test is positive - warn other consent given`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(null)
         val recycledCoronaTest = recycledPCR.copy(
             testResult = CoronaTestResult.PCR_POSITIVE,
             isAdvancedConsentGiven = true
@@ -287,7 +287,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test is positive - warn other consent given`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
 
         val recycledCoronaTest = recycledRAT.copy(
             testResult = CoronaTestResult.RAT_POSITIVE,
@@ -303,7 +303,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test is positive - warn other consent not given`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(null)
         val recycledCoronaTest = recycledPCR.copy(
             testResult = CoronaTestResult.PCR_POSITIVE,
             isAdvancedConsentGiven = false
@@ -318,7 +318,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test is positive - warn other consent not given`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
 
         val recycledCoronaTest = recycledRAT.copy(
             testResult = CoronaTestResult.RAT_POSITIVE,
@@ -334,7 +334,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest PCR test is not pending`() {
-        every { submissionRepository.testForType(CoronaTest.Type.PCR) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(null)
         viewModel().apply {
             restoreCoronaTest(recycledPCR)
         }
@@ -343,7 +343,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
 
     @Test
     fun `restoreCoronaTest RAT test is not pending`() {
-        every { submissionRepository.testForType(CoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
+        every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(null)
 
         viewModel().apply {
             restoreCoronaTest(recycledRAT)

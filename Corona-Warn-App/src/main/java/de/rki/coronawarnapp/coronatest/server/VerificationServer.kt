@@ -218,7 +218,7 @@ class VerificationServer @Inject constructor(
          * Test is available for this long on the server.
          * After this period the server will delete it and return PENDING if the regtoken is polled again.
          */
-        val TEST_AVAILABLBILITY: Duration = Duration.standardDays(60)
+        val TestAvailabilityDuration: Duration = Duration.standardDays(60)
 
         private const val TAG = "VerificationServer"
     }

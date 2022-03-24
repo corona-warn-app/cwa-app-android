@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.datadonation.analytics.common
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
 
@@ -73,15 +72,3 @@ fun RiskState.toMetadataRiskLevel(): PpaData.PPARiskLevel =
         RiskState.LOW_RISK -> PpaData.PPARiskLevel.RISK_LEVEL_LOW
         else -> PpaData.PPARiskLevel.RISK_LEVEL_UNKNOWN
     }
-
-val CoronaTestResult?.isFinal
-    get() = when (this) {
-        CoronaTestResult.PCR_POSITIVE,
-        CoronaTestResult.PCR_NEGATIVE,
-        CoronaTestResult.RAT_POSITIVE,
-        CoronaTestResult.RAT_NEGATIVE -> true
-        else -> false
-    }
-
-val CoronaTestResult?.isPending
-    get() = this == CoronaTestResult.PCR_OR_RAT_PENDING

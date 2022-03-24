@@ -4,13 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
-import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.NEGATIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestResult.POSITIVE
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.ANTIGEN
+import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity.TestType.PCR
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import org.joda.time.Instant
 
 @Entity(tableName = "corona_tests")
@@ -37,15 +37,15 @@ data class ContactDiaryCoronaTestEntity(
     }
 }
 
-fun CoronaTest.canBeAddedToJournal(): Boolean {
+fun BaseCoronaTest.canBeAddedToJournal(): Boolean {
     return isNegative || (isViewed && isPositive) // Negative RAT may not be mark as viewed
 }
 
-fun Map.Entry<CoronaTestGUID, CoronaTest>.asTestResultEntity(): ContactDiaryCoronaTestEntity {
+fun Map.Entry<CoronaTestGUID, BaseCoronaTest>.asTestResultEntity(): ContactDiaryCoronaTestEntity {
     return with(value) {
         ContactDiaryCoronaTestEntity(
             id = key,
-            testType = if (type == CoronaTest.Type.PCR) PCR else ANTIGEN,
+            testType = if (type == BaseCoronaTest.Type.PCR) PCR else ANTIGEN,
             result = if (isPositive) POSITIVE else NEGATIVE,
             time = when (this) {
                 is RACoronaTest -> testTakenAt

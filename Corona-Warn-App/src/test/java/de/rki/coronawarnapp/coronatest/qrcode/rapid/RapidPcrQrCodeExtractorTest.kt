@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.raQrCode6
 import de.rki.coronawarnapp.coronatest.qrcode.raQrCode7
 import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcAndFullPersonalData
 import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcWithoutPersonalData
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
@@ -57,7 +57,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     @Test
     fun `creates PCR corona test qr code data with personal data`() = runBlockingTest {
         instance.extract(rawPayloadWithDgcAndFullPersonalData).also {
-            it.type shouldBe CoronaTest.Type.PCR
+            it.type shouldBe BaseCoronaTest.Type.PCR
             it.createdAt shouldBe Instant.ofEpochSecond(1619618382)
             it.salt shouldBe "6EBB1C8574AF1C70BF613FB334372C72"
             it.testId shouldBe "86393115-edb0-4a7f-be85-a0b5b2693d71"
@@ -72,7 +72,7 @@ class RapidPcrQrCodeExtractorTest : BaseTest() {
     @Test
     fun `creates PCR corona test qr code data without personal data`() = runBlockingTest {
         instance.extract(rawPayloadWithDgcWithoutPersonalData).also {
-            it.type shouldBe CoronaTest.Type.PCR
+            it.type shouldBe BaseCoronaTest.Type.PCR
             it.createdAt shouldBe Instant.ofEpochSecond(1627403671)
             it.salt shouldBe "D3B5FCC2D1383474F0DE696068ABB338"
             it.testId shouldBe "730c7077-56fd-47b8-813b-fb67895a80b9"

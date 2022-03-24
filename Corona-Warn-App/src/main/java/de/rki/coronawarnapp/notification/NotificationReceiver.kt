@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import dagger.android.AndroidInjection
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_LEGACY_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
@@ -28,7 +28,7 @@ class NotificationReceiver : BroadcastReceiver() {
             POSITIVE_PCR_RESULT_NOTIFICATION_ID,
             POSITIVE_RAT_RESULT_NOTIFICATION_ID -> {
                 val testTypeRaw = intent.getStringExtra(POSITIVE_RESULT_NOTIFICATION_TEST_TYPE)
-                val testType = CoronaTest.Type.values().first { it.raw == testTypeRaw }
+                val testType = BaseCoronaTest.Type.values().first { it.raw == testTypeRaw }
                 Timber.tag(TAG).v(
                     "NotificationReceiver received intent to show a positive test result notification for test type %s",
                     testType
