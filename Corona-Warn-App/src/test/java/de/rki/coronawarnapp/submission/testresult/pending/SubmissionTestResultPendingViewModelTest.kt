@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.submission.testresult.pending
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -29,7 +29,7 @@ import testhelpers.extensions.InstantExecutorExtension
 class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var testType: BaseCoronaTest.Type
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
 
     private val testFlow = MutableStateFlow<PersonalCoronaTest?>(null)

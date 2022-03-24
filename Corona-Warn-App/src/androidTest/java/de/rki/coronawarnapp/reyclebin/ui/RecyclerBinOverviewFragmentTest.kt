@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -20,10 +20,10 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
-import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
@@ -149,7 +149,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
-    private fun mockRATest(): CoronaTest =
+    private fun mockRATest(): BaseCoronaTest =
         mockk<RACoronaTest> {
             every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
             every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")

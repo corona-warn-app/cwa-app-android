@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -44,7 +44,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
 
     private val pendingFragmentArgs =
-        SubmissionTestResultPendingFragmentArgs(testType = CoronaTest.Type.PCR, testIdentifier = "").toBundle()
+        SubmissionTestResultPendingFragmentArgs(testType = BaseCoronaTest.Type.PCR, testIdentifier = "").toBundle()
 
     @Before
     fun setup() {
@@ -57,7 +57,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                 TestDispatcherProvider(),
                 submissionRepository,
                 recycledTestProvider = recycledTestProvider,
-                testType = CoronaTest.Type.PCR,
+                testType = BaseCoronaTest.Type.PCR,
                 initialUpdate = false,
                 testIdentifier = ""
             )
@@ -71,7 +71,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                         every { testResult } returns CoronaTestResult.PCR_POSITIVE
                         every { registeredAt } returns Instant.now()
                         every { isProcessing } returns false
-                        every { type } returns CoronaTest.Type.PCR
+                        every { type } returns BaseCoronaTest.Type.PCR
                     }
                 )
             )
@@ -80,7 +80,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : SubmissionTestResultPendingViewModel.Factory {
                 override fun create(
-                    testType: CoronaTest.Type,
+                    testType: BaseCoronaTest.Type,
                     testIdentifier: TestIdentifier,
                     initialUpdate: Boolean
                 ): SubmissionTestResultPendingViewModel = viewModel
@@ -121,7 +121,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                     every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
                     every { registeredAt } returns Instant.now()
                     every { isProcessing } returns false
-                    every { type } returns CoronaTest.Type.PCR
+                    every { type } returns BaseCoronaTest.Type.PCR
                 }
             )
         )

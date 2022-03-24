@@ -2,9 +2,9 @@ package de.rki.coronawarnapp.datadonation.analytics.modules.testresult
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.datadonation.analytics.common.isFinal
-import de.rki.coronawarnapp.datadonation.analytics.common.isPending
+import de.rki.coronawarnapp.coronatest.server.isFinalResult
+import de.rki.coronawarnapp.coronatest.server.isPending
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.DonorModule
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindow
 import de.rki.coronawarnapp.server.protocols.internal.ppdd.PpaData
@@ -19,7 +19,7 @@ class AnalyticsPCRTestResultDonor @Inject constructor(
     testResultSettings: AnalyticsPCRTestResultSettings,
     timeStamper: TimeStamper,
 ) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
-    override val type = CoronaTest.Type.PCR
+    override val type = BaseCoronaTest.Type.PCR
 }
 
 @Singleton
@@ -27,7 +27,7 @@ class AnalyticsRATestResultDonor @Inject constructor(
     testResultSettings: AnalyticsRATestResultSettings,
     timeStamper: TimeStamper,
 ) : AnalyticsTestResultDonor(testResultSettings, timeStamper) {
-    override val type = CoronaTest.Type.RAPID_ANTIGEN
+    override val type = BaseCoronaTest.Type.RAPID_ANTIGEN
 }
 
 abstract class AnalyticsTestResultDonor(
@@ -35,7 +35,7 @@ abstract class AnalyticsTestResultDonor(
     private val timeStamper: TimeStamper,
 ) : DonorModule {
 
-    abstract val type: CoronaTest.Type
+    abstract val type: BaseCoronaTest.Type
 
     override suspend fun beginDonation(request: DonorModule.Request): DonorModule.Contribution {
         val timestampAtRegistration = testResultSettings.testRegisteredAt.value
@@ -66,7 +66,7 @@ abstract class AnalyticsTestResultDonor(
              * it is included in the next submission. Afterwards,
              * the collected metric data is removed.
              */
-            testResult.isFinal -> {
+            testResult.isFinalResult -> {
                 createDonation(
                     hoursSinceTestRegistrationTime,
                     testResult,
@@ -136,8 +136,8 @@ abstract class AnalyticsTestResultDonor(
     private fun CoronaTestResult.toPPATestResult(): PpaData.PPATestResult {
         return when (this) {
             CoronaTestResult.PCR_OR_RAT_PENDING -> when (type) {
-                CoronaTest.Type.PCR -> PpaData.PPATestResult.TEST_RESULT_PENDING
-                CoronaTest.Type.RAPID_ANTIGEN -> PpaData.PPATestResult.TEST_RESULT_RAT_PENDING
+                BaseCoronaTest.Type.PCR -> PpaData.PPATestResult.TEST_RESULT_PENDING
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> PpaData.PPATestResult.TEST_RESULT_RAT_PENDING
             }
             CoronaTestResult.PCR_POSITIVE -> PpaData.PPATestResult.TEST_RESULT_POSITIVE
             CoronaTestResult.PCR_NEGATIVE -> PpaData.PPATestResult.TEST_RESULT_NEGATIVE

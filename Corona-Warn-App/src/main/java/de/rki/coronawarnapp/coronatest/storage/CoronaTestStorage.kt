@@ -5,7 +5,7 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -68,7 +68,7 @@ class CoronaTestStorage @Inject constructor(
         set(value) {
             Timber.tag(TAG).d("save(tests=%s)", value)
             prefs.edit {
-                value.filter { it.type == CoronaTest.Type.PCR }.run {
+                value.filter { it.type == BaseCoronaTest.Type.PCR }.run {
                     if (isNotEmpty()) {
                         val raw = gson.toJson(this, typeTokenPCR)
                         Timber.tag(TAG).v("PCR storing: %s", raw)
@@ -78,7 +78,7 @@ class CoronaTestStorage @Inject constructor(
                         remove(PKEY_DATA_PCR)
                     }
                 }
-                value.filter { it.type == CoronaTest.Type.RAPID_ANTIGEN }.run {
+                value.filter { it.type == BaseCoronaTest.Type.RAPID_ANTIGEN }.run {
                     if (isNotEmpty()) {
                         val raw = gson.toJson(this, typeTokenRA)
                         Timber.tag(TAG).v("RA storing: %s", raw)

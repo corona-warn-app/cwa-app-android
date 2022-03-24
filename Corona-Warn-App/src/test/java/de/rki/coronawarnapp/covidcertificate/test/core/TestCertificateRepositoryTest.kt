@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -120,7 +120,7 @@ class TestCertificateRepositoryTest : BaseTest() {
                 every { identifier } returns "test-identifier"
                 every { isDccSupportedByPoc } returns true
                 every { isDccConsentGiven } returns true
-                every { type } returns CoronaTest.Type.PCR
+                every { type } returns BaseCoronaTest.Type.PCR
                 every { registeredAt } returns Instant.ofEpochSecond(4555)
                 every { registrationToken } returns "token"
                 every { labId } returns "best-lab"

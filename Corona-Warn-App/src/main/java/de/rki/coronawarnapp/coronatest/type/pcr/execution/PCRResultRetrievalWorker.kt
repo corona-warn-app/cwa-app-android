@@ -8,7 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestPCRT
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.flow.first
@@ -42,7 +42,7 @@ class PCRResultRetrievalWorker @AssistedInject constructor(
             }
 
             Timber.tag(TAG).v("$id Running PCR test result refresh.")
-            coronaTestRepository.refresh(type = CoronaTest.Type.PCR)
+            coronaTestRepository.refresh(type = BaseCoronaTest.Type.PCR)
             Timber.tag(TAG).d("$id: PCR test result refreshed.")
 
             return Result.success()

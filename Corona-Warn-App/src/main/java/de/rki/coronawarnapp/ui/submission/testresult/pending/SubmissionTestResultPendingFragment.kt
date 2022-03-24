@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
@@ -66,7 +66,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         binding.apply {
-            val isPcr = navArgs.testType == CoronaTest.Type.PCR
+            val isPcr = navArgs.testType == BaseCoronaTest.Type.PCR
             testResultPendingStepsWaitingAntigenResult.isVisible = !isPcr
             testResultPendingStepsRatAdded.isVisible = !isPcr
 

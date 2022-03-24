@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.reyclebin.coronatest
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -36,7 +36,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     /**
      * Find corona test in recycled items
-     * @return [CoronaTest] if found , otherwise `null`
+     * @return [BaseCoronaTest] if found , otherwise `null`
      */
     suspend fun findCoronaTest(coronaTestQrCodeHash: String?): CoronaTest? {
         if (coronaTestQrCodeHash == null) return null

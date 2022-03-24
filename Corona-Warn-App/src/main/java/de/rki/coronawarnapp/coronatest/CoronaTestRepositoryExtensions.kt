@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.coronatest
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -16,7 +16,7 @@ val CoronaTestRepository.latestPCRT: Flow<PCRCoronaTest?>
     get() = this.coronaTests
         .map { allTests ->
             allTests.singleOrNull {
-                it.type == CoronaTest.Type.PCR
+                it.type == BaseCoronaTest.Type.PCR
             } as? PCRCoronaTest
         }
         .distinctUntilChanged()
@@ -25,12 +25,12 @@ val CoronaTestRepository.latestRAT: Flow<RACoronaTest?>
     get() = this.coronaTests
         .map { allTests ->
             allTests.singleOrNull {
-                it.type == CoronaTest.Type.RAPID_ANTIGEN
+                it.type == BaseCoronaTest.Type.RAPID_ANTIGEN
             } as? RACoronaTest
         }
         .distinctUntilChanged()
 
-val CoronaTestRepository.positiveViewedTests: Flow<List<CoronaTest>>
+val CoronaTestRepository.positiveViewedTests: Flow<List<BaseCoronaTest>>
     get() = combine(latestPCRT, latestRAT) { testPcr, testRat ->
         listOfNotNull(testPcr, testRat).filter { it.isPositive && it.isViewed }
     }
