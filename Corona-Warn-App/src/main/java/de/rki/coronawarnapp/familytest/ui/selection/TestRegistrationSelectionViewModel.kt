@@ -23,7 +23,7 @@ class TestRegistrationSelectionViewModel @AssistedInject constructor(
 
     fun onNavigateToPerson() = launch {
         val currentCoronaTest = submissionRepository.testForType(coronaTestQRCode.type).first()
-        val updatedCoronaTestQRCode = coronaTestQRCode.modifyCategoryType(CategoryType.OWN)
+        val updatedCoronaTestQRCode = coronaTestQRCode.modifyCategoryType(CategoryType.PERSONAL)
         val navigationEvent = if (currentCoronaTest != null) {
             TestRegistrationSelectionNavigationEvents.NavigateToDeletionWarning(updatedCoronaTestQRCode)
         } else {
