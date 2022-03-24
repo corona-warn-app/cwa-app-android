@@ -1137,7 +1137,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR-Code scannen"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis in der App und warnen Sie andere oder fordern Sie Ihr COVID-Testzertifikat an."</string>
+    <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis und das Ihrer Familienmitglieder und fordern Sie Ihr COVID-Testzertifikat an."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Testmöglichkeit finden"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
