@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
+import de.rki.coronawarnapp.familytest.core.model.markViewed
 import de.rki.coronawarnapp.familytest.core.model.recycle
 import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
@@ -80,6 +81,14 @@ class FamilyTestRepository @Inject constructor(
         refreshed.forEach {
             storage.update(it)
         }
+    }
+
+    suspend fun markViewed(
+        identifier: TestIdentifier
+    ) {
+        val test = getTest(identifier) ?: return
+        val updated = test.copy(coronaTest = test.coronaTest.markViewed())
+        storage.update(updated)
     }
 
     suspend fun markBadgeAsViewed(
