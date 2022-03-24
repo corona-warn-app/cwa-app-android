@@ -4,7 +4,7 @@ import android.net.Uri
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccMaxPersonChecker
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
@@ -122,7 +122,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
         result.postValue(containerId.toDccDetails())
     }
 
-    fun restoreCoronaTest(recycledCoronaTest: CoronaTest) = launch {
+    fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest) = launch {
         val coronaTestRestoreEvent = coronaTestRestoreHandler.restoreCoronaTest(recycledCoronaTest)
         result.postValue(coronaTestRestoreEvent.toCoronaResult())
     }

@@ -16,7 +16,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.Reusable
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.notification.NotificationConstants.NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_LEGACY_RESULT_NOTIFICATION_ID
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_TEST_TYPE
@@ -60,7 +60,7 @@ class GeneralNotifications @Inject constructor(
         notificationManagerCompat.createNotificationChannel(channel)
     }
 
-    fun cancelFutureNotifications(notificationId: Int, testType: CoronaTest.Type) {
+    fun cancelFutureNotifications(notificationId: Int, testType: BaseCoronaTest.Type) {
         val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         // Cancel legacy notifications at first
@@ -88,7 +88,7 @@ class GeneralNotifications @Inject constructor(
     }
 
     fun scheduleRepeatingNotification(
-        testType: CoronaTest.Type,
+        testType: BaseCoronaTest.Type,
         initialTime: Instant,
         interval: Duration,
         notificationId: NotificationId
@@ -100,7 +100,7 @@ class GeneralNotifications @Inject constructor(
 
     private fun createPendingIntentToScheduleNotification(
         notificationId: NotificationId,
-        testType: CoronaTest.Type,
+        testType: BaseCoronaTest.Type,
         flag: Int = FLAG_CANCEL_CURRENT
     ) =
         PendingIntent.getBroadcast(

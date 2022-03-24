@@ -261,7 +261,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
             restoreCoronaTest(recycledRAT)
             result.getOrAwaitValue() shouldBe scannerResult
 
-            val coronaTestRestoreEvent2 = CoronaTestRestoreEvent.RestoredTest
+            val coronaTestRestoreEvent2 = CoronaTestRestoreEvent.RestoredTest(recycledRAT)
             val scannerResult2 = RestoredTest
             coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledRAT) } returns coronaTestRestoreEvent2
             restoreCoronaTest(recycledRAT)

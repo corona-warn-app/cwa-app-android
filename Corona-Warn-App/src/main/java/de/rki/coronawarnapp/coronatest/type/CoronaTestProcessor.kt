@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 
 interface CoronaTestProcessor {
 
-    val type: CoronaTest.Type
+    val type: BaseCoronaTest.Type
 
     suspend fun create(request: TestRegistrationRequest): PersonalCoronaTest
 

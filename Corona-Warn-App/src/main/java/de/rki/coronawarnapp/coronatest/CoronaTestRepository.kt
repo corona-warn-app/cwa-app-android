@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -91,7 +91,7 @@ class CoronaTestRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
+    private fun getProcessor(type: BaseCoronaTest.Type) = processors.single { it.type == type }
 
     /**
      * Default preconditions prevent duplicate test registration,
@@ -156,10 +156,10 @@ class CoronaTestRepository @Inject constructor(
         return currentTests[request.identifier]!!
     }
 
-    suspend fun removeTest(identifier: TestIdentifier): CoronaTest {
+    suspend fun removeTest(identifier: TestIdentifier): BaseCoronaTest {
         Timber.tag(TAG).i("removeTest(identifier=%s)", identifier)
 
-        var removedTest: CoronaTest? = null
+        var removedTest: BaseCoronaTest? = null
 
         internalData.updateBlocking {
             val toBeRemoved = values.singleOrNull { it.identifier == identifier }
@@ -205,7 +205,7 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Passing **null** will refresh all test types.
      */
-    suspend fun refresh(type: CoronaTest.Type? = null): Set<CoronaTest> {
+    suspend fun refresh(type: BaseCoronaTest.Type? = null): Set<BaseCoronaTest> {
         Timber.tag(TAG).d("refresh(type=%s)", type)
 
         val toRefresh = coronaTests

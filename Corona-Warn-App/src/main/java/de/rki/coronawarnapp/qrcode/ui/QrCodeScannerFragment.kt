@@ -20,7 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
@@ -315,7 +315,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) = RestoreCoronaTestConfirmationDialog
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) = RestoreCoronaTestConfirmationDialog
         .showDialog(context = requireContext()) { viewModel.restoreCoronaTest(recycledCoronaTest) }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {

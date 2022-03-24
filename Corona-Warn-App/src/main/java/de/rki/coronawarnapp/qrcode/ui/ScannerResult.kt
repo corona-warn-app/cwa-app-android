@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
@@ -35,7 +35,7 @@ sealed class CheckInResult : ScannerResult {
 sealed class CoronaTestResult : ScannerResult {
     data class RestoreDuplicateTest(val restoreRecycledTestRequest: RestoreRecycledTestRequest) : CoronaTestResult()
     data class TestRegistrationSelection(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
-    data class InRecycleBin(val recycledCoronaTest: CoronaTest) : CoronaTestResult()
+    data class InRecycleBin(val recycledCoronaTest: BaseCoronaTest) : CoronaTestResult()
     object RestoredTest : CoronaTestResult()
 }
 

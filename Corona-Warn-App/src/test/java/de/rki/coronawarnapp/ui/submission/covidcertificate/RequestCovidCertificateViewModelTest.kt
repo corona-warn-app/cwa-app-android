@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -25,7 +25,7 @@ import testhelpers.extensions.getOrAwaitValue
 internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
-    @MockK lateinit var coronaTest: CoronaTest
+    @MockK lateinit var coronaTest: BaseCoronaTest
 
     private val date = LocalDate.parse(
         "01.01.1987",

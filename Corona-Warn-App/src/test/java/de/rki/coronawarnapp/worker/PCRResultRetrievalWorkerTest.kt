@@ -6,7 +6,7 @@ import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
@@ -82,7 +82,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     ): PersonalCoronaTest {
         return mockk<PCRCoronaTest>().apply {
             every { identifier } returns ""
-            every { type } returns CoronaTest.Type.PCR
+            every { type } returns BaseCoronaTest.Type.PCR
             every { registeredAt } returns registered
             every { isViewed } returns viewed
             every { testResult } returns result
@@ -103,7 +103,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
 
         val result = createWorker().doWork()
 
-        coVerify(exactly = 1) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
+        coVerify(exactly = 1) { coronaTestRepository.refresh(type = BaseCoronaTest.Type.PCR) }
         result shouldBe ListenableWorker.Result.success()
     }
 
@@ -114,7 +114,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
 
         val result = createWorker().doWork()
 
-        coVerify(exactly = 1) { coronaTestRepository.refresh(type = CoronaTest.Type.PCR) }
+        coVerify(exactly = 1) { coronaTestRepository.refresh(type = BaseCoronaTest.Type.PCR) }
         result shouldBe ListenableWorker.Result.retry()
     }
 }
