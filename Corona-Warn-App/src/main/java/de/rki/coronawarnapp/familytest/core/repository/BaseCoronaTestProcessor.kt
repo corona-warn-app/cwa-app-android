@@ -69,7 +69,6 @@ class BaseCoronaTestProcessor @Inject constructor(
 
     suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean): CoronaTestResultUpdate? {
 
-
         return try {
             val response = try {
                 coronaTestService.checkTestResult(test.registrationToken)
