@@ -359,6 +359,5 @@ class DccValidationRepositoryTest : BaseTest() {
         coVerify(exactly = 0) {
             localCache.saveInvalidationRulesJson(any())
         }
-
     }
 }
