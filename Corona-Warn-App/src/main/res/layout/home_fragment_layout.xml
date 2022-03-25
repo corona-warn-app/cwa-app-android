@@ -21,7 +21,6 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/CWAToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:touchscreenBlocksFocus="false"
@@ -43,6 +42,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/main_tracing_app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/CWAToolbar"
@@ -50,7 +50,7 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/main_tracing"
-                    style="@style/CWAToolbar"
+                    style="@style/CWAMaterialToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -65,6 +65,7 @@
                         style="@style/bodyButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/colorTransparent"
                         android:layout_marginEnd="72dp"
                         android:contentDescription="@{tracingHeader.getTracingContentDescription(context)}"
                         android:focusable="false"
