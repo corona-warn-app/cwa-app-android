@@ -21,6 +21,40 @@
 
     <include app:graph="@navigation/dcc_ticketing_nav_graph" />
 
+    <!-- Global Actions -->
+    <action
+        android:id="@+id/action_submissionTestResultPendingFragment"
+        app:destination="@id/submissionTestResultPendingFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_requestCovidCertificateFragment"
+        app:destination="@id/requestCovidCertificateFragment" />
+    <action
+        android:id="@+id/action_to_submissionTestResultAvailableFragment"
+        app:destination="@id/submissionTestResultAvailableFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_to_submissionDeletionWarningFragment"
+        app:destination="@id/submissionDeletionWarningFragment" />
+    <action
+        android:id="@+id/action_submissionConsentFragment"
+        app:destination="@id/submissionConsentFragment" />
+    <action
+        android:id="@+id/action_to_universal_scanner"
+        app:destination="@id/universalScanner" />
+    <action
+        android:id="@+id/action_global_qrCodeFullScreenFragment"
+        app:destination="@id/qrCodeFullScreenFragment" />
+    <action
+        android:id="@+id/action_global_testRegistrationSelectionFragment"
+        app:destination="@id/testRegistrationSelectionFragment" />
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment"
+        app:popUpToInclusive="true" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
@@ -418,26 +452,6 @@
             app:uri="coronawarnapp://launch" />
     </activity>
 
-    <action
-        android:id="@+id/action_submissionTestResultPendingFragment"
-        app:destination="@id/submissionTestResultPendingFragment"
-        app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_requestCovidCertificateFragment"
-        app:destination="@id/requestCovidCertificateFragment" />
-
-    <action
-        android:id="@+id/action_to_submissionTestResultAvailableFragment"
-        app:destination="@id/submissionTestResultAvailableFragment"
-        app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_to_submissionDeletionWarningFragment"
-        app:destination="@id/submissionDeletionWarningFragment" />
-
     <fragment
         android:id="@+id/submissionResultReadyFragment"
         android:name="de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment"
@@ -531,10 +545,6 @@
             android:defaultValue="false"
             app:argType="boolean" />
     </fragment>
-
-    <action
-        android:id="@+id/action_submissionConsentFragment"
-        app:destination="@id/submissionConsentFragment" />
 
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"
@@ -867,9 +877,7 @@
             android:name="qrCode"
             app:argType="de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode" />
     </fragment>
-    <action
-        android:id="@+id/action_global_qrCodeFullScreenFragment"
-        app:destination="@id/qrCodeFullScreenFragment" />
+
     <fragment
         android:id="@+id/requestCovidCertificateFragment"
         android:name="de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragment"
@@ -968,10 +976,6 @@
             app:popUpTo="@id/universalScanner"
             app:popUpToInclusive="true" />
     </fragment>
-
-    <action
-        android:id="@+id/action_to_universal_scanner"
-        app:destination="@id/universalScanner" />
 
     <fragment
         android:id="@+id/onboardingDeltaNotificationsFragment"
