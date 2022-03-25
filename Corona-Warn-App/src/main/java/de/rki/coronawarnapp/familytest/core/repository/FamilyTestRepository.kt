@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest.State
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
@@ -162,6 +161,11 @@ fun testHasInterestingResultChange(
         State.NEGATIVE,
         State.INVALID
     )
-    // Old state was not Positive , Negative or Invalid
-    return oldState !in states && newState in states
+
+    return when {
+        // Recycled is not an actual test state
+        // ex: Positive -> Recycled -> Positive -> false change
+        oldState == State.RECYCLED || newState == State.RECYCLED -> false
+        else -> oldState != newState && newState in states
+    }
 }
