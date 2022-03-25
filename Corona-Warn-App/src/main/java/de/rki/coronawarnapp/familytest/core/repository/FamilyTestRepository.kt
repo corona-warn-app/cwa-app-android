@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
@@ -19,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import kotlinx.coroutines.plus
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -84,11 +86,18 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun refresh(forceRefresh: Boolean = false) {
-        val refreshed = familyTests.first().map {
-            val updatedTest = processor.pollServer(it.coronaTest, forceRefresh)
+        val refreshed = familyTests.first().map { familyTest ->
+            val oldState = familyTest.coronaTest.state
+            val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
+            val newState = updatedTest.state
+
             FamilyCoronaTest(
-                it.personName,
-                updatedTest
+                familyTest.personName,
+                updatedTest.copy(
+                    uiState = updatedTest.uiState.copy(
+                        hasResultChangeBadge = testHasResultInterestingChange(oldState, newState)
+                    )
+                )
             )
         }
 
@@ -140,4 +149,16 @@ class FamilyTestRepository @Inject constructor(
     companion object {
         private val TAG = tag<FamilyTestRepository>()
     }
+}
+
+fun testHasResultInterestingChange(
+    oldState: CoronaTest.State,
+    newState: CoronaTest.State
+): Boolean {
+    Timber.tag("FamilyTestRepository").d("oldState=%s newState=%s", oldState, newState)
+    return oldState == CoronaTest.State.PENDING && newState in setOf(
+        CoronaTest.State.POSITIVE,
+        CoronaTest.State.NEGATIVE,
+        CoronaTest.State.INVALID,
+    )
 }
