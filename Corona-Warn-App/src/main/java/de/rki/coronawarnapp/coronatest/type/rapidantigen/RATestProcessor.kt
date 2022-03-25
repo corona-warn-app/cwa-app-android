@@ -195,7 +195,7 @@ class RATestProcessor @Inject constructor(
         Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test)
         test as RACoronaTest
 
-        return test.copy(didShowBadge = true, hasResultChangeBadge = false)
+        return test.copy(didShowBadge = true)
     }
 
     override suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest {
@@ -209,7 +209,7 @@ class RATestProcessor @Inject constructor(
         Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
         test as RACoronaTest
 
-        return test.copy(isResultAvailableNotificationSent = sent, hasResultChangeBadge = sent)
+        return test.copy(isResultAvailableNotificationSent = sent)
     }
 
     override suspend fun markDccCreated(test: PersonalCoronaTest, created: Boolean): PersonalCoronaTest {

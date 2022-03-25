@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
-import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -84,7 +83,8 @@ class RATTestResultAvailableNotificationService @Inject constructor(
         private val INTERESTING_STATES = setOf(
             CoronaTestResult.RAT_NEGATIVE,
             CoronaTestResult.RAT_POSITIVE,
+            CoronaTestResult.RAT_INVALID,
         )
-        private val TAG = tag<RATTestResultAvailableNotificationService>()
+        private val TAG = RATTestResultAvailableNotificationService::class.java.simpleName
     }
 }

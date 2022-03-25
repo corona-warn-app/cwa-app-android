@@ -159,8 +159,9 @@ fun testHasInterestingResultChange(
     Timber.tag("FamilyTestRepository").d("oldState=%s newState=%s", oldState, newState)
     val states = setOf(
         State.POSITIVE,
-        State.NEGATIVE
+        State.NEGATIVE,
+        State.INVALID
     )
-    // Old state was not POS or NEG
+    // Old state was not Positive , Negative or Invalid
     return oldState !in states && newState in states
 }
