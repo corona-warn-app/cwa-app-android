@@ -55,7 +55,7 @@ class FamilyTestRepository @Inject constructor(
         familyTests.first().map {
             if (it.coronaTest.isPollingStopped(forceRefresh, timeStamper.nowUTC)) null
             else {
-                val updateResult = processor.pollServer(it.coronaTest, forceRefresh) ?: return@map null
+                val updateResult = processor.pollServer(it.coronaTest) ?: return@map null
                 storage.update(it.identifier) { test ->
                     val coronaTest = test.coronaTest.updateTestResult(
                         updateResult.coronaTestResult

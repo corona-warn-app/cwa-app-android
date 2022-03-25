@@ -67,7 +67,7 @@ class BaseCoronaTestProcessor @Inject constructor(
         )
     }
 
-    suspend fun pollServer(test: BaseCoronaTest, forceUpdate: Boolean): CoronaTestResultUpdate? {
+    suspend fun pollServer(test: BaseCoronaTest): CoronaTestResultUpdate? {
 
         return try {
             val response = try {
