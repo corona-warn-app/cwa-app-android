@@ -165,7 +165,7 @@ fun testHasInterestingResultChange(
     return when {
         // Recycled is not an actual test state
         // ex: Positive -> Recycled -> Positive -> false change
-        oldState == State.RECYCLED || newState == State.RECYCLED -> false
+        State.RECYCLED in listOf(oldState, newState) -> false
         else -> oldState != newState && newState in states
     }
 }
