@@ -28,5 +28,4 @@ class InformationTechnicalFragment : Fragment(R.layout.fragment_information_tech
         super.onResume()
         binding.informationTechnicalContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
-
 }

@@ -24,5 +24,4 @@ class InformationPrivacyFragment : Fragment(R.layout.fragment_information_privac
         super.onResume()
         binding.informationPrivacyContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
-
 }
