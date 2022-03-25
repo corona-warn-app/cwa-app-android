@@ -10,15 +10,23 @@ import de.rki.coronawarnapp.familytest.core.model.recycle
 import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.shareLatest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FamilyTestRepository @Inject constructor(
+    dispatcherProvider: DispatcherProvider,
+    @AppScope private val appScope: CoroutineScope,
     private val processor: BaseCoronaTestProcessor,
     private val storage: FamilyTestStorage,
     private val timeStamper: TimeStamper,
@@ -27,12 +35,18 @@ class FamilyTestRepository @Inject constructor(
     private val familyTestMap = storage.familyTestMap
 
     val familyTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
-        it.values.filter { it.isNotRecycled }.toSet()
-    }
+        it.values.filter { test -> test.isNotRecycled }.toSet()
+    }.shareLatest(
+        tag = TAG,
+        scope = appScope + dispatcherProvider.IO
+    )
 
     val recycledTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
-        it.values.filter { it.isRecycled }.toSet()
-    }
+        it.values.filter { test -> test.isRecycled }.toSet()
+    }.shareLatest(
+        tag = TAG,
+        scope = appScope + dispatcherProvider.IO
+    )
 
     suspend fun registerTest(
         qrCode: CoronaTestQRCode,
@@ -122,4 +136,8 @@ class FamilyTestRepository @Inject constructor(
     }
 
     private suspend fun getTest(identifier: TestIdentifier) = familyTestMap.first()[identifier]
+
+    companion object {
+        private val TAG = tag<FamilyTestRepository>()
+    }
 }

@@ -338,7 +338,7 @@ fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(PCRTestProcessor.TAG).e("Server returned invalid PCR testresult $this")
+        Timber.tag(PCRTestProcessor.TAG).e("Server returned invalid PCR test result =%s", this)
         PCR_INVALID
     }
 }
@@ -346,11 +346,10 @@ fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysPcr(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
     val testAge = Duration(test.registeredAt, now)
-    Timber.tag(PCRTestProcessor.TAG)
-        .d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
+    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
 
     return if (newResult == PCR_OR_RAT_PENDING && testAge > VerificationServer.TestAvailabilityDuration) {
-        Timber.tag(PCRTestProcessor.TAG).d("$testAge is exceeding the test availability.")
+        Timber.tag(PCRTestProcessor.TAG).d("%s is exceeding the test availability.", testAge)
         PCR_OR_RAT_REDEEMED
     } else {
         newResult

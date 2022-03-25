@@ -51,9 +51,11 @@ class PersonalTestRepository @Inject constructor(
     ) {
         val legacyTests = legacyMigration.startMigration()
         val persistedTests = storage.coronaTests
-        (legacyTests + persistedTests).map { it.identifier to it }.toMap().also {
-            Timber.tag(TAG).v("Restored CoronaTest data: %s", it)
-        }
+        legacyTests.plus(persistedTests)
+            .associateBy { it.identifier }
+            .also {
+                Timber.tag(TAG).v("Restored CoronaTest data: %s", it)
+            }
     }
 
     /**
