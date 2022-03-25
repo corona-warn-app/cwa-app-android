@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.appconfig.ConfigChangeDetector
 import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateScheduler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
@@ -70,7 +70,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var notificationHelper: GeneralNotifications
     @MockK lateinit var deviceTimeHandler: DeviceTimeHandler
     @MockK lateinit var autoSubmission: AutoSubmission
-    @MockK lateinit var personalTestRepository: PersonalTestRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var autoCheckOut: AutoCheckOut
     @MockK lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
     @MockK lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
@@ -129,7 +129,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.notificationHelper = notificationHelper
                 app.deviceTimeHandler = deviceTimeHandler
                 app.autoSubmission = autoSubmission
-                app.personalTestRepository = personalTestRepository
+                app.coronaTestRepository = coronaTestRepository
                 app.autoCheckOut = autoCheckOut
                 app.traceLocationDbCleanupScheduler = traceLocationDbCleanupScheduler
                 app.shareTestResultNotificationService = shareTestResultNotificationService

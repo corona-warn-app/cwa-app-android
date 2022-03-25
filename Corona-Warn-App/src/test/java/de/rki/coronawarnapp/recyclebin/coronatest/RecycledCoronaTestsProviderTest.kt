@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.recyclebin.coronatest
 
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -35,7 +35,7 @@ import testhelpers.coroutines.runBlockingTest2
 
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
-    @RelaxedMockK private lateinit var personalTestsRepository: PersonalTestRepository
+    @RelaxedMockK private lateinit var personalTestsRepository: CoronaTestRepository
     @RelaxedMockK private lateinit var familyTestRepository: FamilyTestRepository
     @RelaxedMockK private lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @RelaxedMockK private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector

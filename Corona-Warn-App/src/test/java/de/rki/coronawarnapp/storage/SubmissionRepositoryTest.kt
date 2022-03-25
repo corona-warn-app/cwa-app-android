@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.storage
 
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -30,7 +30,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
     @MockK lateinit var submissionSettings: SubmissionSettings
     @MockK lateinit var tekHistoryStorage: TEKHistoryStorage
-    @MockK lateinit var personalTestRepository: PersonalTestRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
         qrCodeGUID = "pcr-guid",
@@ -48,7 +48,7 @@ class SubmissionRepositoryTest : BaseTest() {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        personalTestRepository.apply {
+        coronaTestRepository.apply {
             every { coronaTests } returns emptyFlow()
             coEvery { registerTest(pcrRegistrationRequest, any(), any()) } returns pcrTest
         }
@@ -62,7 +62,7 @@ class SubmissionRepositoryTest : BaseTest() {
         scope = scope,
         submissionSettings = submissionSettings,
         tekHistoryStorage = tekHistoryStorage,
-        personalTestRepository = personalTestRepository,
+        personalTestRepository = coronaTestRepository,
     )
 
     @Test
@@ -74,7 +74,7 @@ class SubmissionRepositoryTest : BaseTest() {
 
         instance.tryReplaceTest(pcrRegistrationRequest)
 
-        coVerify { personalTestRepository.registerTest(any(), capture(precondition), capture(postcondition)) }
+        coVerify { coronaTestRepository.registerTest(any(), capture(precondition), capture(postcondition)) }
 
         precondition.captured(emptyList()) shouldBe true
         precondition.captured(listOf(pcrTest)) shouldBe true

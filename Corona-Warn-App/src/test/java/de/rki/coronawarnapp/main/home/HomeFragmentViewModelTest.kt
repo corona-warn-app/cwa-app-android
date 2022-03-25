@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.main.home
 
 import android.content.Context
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.main.CWASettings
@@ -58,7 +58,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var errorResetTool: EncryptionErrorResetTool
     @MockK lateinit var tracingStateProvider: TracingStateProvider
     @MockK lateinit var tracingStateProviderFactory: TracingStateProvider.Factory
-    @MockK lateinit var personalTestRepository: PersonalTestRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var tracingRepository: TracingRepository
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
@@ -85,7 +85,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         every { tracingStateProviderFactory.create(isDetailsMode = false) } returns tracingStateProvider
         every { tracingStateProvider.state } returns flowOf(mockk<LowRisk>())
 
-        every { personalTestRepository.coronaTests } returns emptyFlow()
+        every { coronaTestRepository.coronaTests } returns emptyFlow()
 
         coEvery { appConfigProvider.currentConfig } returns emptyFlow()
         coEvery { statisticsProvider.current } returns emptyFlow()
@@ -117,7 +117,7 @@ class HomeFragmentViewModelTest : BaseTest() {
         tracingStatus = generalTracingStatus,
         tracingRepository = tracingRepository,
         submissionRepository = submissionRepository,
-        personalTestRepository = personalTestRepository,
+        coronaTestRepository = coronaTestRepository,
         tracingStateProviderFactory = tracingStateProviderFactory,
         cwaSettings = cwaSettings,
         appConfigProvider = appConfigProvider,
@@ -176,7 +176,7 @@ class HomeFragmentViewModelTest : BaseTest() {
             this.homeItems.observeForTesting { }
             coVerify {
                 tracingStateProvider.state
-                personalTestRepository.coronaTests
+                coronaTestRepository.coronaTests
             }
         }
     }

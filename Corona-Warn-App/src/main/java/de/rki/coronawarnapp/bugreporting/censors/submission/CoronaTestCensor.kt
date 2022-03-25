@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @Reusable
 class CoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    personalTestRepository: PersonalTestRepository,
+    coronaTestRepository: CoronaTestRepository,
     contactDiaryRepository: ContactDiaryRepository
 ) : BugCensor {
 
@@ -33,7 +33,7 @@ class CoronaTestCensor @Inject constructor(
     init {
         listOf(
             contactDiaryRepository.testResults,
-            personalTestRepository.allCoronaTests
+            coronaTestRepository.allCoronaTests
         ).merge()
             .filterNotNull()
             .onEach { tests ->

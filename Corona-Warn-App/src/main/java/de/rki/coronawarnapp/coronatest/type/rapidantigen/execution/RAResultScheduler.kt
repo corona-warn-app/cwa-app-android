@@ -7,7 +7,7 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.type.common.ResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -29,7 +29,7 @@ import javax.inject.Singleton
 class RAResultScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
-    private val personalTestRepository: PersonalTestRepository,
+    private val coronaTestRepository: CoronaTestRepository,
 ) : ResultScheduler(
     workManager = workManager
 ) {
@@ -46,7 +46,7 @@ class RAResultScheduler @Inject constructor(
 
     fun setup() {
         Timber.tag(TAG).d("setup() - RAResultScheduler")
-        personalTestRepository.latestRAT
+        coronaTestRepository.latestRAT
             .map { test: RACoronaTest? ->
                 if (test == null) return@map false
                 !test.isRedeemed

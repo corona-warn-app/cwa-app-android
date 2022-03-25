@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testavailable
 
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
@@ -38,7 +38,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var personalTestRepository: PersonalTestRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var testType: BaseCoronaTest.Type
 

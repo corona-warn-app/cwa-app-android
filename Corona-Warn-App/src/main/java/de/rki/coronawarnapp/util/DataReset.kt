@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.contactdiary.storage.ContactDiaryPreferences
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
@@ -77,7 +77,7 @@ class DataReset @Inject constructor(
     private val checkInRepository: CheckInRepository,
     private val traceLocationSettings: TraceLocationSettings,
     private val traceWarningRepository: TraceWarningRepository,
-    private val personalTestRepository: PersonalTestRepository,
+    private val coronaTestRepository: CoronaTestRepository,
     private val ratProfileSettings: RATProfileSettingsDataStore,
     private val valueSetsRepository: ValueSetsRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
@@ -138,7 +138,7 @@ class DataReset @Inject constructor(
         traceWarningRepository.clear()
         traceLocationRepository.deleteAllTraceLocations()
         checkInRepository.clear()
-        personalTestRepository.clear()
+        coronaTestRepository.clear()
         ratProfileSettings.clear()
 
         valueSetsRepository.clear()

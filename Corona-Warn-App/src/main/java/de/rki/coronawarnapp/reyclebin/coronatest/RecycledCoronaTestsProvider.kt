@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.coronatest
 
 import dagger.Reusable
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -20,14 +20,14 @@ import javax.inject.Inject
 
 @Reusable
 class RecycledCoronaTestsProvider @Inject constructor(
-    private val personalTestRepository: PersonalTestRepository,
+    private val coronaTestRepository: CoronaTestRepository,
     private val familyTestRepository: FamilyTestRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
 ) {
 
     private val testsMaps: Flow<Map<TestIdentifier, BaseCoronaTest>> = combine(
-        personalTestRepository.recycledTests,
+        coronaTestRepository.recycledTests,
         familyTestRepository.recycledTests
     ) { personalTests, familyTests ->
         personalTests.plus(familyTests).associateBy { it.identifier }
@@ -49,7 +49,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
     suspend fun recycleCoronaTest(identifier: TestIdentifier) {
         Timber.tag(TAG).d("recycleCoronaTest(identifier=%s)", identifier)
         // Test is not yet in the recycled ones
-        personalTestRepository.recycleTest(identifier)
+        coronaTestRepository.recycleTest(identifier)
         familyTestRepository.recycleTest(identifier)
     }
 
@@ -58,7 +58,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
         when (findTest(identifier)) {
             is PersonalCoronaTest -> {
                 resetAnalytics(identifier)
-                personalTestRepository.restoreTest(identifier)
+                coronaTestRepository.restoreTest(identifier)
             }
             is FamilyCoronaTest -> familyTestRepository.restoreTest(identifier)
         }
@@ -68,7 +68,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
         try {
             Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
             when (findTest(identifier)) {
-                is PersonalCoronaTest -> personalTestRepository.removeTest(identifier)
+                is PersonalCoronaTest -> coronaTestRepository.removeTest(identifier)
                 is FamilyCoronaTest -> familyTestRepository.removeTest(identifier)
             }
         } catch (e: CoronaTestNotFoundException) {
@@ -83,7 +83,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     private suspend fun resetAnalytics(identifier: TestIdentifier) {
         Timber.tag(TAG).d("resetAnalytics(identifier=%s)", identifier)
-        personalTestRepository.recycledTests
+        coronaTestRepository.recycledTests
             .first().find { it.identifier == identifier }?.type
             ?.let {
                 analyticsKeySubmissionCollector.reset(it)

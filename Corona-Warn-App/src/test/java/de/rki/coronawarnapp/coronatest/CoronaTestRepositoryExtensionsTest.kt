@@ -15,9 +15,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-internal class PersonalTestRepositoryExtensionsTest : BaseTest() {
+internal class CoronaTestRepositoryExtensionsTest : BaseTest() {
 
-    @MockK lateinit var testRepository: PersonalTestRepository
+    @MockK lateinit var testRepository: CoronaTestRepository
 
     private val negativeRatTest = mockk<RACoronaTest> {
         every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN

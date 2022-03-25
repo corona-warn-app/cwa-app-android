@@ -30,7 +30,7 @@ import testhelpers.BaseTest
 import testhelpers.TestDispatcherProvider
 import testhelpers.coroutines.runBlockingTest2
 
-class PersonalTestRepositoryTest : BaseTest() {
+class CoronaTestRepositoryTest : BaseTest() {
     @MockK lateinit var storage: CoronaTestStorage
     @MockK lateinit var legacyMigration: PCRTestMigration
     @MockK lateinit var contactDiaryRepository: ContactDiaryRepository
@@ -100,7 +100,7 @@ class PersonalTestRepositoryTest : BaseTest() {
         }
     }
 
-    private fun createInstance(scope: CoroutineScope) = PersonalTestRepository(
+    private fun createInstance(scope: CoroutineScope) = CoronaTestRepository(
         appScope = scope,
         dispatcherProvider = TestDispatcherProvider(),
         storage = storage,

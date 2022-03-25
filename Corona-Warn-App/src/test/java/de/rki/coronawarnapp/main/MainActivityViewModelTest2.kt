@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.main
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -62,7 +62,7 @@ class MainActivityViewModelTest2 : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
-    @MockK lateinit var coronTestRepository: PersonalTestRepository
+    @MockK lateinit var coronTestRepository: CoronaTestRepository
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
@@ -112,7 +112,7 @@ class MainActivityViewModelTest2 : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         raExtractor = raExtractor,
         rPcrExtractor = rPcrExtractor,
-        personalTestRepository = coronTestRepository,
+        coronaTestRepository = coronTestRepository,
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
         coronaTestQRCodeHandler = coronaTestQRCodeHandler,

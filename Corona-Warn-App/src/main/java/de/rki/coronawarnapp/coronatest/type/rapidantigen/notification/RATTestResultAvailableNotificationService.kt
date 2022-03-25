@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.type.rapidantigen.notification
 
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
@@ -27,7 +27,7 @@ class RATTestResultAvailableNotificationService @Inject constructor(
     foregroundState: ForegroundState,
     navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
     private val notificationHelper: GeneralNotifications,
-    private val personalTestRepository: PersonalTestRepository,
+    private val coronaTestRepository: CoronaTestRepository,
     @AppScope private val appScope: CoroutineScope,
 ) : TestResultAvailableNotificationService(
     context,
@@ -41,10 +41,10 @@ class RATTestResultAvailableNotificationService @Inject constructor(
         Timber.tag(TAG).d("setup() - RATTestResultAvailableNotificationService")
 
         @Suppress("RedundantLambdaArrow")
-        personalTestRepository.latestRAT
+        coronaTestRepository.latestRAT
             .onEach { _ ->
                 // We want the flow to trigger us, but not work with outdated data due to queue processing
-                val test = personalTestRepository.latestRAT.first()
+                val test = coronaTestRepository.latestRAT.first()
                 Timber.tag(TAG).v("RA test change: %s", test)
 
                 if (test == null) {
@@ -62,7 +62,7 @@ class RATTestResultAvailableNotificationService @Inject constructor(
                         Timber.tag(TAG).d("Showing RA test result notification.")
                         showTestResultAvailableNotification(test)
                         try {
-                            personalTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
+                            coronaTestRepository.updateResultNotification(identifier = test.identifier, sent = true)
                         } catch (e: CoronaTestNotFoundException) {
                             Timber.tag(TAG).e(e, "updateResultNotification failed")
                         }

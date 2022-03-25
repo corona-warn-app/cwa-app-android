@@ -18,7 +18,7 @@ import de.rki.coronawarnapp.appconfig.devicetime.DeviceTimeHandler
 import de.rki.coronawarnapp.bugreporting.loghistory.LogHistoryTree
 import de.rki.coronawarnapp.ccl.configuration.update.CclConfigurationUpdateScheduler
 import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryWorkScheduler
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.notification.ShareTestResultNotificationService
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultScheduler
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
@@ -78,7 +78,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var notificationHelper: GeneralNotifications
     @Inject lateinit var deviceTimeHandler: DeviceTimeHandler
     @Inject lateinit var autoSubmission: AutoSubmission
-    @Inject lateinit var personalTestRepository: PersonalTestRepository
+    @Inject lateinit var coronaTestRepository: CoronaTestRepository
     @Inject lateinit var autoCheckOut: AutoCheckOut
     @Inject lateinit var traceLocationDbCleanupScheduler: TraceLocationDbCleanUpScheduler
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService

@@ -6,7 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -98,7 +98,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tracingStatus: GeneralTracingStatus,
     tracingStateProviderFactory: TracingStateProvider.Factory,
-    personalTestRepository: PersonalTestRepository,
+    coronaTestRepository: CoronaTestRepository,
     statisticsProvider: StatisticsProvider,
     localStatisticsProvider: LocalStatisticsProvider,
     networkStateProvider: NetworkStateProvider,
@@ -156,7 +156,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
-    val coronaTestErrors = personalTestRepository.testErrorsSingleEvent
+    val coronaTestErrors = coronaTestRepository.testErrorsSingleEvent
         .asLiveData(dispatcherProvider.Default)
 
     val showIncorrectDeviceTimeDialog by lazy {
@@ -174,11 +174,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    val markTestBadgesAsSeen = personalTestRepository.coronaTests
+    val markTestBadgesAsSeen = coronaTestRepository.coronaTests
         .onEach { tests ->
             tests.filter { !it.didShowBadge }
                 .forEach {
-                    personalTestRepository.markBadgeAsViewed(it.identifier)
+                    coronaTestRepository.markBadgeAsViewed(it.identifier)
                 }
         }.catch { Timber.tag(TAG).d(it, "Mark tests badges as seen failed") }
         .asLiveData2()
@@ -205,8 +205,8 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val homeItems: LiveData<List<HomeItem>> = combine(
         tracingCardItems,
-        personalTestRepository.latestPCRT,
-        personalTestRepository.latestRAT,
+        coronaTestRepository.latestPCRT,
+        coronaTestRepository.latestRAT,
         combinedStatistics,
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         familyTestRepository.familyTests

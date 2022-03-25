@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import de.rki.coronawarnapp.worker.BackgroundConstants
@@ -22,7 +22,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val timeStamper: TimeStamper,
-    private val personalTestRepository: PersonalTestRepository,
+    private val coronaTestRepository: CoronaTestRepository,
     private val noiseScheduler: NoiseScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
@@ -34,7 +34,7 @@ class BackgroundNoisePeriodicWorker @AssistedInject constructor(
 
         var result = Result.success()
         try {
-            val initialPairingDate = personalTestRepository.coronaTests.first().maxByOrNull {
+            val initialPairingDate = coronaTestRepository.coronaTests.first().maxByOrNull {
                 it.registeredAt
             }?.registeredAt ?: Instant.ofEpochMilli(0)
 

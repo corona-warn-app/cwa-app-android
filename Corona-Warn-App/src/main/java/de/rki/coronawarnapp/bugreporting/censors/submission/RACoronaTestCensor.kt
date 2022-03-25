@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class RACoronaTestCensor @Inject constructor(
     @DebuggerScope debugScope: CoroutineScope,
-    personalTestRepository: PersonalTestRepository
+    coronaTestRepository: CoronaTestRepository
 ) : BugCensor {
 
     private val mutex = Mutex()
@@ -28,7 +28,7 @@ class RACoronaTestCensor @Inject constructor(
     private val ratCoronaTestHistory = mutableSetOf<RACoronaTest>()
 
     init {
-        personalTestRepository
+        coronaTestRepository
             .allCoronaTests
             .map { it.filterIsInstance<RACoronaTest>() }
             .onEach { mutex.withLock { ratCoronaTestHistory.addAll(it) } }

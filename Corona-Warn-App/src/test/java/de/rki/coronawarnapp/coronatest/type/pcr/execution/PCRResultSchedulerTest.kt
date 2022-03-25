@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.type.pcr.execution
 
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import io.kotest.matchers.shouldBe
@@ -20,7 +20,7 @@ import testhelpers.BaseTest
 class PCRResultSchedulerTest : BaseTest() {
 
     @MockK lateinit var workManager: WorkManager
-    @MockK lateinit var personalTestRepository: PersonalTestRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
 
     @BeforeEach
     fun setup() {
@@ -31,13 +31,13 @@ class PCRResultSchedulerTest : BaseTest() {
 
     private fun createInstance() = PCRResultScheduler(
         appScope = TestCoroutineScope(),
-        personalTestRepository = personalTestRepository,
+        personalTestRepository = coronaTestRepository,
         workManager = workManager
     )
 
     @Test
     fun `final worker doesn't need to be scheduled`() {
-        every { personalTestRepository.coronaTests } returns flowOf(
+        every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<PCRCoronaTest>().apply {
                     every { isRedeemed } returns true
@@ -53,7 +53,7 @@ class PCRResultSchedulerTest : BaseTest() {
 
     @Test
     fun `not final worker needs to be scheduled`() {
-        every { personalTestRepository.coronaTests } returns flowOf(
+        every { coronaTestRepository.coronaTests } returns flowOf(
             setOf(
                 mockk<PCRCoronaTest>().apply {
                     every { isRedeemed } returns false
@@ -69,7 +69,7 @@ class PCRResultSchedulerTest : BaseTest() {
 
     @Test
     fun `no worker needed without test`() {
-        every { personalTestRepository.coronaTests } returns flowOf(emptySet())
+        every { coronaTestRepository.coronaTests } returns flowOf(emptySet())
 
         runBlockingTest {
             createInstance().shouldBePolling.first() shouldBe false

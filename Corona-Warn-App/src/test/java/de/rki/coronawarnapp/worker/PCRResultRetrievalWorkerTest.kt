@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkRequest
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
@@ -44,7 +44,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     @MockK lateinit var encryptedPreferencesFactory: EncryptedPreferencesFactory
     @MockK lateinit var encryptionErrorResetTool: EncryptionErrorResetTool
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var personalTestRepository: PersonalTestRepository
+    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var testResultScheduler: PCRResultScheduler
 
     @RelaxedMockK lateinit var workerParams: WorkerParameters
@@ -67,7 +67,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
 
         every { notificationHelper.cancelCurrentNotification(any()) } just Runs
 
-        personalTestRepository.apply {
+        coronaTestRepository.apply {
             every { coronaTests } answers { coronaTestFlow }
             coEvery { refresh(any()) } coAnswers { coronaTestFlow.first() }
             coEvery { updateResultNotification(identifier = any(), sent = any()) } just Runs
@@ -94,7 +94,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     private fun createWorker() = PCRResultRetrievalWorker(
         context = context,
         workerParams = workerParams,
-        personalTestRepository = personalTestRepository,
+        personalTestRepository = coronaTestRepository,
     )
 
     @Test
@@ -103,18 +103,18 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
 
         val result = createWorker().doWork()
 
-        coVerify(exactly = 1) { personalTestRepository.refresh(type = BaseCoronaTest.Type.PCR) }
+        coVerify(exactly = 1) { coronaTestRepository.refresh(type = BaseCoronaTest.Type.PCR) }
         result shouldBe ListenableWorker.Result.success()
     }
 
     @Test
     fun testRetryWhenExceptionIsThrown() = runBlockingTest {
         coronaTestFlow.value = setOf(newCoronaTest())
-        coEvery { personalTestRepository.refresh(any()) } throws Exception()
+        coEvery { coronaTestRepository.refresh(any()) } throws Exception()
 
         val result = createWorker().doWork()
 
-        coVerify(exactly = 1) { personalTestRepository.refresh(type = BaseCoronaTest.Type.PCR) }
+        coVerify(exactly = 1) { coronaTestRepository.refresh(type = BaseCoronaTest.Type.PCR) }
         result shouldBe ListenableWorker.Result.retry()
     }
 }

@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.risk
 
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.coronatest.PersonalTestRepository
+import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -30,7 +30,7 @@ import java.util.stream.Stream
 internal class RiskCardDisplayInfoTest : BaseTest() {
 
     @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var testRepository: PersonalTestRepository
+    @MockK lateinit var testRepository: CoronaTestRepository
     @MockK lateinit var timeStamper: TimeStamper
 
     @BeforeEach
