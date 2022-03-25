@@ -85,21 +85,28 @@ class FamilyTestRepository @Inject constructor(
         storage.delete(test)
     }
 
-    suspend fun refresh(forceRefresh: Boolean = false) {
-        val refreshed = familyTests.first().map { familyTest ->
-            val oldState = familyTest.coronaTest.state
-            val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
-            val newState = updatedTest.state
+    suspend fun refresh(forceUpdate: Boolean = false) {
+        val refreshed = familyTests.first()
+            .filterNot { // Filter tests that don't require polling to avoid saving redundantly
+                it.coronaTest.isPollingStopped(forceUpdate)
+            }
+            .map { oldFamilyTest ->
+                val updatedCoronaTest = processor.pollServer(oldFamilyTest.coronaTest)
+                val hasResultChangeBadge = testHasInterestingResultChange(
+                    oldState = oldFamilyTest.coronaTest.state,
+                    newState = updatedCoronaTest.state
+                )
 
-            FamilyCoronaTest(
-                familyTest.personName,
-                updatedTest.copy(
-                    uiState = updatedTest.uiState.copy(
-                        hasResultChangeBadge = testHasInterestingResultChange(oldState, newState)
+                FamilyCoronaTest(
+                    oldFamilyTest.personName,
+                    updatedCoronaTest.copy(
+                        uiState = updatedCoronaTest.uiState.copy(
+                            hasResultChangeBadge = hasResultChangeBadge,
+                            isResultAvailableNotificationSent = hasResultChangeBadge
+                        )
                     )
                 )
-            )
-        }
+            }
 
         refreshed.forEach {
             storage.update(it)
