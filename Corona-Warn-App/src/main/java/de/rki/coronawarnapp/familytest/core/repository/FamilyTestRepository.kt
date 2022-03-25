@@ -13,6 +13,7 @@ import de.rki.coronawarnapp.familytest.core.model.recycle
 import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
+import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.util.TimeStamper
@@ -50,6 +51,29 @@ class FamilyTestRepository @Inject constructor(
         return test
     }
 
+    suspend fun refresh(forceRefresh: Boolean = false) {
+        familyTests.first().map {
+            if (it.coronaTest.isPollingStopped(forceRefresh, timeStamper.nowUTC)) null
+            else {
+                val updateResult = processor.pollServer(it.coronaTest, forceRefresh) ?: return@map null
+                storage.update(it.identifier) { test ->
+                    val coronaTest = test.coronaTest.updateTestResult(
+                        updateResult.coronaTestResult
+                    ).let { updated ->
+                        updateResult.labId?.let { labId ->
+                            updated.updateLabId(labId)
+                        } ?: updated
+                    }.let { updated ->
+                        updateResult.sampleCollectedAt?.let { collectedAt ->
+                            updated.updateSampleCollectedAt(collectedAt)
+                        } ?: updated
+                    }
+                    test.copy(coronaTest = coronaTest)
+                }
+            }
+        }
+    }
+
     suspend fun restoreTest(
         identifier: TestIdentifier
     ) {
@@ -71,22 +95,6 @@ class FamilyTestRepository @Inject constructor(
     ) {
         val test = getTest(identifier) ?: return
         storage.delete(test)
-    }
-
-    suspend fun refresh(forceRefresh: Boolean = false) {
-        familyTests.first().map {
-            if (it.coronaTest.isPollingStopped(forceRefresh, timeStamper.nowUTC)) null
-            else {
-                val updateResult = processor.pollServer(it.coronaTest, forceRefresh) ?: return@map null
-                storage.update(it.identifier) { test ->
-                    val coronaTest = test.coronaTest.updateTestResult(updateResult.coronaTestResult).let { updated ->
-                        updateResult.labId?.let { labId -> updated.updateLabId(labId) } ?: updated
-                    }
-                    test.copy(
-                        coronaTest = coronaTest)
-                }
-            }
-        }
     }
 
     suspend fun markViewed(
@@ -145,4 +153,3 @@ private val finalStates = setOf(
 )
 
 private val redeemedStates = setOf(CoronaTestResult.PCR_OR_RAT_REDEEMED, CoronaTestResult.RAT_REDEEMED)
-

@@ -113,6 +113,9 @@ data class CoronaTest(
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
+        @SerializedName("createdAt")
+        val createdAt: Instant,
+
         @SerializedName("firstName")
         val firstName: String? = null,
 
@@ -121,9 +124,6 @@ data class CoronaTest(
 
         @SerializedName("dateOfBirth")
         val dateOfBirth: LocalDate? = null,
-
-        @SerializedName("createdAt")
-        val createdAt: Instant,
 
         @SerializedName("sampleCollectedAt")
         val sampleCollectedAt: Instant? = null,
@@ -160,4 +160,11 @@ fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
 
 fun CoronaTest.updateLabId(labId: String): CoronaTest {
     return copy(labId = labId)
+}
+
+fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
+    val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
+        // shouldn't occur, but if it does, sampleCollectedAt should be the best guess on when the test has been created
+        ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
+    return copy(additionalInfo = additionalInfo)
 }

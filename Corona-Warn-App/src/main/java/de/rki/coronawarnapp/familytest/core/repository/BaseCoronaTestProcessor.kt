@@ -47,8 +47,8 @@ class BaseCoronaTestProcessor @Inject constructor(
             firstName = qrCode.firstName,
             lastName = qrCode.lastName,
             dateOfBirth = qrCode.dateOfBirth,
-            createdAt = qrCode.createdAt,
             sampleCollectedAt = registrationData.testResultResponse.sampleCollectedAt,
+            createdAt = qrCode.createdAt,
         ) else null
 
         return CoronaTest(
