@@ -178,9 +178,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
         coronaTestRepository.coronaTests,
         familyTestRepository.familyTests
     ) { personalTests, familyTests ->
-        personalTests
-            .plus(familyTests)
+        personalTests.plus(familyTests)
             .filter { it.hasBadge }
+            .also { Timber.tag(TAG).d("Dismissing badges for %s tests", it.size) }
             .forEach {
                 coronaTestRepository.markBadgeAsViewed(it.identifier)
             }
