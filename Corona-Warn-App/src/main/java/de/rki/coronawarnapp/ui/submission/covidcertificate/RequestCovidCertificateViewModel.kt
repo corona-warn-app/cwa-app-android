@@ -52,7 +52,7 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         if (testRegistrationRequest.isFamilyTest) {
             requireNotNull(personName) { "Family test should have a person name" }
             registrationStateProcessor.startFamilyTestRegistration(
-                request = testRegistrationRequest,
+                request = testRegistrationRequest as CoronaTestQRCode,
                 personName = personName,
             )
         } else {

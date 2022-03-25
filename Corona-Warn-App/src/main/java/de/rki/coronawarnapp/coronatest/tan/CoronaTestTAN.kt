@@ -2,14 +2,14 @@ package de.rki.coronawarnapp.coronatest.tan
 
 import android.os.Parcelable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.joda.time.LocalDate
 
 sealed class CoronaTestTAN : Parcelable, TestRegistrationRequest {
 
-    abstract override val type: CoronaTest.Type
+    abstract override val type: BaseCoronaTest.Type
     abstract val tan: TestTAN
 
     @IgnoredOnParcel
@@ -22,7 +22,7 @@ sealed class CoronaTestTAN : Parcelable, TestRegistrationRequest {
     ) : CoronaTestTAN() {
 
         @IgnoredOnParcel
-        override val type: CoronaTest.Type = CoronaTest.Type.PCR
+        override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.PCR
 
         @IgnoredOnParcel
         override val isDccSupportedByPoc: Boolean = false

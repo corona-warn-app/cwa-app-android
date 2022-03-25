@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.coronatest.errors
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 
 class AlreadyRedeemedException(
-    coronaTest: CoronaTest
+    coronaTest: BaseCoronaTest
 ) : IllegalArgumentException("Test was already redeemed ${coronaTest.identifier}")

@@ -8,7 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -33,7 +33,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val submissionRepository: SubmissionRepository,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
-    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testType: BaseCoronaTest.Type,
     @Assisted private val testIdentifier: TestIdentifier,
     @Assisted private val initialUpdate: Boolean
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -158,7 +158,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultPendingViewModel> {
         fun create(
-            testType: CoronaTest.Type,
+            testType: BaseCoronaTest.Type,
             testIdentifier: TestIdentifier,
             initialUpdate: Boolean
         ): SubmissionTestResultPendingViewModel

@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -18,7 +18,7 @@ import timber.log.Timber
 class SubmissionResultReadyViewModel @AssistedInject constructor(
     private val autoSubmission: AutoSubmission,
     dispatcherProvider: DispatcherProvider,
-    @Assisted val testType: CoronaTest.Type,
+    @Assisted val testType: BaseCoronaTest.Type,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     private val mediatorShowUploadDialog = MediatorLiveData<Boolean>()
@@ -61,6 +61,6 @@ class SubmissionResultReadyViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultReadyViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionResultReadyViewModel
+        fun create(testType: BaseCoronaTest.Type): SubmissionResultReadyViewModel
     }
 }

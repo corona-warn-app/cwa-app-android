@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.yourconsent
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.Country
@@ -27,12 +28,12 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
-    @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var testType: BaseCoronaTest.Type
 
     private val countryList = Country.values().toList()
 
     private val coronaTestFlow = MutableStateFlow(
-        mockk<CoronaTest>().apply {
+        mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
     )
@@ -71,7 +72,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @Test
     fun `consent removed`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
 
@@ -81,7 +82,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @Test
     fun `consent given`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 
@@ -91,7 +92,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
 
     @Test
     fun `consent repository changed`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 
@@ -100,7 +101,7 @@ class SubmissionYourConsentViewModelTest : BaseTest() {
         viewModel.consent.observeForever { }
         viewModel.consent.value shouldBe false
 
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
         viewModel.consent.value shouldBe true

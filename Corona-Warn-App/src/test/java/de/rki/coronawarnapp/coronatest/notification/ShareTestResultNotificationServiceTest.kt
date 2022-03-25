@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.coronatest.notification
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
@@ -29,7 +29,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     @MockK lateinit var shareTestResultNotification: ShareTestResultNotification
 
     private val coronaTestFlow = MutableStateFlow(
-        emptySet<CoronaTest>()
+        emptySet<PersonalCoronaTest>()
     )
     private var numberOfRemainingSharePositiveTestResultRemindersPcr: Int = Int.MIN_VALUE
     private var numberOfRemainingSharePositiveTestResultRemindersRat: Int = Int.MIN_VALUE
@@ -82,14 +82,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         val instance = createInstance(this)
 
         coronaTestFlow.value = setOf(
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { identifier } returns "PCR-ID"
                 every { type } returns PCR
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
                 every { isViewed } returns true
             },
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { identifier } returns "RAT-ID"
                 every { type } returns RAPID_ANTIGEN
                 every { isSubmissionAllowed } returns true
@@ -125,14 +125,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             val instance = createInstance(this)
 
             coronaTestFlow.value = setOf(
-                mockk<CoronaTest>().apply {
+                mockk<PersonalCoronaTest>().apply {
                     every { identifier } returns "PCR-ID"
                     every { type } returns PCR
                     every { isSubmissionAllowed } returns true
                     every { isSubmitted } returns false
                     every { isViewed } returns false
                 },
-                mockk<CoronaTest>().apply {
+                mockk<PersonalCoronaTest>().apply {
                     every { identifier } returns "RAT-ID"
                     every { type } returns RAPID_ANTIGEN
                     every { isSubmissionAllowed } returns true

@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
@@ -21,6 +21,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
@@ -87,6 +88,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -116,7 +118,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val familyTestRepository: FamilyTestRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private var isLoweredRiskLevelDialogBeingShown = false
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
     private val tracingCardItems = tracingStateProvider.state.map { tracingStateItem(it) }.distinctUntilChanged()
 
@@ -127,11 +128,26 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings
             .isUserToBeNotifiedOfAdditionalHighRiskLevel
             .flow
+            .distinctUntilChanged()
             .filter { it }
             .onEach {
                 events.postValue(
                     HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
-                        maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
+                    )
+                )
+            }
+            .launchInViewModel()
+
+        tracingSettings
+            .isUserToBeNotifiedOfLoweredRiskLevel
+            .flow
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                events.postValue(
+                    HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
             }
@@ -251,7 +267,12 @@ class HomeFragmentViewModel @AssistedInject constructor(
             // Family tests tile
             if (familyTests.isNotEmpty()) {
                 val badgeCount = familyTests.count { !it.didShowBadge }
-                // TBD family tests tile
+                add(
+                    FamilyTestCard.Item(
+                        badgeCount = badgeCount,
+                        onCLickAction = { events.postValue(HomeFragmentEvents.GoToFamilyTests) }
+                    )
+                )
             }
 
             if (statsData.isDataAvailable) {
@@ -297,21 +318,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
 
-    // TODO only lazy to keep tests going which would break because of LocalData access
-    val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        tracingSettings
-            .isUserToBeNotifiedOfLoweredRiskLevel
-            .flow
-            .map { shouldBeNotified ->
-                val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
-                if (shouldBeShown) {
-                    isLoweredRiskLevelDialogBeingShown = true
-                }
-                shouldBeShown
-            }
-            .asLiveData(context = dispatcherProvider.Default)
-    }
-
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }
@@ -343,7 +349,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
-        isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
     }
 

@@ -19,7 +19,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
@@ -98,7 +98,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
-        viewModel.showLoweredRiskLevelDialog.observe2(this) { if (it) showRiskLevelLoweredDialog() }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
@@ -106,8 +105,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             tests.forEach { test ->
                 test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
                     val testName = when (test.type) {
-                        CoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                        CoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
                     }
                     setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                 }?.show()
@@ -178,11 +177,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
     }
 
-    private fun showRiskLevelLoweredDialog() {
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) {
         val riskLevelLoweredDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
             title = R.string.risk_lowered_dialog_headline,
-            message = R.string.risk_lowered_dialog_body,
+            message = getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays),
             positiveButton = R.string.risk_lowered_dialog_button_confirm,
             negativeButton = null,
             cancelable = false,
@@ -216,6 +215,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             }
             is HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent -> {
                 showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
+            }
+            is HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent -> {
+                showRiskLevelLoweredDialog(event.maxEncounterAgeInDays)
             }
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
@@ -270,6 +272,9 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
+            is HomeFragmentEvents.GoToFamilyTests -> doNavigate(
+                HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()
+            )
         }
     }
 

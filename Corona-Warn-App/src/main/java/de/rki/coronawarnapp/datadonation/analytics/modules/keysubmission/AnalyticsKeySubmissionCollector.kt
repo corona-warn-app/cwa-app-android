@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.common.calculateDaysSinceMostRecentDateAtRiskLevelAtTestRegistration
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighEwRiskBefore
 import de.rki.coronawarnapp.datadonation.analytics.common.getLastChangeToHighPtRiskBefore
@@ -24,16 +24,18 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     private val riskLevelStorage: RiskLevelStorage,
 ) {
 
-    fun reset(type: CoronaTest.Type) {
+    fun reset(type: BaseCoronaTest.Type) {
         type.storage.clear()
     }
 
-    fun reportPositiveTestResultReceived(type: CoronaTest.Type) {
+    fun reportPositiveTestResultReceived(type: BaseCoronaTest.Type) {
         if (disabled) return
+        // do not overwrite once set
+        if (type.storage.testResultReceivedAt.value > 0) return
         type.storage.testResultReceivedAt.update { timeStamper.nowUTC.millis }
     }
 
-    suspend fun reportTestRegistered(type: CoronaTest.Type) {
+    suspend fun reportTestRegistered(type: BaseCoronaTest.Type) {
         if (disabled) return
 
         val testRegisteredAt = timeStamper.nowUTC
@@ -89,38 +91,38 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         }
     }
 
-    fun reportSubmitted(type: CoronaTest.Type) {
+    fun reportSubmitted(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submitted.update { true }
         type.storage.submittedAt.update { timeStamper.nowUTC.millis }
     }
 
-    fun reportSubmittedInBackground(type: CoronaTest.Type) {
+    fun reportSubmittedInBackground(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submittedInBackground.update { true }
     }
 
-    fun reportSubmittedAfterCancel(type: CoronaTest.Type) {
+    fun reportSubmittedAfterCancel(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submittedAfterCancel.update { true }
     }
 
-    fun reportSubmittedAfterSymptomFlow(type: CoronaTest.Type) {
+    fun reportSubmittedAfterSymptomFlow(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submittedAfterSymptomFlow.update { true }
     }
 
-    fun reportLastSubmissionFlowScreen(screen: Screen, type: CoronaTest.Type) {
+    fun reportLastSubmissionFlowScreen(screen: Screen, type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.lastSubmissionFlowScreen.update { screen.code }
     }
 
-    fun reportAdvancedConsentGiven(type: CoronaTest.Type) {
+    fun reportAdvancedConsentGiven(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.advancedConsentGiven.update { true }
     }
 
-    fun reportConsentWithdrawn(type: CoronaTest.Type) {
+    fun reportConsentWithdrawn(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.advancedConsentGiven.update { false }
     }
@@ -130,7 +132,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
         pcrStorage.registeredWithTeleTAN.update { true }
     }
 
-    fun reportSubmittedWithCheckIns(type: CoronaTest.Type) {
+    fun reportSubmittedWithCheckIns(type: BaseCoronaTest.Type) {
         if (disabled) return
         type.storage.submittedWithCheckIns.update { true }
     }
@@ -138,7 +140,7 @@ class AnalyticsKeySubmissionCollector @Inject constructor(
     private val disabled: Boolean
         get() = !analyticsSettings.analyticsEnabled.value
 
-    private val CoronaTest.Type.storage: AnalyticsKeySubmissionStorage
+    private val BaseCoronaTest.Type.storage: AnalyticsKeySubmissionStorage
         get() = when (this) {
             PCR -> pcrStorage
             RAPID_ANTIGEN -> raStorage

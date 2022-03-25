@@ -6,7 +6,8 @@ import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
@@ -37,7 +38,7 @@ class CoronaTestRepositoryTest : BaseTest() {
     @MockK lateinit var pcrProcessor: PCRTestProcessor
     @MockK lateinit var raProcessor: RATestProcessor
 
-    private var coronaTestsInStorage = mutableSetOf<CoronaTest>()
+    private var coronaTestsInStorage = mutableSetOf<PersonalCoronaTest>()
 
     private val pcrRegistrationRequest = CoronaTestQRCode.PCR(
         qrCodeGUID = "pcr-guid",
@@ -89,13 +90,13 @@ class CoronaTestRepositoryTest : BaseTest() {
         pcrProcessor.apply {
             coEvery { create(pcrRegistrationRequest) } returns pcrTest
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<PCRCoronaTest>(0) }
-            every { type } returns CoronaTest.Type.PCR
+            every { type } returns BaseCoronaTest.Type.PCR
         }
 
         raProcessor.apply {
             coEvery { create(raRegistrationRequest) } returns raTest
             coEvery { updateSubmissionConsent(any(), any()) } answers { arg<RACoronaTest>(0) }
-            every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+            every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         }
     }
 
