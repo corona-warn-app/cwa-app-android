@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.joda.time.Instant
 import timber.log.Timber
@@ -20,7 +21,7 @@ class CclConfigurationUpdater @Inject constructor(
     private val cclSettings: CclSettings,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val cclConfigurationRepository: CclConfigurationRepository,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
+    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
 ) {
 
     suspend fun updateIfRequired() {
@@ -65,24 +66,11 @@ class CclConfigurationUpdater @Inject constructor(
             val boosterRulesDeferred = async { boosterRulesRepository.update() }
             val cclConfigDeferred = async { cclConfigurationRepository.updateCclConfiguration() }
 
-            val boosterRulesResult = boosterRulesDeferred.await()
-            val cclConfigResult = cclConfigDeferred.await()
+            val updateResults = awaitAll(boosterRulesDeferred, cclConfigDeferred)
 
-            updateExecutionTimeOnSuccess(boosterRulesResult, cclConfigResult)
+            if (updateResults.none { it == UpdateResult.FAIL }) cclSettings.setExecutionTimeToNow()
 
-            val newBoosterRules = (boosterRulesResult == UpdateResult.UPDATE)
-            val newCclConfig = (cclConfigResult == UpdateResult.UPDATE)
-
-            return@coroutineScope newBoosterRules || newCclConfig
-        }
-    }
-
-    private fun updateExecutionTimeOnSuccess(
-        boosterRulesUpdateResult: UpdateResult,
-        cclConfigUpdateResult: UpdateResult
-    ) {
-        if (boosterRulesUpdateResult != UpdateResult.FAIL && cclConfigUpdateResult != UpdateResult.FAIL) {
-            cclSettings.setExecutionTimeToNow()
+            return@coroutineScope updateResults.any { it == UpdateResult.UPDATE }
         }
     }
 }
