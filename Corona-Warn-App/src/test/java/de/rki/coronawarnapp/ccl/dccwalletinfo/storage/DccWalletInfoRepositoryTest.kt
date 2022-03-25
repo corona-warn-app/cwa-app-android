@@ -20,6 +20,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
 
 internal class DccWalletInfoRepositoryTest : BaseTest() {
 
@@ -72,5 +73,9 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
         }
     }
 
-    fun repo(scope: CoroutineScope) = DccWalletInfoRepository(dao, scope)
+    fun repo(scope: CoroutineScope) = DccWalletInfoRepository(
+        dispatcherProvider = TestDispatcherProvider(),
+        dccWalletInfoDao = dao,
+        appScope = scope
+    )
 }
