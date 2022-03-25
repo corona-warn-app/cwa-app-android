@@ -11,6 +11,8 @@ import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,7 +28,9 @@ class CclConfigurationUpdater @Inject constructor(
     private val dccValidationRepository: DccValidationRepository
 ) {
 
-    suspend fun updateIfRequired() {
+    private val mutex = Mutex()
+
+    suspend fun updateIfRequired() = mutex.withLock {
         Timber.d("update()")
 
         if (isUpdateRequired()) {
