@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.common.TestResultAvailableNotificationService
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationConstants
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
@@ -84,8 +85,7 @@ class PCRTestResultAvailableNotificationService @Inject constructor(
         private val INTERESTING_STATES = setOf(
             CoronaTestResult.PCR_NEGATIVE,
             CoronaTestResult.PCR_POSITIVE,
-            CoronaTestResult.PCR_INVALID,
         )
-        private val TAG = PCRTestResultAvailableNotificationService::class.java.simpleName
+        private val TAG = tag<PCRTestResultAvailableNotificationService>()
     }
 }

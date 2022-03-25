@@ -11,92 +11,92 @@ internal class FamilyTestRepositoryKtTest : BaseTest() {
 
     @Test
     fun `Validate testHasResultInterestingChange`() {
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.INVALID,
             newState = CoronaTest.State.INVALID
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.PENDING
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.NEGATIVE,
             newState = CoronaTest.State.NEGATIVE
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.POSITIVE,
             newState = CoronaTest.State.POSITIVE
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.RECYCLED,
             newState = CoronaTest.State.RECYCLED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.REDEEMED,
             newState = CoronaTest.State.REDEEMED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.REDEEMED,
             newState = CoronaTest.State.REDEEMED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.POSITIVE
         ) shouldBe true
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.NEGATIVE
         ) shouldBe true
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.INVALID
-        ) shouldBe true
+        ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.REDEEMED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.RECYCLED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.NEGATIVE,
             newState = CoronaTest.State.RECYCLED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.POSITIVE,
             newState = CoronaTest.State.RECYCLED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.POSITIVE,
             newState = CoronaTest.State.INVALID
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.NEGATIVE,
             newState = CoronaTest.State.REDEEMED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.POSITIVE,
             newState = CoronaTest.State.REDEEMED
         ) shouldBe false
 
-        testHasResultInterestingChange(
+        testHasInterestingResultChange(
             oldState = CoronaTest.State.NEGATIVE,
             newState = CoronaTest.State.INVALID
         ) shouldBe false

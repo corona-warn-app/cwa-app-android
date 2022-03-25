@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.familytest.core.repository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest.State
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
@@ -86,20 +87,23 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun refresh(forceRefresh: Boolean = false) {
-        val refreshed = familyTests.first().map { familyTest ->
-            val oldState = familyTest.coronaTest.state
-            val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
-            val newState = updatedTest.state
+        val refreshed = familyTests.first()
+            .filterNot {
+                it.coronaTest.state in setOf(State.REDEEMED, State.POSITIVE, State.NEGATIVE)
+            }.map { familyTest ->
+                val oldState = familyTest.coronaTest.state
+                val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
+                val newState = updatedTest.state
 
-            FamilyCoronaTest(
-                familyTest.personName,
-                updatedTest.copy(
-                    uiState = updatedTest.uiState.copy(
-                        hasResultChangeBadge = testHasResultInterestingChange(oldState, newState)
+                FamilyCoronaTest(
+                    familyTest.personName,
+                    updatedTest.copy(
+                        uiState = updatedTest.uiState.copy(
+                            hasResultChangeBadge = testHasInterestingResultChange(oldState, newState)
+                        )
                     )
                 )
-            )
-        }
+            }
 
         refreshed.forEach {
             storage.update(it)
@@ -151,14 +155,13 @@ class FamilyTestRepository @Inject constructor(
     }
 }
 
-fun testHasResultInterestingChange(
-    oldState: CoronaTest.State,
-    newState: CoronaTest.State
+fun testHasInterestingResultChange(
+    oldState: State,
+    newState: State
 ): Boolean {
     Timber.tag("FamilyTestRepository").d("oldState=%s newState=%s", oldState, newState)
-    return oldState == CoronaTest.State.PENDING && newState in setOf(
-        CoronaTest.State.POSITIVE,
-        CoronaTest.State.NEGATIVE,
-        CoronaTest.State.INVALID,
+    return oldState == State.PENDING && newState in setOf(
+        State.POSITIVE,
+        State.NEGATIVE
     )
 }
