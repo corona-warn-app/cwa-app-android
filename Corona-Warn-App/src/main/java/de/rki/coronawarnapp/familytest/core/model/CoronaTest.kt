@@ -115,7 +115,7 @@ data class CoronaTest(
         @SerializedName("hasResultChangeBadge")
         override val hasResultChangeBadge: Boolean = false,
 
-        ) : CoronaTestUiState
+    ) : CoronaTestUiState
 
     data class AdditionalInfo(
         @SerializedName("firstName")
