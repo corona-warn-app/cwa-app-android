@@ -143,7 +143,6 @@ class MainActivityViewModelTest2 : BaseTest() {
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
         every { familyTestRepository.familyTests } returns flowOf(setOf(familyCoronaTest))
 
-
         createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 3
     }
 
