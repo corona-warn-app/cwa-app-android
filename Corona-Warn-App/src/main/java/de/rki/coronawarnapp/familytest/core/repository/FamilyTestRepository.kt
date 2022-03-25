@@ -87,23 +87,20 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun refresh(forceRefresh: Boolean = false) {
-        val refreshed = familyTests.first()
-            .filterNot {
-                it.coronaTest.state in setOf(State.REDEEMED, State.POSITIVE, State.NEGATIVE)
-            }.map { familyTest ->
-                val oldState = familyTest.coronaTest.state
-                val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
-                val newState = updatedTest.state
+        val refreshed = familyTests.first().map { familyTest ->
+            val oldState = familyTest.coronaTest.state
+            val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
+            val newState = updatedTest.state
 
-                FamilyCoronaTest(
-                    familyTest.personName,
-                    updatedTest.copy(
-                        uiState = updatedTest.uiState.copy(
-                            hasResultChangeBadge = testHasInterestingResultChange(oldState, newState)
-                        )
+            FamilyCoronaTest(
+                familyTest.personName,
+                updatedTest.copy(
+                    uiState = updatedTest.uiState.copy(
+                        hasResultChangeBadge = testHasInterestingResultChange(oldState, newState)
                     )
                 )
-            }
+            )
+        }
 
         refreshed.forEach {
             storage.update(it)
@@ -160,8 +157,10 @@ fun testHasInterestingResultChange(
     newState: State
 ): Boolean {
     Timber.tag("FamilyTestRepository").d("oldState=%s newState=%s", oldState, newState)
-    return oldState == State.PENDING && newState in setOf(
+    val states = setOf(
         State.POSITIVE,
         State.NEGATIVE
     )
+    // Old state was not POS or NEG
+    return oldState !in states && newState in states
 }
