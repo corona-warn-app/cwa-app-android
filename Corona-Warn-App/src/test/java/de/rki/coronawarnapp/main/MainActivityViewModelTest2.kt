@@ -3,9 +3,11 @@ package de.rki.coronawarnapp.main
 import de.rki.coronawarnapp.contactdiary.ui.ContactDiarySettings
 import de.rki.coronawarnapp.contactdiary.util.getLocale
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
@@ -13,15 +15,20 @@ import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreHandler
+import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.MainActivityViewModel
 import de.rki.coronawarnapp.util.CWADebug
 import de.rki.coronawarnapp.util.device.BackgroundModeStatus
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
@@ -32,6 +39,7 @@ import io.mockk.spyk
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -54,10 +62,11 @@ class MainActivityViewModelTest2 : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var covidCertificateSettings: CovidCertificateSettings
     @MockK lateinit var personCertificatesProvider: PersonCertificatesProvider
-    @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var coronTestRepository: CoronaTestRepository
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var tracingSettings: TracingSettings
+    @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
+    @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
     private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
@@ -77,7 +86,6 @@ class MainActivityViewModelTest2 : BaseTest() {
         )
         every { onboardingSettings.isBackgroundCheckDone } returns true
         every { checkInRepository.checkInsWithinRetention } returns MutableStateFlow(listOf())
-        every { submissionRepository.testForType(any()) } returns flowOf()
         every { coronTestRepository.coronaTests } returns flowOf()
         every { valueSetsRepository.context } returns mockk()
         every { valueSetsRepository.context.getLocale() } returns Locale.GERMAN
@@ -104,10 +112,11 @@ class MainActivityViewModelTest2 : BaseTest() {
         personCertificatesProvider = personCertificatesProvider,
         raExtractor = raExtractor,
         rPcrExtractor = rPcrExtractor,
-        submissionRepository = submissionRepository,
         coronaTestRepository = coronTestRepository,
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
+        coronaTestQRCodeHandler = coronaTestQRCodeHandler,
+        coronaTestRestoreHandler = coronaTestRestoreHandler
     )
 
     @Test
@@ -143,5 +152,84 @@ class MainActivityViewModelTest2 : BaseTest() {
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 
         createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 0
+    }
+
+    @Test
+    fun `onNavigationUri - R-PCR test uri string`() {
+        val coronaTestQrCode = CoronaTestQRCode.RapidPCR(
+            rawQrCode = "rawQrCode",
+            hash = "hash",
+            createdAt = Instant.EPOCH
+        )
+        val uriString = "R-PCR uri string"
+        val result = CoronaTestQRCodeHandler.TestRegistrationSelection(coronaTestQrCode)
+
+        coEvery { rPcrExtractor.canHandle(uriString) } returns true
+        coEvery { rPcrExtractor.extract(uriString) } returns coronaTestQrCode
+        coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode) } returns result
+
+        with(createInstance()) {
+            onNavigationUri(uriString)
+
+            coronaTestResult.getOrAwaitValue() shouldBe result
+        }
+
+        coVerify {
+            coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode)
+        }
+    }
+
+    @Test
+    fun `onNavigationUri - RAT test uri string`() {
+        val coronaTestQrCode = CoronaTestQRCode.RapidAntigen(
+            rawQrCode = "rawQrCode",
+            hash = "hash",
+            createdAt = Instant.EPOCH
+        )
+        val uriString = "RAT uri string"
+        val result = CoronaTestQRCodeHandler.TestRegistrationSelection(coronaTestQrCode)
+
+        coEvery { raExtractor.canHandle(uriString) } returns true
+        coEvery { raExtractor.extract(uriString) } returns coronaTestQrCode
+        coEvery { coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode) } returns result
+
+        with(createInstance()) {
+            onNavigationUri(uriString)
+
+            coronaTestResult.getOrAwaitValue() shouldBe result
+        }
+
+        coVerify {
+            coronaTestQRCodeHandler.handleQrCode(coronaTestQrCode)
+        }
+    }
+
+    @Test
+    fun `restoreCoronaTest calls CoronaTestRestoreHandler`() {
+        val recycledPCR = PCRCoronaTest(
+            identifier = "pcr-identifier",
+            lastUpdatedAt = Instant.EPOCH,
+            registeredAt = Instant.EPOCH,
+            registrationToken = "token",
+            testResult = de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE,
+            isDccConsentGiven = true
+        )
+        val request = recycledPCR.toRestoreRecycledTestRequest()
+        val restoreEvent = CoronaTestRestoreEvent.RestoreDuplicateTest(restoreRecycledTestRequest = request)
+        coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledPCR) } returns restoreEvent
+
+        with(createInstance()) {
+            restoreCoronaTest(recycledPCR)
+            coronaTestRestoreEvent.getOrAwaitValue() shouldBe restoreEvent
+
+            val restoreEvent2 = CoronaTestRestoreEvent.RestoredTest(recycledPCR)
+            coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledPCR) } returns restoreEvent2
+            restoreCoronaTest(recycledPCR)
+            coronaTestRestoreEvent.getOrAwaitValue() shouldBe restoreEvent2
+        }
+
+        coVerify {
+            coronaTestRestoreHandler.restoreCoronaTest(recycledPCR)
+        }
     }
 }
