@@ -49,7 +49,8 @@ interface CoronaTestUiState {
     // Test result state has been changed
     val hasResultChangeBadge: Boolean
 
-    // Tells if the test was just scanned in the App or test result has been changed from PENDING -> (NEG or POS)
+    // Tells if the test was just scanned in the App
+    // or test result has been changed from PENDING -> (NEGATIVE, POSITIVE, INVALID)
     val hasBadge: Boolean get() = !didShowBadge || hasResultChangeBadge
 }
 
