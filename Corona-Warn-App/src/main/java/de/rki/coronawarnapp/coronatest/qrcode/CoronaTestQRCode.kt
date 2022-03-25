@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.qrcode
 
 import android.os.Parcelable
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.qrcode.scanner.QrCode
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -11,7 +11,7 @@ import org.joda.time.LocalDate
 
 sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
 
-    abstract override val type: CoronaTest.Type
+    abstract override val type: BaseCoronaTest.Type
     abstract val registrationIdentifier: String
     abstract val rawQrCode: String
     abstract val categoryType: CategoryType
@@ -29,7 +29,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val isDccSupportedByPoc: Boolean = true
 
         @IgnoredOnParcel
-        override val type: CoronaTest.Type = CoronaTest.Type.PCR
+        override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.PCR
 
         @IgnoredOnParcel
         override val identifier: String
@@ -71,7 +71,7 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val categoryType: CategoryType = CategoryType.NOT_SELECTED
     ) : Rapid() {
         @IgnoredOnParcel
-        override val type: CoronaTest.Type = CoronaTest.Type.RAPID_ANTIGEN
+        override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.RAPID_ANTIGEN
     }
 
     @Parcelize
@@ -89,12 +89,12 @@ sealed class CoronaTestQRCode : Parcelable, TestRegistrationRequest, QrCode {
         override val categoryType: CategoryType = CategoryType.NOT_SELECTED
     ) : Rapid() {
         @IgnoredOnParcel
-        override val type: CoronaTest.Type = CoronaTest.Type.PCR
+        override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.PCR
     }
 
     enum class CategoryType {
         FAMILY,
-        OWN,
+        PERSONAL,
         NOT_SELECTED,
     }
 }

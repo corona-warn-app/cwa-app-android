@@ -8,7 +8,7 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -36,7 +36,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val submissionRepository: SubmissionRepository,
     private val checkInRepository: CheckInRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: BaseCoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     init {
         Timber.v("init() coronaTestType=%s", testType)
@@ -143,7 +143,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionResultPositiveOtherWarningNoConsentViewModel
+        fun create(testType: BaseCoronaTest.Type): SubmissionResultPositiveOtherWarningNoConsentViewModel
     }
 
     companion object {

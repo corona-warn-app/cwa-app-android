@@ -21,10 +21,15 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.contactdiary.ui.overview.ContactDiaryOverviewFragmentDirections
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.ActivityMainBinding
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
+import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.RestoreCoronaTestConfirmationDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.base.startActivitySafely
+import de.rki.coronawarnapp.ui.doNavigate
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.ui.setupWithNavController2
@@ -44,6 +49,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
+@Suppress("TooManyFunctions")
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
     companion object {
         val TAG = tag<MainActivity>()
@@ -160,21 +166,40 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
                 is MainActivityEvent.GoToCheckInsFragment -> navController.navigate(
                     CheckInsFragment.createDeepLink(event.uriString)
                 )
-                is MainActivityEvent.GoToDeletionScreen -> navController.navigate(
-                    NavGraphDirections.actionToSubmissionDeletionWarningFragment(event.request)
-                )
-                is MainActivityEvent.GoToSubmissionConsentFragment -> navController.navigate(
-                    NavGraphDirections.actionSubmissionConsentFragment(event.request)
-                )
                 is MainActivityEvent.Error -> event.error.toErrorDialogBuilder(this).show()
                 is MainActivityEvent.OpenScanner -> navigateToScanner()
             }
         }
 
+        viewModel.coronaTestResult.observe(this) { handleCoronaTestResult(coronaTestResult = it) }
+        viewModel.coronaTestRestoreEvent.observe(this) { handCoronaTestRestoreEvent(event = it) }
+
         if (savedInstanceState == null) {
             processExtraParameters()
         }
     }
+
+    private fun handleCoronaTestResult(coronaTestResult: CoronaTestQRCodeHandler.Result) = when (coronaTestResult) {
+        is CoronaTestQRCodeHandler.InRecycleBin -> {
+            showRestoreCoronaTestConfirmation(coronaTestResult.recycledCoronaTest)
+            null
+        }
+        is CoronaTestQRCodeHandler.TestRegistrationSelection ->
+            NavGraphDirections.actionGlobalTestRegistrationSelectionFragment(
+                coronaTestQrCode = coronaTestResult.coronaTestQrCode
+            )
+    }?.let { navController.doNavigate(it) }
+
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
+        RestoreCoronaTestConfirmationDialog
+            .showDialog(context = this) { viewModel.restoreCoronaTest(recycledCoronaTest) }
+
+    private fun handCoronaTestRestoreEvent(event: CoronaTestRestoreEvent) = when (event) {
+        is CoronaTestRestoreEvent.RestoreDuplicateTest -> NavGraphDirections.actionToSubmissionDeletionWarningFragment(
+            event.restoreRecycledTestRequest
+        )
+        is CoronaTestRestoreEvent.RestoredTest -> NavGraphDirections.actionGlobalMainFragment()
+    }.let { navController.doNavigate(it) }
 
     private fun ActivityMainBinding.checkToolTipVisibility(
         showTooltip: Boolean

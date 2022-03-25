@@ -6,7 +6,7 @@ import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.ContactDiaryPersonEncounter
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.LocalDate
 
@@ -57,7 +57,7 @@ interface ContactDiaryRepository {
 
     // Tests
     val testResults: Flow<List<ContactDiaryCoronaTestEntity>>
-    suspend fun updateTests(tests: Map<CoronaTestGUID, CoronaTest>)
+    suspend fun updateTests(tests: Map<CoronaTestGUID, BaseCoronaTest>)
     suspend fun deleteTests(tests: List<ContactDiaryCoronaTestEntity>)
 
     // Clean

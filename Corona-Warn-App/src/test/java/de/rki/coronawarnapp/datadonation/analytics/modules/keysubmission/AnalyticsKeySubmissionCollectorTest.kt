@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.storage.AnalyticsSettings
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult

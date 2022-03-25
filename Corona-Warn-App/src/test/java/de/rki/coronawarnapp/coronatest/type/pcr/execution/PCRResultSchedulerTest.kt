@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.type.pcr.execution
 
 import androidx.work.WorkManager
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -41,7 +41,7 @@ class PCRResultSchedulerTest : BaseTest() {
             setOf(
                 mockk<PCRCoronaTest>().apply {
                     every { isRedeemed } returns true
-                    every { type } returns CoronaTest.Type.PCR
+                    every { type } returns BaseCoronaTest.Type.PCR
                 }
             )
         )
@@ -57,7 +57,7 @@ class PCRResultSchedulerTest : BaseTest() {
             setOf(
                 mockk<PCRCoronaTest>().apply {
                     every { isRedeemed } returns false
-                    every { type } returns CoronaTest.Type.PCR
+                    every { type } returns BaseCoronaTest.Type.PCR
                 }
             )
         )

@@ -21,6 +21,40 @@
 
     <include app:graph="@navigation/dcc_ticketing_nav_graph" />
 
+    <!-- Global Actions -->
+    <action
+        android:id="@+id/action_submissionTestResultPendingFragment"
+        app:destination="@id/submissionTestResultPendingFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_requestCovidCertificateFragment"
+        app:destination="@id/requestCovidCertificateFragment" />
+    <action
+        android:id="@+id/action_to_submissionTestResultAvailableFragment"
+        app:destination="@id/submissionTestResultAvailableFragment"
+        app:popUpTo="@id/mainFragment"
+        app:popUpToInclusive="false" />
+    <action
+        android:id="@+id/action_to_submissionDeletionWarningFragment"
+        app:destination="@id/submissionDeletionWarningFragment" />
+    <action
+        android:id="@+id/action_submissionConsentFragment"
+        app:destination="@id/submissionConsentFragment" />
+    <action
+        android:id="@+id/action_to_universal_scanner"
+        app:destination="@id/universalScanner" />
+    <action
+        android:id="@+id/action_global_qrCodeFullScreenFragment"
+        app:destination="@id/qrCodeFullScreenFragment" />
+    <action
+        android:id="@+id/action_global_testRegistrationSelectionFragment"
+        app:destination="@id/testRegistrationSelectionFragment" />
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment"
+        app:popUpToInclusive="true" />
+
     <!-- Main -->
     <fragment
         android:id="@+id/mainFragment"
@@ -342,7 +376,7 @@
             app:popUpToInclusive="false" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <action
             android:id="@+id/action_submissionResultPositiveOtherWarningNoConsentFragment_to_checkInsConsentFragment"
             app:destination="@id/checkInsConsentFragment"
@@ -356,7 +390,7 @@
         tools:layout="@layout/fragment_submission_test_result_pending">
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <argument
             android:name="testIdentifier"
             app:argType="string" />
@@ -418,26 +452,6 @@
             app:uri="coronawarnapp://launch" />
     </activity>
 
-    <action
-        android:id="@+id/action_submissionTestResultPendingFragment"
-        app:destination="@id/submissionTestResultPendingFragment"
-        app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_requestCovidCertificateFragment"
-        app:destination="@id/requestCovidCertificateFragment" />
-
-    <action
-        android:id="@+id/action_to_submissionTestResultAvailableFragment"
-        app:destination="@id/submissionTestResultAvailableFragment"
-        app:popUpTo="@id/mainFragment"
-        app:popUpToInclusive="false" />
-
-    <action
-        android:id="@+id/action_to_submissionDeletionWarningFragment"
-        app:destination="@id/submissionDeletionWarningFragment" />
-
     <fragment
         android:id="@+id/submissionResultReadyFragment"
         android:name="de.rki.coronawarnapp.ui.submission.resultready.SubmissionResultReadyFragment"
@@ -445,7 +459,7 @@
         tools:layout="@layout/fragment_submission_result_ready">
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <action
             android:id="@+id/action_submissionResultReadyFragment_to_mainFragment"
             app:destination="@id/mainFragment"
@@ -471,7 +485,7 @@
         tools:layout="@layout/fragment_submission_symptom_intro">
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <action
             android:id="@+id/action_submissionSymptomIntroductionFragment_to_submissionSymptomCalendarFragment"
             app:destination="@id/submissionSymptomCalendarFragment" />
@@ -496,7 +510,7 @@
             app:argType="de.rki.coronawarnapp.submission.Symptoms$Indication" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <action
             android:id="@+id/action_submissionCalendarFragment_to_submissionSymptomIntroductionFragment"
             app:destination="@id/submissionSymptomIntroductionFragment" />
@@ -532,10 +546,6 @@
             app:argType="boolean" />
     </fragment>
 
-    <action
-        android:id="@+id/action_submissionConsentFragment"
-        app:destination="@id/submissionConsentFragment" />
-
     <fragment
         android:id="@+id/submissionTestResultConsentGivenFragment"
         android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragment"
@@ -550,7 +560,7 @@
             app:destination="@id/submissionSymptomIntroductionFragment" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultNoConsentFragment"
@@ -567,7 +577,7 @@
             app:destination="@id/submissionResultPositiveOtherWarningNoConsentFragment" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionYourConsentFragment"
@@ -583,7 +593,7 @@
             app:destination="@id/informationPrivacyFragment" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultAvailableFragment"
@@ -615,7 +625,7 @@
             app:popUpToInclusive="false" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultNegativeFragment"
@@ -624,7 +634,7 @@
         tools:layout="@layout/fragment_submission_test_result_negative">
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <argument
             android:name="testIdentifier"
             app:argType="string" />
@@ -636,7 +646,7 @@
         tools:layout="@layout/fragment_submission_test_result_invalid">
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <argument
             android:name="testIdentifier"
             app:argType="string" />
@@ -828,7 +838,7 @@
             app:popUpToInclusive="false" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionDoneFragment"
@@ -842,7 +852,7 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
     </fragment>
     <fragment
         android:id="@+id/submissionTestResultKeysSharedFragment"
@@ -851,7 +861,7 @@
         tools:layout="@layout/fragment_submission_test_result_positive_keys_shared">
         <argument
             android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.CoronaTest$Type" />
+            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <argument
             android:name="testIdentifier"
             app:argType="string" />
@@ -867,9 +877,7 @@
             android:name="qrCode"
             app:argType="de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode" />
     </fragment>
-    <action
-        android:id="@+id/action_global_qrCodeFullScreenFragment"
-        app:destination="@id/qrCodeFullScreenFragment" />
+
     <fragment
         android:id="@+id/requestCovidCertificateFragment"
         android:name="de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragment"
@@ -969,10 +977,6 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-    <action
-        android:id="@+id/action_to_universal_scanner"
-        app:destination="@id/universalScanner" />
-
     <fragment
         android:id="@+id/onboardingDeltaNotificationsFragment"
         android:name="de.rki.coronawarnapp.ui.onboarding.OnboardingDeltaNotificationsFragment"
@@ -1008,6 +1012,10 @@
             android:id="@+id/action_testRegistrationSelectionFragment_to_submissionConsentFragment"
             app:destination="@id/submissionConsentFragment" />
 
+        <action
+            android:id="@+id/action_testRegistrationSelectionFragment_to_submissionDeletionWarningFragment"
+            app:destination="@id/submissionDeletionWarningFragment"/>
+
     </fragment>
 
     <fragment
@@ -1018,6 +1026,11 @@
         <argument
             android:name="coronaTestQrCode"
             app:argType="de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode" />
+
+        <action
+            android:id="@+id/action_familyTestConsentFragment_to_informationPrivacyFragment"
+            app:destination="@id/informationPrivacyFragment" />
+
     </fragment>
 
     <fragment

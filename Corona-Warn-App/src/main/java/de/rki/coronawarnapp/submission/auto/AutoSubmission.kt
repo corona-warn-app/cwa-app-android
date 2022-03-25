@@ -6,7 +6,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import de.rki.coronawarnapp.submission.task.SubmissionTask
 import de.rki.coronawarnapp.task.TaskController
@@ -58,7 +58,7 @@ class AutoSubmission @Inject constructor(
         }
     }
 
-    suspend fun runSubmissionNow(testType: CoronaTest.Type) {
+    suspend fun runSubmissionNow(testType: BaseCoronaTest.Type) {
         Timber.tag(TAG).i("runSubmissionNow(%s)", testType)
 
         val result = taskController.submitBlocking(

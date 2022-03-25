@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.consent
 
 import androidx.lifecycle.SavedStateHandle
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -37,7 +37,7 @@ class CheckInsConsentViewModelTest : BaseTest() {
     @MockK lateinit var checkInRepository: CheckInRepository
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
-    @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var testType: BaseCoronaTest.Type
 
     private val checkIn1 = CheckIn(
         id = 1L,
