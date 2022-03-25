@@ -62,7 +62,7 @@ class SubmissionRepositoryTest : BaseTest() {
         scope = scope,
         submissionSettings = submissionSettings,
         tekHistoryStorage = tekHistoryStorage,
-        personalTestRepository = coronaTestRepository,
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test

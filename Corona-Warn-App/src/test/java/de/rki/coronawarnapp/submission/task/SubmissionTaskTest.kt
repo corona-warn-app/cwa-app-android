@@ -176,7 +176,7 @@ class SubmissionTaskTest : BaseTest() {
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInsRepository = checkInRepository,
         checkInsTransformer = checkInsTransformer,
-        personalTestRepository = coronaTestRepository,
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test

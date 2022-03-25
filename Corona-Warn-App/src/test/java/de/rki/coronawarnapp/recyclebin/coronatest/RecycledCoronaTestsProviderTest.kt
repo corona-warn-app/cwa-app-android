@@ -35,7 +35,7 @@ import testhelpers.coroutines.runBlockingTest2
 
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
-    @RelaxedMockK private lateinit var personalTestsRepository: CoronaTestRepository
+    @RelaxedMockK private lateinit var coronaTestRepository: CoronaTestRepository
     @RelaxedMockK private lateinit var familyTestRepository: FamilyTestRepository
     @RelaxedMockK private lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @RelaxedMockK private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
@@ -100,8 +100,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns now
-        coEvery { personalTestsRepository.recycledTests } returns flowOf(recycledPersonalTests)
-        coEvery { personalTestsRepository.removeTest(any()) } returns mockk()
+        coEvery { coronaTestRepository.recycledTests } returns flowOf(recycledPersonalTests)
+        coEvery { coronaTestRepository.removeTest(any()) } returns mockk()
 
         coEvery { familyTestRepository.recycledTests } returns flowOf(recycledFamilyTests)
         coEvery { familyTestRepository.removeTest(any()) } returns mockk()
@@ -111,7 +111,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
     }
 
     private fun createInstance() = RecycledCoronaTestsProvider(
-        personalTestRepository = personalTestsRepository,
+        coronaTestRepository = coronaTestRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         analyticsTestResultCollector = analyticsTestResultCollector,
         familyTestRepository = familyTestRepository
@@ -123,7 +123,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
             createInstance().tests.first() shouldBe allTests
 
             coVerify {
-                personalTestsRepository.recycledTests
+                coronaTestRepository.recycledTests
                 familyTestRepository.recycledTests
             }
         }
@@ -140,8 +140,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
         coVerifyOrder {
-            personalTestsRepository.removeTest(recycledPersonalPcrTest.identifier)
-            personalTestsRepository.removeTest(recycledPersonalRatTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
 
             familyTestRepository.removeTest(recycledFamilyRatTest.identifier)
             familyTestRepository.removeTest(recycledFamilyPcrTest.identifier)
@@ -156,8 +156,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            personalTestsRepository.removeTest(recycledPersonalPcrTest.identifier)
-            personalTestsRepository.removeTest(recycledPersonalRatTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
 
             familyTestRepository.removeTest(recycledFamilyPcrTest.identifier)
             familyTestRepository.removeTest(recycledFamilyRatTest.identifier)
@@ -172,8 +172,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
         coVerify(exactly = 1) {
-            personalTestsRepository.removeTest(recycledPersonalPcrTest.identifier)
-            personalTestsRepository.removeTest(recycledPersonalRatTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
         }
 
         coVerify(exactly = 0) {
@@ -190,8 +190,8 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
         coVerify(exactly = 0) {
-            personalTestsRepository.removeTest(recycledPersonalPcrTest.identifier)
-            personalTestsRepository.removeTest(recycledPersonalRatTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
         }
 
         coVerify(exactly = 1) {
@@ -202,14 +202,14 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
     @Test
     fun `Delete recycled test does not throw if test not found`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { personalTestsRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
+        coEvery { coronaTestRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
 
         shouldNotThrowAny {
             createInstance().deleteCoronaTest("I do not exist")
         }
 
         coVerify(exactly = 0) {
-            personalTestsRepository.removeTest(any())
+            coronaTestRepository.removeTest(any())
             familyTestRepository.removeTest(any())
         }
     }
@@ -235,7 +235,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
         coVerify {
-            personalTestsRepository.restoreTest(recycledPersonalRatTest.identifier)
+            coronaTestRepository.restoreTest(recycledPersonalRatTest.identifier)
             analyticsKeySubmissionCollector.reset(any())
             analyticsTestResultCollector.clear(any())
         }
@@ -248,7 +248,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         }
 
         coVerify {
-            personalTestsRepository.restoreTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.restoreTest(recycledPersonalPcrTest.identifier)
             analyticsKeySubmissionCollector.reset(any())
         }
     }

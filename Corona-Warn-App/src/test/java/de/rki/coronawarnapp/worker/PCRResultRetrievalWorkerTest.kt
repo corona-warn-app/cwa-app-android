@@ -94,7 +94,7 @@ class PCRResultRetrievalWorkerTest : BaseTest() {
     private fun createWorker() = PCRResultRetrievalWorker(
         context = context,
         workerParams = workerParams,
-        personalTestRepository = coronaTestRepository,
+        coronaTestRepository = coronaTestRepository,
     )
 
     @Test

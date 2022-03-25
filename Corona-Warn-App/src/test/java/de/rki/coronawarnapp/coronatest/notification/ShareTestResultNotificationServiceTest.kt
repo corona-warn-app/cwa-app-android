@@ -73,7 +73,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     private fun createInstance(scope: CoroutineScope) = ShareTestResultNotificationService(
         appScope = scope,
         cwaSettings = cwaSettings,
-        personalTestRepository = coronaTestRepository,
+        coronaTestRepository = coronaTestRepository,
         notification = shareTestResultNotification,
     )
 

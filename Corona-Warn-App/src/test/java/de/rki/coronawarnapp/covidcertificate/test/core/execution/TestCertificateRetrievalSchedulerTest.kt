@@ -103,7 +103,7 @@ class TestCertificateRetrievalSchedulerTest : BaseTest() {
         workManager = workManager,
         testCertificateRepository = testCertificateRepository,
         foregroundState = foregroundState,
-        personalTestRepository = coronaTestRepository,
+        coronaTestRepository = coronaTestRepository,
         familyTestRepository = familyTestRepository,
     )
 

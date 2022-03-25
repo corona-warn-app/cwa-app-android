@@ -59,7 +59,7 @@ class RATestResultAvailableNotificationServiceTest : BaseTest() {
         foregroundState = foregroundState,
         navDeepLinkBuilderProvider = navDeepLinkBuilderProvider,
         notificationHelper = notificationHelper,
-        personalTestRepository = coronaTestRepository,
+        coronaTestRepository = coronaTestRepository,
         appScope = scope,
     )
 
