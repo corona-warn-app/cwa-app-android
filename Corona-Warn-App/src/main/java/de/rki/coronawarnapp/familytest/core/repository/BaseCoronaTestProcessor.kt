@@ -2,7 +2,14 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEMED
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_INVALID
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
@@ -22,6 +29,7 @@ import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
+import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -66,7 +74,9 @@ class BaseCoronaTestProcessor @Inject constructor(
         )
     }
 
-    suspend fun pollServer(test: CoronaTest): CoronaTest {
+    suspend fun pollServer(test: CoronaTest, forceUpdate: Boolean): CoronaTest {
+        if (test.isPollingStopped(forceUpdate, timeStamper.nowUTC)) return test
+
         return try {
             val response = try {
                 coronaTestService.checkTestResult(test.registrationToken)
@@ -106,3 +116,19 @@ class BaseCoronaTestProcessor @Inject constructor(
         )
     }
 }
+
+private fun CoronaTest.isPollingStopped(forceUpdate: Boolean, now: Instant): Boolean =
+    (!forceUpdate && testResult in finalStates) || isOlderThan21Days(now) && testResult in redeemedStates
+
+private val finalStates = setOf(
+    PCR_POSITIVE,
+    PCR_NEGATIVE,
+    PCR_OR_RAT_REDEEMED,
+    RAT_REDEEMED,
+    RAT_POSITIVE,
+    RAT_NEGATIVE,
+    PCR_INVALID,
+    RAT_INVALID
+)
+
+private val redeemedStates = setOf(PCR_OR_RAT_REDEEMED, RAT_REDEEMED)
