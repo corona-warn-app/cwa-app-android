@@ -88,7 +88,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
                     binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
                 } else {
-                    binding.toolbar.setBackgroundResource(R.color.colorSurface)
+                    binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
                 }
             }
         )

@@ -15,6 +15,7 @@
         <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
         <item name="materialCalendarTheme">@style/DatePickerTheme</item>
+        <item name="elevationOverlayColor">@color/popupmenu_overlay_color</item>
         <item name="materialTimePickerTheme">@style/TimePickerTheme</item>
         <item name="floatingActionButtonStyle">
             @style/Widget.MaterialComponents.FloatingActionButton
