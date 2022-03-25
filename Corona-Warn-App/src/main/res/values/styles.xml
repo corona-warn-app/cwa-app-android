@@ -71,34 +71,6 @@
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
-    <style name="CWAToolbar" parent="@style/Widget.Material3.Toolbar">
-        <item name="colorPrimary">@color/colorSurface1</item>
-        <item name="android:background">@color/colorSurface1</item>
-        <item name="android:textColor">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="CWAToolbar.BackArrow">
-        <item name="navigationIcon">@drawable/ic_back</item>
-        <item name="navigationContentDescription">@string/accessibility_back</item>
-    </style>
-
-    <style name="CWAToolbar.BackArrow.Transparent">
-        <item name="android:background">@color/colorTransparent</item>
-    </style>
-
-    <style name="CWAToolbar.Close">
-        <item name="navigationIcon">@drawable/ic_close</item>
-        <item name="navigationContentDescription">@string/accessibility_close</item>
-    </style>
-
-    <style name="CWAToolbar.Close.Transparent">
-        <item name="android:background">@color/colorTransparent</item>
-    </style>
-
     <style name="BottomNavigationViewStyle" parent="Widget.Material3.BottomNavigationView">
         <item name="labelVisibilityMode">labeled</item>
         <item name="itemTextColor">@color/nav_item_color</item>
