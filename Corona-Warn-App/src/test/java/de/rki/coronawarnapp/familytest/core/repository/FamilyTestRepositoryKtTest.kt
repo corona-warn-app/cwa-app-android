@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.familytest.core.repository
 
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import io.kotest.matchers.shouldBe
-import org.junit.jupiter.api.Assertions.*
 
 import org.junit.jupiter.api.Test
 
@@ -47,7 +46,6 @@ internal class FamilyTestRepositoryKtTest : BaseTest() {
             newState = CoronaTest.State.REDEEMED
         ) shouldBe false
 
-
         testHasResultInterestingChange(
             oldState = CoronaTest.State.PENDING,
             newState = CoronaTest.State.POSITIVE
@@ -87,7 +85,6 @@ internal class FamilyTestRepositoryKtTest : BaseTest() {
             oldState = CoronaTest.State.POSITIVE,
             newState = CoronaTest.State.INVALID
         ) shouldBe false
-
 
         testHasResultInterestingChange(
             oldState = CoronaTest.State.NEGATIVE,
