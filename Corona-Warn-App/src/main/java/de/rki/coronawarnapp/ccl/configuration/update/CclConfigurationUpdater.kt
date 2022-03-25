@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.repositories.UpdateResult
@@ -22,6 +23,7 @@ class CclConfigurationUpdater @Inject constructor(
     private val boosterRulesRepository: BoosterRulesRepository,
     private val cclConfigurationRepository: CclConfigurationRepository,
     private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
+    private val dccValidationRepository: DccValidationRepository
 ) {
 
     suspend fun updateIfRequired() {
@@ -65,8 +67,9 @@ class CclConfigurationUpdater @Inject constructor(
         return coroutineScope {
             val boosterRulesDeferred = async { boosterRulesRepository.update() }
             val cclConfigDeferred = async { cclConfigurationRepository.updateCclConfiguration() }
+            val invalidationRulesDeferred = async { dccValidationRepository.updateInvalidationRules() }
 
-            val updateResults = awaitAll(boosterRulesDeferred, cclConfigDeferred)
+            val updateResults = awaitAll(boosterRulesDeferred, cclConfigDeferred, invalidationRulesDeferred)
 
             if (updateResults.none { it == UpdateResult.FAIL }) cclSettings.setExecutionTimeToNow()
 

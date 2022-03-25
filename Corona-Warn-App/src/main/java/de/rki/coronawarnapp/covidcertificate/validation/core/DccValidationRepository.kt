@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidatio
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import de.rki.coronawarnapp.util.serialization.BaseGson
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.CoroutineScope
@@ -114,6 +115,18 @@ class DccValidationRepository @Inject constructor(
                 invalidationRules = newInvalidationData,
             )
         }
+    }
+
+    suspend fun updateInvalidationRules(): UpdateResult {
+        Timber.tag(TAG).d("updateInvalidationRules()")
+        var updateResult = UpdateResult.NO_UPDATE
+
+        internalData.updateBlocking {
+            //TODO(Implement dis)
+            this
+        }
+
+        return updateResult
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> = try {
