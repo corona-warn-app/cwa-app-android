@@ -2,7 +2,8 @@ package de.rki.coronawarnapp.qrcode.ui
 
 import android.net.Uri
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.qrcode.DccQrCode
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.dccticketing.core.allowlist.internal.DccTicketingAllowListException
@@ -35,12 +36,12 @@ sealed class CheckInResult : ScannerResult {
 sealed class CoronaTestResult : ScannerResult {
     data class RestoreDuplicateTest(val restoreRecycledTestRequest: RestoreRecycledTestRequest) : CoronaTestResult()
     data class TestRegistrationSelection(val coronaTestQrCode: CoronaTestQRCode) : CoronaTestResult()
-    data class InRecycleBin(val recycledCoronaTest: CoronaTest) : CoronaTestResult()
-    data class TestPositive(val test: CoronaTest) : CoronaTestResult()
-    data class TestNegative(val test: CoronaTest) : CoronaTestResult()
-    data class TestInvalid(val test: CoronaTest) : CoronaTestResult()
-    data class TestPending(val test: CoronaTest) : CoronaTestResult()
-    data class WarnOthers(val test: CoronaTest) : CoronaTestResult()
+    data class InRecycleBin(val recycledCoronaTest: PersonalCoronaTest) : CoronaTestResult()
+    data class TestPositive(val test: BaseCoronaTest) : CoronaTestResult()
+    data class TestNegative(val test: BaseCoronaTest) : CoronaTestResult()
+    data class TestInvalid(val test: BaseCoronaTest) : CoronaTestResult()
+    data class TestPending(val test: BaseCoronaTest) : CoronaTestResult()
+    data class WarnOthers(val test: BaseCoronaTest) : CoronaTestResult()
 }
 
 sealed class DccTicketingResult : ScannerResult {

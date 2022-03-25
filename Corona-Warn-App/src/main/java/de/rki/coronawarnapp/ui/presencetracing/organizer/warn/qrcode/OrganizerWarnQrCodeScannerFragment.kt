@@ -51,7 +51,7 @@ class OrganizerWarnQrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_sca
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
-        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner, activity = requireActivity())
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
 
         qrCodeScanToolbar.setNavigationOnClickListener { viewModel.onNavigateUp() }

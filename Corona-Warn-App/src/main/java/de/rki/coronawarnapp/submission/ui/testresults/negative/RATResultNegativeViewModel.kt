@@ -5,7 +5,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
@@ -39,7 +39,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         certificateRepository.certificates
     ) { _, tests, certs ->
         val rapidTest = tests.firstOrNull {
-            it.type == CoronaTest.Type.RAPID_ANTIGEN
+            it.type == BaseCoronaTest.Type.RAPID_ANTIGEN
         }
 
         val certificate = certs.firstOrNull {
@@ -55,7 +55,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         certificateRepository.certificates
     ) { _, tests, certs ->
         val rapidTest = tests.firstOrNull {
-            it.type == CoronaTest.Type.RAPID_ANTIGEN
+            it.type == BaseCoronaTest.Type.RAPID_ANTIGEN
         }
 
         val certificate = certs.firstOrNull {
@@ -65,7 +65,7 @@ class RATResultNegativeViewModel @AssistedInject constructor(
         certificate
     }.asLiveData(context = dispatcherProvider.Default)
 
-    private fun CoronaTest.uiState(certificate: TestCertificateWrapper?): UIState? {
+    private fun BaseCoronaTest.uiState(certificate: TestCertificateWrapper?): UIState? {
         if (this !is RACoronaTest) {
             Timber.d("Rapid test is missing")
             return null

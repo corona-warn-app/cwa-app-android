@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -141,7 +141,7 @@ class TestCertificateRepository @Inject constructor(
      * Throws an exception if there already is a test certificate entry for this test
      * or this is not a valid test (no consent, not supported by PoC).
      */
-    suspend fun requestCertificate(test: CoronaTest): TestCertificateContainer {
+    suspend fun requestCertificate(test: BaseCoronaTest): TestCertificateContainer {
         Timber.tag(TAG).d("requestCertificate(test.identifier=%s)", test.identifier)
 
         val newData = internalData.updateBlocking {
@@ -174,7 +174,7 @@ class TestCertificateRepository @Inject constructor(
             }
 
             val data = when (test.type) {
-                CoronaTest.Type.PCR -> PCRCertificateData(
+                BaseCoronaTest.Type.PCR -> PCRCertificateData(
                     identifier = identifier,
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,
@@ -182,7 +182,7 @@ class TestCertificateRepository @Inject constructor(
                     rsaPublicKey = rsaKeyPair.publicKey,
                     rsaPrivateKey = rsaKeyPair.privateKey,
                 )
-                CoronaTest.Type.RAPID_ANTIGEN -> RACertificateData(
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> RACertificateData(
                     identifier = identifier,
                     registeredAt = test.registeredAt,
                     registrationToken = test.registrationToken,

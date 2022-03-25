@@ -1,8 +1,8 @@
 package de.rki.coronawarnapp.ui.submission.symptoms.introduction
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -34,7 +34,7 @@ class SubmissionSymptomIntroductionViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var testType: BaseCoronaTest.Type
     private val currentSymptoms = mockFlowPreference<Symptoms?>(null)
 
     @BeforeEach

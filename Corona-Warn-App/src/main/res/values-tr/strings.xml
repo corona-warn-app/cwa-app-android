@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Risk Durumunuzda Değişiklik"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma 14 günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
+    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
+    <string name="information_contact_body_open">"Almanca\n\nMesai saatleri:\nPazartesi - Cuma: 9.00 - 17.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XACT: describes illustration -->

@@ -10,7 +10,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_NEGATIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_PENDING
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_POSITIVE
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.RAT_REDEEMED
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import org.joda.time.Instant
@@ -83,10 +84,10 @@ data class RACoronaTest(
 
     @SerializedName("recycledAt")
     override var recycledAt: Instant? = null,
-) : CoronaTest {
+) : PersonalCoronaTest {
 
-    override val type: CoronaTest.Type
-        get() = CoronaTest.Type.RAPID_ANTIGEN
+    override val type: BaseCoronaTest.Type
+        get() = BaseCoronaTest.Type.RAPID_ANTIGEN
 
     private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
         testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)

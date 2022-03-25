@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.storage
 import android.content.Context
 import androidx.core.content.edit
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -139,7 +139,7 @@ class CoronaTestStorageTest : BaseTest() {
                 lastError = null,
                 isProcessing = false
             )
-            type shouldBe CoronaTest.Type.PCR
+            type shouldBe BaseCoronaTest.Type.PCR
         }
     }
 
@@ -177,7 +177,7 @@ class CoronaTestStorageTest : BaseTest() {
                 lastError = null,
                 isProcessing = false
             )
-            type shouldBe CoronaTest.Type.PCR
+            type shouldBe BaseCoronaTest.Type.PCR
         }
     }
 
@@ -216,7 +216,7 @@ class CoronaTestStorageTest : BaseTest() {
                 lastError = null,
                 isProcessing = false
             )
-            type shouldBe CoronaTest.Type.PCR
+            type shouldBe BaseCoronaTest.Type.PCR
         }
     }
 
@@ -262,7 +262,7 @@ class CoronaTestStorageTest : BaseTest() {
                 lastError = null,
                 isProcessing = false
             )
-            type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+            type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         }
     }
 
@@ -301,7 +301,7 @@ class CoronaTestStorageTest : BaseTest() {
 
         instance.coronaTests.single().apply {
             this shouldBe raTest1
-            type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+            type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         }
     }
 

@@ -4,32 +4,31 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 
 interface CoronaTestProcessor {
 
-    val type: CoronaTest.Type
+    val type: BaseCoronaTest.Type
 
-    suspend fun create(request: TestRegistrationRequest): CoronaTest
+    suspend fun create(request: TestRegistrationRequest): PersonalCoronaTest
 
-    suspend fun pollServer(test: CoronaTest): CoronaTest
+    suspend fun pollServer(test: PersonalCoronaTest): PersonalCoronaTest
 
     /**
      * Called before a test is removed.
      */
-    suspend fun onRemove(toBeRemoved: CoronaTest)
+    suspend fun onRemove(toBeRemoved: PersonalCoronaTest)
 
-    suspend fun markSubmitted(test: CoronaTest): CoronaTest
+    suspend fun markProcessing(test: PersonalCoronaTest, isProcessing: Boolean): PersonalCoronaTest
 
-    suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest
+    suspend fun markViewed(test: PersonalCoronaTest): PersonalCoronaTest
 
-    suspend fun markViewed(test: CoronaTest): CoronaTest
+    suspend fun markBadgeAsViewed(test: PersonalCoronaTest): PersonalCoronaTest
 
-    suspend fun markBadgeAsViewed(test: CoronaTest): CoronaTest
+    suspend fun updateResultNotification(test: PersonalCoronaTest, sent: Boolean): PersonalCoronaTest
 
-    suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest
+    suspend fun markDccCreated(test: PersonalCoronaTest, created: Boolean): PersonalCoronaTest
 
-    suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest
+    suspend fun recycle(test: PersonalCoronaTest): PersonalCoronaTest
 
-    suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest
+    suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest
 
-    suspend fun recycle(test: CoronaTest): CoronaTest
-
-    suspend fun restore(test: CoronaTest): CoronaTest
+    suspend fun markSubmitted(test: PersonalCoronaTest): PersonalCoronaTest
+    suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest
 }

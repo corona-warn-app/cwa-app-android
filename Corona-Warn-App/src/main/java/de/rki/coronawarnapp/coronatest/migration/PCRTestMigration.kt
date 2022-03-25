@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.migration
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.storage.TracingSettings
@@ -23,7 +23,7 @@ class PCRTestMigration @Inject constructor(
     private var isMigrating: Boolean = false
 
     @Suppress("DEPRECATION")
-    suspend fun startMigration(): Set<CoronaTest> = mutex.withLock {
+    suspend fun startMigration(): Set<PersonalCoronaTest> = mutex.withLock {
         if (isMigrating) throw IllegalStateException("Migration already in progress")
         isMigrating = true
         Timber.tag(TAG).i("startMigration()")

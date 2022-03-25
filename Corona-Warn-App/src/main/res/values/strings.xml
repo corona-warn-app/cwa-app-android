@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Change of Your Risk Status"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than 14 days ago. Therefore, your risk of infection has been ranked as low again.\n\nThis is what you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
+    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than %d days ago. Therefore, your risk of infection has been ranked as low again.\n\nWhat you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is available in the following languages:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"English, German, Turkish\n\nBusiness hours:\nMonday to Saturday: 7am - 10pm (CET)\n(except national holidays)"</string>
+    <string name="information_contact_body_open">"German\n\nBusiness hours:\nMonday to Friday: 9am - 5pm (CET)\n(except national holidays)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 for the Federal Ministry of Health service point. Only press 1 (the general medical emergency service) if you have symptoms."</string>
     <!-- XACT: describes illustration -->
