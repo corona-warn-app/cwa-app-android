@@ -117,16 +117,36 @@ class DccValidationRepository @Inject constructor(
         }
     }
 
-    suspend fun updateInvalidationRules(): UpdateResult {
+    /**
+     * Updates the invalidation rules.
+     *
+     * @return [UpdateResult.UPDATE] if new invalidation rules got downloaded from the server, [UpdateResult.NO_UPDATE]
+     * when there were no new rules from the server, or [UpdateResult.FAIL] if the request or parsing failed.
+     */
+    suspend fun updateInvalidationRules(): UpdateResult = try {
         Timber.tag(TAG).d("updateInvalidationRules()")
         var updateResult = UpdateResult.NO_UPDATE
 
         internalData.updateBlocking {
-            //TODO(Implement dis)
-            this
+            val ruleSetResult = server.ruleSetJson(Type.INVALIDATION)
+            Timber.tag(TAG).d("Got invalidation rules from %s", ruleSetResult.source)
+
+            val newInvalidationRules = when (ruleSetResult.source) {
+                DccValidationServer.RuleSetSource.SERVER -> ruleSetResult.ruleSetJson.toRuleSet().also {
+                    localCache.saveInvalidationRulesJson(ruleSetResult.ruleSetJson)
+                    Timber.tag(TAG).d("Updated invalidation rules %d -> %d", invalidationRules.size, it.size)
+                    updateResult = UpdateResult.UPDATE
+                }
+                DccValidationServer.RuleSetSource.CACHE -> null
+            }
+
+            newInvalidationRules?.let { copy(invalidationRules = it) } ?: this
         }
 
-        return updateResult
+        updateResult
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Failed to update invalidation rules")
+        UpdateResult.FAIL
     }
 
     private fun mapCountries(rawJson: String): List<DccCountry> = try {

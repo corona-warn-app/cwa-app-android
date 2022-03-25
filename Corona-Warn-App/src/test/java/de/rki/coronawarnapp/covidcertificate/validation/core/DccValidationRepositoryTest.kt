@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationR
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRule.Type
 import de.rki.coronawarnapp.covidcertificate.validation.core.rule.DccValidationRuleConverter
 import de.rki.coronawarnapp.covidcertificate.validation.core.server.DccValidationServer
+import de.rki.coronawarnapp.util.repositories.UpdateResult
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -63,8 +64,10 @@ class DccValidationRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
-    private val testAcceptanceRulesResult =
-        DccValidationServer.RuleSetResult(testAcceptanceRulesData, DccValidationServer.RuleSetSource.SERVER)
+    private val testAcceptanceRulesResult = DccValidationServer.RuleSetResult(
+        ruleSetJson = testAcceptanceRulesData,
+        source = DccValidationServer.RuleSetSource.SERVER
+    )
 
     private val testInvalidationRulesData =
         """
@@ -100,8 +103,13 @@ class DccValidationRepositoryTest : BaseTest() {
             ]
         """.trimIndent()
 
-    private val testInvalidationRulesResult =
-        DccValidationServer.RuleSetResult(testInvalidationRulesData, DccValidationServer.RuleSetSource.SERVER)
+    private val testInvalidationRulesResult = DccValidationServer.RuleSetResult(
+        ruleSetJson = testInvalidationRulesData,
+        source = DccValidationServer.RuleSetSource.SERVER
+    )
+    private val testInvalidationRulesResultCache = testInvalidationRulesResult.copy(
+        source = DccValidationServer.RuleSetSource.CACHE
+    )
 
     @BeforeEach
     fun setup() {
@@ -292,5 +300,65 @@ class DccValidationRepositoryTest : BaseTest() {
         coVerify(exactly = 0) {
             localCache.saveInvalidationRulesJson(any())
         }
+    }
+
+    @Test
+    fun `update invalidation rules server fails and no cache`() = runBlockingTest2(ignoreActive = true) {
+        coEvery {
+            server.ruleSetJson(Type.INVALIDATION)
+        } throws DccValidationException(DccValidationException.ErrorCode.INVALIDATION_RULE_SERVER_ERROR)
+
+        with(createInstance(this)) {
+            updateInvalidationRules() shouldBe UpdateResult.FAIL
+            invalidationRules.first() shouldBe emptyList()
+        }
+
+        coVerify {
+            server.ruleSetJson(Type.INVALIDATION)
+        }
+
+        coVerify(exactly = 0) {
+            localCache.saveInvalidationRulesJson(any())
+        }
+    }
+
+    @Test
+    fun `update invalidation rules success`() = runBlockingTest2(ignoreActive = true) {
+        val invalidationRuleList = listOf(testInvalidationRule)
+
+        coEvery { server.ruleSetJson(Type.INVALIDATION) } returns testInvalidationRulesResult
+
+        with(createInstance(this)) {
+            updateInvalidationRules() shouldBe UpdateResult.UPDATE
+            invalidationRules.first() shouldBe invalidationRuleList
+        }
+
+        coVerify {
+            server.ruleSetJson(Type.INVALIDATION)
+            localCache.saveInvalidationRulesJson(testInvalidationRulesResult.ruleSetJson)
+        }
+    }
+
+    @Test
+    fun `update invalidation - no new rules - getting data from cache`() = runBlockingTest2(ignoreActive = true) {
+        val invalidationRuleList = listOf(testInvalidationRule)
+
+        coEvery { localCache.loadInvalidationRuleJson() } returns testInvalidationRulesData
+
+        coEvery { server.ruleSetJson(Type.INVALIDATION) } returns testInvalidationRulesResultCache
+
+        with(createInstance(this)) {
+            updateInvalidationRules() shouldBe UpdateResult.NO_UPDATE
+            invalidationRules.first() shouldBe invalidationRuleList
+        }
+
+        coVerify {
+            server.ruleSetJson(Type.INVALIDATION)
+        }
+
+        coVerify(exactly = 0) {
+            localCache.saveInvalidationRulesJson(any())
+        }
+
     }
 }
