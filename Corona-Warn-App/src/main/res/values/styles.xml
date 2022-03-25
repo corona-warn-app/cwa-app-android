@@ -22,6 +22,10 @@
         </item>
     </style>
 
+    <style name="CertificateDetailTheme" parent="BaseTheme">
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
+
     <style name="AppTheme" parent="BaseTheme" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
