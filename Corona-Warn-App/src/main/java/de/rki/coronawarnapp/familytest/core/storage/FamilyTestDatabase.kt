@@ -87,10 +87,10 @@ interface FamilyCoronaTestDao {
     @Delete
     suspend fun delete(entity: FamilyCoronaTestEntity)
 
-    @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis = NULL")
-    fun getAll(): Flow<List<FamilyCoronaTestEntity>>
+    @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NULL")
+    fun getAllActive(): Flow<List<FamilyCoronaTestEntity>>
 
-    @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis != NULL")
+    @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NOT NULL")
     fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity>>
 
     @Query("DELETE FROM family_corona_test WHERE moved_to_recycle_bin_at_millis < :olderThanMillis")
@@ -100,12 +100,13 @@ interface FamilyCoronaTestDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM family_corona_test WHERE identifier = :identifier")
-    fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?
+    suspend fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?
 
     @Transaction
     suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
         get(identifier)?.let {
-            insert(update(it.test).toEntity())
+            val updated = update(it.test).toEntity()
+            insert(updated)
         }
     }
 }

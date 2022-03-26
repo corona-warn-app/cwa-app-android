@@ -3,13 +3,12 @@ package de.rki.coronawarnapp.familytest.core.repository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
-import de.rki.coronawarnapp.familytest.core.model.recycle
+import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
@@ -20,7 +19,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.joda.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -51,13 +49,13 @@ class FamilyTestRepository @Inject constructor(
         return test
     }
 
-    suspend fun refresh(forceRefresh: Boolean = false) {
+    suspend fun refresh() {
         familyTests.first().map {
-            if (it.coronaTest.isPollingStopped(forceRefresh, timeStamper.nowUTC)) null
+            if (it.coronaTest.isPollingStopped()) null
             else {
                 val updateResult = processor.pollServer(it.coronaTest) ?: return@map null
                 storage.update(it.identifier) { test ->
-                    val coronaTest = test.coronaTest.updateTestResult(
+                    test.updateTestResult(
                         updateResult.coronaTestResult
                     ).let { updated ->
                         updateResult.labId?.let { labId ->
@@ -68,7 +66,6 @@ class FamilyTestRepository @Inject constructor(
                             updated.updateSampleCollectedAt(collectedAt)
                         } ?: updated
                     }
-                    test.copy(coronaTest = coronaTest)
                 }
             }
         }
@@ -78,7 +75,7 @@ class FamilyTestRepository @Inject constructor(
         identifier: TestIdentifier
     ) {
         storage.update(identifier) { test ->
-            test.copy(coronaTest = test.coronaTest.restore())
+            test.restore()
         }
     }
 
@@ -86,7 +83,7 @@ class FamilyTestRepository @Inject constructor(
         identifier: TestIdentifier
     ) {
         storage.update(identifier) { test ->
-            test.copy(coronaTest = test.coronaTest.recycle(timeStamper.nowUTC))
+            test.moveToRecycleBin(timeStamper.nowUTC)
         }
     }
 
@@ -101,7 +98,7 @@ class FamilyTestRepository @Inject constructor(
         identifier: TestIdentifier
     ) {
         storage.update(identifier) { test ->
-            test.copy(coronaTest = test.coronaTest.markViewed())
+            test.markViewed()
         }
     }
 
@@ -109,7 +106,7 @@ class FamilyTestRepository @Inject constructor(
         identifier: TestIdentifier
     ) {
         storage.update(identifier) { test ->
-            test.copy(coronaTest = test.coronaTest.markBadgeAsViewed())
+            test.markBadgeAsViewed()
         }
     }
 
@@ -118,7 +115,7 @@ class FamilyTestRepository @Inject constructor(
         sent: Boolean
     ) {
         storage.update(identifier) { test ->
-            test.copy(coronaTest = test.coronaTest.updateResultNotification(sent))
+            test.updateResultNotification(sent)
         }
     }
 
@@ -138,8 +135,7 @@ class FamilyTestRepository @Inject constructor(
     private suspend fun getTest(identifier: TestIdentifier) = storage.familyTestMap.first()[identifier]
 }
 
-private fun CoronaTest.isPollingStopped(forceUpdate: Boolean, now: Instant): Boolean =
-    (!forceUpdate && testResult in finalStates) || isOlderThan21Days(now) && testResult in redeemedStates
+private fun CoronaTest.isPollingStopped(): Boolean = testResult in finalStates
 
 private val finalStates = setOf(
     CoronaTestResult.PCR_POSITIVE,
@@ -148,8 +144,4 @@ private val finalStates = setOf(
     CoronaTestResult.RAT_REDEEMED,
     CoronaTestResult.RAT_POSITIVE,
     CoronaTestResult.RAT_NEGATIVE,
-    CoronaTestResult.PCR_INVALID,
-    CoronaTestResult.RAT_INVALID
 )
-
-private val redeemedStates = setOf(CoronaTestResult.PCR_OR_RAT_REDEEMED, CoronaTestResult.RAT_REDEEMED)

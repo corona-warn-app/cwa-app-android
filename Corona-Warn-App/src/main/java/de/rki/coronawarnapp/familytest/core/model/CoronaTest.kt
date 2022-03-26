@@ -142,16 +142,12 @@ fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
     return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
 }
 
-fun CoronaTest.markDccCreated(created: Boolean): CoronaTest {
-    return copy(dcc = dcc.copy(isDccDataSetCreated = created))
-}
-
-fun CoronaTest.recycle(now: Instant): CoronaTest {
-    return copy(recycledAt = now)
-}
-
 fun CoronaTest.restore(): CoronaTest {
     return copy(recycledAt = null)
+}
+
+fun CoronaTest.moveToRecycleBin(now: Instant): CoronaTest {
+    return copy(recycledAt = now)
 }
 
 fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
@@ -164,7 +160,7 @@ fun CoronaTest.updateLabId(labId: String): CoronaTest {
 
 fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
     val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
-        // shouldn't occur, but if it does, sampleCollectedAt should be the best guess on when the test has been created
+    // shouldn't occur, but if it does, sampleCollectedAt should be the best guess on when the test has been created
         ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
     return copy(additionalInfo = additionalInfo)
 }
