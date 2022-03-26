@@ -37,4 +37,22 @@
     <!-- XBUT: Test registration selection: confirm button -->
     <string name="family_consent_cofirm_button">"Einverstanden"</string>
 
+    <!-- Family tests -->
+    <!-- XTXT: Family tests: Cards: PCR title -->
+    <string name="family_tests_cards_pcr_title">"PCR-Befund"</string>
+    <!-- XTXT: Family tests: Cards: Rapid title -->
+    <string name="family_tests_cards_rapid_title">"Schnelltest-Befund"</string>
+    <!-- XTXT: Family tests: Cards: PCR date -->
+    <string name="family_tests_cards_pcr_date">"Test hinzugefügt am %s"</string>
+    <!-- XTXT: Family tests: Cards: Rapid date -->
+    <string name="family_tests_cards_rapid_date">"Durchgeführt am %1$s"</string>
+    <!-- XTXT: Family tests: Cards: PCR pending body -->
+    <string name="family_tests_cards_pcr_pending_body">"Die Auswertung des PCR-Tests ist noch nicht abgeschlossen."</string>
+    <!-- XTXT: Family tests: Cards: Rapid pending body -->
+    <string name="family_tests_cards_rapid_pending_body">"Die Auswertung des Schnelltests ist noch nicht abgeschlossen."</string>
+    <!-- XTXT: Family tests: Cards: Invalid body -->
+    <string name="family_tests_cards_invalid_body">"Der Test konnte nicht ausgewertet werden."</string>
+    <!-- XTXT: Family tests: Cards: Redeemed body -->
+    <string name="family_tests_cards_redeemed_body">"Der Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant."</string>
+
 </resources>

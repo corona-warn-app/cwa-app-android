@@ -41,23 +41,10 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/family_tests_cards_pcr_title"
+        android:text="@string/family_tests_cards_rapid_title"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
-
-    <TextView
-        android:id="@+id/corona_name"
-        style="@style/headline6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginEnd="@dimen/spacing_small"
-        android:focusable="false"
-        android:text="@string/ag_homescreen_card_status_name_of_the_cause_of_this_app"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/findings" />
 
     <TextView
         android:id="@+id/status"
@@ -67,11 +54,25 @@
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/ag_homescreen_card_status_negative"
-        android:textColor="@color/colorTextSemanticGreen"
+        android:text="@string/ag_homescreen_card_status_no_result"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corona_name" />
+        app:layout_constraintTop_toBottomOf="@+id/findings" />
+
+    <TextView
+        android:id="@+id/body"
+        style="@style/subtitleMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:focusable="false"
+        android:text="@string/family_tests_cards_rapid_pending_body"
+        app:layout_constraintBottom_toTopOf="@id/date"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/status" />
 
     <TextView
         android:id="@+id/date"
@@ -83,11 +84,11 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="32dp"
         android:focusable="false"
-        android:text="@string/family_tests_cards_pcr_date"
+        android:text="@string/family_tests_cards_rapid_date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status" />
+        app:layout_constraintTop_toBottomOf="@id/body" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -109,6 +110,6 @@
         android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:srcCompat="@drawable/ic_test_result_illustration_negative_card" />
+        app:srcCompat="@drawable/ic_test_result_illustration_pending_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

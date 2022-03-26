@@ -41,7 +41,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="PCR-Befund"
+        android:text="@string/family_tests_cards_pcr_title"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
@@ -83,7 +83,7 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="32dp"
         android:focusable="false"
-        android:text="@string/ag_homescreen_card_pcr_body_result_date"
+        android:text="@string/family_tests_cards_pcr_date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"

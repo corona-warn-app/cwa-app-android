@@ -19,19 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Mohamed Bernd Alexandru Juraj Chilja" />
 
-    <ImageView
-        android:id="@+id/notification_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:importantForAccessibility="no"
-        app:layout_constraintStart_toEndOf="@id/title"
-        app:layout_constraintTop_toTopOf="@id/title"
-        app:srcCompat="@drawable/ic_badge"
-        tools:visibility="visible" />
-
     <TextView
         android:id="@+id/findings"
         style="@style/subtitleMedium"
@@ -41,7 +28,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/family_tests_cards_pcr_title"
+        android:text="@string/family_tests_cards_rapid_title"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
@@ -54,40 +41,25 @@
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
-        android:text="@string/ag_homescreen_card_status_name_of_the_cause_of_this_app"
+        android:text="@string/ag_homescreen_card_rapidtest_status_outdated_test"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/findings" />
 
     <TextView
-        android:id="@+id/status"
-        style="@style/headline6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginEnd="@dimen/spacing_small"
-        android:focusable="false"
-        android:text="@string/ag_homescreen_card_status_negative"
-        android:textColor="@color/colorTextSemanticGreen"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/corona_name" />
-
-    <TextView
-        android:id="@+id/date"
+        android:id="@+id/body"
         style="@style/subtitleMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="32dp"
         android:focusable="false"
-        android:text="@string/family_tests_cards_pcr_date"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/ag_homescreen_card_rapidtest_body_outdated_test"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status" />
+        app:layout_constraintTop_toBottomOf="@id/corona_name" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -109,6 +81,28 @@
         android:importantForAccessibility="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:srcCompat="@drawable/ic_test_result_illustration_negative_card" />
+        app:srcCompat="@drawable/ic_test_result_illustration_outdated_card" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/button_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="icon,body" />
+
+    <Button
+        android:id="@+id/delete_test_action"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/card_padding"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="@dimen/card_padding"
+        android:layout_marginBottom="@dimen/card_padding"
+        android:text="@string/submission_status_card_button_failed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_barrier" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
