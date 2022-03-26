@@ -102,7 +102,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
 
         viewModel.markTestBadgesAsSeen.observe2(this) {
-            Timber.tag(TAG).d("markTestBadgesAsSeen")
+            Timber.tag(TAG).d("markTestBadgesAsSeen=${it.size}")
         }
 
         viewModel.markRiskBadgeAsSeen()

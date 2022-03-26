@@ -174,17 +174,13 @@ class HomeFragmentViewModel @AssistedInject constructor(
         }
     }
 
-    val markTestBadgesAsSeen = combine(
-        coronaTestRepository.coronaTests,
-        familyTestRepository.familyTests
-    ) { personalTests, familyTests ->
-        personalTests.plus(familyTests)
-            .filter { it.hasBadge }
-            .also { Timber.tag(TAG).d("Dismissing badges for %s tests", it.size) }
-            .forEach {
-                coronaTestRepository.markBadgeAsViewed(it.identifier)
-            }
-    }.catch { Timber.tag(TAG).d(it, "Mark tests badges as seen failed") }
+    val markTestBadgesAsSeen = coronaTestRepository.coronaTests
+        .onEach { tests ->
+            tests.filter { it.hasBadge }
+                .forEach {
+                    coronaTestRepository.markBadgeAsViewed(it.identifier)
+                }
+        }.catch { Timber.tag(TAG).d(it, "Mark tests badges as seen failed") }
         .asLiveData2()
 
     fun markRiskBadgeAsSeen() {
