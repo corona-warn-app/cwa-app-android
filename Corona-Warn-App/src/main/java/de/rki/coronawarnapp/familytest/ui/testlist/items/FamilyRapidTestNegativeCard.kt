@@ -1,19 +1,27 @@
 package de.rki.coronawarnapp.familytest.ui.testlist.items
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.databinding.FamilyRapidTestCardNegativeBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListAdapter
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestNegativeCard.Item
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class FamilyRapidTestNegativeCard(
-    parent: ViewGroup
-) : FamilyTestListAdapter.FamilyTestListVH<Item, FamilyRapidTestCardNegativeBinding> (
-    R.layout.family_rapid_test_card_negative,
-    parent
-) {
+class FamilyRapidTestNegativeCard(parent: ViewGroup) :
+    FamilyTestListAdapter.FamilyTestListVH<Item, FamilyRapidTestCardNegativeBinding>(
+        R.layout.family_rapid_test_card_negative,
+        parent
+    ),
+    Swipeable {
+
+    private var latestItem: Item? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeItem(it.familyCoronaTest, holder.bindingAdapterPosition) }
+    }
 
     override val viewBinding = lazy {
         FamilyRapidTestCardNegativeBinding
@@ -29,7 +37,8 @@ class FamilyRapidTestNegativeCard(
     }
 
     data class Item(
-        val state: SubmissionStateRAT.TestNegative,
-        val onClickAction: (Item) -> Unit
+        val familyCoronaTest: FamilyCoronaTest,
+        val onClickAction: (Item) -> Unit,
+        val onSwipeItem: (FamilyCoronaTest, Int) -> Unit,
     ) : FamilyTestListItem.RA, HasPayloadDiffer
 }
