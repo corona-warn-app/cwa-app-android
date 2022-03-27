@@ -110,6 +110,9 @@ data class CoronaTest(
 
         @SerializedName("isResultAvailableNotificationSent")
         override val isResultAvailableNotificationSent: Boolean = false,
+
+        @SerializedName("hasResultChangedBadge")
+        val hasResultChangedBadge: Boolean = false,
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
@@ -130,37 +133,51 @@ data class CoronaTest(
     )
 }
 
-fun CoronaTest.markViewed(): CoronaTest {
+internal fun CoronaTest.markViewed(): CoronaTest {
     return copy(uiState = uiState.copy(isViewed = true))
 }
 
-fun CoronaTest.markBadgeAsViewed(): CoronaTest {
+internal fun CoronaTest.markBadgeAsViewed(): CoronaTest {
     return copy(uiState = uiState.copy(didShowBadge = true))
 }
 
-fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
+internal fun CoronaTest.showResultChangedBadge(): CoronaTest {
+    return copy(uiState = uiState.copy(hasResultChangedBadge = true))
+}
+
+internal fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
     return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
 }
 
-fun CoronaTest.restore(): CoronaTest {
+internal fun CoronaTest.restore(): CoronaTest {
     return copy(recycledAt = null)
 }
 
-fun CoronaTest.moveToRecycleBin(now: Instant): CoronaTest {
+internal fun CoronaTest.moveToRecycleBin(now: Instant): CoronaTest {
     return copy(recycledAt = now)
 }
 
-fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
-    return copy(testResult = testResult)
+internal fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
+    val updated = copy(testResult = testResult)
+    val testResultChanged = Pair(state, updated.state).hasChanged
+    return if (testResultChanged) updated.showResultChangedBadge() else updated
 }
 
-fun CoronaTest.updateLabId(labId: String): CoronaTest {
+internal fun CoronaTest.updateLabId(labId: String): CoronaTest {
     return copy(labId = labId)
 }
 
-fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
+internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
     val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
     // shouldn't occur, but if it does, sampleCollectedAt should be the best guess on when the test has been created
         ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
     return copy(additionalInfo = additionalInfo)
 }
+
+
+private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged : Boolean
+    get() = this.first != this.second && this.second in setOf(
+        CoronaTest.State.NEGATIVE,
+        CoronaTest.State.POSITIVE,
+        CoronaTest.State.INVALID
+    )

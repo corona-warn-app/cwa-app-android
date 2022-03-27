@@ -41,33 +41,33 @@ class FamilyTestRepository @Inject constructor(
         qrCode: CoronaTestQRCode,
         personName: String
     ): FamilyCoronaTest {
-        val test = FamilyCoronaTest(
+        return FamilyCoronaTest(
             personName = personName,
             coronaTest = processor.register(qrCode)
-        )
-        storage.save(test)
-        return test
+        ).also { test ->
+            storage.save(test)
+        }
     }
 
     suspend fun refresh() {
-        familyTests.first().map {
-            if (it.coronaTest.isPollingStopped()) null
-            else {
-                val updateResult = processor.pollServer(it.coronaTest) ?: return@map null
-                storage.update(it.identifier) { test ->
-                    test.updateTestResult(
-                        updateResult.coronaTestResult
-                    ).let { updated ->
-                        updateResult.labId?.let { labId ->
-                            updated.updateLabId(labId)
-                        } ?: updated
-                    }.let { updated ->
-                        updateResult.sampleCollectedAt?.let { collectedAt ->
-                            updated.updateSampleCollectedAt(collectedAt)
-                        } ?: updated
-                    }
+        familyTests.first().forEach { originalTest ->
+            if (originalTest.coronaTest.isPollingStopped()) return
+
+            val updateResult = processor.pollServer(originalTest.coronaTest) ?: return
+            storage.update(originalTest.identifier) { test ->
+                test.updateTestResult(
+                    updateResult.coronaTestResult
+                ).let { updated ->
+                    updateResult.labId?.let { labId ->
+                        updated.updateLabId(labId)
+                    } ?: updated
+                }.let { updated ->
+                    updateResult.sampleCollectedAt?.let { collectedAt ->
+                        updated.updateSampleCollectedAt(collectedAt)
+                    } ?: updated
                 }
             }
+
         }
     }
 

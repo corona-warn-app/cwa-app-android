@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult.PCR_OR_RAT_REDEEM
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResultResponse
 import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
@@ -67,7 +66,7 @@ class BaseCoronaTestProcessor @Inject constructor(
         )
     }
 
-    suspend fun pollServer(test: BaseCoronaTest): CoronaTestResultUpdate? {
+    suspend fun pollServer(test: CoronaTest): CoronaTestResultUpdate? {
 
         return try {
             val response = try {
@@ -116,3 +115,4 @@ class BaseCoronaTestProcessor @Inject constructor(
         val labId: String? = null,
     )
 }
+
