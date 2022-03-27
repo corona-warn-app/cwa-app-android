@@ -138,7 +138,8 @@ class BaseCoronaTestProcessorTest : BaseTest() {
                 CoronaTestResult.RAT_NEGATIVE,
                 CoronaTestResult.RAT_POSITIVE,
                 CoronaTestResult.RAT_INVALID,
-                CoronaTestResult.RAT_REDEEMED -> instance.register(request).testResult shouldBe CoronaTestResult.PCR_INVALID
+                CoronaTestResult.RAT_REDEEMED ->
+                    instance.register(request).testResult shouldBe CoronaTestResult.PCR_INVALID
             }
         }
     }
