@@ -7,12 +7,11 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class FamilyCoronaTestTest: BaseTest() {
+class FamilyCoronaTestTest : BaseTest() {
 
     private val timestamp = Instant.parse("2021-03-20T06:00:00.000Z")
 
-
-    val test = FamilyCoronaTest (
+    val test = FamilyCoronaTest(
         personName = "Maria",
         coronaTest = CoronaTest(
             identifier = "familyTest1",

@@ -164,5 +164,3 @@ internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): Cor
         ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
     return copy(additionalInfo = additionalInfo)
 }
-
-
