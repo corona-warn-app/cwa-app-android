@@ -110,9 +110,6 @@ data class CoronaTest(
 
         @SerializedName("isResultAvailableNotificationSent")
         override val isResultAvailableNotificationSent: Boolean = false,
-
-        @SerializedName("hasResultChangedBadge")
-        val hasResultChangedBadge: Boolean = false,
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
@@ -141,10 +138,6 @@ internal fun CoronaTest.markBadgeAsViewed(): CoronaTest {
     return copy(uiState = uiState.copy(didShowBadge = true))
 }
 
-internal fun CoronaTest.showResultChangedBadge(): CoronaTest {
-    return copy(uiState = uiState.copy(hasResultChangedBadge = true))
-}
-
 internal fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
     return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
 }
@@ -158,9 +151,7 @@ internal fun CoronaTest.moveToRecycleBin(now: Instant): CoronaTest {
 }
 
 internal fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
-    val updated = copy(testResult = testResult)
-    val testResultChanged = Pair(state, updated.state).hasChanged
-    return if (testResultChanged) updated.showResultChangedBadge() else updated
+    return copy(testResult = testResult)
 }
 
 internal fun CoronaTest.updateLabId(labId: String): CoronaTest {
@@ -174,9 +165,4 @@ internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): Cor
     return copy(additionalInfo = additionalInfo)
 }
 
-private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged: Boolean
-    get() = this.first != this.second && this.second in setOf(
-        CoronaTest.State.NEGATIVE,
-        CoronaTest.State.POSITIVE,
-        CoronaTest.State.INVALID
-    )
+

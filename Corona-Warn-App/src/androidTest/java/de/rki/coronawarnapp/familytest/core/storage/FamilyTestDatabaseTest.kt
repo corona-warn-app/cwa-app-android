@@ -128,7 +128,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         dao.getAllActive().first().size shouldBe 1
         dao.getAllInRecycleBin().first().size shouldBe 1
 
-        dao.deleteFromRecycleBin(now.millis)
+        dao.deleteFromRecycleBin(now.millis + 1)
 
         dao.getAllActive().first().size shouldBe 1
         dao.getAllInRecycleBin().first().size shouldBe 0
