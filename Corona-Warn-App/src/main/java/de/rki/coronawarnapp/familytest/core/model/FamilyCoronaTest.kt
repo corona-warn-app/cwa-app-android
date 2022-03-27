@@ -12,7 +12,6 @@ data class FamilyCoronaTest(
     val coronaTest: CoronaTest,
 ) : BaseCoronaTest by coronaTest
 
-
 internal fun FamilyCoronaTest.markViewed(): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.markViewed())
 }

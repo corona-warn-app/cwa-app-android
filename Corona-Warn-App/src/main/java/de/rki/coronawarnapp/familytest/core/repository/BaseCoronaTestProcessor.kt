@@ -115,4 +115,3 @@ class BaseCoronaTestProcessor @Inject constructor(
         val labId: String? = null,
     )
 }
-

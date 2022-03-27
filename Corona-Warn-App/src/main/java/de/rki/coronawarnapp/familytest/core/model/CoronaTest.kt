@@ -169,13 +169,12 @@ internal fun CoronaTest.updateLabId(labId: String): CoronaTest {
 
 internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
     val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
-    // shouldn't occur, but if it does, sampleCollectedAt should be the best guess on when the test has been created
+        // shouldn't occur, sampleCollectedAt should also be when the test has been created
         ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
     return copy(additionalInfo = additionalInfo)
 }
 
-
-private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged : Boolean
+private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged: Boolean
     get() = this.first != this.second && this.second in setOf(
         CoronaTest.State.NEGATIVE,
         CoronaTest.State.POSITIVE,

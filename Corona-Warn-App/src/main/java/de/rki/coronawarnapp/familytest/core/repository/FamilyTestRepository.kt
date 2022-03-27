@@ -67,7 +67,6 @@ class FamilyTestRepository @Inject constructor(
                     } ?: updated
                 }
             }
-
         }
     }
 

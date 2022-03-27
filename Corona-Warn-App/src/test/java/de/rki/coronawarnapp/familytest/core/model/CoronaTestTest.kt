@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class CoronaTestTest : BaseTest()  {
+class CoronaTestTest : BaseTest() {
 
     val test = FamilyCoronaTest(
         personName = "Chilja",
