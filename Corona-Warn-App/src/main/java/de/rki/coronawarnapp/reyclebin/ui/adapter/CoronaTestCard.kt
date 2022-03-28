@@ -36,17 +36,16 @@ class CoronaTestCard(parent: ViewGroup) :
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val test = latestItem!!.test
 
-        val isFamilyTest = test is FamilyCoronaTest
-        val (titleRes, iconRes) = when {
-            isFamilyTest -> {
-                certificatePersonName.text = (test as FamilyCoronaTest).personName
+        val (titleRes, iconRes) = when (test) {
+            is FamilyCoronaTest -> {
+                certificatePersonName.text = test.personName
                 R.string.recycle_bin_family_test_item_name to R.drawable.ic_family_test_recycled
             }
             else -> R.string.recycle_bin_test_item_name to R.drawable.ic_personal_test_recycled
         }
         certificateType.setText(titleRes)
         certificateIcon.setImageResource(iconRes)
-        certificatePersonName.isVisible = isFamilyTest
+        certificatePersonName.isVisible = test is FamilyCoronaTest
         certificateInfoLine1.isGone = false
 
         certificateInfoLine1.setText(

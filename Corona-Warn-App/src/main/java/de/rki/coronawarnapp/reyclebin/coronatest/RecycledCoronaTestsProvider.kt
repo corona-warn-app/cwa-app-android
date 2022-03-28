@@ -49,8 +49,8 @@ class RecycledCoronaTestsProvider @Inject constructor(
     suspend fun recycleCoronaTest(identifier: TestIdentifier) {
         Timber.tag(TAG).d("recycleCoronaTest(identifier=%s)", identifier)
         // Test is not yet in the recycled ones
-        coronaTestRepository.recycleTest(identifier)
-        familyTestRepository.recycleTest(identifier)
+        coronaTestRepository.moveTestToRecycleBin(identifier)
+        familyTestRepository.moveTestToRecycleBin(identifier)
     }
 
     suspend fun restoreCoronaTest(identifier: TestIdentifier) {

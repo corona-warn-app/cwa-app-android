@@ -68,7 +68,7 @@ class FamilyTestRepository @Inject constructor(
         storage.update(updated)
     }
 
-    suspend fun recycleTest(
+    suspend fun moveTestToRecycleBin(
         identifier: TestIdentifier
     ) {
         val test = getTest(identifier) ?: return

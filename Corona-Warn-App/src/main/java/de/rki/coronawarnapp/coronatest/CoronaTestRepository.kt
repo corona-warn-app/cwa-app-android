@@ -182,7 +182,7 @@ class CoronaTestRepository @Inject constructor(
      * Move Corona test to recycled state.
      * it does not throw any exception if test is not found
      */
-    suspend fun recycleTest(identifier: TestIdentifier): Unit = try {
+    suspend fun moveTestToRecycleBin(identifier: TestIdentifier): Unit = try {
         Timber.tag(TAG).d("recycleTest(identifier=%s)", identifier)
         modifyTest(identifier) { processor, test ->
             processor.recycle(test)
