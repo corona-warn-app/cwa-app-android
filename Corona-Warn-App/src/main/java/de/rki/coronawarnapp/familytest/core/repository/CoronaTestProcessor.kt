@@ -98,15 +98,34 @@ class CoronaTestProcessor @Inject constructor(
     }
 
     private fun createServerRequest(qrCode: CoronaTestQRCode): RegistrationRequest {
-        val dateOfBirthKey = if (qrCode.isDccConsentGiven && qrCode.dateOfBirth != null) {
-            DateOfBirthKey(qrCode.registrationIdentifier, qrCode.dateOfBirth!!)
-        } else null
+        return when (qrCode) {
+            is CoronaTestQRCode.PCR -> {
+                val dateOfBirth = qrCode.dateOfBirth
+                val dateOfBirthKey = if (qrCode.isDccConsentGiven && dateOfBirth != null) {
+                    DateOfBirthKey(qrCode.qrCodeGUID, dateOfBirth)
+                } else null
 
-        return RegistrationRequest(
-            key = qrCode.registrationIdentifier,
-            dateOfBirthKey = dateOfBirthKey,
-            type = VerificationKeyType.GUID,
-        )
+                RegistrationRequest(
+                    key = qrCode.qrCodeGUID,
+                    dateOfBirthKey = dateOfBirthKey,
+                    type = VerificationKeyType.GUID,
+                )
+            }
+
+            is CoronaTestQRCode.RapidPCR -> RegistrationRequest(
+                key = qrCode.registrationIdentifier,
+                dateOfBirthKey = null,
+                type = VerificationKeyType.GUID
+            )
+
+            is CoronaTestQRCode.RapidAntigen -> RegistrationRequest(
+                key = qrCode.registrationIdentifier,
+                dateOfBirthKey = null,
+                type = VerificationKeyType.GUID
+            )
+
+            else -> throw IllegalArgumentException("CoronaTestProcessor: Unknown test request: $qrCode")
+        }
     }
 
     sealed class ServerResponse {

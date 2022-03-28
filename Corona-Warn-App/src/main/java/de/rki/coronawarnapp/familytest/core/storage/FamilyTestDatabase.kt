@@ -16,16 +16,12 @@ import androidx.room.Transaction
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
-import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.Instant
-import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,10 +48,7 @@ abstract class FamilyTestDatabase : RoomDatabase() {
 
 class FamilyCoronaTestConverter {
 
-    private val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(Instant::class.java, InstantAdapter())
-        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-        .create()
+    private val gson: Gson = SerializationModule.baseGson
 
     @TypeConverter
     fun toFamilyCoronaTest(value: String): FamilyCoronaTest? = try {
