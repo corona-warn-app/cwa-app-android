@@ -131,7 +131,8 @@ class FamilyTestRepository @Inject constructor(
         storage.clear()
     }
 
-    private suspend fun getTest(identifier: TestIdentifier) = storage.familyTestMap.first()[identifier]
+    private suspend fun getTest(identifier: TestIdentifier) =
+        storage.familyTestMap.first()[identifier] ?: storage.familyTestRecycleBinMap.first()[identifier]
 }
 
 private fun CoronaTest.isPollingStopped(): Boolean = testResult in finalStates
