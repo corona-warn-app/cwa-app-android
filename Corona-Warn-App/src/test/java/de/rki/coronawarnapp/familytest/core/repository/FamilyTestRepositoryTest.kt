@@ -51,7 +51,7 @@ class FamilyTestRepositoryTest : BaseTest() {
         test
     )
 
-    private val update = CoronaTestProcessor.CoronaTestResultUpdate(
+    private val update = CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate(
         coronaTestResult = CoronaTestResult.PCR_POSITIVE
     )
 
