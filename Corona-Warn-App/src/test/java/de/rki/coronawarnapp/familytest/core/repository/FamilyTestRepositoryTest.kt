@@ -26,9 +26,9 @@ import testhelpers.BaseTest
 
 class FamilyTestRepositoryTest : BaseTest() {
 
-    @MockK lateinit var  processor: CoronaTestProcessor
-    @MockK lateinit var  storage: FamilyTestStorage
-    @MockK lateinit var  timeStamper: TimeStamper
+    @MockK lateinit var processor: CoronaTestProcessor
+    @MockK lateinit var storage: FamilyTestStorage
+    @MockK lateinit var timeStamper: TimeStamper
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
@@ -60,12 +60,13 @@ class FamilyTestRepositoryTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns nowUTC
-        coEvery { processor.register(qrCode)} returns test
+        coEvery { processor.register(qrCode) } returns test
         coEvery { processor.pollServer(test) } returns update
         coEvery { storage.familyTestMap } returns flowOf(mapOf(identifier to familyTest))
         coEvery { storage.familyTestRecycleBinMap } returns flowOf(mapOf())
         coEvery { storage.save(familyTest) } just Runs
-        coEvery { storage.update(identifier, any())  } just Runs
+        coEvery { storage.update(identifier, any()) } just Runs
+        coEvery { storage.delete(familyTest) } just Runs
     }
 
     @Test
