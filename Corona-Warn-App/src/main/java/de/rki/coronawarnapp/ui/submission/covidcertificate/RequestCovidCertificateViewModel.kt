@@ -49,10 +49,10 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
             else -> testRequest
         }
 
-        if (testRequest is CoronaTestQRCode && testRequest.categoryType == CategoryType.FAMILY) {
+        if (consentedQrCode is CoronaTestQRCode && consentedQrCode.categoryType == CategoryType.FAMILY) {
             requireNotNull(personName) { "Family test should have a person name" }
             registrationStateProcessor.startFamilyTestRegistration(
-                request = testRequest,
+                request = consentedQrCode,
                 personName = personName,
             )
         } else {
