@@ -41,9 +41,7 @@ internal fun FamilyCoronaTest.restore(): FamilyCoronaTest {
 internal fun FamilyCoronaTest.updateTestResult(testResult: CoronaTestResult): FamilyCoronaTest {
     val updated = coronaTest.updateTestResult(testResult)
     val testResultChanged = Pair(coronaTest.state, updated.state).hasChanged
-    return copy(coronaTest = updated).let {
-        if (testResultChanged) it.copy(hasResultChangedBadge = true) else it
-    }
+    return copy(coronaTest = updated, hasResultChangedBadge = testResultChanged)
 }
 
 internal fun FamilyCoronaTest.updateLabId(labId: String): FamilyCoronaTest {
@@ -54,12 +52,9 @@ internal fun FamilyCoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant
     return copy(coronaTest = coronaTest.updateSampleCollectedAt(sampleCollectedAt))
 }
 
-internal fun FamilyCoronaTest.showResultChangedBadge(): FamilyCoronaTest {
-    return copy(hasResultChangedBadge = true)
-}
-
 private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged: Boolean
     get() = this.first != this.second && this.second in setOf(
         CoronaTest.State.NEGATIVE,
         CoronaTest.State.POSITIVE,
+        CoronaTest.State.INVALID
     )
