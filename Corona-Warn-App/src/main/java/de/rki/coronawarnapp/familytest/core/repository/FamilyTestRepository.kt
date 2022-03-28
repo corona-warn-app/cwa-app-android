@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
 import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
@@ -55,22 +57,21 @@ class FamilyTestRepository @Inject constructor(
             !it.coronaTest.isPollingStopped()
         }.forEach { originalTest ->
             when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
-                is CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate ->
-                storage.update(originalTest.identifier) { test ->
-
-                    test.updateTestResult(
-                        updateResult.coronaTestResult
-                    ).let { updated ->
-                        updateResult.labId?.let { labId ->
-                            updated.updateLabId(labId)
-                        } ?: updated
-                    }.let { updated ->
-                        updateResult.sampleCollectedAt?.let { collectedAt ->
-                            updated.updateSampleCollectedAt(collectedAt)
-                        } ?: updated
+                is CoronaTestResultUpdate ->
+                    storage.update(originalTest.identifier) { test ->
+                        test.updateTestResult(
+                            updateResult.coronaTestResult
+                        ).let { updated ->
+                            updateResult.labId?.let { labId ->
+                                updated.updateLabId(labId)
+                            } ?: updated
+                        }.let { updated ->
+                            updateResult.sampleCollectedAt?.let { collectedAt ->
+                                updated.updateSampleCollectedAt(collectedAt)
+                            } ?: updated
+                        }
                     }
-                }
-                is CoronaTestProcessor.ServerResponse.Error -> exceptions[originalTest.identifier] = updateResult.error
+                is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
         }
 
