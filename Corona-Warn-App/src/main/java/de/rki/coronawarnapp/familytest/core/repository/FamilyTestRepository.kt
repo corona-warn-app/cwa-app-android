@@ -1,81 +1,89 @@
 package de.rki.coronawarnapp.familytest.core.repository
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.familytest.core.model.CoronaTest.State
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
-import de.rki.coronawarnapp.familytest.core.model.recycle
+import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
+import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
+import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
+import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
-import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
-import de.rki.coronawarnapp.util.flow.shareLatest
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
-import kotlinx.coroutines.plus
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FamilyTestRepository @Inject constructor(
-    dispatcherProvider: DispatcherProvider,
-    @AppScope private val appScope: CoroutineScope,
-    private val processor: BaseCoronaTestProcessor,
+    private val processor: CoronaTestProcessor,
     private val storage: FamilyTestStorage,
     private val timeStamper: TimeStamper,
 ) {
 
-    private val familyTestMap = storage.familyTestMap
-
     val familyTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
-        it.values.filter { test -> test.isNotRecycled }.toSet()
-    }.shareLatest(
-        tag = TAG,
-        scope = appScope + dispatcherProvider.IO
-    )
+        it.values.toSet()
+    }
 
-    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
-        it.values.filter { test -> test.isRecycled }.toSet()
-    }.shareLatest(
-        tag = TAG,
-        scope = appScope + dispatcherProvider.IO
-    )
+    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestRecycleBinMap.map {
+        it.values.filter { it.isRecycled }.toSet()
+    }
 
     suspend fun registerTest(
         qrCode: CoronaTestQRCode,
         personName: String
     ): FamilyCoronaTest {
-        val test = FamilyCoronaTest(
+        return FamilyCoronaTest(
             personName = personName,
             coronaTest = processor.register(qrCode)
-        )
-        storage.save(test)
-        return test
+        ).also { test ->
+            storage.save(test)
+        }
+    }
+
+    suspend fun refresh() {
+        familyTests.first().filter {
+            !it.coronaTest.isPollingStopped()
+        }.forEach { originalTest ->
+            val updateResult = processor.pollServer(originalTest.coronaTest) ?: return
+            storage.update(originalTest.identifier) { test ->
+                test.updateTestResult(
+                    updateResult.coronaTestResult
+                ).let { updated ->
+                    updateResult.labId?.let { labId ->
+                        updated.updateLabId(labId)
+                    } ?: updated
+                }.let { updated ->
+                    updateResult.sampleCollectedAt?.let { collectedAt ->
+                        updated.updateSampleCollectedAt(collectedAt)
+                    } ?: updated
+                }
+            }
+        }
     }
 
     suspend fun restoreTest(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.restore())
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.restore()
+        }
     }
 
     suspend fun moveTestToRecycleBin(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.recycle(timeStamper.nowUTC))
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.moveToRecycleBin(timeStamper.nowUTC)
+        }
     }
 
     suspend fun deleteTest(
@@ -85,87 +93,55 @@ class FamilyTestRepository @Inject constructor(
         storage.delete(test)
     }
 
-    suspend fun refresh(forceRefresh: Boolean = false) {
-        val refreshed = familyTests.first().map { familyTest ->
-            val oldState = familyTest.coronaTest.state
-            val updatedTest = processor.pollServer(familyTest.coronaTest, forceRefresh)
-            val newState = updatedTest.state
-
-            FamilyCoronaTest(
-                familyTest.personName,
-                updatedTest.copy(
-                    uiState = updatedTest.uiState.copy(
-                        hasResultChangeBadge = testHasInterestingResultChange(oldState, newState)
-                    )
-                )
-            )
-        }
-
-        refreshed.forEach {
-            storage.update(it)
-        }
-    }
-
     suspend fun markViewed(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.markViewed())
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.markViewed()
+        }
     }
 
     suspend fun markBadgeAsViewed(
         identifier: TestIdentifier
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.markBadgeAsViewed())
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.markBadgeAsViewed()
+        }
     }
 
     suspend fun updateResultNotification(
         identifier: TestIdentifier,
         sent: Boolean
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.updateResultNotification(sent))
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.updateResultNotification(sent)
+        }
     }
 
     suspend fun markDccAsCreated(
         identifier: TestIdentifier,
         created: Boolean
     ) {
-        val test = getTest(identifier) ?: return
-        val updated = test.copy(coronaTest = test.coronaTest.markDccCreated(created))
-        storage.update(updated)
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markDccCreated(created))
+        }
     }
 
     suspend fun clear() {
-        // TBD
+        storage.clear()
     }
 
-    private suspend fun getTest(identifier: TestIdentifier) = familyTestMap.first()[identifier]
-
-    companion object {
-        private val TAG = tag<FamilyTestRepository>()
-    }
+    private suspend fun getTest(identifier: TestIdentifier) =
+        storage.familyTestMap.first()[identifier] ?: storage.familyTestRecycleBinMap.first()[identifier]
 }
 
-fun testHasInterestingResultChange(
-    oldState: State,
-    newState: State
-): Boolean {
-    Timber.tag("FamilyTestRepository").d("oldState=%s newState=%s", oldState, newState)
-    val states = setOf(
-        State.POSITIVE,
-        State.NEGATIVE,
-        State.INVALID
-    )
+private fun CoronaTest.isPollingStopped(): Boolean = testResult in finalStates
 
-    return when {
-        // Recycled is not an actual test state
-        // ex: Positive -> Recycled -> Positive -> false change
-        State.RECYCLED in listOf(oldState, newState) -> false
-        else -> oldState != newState && newState in states
-    }
-}
+private val finalStates = setOf(
+    CoronaTestResult.PCR_POSITIVE,
+    CoronaTestResult.PCR_NEGATIVE,
+    CoronaTestResult.PCR_OR_RAT_REDEEMED,
+    CoronaTestResult.RAT_REDEEMED,
+    CoronaTestResult.RAT_POSITIVE,
+    CoronaTestResult.RAT_NEGATIVE,
+)

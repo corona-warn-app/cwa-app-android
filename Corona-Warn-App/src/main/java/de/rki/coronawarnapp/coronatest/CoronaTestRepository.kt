@@ -9,8 +9,8 @@ import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
@@ -39,7 +39,7 @@ class CoronaTestRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: CoronaTestStorage,
-    private val processors: Set<@JvmSuppressWildcards CoronaTestProcessor>,
+    private val processors: Set<@JvmSuppressWildcards PersonalCoronaTestProcessor>,
     private val legacyMigration: PCRTestMigration,
     private val contactDiaryRepository: ContactDiaryRepository
 ) {
@@ -308,7 +308,7 @@ class CoronaTestRepository @Inject constructor(
 
     private suspend fun modifyTest(
         identifier: TestIdentifier,
-        update: suspend (CoronaTestProcessor, PersonalCoronaTest) -> PersonalCoronaTest
+        update: suspend (PersonalCoronaTestProcessor, PersonalCoronaTest) -> PersonalCoronaTest
     ) {
         internalData.updateBlocking {
             val original = values.singleOrNull { it.identifier == identifier }
