@@ -21,11 +21,12 @@ class FamilyTestCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<FamilyTestCard.
         familyBadgeCount.isVisible = curItem.badgeCount != null
         familyBadgeCount.text = curItem.badgeCount.toString()
         familyTestSubtitleNews.isVisible = curItem.badgeCount != null
+        itemView.setOnClickListener { curItem.onCLickAction() }
     }
 
     data class Item(
         val badgeCount: Int? = null,
-        val onCLickAction: (Item) -> Unit
+        val onCLickAction: () -> Unit
     ) : HomeItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
     }
