@@ -26,7 +26,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class BaseCoronaTestProcessor @Inject constructor(
+class CoronaTestProcessor @Inject constructor(
     private val timeStamper: TimeStamper,
     private val coronaTestService: CoronaTestService,
 ) {

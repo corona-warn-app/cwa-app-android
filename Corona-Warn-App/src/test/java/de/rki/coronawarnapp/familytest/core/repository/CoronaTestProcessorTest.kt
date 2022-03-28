@@ -23,13 +23,21 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
 
-class BaseCoronaTestProcessorTest : BaseTest() {
+class CoronaTestProcessorTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var coronaTestService: CoronaTestService
 
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
     private val test = CoronaTest(
+        type = BaseCoronaTest.Type.PCR,
+        identifier = "identifier",
+        registeredAt = nowUTC,
+        registrationToken = "regtoken",
+        testResult = CoronaTestResult.PCR_OR_RAT_PENDING
+    )
+
+    private val updatedTest = CoronaTest(
         type = BaseCoronaTest.Type.PCR,
         identifier = "identifier",
         registeredAt = nowUTC,
@@ -184,7 +192,7 @@ class BaseCoronaTestProcessorTest : BaseTest() {
         }
     }
 
-    fun createInstance() = BaseCoronaTestProcessor(
+    fun createInstance() = CoronaTestProcessor(
         timeStamper = timeStamper,
         coronaTestService = coronaTestService,
     )

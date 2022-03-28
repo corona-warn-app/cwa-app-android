@@ -24,7 +24,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FamilyTestRepository @Inject constructor(
-    private val processor: BaseCoronaTestProcessor,
+    private val processor: CoronaTestProcessor,
     private val storage: FamilyTestStorage,
     private val timeStamper: TimeStamper,
 ) {
