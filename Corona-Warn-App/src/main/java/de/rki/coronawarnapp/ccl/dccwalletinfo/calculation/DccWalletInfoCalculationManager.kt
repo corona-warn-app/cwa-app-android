@@ -69,7 +69,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun initCalculation() {
         calculation.init(
-            boosterRulesRepository.rules.first(),
+            boosterRules = boosterRulesRepository.rules.first(),
+            invalidationRules = dccValidationRepository.invalidationRules.first()
         )
     }
 
