@@ -21,9 +21,11 @@ import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
+import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,6 +54,7 @@ class FamilyCoronaTestConverter {
 
     private val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Instant::class.java, InstantAdapter())
+        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .create()
 
     @TypeConverter
