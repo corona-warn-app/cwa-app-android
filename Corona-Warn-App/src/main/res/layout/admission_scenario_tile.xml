@@ -26,6 +26,7 @@
         <TextView
             android:id="@+id/admission_tile_title"
             android:layout_width="0dp"
+            style="@style/body2Medium"
             android:layout_height="wrap_content"
             android:text="@string/ccl_admission_state_tile_title"
             app:layout_constraintEnd_toStartOf="@+id/arrow_icon"
