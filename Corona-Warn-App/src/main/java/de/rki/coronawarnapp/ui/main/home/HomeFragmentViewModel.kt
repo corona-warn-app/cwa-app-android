@@ -211,13 +211,10 @@ class HomeFragmentViewModel @AssistedInject constructor(
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         familyTestRepository.familyTests
     ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, familyTests ->
-        val statePCR = testPCR.toSubmissionState()
-        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
-        val pcrIdentifier = testPCR?.identifier ?: ""
-        val ratIdentifier = testRAT?.identifier ?: ""
+        val pcrIdentifier = testPCR?.identifier.orEmpty()
+        val ratIdentifier = testRAT?.identifier.orEmpty()
 
         mutableListOf<HomeItem>().apply {
-
             val currentRiskState = when (tracingItem) {
                 is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
                 is LowRiskCard.Item -> RiskState.LOW_RISK
@@ -239,41 +236,34 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            // My own tests
-            when (statePCR) {
-                SubmissionStatePCR.NoTest -> {
-                    if (stateRAT == SubmissionStateRAT.NoTest) {
-                        add(testPCR.toTestCardItem(pcrIdentifier))
-                    } else {
-                        add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
-                        add(testPCR.toTestCardItem(pcrIdentifier))
-                    }
-                }
-                else -> {
-                    add(testPCR.toTestCardItem(pcrIdentifier))
-                    if (stateRAT != SubmissionStateRAT.NoTest) {
-                        add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
-                        add(
-                            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
-                                events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
-                            }
-                        )
-                    } else {
-                        add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
-                    }
-                }
+            // PCR test card, register test is added below
+            val pcrTestCard = testPCR.toTestCardItem(pcrIdentifier)
+            if (pcrTestCard !is TestUnregisteredCard.Item) {
+                add(pcrTestCard)
+            }
+
+            // RAT test card, register test is added below
+            val ratTestCard = testRAT.toTestCardItem(coronaTestParameters, ratIdentifier)
+            if (ratTestCard !is TestUnregisteredCard.Item) {
+                add(ratTestCard)
             }
 
             // Family tests tile
             if (familyTests.isNotEmpty()) {
-                val badgeCount = familyTests.count { it.hasBadge }
                 add(
                     FamilyTestCard.Item(
-                        badgeCount = badgeCount,
+                        badgeCount = familyTests.count { it.hasBadge },
                         onCLickAction = { events.postValue(HomeFragmentEvents.GoToFamilyTests) }
                     )
                 )
             }
+
+            // Register test card
+            add(
+                TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+                    events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
+                }
+            )
 
             if (statsData.isDataAvailable) {
                 add(
