@@ -37,47 +37,51 @@ internal class CclConfigurationUpdaterTest : BaseTest() {
     }
 
     @Test
-    fun `updateIfRequired() should update booster rules and ccl configuration if required`() = runBlockingTest {
-        coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
-        coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
+    fun `updateIfRequired() should update booster rules, invalidation rules and ccl configuration if required`() =
+        runBlockingTest {
+            coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
+            coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-02T00:00:00Z")
 
-        coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
-        coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
-        coEvery { dccValidationRepository.updateInvalidationRules() } returns UpdateResult.NO_UPDATE
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.UPDATE
+            coEvery { cclConfigurationRepository.updateCclConfiguration() } returns UpdateResult.NO_UPDATE
+            coEvery { dccValidationRepository.updateInvalidationRules() } returns UpdateResult.NO_UPDATE
 
-        getInstance().updateIfRequired()
+            getInstance().updateIfRequired()
 
-        coVerify(exactly = 1) {
-            boosterRulesRepository.update()
-            cclConfigurationRepository.updateCclConfiguration()
-            dccValidationRepository.updateInvalidationRules()
+            coVerify(exactly = 1) {
+                boosterRulesRepository.update()
+                cclConfigurationRepository.updateCclConfiguration()
+                dccValidationRepository.updateInvalidationRules()
 
-            cclSettings.setExecutionTimeToNow(any())
-            dccWalletInfoUpdateTrigger.triggerAfterConfigChange(true)
+                cclSettings.setExecutionTimeToNow(any())
+                dccWalletInfoUpdateTrigger.triggerAfterConfigChange(true)
+            }
+
+            // false should be passed to the trigger when there are no updates
+            coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
+            getInstance().updateIfRequired()
+            coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerAfterConfigChange(false) }
         }
 
-        // false should be passed to the trigger when there are no updates
-        coEvery { boosterRulesRepository.update() } returns UpdateResult.NO_UPDATE
-        getInstance().updateIfRequired()
-        coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerAfterConfigChange(false) }
-    }
-
     @Test
-    fun `updateIfRequired() should NOT update booster rules and ccl configuration if NOT required but should trigger DccWalletInfo recalculation`() =
+    fun `updateIfRequired() should NOT update if NOT required but should trigger DccWalletInfo recalculation`() =
         runBlockingTest {
             coEvery { cclSettings.getLastExecutionTime() } returns Instant.parse("2000-01-01T00:00:00Z")
             coEvery { timeStamper.nowUTC } returns Instant.parse("2000-01-01T00:00:00Z")
 
             getInstance().updateIfRequired()
 
-            verify { boosterRulesRepository wasNot Called }
-            verify { cclConfigurationRepository wasNot Called }
+            verify {
+                boosterRulesRepository wasNot Called
+                cclConfigurationRepository wasNot Called
+                dccValidationRepository wasNot Called
+            }
 
             coVerify(exactly = 1) { dccWalletInfoUpdateTrigger.triggerAfterConfigChange(false) }
         }
 
     @Test
-    fun `updateConfiguration() should return true if any item was downloaded or false otherwise`() =
+    fun `updateConfiguration() should return true if anything was downloaded or false otherwise`() =
         runBlockingTest {
 
             val updater = getInstance()
