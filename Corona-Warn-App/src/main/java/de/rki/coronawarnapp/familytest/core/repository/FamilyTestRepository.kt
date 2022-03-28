@@ -14,6 +14,8 @@ import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
 import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +36,7 @@ class FamilyTestRepository @Inject constructor(
     }
 
     val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestRecycleBinMap.map {
-        it.values.filter { it.isRecycled }.toSet()
+        it.values.toSet()
     }
 
     suspend fun registerTest(
@@ -49,25 +51,31 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun refresh() {
+    suspend fun refresh(): Map<TestIdentifier, Exception> {
+        val exceptions = mutableMapOf<TestIdentifier, Exception>()
         familyTests.first().filter {
             !it.coronaTest.isPollingStopped()
         }.forEach { originalTest ->
-            val updateResult = processor.pollServer(originalTest.coronaTest) ?: return
-            storage.update(originalTest.identifier) { test ->
-                test.updateTestResult(
-                    updateResult.coronaTestResult
-                ).let { updated ->
-                    updateResult.labId?.let { labId ->
-                        updated.updateLabId(labId)
-                    } ?: updated
-                }.let { updated ->
-                    updateResult.sampleCollectedAt?.let { collectedAt ->
-                        updated.updateSampleCollectedAt(collectedAt)
-                    } ?: updated
-                }
+            when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
+                is CoronaTestResultUpdate ->
+                    storage.update(originalTest.identifier) { test ->
+                        test.updateTestResult(
+                            updateResult.coronaTestResult
+                        ).let { updated ->
+                            updateResult.labId?.let { labId ->
+                                updated.updateLabId(labId)
+                            } ?: updated
+                        }.let { updated ->
+                            updateResult.sampleCollectedAt?.let { collectedAt ->
+                                updated.updateSampleCollectedAt(collectedAt)
+                            } ?: updated
+                        }
+                    }
+                is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
         }
+
+        return exceptions
     }
 
     suspend fun restoreTest(
