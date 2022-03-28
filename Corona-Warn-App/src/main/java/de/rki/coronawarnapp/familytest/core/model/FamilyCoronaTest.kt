@@ -62,5 +62,4 @@ private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged: Boolean
     get() = this.first != this.second && this.second in setOf(
         CoronaTest.State.NEGATIVE,
         CoronaTest.State.POSITIVE,
-        CoronaTest.State.INVALID
     )
