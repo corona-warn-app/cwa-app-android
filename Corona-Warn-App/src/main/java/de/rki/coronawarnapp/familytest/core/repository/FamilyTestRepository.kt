@@ -50,9 +50,9 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun refresh() {
-        familyTests.first().forEach { originalTest ->
-            if (originalTest.coronaTest.isPollingStopped()) return
-
+        familyTests.first().filter {
+            !it.coronaTest.isPollingStopped()
+        }.forEach { originalTest ->
             val updateResult = processor.pollServer(originalTest.coronaTest) ?: return
             storage.update(originalTest.identifier) { test ->
                 test.updateTestResult(
