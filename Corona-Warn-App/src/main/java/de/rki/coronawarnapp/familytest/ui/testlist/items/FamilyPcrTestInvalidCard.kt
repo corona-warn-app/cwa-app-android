@@ -33,6 +33,7 @@ class FamilyPcrTestInvalidCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        title.text = curItem.familyCoronaTest.personName
         itemView.setOnClickListener { curItem.onClickAction(item) }
     }
 

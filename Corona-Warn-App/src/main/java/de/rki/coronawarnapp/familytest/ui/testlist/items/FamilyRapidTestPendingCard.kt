@@ -33,6 +33,9 @@ class FamilyRapidTestPendingCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        title.text = curItem.familyCoronaTest.personName
+        val userDate = curItem.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
+        date.text = resources.getString(R.string.family_tests_cards_rapid_date, userDate)
         itemView.setOnClickListener { curItem.onClickAction(item) }
     }
 

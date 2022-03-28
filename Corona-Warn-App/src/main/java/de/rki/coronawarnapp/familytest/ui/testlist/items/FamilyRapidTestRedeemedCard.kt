@@ -33,13 +33,14 @@ class FamilyRapidTestRedeemedCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        title.text = curItem.familyCoronaTest.personName
         itemView.setOnClickListener { curItem.onClickAction(item) }
         deleteTestAction.setOnClickListener { curItem.onDeleteTest(item) }
     }
 
     data class Item(
         val familyCoronaTest: FamilyCoronaTest,
-        val onClickAction: (Item) -> Unit,  // TODO: do we need it?
+        val onClickAction: (Item) -> Unit, // TODO: do we need it?
         val onSwipeItem: (FamilyCoronaTest, Int) -> Unit,
         val onDeleteTest: (Item) -> Unit
     ) : FamilyTestListItem.RA, HasPayloadDiffer

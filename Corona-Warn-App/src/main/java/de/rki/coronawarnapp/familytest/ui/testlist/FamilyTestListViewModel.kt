@@ -3,8 +3,9 @@ package de.rki.coronawarnapp.familytest.ui.testlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
+import de.rki.coronawarnapp.appconfig.AppConfigProvider
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type
-import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest.State
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
@@ -20,101 +21,169 @@ import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPendingC
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestRedeemedCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
+import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
+import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class FamilyTestListViewModel(
     dispatcherProvider: DispatcherProvider,
+    private val appConfigProvider: AppConfigProvider,
     private val familyTestRepository: FamilyTestRepository,
+    private val timeStamper: TimeStamper,
     @AppScope private val appScope: CoroutineScope,
 ) : CWAViewModel(dispatcherProvider) {
 
-    @AssistedFactory
-    interface Factory : CWAViewModelFactory<FamilyTestListViewModel> {
-        fun create(): FamilyTestListViewModel
+    val events = SingleLiveEvent<FamilyTestListEvent>()
+
+    fun onRemoveAllTests() {
+        events.postValue(FamilyTestListEvent.ConfirmRemoveAllTests)
     }
 
-    val familyTests: LiveData<List<FamilyTestListItem>> = familyTestRepository.familyTests
-        .map { familyTests ->
-            familyTests
-                .sortedBy {
-                    // if (it.type == Type.RAPID_ANTIGEN) sampleCollectedAt TODO: how to get it?
-                    it.registeredAt
-                }
-                .map {
-                    when (it.coronaTest.type) {
-                        Type.PCR -> it.toPCRTestCardItem()
-                        Type.RAPID_ANTIGEN -> it.toRapidTestCardItem()
-                    }
-                }
-        }.asLiveData(context = dispatcherProvider.Default)
+    fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
+        launch(appScope) {
+            if (test == null) {
+                familyTestRepository.clear()
+            } else {
+                familyTestRepository.deleteTest(test.identifier)
+            }
+        }
+    }
 
-    private fun FamilyCoronaTest.toPCRTestCardItem(): FamilyTestListItem =
-        when (this.coronaTest.state) {
-            State.PENDING -> FamilyPcrTestPendingCard.Item(familyCoronaTest = this,
+    fun onRefreshTests() {
+        launch(appScope) {
+            familyTestRepository.refresh(true)
+        }
+    }
+
+    val familyTests: LiveData<List<FamilyTestListItem>> = combine(
+        familyTestRepository.familyTests,
+        appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
+    ) { familyTests, coronaTestParameters ->
+        familyTests
+            .sortedBy {
+                // if (it.type == Type.RAPID_ANTIGEN) sampleCollectedAt TODO: how to get it?
+                it.registeredAt
+            }
+            .map {
+                when (it.coronaTest.type) {
+                    Type.PCR -> it.toPCRTestCardItem(coronaTestParameters)
+                    Type.RAPID_ANTIGEN -> it.toRapidTestCardItem(coronaTestParameters)
+                }
+            }
+    }.asLiveData(context = dispatcherProvider.Default)
+
+    private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
+        when (this.coronaTest.getState(timeStamper.nowUTC, coronaTestConfig)) {
+            State.PENDING -> FamilyPcrTestPendingCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.NEGATIVE -> FamilyPcrTestNegativeCard.Item(familyCoronaTest = this,
+            State.NEGATIVE -> FamilyPcrTestNegativeCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.POSITIVE -> FamilyPcrTestPositiveCard.Item(familyCoronaTest = this,
+            State.POSITIVE -> FamilyPcrTestPositiveCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.INVALID -> FamilyPcrTestInvalidCard.Item(familyCoronaTest = this,
+            State.INVALID -> FamilyPcrTestInvalidCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.REDEEMED -> FamilyPcrTestRedeemedCard.Item(familyCoronaTest = this,
-                onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} },
+            State.REDEEMED -> FamilyPcrTestRedeemedCard.Item(
+                familyCoronaTest = this,
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                },
                 onDeleteTest = {}
             )
             // Should not be possible
-            State.RECYCLED -> FamilyPcrTestInvalidCard.Item(familyCoronaTest = this,
+            State.OUTDATED,
+            State.RECYCLED -> FamilyPcrTestInvalidCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position -> {} }
             )
         }
 
-    private fun FamilyCoronaTest.toRapidTestCardItem(): FamilyTestListItem =
-        when (this.coronaTest.state) {
-            State.PENDING -> FamilyRapidTestPendingCard.Item(familyCoronaTest = this,
+    private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
+        when (this.coronaTest.getState(timeStamper.nowUTC, coronaTestConfig)) {
+            State.PENDING -> FamilyRapidTestPendingCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.NEGATIVE -> FamilyRapidTestNegativeCard.Item(familyCoronaTest = this,
+            State.NEGATIVE -> FamilyRapidTestNegativeCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.POSITIVE -> FamilyRapidTestPositiveCard.Item(familyCoronaTest = this,
+            State.POSITIVE -> FamilyRapidTestPositiveCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.INVALID -> FamilyRapidTestInvalidCard.Item(familyCoronaTest = this,
+            State.INVALID -> FamilyRapidTestInvalidCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                }
             )
-            State.REDEEMED -> FamilyRapidTestRedeemedCard.Item(familyCoronaTest = this,
+            State.REDEEMED -> FamilyRapidTestRedeemedCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} },
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                },
                 onDeleteTest = {}
             )
-            //State.OUTDATED -> FamilyRapidTestOutdatedCard.Item({}) // TODO: add OUTDATED state
-            State.RECYCLED -> FamilyRapidTestInvalidCard.Item(familyCoronaTest = this,
+            State.OUTDATED -> FamilyRapidTestOutdatedCard.Item(
+                familyCoronaTest = this,
+                onSwipeItem = { familyCoronaTest, position ->
+                    events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
+                },
+                onDeleteTest = {}
+            )
+            // Should not be possible
+            State.RECYCLED -> FamilyRapidTestInvalidCard.Item(
+                familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position -> {} }
-            ) // Should not be possible
+            )
         }
 
     companion object {
         private const val TAG = "FamilyTestListViewModel"
+    }
+
+    @AssistedFactory
+    interface Factory : CWAViewModelFactory<FamilyTestListViewModel> {
+        fun create(): FamilyTestListViewModel
     }
 }

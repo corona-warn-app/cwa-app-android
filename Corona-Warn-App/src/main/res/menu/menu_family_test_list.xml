@@ -1,0 +1,5 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_remove_all"
+        android:title="@string/family_tests_list_menu_remove_all" />
+</menu>

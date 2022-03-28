@@ -12,16 +12,18 @@
         style="@style/CWAToolbar.Close.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:menu="@menu/menu_family_test_list"
         app:navigationIconTint="@color/colorQrCodeScanToolbar"
         app:title="Tests von Familienmitgliedern"
         app:titleTextColor="@color/colorQrCodeScanToolbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+            android:id="@+id/testsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

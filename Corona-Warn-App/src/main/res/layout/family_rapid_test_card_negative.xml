@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Mohamed Bernd Alexandru Juraj Chilja" />
+        tools:text="Mohamed Bernd Alexandru Juraj Chilja David Lukas" />
 
     <ImageView
         android:id="@+id/notification_badge"
