@@ -34,7 +34,7 @@ class FamilyTestRepository @Inject constructor(
     }
 
     val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestRecycleBinMap.map {
-        it.values.filter { it.isRecycled }.toSet()
+        it.values.toSet()
     }
 
     suspend fun registerTest(
@@ -49,25 +49,32 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun refresh() {
+    suspend fun refresh(): Map<TestIdentifier, Exception> {
+        val exceptions = mutableMapOf<TestIdentifier, Exception>()
         familyTests.first().filter {
             !it.coronaTest.isPollingStopped()
         }.forEach { originalTest ->
-            val updateResult = processor.pollServer(originalTest.coronaTest) ?: return
-            storage.update(originalTest.identifier) { test ->
-                test.updateTestResult(
-                    updateResult.coronaTestResult
-                ).let { updated ->
-                    updateResult.labId?.let { labId ->
-                        updated.updateLabId(labId)
-                    } ?: updated
-                }.let { updated ->
-                    updateResult.sampleCollectedAt?.let { collectedAt ->
-                        updated.updateSampleCollectedAt(collectedAt)
-                    } ?: updated
+            when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
+                is CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate ->
+                storage.update(originalTest.identifier) { test ->
+
+                    test.updateTestResult(
+                        updateResult.coronaTestResult
+                    ).let { updated ->
+                        updateResult.labId?.let { labId ->
+                            updated.updateLabId(labId)
+                        } ?: updated
+                    }.let { updated ->
+                        updateResult.sampleCollectedAt?.let { collectedAt ->
+                            updated.updateSampleCollectedAt(collectedAt)
+                        } ?: updated
+                    }
                 }
+                is CoronaTestProcessor.ServerResponse.Error -> exceptions[originalTest.identifier] = updateResult.error
             }
         }
+
+        return exceptions
     }
 
     suspend fun restoreTest(

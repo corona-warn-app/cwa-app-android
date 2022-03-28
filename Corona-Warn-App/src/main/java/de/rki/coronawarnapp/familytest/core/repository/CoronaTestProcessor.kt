@@ -66,7 +66,7 @@ class CoronaTestProcessor @Inject constructor(
         )
     }
 
-    suspend fun pollServer(test: CoronaTest): CoronaTestResultUpdate? {
+    suspend fun pollServer(test: CoronaTest): ServerResponse {
 
         return try {
             val response = try {
@@ -85,15 +85,15 @@ class CoronaTestProcessor @Inject constructor(
                 PCR -> response.coronaTestResult.toValidatedPcrResult()
             }
 
-            CoronaTestResultUpdate(
+            ServerResponse.CoronaTestResultUpdate(
                 coronaTestResult = testResult,
                 sampleCollectedAt = response.sampleCollectedAt,
-                labId = response.labId
+                labId = response.labId,
             )
         } catch (e: Exception) {
             Timber.e(e, "Failed to poll server for  %s", test)
             if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
-            null
+            return ServerResponse.Error(e)
         }
     }
 
@@ -109,9 +109,15 @@ class CoronaTestProcessor @Inject constructor(
         )
     }
 
-    data class CoronaTestResultUpdate(
-        val coronaTestResult: CoronaTestResult,
-        val sampleCollectedAt: Instant? = null,
-        val labId: String? = null,
-    )
+    sealed class ServerResponse {
+        data class CoronaTestResultUpdate(
+            val coronaTestResult: CoronaTestResult,
+            val sampleCollectedAt: Instant? = null,
+            val labId: String? = null,
+        ) : ServerResponse()
+
+        data class Error(
+            val error: Exception
+        ) : ServerResponse()
+    }
 }
