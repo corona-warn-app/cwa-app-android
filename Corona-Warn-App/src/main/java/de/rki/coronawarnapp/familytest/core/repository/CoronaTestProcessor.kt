@@ -42,7 +42,7 @@ class CoronaTestProcessor @Inject constructor(
             RAPID_ANTIGEN -> registrationData.testResultResponse.coronaTestResult.toValidatedRaResult()
         }
 
-        val additionalInfo = if (qrCode is CoronaTestQRCode.RapidAntigen) CoronaTest.AdditionalInfo(
+        val additionalInfo = if (qrCode is CoronaTestQRCode.Rapid) CoronaTest.AdditionalInfo(
             firstName = qrCode.firstName,
             lastName = qrCode.lastName,
             dateOfBirth = qrCode.dateOfBirth,
