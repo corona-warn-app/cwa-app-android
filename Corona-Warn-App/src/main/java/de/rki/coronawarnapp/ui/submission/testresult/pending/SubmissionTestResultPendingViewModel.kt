@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.toDeviceUIState
@@ -119,7 +120,11 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 }
                 else -> {
                     if (it.coronaTest.isDccConsentGiven) {
-                        R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
+                        if (it.coronaTest is FamilyCoronaTest) {
+                            R.string.submission_family_test_result_pending_steps_test_certificate_not_available_yet_body
+                        } else {
+                            R.string.submission_test_result_pending_steps_test_certificate_not_available_yet_body
+                        }
                     } else {
                         R.string.submission_test_result_pending_steps_test_certificate_not_desired_by_user_body
                     }
