@@ -57,7 +57,6 @@
             android:layout_height="wrap_content"
             android:enabled="@{uiState.tanValid}"
             android:text="@string/submission_tan_button_text"
-            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

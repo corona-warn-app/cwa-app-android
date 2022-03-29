@@ -199,7 +199,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_accept_button"
-            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
