@@ -63,7 +63,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                                 requireContext().getText(R.string.submission_family_test_result_steps_added_pcr_heading)
                             )
                             pendingTestResultStepsWaiting.setEntryText(
-                                getText(R.string.submission_family_teseet_result_pending_setps_waiting_pcr_body)
+                                getText(R.string.submission_family_test_result_pending_steps_waiting_pcr_body)
                             )
                         } else {
                             typeOfPendingTestResult.setEntryTitle(
@@ -79,6 +79,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                         testResultPendingStepsCertificateInfo.setEntryTitle(
                             getText(R.string.submission_family_test_result_pending_steps_certificate_heading)
                         )
+                        familyMemberName.text = result.coronaTest.personName
                         testResultPendingStepsContactDiaryResult.isVisible = false
                         consentStatus.isVisible = false
                     }

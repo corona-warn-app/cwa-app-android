@@ -71,6 +71,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
 
     val testState: LiveData<TestResultUIState> = testResultFlow
         .onEach { testResultUIState ->
+            val isFamilyTest = testResultUIState.coronaTest is FamilyCoronaTest
             when (val deviceState = testResultUIState.coronaTest.testResult) {
                 CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->
                     SubmissionTestResultPendingFragmentDirections
@@ -83,11 +84,21 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                             testType = testType,
                             testIdentifier = testIdentifier
                         )
-                CoronaTestResult.RAT_NEGATIVE ->
-                    SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment(
-                            testIdentifier = testIdentifier
-                        )
+                CoronaTestResult.RAT_NEGATIVE -> {
+                    if (isFamilyTest) {
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
+                                testType = testType,
+                                testIdentifier = testIdentifier
+                            )
+                    }
+                    else {
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment(
+                                testIdentifier = testIdentifier
+                            )
+                    }
+                }
                 CoronaTestResult.PCR_OR_RAT_REDEEMED,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.RAT_REDEEMED,

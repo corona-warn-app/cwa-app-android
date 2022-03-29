@@ -1042,7 +1042,7 @@
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under Request TAN to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
     <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
-    <string name="submission_family_teseet_result_pending_setps_waiting_pcr_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\nSie bekommen das Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\nSie bekommen das Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1060,6 +1060,8 @@
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Your COVID Test Certificate"</string>
     <!-- XHED: Page headline for family test result certificate info title -->
     <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID-Testzertifikat"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Das digitale  COVID-Testzertifikat liegt im Tab „Zertifikate“ vor."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"An official digital COVID test certificate cannot be issued because this testing point does not support the issuing of test certificates."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
