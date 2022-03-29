@@ -37,7 +37,7 @@ class CoronaTestProvider @Inject constructor(
                 testResultAvailableNotificationService.cancelTestResultAvailableNotification()
             }
             is FamilyCoronaTest -> {
-                familyTestRepository.markAsViewed(test.identifier)
+                familyTestRepository.markViewed(test.identifier)
             }
         }
     }
