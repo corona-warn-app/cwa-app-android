@@ -39,6 +39,20 @@ class DccWalletInfoRepository @Inject constructor(
             scope = appScope + dispatcherProvider.IO
         )
 
+    val blockedCertificateQrCodeHashes: Flow<Set<String>> = personWallets.map { walletInfoSet ->
+        walletInfoSet.map { walletInfo ->
+            walletInfo
+                .dccWalletInfo
+                ?.certificatesRevokedByInvalidationRules
+                ?.certificateRef
+                ?.map { certificateRef ->
+                    certificateRef.qrCodeHash()
+                } ?: emptyList()
+        }
+            .flatten()
+            .toSet()
+    }
+
     suspend fun save(
         personIdentifier: CertificatePersonIdentifier,
         dccWalletInfo: DccWalletInfo

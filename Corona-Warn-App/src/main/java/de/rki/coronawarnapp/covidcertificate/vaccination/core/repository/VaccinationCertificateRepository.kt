@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
@@ -39,6 +40,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@Suppress("LongParameterList")
 class VaccinationCertificateRepository @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     valueSetsRepository: ValueSetsRepository,
@@ -48,7 +50,8 @@ class VaccinationCertificateRepository @Inject constructor(
     private val dccStateChecker: DccStateChecker,
     private val vaccinationMigration: VaccinationMigration,
     @AppScope private val appScope: CoroutineScope,
-    dscRepository: DscRepository
+    dscRepository: DscRepository,
+    dccWalletInfoRepository: DccWalletInfoRepository
 ) {
 
     private val internalData: HotDataFlow<Map<VaccinationCertificateContainerId, VaccinationCertificateContainer>> =
@@ -72,12 +75,17 @@ class VaccinationCertificateRepository @Inject constructor(
     val freshCertificates: Flow<Set<VaccinationCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
-        dscRepository.dscData
-    ) { certMap, valueSets, _ ->
+        dscRepository.dscData,
+        dccWalletInfoRepository.blockedCertificateQrCodeHashes
+    ) { certMap, valueSets, _, blockedCertificateQrCodeHashes ->
         certMap.values
             .filter { it.isNotRecycled }
             .map { container ->
-                val state = dccStateChecker.checkState(container.certificateData).first()
+                val state = if (container.qrCodeHash in blockedCertificateQrCodeHashes) {
+                    CwaCovidCertificate.State.Blocked
+                } else {
+                    dccStateChecker.checkState(container.certificateData).first()
+                }
                 VaccinationCertificateWrapper(
                     valueSets = valueSets,
                     container = container,

@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -47,6 +48,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var vaccinationMigration: VaccinationMigration
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
@@ -69,6 +71,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
         every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
+        every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
 
         storage.apply {
             coEvery { loadLegacyData() } answers { testStorage }
@@ -85,7 +88,8 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         qrCodeExtractor = dccQrCodeExtractor,
         dccStateChecker = dccStateChecker,
         dscRepository = dscRepository,
-        vaccinationMigration = vaccinationMigration
+        vaccinationMigration = vaccinationMigration,
+        dccWalletInfoRepository = dccWalletInfoRepository
     )
 
     @Test

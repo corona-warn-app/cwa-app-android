@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -45,7 +46,8 @@ class RecoveryCertificateRepository @Inject constructor(
     private val storage: RecoveryCertificateStorage,
     private val dccStateChecker: DccStateChecker,
     private val timeStamper: TimeStamper,
-    dscRepository: DscRepository
+    dscRepository: DscRepository,
+    dccWalletInfoRepository: DccWalletInfoRepository
 ) {
 
     private val internalData: HotDataFlow<Map<RecoveryCertificateContainerId, RecoveryCertificateContainer>> =
@@ -81,12 +83,17 @@ class RecoveryCertificateRepository @Inject constructor(
 
     val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
-        dscRepository.dscData
-    ) { certMap, _ ->
+        dscRepository.dscData,
+        dccWalletInfoRepository.blockedCertificateQrCodeHashes
+    ) { certMap, _, blockedCertificateQrCodeHashes ->
         certMap.values
             .filter { it.isNotRecycled }
             .map { container ->
-                val state = dccStateChecker.checkState(container.certificateData).first()
+                val state = if (container.qrCodeHash in blockedCertificateQrCodeHashes) {
+                    CwaCovidCertificate.State.Blocked
+                } else {
+                    dccStateChecker.checkState(container.certificateData).first()
+                }
                 RecoveryCertificateWrapper(
                     valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
                     container = container,
