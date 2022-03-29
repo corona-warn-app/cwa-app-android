@@ -3,25 +3,17 @@ package de.rki.coronawarnapp.familytest.core.notification
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.notification.NotificationConstants.FAMILY_TEST_RESULT_AVAILABLE_NOTIFICATION_ID
-import de.rki.coronawarnapp.notification.NotificationId
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.main.MainActivity
-import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.util.coroutine.AppScope
-import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
@@ -54,7 +46,6 @@ class FamilyTestResultAvailableNotificationService @Inject constructor(
                     Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
                     familyTestRepository.markAsNotified(it.identifier, true)
                 }
-
             }.launchIn(appScope)
     }
 
