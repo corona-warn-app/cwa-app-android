@@ -31,8 +31,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import timber.log.Timber
 
 class FamilyTestListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -43,6 +43,11 @@ class FamilyTestListViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<FamilyTestListEvent>()
+    val refreshComplete = SingleLiveEvent<Unit>()
+
+    fun onBackPressed() {
+        events.postValue(FamilyTestListEvent.NavigateBack)
+    }
 
     fun onRemoveAllTests() {
         events.postValue(FamilyTestListEvent.ConfirmRemoveAllTests)
@@ -51,7 +56,9 @@ class FamilyTestListViewModel @AssistedInject constructor(
     fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
         launch(appScope) {
             if (test == null) {
-                familyTestRepository.clear()
+                familyTestRepository.familyTests.first().map { familyTest ->
+                    familyTestRepository.moveTestToRecycleBin(familyTest.identifier)
+                }
             } else {
                 familyTestRepository.moveTestToRecycleBin(test.identifier)
             }
@@ -60,7 +67,9 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     fun onRefreshTests() {
         launch(appScope) {
-            familyTestRepository.refresh()
+            familyTestRepository.refresh().also {
+                refreshComplete.postValue(null)
+            }
         }
     }
 
@@ -76,6 +85,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 when (it.coronaTest.type) {
                     Type.PCR -> it.toPCRTestCardItem(coronaTestParameters)
                     Type.RAPID_ANTIGEN -> it.toRapidTestCardItem(coronaTestParameters)
+                }
+            }.also {
+                if (it.isEmpty()) {
+                    events.postValue(FamilyTestListEvent.NavigateBack)
                 }
             }
     }.asLiveData(context = dispatcherProvider.Default)
@@ -100,7 +113,6 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position ->
-                    Timber.tag(">>>").d("Swiped!")
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 }
             )
@@ -147,7 +159,6 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position ->
-                    Timber.tag(">>>").d("Swiped!")
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 }
             )

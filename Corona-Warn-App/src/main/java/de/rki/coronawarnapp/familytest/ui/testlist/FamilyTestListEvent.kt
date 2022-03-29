@@ -9,4 +9,6 @@ sealed class FamilyTestListEvent {
     object ConfirmRemoveAllTests : FamilyTestListEvent()
 
     data class ConfirmSwipeTest(val familyCoronaTest: FamilyCoronaTest, val position: Int) : FamilyTestListEvent()
+
+    object NavigateBack : FamilyTestListEvent()
 }
