@@ -45,6 +45,6 @@
 
     <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:textSize">20sp</item>
-        <item name="android:textFontWeight">600</item>
+        <item name="android:textFontWeight">500</item>
     </style>
 </resources>
