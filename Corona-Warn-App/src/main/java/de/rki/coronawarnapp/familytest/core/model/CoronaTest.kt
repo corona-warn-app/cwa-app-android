@@ -11,11 +11,11 @@ import org.joda.time.Instant
 import org.joda.time.LocalDate
 
 data class CoronaTest(
-    @SerializedName("type")
-    override val type: BaseCoronaTest.Type,
-
     @SerializedName("identifier")
     override val identifier: TestIdentifier,
+
+    @SerializedName("type")
+    override val type: BaseCoronaTest.Type,
 
     @SerializedName("registeredAt")
     override val registeredAt: Instant,
@@ -32,9 +32,6 @@ data class CoronaTest(
     @SerializedName("qrCodeHash")
     override val qrCodeHash: String? = null,
 
-    @SerializedName("recycledAt")
-    override var recycledAt: Instant? = null,
-
     @SerializedName("dcc")
     val dcc: Dcc = Dcc(),
 
@@ -42,7 +39,10 @@ data class CoronaTest(
     val uiState: UiState = UiState(),
 
     @SerializedName("additionalInfo")
-    val additionalInfo: AdditionalInfo? = null
+    val additionalInfo: AdditionalInfo? = null,
+
+    @Transient
+    override var recycledAt: Instant? = null,
 ) :
     BaseCoronaTest,
     CoronaTestUiState by uiState,
@@ -113,6 +113,9 @@ data class CoronaTest(
     ) : CoronaTestUiState
 
     data class AdditionalInfo(
+        @SerializedName("createdAt")
+        val createdAt: Instant,
+
         @SerializedName("firstName")
         val firstName: String? = null,
 
@@ -122,42 +125,42 @@ data class CoronaTest(
         @SerializedName("dateOfBirth")
         val dateOfBirth: LocalDate? = null,
 
-        @SerializedName("createdAt")
-        val createdAt: Instant,
-
         @SerializedName("sampleCollectedAt")
         val sampleCollectedAt: Instant? = null,
     )
 }
 
-fun CoronaTest.markViewed(): CoronaTest {
+internal fun CoronaTest.markViewed(): CoronaTest {
     return copy(uiState = uiState.copy(isViewed = true))
 }
 
-fun CoronaTest.markBadgeAsViewed(): CoronaTest {
+internal fun CoronaTest.markBadgeAsViewed(): CoronaTest {
     return copy(uiState = uiState.copy(didShowBadge = true))
 }
 
-fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
+internal fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
     return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
 }
 
-fun CoronaTest.markDccCreated(created: Boolean): CoronaTest {
-    return copy(dcc = dcc.copy(isDccDataSetCreated = created))
-}
-
-fun CoronaTest.recycle(now: Instant): CoronaTest {
-    return copy(recycledAt = now)
-}
-
-fun CoronaTest.restore(): CoronaTest {
+internal fun CoronaTest.restore(): CoronaTest {
     return copy(recycledAt = null)
 }
 
-fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
+internal fun CoronaTest.moveToRecycleBin(now: Instant): CoronaTest {
+    return copy(recycledAt = now)
+}
+
+internal fun CoronaTest.updateTestResult(testResult: CoronaTestResult): CoronaTest {
     return copy(testResult = testResult)
 }
 
-fun CoronaTest.updateLabId(labId: String): CoronaTest {
+internal fun CoronaTest.updateLabId(labId: String): CoronaTest {
     return copy(labId = labId)
+}
+
+internal fun CoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant): CoronaTest {
+    val additionalInfo = additionalInfo?.copy(sampleCollectedAt = sampleCollectedAt)
+        // shouldn't occur, sampleCollectedAt should also be when the test has been created
+        ?: CoronaTest.AdditionalInfo(createdAt = sampleCollectedAt, sampleCollectedAt = sampleCollectedAt)
+    return copy(additionalInfo = additionalInfo)
 }
