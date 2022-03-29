@@ -9,9 +9,7 @@ data class FamilyCoronaTest(
     @SerializedName("personName")
     val personName: String,
     @SerializedName("coronaTest")
-    val coronaTest: CoronaTest,
-    @SerializedName("hasResultChangedBadge")
-    val hasResultChangedBadge: Boolean = false,
+    val coronaTest: CoronaTest
 ) : BaseCoronaTest by coronaTest
 
 internal fun FamilyCoronaTest.markViewed(): FamilyCoronaTest {
