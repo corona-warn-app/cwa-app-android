@@ -14,6 +14,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerifySequence
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
@@ -58,7 +59,7 @@ class CoronaTestProcessorTest : BaseTest() {
                 labId = null,
             )
             coEvery { registerTest(any()) } answers {
-                val request = arg<RegistrationRequest>(0)
+                val request = firstArg<RegistrationRequest>()
 
                 RegistrationData(
                     registrationToken = "regtoken-${request.type}",
@@ -87,7 +88,7 @@ class CoronaTestProcessorTest : BaseTest() {
             type = VerificationKeyType.GUID,
         )
 
-        coVerifySequence {
+        coVerify {
             coronaTestService.registerTest(request)
         }
     }
@@ -103,7 +104,7 @@ class CoronaTestProcessorTest : BaseTest() {
 
         createInstance().pollServer(test)
 
-        coVerifySequence {
+        coVerify {
             coronaTestService.checkTestResult("registrationToken1")
         }
     }

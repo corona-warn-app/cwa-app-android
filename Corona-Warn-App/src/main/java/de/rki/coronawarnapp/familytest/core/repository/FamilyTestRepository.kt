@@ -53,8 +53,8 @@ class FamilyTestRepository @Inject constructor(
 
     suspend fun refresh(): Map<TestIdentifier, Exception> {
         val exceptions = mutableMapOf<TestIdentifier, Exception>()
-        familyTests.first().filter {
-            !it.coronaTest.isPollingStopped()
+        familyTests.first().filterNot {
+            it.coronaTest.isPollingStopped()
         }.forEach { originalTest ->
             when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
                 is CoronaTestResultUpdate ->

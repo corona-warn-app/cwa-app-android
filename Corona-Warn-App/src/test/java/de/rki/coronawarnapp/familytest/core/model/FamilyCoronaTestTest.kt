@@ -27,7 +27,7 @@ class FamilyCoronaTestTest : BaseTest() {
             CoronaTestResult.PCR_NEGATIVE
         )
         updated.testResult shouldBe CoronaTestResult.PCR_NEGATIVE
-        updated.hasResultChangeBadge shouldBe true
+        updated.hasResultChangedBadge shouldBe true
     }
 
     @Test
@@ -36,6 +36,6 @@ class FamilyCoronaTestTest : BaseTest() {
             CoronaTestResult.PCR_OR_RAT_REDEEMED
         )
         updated.testResult shouldBe CoronaTestResult.PCR_OR_RAT_REDEEMED
-        updated.hasResultChangeBadge shouldBe false
+        updated.hasResultChangedBadge shouldBe false
     }
 }
