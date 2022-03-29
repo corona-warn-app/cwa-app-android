@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.coronatest.type
 
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 
-interface CoronaTestProcessor {
+interface PersonalCoronaTestProcessor {
 
     val type: BaseCoronaTest.Type
 

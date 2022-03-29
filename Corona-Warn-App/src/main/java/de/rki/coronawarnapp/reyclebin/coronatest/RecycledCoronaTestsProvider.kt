@@ -28,7 +28,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     private val testsMaps: Flow<Map<TestIdentifier, BaseCoronaTest>> = combine(
         coronaTestRepository.recycledTests,
-        familyTestRepository.recycledTests
+        familyTestRepository.familyTestRecycleBin
     ) { personalTests, familyTests ->
         personalTests.plus(familyTests).associateBy { it.identifier }
     }
