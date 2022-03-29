@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.core.notification.FamilyTestResultAvailableNotificationService
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -89,6 +90,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
     @MockK lateinit var cclConfigurationUpdateScheduler: CclConfigurationUpdateScheduler
+    @MockK lateinit var familyTestResultAvailableNotificationService: FamilyTestResultAvailableNotificationService
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -154,6 +156,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
                 app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
+                app.familyTestResultAvailableNotificationService = familyTestResultAvailableNotificationService
             }
         }
     }
@@ -193,6 +196,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             dscCheckScheduler.setup()
             recycleBinCleanUpScheduler.setup()
             cclConfigurationUpdateScheduler.setup()
+            familyTestResultAvailableNotificationService.setup()
         }
     }
 }
