@@ -35,7 +35,7 @@ class SubmissionTestResultKeysSharedFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultKeysSharedViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -45,10 +45,6 @@ class SubmissionTestResultKeysSharedFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.onTestOpened()
-
-        binding.submissionDonePcrValidation.root.isVisible = viewModel.testType == BaseCoronaTest.Type.RAPID_ANTIGEN
-
-        binding.submissionDoneIllness.root.isVisible = viewModel.testType == BaseCoronaTest.Type.PCR
 
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
@@ -61,6 +57,9 @@ class SubmissionTestResultKeysSharedFragment :
         viewModel.uiState.observe2(this) {
             binding.apply {
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
+                submissionDonePcrValidation.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN
+
+                submissionDoneIllness.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.PCR
             }
         }
 

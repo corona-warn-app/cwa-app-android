@@ -230,7 +230,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.type)
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.identifier)
             )
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
@@ -239,7 +239,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
-                    event.identifier
+                    testIdentifier = event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(

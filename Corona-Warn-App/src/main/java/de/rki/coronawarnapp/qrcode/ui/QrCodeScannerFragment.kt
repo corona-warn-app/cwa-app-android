@@ -255,7 +255,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             is CoronaTestResult.TestPositive ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.WarnOthers ->

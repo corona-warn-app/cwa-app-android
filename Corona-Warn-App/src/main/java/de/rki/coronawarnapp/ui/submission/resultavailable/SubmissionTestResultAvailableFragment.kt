@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultAvailableViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testIdentifier)
         }
     )
 

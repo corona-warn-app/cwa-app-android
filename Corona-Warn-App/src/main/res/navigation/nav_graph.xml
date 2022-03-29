@@ -575,6 +575,9 @@
         <argument
             android:name="testType"
             app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
+        <argument
+            android:name="testIdentifier"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/submissionYourConsentFragment"
@@ -853,9 +856,6 @@
         android:name="de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultKeysSharedFragment"
         android:label="SubmissionTestResultKeysSharedFragment"
         tools:layout="@layout/fragment_submission_test_result_positive_keys_shared">
-        <argument
-            android:name="testType"
-            app:argType="de.rki.coronawarnapp.coronatest.type.BaseCoronaTest$Type" />
         <argument
             android:name="testIdentifier"
             app:argType="string" />

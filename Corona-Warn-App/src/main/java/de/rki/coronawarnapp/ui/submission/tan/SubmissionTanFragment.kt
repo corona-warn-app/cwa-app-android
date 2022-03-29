@@ -88,7 +88,8 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 // TODO What about negative tests and consent?
                 doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-                        BaseCoronaTest.Type.PCR
+                        testType = BaseCoronaTest.Type.PCR,
+                        testIdentifier = ""
                     )
                 )
             }
