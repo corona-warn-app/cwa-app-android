@@ -48,6 +48,8 @@ class AutoCheckOutWorker @AssistedInject constructor(
             else -> null
         }
 
+        Timber.tag(TAG).d("checkInIdForNotification = $checkInIdForNotification")
+
         checkInIdForNotification?.let {
             checkOutNotification.showAutoCheckoutNotification(it)
         }

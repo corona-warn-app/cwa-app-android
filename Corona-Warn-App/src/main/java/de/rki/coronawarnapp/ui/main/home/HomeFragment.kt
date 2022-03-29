@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
@@ -41,6 +42,7 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
+import kotlin.math.abs
 import javax.inject.Inject
 
 /**
@@ -80,6 +82,16 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             resetTransitions()
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
+
+        binding.mainTracingAppBarLayout.addOnOffsetChangedListener(
+            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                    binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
+                } else {
+                    binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
+                }
+            }
+        )
 
         viewModel.showPopUps()
         viewModel.events.observe2(this) { event -> navigate(event) }

@@ -7,11 +7,12 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:focusable="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/contact_diary_day_header"
-            style="@style/CWAToolbar.BackArrow"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/contact_diary_background"

@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
+                app:contentScrim="@color/colorTransparent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -78,14 +79,13 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
+                    style="@style/CWAMaterialToolbar.BackArrow.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/Theme.Material3.Dark"
+                    android:theme="@style/CertificateDetailTheme"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:menu="@menu/menu_covid_certificate_detail"
-                    app:navigationIcon="@drawable/ic_back"
-                    app:popupTheme="@style/Theme.Material3.DayNight">
+                    app:menu="@menu/menu_covid_certificate_detail">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"

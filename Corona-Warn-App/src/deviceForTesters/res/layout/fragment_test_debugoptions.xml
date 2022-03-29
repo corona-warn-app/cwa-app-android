@@ -71,7 +71,7 @@
 
                 <TextView
                     android:id="@+id/environment_cdnurl_download"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_tiny"
@@ -79,7 +79,7 @@
 
                 <TextView
                     android:id="@+id/environment_cdnurl_submission"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -87,7 +87,7 @@
 
                 <TextView
                     android:id="@+id/environment_cdnurl_verification"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -95,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/environment_url_datadonation"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -103,7 +103,7 @@
 
                 <TextView
                     android:id="@+id/environment_url_log_upload"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -111,7 +111,7 @@
 
                 <TextView
                     android:id="@+id/environment_dcc_server_url"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -119,7 +119,7 @@
 
                 <TextView
                     android:id="@+id/environment_dcc_reissuance_server_url"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -127,7 +127,7 @@
 
                 <TextView
                     android:id="@+id/environment_pubkey_appconfig"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -135,7 +135,7 @@
 
                 <TextView
                     android:id="@+id/environment_pubkey_crowdnotifier"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    style="@style/bodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"

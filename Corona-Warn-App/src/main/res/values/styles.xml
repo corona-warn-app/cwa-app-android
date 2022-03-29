@@ -2,17 +2,28 @@
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
+        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
         <item name="materialCalendarTheme">@style/DatePickerTheme</item>
+        <item name="elevationOverlayColor">@color/popupmenu_overlay_color</item>
         <item name="materialTimePickerTheme">@style/TimePickerTheme</item>
+        <item name="floatingActionButtonStyle">
+            @style/Widget.MaterialComponents.FloatingActionButton
+        </item>
+    </style>
+
+    <style name="CertificateDetailTheme" parent="BaseTheme">
+        <item name="android:textColorSecondary">#FFFFFF</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -37,31 +48,26 @@
     <!-- Main Application -->
     <style name="AppTheme.Main" parent="AppTheme" />
 
-    <style name="CWAToolbar" parent="@style/Widget.Material3.Toolbar">
-        <item name="colorPrimary">@color/colorSurface1</item>
-        <item name="android:background">@color/colorSurface1</item>
-        <item name="android:textColor">@color/colorOnPrimary</item>
+    <style name="CWAMaterialToolbar" >
+        <item name="android:background">@drawable/top_app_bar_shape</item>
+        <item name="titleTextAppearance">@style/textTopAppBar</item>
     </style>
 
-    <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="CWAToolbar.BackArrow">
-        <item name="navigationIcon">@drawable/ic_back</item>
-        <item name="navigationContentDescription">@string/accessibility_back</item>
-    </style>
-
-    <style name="CWAToolbar.BackArrow.Transparent">
-        <item name="android:background">@color/colorTransparent</item>
-    </style>
-
-    <style name="CWAToolbar.Close">
+    <style name="CWAMaterialToolbar.Close" >
         <item name="navigationIcon">@drawable/ic_close</item>
         <item name="navigationContentDescription">@string/accessibility_close</item>
     </style>
 
-    <style name="CWAToolbar.Close.Transparent">
+    <style name="CWAMaterialToolbar.Close.Transparent" >
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.BackArrow" >
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="navigationContentDescription">@string/accessibility_back</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.BackArrow.Transparent" >
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
@@ -69,8 +75,13 @@
         <item name="labelVisibilityMode">labeled</item>
         <item name="itemTextColor">@color/nav_item_color</item>
         <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigation</item>
+        <item name="android:background">@color/colorSurface1</item>
     </style>
 
+    <style name="ThemeOverlay.App.BottomNavigation" parent="">
+        <item name="colorPrimary">@color/colorSurface1</item>
+    </style>
     <!-- ####################################
                     Button
     ###################################### -->
@@ -149,6 +160,17 @@
     <style name="buttonIcon">
         <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
+    </style>
+
+    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
+        <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+    </style>
+
+    <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.ExtendedFloatingActionButton
+        </item>
     </style>
 
     <!-- ####################################
@@ -269,6 +291,11 @@
                    Text
     ###################################### -->
 
+    <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="fontWeight">600</item>
+    </style>
+
     <style name="headline4" parent="@style/TextAppearance.Material3.HeadlineLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
@@ -277,7 +304,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineMedium">
+    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
@@ -293,12 +320,13 @@
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitle" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="fontWeight">400</item>
     </style>
 
 
-    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textSize">16sp</item>
     </style>
@@ -311,8 +339,9 @@
         <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>
 
-    <style name="subtitleMedium" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitleMedium" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
+        <item name="fontWeight">400</item>
     </style>
 
     <style name="body1" parent="@style/TextAppearance.Material3.BodyLarge">
@@ -336,21 +365,23 @@
         <item name="android:textColor">@color/colorTextPrimary1InvertedStableTransparent</item>
     </style>
 
-    <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">
+    <style name="bodyButton" parent="@style/TextAppearance.Material3.LabelLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="headline6Sixteen" parent="@style/TextAppearance.MaterialComponents.Headline6">
+    <style name="headline6Sixteen" parent="@style/TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
-    <style name="subtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitleSixteen" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
-    <style name="bodyNeutral" parent="@style/TextAppearance.MaterialComponents.Body1">
+    <style name="bodyNeutral" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorTextSemanticNeutral</item>
     </style>
+
+    <style name="bodySmall" parent="@style/TextAppearance.Material3.BodySmall" />
 
     <!-- ####################################
               Icons
@@ -444,7 +475,7 @@
     <!-- ####################################
         Contact Diary
     ###################################### -->
-    <style name="contactDiaryListItem" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="contactDiaryListItem" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
