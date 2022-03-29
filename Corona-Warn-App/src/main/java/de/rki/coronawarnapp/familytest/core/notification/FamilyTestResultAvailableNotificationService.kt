@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,7 +36,7 @@ class FamilyTestResultAvailableNotificationService @Inject constructor(
                 val familyTestResultChanges = familyTests.filter {
                     it.hasResultChangeBadge && !it.isResultAvailableNotificationSent
                 }.also {
-                    Timber.tag(TAG).d("Notifying about %s family test results", it.size)
+                    Timber.tag(TAG).d("Notifying about [%s] family test results", it.size)
                 }
 
                 if (familyTestResultChanges.isNotEmpty()) {
@@ -46,7 +47,9 @@ class FamilyTestResultAvailableNotificationService @Inject constructor(
                     Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
                     familyTestRepository.markAsNotified(it.identifier, true)
                 }
-            }.launchIn(appScope)
+            }
+            .catch { Timber.tag(TAG).e(it, "Family test notifications failed") }
+            .launchIn(appScope)
     }
 
     private fun showTestResultAvailableNotification() {
