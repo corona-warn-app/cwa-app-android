@@ -32,6 +32,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 class FamilyTestListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -99,6 +100,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position ->
+                    Timber.tag(">>>").d("Swiped!")
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 }
             )
@@ -145,6 +147,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 familyCoronaTest = this,
                 onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position ->
+                    Timber.tag(">>>").d("Swiped!")
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 }
             )
@@ -157,7 +160,6 @@ class FamilyTestListViewModel @AssistedInject constructor(
             )
             State.REDEEMED -> FamilyRapidTestRedeemedCard.Item(
                 familyCoronaTest = this,
-                onClickAction = {},
                 onSwipeItem = { familyCoronaTest, position ->
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 },

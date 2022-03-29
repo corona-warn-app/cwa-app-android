@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class FamilyPcrTestNegativeCard(parent: ViewGroup) :
     FamilyTestListAdapter.FamilyTestListVH<Item, FamilyPcrTestCardNegativeBinding>(
-        R.layout.family_pcr_test_card_negative,
+        R.layout.home_card_container_layout,
         parent
     ),
     Swipeable {
@@ -32,11 +32,11 @@ class FamilyPcrTestNegativeCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        title.text = curItem.familyCoronaTest.personName
-        val userDate = curItem.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        title.text = latestItem!!.familyCoronaTest.personName
+        val userDate = latestItem!!.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
         date.text = resources.getString(R.string.family_tests_cards_pcr_date, userDate)
-        itemView.setOnClickListener { curItem.onClickAction(item) }
+        itemView.setOnClickListener { latestItem!!.onClickAction(item) }
     }
 
     data class Item(

@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class FamilyRapidTestOutdatedCard(parent: ViewGroup) :
     FamilyTestListAdapter.FamilyTestListVH<Item, FamilyRapidTestCardOutdatedBinding>(
-        R.layout.family_rapid_test_card_outdated,
+        R.layout.home_card_container_layout,
         parent
     ),
     Swipeable {
@@ -32,9 +32,9 @@ class FamilyRapidTestOutdatedCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        title.text = curItem.familyCoronaTest.personName
-        deleteTestAction.setOnClickListener { curItem.onDeleteTest(item) }
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        title.text = latestItem!!.familyCoronaTest.personName
+        deleteTestAction.setOnClickListener { latestItem!!.onDeleteTest(item) }
     }
 
     data class Item(

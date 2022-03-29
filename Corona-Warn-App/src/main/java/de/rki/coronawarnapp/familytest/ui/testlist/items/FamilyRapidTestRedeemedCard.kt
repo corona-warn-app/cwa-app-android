@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class FamilyRapidTestRedeemedCard(parent: ViewGroup) :
     FamilyTestListAdapter.FamilyTestListVH<Item, FamilyRapidTestCardRedeemedBinding>(
-        R.layout.family_rapid_test_card_redeemed,
+        R.layout.home_card_container_layout,
         parent
     ),
     Swipeable {
@@ -32,15 +32,13 @@ class FamilyRapidTestRedeemedCard(parent: ViewGroup) :
         item: Item,
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
-        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        title.text = curItem.familyCoronaTest.personName
-        itemView.setOnClickListener { curItem.onClickAction(item) }
-        deleteTestAction.setOnClickListener { curItem.onDeleteTest(item) }
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        title.text = latestItem!!.familyCoronaTest.personName
+        deleteTestAction.setOnClickListener { latestItem!!.onDeleteTest(item) }
     }
 
     data class Item(
         val familyCoronaTest: FamilyCoronaTest,
-        val onClickAction: (Item) -> Unit, // TODO: do we need it?
         val onSwipeItem: (FamilyCoronaTest, Int) -> Unit,
         val onDeleteTest: (Item) -> Unit
     ) : FamilyTestListItem.RA, HasPayloadDiffer
