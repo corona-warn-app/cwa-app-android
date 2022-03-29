@@ -305,9 +305,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineMedium">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
@@ -331,7 +329,7 @@
     </style>
 
 
-    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.Material3.TitleMedium">
+    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textSize">16sp</item>
     </style>
