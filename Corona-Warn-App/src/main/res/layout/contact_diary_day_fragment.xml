@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_normal"
             android:text="@string/contact_diary_day_person_fab_title"
+            android:textAllCaps="false"
             android:transitionName="contact_diary_shared_content"
             app:icon="@android:drawable/ic_input_add"
             app:layout_constraintBottom_toBottomOf="parent"
