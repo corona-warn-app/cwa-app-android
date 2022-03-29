@@ -88,6 +88,7 @@
         <TextView
             android:id="@+id/primary_subtitle"
             android:layout_width="0dp"
+            style="@style/StatisticsCardValueLabel"
             android:layout_height="wrap_content"
             android:text="@string/statistics_occupied_intensive_care_beds_text"
             android:textSize="14sp"
