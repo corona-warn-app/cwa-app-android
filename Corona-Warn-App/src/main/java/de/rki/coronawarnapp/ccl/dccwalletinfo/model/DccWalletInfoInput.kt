@@ -88,5 +88,8 @@ data class DccWalletInfoInput(
     val boosterNotificationRules: JsonNode,
 
     @JsonProperty("scenarioIdentifier")
-    val scenarioIdentifier: String
+    val scenarioIdentifier: String,
+
+    @JsonProperty("invalidationRules")
+    val invalidationRules: JsonNode
 )
