@@ -91,8 +91,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                                 testType = testType,
                                 testIdentifier = testIdentifier
                             )
-                    }
-                    else {
+                    } else {
                         SubmissionTestResultPendingFragmentDirections
                             .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment(
                                 testIdentifier = testIdentifier
