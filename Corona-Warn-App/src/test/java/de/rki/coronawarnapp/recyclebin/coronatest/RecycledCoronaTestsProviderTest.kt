@@ -103,7 +103,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         coEvery { coronaTestRepository.recycledTests } returns flowOf(recycledPersonalTests)
         coEvery { coronaTestRepository.removeTest(any()) } returns mockk()
 
-        coEvery { familyTestRepository.recycledTests } returns flowOf(recycledFamilyTests)
+        coEvery { familyTestRepository.familyTestRecycleBin} returns flowOf(recycledFamilyTests)
         coEvery { familyTestRepository.removeTest(any()) } returns mockk()
 
         every { analyticsKeySubmissionCollector.reset(any()) } just Runs
@@ -124,7 +124,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
 
             coVerify {
                 coronaTestRepository.recycledTests
-                familyTestRepository.recycledTests
+                familyTestRepository.familyTestRecycleBin
             }
         }
 

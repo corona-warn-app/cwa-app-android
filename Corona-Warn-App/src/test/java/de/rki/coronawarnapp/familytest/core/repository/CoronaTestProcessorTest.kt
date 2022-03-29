@@ -50,7 +50,7 @@ class CoronaTestProcessorTest : BaseTest() {
                 labId = null,
             )
             coEvery { registerTest(any()) } answers {
-                val request = arg<RegistrationRequest>(0)
+                val request = firstArg<RegistrationRequest>()
 
                 RegistrationData(
                     registrationToken = "regtoken-${request.type}",
