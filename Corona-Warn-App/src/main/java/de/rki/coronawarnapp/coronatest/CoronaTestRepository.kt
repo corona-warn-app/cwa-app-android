@@ -73,7 +73,7 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isRecycled]
      */
-    val recycledTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
+    val personalTestsInRecycleBin: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
     }
 
@@ -158,8 +158,8 @@ class CoronaTestRepository @Inject constructor(
         return currentTests[request.identifier]!!
     }
 
-    suspend fun removeTest(identifier: TestIdentifier): BaseCoronaTest {
-        Timber.tag(TAG).i("removeTest(identifier=%s)", identifier)
+    suspend fun deleteTest(identifier: TestIdentifier): BaseCoronaTest {
+        Timber.tag(TAG).i("deleteTest(identifier=%s)", identifier)
 
         var removedTest: BaseCoronaTest? = null
 

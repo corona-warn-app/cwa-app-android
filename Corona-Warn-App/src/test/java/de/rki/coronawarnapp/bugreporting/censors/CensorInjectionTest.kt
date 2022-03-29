@@ -88,7 +88,7 @@ class MockProvider {
     fun coronaTestRepository(): CoronaTestRepository = mockk {
         every { coronaTests } returns flowOf(emptySet())
         every { allCoronaTests } returns flowOf(emptySet())
-        every { recycledTests } returns flowOf(emptySet())
+        every { personalTestsInRecycleBin } returns flowOf(emptySet())
     }
 
     @Singleton
