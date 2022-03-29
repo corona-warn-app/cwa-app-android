@@ -7,12 +7,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -23,7 +23,9 @@ import de.rki.coronawarnapp.util.ui.toResolvingString
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
@@ -32,15 +34,14 @@ import timber.log.Timber
 
 class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val submissionRepository: SubmissionRepository,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
-    @Assisted private val testType: BaseCoronaTest.Type,
     @Assisted private val testIdentifier: TestIdentifier,
-    @Assisted private val initialUpdate: Boolean
+    @Assisted private val initialUpdate: Boolean,
+    private val coronaTestProvider: CoronaTestProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
-        Timber.v("init() coronaTestType=%s", testType)
+        Timber.v("init() testIdentifier=%s", testIdentifier)
         if (initialUpdate) {
             updateTestResult()
         }
@@ -49,25 +50,30 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     val routeToScreen = SingleLiveEvent<NavDirections?>()
     val errorEvent = SingleLiveEvent<Throwable>()
 
+    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
+
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
-    val consentGiven = submissionRepository.testForType(type = testType).map {
-        it?.isAdvancedConsentGiven ?: false
+
+    val consentGiven = coronaTestFlow.map {
+        if (it is PersonalCoronaTest) {
+            it.isAdvancedConsentGiven
+        } else {
+            false
+        }
     }.asLiveData()
 
     private var wasRedeemedTokenErrorShown = false
     private val tokenErrorMutex = Mutex()
 
-    private val testResultFlow = submissionRepository.testForType(type = testType)
-        .filterNotNull()
-        .map { test ->
-            tokenErrorMutex.withLock {
-                if (!wasRedeemedTokenErrorShown && test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
-                    wasRedeemedTokenErrorShown = true
-                    showRedeemedTokenWarning.postValue(Unit)
-                }
+    private val testResultFlow = coronaTestFlow.map { test ->
+        tokenErrorMutex.withLock {
+            if (!wasRedeemedTokenErrorShown && test.testResult.toDeviceUIState() == DeviceUIState.PAIRED_REDEEMED) {
+                wasRedeemedTokenErrorShown = true
+                showRedeemedTokenWarning.postValue(Unit)
             }
-            TestResultUIState(coronaTest = test)
         }
+        TestResultUIState(coronaTest = test)
+    }
 
     val testState: LiveData<TestResultUIState> = testResultFlow
         .onEach { testResultUIState ->
@@ -76,19 +82,17 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
-                            testType = testType
+                            testIdentifier = testIdentifier
                         )
                 CoronaTestResult.PCR_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
-                            testType = testType,
                             testIdentifier = testIdentifier
                         )
                 CoronaTestResult.RAT_NEGATIVE -> {
                     if (isFamilyTest) {
                         SubmissionTestResultPendingFragmentDirections
                             .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
-                                testType = testType,
                                 testIdentifier = testIdentifier
                             )
                     } else {
@@ -104,7 +108,6 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                 CoronaTestResult.RAT_INVALID ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultInvalidFragment(
-                            testType = testType,
                             testIdentifier = testIdentifier
                         )
                 else -> {
@@ -143,8 +146,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         }
         .asLiveData(context = dispatcherProvider.Default)
 
-    val cwaWebExceptionLiveData = submissionRepository.testForType(type = testType)
-        .filterNotNull()
+    val cwaWebExceptionLiveData = coronaTestFlow
+        .filterIsInstance<PersonalCoronaTest>()
         .filter { it.lastError != null }
         .map { it.lastError!! }
         .asLiveData()
@@ -157,23 +160,22 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     fun updateTestResult() = launch {
         Timber.v("updateTestResult()")
         try {
-            submissionRepository.refreshTest(type = testType)
+            coronaTestProvider.refreshTest(coronaTestFlow.first())
         } catch (e: Exception) {
             errorEvent.postValue(e)
         }
     }
 
-    fun onConsentClicked() {
+    fun onConsentClicked() = launch {
         routeToScreen.postValue(
             SubmissionTestResultPendingFragmentDirections
-                .actionSubmissionResultFragmentToSubmissionYourConsentFragment(testType = testType)
+                .actionSubmissionResultFragmentToSubmissionYourConsentFragment(testType = coronaTestFlow.first().type)
         )
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultPendingViewModel> {
         fun create(
-            testType: BaseCoronaTest.Type,
             testIdentifier: TestIdentifier,
             initialUpdate: Boolean
         ): SubmissionTestResultPendingViewModel

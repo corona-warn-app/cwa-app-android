@@ -42,7 +42,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultPendingViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier, navArgs.forceTestResultUpdate)
+            factory.create(navArgs.testIdentifier, navArgs.forceTestResultUpdate)
         }
     )
 
@@ -54,7 +54,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         viewModel.testState.observe2(this) { result ->
-            val isPcr = navArgs.testType == BaseCoronaTest.Type.PCR
+            val isPcr = result.coronaTest.type == BaseCoronaTest.Type.PCR
             binding.apply {
                 when (result.coronaTest) {
                     is FamilyCoronaTest -> {

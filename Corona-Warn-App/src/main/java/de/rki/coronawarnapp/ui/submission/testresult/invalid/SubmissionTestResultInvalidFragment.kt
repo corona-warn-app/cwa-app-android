@@ -29,7 +29,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultInvalidViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -38,31 +38,25 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onTestOpened()
-
         binding.apply {
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
             submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
         }
-
-        binding.apply {
-
-            when (navArgs.testType) {
+        viewModel.testResult.observe2(this) { uiState ->
+            when (uiState.coronaTest.type) {
                 BaseCoronaTest.Type.PCR -> {
-                    testResultInvalidStepsPcrAdded.isVisible = true
-                    testResultInvalidStepsRatAdded.isVisible = false
+                    binding.testResultInvalidStepsPcrAdded.isVisible = true
+                    binding.testResultInvalidStepsRatAdded.isVisible = false
                 }
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> {
-                    testResultInvalidStepsPcrAdded.isVisible = false
-                    testResultInvalidStepsRatAdded.isVisible = true
+                    binding.testResultInvalidStepsPcrAdded.isVisible = false
+                    binding.testResultInvalidStepsRatAdded.isVisible = true
                 }
             }
-        }
 
-        viewModel.testResult.observe2(this) {
-            binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
+            binding.submissionTestResultSection.setTestResultSection(uiState.coronaTest)
         }
 
         viewModel.routeToScreen.observe2(this) { navDirections ->

@@ -35,7 +35,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultNegativeViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -43,9 +43,6 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.onTestOpened()
-
         binding.apply {
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
@@ -54,11 +51,12 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
 
-        viewModel.testResult.observe2(this) {
+        viewModel.testResult.observe2(this) { uiState ->
+            val coronaTest = uiState.coronaTest
             binding.apply {
-                submissionTestResultSection.setTestResultSection(it.coronaTest)
-                if (it.coronaTest is FamilyCoronaTest) {
-                    familyMemberName.text = it.coronaTest.personName
+                submissionTestResultSection.setTestResultSection(coronaTest)
+                if (coronaTest is FamilyCoronaTest) {
+                    familyMemberName.text = coronaTest.personName
                     testResultNegativeStepsRemoveTest.isVisible = false
                     testResultNegativeStepsCertificate.setEntryTitle(
                         getText(
@@ -70,7 +68,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                             R.string.submission_family_test_result_negative_steps_certificate_text
                         )
                     )
-                    when (navArgs.testType) {
+                    when (coronaTest.type) {
                         BaseCoronaTest.Type.PCR -> {
                             testResultNegativeStepsAdded.setEntryTitle(
                                 getText(
@@ -100,7 +98,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                     }
                 }
 
-                when (it.certificateState) {
+                when (uiState.certificateState) {
                     SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
                         testResultNegativeStepsRemoveTest.setIsFinal(true)
                         testResultNegativeStepsCertificate.isGone = true

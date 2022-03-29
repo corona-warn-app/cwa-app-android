@@ -130,7 +130,7 @@ data class CoronaTest(
     )
 }
 
-fun CoronaTest.markViewed(): CoronaTest {
+fun CoronaTest.markAsViewed(): CoronaTest {
     return copy(uiState = uiState.copy(isViewed = true))
 }
 

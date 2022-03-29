@@ -37,11 +37,6 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        submissionRepository.apply {
-            every { testForType(any()) } returns testFlow
-            coEvery { setViewedTestResult(any()) } just Runs
-        }
     }
 
     fun createInstance(scope: CoroutineScope = TestCoroutineScope(), forceInitialUpdate: Boolean = false) =

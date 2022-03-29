@@ -234,13 +234,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
-                    event.type,
                     event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
-                    event.type,
                     event.identifier
                 )
             )
@@ -251,7 +249,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
-                    event.testType,
                     event.identifier,
                     event.forceUpdate,
                 )

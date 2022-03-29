@@ -4,10 +4,14 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -20,21 +24,19 @@ import timber.log.Timber
 
 class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val submissionRepository: SubmissionRepository,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     certificateRepository: TestCertificateRepository,
-    private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
-    @Assisted private val testType: BaseCoronaTest.Type,
-    @Assisted private val testIdentifier: TestIdentifier
+    @Assisted private val testIdentifier: TestIdentifier,
+    private val coronaTestProvider: CoronaTestProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
-        Timber.v("init() coronaTestType=%s", testType)
+        Timber.v("init() testIdentifier=%s", testIdentifier)
     }
 
     val events = SingleLiveEvent<SubmissionTestResultNegativeNavigation>()
     val testResult = combine(
-        submissionRepository.testForType(type = testType).filterNotNull(),
+        coronaTestProvider.findTestById(testIdentifier).filterNotNull(),
         certificateRepository.certificates
     ) { test, certs ->
         val cert = certs.firstOrNull {
@@ -47,6 +49,8 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
             else -> CertificateState.NOT_REQUESTED
         }
 
+        coronaTestProvider.setTestAsViewed(test)
+
         UIState(
             coronaTest = test,
             certificateState = certificateState
@@ -54,7 +58,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     val certificate = combine(
-        submissionRepository.testForType(type = testType).filterNotNull(),
+        coronaTestProvider.findTestById(testIdentifier).filterNotNull(),
         certificateRepository.certificates
     ) { test, certs ->
         val cert = certs.firstOrNull {
@@ -67,12 +71,6 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     fun moveTestToRecycleBinStorage() = launch {
         recycledTestProvider.recycleCoronaTest(testIdentifier)
         events.postValue(SubmissionTestResultNegativeNavigation.Back)
-    }
-
-    fun onTestOpened() = launch {
-        Timber.tag(TAG).d("onTestOpened()")
-        submissionRepository.setViewedTestResult(type = testType)
-        testResultAvailableNotificationService.cancelTestResultAvailableNotification()
     }
 
     fun onCertificateClicked() {
@@ -94,7 +92,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultNegativeViewModel> {
-        fun create(testType: BaseCoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
+        fun create( testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
     }
 
     companion object {
