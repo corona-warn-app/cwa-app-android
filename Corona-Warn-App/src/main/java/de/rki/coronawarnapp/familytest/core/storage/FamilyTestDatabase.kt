@@ -54,7 +54,7 @@ class FamilyCoronaTestConverter {
     fun toFamilyCoronaTest(value: String): FamilyCoronaTest? = try {
         gson.fromJson(value)
     } catch (e: Exception) {
-        Timber.e(e, "Can't create FamilyCoronaTest")
+        Timber.e(e, "Can't create FamilyCoronaTest from value=%s", value)
         null
     }
 
@@ -84,10 +84,10 @@ interface FamilyCoronaTestDao {
     suspend fun delete(entity: FamilyCoronaTestEntity)
 
     @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NULL")
-    fun getAllActive(): Flow<List<FamilyCoronaTestEntity>>
+    fun getAllActive(): Flow<List<FamilyCoronaTestEntity?>>
 
     @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NOT NULL")
-    fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity>>
+    fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity?>>
 
     @Query("DELETE FROM family_corona_test WHERE moved_to_recycle_bin_at_millis < :olderThanMillis")
     suspend fun deleteFromRecycleBin(olderThanMillis: Long)
