@@ -18,14 +18,15 @@ class FamilyTestCard(parent: ViewGroup) : HomeAdapter.HomeItemVH<FamilyTestCard.
 
     override val onBindData: FamilyTestCardBinding.(item: Item, payloads: List<Any>) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        familyBadgeCount.isVisible = curItem.badgeCount != null
+        familyBadgeCount.isVisible = curItem.badgeCount != 0
         familyBadgeCount.text = curItem.badgeCount.toString()
-        familyTestSubtitleNews.isVisible = curItem.badgeCount != null
+        familyTestSubtitleNews.isVisible = curItem.badgeCount != 0
+        itemView.setOnClickListener { curItem.onCLickAction() }
     }
 
     data class Item(
-        val badgeCount: Int? = null,
-        val onCLickAction: (Item) -> Unit
+        val badgeCount: Int,
+        val onCLickAction: () -> Unit
     ) : HomeItem, HasPayloadDiffer {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
     }
