@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerifySequence
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runBlockingTest
@@ -79,7 +79,7 @@ class CoronaTestProcessorTest : BaseTest() {
             type = VerificationKeyType.GUID,
         )
 
-        coVerifySequence {
+        coVerify {
             coronaTestService.registerTest(request)
         }
     }
@@ -95,7 +95,7 @@ class CoronaTestProcessorTest : BaseTest() {
 
         createInstance().pollServer(test)
 
-        coVerifySequence {
+        coVerify {
             coronaTestService.checkTestResult("registrationToken1")
         }
     }
