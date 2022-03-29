@@ -3,13 +3,17 @@ package de.rki.coronawarnapp.recyclebin.coronatest
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
+import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -31,14 +35,15 @@ import testhelpers.coroutines.runBlockingTest2
 
 class RecycledCoronaTestsProviderTest : BaseTest() {
 
-    @RelaxedMockK private lateinit var coronaTestsRepository: CoronaTestRepository
+    @RelaxedMockK private lateinit var coronaTestRepository: CoronaTestRepository
+    @RelaxedMockK private lateinit var familyTestRepository: FamilyTestRepository
     @RelaxedMockK private lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @RelaxedMockK private lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
     @MockK private lateinit var timeStamper: TimeStamper
 
     private val now = Instant.parse("2021-10-13T12:00:00.000Z")
 
-    private val recycledPcrTest = PCRCoronaTest(
+    private val recycledPersonalPcrTest = PCRCoronaTest(
         identifier = "PCR-1",
         registeredAt = now,
         registrationToken = "PCR_registrationToken-1",
@@ -48,7 +53,7 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         recycledAt = now
     )
 
-    private val recycledRatTest = RACoronaTest(
+    private val recycledPersonalRatTest = RACoronaTest(
         identifier = "RAT-1",
         registeredAt = now,
         registrationToken = "RAT_registrationToken-1",
@@ -59,109 +64,222 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         recycledAt = now
     )
 
-    private val recycledTests = setOf(recycledPcrTest, recycledRatTest)
+    private val recycledFamilyRatTest = FamilyCoronaTest(
+        coronaTest = CoronaTest(
+            type = BaseCoronaTest.Type.RAPID_ANTIGEN,
+            identifier = "RAT-1f",
+            registeredAt = now,
+            registrationToken = "RAT_registrationToken-1f",
+            testResult = CoronaTestResult.RAT_INVALID,
+            qrCodeHash = "RAT_qrCodeHash-1f",
+            recycledAt = now,
+        ),
+        personName = "Happy Person"
+    )
+
+    private val recycledFamilyPcrTest = FamilyCoronaTest(
+        coronaTest = CoronaTest(
+            type = BaseCoronaTest.Type.PCR,
+            identifier = "PCR-1f",
+            registeredAt = now,
+            registrationToken = "PCR_registrationToken-1f",
+            testResult = CoronaTestResult.PCR_INVALID,
+            qrCodeHash = "PCR_qrCodeHash-1f",
+            recycledAt = now,
+        ),
+        personName = "Traveler has PCR"
+    )
+
+    private val recycledPersonalTests = setOf(recycledPersonalPcrTest, recycledPersonalRatTest)
+    private val recycledFamilyTests = setOf(recycledFamilyPcrTest, recycledFamilyRatTest)
+
+    private val allTests = recycledPersonalTests + recycledFamilyTests
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns now
-        coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(recycledTests)
-        coEvery { coronaTestsRepository.removeTest(any()) } returns mockk()
+        coEvery { coronaTestRepository.recycledTests } returns flowOf(recycledPersonalTests)
+        coEvery { coronaTestRepository.removeTest(any()) } returns mockk()
+
+        coEvery { familyTestRepository.familyTestRecycleBin } returns flowOf(recycledFamilyTests)
+        coEvery { familyTestRepository.removeTest(any()) } returns mockk()
+
         every { analyticsKeySubmissionCollector.reset(any()) } just Runs
         every { analyticsTestResultCollector.clear(any()) } just Runs
     }
 
     private fun createInstance() = RecycledCoronaTestsProvider(
-        coronaTestRepository = coronaTestsRepository,
+        coronaTestRepository = coronaTestRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
-        analyticsTestResultCollector = analyticsTestResultCollector
+        analyticsTestResultCollector = analyticsTestResultCollector,
+        familyTestRepository = familyTestRepository
     )
 
     @Test
     fun `Recycled Tests are retrieved`() =
         runBlockingTest2(ignoreActive = true) {
-            createInstance().tests.first() shouldBe recycledTests
+            createInstance().tests.first() shouldBe allTests
 
-            coEvery { coronaTestsRepository.recycledCoronaTests } returns flowOf(emptySet())
-            createInstance().tests.first() shouldBe emptySet()
-
-            coVerify(exactly = 2) {
-                coronaTestsRepository.recycledCoronaTests
+            coVerify {
+                coronaTestRepository.recycledTests
+                familyTestRepository.familyTestRecycleBin
             }
         }
 
     @Test
     fun `Delete recycled tests one by one`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            tests.first() shouldBe recycledTests
-            deleteCoronaTest(recycledPcrTest.identifier)
-            deleteCoronaTest(recycledRatTest.identifier)
+            tests.first() shouldBe allTests
+            deleteCoronaTest(recycledPersonalPcrTest.identifier)
+            deleteCoronaTest(recycledPersonalRatTest.identifier)
+
+            deleteCoronaTest(recycledFamilyRatTest.identifier)
+            deleteCoronaTest(recycledFamilyPcrTest.identifier)
         }
 
         coVerifyOrder {
-            coronaTestsRepository.removeTest(recycledPcrTest.identifier)
-            coronaTestsRepository.removeTest(recycledRatTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
+
+            familyTestRepository.removeTest(recycledFamilyRatTest.identifier)
+            familyTestRepository.removeTest(recycledFamilyPcrTest.identifier)
         }
     }
 
     @Test
     fun `Delete all recycled tests at once`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            tests.first() shouldBe recycledTests
-            deleteAllCoronaTest(recycledTests.map { it.identifier })
+            tests.first() shouldBe allTests
+            deleteAllCoronaTest(allTests.map { it.identifier })
         }
 
         coVerify(exactly = 1) {
-            coronaTestsRepository.removeTest(recycledPcrTest.identifier)
-            coronaTestsRepository.removeTest(recycledRatTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
+
+            familyTestRepository.removeTest(recycledFamilyPcrTest.identifier)
+            familyTestRepository.removeTest(recycledFamilyRatTest.identifier)
+        }
+    }
+
+    @Test
+    fun `Delete all recycled personal tests at once`() = runBlockingTest2(ignoreActive = true) {
+        createInstance().run {
+            tests.first() shouldBe allTests
+            deleteAllCoronaTest(recycledPersonalTests.map { it.identifier })
+        }
+
+        coVerify(exactly = 1) {
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
+        }
+
+        coVerify(exactly = 0) {
+            familyTestRepository.removeTest(recycledFamilyPcrTest.identifier)
+            familyTestRepository.removeTest(recycledFamilyRatTest.identifier)
+        }
+    }
+
+    @Test
+    fun `Delete all recycled family tests at once`() = runBlockingTest2(ignoreActive = true) {
+        createInstance().run {
+            tests.first() shouldBe allTests
+            deleteAllCoronaTest(recycledFamilyTests.map { it.identifier })
+        }
+
+        coVerify(exactly = 0) {
+            coronaTestRepository.removeTest(recycledPersonalPcrTest.identifier)
+            coronaTestRepository.removeTest(recycledPersonalRatTest.identifier)
+        }
+
+        coVerify(exactly = 1) {
+            familyTestRepository.removeTest(recycledFamilyPcrTest.identifier)
+            familyTestRepository.removeTest(recycledFamilyRatTest.identifier)
         }
     }
 
     @Test
     fun `Delete recycled test does not throw if test not found`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { coronaTestsRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
+        coEvery { coronaTestRepository.removeTest(any()) } throws CoronaTestNotFoundException("Test error")
 
-        shouldNotThrowAnyUnit {
+        shouldNotThrowAny {
             createInstance().deleteCoronaTest("I do not exist")
         }
 
-        coVerify {
-            coronaTestsRepository.removeTest(any())
+        coVerify(exactly = 0) {
+            coronaTestRepository.removeTest(any())
+            familyTestRepository.removeTest(any())
         }
     }
 
     @Test
     fun `Find corona test by qrCodeHash`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            findCoronaTest(recycledPcrTest.qrCodeHash) shouldBe recycledPcrTest
-            findCoronaTest(recycledRatTest.qrCodeHash) shouldBe recycledRatTest
+            findCoronaTest(recycledPersonalPcrTest.qrCodeHash) shouldBe recycledPersonalPcrTest
+            findCoronaTest(recycledPersonalRatTest.qrCodeHash) shouldBe recycledPersonalRatTest
+
+            findCoronaTest(recycledFamilyPcrTest.qrCodeHash) shouldBe recycledFamilyPcrTest
+            findCoronaTest(recycledFamilyRatTest.qrCodeHash) shouldBe recycledFamilyRatTest
+
             findCoronaTest("Please return null") shouldBe null
             findCoronaTest(null) shouldBe null
         }
     }
 
     @Test
-    fun `Restore RAT corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `Restore Personal RAT corona test`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            restoreCoronaTest(recycledRatTest.identifier)
+            restoreCoronaTest(recycledPersonalRatTest.identifier)
         }
 
         coVerify {
-            coronaTestsRepository.restoreTest(recycledRatTest.identifier)
+            coronaTestRepository.restoreTest(recycledPersonalRatTest.identifier)
             analyticsKeySubmissionCollector.reset(any())
             analyticsTestResultCollector.clear(any())
         }
     }
 
     @Test
-    fun `Restore PCR corona test`() = runBlockingTest2(ignoreActive = true) {
+    fun `Restore Personal PCR corona test`() = runBlockingTest2(ignoreActive = true) {
         createInstance().run {
-            restoreCoronaTest(recycledPcrTest.identifier)
+            restoreCoronaTest(recycledPersonalPcrTest.identifier)
         }
 
         coVerify {
-            coronaTestsRepository.restoreTest(recycledPcrTest.identifier)
+            coronaTestRepository.restoreTest(recycledPersonalPcrTest.identifier)
+            analyticsKeySubmissionCollector.reset(any())
+        }
+    }
+
+    @Test
+    fun `Restore Family RAT corona test`() = runBlockingTest2(ignoreActive = true) {
+        createInstance().run {
+            restoreCoronaTest(recycledFamilyRatTest.identifier)
+        }
+
+        coVerify {
+            familyTestRepository.restoreTest(recycledFamilyRatTest.identifier)
+        }
+
+        coVerify(exactly = 0) {
+            analyticsKeySubmissionCollector.reset(any())
+            analyticsTestResultCollector.clear(any())
+        }
+    }
+
+    @Test
+    fun `Restore Family PCR corona test`() = runBlockingTest2(ignoreActive = true) {
+        createInstance().run {
+            restoreCoronaTest(recycledFamilyPcrTest.identifier)
+        }
+
+        coVerify {
+            familyTestRepository.restoreTest(recycledFamilyPcrTest.identifier)
+        }
+
+        coVerify(exactly = 0) {
             analyticsKeySubmissionCollector.reset(any())
         }
     }

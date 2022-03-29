@@ -15,11 +15,12 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import testhelpers.BaseTest
+import testhelpers.TestDispatcherProvider
+import testhelpers.coroutines.runBlockingTest2
 
 internal class DccWalletInfoRepositoryTest : BaseTest() {
 
@@ -36,12 +37,12 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun getDccWalletInfo() = runBlockingTest {
+    fun getDccWalletInfo() = runBlockingTest2(ignoreActive = true) {
         repo(this).personWallets.first() shouldBe listOf()
     }
 
     @Test
-    fun save() = runBlockingTest {
+    fun save() = runBlockingTest2(ignoreActive = true) {
         val personId = CertificatePersonIdentifier(
             firstNameStandardized = "Erika",
             lastNameStandardized = "MusterFrau",
@@ -57,7 +58,7 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun clear() = runBlockingTest {
+    fun clear() = runBlockingTest2(ignoreActive = true) {
         repo(this).clear()
         coVerify {
             dao.deleteAll()
@@ -65,12 +66,16 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun delete() = runBlockingTest {
+    fun delete() = runBlockingTest2(ignoreActive = true) {
         repo(this).delete(setOf("id"))
         coVerify {
             dao.deleteBy(any())
         }
     }
 
-    fun repo(scope: CoroutineScope) = DccWalletInfoRepository(dao, scope)
+    fun repo(scope: CoroutineScope) = DccWalletInfoRepository(
+        dispatcherProvider = TestDispatcherProvider(),
+        dccWalletInfoDao = dao,
+        appScope = scope
+    )
 }
