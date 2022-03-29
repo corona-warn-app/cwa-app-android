@@ -36,7 +36,7 @@ class CoronaTestProcessorTest : BaseTest() {
         registrationToken = "regtoken",
         testResult = CoronaTestResult.PCR_OR_RAT_PENDING
     )
-    
+
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
