@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.familytest.ui.testlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type
@@ -27,14 +28,14 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
-import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
-class FamilyTestListViewModel(
+class FamilyTestListViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val appConfigProvider: AppConfigProvider,
+    appConfigProvider: AppConfigProvider,
     private val familyTestRepository: FamilyTestRepository,
     private val timeStamper: TimeStamper,
     @AppScope private val appScope: CoroutineScope,
@@ -68,8 +69,7 @@ class FamilyTestListViewModel(
     ) { familyTests, coronaTestParameters ->
         familyTests
             .sortedBy {
-                // if (it.type == Type.RAPID_ANTIGEN) sampleCollectedAt TODO: how to get it?
-                it.registeredAt
+                if (it.type == Type.RAPID_ANTIGEN) it.coronaTest.testTakenAt else it.registeredAt
             }
             .map {
                 when (it.coronaTest.type) {
@@ -121,7 +121,7 @@ class FamilyTestListViewModel(
             State.RECYCLED -> FamilyPcrTestInvalidCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { _, _ -> }
             )
         }
 
@@ -174,16 +174,10 @@ class FamilyTestListViewModel(
             State.RECYCLED -> FamilyRapidTestInvalidCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {},
-                onSwipeItem = { familyCoronaTest, position -> {} }
+                onSwipeItem = { _, _ -> }
             )
         }
 
-    companion object {
-        private const val TAG = "FamilyTestListViewModel"
-    }
-
     @AssistedFactory
-    interface Factory : CWAViewModelFactory<FamilyTestListViewModel> {
-        fun create(): FamilyTestListViewModel
-    }
+    interface Factory : SimpleCWAViewModelFactory<FamilyTestListViewModel>
 }
