@@ -73,7 +73,7 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isRecycled]
      */
-    val recycledCoronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
+    val recycledTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
     }
 
@@ -182,7 +182,7 @@ class CoronaTestRepository @Inject constructor(
      * Move Corona test to recycled state.
      * it does not throw any exception if test is not found
      */
-    suspend fun recycleTest(identifier: TestIdentifier): Unit = try {
+    suspend fun moveTestToRecycleBin(identifier: TestIdentifier): Unit = try {
         Timber.tag(TAG).d("recycleTest(identifier=%s)", identifier)
         modifyTest(identifier) { processor, test ->
             processor.recycle(test)

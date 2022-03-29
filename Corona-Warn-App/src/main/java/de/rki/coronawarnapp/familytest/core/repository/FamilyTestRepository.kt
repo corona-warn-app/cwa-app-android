@@ -41,7 +41,7 @@ class FamilyTestRepository @Inject constructor(
         scope = appScope + dispatcherProvider.IO
     )
 
-    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
+    val recycledTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
         it.values.filter { test -> test.isRecycled }.toSet()
     }.shareLatest(
         tag = TAG,
@@ -76,7 +76,7 @@ class FamilyTestRepository @Inject constructor(
         storage.update(updated)
     }
 
-    suspend fun deleteTest(
+    suspend fun removeTest(
         identifier: TestIdentifier
     ) {
         val test = getTest(identifier) ?: return
