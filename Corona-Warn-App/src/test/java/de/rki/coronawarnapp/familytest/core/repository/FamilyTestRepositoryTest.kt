@@ -158,9 +158,9 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `remove calls delete`() = runBlockingTest {
+    fun `delete calls storage delete`() = runBlockingTest {
         val instance = createInstance()
-        instance.removeTest(identifier)
+        instance.deleteTest(identifier)
         coVerify {
             storage.delete(familyTest)
         }

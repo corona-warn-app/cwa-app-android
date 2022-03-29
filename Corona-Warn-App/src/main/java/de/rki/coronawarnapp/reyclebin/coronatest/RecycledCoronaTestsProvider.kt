@@ -27,8 +27,8 @@ class RecycledCoronaTestsProvider @Inject constructor(
 ) {
 
     private val testsMaps: Flow<Map<TestIdentifier, BaseCoronaTest>> = combine(
-        coronaTestRepository.recycledTests,
-        familyTestRepository.familyTestRecycleBin
+        coronaTestRepository.personalTestsInRecycleBin,
+        familyTestRepository.familyTestsInRecycleBin
     ) { personalTests, familyTests ->
         personalTests.plus(familyTests).associateBy { it.identifier }
     }
@@ -68,8 +68,8 @@ class RecycledCoronaTestsProvider @Inject constructor(
         try {
             Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
             when (findTest(identifier)) {
-                is PersonalCoronaTest -> coronaTestRepository.removeTest(identifier)
-                is FamilyCoronaTest -> familyTestRepository.removeTest(identifier)
+                is PersonalCoronaTest -> coronaTestRepository.deleteTest(identifier)
+                is FamilyCoronaTest -> familyTestRepository.deleteTest(identifier)
             }
         } catch (e: CoronaTestNotFoundException) {
             Timber.tag(TAG).e(e)
@@ -83,7 +83,7 @@ class RecycledCoronaTestsProvider @Inject constructor(
 
     private suspend fun resetAnalytics(identifier: TestIdentifier) {
         Timber.tag(TAG).d("resetAnalytics(identifier=%s)", identifier)
-        coronaTestRepository.recycledTests
+        coronaTestRepository.personalTestsInRecycleBin
             .first().find { it.identifier == identifier }?.type
             ?.let {
                 analyticsKeySubmissionCollector.reset(it)
