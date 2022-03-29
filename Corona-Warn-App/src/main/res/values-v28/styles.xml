@@ -8,6 +8,10 @@
         <item name="android:textFontWeight">400</item>
     </style>
 
+    <style name="boldSubtitle" parent="@style/subtitle">
+        <item name="android:textFontWeight">500</item>
+    </style>
+
     <style name="subtitleSemanticRed" parent="@style/subtitle">
         <item name="android:textColor">@color/colorTextSemanticRed</item>
         <item name="android:lineHeight">@dimen/line_height_normal</item>

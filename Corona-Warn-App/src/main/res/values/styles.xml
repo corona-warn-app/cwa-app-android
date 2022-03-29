@@ -328,6 +328,9 @@
         <item name="fontWeight">400</item>
     </style>
 
+    <style name="boldSubtitle" parent="@style/subtitle">
+        <item name="fontWeight">500</item>
+    </style>
 
     <style name="materialSubtitleSixteen" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
