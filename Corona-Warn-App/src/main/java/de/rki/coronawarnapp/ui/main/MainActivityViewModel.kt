@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -51,6 +52,7 @@ class MainActivityViewModel @AssistedInject constructor(
     private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
     private val coronaTestRestoreHandler: CoronaTestRestoreHandler,
     coronaTestRepository: CoronaTestRepository,
+    familyTestRepository: FamilyTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
@@ -88,11 +90,10 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val mainBadgeCount: LiveData<Int> = combine(
         coronaTestRepository.coronaTests,
+        familyTestRepository.familyTests,
         tracingSettings.showRiskLevelBadge.flow
-    ) { coronaTests, showBadge ->
-        coronaTests.filter { !it.didShowBadge }
-            .count()
-            .plus(if (showBadge) 1 else 0)
+    ) { personalTests, familyTests, showBadge ->
+        personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
     }.asLiveData2()
 
     init {
