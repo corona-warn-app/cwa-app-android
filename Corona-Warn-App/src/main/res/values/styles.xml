@@ -352,6 +352,10 @@
         <item name="fontWeight">400</item>
     </style>
 
+    <style name="subtitleMediumBold" parent="@style/subtitleMedium">
+        <item name="fontWeight">600</item>
+    </style>
+
     <style name="body1" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
@@ -553,6 +557,10 @@
     <style name="StatisticsCardPrimaryTitle" parent="headline5" />
 
     <style name="StatisticsCardValueLabel" parent="subtitle">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+    </style>
+
+    <style name="StatisticsCardValueLabelBold" parent="boldSubtitle">
         <item name="android:textColor">@color/colorStatisticsValueLabel</item>
     </style>
 

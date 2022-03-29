@@ -23,6 +23,10 @@
         <item name="android:textFontWeight">400</item>
     </style>
 
+    <style name="subtitleMediumBold" parent="@style/subtitleMedium">
+        <item name="android:textFontWeight">600</item>
+    </style>
+
     <style name="body1" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:lineHeight">@dimen/line_height_large</item>

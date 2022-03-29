@@ -165,14 +165,13 @@
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body2"
-                    style="@style/subtitle"
+                    style="@style/boldSubtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
                     android:text="@string/trace_location_onboarding_body_consent2"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint1"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_card_subtitle" />
@@ -201,14 +200,13 @@
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body4"
-                    style="@style/subtitle"
+                    style="@style/boldSubtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
                     android:text="@string/trace_location_onboarding_body_consent4"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint2"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body3" />
@@ -224,14 +222,13 @@
 
                 <TextView
                     android:id="@+id/check_in_onboarding_body5"
-                    style="@style/subtitle"
+                    style="@style/boldSubtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="16dp"
                     android:focusable="true"
                     android:text="@string/trace_location_onboarding_body_consent5"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/check_in_onboarding_bulletpoint3"
                     app:layout_constraintTop_toBottomOf="@id/check_in_onboarding_body4" />
