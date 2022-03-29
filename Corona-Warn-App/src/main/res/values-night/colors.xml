@@ -3,12 +3,16 @@
 
     <!-- Brand Colors -->
     <color name="colorSecondary">#83D2F2</color>
+    <color name="colorSecondaryContainer">#2683D2F2</color>
     <color name="colorSurface">#000000</color>
     <color name="colorSurface1">#232324</color>
     <color name="colorSurface1Pressed">#39393A</color>
     <color name="colorSurface2">#434445</color>
     <color name="colorSurface2Pressed">#565757</color>
-    <color name="colorSystemUI">#000000</color>
+    <color name="colorSystemUI">#232324</color>
+
+    <color name="colorTopBarBackground">#232324</color>
+    <color name="colorTopBarBorder">#232324</color>
 
     <!-- Text -->
     <color name="colorOnPrimary">#FFFFFF</color>

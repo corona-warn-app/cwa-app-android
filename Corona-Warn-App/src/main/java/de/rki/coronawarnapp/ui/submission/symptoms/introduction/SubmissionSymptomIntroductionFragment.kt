@@ -67,7 +67,7 @@ class SubmissionSymptomIntroductionFragment :
             updateButtons(it)
         }
 
-        binding.submissionSymptomHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.onPreviousClicked() }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onPreviousClicked() }
     }
 
     private fun updateButtons(symptomIndication: Symptoms.Indication?) {

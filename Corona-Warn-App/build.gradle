@@ -187,6 +187,7 @@ android {
 
 
     testOptions {
+        animationsDisabled = true
         unitTests.all {
             useJUnitPlatform()
             if (project.hasProperty('testFilter')) {

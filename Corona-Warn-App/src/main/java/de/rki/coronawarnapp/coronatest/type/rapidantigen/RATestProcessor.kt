@@ -19,9 +19,9 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
@@ -42,7 +42,7 @@ class RATestProcessor @Inject constructor(
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val analyticsTestResultCollector: AnalyticsTestResultCollector,
-) : CoronaTestProcessor {
+) : PersonalCoronaTestProcessor {
 
     override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.RAPID_ANTIGEN
 
@@ -257,7 +257,7 @@ fun CoronaTestResult.toValidatedRaResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(RATestProcessor.TAG).e("Server returned invalid RapidAntigen testresult $this")
+        Timber.tag(RATestProcessor.TAG).e("Server returned invalid RapidAntigen test result =%s", this)
         RAT_INVALID
     }
 }
@@ -265,13 +265,12 @@ fun CoronaTestResult.toValidatedRaResult(): CoronaTestResult {
 // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
 fun check60DaysRAT(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
     val testAge = Duration(test.registeredAt, now)
-    Timber.tag(RATestProcessor.TAG)
-        .d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
+    Timber.tag(RATestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
 
     return if ((newResult == PCR_OR_RAT_PENDING || newResult == RAT_PENDING) &&
         testAge > VerificationServer.TestAvailabilityDuration
     ) {
-        Timber.tag(RATestProcessor.TAG).d("$testAge is exceeding the test availability.")
+        Timber.tag(RATestProcessor.TAG).d("%s is exceeding the test availability.", testAge)
         RAT_REDEEMED
     } else {
         newResult

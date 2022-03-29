@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.reyclebin.ui.adapter
 
 import android.view.ViewGroup
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.RecyclerBinCertificateItemBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.common.addDeletionInfoIfExists
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.items.BaseCheckInVH.Companion.setupMenu
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUIFormat
@@ -34,24 +36,41 @@ class CoronaTestCard(parent: ViewGroup) :
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val test = latestItem!!.test
 
-        certificateType.setText(R.string.recycle_bin_test_item_name)
-        certificateIcon.setImageResource(R.drawable.ic_test_filled_white)
-        certificatePersonName.isGone = true
+        val (titleRes, iconRes) = when (test) {
+            is FamilyCoronaTest -> {
+                certificatePersonName.text = test.personName
+                R.string.recycle_bin_family_test_item_name to R.drawable.ic_family_test_recycled
+            }
+            else -> R.string.recycle_bin_test_item_name to R.drawable.ic_personal_test_recycled
+        }
+        certificateType.setText(titleRes)
+        certificateIcon.setImageResource(iconRes)
+        certificatePersonName.isVisible = test is FamilyCoronaTest
         certificateInfoLine1.isGone = false
 
         certificateInfoLine1.setText(
-            when (test) {
-                is PCRCoronaTest -> R.string.test_certificate_pcr_test_type
+            when (test.type) {
+                BaseCoronaTest.Type.PCR -> R.string.test_certificate_pcr_test_type
                 else -> R.string.test_certificate_rapid_test_type
             }
         )
+
+        val typeString = when (test.type) {
+            BaseCoronaTest.Type.PCR -> R.string.reycle_bin_pcr_test_date
+            else -> R.string.reycle_bin_rat_test_date
+        }
         certificateInfoLine2.text = when (test) {
+            is FamilyCoronaTest -> context.getString(
+                typeString,
+                test.registeredAt.toDate().toUIFormat(context)
+            )
+
             is PCRCoronaTest -> context.getString(
-                R.string.reycle_bin_pcr_test_date,
+                typeString,
                 test.registeredAt.toDate().toUIFormat(context)
             )
             is RACoronaTest -> context.getString(
-                R.string.reycle_bin_rat_test_date,
+                typeString,
                 test.testTakenAt.toDate().toUIFormat(context)
             )
             else -> throw IllegalStateException("Unknown test type ${test.type}")

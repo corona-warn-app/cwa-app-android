@@ -14,13 +14,14 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/main_title"
         android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/CWAToolbar"
+            style="@style/CWAMaterialToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
@@ -41,12 +42,11 @@
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/CWAToolbar">
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/main_tracing"
-                    style="@style/CWAToolbar"
+                    style="@style/CWAMaterialToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"

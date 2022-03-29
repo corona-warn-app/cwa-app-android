@@ -109,9 +109,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onBackPressed()
-        }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
         binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
             viewModel.onQRCodePressed()
         }

@@ -58,7 +58,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
         val backgroundPriorityRow = binding.settingsBackgroundPriority.settingsRow
         val privacyPreservingAnalyticsRow = binding.settingsPrivacyPreservingAnalytics.settingsRow
         val resetRow = binding.settingsReset
-        val goBack = binding.settingsHeader.headerButtonBack.buttonIcon
         resetRow.setOnClickListener {
             findNavController().doNavigate(
                 SettingsFragmentDirections.actionSettingsFragmentToSettingsResetFragment()
@@ -86,8 +85,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), AutoInject {
             )
         }
 
-        goBack.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 }

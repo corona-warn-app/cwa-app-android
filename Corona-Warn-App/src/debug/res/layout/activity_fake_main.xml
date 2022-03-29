@@ -10,11 +10,7 @@
     <FrameLayout
         android:id="@+id/fake_host_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@id/fake_bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/fake_bottom_app_bar"
@@ -22,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/transparent"
-        android:clickable="false"
+        android:touchscreenBlocksFocus="false"
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"
         app:fabAlignmentMode="center">
@@ -30,8 +26,10 @@
             android:id="@+id/fake_bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
             android:outlineAmbientShadowColor="@android:color/transparent"
             android:outlineSpotShadowColor="@android:color/transparent"
+            android:touchscreenBlocksFocus="false"
             app:menu="@menu/menu_bottom_nav"
             tools:targetApi="p" />
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -40,10 +38,11 @@
         android:id="@+id/fake_scanner_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/bottom_nav_scanner_title"
         app:backgroundTint="@color/fab_tint"
         app:elevation="2dp"
-        app:layout_anchor="@id/fake_bottom_app_bar"
         app:srcCompat="@drawable/ic_nav_qrcode"
         app:tint="@android:color/white" />
 

@@ -31,7 +31,7 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            setButtonOnClickListener()
+            toolbar.setNavigationOnClickListener { popBackStack() }
             viewModel.maxEncounterAgeInDays.observe2(this@MainOverviewFragment) {
                 setExposureLoggingPeriod(it)
             }
@@ -41,12 +41,6 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInje
     override fun onResume() {
         super.onResume()
         binding.mainOverviewContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun FragmentMainOverviewBinding.setButtonOnClickListener() {
-        mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
     }
 
     private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Int) {

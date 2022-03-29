@@ -101,6 +101,8 @@ class ContactDiaryDayFragmentTest : BaseUITest() {
             fragmentArgs = fragmentArgs,
             themeResId = R.style.AppTheme_Main
         )
+        onView(withId(R.id.contact_diary_day_tab_layout))
+            .perform(selectTabAtPosition(0))
         takeScreenshot<ContactDiaryDayFragment>("persons_$suffix")
         onView(withId(R.id.contact_diary_day_tab_layout))
             .perform(selectTabAtPosition(1))
