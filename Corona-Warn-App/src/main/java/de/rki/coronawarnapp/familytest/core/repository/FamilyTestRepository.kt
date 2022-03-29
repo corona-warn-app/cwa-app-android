@@ -35,7 +35,7 @@ class FamilyTestRepository @Inject constructor(
         it.values.toSet()
     }
 
-    val familyTestRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestRecycleBinMap.map {
+    val familyTestsInRecycleBin: Flow<Set<FamilyCoronaTest>> = storage.familyTestRecycleBinMap.map {
         it.values.toSet()
     }
 
