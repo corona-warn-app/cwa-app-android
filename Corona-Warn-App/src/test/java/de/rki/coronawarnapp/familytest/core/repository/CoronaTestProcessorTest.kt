@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerifySequence
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
