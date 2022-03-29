@@ -51,9 +51,13 @@
             app:layout_constraintTop_toBottomOf="@+id/submission_consent_call_test_result_body" />
 
         <ImageView
+            android:layout_width="@dimen/circle_icon"
+            android:layout_height="@dimen/circle_icon"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/card_dark"
+            android:padding="6dp"
+            app:tint="@color/colorSecondary"
             android:id="@+id/submission_star_checkmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
             android:importantForAccessibility="no"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
