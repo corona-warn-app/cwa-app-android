@@ -38,15 +38,24 @@ internal fun FamilyCoronaTest.restore(): FamilyCoronaTest {
 
 internal fun FamilyCoronaTest.updateTestResult(testResult: CoronaTestResult): FamilyCoronaTest {
     val updated = coronaTest.updateTestResult(testResult)
-    val testResultChanged = Pair(coronaTest.state, updated.state).hasChanged
+    val resultChanged = Pair(coronaTest.state, updated.state).hasChanged
     return copy(
         coronaTest = updated.copy(
-            uiState = updated.uiState.copy(
-                hasResultChangeBadge = testResultChanged,
-                isResultAvailableNotificationSent = false
-            )
+            uiState = updated.uiState.update(resultChanged)
         )
     )
+}
+
+private fun CoronaTest.UiState.update(
+    resultChanged: Boolean
+) = when {
+    // New result change should also trigger notification -> reset notification flag
+    resultChanged -> copy(
+        hasResultChangeBadge = resultChanged,
+        isResultAvailableNotificationSent = false
+    )
+    // No change -> keep notification flag as is
+    else -> copy(hasResultChangeBadge = resultChanged)
 }
 
 internal fun FamilyCoronaTest.updateLabId(labId: String): FamilyCoronaTest {
