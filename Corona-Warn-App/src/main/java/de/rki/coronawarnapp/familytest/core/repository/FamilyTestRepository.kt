@@ -94,7 +94,7 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun deleteTest(
+    suspend fun removeTest(
         identifier: TestIdentifier
     ) {
         val test = getTest(identifier) ?: return
