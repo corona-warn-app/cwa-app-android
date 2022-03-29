@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="24dp"
+    android:paddingStart="24dp"
     android:paddingEnd="24dp"
-    android:paddingStart="24dp">
+    android:paddingBottom="24dp">
 
     <ImageView
         android:id="@+id/family_icon"
@@ -20,18 +20,18 @@
 
     <TextView
         android:id="@+id/family_badge_count"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/circle_certificate_notification_badge"
-        android:textColor="@android:color/white"
         android:gravity="center"
-        android:textSize="12sp"
+        android:textColor="@android:color/white"
+        android:textSize="11sp"
         android:translationX="7dp"
         android:translationY="-7dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/family_icon"
         app:layout_constraintTop_toTopOf="@id/family_icon"
-        tools:text="1"
+        tools:text="99"
         tools:visibility="visible" />
     <TextView
         android:id="@+id/family_test_title"

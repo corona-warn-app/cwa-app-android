@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.joda.JodaModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.google.gson.Gson
@@ -29,16 +30,7 @@ class SerializationModule {
     @BaseGson
     @Reusable
     @Provides
-    fun baseGson(): Gson = GsonBuilder()
-        .registerTypeAdapter(Instant::class.java, InstantAdapter())
-        .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
-        .registerTypeAdapter(Duration::class.java, DurationAdapter())
-        .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-        .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
-        .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
-        .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
-        .registerTypeAdapter(JsonNode::class.java, JsonNodeAdapter(jacksonObjectMapper()))
-        .create()
+    fun baseGson(): Gson = baseGson
 
     @Reusable
     @Provides
@@ -51,6 +43,19 @@ class SerializationModule {
                 addModules(kotlinModule(), JodaModule())
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
+        }
+
+        val baseGson: Gson by lazy {
+            GsonBuilder()
+                .registerTypeAdapter(Instant::class.java, InstantAdapter())
+                .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+                .registerTypeAdapter(Duration::class.java, DurationAdapter())
+                .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+                .registerTypeAdapter(ByteString::class.java, ByteStringBase64Adapter())
+                .registerTypeAdapter(RSAKey.Public::class.java, RSAKey.Public.GsonAdapter())
+                .registerTypeAdapter(RSAKey.Private::class.java, RSAKey.Private.GsonAdapter())
+                .registerTypeAdapter(JsonNode::class.java, JsonNodeAdapter(jacksonObjectMapper()))
+                .create()
         }
     }
 }

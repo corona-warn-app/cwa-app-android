@@ -16,14 +16,12 @@ import androidx.room.Transaction
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
-import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
-import org.joda.time.Instant
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -50,15 +48,13 @@ abstract class FamilyTestDatabase : RoomDatabase() {
 
 class FamilyCoronaTestConverter {
 
-    private val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(Instant::class.java, InstantAdapter())
-        .create()
+    private val gson: Gson = SerializationModule.baseGson
 
     @TypeConverter
     fun toFamilyCoronaTest(value: String): FamilyCoronaTest? = try {
         gson.fromJson(value)
     } catch (e: Exception) {
-        Timber.e(e, "Can't create FamilyCoronaTest")
+        Timber.e(e, "Can't create FamilyCoronaTest from value=%s", value)
         null
     }
 
@@ -88,10 +84,10 @@ interface FamilyCoronaTestDao {
     suspend fun delete(entity: FamilyCoronaTestEntity)
 
     @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NULL")
-    fun getAllActive(): Flow<List<FamilyCoronaTestEntity>>
+    fun getAllActive(): Flow<List<FamilyCoronaTestEntity?>>
 
     @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NOT NULL")
-    fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity>>
+    fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity?>>
 
     @Query("DELETE FROM family_corona_test WHERE moved_to_recycle_bin_at_millis < :olderThanMillis")
     suspend fun deleteFromRecycleBin(olderThanMillis: Long)

@@ -40,11 +40,18 @@ interface CoronaTestUiState {
     // final test result has been seen by the user
     val isViewed: Boolean
 
-    // badge for final test result
+    // Test was just scanned in the App
     val didShowBadge: Boolean
 
     // notification for final test result
     val isResultAvailableNotificationSent: Boolean
+
+    // Test result state has been changed
+    val hasResultChangeBadge: Boolean
+
+    // Tells if the test was just scanned in the App
+    // or test result has been changed to (NEGATIVE, POSITIVE, INVALID)
+    val hasBadge: Boolean get() = !didShowBadge || hasResultChangeBadge
 }
 
 interface CoronaTestDcc {
