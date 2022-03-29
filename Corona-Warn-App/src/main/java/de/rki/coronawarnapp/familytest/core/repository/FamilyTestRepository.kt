@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.model.markAsNotified
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
@@ -132,6 +133,12 @@ class FamilyTestRepository @Inject constructor(
     ) {
         storage.update(identifier) { test ->
             test.copy(coronaTest = test.coronaTest.markDccCreated(created))
+        }
+    }
+
+    suspend fun markAsNotified(identifier: TestIdentifier, notified: Boolean) {
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markAsNotified(notified))
         }
     }
 
