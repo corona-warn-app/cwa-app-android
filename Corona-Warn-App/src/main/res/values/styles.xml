@@ -118,6 +118,7 @@
     <style name="contactDiaryPersonButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/button_contact_diary_person</item>
         <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">5dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -304,7 +305,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineSmall">
+    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
@@ -317,6 +320,8 @@
     </style>
 
     <style name="headline6" parent="@style/TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
