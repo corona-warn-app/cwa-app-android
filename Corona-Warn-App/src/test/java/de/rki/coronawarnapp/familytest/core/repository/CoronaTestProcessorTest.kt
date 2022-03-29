@@ -36,15 +36,7 @@ class CoronaTestProcessorTest : BaseTest() {
         registrationToken = "regtoken",
         testResult = CoronaTestResult.PCR_OR_RAT_PENDING
     )
-
-    private val updatedTest = CoronaTest(
-        type = BaseCoronaTest.Type.PCR,
-        identifier = "identifier",
-        registeredAt = nowUTC,
-        registrationToken = "regtoken",
-        testResult = CoronaTestResult.PCR_OR_RAT_PENDING
-    )
-
+    
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
