@@ -52,14 +52,14 @@ class FamilyTestListViewModel @AssistedInject constructor(
             if (test == null) {
                 familyTestRepository.clear()
             } else {
-                familyTestRepository.deleteTest(test.identifier)
+                familyTestRepository.moveTestToRecycleBin(test.identifier)
             }
         }
     }
 
     fun onRefreshTests() {
         launch(appScope) {
-            familyTestRepository.refresh(true)
+            familyTestRepository.refresh()
         }
     }
 
