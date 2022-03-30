@@ -52,6 +52,7 @@
     <style name="CWAMaterialToolbar">
         <item name="android:background">@drawable/top_app_bar_shape</item>
         <item name="titleTextAppearance">@style/textTopAppBar</item>
+        <item name="subtitleTextAppearance">@style/subtitleTextTopAppBar</item>
     </style>
 
     <style name="CWAMaterialToolbar.Close">
@@ -295,7 +296,10 @@
 
     <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:textSize">20sp</item>
-        <item name="fontWeight">500</item>
+    </style>
+
+    <style name="subtitleTextTopAppBar" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="headline4" parent="@style/TextAppearance.Material3.HeadlineLarge">
@@ -326,8 +330,10 @@
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="subtitle" parent="@style/TextAppearance.Material3.TitleMedium">
+    <style name="subtitle" parent="@style/TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontStyle">normal</item>
         <item name="fontWeight">400</item>
     </style>
 
@@ -348,12 +354,15 @@
         <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>
 
-    <style name="subtitleMedium" parent="@style/TextAppearance.Material3.TitleMedium">
+    <style name="subtitleMedium" parent="@style/TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorTextPrimary2</item>
+        <item name="android:textStyle">normal</item>
         <item name="fontWeight">400</item>
     </style>
 
     <style name="subtitleMediumBold" parent="@style/subtitleMedium">
+        <item name="android:textStyle">bold</item>
         <item name="fontWeight">600</item>
     </style>
 
