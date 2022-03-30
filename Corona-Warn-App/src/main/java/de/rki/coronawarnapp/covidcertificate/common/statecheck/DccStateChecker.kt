@@ -7,7 +7,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
-import de.rki.coronawarnapp.covidcertificate.validation.core.BlocklistValidator
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -20,24 +19,19 @@ class DccStateChecker @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val dscRepository: DscRepository,
     private val dscSignatureValidator: DscSignatureValidator,
-    private val blocklistValidator: BlocklistValidator,
     private val expirationChecker: DccExpirationChecker,
 ) {
 
     suspend fun checkState(
-        dccData: DccData<*>
+        dccData: DccData<*>,
+        qrCodeHash: String,
+        blockedCertificateQrCodeHashes: Set<String>
     ): Flow<CwaCovidCertificate.State> = combine(
         appConfigProvider.currentConfig,
         dscRepository.dscData
     ) { appConfig, dscData ->
 
-        try {
-            blocklistValidator.validate(
-                dccData = dccData,
-                blocklist = appConfig.covidCertificateParameters.blockListParameters
-            )
-        } catch (e: Exception) {
-            Timber.tag(TAG).w("Certificate is in the blocklist %s", e.message)
+        if (qrCodeHash in blockedCertificateQrCodeHashes) {
             return@combine CwaCovidCertificate.State.Blocked
         }
 
