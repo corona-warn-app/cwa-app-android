@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
@@ -18,6 +19,7 @@ class DccWalletInfoCalculationManager @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val calculation: DccWalletInfoCalculation,
     private val timeStamper: TimeStamper,
+    private val dccValidationRepository: DccValidationRepository
 ) {
 
     /**
@@ -67,7 +69,8 @@ class DccWalletInfoCalculationManager @Inject constructor(
 
     private suspend fun initCalculation() {
         calculation.init(
-            boosterRulesRepository.rules.first()
+            boosterRules = boosterRulesRepository.rules.first(),
+            invalidationRules = dccValidationRepository.invalidationRules.first()
         )
     }
 

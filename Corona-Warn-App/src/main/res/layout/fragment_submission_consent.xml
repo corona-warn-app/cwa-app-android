@@ -16,11 +16,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorSurface">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/submission_consent_header"
-            style="@style/CWAToolbar.Close.Transparent"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +144,6 @@
             android:layout_height="wrap_content"
             android:onClick="@{ () -> viewModel.onConsentButtonClick()}"
             android:text="@string/submission_accept_button"
-            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

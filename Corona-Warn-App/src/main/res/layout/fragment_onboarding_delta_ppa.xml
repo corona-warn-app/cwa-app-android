@@ -7,6 +7,7 @@
         android:id="@+id/onboarding_ppa_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription=""
         android:fillViewport="true"
         android:focusable="true">
@@ -80,9 +81,9 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/federal_state_row"
                     style="@style/row"
-                    android:layout_marginTop="28dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/onboarding_body_short">
@@ -280,7 +281,7 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_body" />
 
-                     <ImageView
+                    <ImageView
                         android:id="@+id/bullet_point_consent"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
@@ -303,7 +304,7 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_consent" />
 
-                     <ImageView
+                    <ImageView
                         android:id="@+id/bullet_point_identity"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"
@@ -326,7 +327,7 @@
                         app:layout_constraintStart_toStartOf="@id/bullet_point_consent"
                         app:layout_constraintTop_toBottomOf="@+id/legal_point_identity" />
 
-                     <ImageView
+                    <ImageView
                         android:id="@+id/bullet_point_sixteen"
                         android:layout_width="@dimen/bullet_point_size"
                         android:layout_height="@dimen/bullet_point_size"

@@ -41,8 +41,7 @@
 
     <TextView
         android:id="@+id/first_bulletpoint_title"
-        style="@style/subtitle"
-        android:textStyle="bold"
+        style="@style/boldSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_normal"
@@ -72,8 +71,7 @@
 
     <TextView
         android:id="@+id/second_bulletpoint_title"
-        style="@style/subtitle"
-        android:textStyle="bold"
+        style="@style/boldSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"

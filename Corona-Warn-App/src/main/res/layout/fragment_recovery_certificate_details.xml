@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
+                app:contentScrim="@color/colorTransparent"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -72,20 +73,19 @@
                         android:text="@string/recovery_certificate_details_title"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
+                    style="@style/CWAMaterialToolbar.BackArrow.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/Theme.MaterialComponents"
+                    android:theme="@style/CertificateDetailTheme"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:menu="@menu/menu_recovery_certificate_details"
-                    app:navigationIcon="@drawable/ic_back"
-                    app:popupTheme="@style/Theme.MaterialComponents.DayNight">
+                    app:menu="@menu/menu_recovery_certificate_details">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"

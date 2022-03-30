@@ -70,9 +70,7 @@ class SubmissionSymptomCalendarFragment :
             updateButtons(it)
         }
 
-        binding.submissionSymptomCalendarHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onCalendarPreviousClicked()
-        }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onCalendarPreviousClicked() }
     }
 
     private fun updateButtons(symptomStart: Symptoms.StartOf?) {
