@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.covidcertificate.common.certificate.parseLocalDate
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
 import de.rki.coronawarnapp.databinding.CwaUserCardItemBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
-import org.joda.time.LocalDate
 import timber.log.Timber
 
 class CwaUserCard(parent: ViewGroup) :
@@ -41,22 +42,6 @@ class CwaUserCard(parent: ViewGroup) :
         }
     }
 
-    private fun formatBirthDate(dateOfBirthFormatted: String): String =
-        try {
-            val delimiter = LocalDate().toShortDayFormat()
-                .find { char -> !Character.isDigit(char) }
-                .toString()
-            when (delimiter) {
-                "/" -> dateOfBirthFormatted.split("-").run {
-                    listOfNotNull(getOrNull(1), getOrNull(2), getOrNull(0))
-                }.joinToString(delimiter)
-                else -> dateOfBirthFormatted.split("-").reversed().joinToString(delimiter)
-            }
-        } catch (e: Exception) {
-            Timber.d(e, "Formatting to local format failed, falling back to $dateOfBirthFormatted")
-            dateOfBirthFormatted
-        }
-
     data class Item(
         val personCertificates: PersonCertificates,
         val onSwitch: (Boolean) -> Unit
@@ -65,3 +50,14 @@ class CwaUserCard(parent: ViewGroup) :
         override val stableId = Item::class.hashCode().toLong()
     }
 }
+
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+internal fun formatBirthDate(dateOfBirthFormatted: String): String =
+    try {
+        // Formatted dob should be in the form of `yyyy-MM-dd` -> short day format like any other date in the screen
+        // if failed display the original provided value , please note that dob can be YYYY-MM or YYYY only
+        dateOfBirthFormatted.parseLocalDate()?.toShortDayFormat()!!
+    } catch (e: Exception) {
+        Timber.d(e, "Formatting to local format failed, falling back to $dateOfBirthFormatted")
+        dateOfBirthFormatted
+    }

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Error Handling -->
+    <!-- XTXT: Service Provider (without provider name) error message-->
+    <string name="dcc_ticketing_error_service_provider_error_no_name">"Під час підключення до постачальника сталася помилка. Зверніться до постачальника, якщо проблема не зникне."</string>
+    <!-- XTXT: Service Provider error message-->
+    <string name="dcc_ticketing_error_service_provider_error">"Під час підключення до постачальника %1$s сталася помилка. Зверніться до постачальника, якщо проблема не зникне."</string>
+    <!-- XTXT: Try again error message-->
+    <string name="dcc_ticketing_error_try_again">"Під час обробки даних сталася помилка. Спробуйте пізніше."</string>
+    <!-- XTXT: Validation service min version message-->
+    <string name="dcc_ticketing_error_min_version">"Поточна версія вашого Corona-Warn-App більше не підтримує перевірку квитків. Оновіть застосунок та знову почніть перевірку квитків."</string>
+    <!-- XBUT: Validation service min version Google play button-->
+    <string name="dcc_ticketing_error_min_version_google_play">"Перейдіть до Google Play"</string>
+
+    <!-- DCC Ticketing: Consent One -->
+    <!-- XHED: DCC Ticketing: Consent One: Header -->
+    <string name="dcc_ticketing_consent_one_header">"Ваша згода"</string>
+    <!-- XACT: DCC Ticketing: Consent One: Accessibility -->
+    <string name="dcc_ticketing_consent_one_acessibility">"Смартфон використовується для сканування QR-коду з системи продажу квитків. Зображено зв’язок між системою продажу квитків і смартфоном."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Title -->
+    <string name="dcc_ticketing_consent_one_title">"Перевірка сертифіката під час продажу квитків"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider -->
+    <string name="dcc_ticketing_consent_one_provider">"Постачальник:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Provider Default Value -->
+    <string name="dcc_ticketing_consent_one_provider_default">"“Lufthansa”"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking -->
+    <string name="dcc_ticketing_consent_one_booking">"Бронювання:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Booking  Deafault Value-->
+    <string name="dcc_ticketing_consent_one_booking_default">"“1234”:"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Body -->
+    <string name="dcc_ticketing_consent_one_body">"Провайдер хоче переконатися, що для вашого бронювання доступний дійсний сертифікат. Ваша згода потрібна, щоб отримати дані про продаж квитків від постачальника та опублікувати збережені сертифікати."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 1 -->
+    <string name="dcc_ticketing_consent_one_point_1">"Вам не потрібно дозволяти перевірку свого сертифіката за допомогою Corona-Warn-App. Ви також можете подати підтвердження своєї вакцинації, тестування або одужання іншим способом."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 2 -->
+    <string name="dcc_ticketing_consent_one_point_2">"Вимоги до сертифіката визначаються провайдером. RKI не має впливу на цей процес. Зв’яжіться з постачальником, щоб отримати додаткову інформацію про вимоги до сертифіката."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 3 -->
+    <string name="dcc_ticketing_consent_one_point_3">"Ідентифікація відповідних сертифікатів відбувається локально на вашому смартфоні. Ні до RKI, ні до провайдера дані не надсилаються."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Point 4 -->
+    <string name="dcc_ticketing_consent_one_point_4">"RKI не отримує жодних даних щодо ваших квитків чи збережених вами сертифікатів."</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Data protection -->
+    <string name="dcc_ticketing_consent_one_data_protection">"Щоб отримати детальнішу інформацію про обробку даних, див. Сповіщення про конфіденційність."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Consent Button -->
+    <string name="dcc_ticketing_consent_one_consent_btn">"Прийняти"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Button -->
+    <string name="dcc_ticketing_consent_one_cancel_btn">"Скасувати"</string>
+
+    <!-- XHED: DCC Ticketing: Consent One: Cancel Dialog: Title  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_title">"Скасувати перевірку?"</string>
+    <!-- XTXT: DCC Ticketing: Consent One: Cancel Dialog: Body  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_body">"Якщо ви скасуєте перевірку, сертифікат неможливо підтвердити."</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_continue_btn">"Відновити перевірку"</string>
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Cancel Button  -->
+    <string name="dcc_ticketing_consent_one_cancel_dialog_cancel_btn">"Скасувати перевірку"</string>
+
+    <!-- Not in Dcc ticketing allow list dialog-->
+    <!-- XTXT: not in AllowList dialog title -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_title">"Нотатка щодо безпеки"</string>
+    <!-- XTXT: not in AllowList dialog message -->
+    <string name="dcc_ticketing_not_in_allow_list_dialog_message">"Цей постачальник нам невідомий. З міркувань безпеки перевірка під час продажу квитків можлива лише для відомих постачальників. Зверніться до постачальника, який надав вам цей QR-код, і спробуйте оновити застосунок до останньої версії."</string>
+
+    <!-- DCC Ticketing: Certificate Selection Screen -->
+    <!-- XHED: Certificate Selection Screen Toolbar Title -->
+    <string name="dcc_ticketing_certificate_selection_title">"Виберіть сертифікат"</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Title -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_title">"Відповідний сертифікат недоступний."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found Subtitle -->
+    <string name="dcc_ticketing_certificate_selection_no_certificates_found_subtitle">"У вас немає сертифіката, який відповідає вимогам системи продажу квитків. Переконайтеся, що написання вашого імені в системі продажу квитків збігається з іменем у ваших сертифікатах. Якщо вам потрібні додаткові сертифікати, які ще недоступні в застосунку, додайте їх зараз, а потім почніть перевірку знову."</string>
+    <!-- XTXT: Certificate Selection Screen: No Certificates Found: Requested Certificates Text -->
+    <string name="dcc_ticketing_certificate_selection_requested_certificates_text">"Потрібні наступні сертифікати:"</string>
+    <!-- XTXT: Certificate Selection Screen: More Information -->
+    <string name="dcc_ticketing_certificate_selection_more_information_text">"Для отримання додаткової інформації, див. нашу сторінку ЗіВ."</string>
+    <!-- XTXT: Certificate Selection Screen: FAQ Link Container -->
+    <string name="dcc_ticketing_faq_link_container">"ЗіВ"</string>
+    <!-- XTXT: Certificate Selection Screen: Provider Requirements Title -->
+    <string name="dcc_ticketing_certificate_selection_provider_requirements_title">"Вимоги постачальника:"</string>
+    <!-- XTXT: Certificate Selection Screen: Person Birthday -->
+    <string name="dcc_ticketing_certificate_birthday">"Дата народження: %s"</string>
+    <!-- XTXT: Certificate Selection Screen: Certificates That Meet Requirements Title -->
+    <string name="dcc_ticketing_certificates_meeting_requirements_title">"Наступні сертифікати відповідають вимогам постачальника і можуть бути використані як докази:"</string>
+    <!-- XTXT: Certificate Selection Screen: Rapid anitgen Test certificate-->
+    <string name="rat_test_certificate">"Сертифікат експрес-тесту"</string>
+    <!-- XTXT: Certificate Selection Screen: PCR Test certificate-->
+    <string name="pcr_test_certificate">"Сертифікат ПЛР-тесту"</string>
+
+    <!-- DCC Ticketing: Consent Two -->
+    <!-- XHED: DCC Ticketing: Consent Two: Header -->
+    <string name="dcc_ticketing_consent_two_header">"Ваша згода"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Title -->
+    <string name="dcc_ticketing_consent_two_title">"Надсилання свого сертифіката на перевірку"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner -->
+    <string name="dcc_ticketing_consent_two_test_partner">"Партнер з перевірки:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Test Partner Default Value -->
+    <string name="dcc_ticketing_consent_two_test_partner_default">"“Operator_Verification_Service”"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider -->
+    <string name="dcc_ticketing_consent_two_provider">"Постачальник:"</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Provider Default Value -->
+    <string name="dcc_ticketing_consent_two_provider_default">"“Lufthansa”"</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Body -->
+    <string name="dcc_ticketing_consent_two_body">"Вибраний сертифікат та інформація про ваше бронювання тепер буде надіслано партнеру постачальника з перевірки. Щоб надіслати ваші дані партнеру з перевірки, потрібна ваша згода."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 1 -->
+    <string name="dcc_ticketing_consent_two_point_1">"Партнер з перевірки перевіряє, чи дійсний електронний підпис і чи ще не досягнута технічна дата закінчення строку дії сертифіката. Ви можете побачити технічну дату закінчення строку дії та вміст переданого сертифіката в докладному поданні сертифіката в застосунку."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 2 -->
+    <string name="dcc_ticketing_consent_two_point_2">"Сертифікати містять конфіденційні дані про стан здоров’я. Тому ви повинні дозволяти перевіряти ваші сертифікати лише тим постачальникам, яких ви знаєте і яким довіряєте."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 3 -->
+    <string name="dcc_ticketing_consent_two_point_3">"RKI не несе відповідальності за обробку даних постачальником і партнером з перевірки. Прочитайте їхні повідомлення про конфіденційність, щоб дізнатися, як і для яких цілей використовуються ваші дані."</string>
+    <!-- XHED: DCC Ticketing: Consent Two: Point 4 -->
+    <string name="dcc_ticketing_consent_two_point_4">"Партнер з перевірки негайно повідомляє постачальника про результат. Партнер просто повідомляє, чи була перевірка успішною чи ні."</string>
+    <!-- XTXT: DCC Ticketing: Consent Two: Data protection -->
+    <string name="dcc_ticketing_consent_two_data_protection">"Щоб отримати детальнішу інформацію про обробку даних, див. Сповіщення про конфіденційність."</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Consent Button -->
+    <string name="dcc_ticketing_consent_two_consent_btn">"Прийняти"</string>
+    <!-- XBUT: DCC Ticketing: Consent Two: Cancel Button -->
+    <string name="dcc_ticketing_consent_two_cancel_btn">"Скасувати"</string>
+
+
+    <!-- Validation Result -->
+    <!-- XBUT: DCC Ticketing: Consent One: Cancel Dialog: Continue Button  -->
+    <string name="dcc_ticketing_done">"Виконано"</string>
+    <!-- XTXT: validation result FAQ text -->
+    <string name="dcc_ticketing_result_faq_text">"Для отримання додаткової інформації, див. нашу сторінку ЗіВ."</string>
+    <!-- XTXT: validation result FAQ label -->
+    <string name="dcc_ticketing_result_faq_label">"ЗіВ"</string>
+    <!-- XTXT: validation result valid header  -->
+    <string name="dcc_ticketing_result_valid_header">"Ваш сертифікат успішно перевірено"</string>
+    <!-- XTXT: validation result invalid header  -->
+    <string name="dcc_ticketing_result_invalid_header">"Ваш сертифікат не відповідає вимогам постачальника"</string>
+    <!-- XTXT: validation result open header  -->
+    <string name="dcc_ticketing_result_open_header">"Ваш сертифікат не може бути перевірений партнером з перевірки"</string>
+    <!-- XTXT: validation result valid body  -->
+    <string name="dcc_ticketing_result_valid_body">"Постачальник “%s” був повідомлений про успішну перевірку."</string>
+    <!-- XTXT: validation result invalid body  -->
+    <string name="dcc_ticketing_result_invalid_body">"Якщо у вас виникли запитання, зверніться до постачальника “%s”."</string>
+    <!-- XTXT: validation result testing details  -->
+    <string name="dcc_ticketing_result_testing_details">"Перевірено партнером з перевірки: дата: %s"</string>
+    <!-- XTXT: validation result passed title  -->
+    <string name="dcc_ticketing_result_passed_title">"Перевірка пройшла успішно"</string>
+    <!-- XTXT: validation result open title  -->
+    <string name="dcc_ticketing_result_open_title">"Сертифікат не можна перевірити"</string>
+    <!-- XTXT: validation result failed title  -->
+    <string name="dcc_ticketing_result_failed_title">"Сертифікат не розпізнано"</string>
+
+</resources>

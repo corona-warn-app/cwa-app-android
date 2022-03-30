@@ -5,7 +5,6 @@ import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureWindowRiskCalculationConfig
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
@@ -37,7 +36,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @Suppress("ReturnCount", "LongParameterList")
-class RiskLevelTask @Inject constructor(
+class EwRiskLevelTask @Inject constructor(
     private val riskLevels: RiskLevels,
     private val enfClient: ENFClient,
     private val timeStamper: TimeStamper,
@@ -46,9 +45,9 @@ class RiskLevelTask @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val riskLevelStorage: RiskLevelStorage,
     private val keyCacheRepository: KeyCacheRepository,
-    private val coronaTestRepository: CoronaTestRepository,
     private val analyticsExposureWindowCollector: AnalyticsExposureWindowCollector,
-    private val analyticsTestResultCollector: AnalyticsTestResultCollector
+    private val analyticsTestResultCollector: AnalyticsTestResultCollector,
+    private val filter: ExposureWindowsFilter
 ) : Task<DefaultProgress, EwRiskLevelTaskResult> {
 
     private val internalProgress = MutableStateFlow<DefaultProgress>(Started)
@@ -81,23 +80,13 @@ class RiskLevelTask @Inject constructor(
     }
 
     private suspend fun determineRiskLevelResult(configData: ConfigData): EwRiskLevelTaskResult {
-        val nowUTC = timeStamper.nowUTC.also {
+        val nowUtc = timeStamper.nowUTC.also {
             Timber.d("The current time is %s", it)
-        }
-
-        val isAllowedToSubmitKeys = coronaTestRepository.coronaTests.first().any { it.isSubmissionAllowed }
-        val hasViewedTestResult = coronaTestRepository.coronaTests.first().any { it.isViewed }
-        if (isAllowedToSubmitKeys && hasViewedTestResult) {
-            Timber.i("Positive test result and user has seen it, skip risk calculation")
-            return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
-                failureReason = FailureReason.POSITIVE_TEST_RESULT
-            )
         }
 
         if (!configData.isDeviceTimeCorrect) {
             Timber.w("Device time is incorrect, offset: %s", configData.localOffset)
-            val currentServerTime = nowUTC.minus(configData.localOffset)
+            val currentServerTime = nowUtc.minus(configData.localOffset)
             Timber.d("Calculated current server time: %s", currentServerTime)
             return EwRiskLevelTaskResult(
                 calculatedAt = currentServerTime,
@@ -108,15 +97,15 @@ class RiskLevelTask @Inject constructor(
         if (!enfClient.isTracingEnabled.first()) {
             Timber.i("Risk not calculated, tracing is disabled.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
+                calculatedAt = nowUtc,
                 failureReason = FailureReason.TRACING_OFF
             )
         }
 
-        if (areKeyPkgsOutDated(nowUTC)) {
+        if (areKeyPkgsOutDated(nowUtc)) {
             Timber.i("Risk not calculated, results are outdated.")
             return EwRiskLevelTaskResult(
-                calculatedAt = nowUTC,
+                calculatedAt = nowUtc,
                 failureReason = when (backgroundJobsEnabled()) {
                     true -> FailureReason.OUTDATED_RESULTS
                     false -> FailureReason.OUTDATED_RESULTS_MANUAL
@@ -125,7 +114,7 @@ class RiskLevelTask @Inject constructor(
         }
         checkCancel()
 
-        return calculateRiskLevel(configData)
+        return calculateRiskLevel(configData, nowUtc)
     }
 
     @VisibleForTesting
@@ -153,9 +142,17 @@ class RiskLevelTask @Inject constructor(
         }
     }
 
-    private suspend fun calculateRiskLevel(configData: ExposureWindowRiskCalculationConfig): EwRiskLevelTaskResult {
+    private suspend fun calculateRiskLevel(
+        configData: ExposureWindowRiskCalculationConfig,
+        nowUtc: Instant
+    ): EwRiskLevelTaskResult {
         Timber.tag(TAG).d("Calculating risklevel")
-        val exposureWindows = enfClient.exposureWindows()
+
+        val exposureWindows = filter.filterByAge(
+            config = configData,
+            list = enfClient.exposureWindows(),
+            nowUtc = nowUtc
+        )
 
         return determineRisk(configData, exposureWindows).let {
             Timber.tag(TAG).d("Risklevel calculated: %s", it)
@@ -225,7 +222,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     class Factory @Inject constructor(
-        private val taskByDagger: Provider<RiskLevelTask>,
+        private val taskByDagger: Provider<EwRiskLevelTask>,
         private val exposureDetectionTracker: ExposureDetectionTracker
     ) : TaskFactory<DefaultProgress, EwRiskLevelTaskResult> {
 
@@ -236,7 +233,7 @@ class RiskLevelTask @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<RiskLevelTask>()
+        private val TAG = tag<EwRiskLevelTask>()
         private val STALE_DOWNLOAD_LIMIT = Duration.standardHours(48)
     }
 }

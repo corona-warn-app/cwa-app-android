@@ -59,7 +59,9 @@ class PersonCertificatesProvider @Inject constructor(
 
                 val hasBooster = settings.hasBoosterBadge(dccWalletInfo?.boosterNotification)
                 val hasDccReissuance = settings?.showDccReissuanceBadge ?: false
-                val badgeCount = certs.count { it.hasNotificationBadge } + hasBooster.toInt() + hasDccReissuance.toInt()
+                val hasNewAdmissionState = settings?.showAdmissionStateChangedBadge ?: false
+                val badgeCount = certs.count { it.hasNotificationBadge } +
+                    hasBooster.toInt() + hasDccReissuance.toInt() + hasNewAdmissionState.toInt()
                 Timber.tag(TAG).d("Person [code=%s, badgeCount=%s]", personIdentifier.codeSHA256, badgeCount)
 
                 PersonCertificates(
@@ -68,7 +70,8 @@ class PersonCertificatesProvider @Inject constructor(
                     badgeCount = badgeCount,
                     dccWalletInfo = dccWalletInfo,
                     hasBoosterBadge = hasBooster,
-                    hasDccReissuanceBadge = hasDccReissuance
+                    hasDccReissuanceBadge = hasDccReissuance,
+                    hasNewAdmissionState = hasNewAdmissionState
                 )
             }.toSet()
     }.shareLatest(scope = appScope)

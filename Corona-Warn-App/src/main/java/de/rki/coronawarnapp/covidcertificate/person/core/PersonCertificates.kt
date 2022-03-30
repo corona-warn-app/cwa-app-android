@@ -12,6 +12,7 @@ data class PersonCertificates(
     val dccWalletInfo: DccWalletInfo? = null,
     val hasBoosterBadge: Boolean = false,
     val hasDccReissuanceBadge: Boolean = false,
+    val hasNewAdmissionState: Boolean = false,
 ) {
     val personIdentifier: CertificatePersonIdentifier get() = certificates.identifier
 

@@ -108,10 +108,10 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Narażenia z niskim ryzykiem w ciągu jednego dnia"</item>
+        <item quantity="one">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
         <item quantity="other">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
         <item quantity="zero">"Brak narażeń"</item>
-        <item quantity="two">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
+        <item quantity="two">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
         <item quantity="few">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
         <item quantity="many">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
     </plurals>
@@ -124,17 +124,17 @@
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
         <item quantity="other">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="zero">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="two">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
+        <item quantity="zero">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
+        <item quantity="two">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="few">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="many">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Narażenia w ciągu jednego dnia z podwyższonym ryzykiem"</item>
+        <item quantity="one">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
         <item quantity="other">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="zero">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="two">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
+        <item quantity="zero">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
+        <item quantity="two">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="few">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="many">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
     </plurals>
@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Ryzyko zakażenia"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Jeśli rejestrowanie narażenia jest aktywne, aplikacja oblicza Twoje osobiste ryzyko zakażenia poprzez pomiar czasu trwania i bliskości Twojego kontaktu z osobami, u których zdiagnozowano koronawirusa w ciągu ostatnich 14 dni. Rejestrowanie narażenia uwzględnia również Twoje zameldowania. Otrzymasz ostrzeżenie, jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie, co osoba, u której zdiagnozowano koronawirusa, lub do 30 minut po opuszczeniu pomieszczenia przez taką osobę."</string>
+    <string name="main_overview_body_risk">"Jeśli rejestrowanie narażenia jest aktywne, aplikacja oblicza Twoje osobiste ryzyko zakażenia poprzez pomiar czasu trwania i bliskości Twojego kontaktu z osobami, u których zdiagnozowano koronawirusa w ciągu ostatnich %d dni. Rejestrowanie narażenia uwzględnia również Twoje zameldowania. Otrzymasz ostrzeżenie, jeśli przebywałeś(-aś) w tym samym pomieszczeniu w tym samym czasie, co osoba, u której zdiagnozowano koronawirusa, lub do 30 minut po opuszczeniu pomieszczenia przez taką osobę."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Może wyświetlić się następujący status ryzyka:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Ten okres jest uwzględniony w obliczeniu."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje 14 ostatnich dni."</string>
+    <string name="risk_details_information_body_period_logged">"Ryzyko zakażenia można obliczyć tylko dla okresów, w których rejestrowanie narażenia było aktywne. Dlatego też funkcja rejestrowania powinna być stale aktywna. Rejestrowanie narażenia obejmuje %d ostatnie(-ch) dni."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Aplikacja Corona-Warn-App została zainstalowana dzisiaj. Ryzyko zakażenia jest obliczane dla okresów, w których aktywne było rejestrowanie narażenia. Oblicza się je w przypadku kontaktowania się z innymi ludźmi przy aktywnej funkcji rejestrowania narażenia."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -345,9 +345,20 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Zmiana Twojego statusu ryzyka"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Ostatnie narażenie, które spowodowało zwiększenie Twojego ryzyka, miało miejsce ponad 14 dni temu. Z tego powodu ryzyko zakażenia zostało ponownie sklasyfikowane jako niskie.\n\nZalecenia:\n1. Jeśli nie masz żadnych objawów zakażenia COVID-19, przestrzegaj nadal obowiązujących zasad dotyczących zachowania dystansu i higieny.\n2. Jeżeli masz objawy zakażenia COVID-19, zalecamy wizytę u lekarza i wykonanie testu."</string>
+    <string name="risk_lowered_dialog_body">"Ostatnie narażenie, które spowodowało zwiększenie Twojego ryzyka, miało miejsce ponad %d dni temu. Z tego powodu ryzyko zakażenia zostało ponownie sklasyfikowane jako niskie.\n\nZalecenia:\n1. Jeśli nie masz żadnych objawów zakażenia COVID-19, przestrzegaj nadal obowiązujących zasad dotyczących zachowania dystansu i higieny.\n2. Jeżeli masz objawy zakażenia COVID-19, zalecamy wizytę u lekarza i wykonanie testu."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Nowe narażenie"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Wystąpiło kolejne narażenie o podwyższonym ryzyku.\n\nWszystkie Twoje narażenia na ryzyko z ostatnich %1$d dni znajdziesz w dzienniku kontaktów."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"OK"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -380,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Większa ochrona dla Ciebie i dla nas wszystkich. Korzystając z aplikacji Corona-Warn-App, możemy znacznie szybciej przerwać łańcuchy zakażeń."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Zmień swój smartfon w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której w ciągu ostatnich 14 dni zdiagnozowano koronawirusa."</string>
+    <string name="onboarding_body_2">"Zmień swój smartfon w system ostrzegania przed koronawirusem. Zapoznaj się ze swoim statusem ryzyka i dowiedz się, czy miałeś(-aś) bliski kontakt z osobą, u której zdiagnozowano koronawirusa w ciągu ostatnich %d dni."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Wyświetlaj wyniki swoich testów (testu PCR lub szybkiego testu antygenowego) w aplikacji i ostrzegaj innych, jeśli zdiagnozowano u Ciebie koronawirusa."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
@@ -740,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Zapewniamy obsługę klienta w następujących językach:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"angielskim, niemieckim, tureckim\n\nGodziny pracy:\nod poniedziałku do soboty: 7:00 - 22:00 (CET)\n(za wyjątkiem świąt państwowych)"</string>
+    <string name="information_contact_body_open">"niemieckim\n\nGodziny pracy:\nod poniedziałku do piątku: 9:00 - 17:00 (CET)\n(za wyjątkiem świąt państwowych)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"W razie jakichkolwiek innych pytań zadzwoń na numer 116 117 (w Niemczech). Następnie w trakcie automatycznego komunikatu naciśnij 2 (punkt Związkowego Ministerstwa Zdrowia). Naciśnij 1 (pogotowie ratunkowe) tylko, jeśli masz objawy."</string>
     <!-- XACT: describes illustration -->

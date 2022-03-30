@@ -33,6 +33,8 @@ message PresenceTracingRiskCalculationParameters {
   repeated NormalizedTimeToRiskLevelMapping normalizedTimePerCheckInToRiskLevelMapping = 2;
 
   repeated NormalizedTimeToRiskLevelMapping normalizedTimePerDayToRiskLevelMapping = 3;
+
+  uint32 maxCheckInAgeInDays = 4;
 }
 
 message PresenceTracingSubmissionParameters {

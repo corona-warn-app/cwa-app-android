@@ -15,6 +15,7 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.coronatest.type.CoronaTest
@@ -85,7 +86,6 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
         viewModel.errorEvent.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.tracingHeaderState.observe2(this) { binding.tracingHeader = it }
-        viewModel.showLoweredRiskLevelDialog.observe2(this) { if (it) showRiskLevelLoweredDialog() }
         viewModel.showIncorrectDeviceTimeDialog.observe2(this) { showDialog ->
             if (showDialog) deviceTimeIncorrectDialog.show { viewModel.userHasAcknowledgedIncorrectDeviceTime() }
         }
@@ -165,11 +165,11 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         )
     }
 
-    private fun showRiskLevelLoweredDialog() {
+    private fun showRiskLevelLoweredDialog(maxEncounterAgeInDays: Int) {
         val riskLevelLoweredDialog = DialogHelper.DialogInstance(
             context = requireActivity(),
             title = R.string.risk_lowered_dialog_headline,
-            message = R.string.risk_lowered_dialog_body,
+            message = getString(R.string.risk_lowered_dialog_body, maxEncounterAgeInDays),
             positiveButton = R.string.risk_lowered_dialog_button_confirm,
             negativeButton = null,
             cancelable = false,
@@ -181,6 +181,17 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
         }
     }
 
+    private fun showAdditionalHighRiskLevelDialog(maxEncounterAgeInDays: Int) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle(R.string.additional_high_risk_dialog_headline)
+            setMessage(getString(R.string.additional_high_risk_dialog_body, maxEncounterAgeInDays))
+            setPositiveButton(R.string.additional_high_risk_dialog_button_confirm) { _, _ ->
+                viewModel.userHasAcknowledgedAdditionalHighRiskLevel()
+            }
+            setCancelable(false)
+        }.show()
+    }
+
     private fun navigate(event: HomeFragmentEvents) {
         resetTransitions()
         when (event) {
@@ -190,10 +201,16 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                     onPositive = { viewModel.errorResetDialogDismissed() }
                 )
             }
+            is HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent -> {
+                showAdditionalHighRiskLevelDialog(event.maxEncounterAgeInDays)
+            }
+            is HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent -> {
+                showRiskLevelLoweredDialog(event.maxEncounterAgeInDays)
+            }
             HomeFragmentEvents.GoToStatisticsExplanation -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToStatisticsExplanationFragment()
             )
-            HomeFragmentEvents.ShowTracingExplanation -> tracingExplanationDialog.show {
+            is HomeFragmentEvents.ShowTracingExplanation -> tracingExplanationDialog.show(event.maxEncounterAgeInDays) {
                 viewModel.tracingExplanationWasShown()
             }
             HomeFragmentEvents.GoToRiskDetailsFragment -> doNavigate(

@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Брой дни с излагания на нисък риск: 1"</item>
+        <item quantity="one">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="zero">"Няма излагане на риск"</item>
         <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Брой дни с излагания на повишен риск: 1"</item>
+        <item quantity="one">"Брой дни с излагания с повишен риск - %1$d"</item>
         <item quantity="other">"Брой дни с излагания с повишен риск - %1$d"</item>
         <item quantity="zero">"Брой дни с излагания с повишен риск - %1$d"</item>
         <item quantity="two">"Брой дни с излагания с повишен риск - %1$d"</item>
@@ -201,7 +201,7 @@
     <!-- XHED: App overview subtitle for risk explanation -->
     <string name="main_overview_subtitle_risk">"Риск от заразяване"</string>
     <!-- YTXT: App overview body text about risk levels -->
-    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните 14 дни. Данните за излагане вземат предвид и вашите регистрации. Ще бъдете предупредени, ако сте били в едно помещение по едно и също време с лице, което е било диагностицирано с коронавирус, или до 30 минути след това."</string>
+    <string name="main_overview_body_risk">"Когато регистрирането на излагания е активно, приложението изчислява какъв е Вашият риск от заразяване, като измерва продължителността и близостта на контактите Ви с хора, които са били диагностицирани с COVID-19 през последните %d дни. Данните за излагане вземат предвид и вашите регистрации. Ще бъдете предупредени, ако сте били в едно помещение по едно и също време с лице, което е било диагностицирано с коронавирус, или до 30 минути след това."</string>
     <!-- XHED: App overview subtitle for risk level list -->
     <string name="main_overview_subtitle_risk_levels">"Възможни са следните нива на риск:"</string>
     <!-- XTXT: App overview increased risk level -->
@@ -299,7 +299,7 @@
     <string name="risk_details_subtitle_period_logged">"Този период се включва в изчислението."</string>
     <!-- XHED: risk details - infection period logged information body, below behaviors -->
     <!--    Dialog part 1-->
-    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните 14 дни."</string>
+    <string name="risk_details_information_body_period_logged">"Вашият риск от заразяване може да се изчисли само за периодите, в които регистрирането на излаганията на риск е било активно. Ето защо тази функция трябва да бъде активирана постоянно. Регистрирането на контактите Ви покрива последните %d дни."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days todasy -->
     <string name="risk_details_information_body_period_logged_assessment_under_14_days_today">"Приложението Corona-Warn-App е инсталирано днес. Рискът от заразяване се изчислява за периодите, в които регистрирането на контактите е било активно. Ако сте били в близост до други хора и регистрирането на излаганията е било активно, Вашият риск от заразяване ще бъде изчислен."</string>
     <!-- XTXT: risk details - infection period logged information body, under 14 days yesterday-->
@@ -345,9 +345,20 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Промяна на Вашия статус на риск"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Изминаха повече от 14 дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nЕто какво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
+    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
+
+    <!-- ####################################
+       Additional High Risk Dialog
+    ###################################### -->
+
+    <!-- XHED: additional high risk - dialog headline -->
+    <string name="additional_high_risk_dialog_headline">"Ново излагане"</string>
+    <!-- XTXT: additional high risk - dialog content -->
+    <string name="additional_high_risk_dialog_body">"Имате друго излагане с повишено ниво на риск.\n\nМоже да видите всичките си излагания на риск от последните %1$d дни във Вашия дневник на контактите."</string>
+    <!-- XBUT: additional high risk - dialog confirm -->
+    <string name="additional_high_risk_dialog_button_confirm">"ОК"</string>
 
     <!-- ####################################
            Outdated Device Time
@@ -380,7 +391,7 @@
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_1">"Повече защита за Вас и за всички нас. С помощта на приложението Corona-Warn-App можем да прекъснем веригите на заразяване много по-бързо."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
-    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните 14 дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
+    <string name="onboarding_body_2">"Превърнете смартфона си в предупредителна система за коронавирус. Прегледайте своя статус на риск и разберете дали през последните %d дни сте имали близък контакт с лице, диагностицирано с коронавирус."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
     <string name="onboarding_body_3">"Покажете резултатите си от теста (PCR тест или бърз антигенен тест) в приложението и предупредете останалите, ако Ви е поставена диагноза за коронавирусна инфекция."</string>
     <!-- YTXT: onboarding(together) - paragraph -->
@@ -740,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Английски, немски, турски\n\nРаботно време:\nот понеделник до неделя: 7:00 - 22:00\n(с изключение на национални празници)"</string>
+    <string name="information_contact_body_open">"Немски\n\nРаботно време:\nот понеделник до петък: 9:00 - 17:00 (CET)\n(с изключение на национални празници)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XACT: describes illustration -->

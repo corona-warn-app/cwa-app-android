@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+        Homescreen cards - register test card
+    ###################################### -->
+    <!-- XHED: Register test homescreen card: title -->
+    <string name="ag_homescreen_card_test_register_title">"Продовжити"</string>
+    <!-- XTXT: Register test homescreen card: body -->
+    <string name="ag_homescreen_card_test_register_body">"Знайдіть центри тестування поблизу вас і зареєструйте тест, щоб ви могли швидше попередити інших або запитати ваш цифровий сертифікат тесту на COVID."</string>
+
+    <!-- ####################################
+        Homescreen cards - common status
+    ###################################### -->
+    <!-- XTXT: Homescreen card: status subtitle - no result -->
+    <string name="ag_homescreen_card_status_no_result">"Ваш результат ще недоступний"</string>
+    <!-- XTXT: Homescreen card: status subtitle - result available -->
+    <string name="ag_homescreen_card_status_result_available">"Отримати результат тесту"</string>
+    <!-- XTXT: Homescreen card: status subtitle - error -->
+    <string name="ag_homescreen_card_status_error">"Недійсний тест"</string>
+    <!-- XTXT: Homescreen card: status subtitle - invalid -->
+    <string name="ag_homescreen_card_status_invalid">"Більше недійсно"</string>
+    <!-- XTXT: Homescreen card: status subtitle - findings -->
+    <string name="ag_homescreen_card_status_findings">"Результати"</string>
+    <!-- XTXT: Homescreen card: subtitle - corona official name -->
+    <string name="ag_homescreen_card_status_name_of_the_cause_of_this_app">"SARS-CoV-2"</string>
+    <!-- XTXT: Homescreen card: status - negative -->
+    <string name="ag_homescreen_card_status_negative">"Негативний"</string>
+    <!-- XTXT: Homescreen card: status - positiv -->
+    <string name="ag_homescreen_card_status_positiv">"Позитивний"</string>
+
+    <!-- ####################################
+       Homescreen cards - common body
+   ###################################### -->
+    <!-- XTXT: homescreen card: body - result available -->
+    <string name="ag_homescreen_card_body_result_available">"Якщо у вас був позитивний тест на коронавірус, ви можете попередити інших."</string>
+    <!-- XTXT: homescreen card: body - error -->
+    <string name="ag_homescreen_card_body_error">"Ваш тест не вдалося проаналізувати"</string>
+    <!-- XTXT: homescreen card: body - not valid test -->
+    <string name="ag_homescreen_card_body_not_valid_test">"Вашому тесту більше 21 дня, тому він більше не актуальний. Видаліть тест. Потім можна додати інший. "</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_body_result_negative">"У вас не діагностували вірус SARS-CoV-2."</string>
+    <!-- XTXT: homescreen card: body - positive -->
+    <string name="ag_homescreen_card_body_result_positive">"У вас діагностовано вірус SARS-CoV-2."</string>
+
+    <!-- ####################################
+        Homescreen cards - rapid test
+    ###################################### -->
+    <!-- XHED: rapid test homescreen card: title -->
+    <string name="ag_homescreen_card_rapidtest_title">"Експрес-тест"</string>
+    <!-- XBUT: rapid test homescreen card: dont show anymore button -->
+    <string name="ag_homescreen_card_rapidtest_dont_show_anymore_button">"Не показувати знову"</string>
+    <!-- XTXT: rapid test homescreen card: status subtitle - outdated test -->
+    <string name="ag_homescreen_card_rapidtest_status_outdated_test">"Тест більше не є актуальним"</string>
+    <!-- XTXT: rapid test homescreen card: result positive - check results with PCR test -->
+    <string name="ag_homescreen_card_rapidtest_body_result_positive_pcr_check">"Пройдіть ПЛР-тест, щоб перевірити цей результат."</string>
+
+    <!-- Body -->
+    <!-- XTXT: rapid test homescreen card: body - no result -->
+    <string name="ag_homescreen_card_rapidtest_body_no_result">"Аналіз вашого швидкого тесту ще не виконано."</string>
+    <!-- XTXT: rapid test homescreen card: body - outdated test -->
+    <string name="ag_homescreen_card_rapidtest_body_outdated_test">"Вашому експрес-тесту понад 48 годин, і він більше не відображатиметься тут."</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_rapid_body_result_date">"Дата виконання %1$s"</string>
+
+    <!-- ####################################
+        Homescreen cards - PCR
+    ###################################### -->
+    <!-- XHED: PCR homescreen card: title -->
+    <string name="ag_homescreen_card_pcr_title">"ПЛР-тест"</string>
+
+    <!-- Body -->
+    <!-- XTXT: PCR homescreen card: body - no result -->
+    <string name="ag_homescreen_card_pcr_body_no_result">"Аналіз вашого ПЛР-тесту ще не виконаний."</string>
+    <!-- XTXT: homescreen card: body - negative -->
+    <string name="ag_homescreen_card_pcr_body_result_date">"Дата реєстрації тесту %1$s"</string>
+
+    <!-- XBUT: submission deletion warning button continue -->
+    <string name="submission_deletion_warning_continue_button">"Продовжити"</string>
+    <!-- XHED: submission deletion warning title -->
+    <string name="submission_deletion_warning_title">"Нотатка"</string>
+    <!-- YTXT: Headline for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_antigen_test">"Ви вже зареєстрували експрес-тест."</string>
+    <!-- YTXT: Body for rapid test submission deletion warning -->
+    <string name="submission_deletion_warning_body_antigen_test">"Ви вже зареєстрували експрес-тест. Застосунок може одночасно керувати максимум одним експрес-тестом та одним ПЛР-тестом. Якщо ви зареєструєте інший експрес-тест, перший експрес-тест буде переміщено в кошик, де ви зможете його відновити або видалити назавжди."</string>
+    <!-- YTXT: Headline for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_headline_pcr_test">"Ви вже зареєстрували ПЛР-тест."</string>
+    <!-- YTXT: Body for PCR test submission deletion warning -->
+    <string name="submission_deletion_warning_body_pcr_test">"Ви вже зареєстрували ПЛР-тест. Застосунок може одночасно керувати максимум одним експрес-тестом та одним ПЛР-тестом. Якщо ви зареєструєте інший ПЛР-тест, перший ПЛР-тест буде переміщено в кошик, де ви зможете його відновити або видалити назавжди."</string>
+
+    <!-- XHED: submission result antigen fragment toolbar text -->
+    <string name="submission_test_result_toolbar_text">"Ваш результат тесту"</string>
+    <!-- XHED: submission result antigen fragment card title -->
+    <string name="submission_test_result_antigen_title">"Експрес-тест"</string>
+    <!-- XTXT: submission result antigen fragment card "found" text -->
+    <string name="submission_result_subtitle">"Результати"</string>
+    <!-- XTXT: submission test result fragment negative diagnosis -->
+    <string name="submission_test_result_negative">"Негативний"</string>
+    <!-- XTXT: submission result antigen fragment card patient name placeholder -->
+    <string name="submission_test_result_antigen_patient_name_placeholder">"%1$s %2$s"</string>
+    <!-- XTXT: submission result antigen fragment card patient birth date placeholder -->
+    <string name="submission_test_result_antigen_patient_birth_date_placeholder">"Народився %1$s"</string>
+    <!-- XTXT: coronatest negative antigen result time and date placeholder -->
+    <string name="coronatest_negative_antigen_result_time_date_placeholder">"Видано: %1$s, %2$s"</string>
+    <!-- XTXT: submission result antigen fragment card negative result message -->
+    <string name="submission_test_result_negative_message">"У вас не діагностували вірус SARS-CoV-2."</string>
+    <!-- XHED: submission result antigen fragment negative result proof title -->
+    <string name="submission_test_result_antigen_negative_proof_title">"Функція перевірки"</string>
+    <!-- XHED: submission result antigen fragment negative result proof body -->
+    <string name="submission_test_result_antigen_negative_proof_body">"Щоб підтвердити відображений тут результат, потрібен цифровий Covid-сертифікат ЄС . Якщо під час реєстрації тесту ви запитали цифровий сертифікат тестування і пункт тестування підтримує видачу цифрових сертифікатів, ви можете знайти свій цифровий сертифікат тесту за посиланням, зазначеним вище. Ви також знайдете сертифікат на вкладці «Сертифікати».\nТакож дізнайтеся про критерії визнання та чинності сертифікатів тестів у контексті мети, для якої вам потрібні докази."</string>
+    <!-- XHED: submission result antigen negative result counter title -->
+    <string name="submission_test_result_antigen_negative_counter_title">"Результат доступний від"</string>
+    <!-- XHED: coronatest negative antigen result first info title -->
+    <string name="coronatest_negative_antigen_result_first_info_title">"Ваш експрес-тест додано"</string>
+    <!-- XTXT: coronatest negative antigen result first info body -->
+    <string name="coronatest_negative_antigen_result_first_info_body">"Результат тесту відображається тут протягом 48 годин."</string>
+    <!-- XHED: coronatest negative antigen result second info title -->
+    <string name="coronatest_negative_antigen_result_second_info_title">"Негативний діагноз"</string>
+    <!-- XTXT: coronatest negative antigen result second info body -->
+    <string name="coronatest_negative_antigen_result_second_info_body">"Експрес-тест не підтвердив наявність у вас коронавірусу SARS-CoV-2."</string>
+    <!-- XTXT: coronatest negative antigen result third info title -->
+    <string name="coronatest_negative_antigen_result_third_info_title">"Видалити тест"</string>
+    <!-- XTXT: coronatest negative antigen result third info body -->
+    <string name="coronatest_negative_antigen_restul_third_info_body">"Видаліть тест із застосунку Corona-Warn-App, щоб у разі потреби ви могли зберегти тут новий код тесту."</string>
+    <!-- XTXT: coronatest negative result certificate info title -->
+    <string name="coronatest_negative_result_certificate_info_title">"Сертифікат тесту"</string>
+    <!-- XTXT: coronatest negative result certificate info body -->
+    <string name="coronatest_negative_result_certificate_info_body">"Сертифікат тесту доступний на вкладці «Сертифікати»."</string>
+
+    <!-- ####################################
+     Rapid Antigen Test Profile
+     ###################################### -->
+    <!-- XHED: Create RAT profile card title -->
+    <string name="rat_profile_create_card_title">"Створити профіль експрес-тесту"</string>
+    <!-- XTXT: Create RAT profile card subtitle -->
+    <string name="rat_profile_create_card_subtitle">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
+    <!-- XHED: Open RAT profile card title -->
+    <string name="rat_profile_open_card_title">"Профіль експрес-тесту"</string>
+    <!-- XTXT: Open RAT profile card subtitle -->
+    <string name="rat_profile_open_card_subtitle">"Заощаджуйте час і надавайте свій профіль експрес-тесту на місці тестування."</string>
+    <!-- XHED: Create RAT profile title -->
+    <string name="rat_profile_create_title">"Профіль експрес-тесту"</string>
+    <!-- XTXT: Create RAT profile first name hint -->
+    <string name="rat_profile_create_first_name_hint">"Ім\'я"</string>
+    <!-- XTXT: Create RAT profile last name hint -->
+    <string name="rat_profile_create_last_name_hint">"Прізвище"</string>
+    <!-- XTXT: Create RAT profile birth date hint -->
+    <string name="rat_profile_create_birth_date_hint">"Дата народження"</string>
+    <!-- XBUT: Create RAT profile save button -->
+    <string name="rat_profile_create_button">"Зберегти"</string>
+    <!-- XTXT: Create RAT profile description -->
+    <string name="rat_profile_create_description">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
+    <!-- XTXT: Create RAT profile street hint -->
+    <string name="rat_profile_create_street_hint">"Вулиця та номер будинку"</string>
+    <!-- XTXT: Create RAT profile post code hint -->
+    <string name="rat_profile_create_zip_code_hint">"Поштовий індекс"</string>
+    <!-- XTXT: Create RAT profile city hint -->
+    <string name="rat_profile_create_city_hint">"Місто"</string>
+    <!-- XTXT: Create RAT profile phone hint -->
+    <string name="rat_profile_create_phone_hint">"Номер телефону"</string>
+    <!-- XTXT: Create RAT profile email hint -->
+    <string name="rat_profile_create_email_hint">"Адреса електронної пошти"</string>
+    <!-- XTXT: Create RAT profile phone error message -->
+    <string name="rat_profile_create_phone_error">"Недійсний номер телефону"</string>
+    <!-- XTXT: Create RAT profile email error message -->
+    <string name="rat_profile_create_email_error">"Недійсна адреса електронної пошти"</string>
+
+    <!--RAT profile onboarding-->
+    <string name="rat_profile_onboarding_image_content_description">"Жінка зі смартфоном у руці стоїть перед будівлею. QR-код символізує профіль експрес-тесту, який потрібно сканувати."</string>
+    <!-- XTXT: Create RAT profile onboarding title -->
+    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
+    <!-- XTXT: Create RAT profile onboarding subtitle -->
+    <string name="rat_profile_onboarding_subtitle">"Коли ви створюєте профіль експрес-тесту, вам не доведеться знову заповнювати свої особисті дані перед кожним експрес-тестом."</string>
+    <!-- XTXT: Create RAT profile onboarding next button -->
+    <string name="rat_profile_onboarding_next">"Продовжити"</string>
+    <!-- XTXT: Create RAT profile onboarding privacy -->
+    <string name="rat_profile_onboarding_privacy">"Докладна інформація про обробку даних та вашу згоду"</string>
+    <!-- XTXT: Create RAT Qr code profile description-->
+    <string name="rat_qr_code_profile_description">"Пред’явіть цей QR-код у пункті тестування, щоб ваші особисті дані можна було записати швидше. Також тримайте під рукою посвідчення особи."</string>
+    <!-- XTXT: Create RAT Qr code profile birth date-->
+    <string name="rat_qr_code_profile_birth_date">"Народився %1$s"</string>
+    <!-- XBUT: Create RAT Qr code profile next button-->
+    <string name="rat_qr_code_profile_next_button">"Продовжити"</string>
+    <!-- XTXT: Create RAT Qr code profile delete item-->
+    <string name="rat_qr_code_profile_delete_item">"Видалити профіль експрес-тесту"</string>
+    <!-- XTXT: Create RAT Qr code profile edit item-->
+    <string name="rat_qr_code_profile_edit_item">"Редагувати профіль експрес-тесту"</string>
+    <!-- XTXT: Create RAT Qr code profile information item-->
+    <string name="rat_qr_code_profile_information_item">"Інформація"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog title-->
+    <string name="rat_qr_code_profile_dialog_title">"Ви хочете видалити профіль експрес-тесту?"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog message-->
+    <string name="rat_qr_code_profile_dialog_message">"Зверніть увагу, що якщо ви це зробите, QR-код більше не можна буде використовувати для реєстрації."</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog positive button-->
+    <string name="rat_qr_code_profile_dialog_positive_button">"Видалити"</string>
+    <!-- XTXT: Create RAT Qr code profile delete dialog negative button-->
+    <string name="rat_qr_code_profile_dialog_negative_button">"Скасувати"</string>
+</resources>

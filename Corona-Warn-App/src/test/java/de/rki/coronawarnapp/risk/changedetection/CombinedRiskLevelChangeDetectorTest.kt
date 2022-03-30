@@ -5,12 +5,13 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.CombinedEwPtRiskLevelResult
 import de.rki.coronawarnapp.risk.EwRiskLevelResult
+import de.rki.coronawarnapp.risk.LastCombinedRiskResults
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskLevelSettings
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.RiskState.CALCULATION_FAILED
@@ -19,27 +20,32 @@ import de.rki.coronawarnapp.risk.RiskState.LOW_RISK
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.storage.TracingSettings
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
-import io.mockk.coVerifySequence
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.Instant
+import org.joda.time.LocalDate
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.preferences.MockSharedPreferences
 import testhelpers.preferences.mockFlowPreference
 
+@Suppress("MaxLineLength")
 class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var context: Context
     @MockK lateinit var timeStamper: TimeStamper
@@ -47,28 +53,22 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     @MockK lateinit var notificationManagerCompat: NotificationManagerCompat
     @MockK lateinit var riskLevelSettings: RiskLevelSettings
     @MockK lateinit var notificationHelper: GeneralNotifications
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
-    @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var builder: NotificationCompat.Builder
     @MockK lateinit var notification: Notification
+    @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
 
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply { every { isSubmitted } returns false }
-        )
-    )
+    lateinit var tracingSettings: TracingSettings
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
+        every { context.getSharedPreferences("tracing_settings", Context.MODE_PRIVATE) } returns MockSharedPreferences()
+        tracingSettings = spyk(TracingSettings(context))
+
         every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
-        every { coronaTestRepository.coronaTests } returns coronaTests
         every { notificationManagerCompat.areNotificationsEnabled() } returns true
-
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp = any() } just Runs
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns null
 
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp = any() } just Runs
         every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns null
@@ -81,6 +81,7 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         every { notificationHelper.newBaseBuilder() } returns builder
         every { notificationHelper.sendNotification(any(), any()) } just Runs
         every { context.getString(any()) } returns ""
+        coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
     }
 
     private fun createEwRiskLevel(
@@ -101,7 +102,8 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         calculatedAt: Instant = Instant.EPOCH
     ): PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = calculatedAt,
-        riskState = riskState
+        riskState = riskState,
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createCombinedRiskLevel(
@@ -113,6 +115,20 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         ptRiskLevelResult = createPtRiskLevel(riskState, calculatedAt)
     )
 
+    private fun createLastCombinedRiskResults(
+        lastCalculatedResult: CombinedEwPtRiskLevelResult,
+        lastRiskEncounterAt: LocalDate
+    ): LastCombinedRiskResults {
+
+        val lastCalculatedResultSpy = spyk(lastCalculatedResult)
+        every { lastCalculatedResultSpy.lastRiskEncounterAt } returns lastRiskEncounterAt
+
+        return LastCombinedRiskResults(
+            lastCalculated = lastCalculatedResultSpy,
+            lastSuccessfullyCalculated = mockk()
+        )
+    }
+
     private fun createInstance(scope: CoroutineScope) = CombinedRiskLevelChangeDetector(
         context = context,
         appScope = scope,
@@ -120,71 +136,92 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
         notificationManagerCompat = notificationManagerCompat,
         riskLevelSettings = riskLevelSettings,
         notificationHelper = notificationHelper,
-        coronaTestRepository = coronaTestRepository,
-        tracingSettings = tracingSettings
+        tracingSettings = tracingSettings,
+        riskCardDisplayInfo = riskCardDisplayInfo
     )
 
     @Test
-    fun `nothing happens if there is only one result yet`() {
-        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
-            flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
+    fun `no notification should be sent if there is only one result yet`() {
+
+        val riskSequence = listOf(createCombinedRiskLevel(LOW_RISK))
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns
+            flowOf(createLastCombinedRiskResults(riskSequence.first(), LocalDate.parse("2022-01-01")))
 
         runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
+            createInstance(scope = this).launch()
 
             advanceUntilIdle()
 
-            coVerifySequence {
-                notificationManagerCompat wasNot Called
+            verify {
+                notificationHelper wasNot Called
+            }
+
+            verify(exactly = 0) {
+                tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
             }
         }
     }
 
     @Test
     fun `no risk level change, nothing should happen`() {
-        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
-            flowOf(
-                listOf(
-                    createCombinedRiskLevel(LOW_RISK),
-                    createCombinedRiskLevel(CALCULATION_FAILED),
-                    createCombinedRiskLevel(LOW_RISK)
-                )
-            )
+
+        val riskSequence = listOf(
+            createCombinedRiskLevel(LOW_RISK),
+            createCombinedRiskLevel(CALCULATION_FAILED),
+            createCombinedRiskLevel(LOW_RISK)
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
 
         runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
+            createInstance(scope = this).launch()
 
             advanceUntilIdle()
 
-            coVerifySequence {
+            verify {
                 notificationManagerCompat wasNot Called
+            }
+            verify(exactly = 0) {
+                tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update(any())
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update(any())
             }
         }
     }
 
     @Test
-    fun `combined risk state change from HIGH to LOW triggers notification`() {
-        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
-            flowOf(
-                listOf(
-                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(2)),
-                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(1)),
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH)
-                )
-            )
+    fun `combined risk state change from HIGH to LOW should trigger one notification`() {
+
+        val riskSequence = listOf(
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-01"))
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
 
         runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
+            createInstance(scope = this).launch()
 
             advanceUntilIdle()
 
-            coVerifySequence {
+            verify(exactly = 1) {
                 tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
-                coronaTestRepository.coronaTests
-                notificationHelper.newBaseBuilder()
                 notificationHelper.sendNotification(any(), any())
                 tracingSettings.showRiskLevelBadge
             }
@@ -192,74 +229,180 @@ class CombinedRiskLevelChangeDetectorTest : BaseTest() {
     }
 
     @Test
-    fun `combined risk state change from LOW to HIGH triggers notification`() {
-        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
-            flowOf(
-                listOf(
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(3)),
-                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(2)),
-                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH.plus(1)),
-                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH),
-                )
-            )
+    fun `combined risk state change from HIGH to LOW should NOT trigger notification if low risk card is NOT displayed`() {
+
+        coEvery { riskCardDisplayInfo.shouldShowRiskCard(LOW_RISK) } returns false
+
+        val riskSequence = listOf(
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-01"))
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
 
         runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
+            createInstance(scope = this).launch()
 
             advanceUntilIdle()
 
-            coVerifySequence {
-                coronaTestRepository.coronaTests
-                notificationHelper.newBaseBuilder()
+            verify(exactly = 0) {
+                tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel
                 notificationHelper.sendNotification(any(), any())
                 tracingSettings.showRiskLevelBadge
-            }
-        }
-    }
-
-    @Test
-    fun `risk level went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
-            flowOf(listOf(createCombinedRiskLevel(LOW_RISK)))
-        every { riskLevelSettings.ewLastChangeCheckedRiskLevelTimestamp } returns Instant.EPOCH.plus(1)
-
-        runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
-
-            advanceUntilIdle()
-
-            coVerifySequence {
-                notificationManagerCompat wasNot Called
-                tracingSettings.showRiskLevelBadge wasNot Called
             }
         }
     }
 
     @Test
     fun `combined risk level went from LOW to HIGH but it is has already been processed`() {
-        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns
-            flowOf(
-                listOf(
-                    createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.EPOCH.plus(2)),
-                    createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.EPOCH.plus(1)),
-                    createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.EPOCH)
-                )
-            )
+        val riskSequence = listOf(
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-01"))
+        )
 
-        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.EPOCH.plus(2)
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
+
+        every { riskLevelSettings.lastChangeCheckedRiskLevelCombinedTimestamp } returns Instant.parse("2022-01-03")
 
         runBlockingTest {
-            val instance = createInstance(scope = this)
-            instance.launch()
+            createInstance(scope = this).launch()
 
             advanceUntilIdle()
 
-            coVerifySequence {
-                notificationManagerCompat wasNot Called
+            verify {
+                notificationHelper wasNot Called
                 tracingSettings.showRiskLevelBadge wasNot Called
             }
+        }
+    }
+
+    @Test
+    fun `combined risk state change from LOW to HIGH triggers initial high notification`() {
+        val riskSequence = listOf(
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-04")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-01")),
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .sortedBy { it.calculatedAt }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
+
+        runBlockingTest {
+            createInstance(scope = this).launch()
+
+            advanceUntilIdle()
+
+            verify(exactly = 1) {
+                notificationHelper.sendNotification(any(), any())
+                tracingSettings.showRiskLevelBadge
+            }
+        }
+    }
+
+    @Test
+    fun `multiple high risks should trigger initial notification and additional high risk notifications`() {
+
+        val riskSequenceWithLowToHighRiskChange = listOf(
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-04")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(CALCULATION_FAILED, calculatedAt = Instant.parse("2022-01-01")),
+        )
+
+        val riskSequenceWithAdditionalRisk = riskSequenceWithLowToHighRiskChange + listOf(
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-06")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-05")),
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequenceWithLowToHighRiskChange)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequenceWithAdditionalRisk
+                .sortedBy { it.calculatedAt }
+                .filter { it.wasSuccessfullyCalculated }
+                .map { createLastCombinedRiskResults(it, it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
+
+        runBlockingTest {
+            createInstance(scope = this).launch()
+
+            advanceUntilIdle()
+
+            // 3 notifications in total ...
+            verify(exactly = 3) { notificationHelper.sendNotification(any(), any()) }
+
+            // ... 1 initial notification ...
+            verify(exactly = 1) { tracingSettings.showRiskLevelBadge }
+
+            // ... and 2 additional high risk notifications
+            verify(exactly = 2) { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel }
+        }
+    }
+
+    @Test
+    fun `lastHighRiskDate should be reset when there is a new low risk after a high risk`() {
+        val riskSequence = listOf(
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-05")),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-06")),
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .map { createLastCombinedRiskResults(it, lastRiskEncounterAt = it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
+
+        runBlockingTest {
+            createInstance(scope = this).launch()
+
+            advanceUntilIdle()
+
+            verify(exactly = 1) { tracingSettings.lastHighRiskDate = null }
+        }
+    }
+
+    @Test
+    fun `lastHighRiskDate should NOT be reset when there is a new low risk before a high risk`() {
+        val riskSequence = listOf(
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-02")),
+            createCombinedRiskLevel(INCREASED_RISK, calculatedAt = Instant.parse("2022-01-03")),
+            createCombinedRiskLevel(LOW_RISK, calculatedAt = Instant.parse("2022-01-01")),
+        )
+
+        every { riskLevelStorage.allCombinedEwPtRiskLevelResults } returns flowOf(riskSequence)
+        every { riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult } returns flowOf(
+            *riskSequence
+                .map { createLastCombinedRiskResults(it, lastRiskEncounterAt = it.calculatedAt.toLocalDateUtc()) }
+                .toTypedArray()
+        )
+
+        runBlockingTest {
+            createInstance(scope = this).launch()
+
+            advanceUntilIdle()
+
+            verify(exactly = 0) { tracingSettings.lastHighRiskDate = null }
         }
     }
 

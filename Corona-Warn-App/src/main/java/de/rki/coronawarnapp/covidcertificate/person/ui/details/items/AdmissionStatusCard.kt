@@ -10,8 +10,8 @@ import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.convertToHyperlink
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
-class ConfirmedStatusCard(parent: ViewGroup) :
-    PersonDetailsAdapter.PersonDetailsItemVH<ConfirmedStatusCard.Item, ConfirmedStatusCardBinding>(
+class AdmissionStatusCard(parent: ViewGroup) :
+    PersonDetailsAdapter.PersonDetailsItemVH<AdmissionStatusCard.Item, ConfirmedStatusCardBinding>(
         layoutRes = R.layout.confirmed_status_card,
         parent = parent
     ) {
@@ -27,10 +27,16 @@ class ConfirmedStatusCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         title.text = curItem.titleText
+        admissionStateBadge.isVisible = curItem.badgeVisible
+        subtitle.isVisible = curItem.subtitleText.isNotEmpty()
         subtitle.text = curItem.subtitleText
         badge.isVisible = curItem.badgeText.isNotBlank()
         badge.text = curItem.badgeText
-        body.text = curItem.longText
+        if (curItem.badgeVisible && curItem.longTextWithBadge != null) {
+            body.text = curItem.longTextWithBadge
+        } else {
+            body.text = curItem.longText
+        }
         badge.background = context.getDrawableCompat(item.colorShade.admissionBadgeBg)
         faq.isVisible = curItem.faqAnchor != null
         curItem.faqAnchor?.let { url ->
@@ -42,7 +48,9 @@ class ConfirmedStatusCard(parent: ViewGroup) :
         val titleText: String,
         val subtitleText: String,
         val badgeText: String,
+        val badgeVisible: Boolean = false,
         val longText: String,
+        val longTextWithBadge: String?,
         val faqAnchor: String?,
         val colorShade: PersonColorShade,
     ) : CertificateItem, HasPayloadDiffer {

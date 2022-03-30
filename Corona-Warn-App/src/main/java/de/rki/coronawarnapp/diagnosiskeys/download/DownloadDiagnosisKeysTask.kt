@@ -3,7 +3,6 @@ package de.rki.coronawarnapp.diagnosiskeys.download
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.appconfig.ExposureDetectionConfig
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
@@ -35,7 +34,6 @@ class DownloadDiagnosisKeysTask @Inject constructor(
     private val keyPackageSyncTool: KeyPackageSyncTool,
     private val timeStamper: TimeStamper,
     private val settings: DownloadDiagnosisKeysSettings,
-    private val coronaTestRepository: CoronaTestRepository,
     private val keyCacheRepository: KeyCacheRepository,
 ) : Task<DownloadDiagnosisKeysTask.Progress, DownloadDiagnosisKeysTask.Result> {
 
@@ -104,18 +102,12 @@ class DownloadDiagnosisKeysTask @Inject constructor(
             }
 
             val deltaKeyFiles = keySyncResult.deltaKeys.map { it.path }
-            val totalFileSize = deltaKeyFiles.fold(0L, { acc, file -> file.length() + acc })
+            val totalFileSize = deltaKeyFiles.fold(0L) { acc, file -> file.length() + acc }
 
             internalProgress.value = Progress.KeyFilesDownloadFinished(deltaKeyFiles.size, totalFileSize)
 
             // remember version code of this execution for next time
             settings.updateLastVersionCodeToCurrent()
-
-            val isPositive = coronaTestRepository.coronaTests.first().any { it.isPositive }
-            if (isPositive) {
-                Timber.tag(TAG).i("EW risk calculation aborted, positive test result available.")
-                return Result()
-            }
 
             Timber.tag(TAG).d("Attempting submission to ENF")
             val isSubmissionSuccessful = enfClient.provideDiagnosisKeys(

@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.environment.BuildConfigWrap
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -71,6 +72,7 @@ class HomeFragmentViewModelTest : BaseTest() {
     @MockK lateinit var localStatisticsConfigStorage: LocalStatisticsConfigStorage
     @MockK lateinit var networkStateProvider: NetworkStateProvider
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
+    @MockK lateinit var riskCardDisplayInfo: RiskCardDisplayInfo
 
     @BeforeEach
     fun setup() {
@@ -97,6 +99,13 @@ class HomeFragmentViewModelTest : BaseTest() {
 
         coEvery { networkStateProvider.networkState } returns emptyFlow()
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+
+        every { errorResetTool.isResetNoticeToBeShown } returns false
+        every { cwaSettings.wasTracingExplanationDialogShown } returns true
+        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(false)
+        every { tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel } returns mockFlowPreference(false)
+
+        coEvery { riskCardDisplayInfo.shouldShowRiskCard(any()) } returns true
     }
 
     private fun createInstance(): HomeFragmentViewModel = HomeFragmentViewModel(
@@ -118,7 +127,8 @@ class HomeFragmentViewModelTest : BaseTest() {
         bluetoothSupport = bluetoothSupport,
         localStatisticsConfigStorage = localStatisticsConfigStorage,
         networkStateProvider = networkStateProvider,
-        recycledTestProvider = recycledTestProvider
+        recycledTestProvider = recycledTestProvider,
+        riskCardDisplayInfo = riskCardDisplayInfo
     )
 
     @Test
@@ -189,5 +199,12 @@ class HomeFragmentViewModelTest : BaseTest() {
         coVerify {
             tracingSettings.showRiskLevelBadge
         }
+    }
+
+    @Test
+    fun `flag in tracingSettings should be removed once the user dismisses the additional high risk dialog`() {
+        every { tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel } returns mockFlowPreference(true)
+        createInstance().userHasAcknowledgedAdditionalHighRiskLevel()
+        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.value shouldBe false
     }
 }

@@ -1,9 +1,8 @@
 package de.rki.coronawarnapp.risk
 
+import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
-import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.exposurewindows.AnalyticsExposureWindowCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.testresult.AnalyticsTestResultCollector
 import de.rki.coronawarnapp.diagnosiskeys.download.createMockCachedKeyInfo
@@ -27,7 +26,6 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.verify
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.joda.time.DateTime
@@ -38,7 +36,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import testhelpers.BaseTest
 
-class RiskLevelTaskTest : BaseTest() {
+class EwRiskLevelTaskTest : BaseTest() {
     @MockK lateinit var riskLevels: RiskLevels
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var timeStamper: TimeStamper
@@ -48,21 +46,13 @@ class RiskLevelTaskTest : BaseTest() {
     @MockK lateinit var appConfigProvider: AppConfigProvider
     @MockK lateinit var riskLevelStorage: RiskLevelStorage
     @MockK lateinit var keyCacheRepository: KeyCacheRepository
-    @MockK lateinit var coronaTestRepository: CoronaTestRepository
     @MockK lateinit var analyticsExposureWindowCollector: AnalyticsExposureWindowCollector
     @MockK lateinit var analyticsTestResultCollector: AnalyticsTestResultCollector
+    @MockK lateinit var exposureWindow1: ExposureWindow
+    @MockK lateinit var exposureWindow2: ExposureWindow
+    @MockK lateinit var ewFilter: ExposureWindowsFilter
 
     private val arguments: Task.Arguments = object : Task.Arguments {}
-
-    private val coronaTests: MutableStateFlow<Set<CoronaTest>> = MutableStateFlow(
-        setOf(
-            mockk<CoronaTest>().apply {
-                every { isSubmissionAllowed } returns false
-                every { isViewed } returns false
-            }
-        )
-    )
-
     private val testTimeNow = Instant.parse("2020-12-28")
     private val testAggregatedResult = mockk<EwAggregatedRiskResult>().apply {
         every { isIncreasedRisk() } returns true
@@ -75,17 +65,14 @@ class RiskLevelTaskTest : BaseTest() {
 
         mockkObject(TimeVariables)
 
-        // Mocks setup a happy path, i.e. successful calculation
-
         every { timeStamper.nowUTC } returns testTimeNow
-
-        every { coronaTestRepository.coronaTests } returns coronaTests
         every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(true)
         coEvery { appConfigProvider.getAppConfig() } returns configData
 
         configData.apply {
             every { identifier } returns "config-identifier"
             every { isDeviceTimeCorrect } returns true
+            every { maxEncounterAgeInDays } returns 14
         }
 
         every { riskLevelSettings.lastUsedConfigIdentifier = any() } just Runs
@@ -104,9 +91,11 @@ class RiskLevelTaskTest : BaseTest() {
         }
         coEvery { analyticsExposureWindowCollector.reportRiskResultsPerWindow(any()) } just Runs
         coEvery { analyticsTestResultCollector.reportRiskResultsPerWindow(any()) } just Runs
+
+        every { ewFilter.filterByAge(any(), any(), any()) } returns emptyList()
     }
 
-    private fun createTask() = RiskLevelTask(
+    private fun createTask() = EwRiskLevelTask(
         riskLevels = riskLevels,
         enfClient = enfClient,
         timeStamper = timeStamper,
@@ -115,9 +104,9 @@ class RiskLevelTaskTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         riskLevelStorage = riskLevelStorage,
         keyCacheRepository = keyCacheRepository,
-        coronaTestRepository = coronaTestRepository,
         analyticsExposureWindowCollector = analyticsExposureWindowCollector,
-        analyticsTestResultCollector = analyticsTestResultCollector
+        analyticsTestResultCollector = analyticsTestResultCollector,
+        filter = ewFilter
     )
 
     private fun mockCachedKey(
@@ -211,57 +200,6 @@ class RiskLevelTaskTest : BaseTest() {
     }
 
     @Test
-    fun `risk calculation is skipped if positive test is registered and viewed`() = runBlockingTest {
-        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
-        val now = Instant.parse("2020-12-28")
-
-        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
-        every { backgroundModeStatus.isAutoModeEnabled } returns flowOf(false)
-        every { timeStamper.nowUTC } returns now
-
-        coronaTests.value = setOf(
-            mockk<CoronaTest>().apply {
-                every { isSubmissionAllowed } returns true
-                every { isViewed } returns true
-            }
-        )
-
-        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = now,
-            failureReason = EwRiskLevelResult.FailureReason.POSITIVE_TEST_RESULT
-        )
-    }
-
-    @Test
-    fun `risk calculation is not skipped if positive test is registered and not viewed`() = runBlockingTest {
-        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
-        val now = Instant.parse("2020-12-28")
-        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
-            every { isIncreasedRisk() } returns true
-        }
-
-        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
-        coEvery { enfClient.exposureWindows() } returns listOf()
-        every { riskLevels.calculateRisk(any(), any()) } returns null
-        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
-        every { timeStamper.nowUTC } returns now
-
-        coronaTests.value = setOf(
-            mockk<CoronaTest>().apply {
-                every { isSubmissionAllowed } returns true
-                every { isViewed } returns false
-            }
-        )
-
-        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
-            calculatedAt = now,
-            failureReason = null,
-            ewAggregatedRiskResult = aggregatedRiskResult,
-            listOf()
-        )
-    }
-
-    @Test
     fun `risk calculation returns aggregated risk result`() = runBlockingTest {
         createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
             calculatedAt = testTimeNow,
@@ -303,5 +241,29 @@ class RiskLevelTaskTest : BaseTest() {
         coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey, cachedKey2)
 
         createTask().areKeyPkgsOutDated(now.toInstant()) shouldBe false
+    }
+
+    @Test
+    fun `risk calculation applies filter`() = runBlockingTest {
+        val cachedKey = mockCachedKey(DateTime.parse("2020-12-28").minusDays(1))
+        val now = Instant.parse("2020-12-28T00:00:00Z")
+        val aggregatedRiskResult = mockk<EwAggregatedRiskResult>().apply {
+            every { isIncreasedRisk() } returns true
+        }
+
+        every { ewFilter.filterByAge(any(), any(), any()) } returns listOf(exposureWindow2)
+
+        coEvery { keyCacheRepository.getAllCachedKeys() } returns listOf(cachedKey)
+        coEvery { enfClient.exposureWindows() } returns listOf(exposureWindow1, exposureWindow2)
+        every { riskLevels.calculateRisk(any(), any()) } returns null
+        every { riskLevels.aggregateResults(any(), any()) } returns aggregatedRiskResult
+        every { timeStamper.nowUTC } returns now
+
+        createTask().run(arguments) shouldBe EwRiskLevelTaskResult(
+            calculatedAt = now,
+            failureReason = null,
+            ewAggregatedRiskResult = aggregatedRiskResult,
+            listOf(exposureWindow2)
+        )
     }
 }

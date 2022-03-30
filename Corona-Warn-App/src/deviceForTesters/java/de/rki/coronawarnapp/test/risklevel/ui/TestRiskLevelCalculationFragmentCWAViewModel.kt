@@ -14,11 +14,10 @@ import de.rki.coronawarnapp.diagnosiskeys.download.DownloadDiagnosisKeysTask
 import de.rki.coronawarnapp.diagnosiskeys.storage.KeyCacheRepository
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.ExposureDetectionTracker
 import de.rki.coronawarnapp.nearby.modules.detectiontracker.latestSubmission
-import de.rki.coronawarnapp.risk.RiskLevelTask
+import de.rki.coronawarnapp.risk.EwRiskLevelTask
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
-import de.rki.coronawarnapp.risk.tryLatestEwResultsWithDefaults
 import de.rki.coronawarnapp.storage.TestSettings
 import de.rki.coronawarnapp.task.TaskController
 import de.rki.coronawarnapp.task.common.DefaultTaskRequest
@@ -111,11 +110,12 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         .asLiveData()
 
     val additionalRiskCalcInfo = combine(
-        riskLevelStorage.latestAndLastSuccessfulEwRiskLevelResult,
+        riskLevelStorage.latestAndLastSuccessfulCombinedEwPtRiskLevelResult,
         exposureDetectionTracker.latestSubmission()
     ) { riskLevelResults, latestSubmission ->
 
-        val (latestCalc, latestSuccessfulCalc) = riskLevelResults.tryLatestEwResultsWithDefaults()
+        val latestCalc = riskLevelResults.lastCalculated.ewRiskLevelResult
+        val latestSuccessfulCalc = riskLevelResults.lastSuccessfullyCalculated.ewRiskLevelResult
 
         createAdditionalRiskCalcInfo(
             latestCalc.calculatedAt,
@@ -162,7 +162,7 @@ class TestRiskLevelCalculationFragmentCWAViewModel @AssistedInject constructor(
         Timber.d("Starting calculate risk task")
         taskController.submit(
             DefaultTaskRequest(
-                RiskLevelTask::class,
+                EwRiskLevelTask::class,
                 originTag = "TestRiskLevelCalculationFragmentCWAViewModel.calculateRiskLevel()"
             )
         )

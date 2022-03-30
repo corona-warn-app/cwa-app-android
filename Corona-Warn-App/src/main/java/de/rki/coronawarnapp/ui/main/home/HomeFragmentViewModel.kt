@@ -22,6 +22,8 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
+import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
+import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
@@ -83,6 +85,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -108,14 +112,44 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val bluetoothSupport: BluetoothSupport,
     private val localStatisticsConfigStorage: LocalStatisticsConfigStorage,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
+    private val riskCardDisplayInfo: RiskCardDisplayInfo
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private var isLoweredRiskLevelDialogBeingShown = false
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
     private val tracingCardItems = tracingStateProvider.state.map { tracingStateItem(it) }.distinctUntilChanged()
 
     val errorEvent = SingleLiveEvent<Throwable>()
     val events = SingleLiveEvent<HomeFragmentEvents>()
+
+    init {
+        tracingSettings
+            .isUserToBeNotifiedOfAdditionalHighRiskLevel
+            .flow
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                events.postValue(
+                    HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
+                    )
+                )
+            }
+            .launchInViewModel()
+
+        tracingSettings
+            .isUserToBeNotifiedOfLoweredRiskLevel
+            .flow
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                events.postValue(
+                    HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
+                    )
+                )
+            }
+            .launchInViewModel()
+    }
 
     val tracingHeaderState: LiveData<TracingHeaderState> = tracingStatus.generalStatus.map { it.toHeaderState() }
         .asLiveData(dispatcherProvider.Default)
@@ -177,15 +211,18 @@ class HomeFragmentViewModel @AssistedInject constructor(
         val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
         val pcrIdentifier = testPCR?.identifier ?: ""
         val ratIdentifier = testRAT?.identifier ?: ""
+
         mutableListOf<HomeItem>().apply {
-            when {
-                statePCR is SubmissionStatePCR.TestPositive || statePCR is SubmissionStatePCR.SubmissionDone -> {
-                    // Don't show risk card
-                }
-                stateRAT is SubmissionStateRAT.TestPositive || stateRAT is SubmissionStateRAT.SubmissionDone -> {
-                    // Don't show risk card
-                }
-                else -> add(tracingItem)
+
+            val currentRiskState = when (tracingItem) {
+                is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
+                is LowRiskCard.Item -> RiskState.LOW_RISK
+                is TracingFailedCard.Item -> RiskState.CALCULATION_FAILED
+                else -> null // tracing is disabled or calculation is currently in progress
+            }
+
+            if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
+                add(tracingItem)
             }
 
             if (bluetoothSupport.isAdvertisingSupported == false) {
@@ -198,7 +235,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
                 )
             }
 
-            // TODO: Would be nice to have a more elegant solution of displaying the result cards in the right order
             when (statePCR) {
                 SubmissionStatePCR.NoTest -> {
                     if (stateRAT == SubmissionStateRAT.NoTest) {
@@ -266,21 +302,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
         .distinctUntilChanged()
         .asLiveData(dispatcherProvider.Default)
 
-    // TODO only lazy to keep tests going which would break because of LocalData access
-    val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        tracingSettings
-            .isUserToBeNotifiedOfLoweredRiskLevel
-            .flow
-            .map { shouldBeNotified ->
-                val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
-                if (shouldBeShown) {
-                    isLoweredRiskLevelDialogBeingShown = true
-                }
-                shouldBeShown
-            }
-            .asLiveData(context = dispatcherProvider.Default)
-    }
-
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
     }
@@ -299,7 +320,9 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun showPopUps() = launch {
         if (errorResetTool.isResetNoticeToBeShown) events.postValue(ShowErrorResetDialog)
-        if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(ShowTracingExplanation)
+        if (!cwaSettings.wasTracingExplanationDialogShown) events.postValue(
+            ShowTracingExplanation(appConfigProvider.getAppConfig().maxEncounterAgeInDays)
+        )
     }
 
     fun restoreAppShortcuts() {
@@ -309,8 +332,11 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
-        isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
+    }
+
+    fun userHasAcknowledgedAdditionalHighRiskLevel() {
+        tracingSettings.isUserToBeNotifiedOfAdditionalHighRiskLevel.update { false }
     }
 
     fun userHasAcknowledgedIncorrectDeviceTime() {

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -57,7 +58,9 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             root.transitionName = args.personCode
-            toolbar.setNavigationOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener {
+                viewModel.dismissAdmissionStateBadge(true)
+            }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
                 addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
@@ -84,6 +87,9 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 )
             }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.dismissAdmissionStateBadge(true)
+        }
     }
 
     private fun onNavEvent(event: PersonDetailsEvents) {
@@ -94,7 +100,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         fromScanner = false,
                         colorShade = event.colorShade
-                    )
+                    ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is OpenTestCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
@@ -102,7 +108,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         fromScanner = false,
                         colorShade = event.colorShade
-                    )
+                    ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is OpenVaccinationCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
@@ -110,12 +116,12 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         fromScanner = false,
                         colorShade = event.colorShade
-                    )
+                    ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is ValidationStart -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToValidationStartFragment(event.containerId)
-            )
+            ).also { viewModel.dismissAdmissionStateBadge() }
             is ShowErrorDialog -> with(event) {
                 if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     DccValidationNoInternetErrorDialog(requireContext()).show()
@@ -126,14 +132,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             is OpenBoosterInfoDetails -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personIdentifierCode)
-            )
+            ).also { viewModel.dismissAdmissionStateBadge() }
             is OpenCertificateReissuanceConsent -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
-            )
+            ).also { viewModel.dismissAdmissionStateBadge() }
             Back -> popBackStack()
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
+                    .also { viewModel.dismissAdmissionStateBadge() }
         }
     }
 

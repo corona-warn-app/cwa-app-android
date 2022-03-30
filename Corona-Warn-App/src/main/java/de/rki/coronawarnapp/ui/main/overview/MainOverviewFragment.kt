@@ -6,8 +6,13 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentMainOverviewBinding
+import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
+import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import javax.inject.Inject
 
 /**
  * The fragment displays static informative content to the user
@@ -16,13 +21,21 @@ import de.rki.coronawarnapp.util.ui.viewBinding
  *
  */
 
-class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
+class MainOverviewFragment : Fragment(R.layout.fragment_main_overview), AutoInject {
+
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: MainOverviewViewModel by cwaViewModels { viewModelFactory }
 
     private val binding: FragmentMainOverviewBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
+        with(binding) {
+            setButtonOnClickListener()
+            viewModel.maxEncounterAgeInDays.observe2(this@MainOverviewFragment) {
+                setExposureLoggingPeriod(it)
+            }
+        }
     }
 
     override fun onResume() {
@@ -30,9 +43,14 @@ class MainOverviewFragment : Fragment(R.layout.fragment_main_overview) {
         binding.mainOverviewContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
     }
 
-    private fun setButtonOnClickListener() {
-        binding.mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
+    private fun FragmentMainOverviewBinding.setButtonOnClickListener() {
+        mainOverviewHeader.headerButtonBack.buttonIcon.setOnClickListener {
             popBackStack()
         }
+    }
+
+    private fun FragmentMainOverviewBinding.setExposureLoggingPeriod(maxEncounterAgeInDays: Int) {
+        mainOverviewRisk.mainOverviewSegmentBody.text =
+            getString(R.string.risk_details_information_body_period_logged, maxEncounterAgeInDays)
     }
 }

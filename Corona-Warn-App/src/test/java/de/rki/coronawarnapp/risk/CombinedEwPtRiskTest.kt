@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.risk
 import com.google.android.gms.nearby.exposurenotification.ExposureWindow
 import de.rki.coronawarnapp.presencetracing.risk.PtRiskLevelResult
 import de.rki.coronawarnapp.presencetracing.risk.calculation.PresenceTracingDayRisk
+import de.rki.coronawarnapp.presencetracing.risk.minusDaysAtStartOfDayUtc
 import de.rki.coronawarnapp.risk.result.EwAggregatedRiskResult
 import de.rki.coronawarnapp.risk.result.ExposureWindowDayRisk
 import de.rki.coronawarnapp.server.protocols.internal.v2.RiskCalculationParametersOuterClass
@@ -162,7 +163,8 @@ class CombinedEwPtRiskTest : BaseTest() {
     ): PtRiskLevelResult = PtRiskLevelResult(
         calculatedAt = calculatedAt,
         riskState = riskState,
-        presenceTracingDayRisk = presenceTracingDayRisk
+        presenceTracingDayRisk = presenceTracingDayRisk,
+        calculatedFrom = calculatedAt.minusDaysAtStartOfDayUtc(10).toInstant()
     )
 
     private fun createEwRiskLevel(
