@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/body"
-        style="@style/subtitle"
+        style="@style/boldSubtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
@@ -44,7 +44,6 @@
         android:layout_marginEnd="@dimen/card_padding"
         android:focusable="false"
         android:text="@string/test_certificate_error_label"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vaccination_label" />
@@ -97,7 +96,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/retry_button"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"

@@ -32,17 +32,13 @@ class InteroperabilityConfigurationFragment :
         }
 
         vm.saveInteroperabilityUsed()
-
-        binding.interoperabilityConfigurationHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            vm.onBackPressed()
-        }
-
         vm.navigateBack.observe2(this) {
             if (it) {
                 popBackStack()
             }
         }
 
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
         binding.noCountriesRiskdetailsInfoview.riskDetailsOpenSettingsButton.setOnClickListener {
             val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)

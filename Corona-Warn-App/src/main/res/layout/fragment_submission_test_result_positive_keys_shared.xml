@@ -8,11 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="assertive"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_test_result_headline">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/CWAToolbar.Close"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,13 +60,12 @@
 
                 <TextView
                     android:id="@+id/submission_done_text"
-                    style="@style/subtitle"
+                    style="@style/boldSubtitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:focusable="true"
                     android:text="@string/submission_done_body"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@id/guideline_end"
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/submission_test_result_section" />

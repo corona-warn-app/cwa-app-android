@@ -18,17 +18,11 @@ class InformationTermsFragment : Fragment(R.layout.fragment_information_terms) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonOnClickListener()
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 
     override fun onResume() {
         super.onResume()
         binding.informationTermsContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
-    }
-
-    private fun setButtonOnClickListener() {
-        binding.informationTermsHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
     }
 }

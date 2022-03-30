@@ -127,7 +127,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonPendingRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToMainScreen() }
+            binding.toolbar.setNavigationOnClickListener { navigateToMainScreen() }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 

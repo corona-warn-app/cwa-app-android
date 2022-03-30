@@ -9,7 +9,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close.Transparent"
+        style="@style/CWAMaterialToolbar.BackArrow"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:expandedTitleGravity="top"
@@ -17,7 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back"
         app:title="@string/dcc_ticketing_consent_two_header" />
 
     <ScrollView

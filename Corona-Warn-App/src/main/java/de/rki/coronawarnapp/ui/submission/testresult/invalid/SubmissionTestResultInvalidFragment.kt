@@ -42,7 +42,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
         }
         viewModel.testResult.observe2(this) { uiState ->
             when (uiState.coronaTest.type) {

@@ -76,7 +76,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         binding.apply {
             submissionTestResultAvailableProceedButton.setOnClickListener { viewModel.proceed() }
             submissionTestResultAvailableConsentStatus.setOnClickListener { viewModel.goConsent() }
-            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.goBack() }
+            toolbar.setNavigationOnClickListener { viewModel.goBack() }
         }
 
         viewModel.showCloseDialog.observe2(this) {

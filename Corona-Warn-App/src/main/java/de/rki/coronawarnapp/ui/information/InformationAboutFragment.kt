@@ -41,8 +41,6 @@ class InformationAboutFragment : Fragment(R.layout.fragment_information_about) {
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationAboutHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 }

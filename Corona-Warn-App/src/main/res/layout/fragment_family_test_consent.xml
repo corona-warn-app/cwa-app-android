@@ -4,19 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     tools:context=".familytest.ui.consent.FamilyTestConsentFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close.Transparent"
+        style="@style/CWAMaterialToolbar.Close.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIconTint="@color/colorQrCodeScanToolbar"
-        app:title="@string/family_consent_header"
-        app:titleTextColor="@color/colorQrCodeScanToolbar" />
+        app:title="@string/family_consent_header" />
 
     <ScrollView
         android:id="@+id/scrollview"
@@ -73,10 +72,10 @@
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:hint="@string/family_consent_person_name_tooltip"
+                app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/subtitle"
-                app:endIconMode="clear_text">
+                app:layout_constraintTop_toBottomOf="@id/subtitle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_input_edit"
@@ -135,63 +134,63 @@
                 app:layout_constraintStart_toEndOf="@id/test_result_icon"
                 app:layout_constraintTop_toBottomOf="@id/test_type_text" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/consent_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="11dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/test_result_text"
-            style="@style/GreyCard">
-
-            <TextView
-                android:id="@+id/consent_headline"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/consent_layout"
+                style="@style/GreyCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="@string/family_consent_legal_title"
-                android:paddingTop="30dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="11dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/headline6"/>
+                app:layout_constraintTop_toBottomOf="@id/test_result_text">
 
-            <TextView
-                android:id="@+id/consent_tapping_agree"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/consent_headline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/consent_headline"
-                android:text="@string/family_consent_legal_body"
-                style="@style/subtitle" />
+                <TextView
+                    android:id="@+id/consent_headline"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:paddingTop="30dp"
+                    android:text="@string/family_consent_legal_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <include
-                android:id="@+id/consent_first_point_bullet"
-                layout="@layout/include_bullet_point"
-                android:layout_width="@dimen/bullet_point_size"
-                android:layout_height="@dimen/bullet_point_size"
-                app:layout_constraintStart_toStartOf="@id/consent_headline"
-                app:layout_constraintBaseline_toBaselineOf="@id/consent_first_point_text"/>
+                <TextView
+                    android:id="@+id/consent_tapping_agree"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/family_consent_legal_body"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/consent_headline"
+                    app:layout_constraintTop_toBottomOf="@+id/consent_headline" />
 
-            <TextView
-                android:id="@+id/consent_first_point_text"
-                style="@style/subtitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingBottom="32dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="21dp"
-                app:layout_constraintTop_toBottomOf="@+id/consent_tapping_agree"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/consent_first_point_bullet"
-                android:text="@string/family_consent_legal_point_1" />
+                <include
+                    android:id="@+id/consent_first_point_bullet"
+                    layout="@layout/include_bullet_point"
+                    android:layout_width="@dimen/bullet_point_size"
+                    android:layout_height="@dimen/bullet_point_size"
+                    app:layout_constraintBaseline_toBaselineOf="@id/consent_first_point_text"
+                    app:layout_constraintStart_toStartOf="@id/consent_headline" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/consent_first_point_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="21dp"
+                    android:paddingBottom="32dp"
+                    android:text="@string/family_consent_legal_point_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/consent_first_point_bullet"
+                    app:layout_constraintTop_toBottomOf="@+id/consent_tapping_agree" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/divider"
@@ -237,7 +236,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/family_consent_cofirm_button"
-        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"

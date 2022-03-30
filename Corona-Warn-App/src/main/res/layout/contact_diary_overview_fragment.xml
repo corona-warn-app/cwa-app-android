@@ -11,9 +11,9 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorSurface"
         app:title="@string/contact_diary_overview_title" />
 
     <androidx.recyclerview.widget.RecyclerView
