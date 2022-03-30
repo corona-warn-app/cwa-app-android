@@ -88,7 +88,6 @@
         android:focusable="false"
         android:text="@string/family_tests_cards_pcr_date"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/body" />
 

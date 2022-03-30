@@ -40,6 +40,11 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
         viewModel.refreshComplete.observe2(this) { binding.refreshLayout.isRefreshing = false }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.markAllTestAsViewed()
+    }
+
     private fun onNavigationEvent(event: FamilyTestListEvent) {
         when (event) {
             is FamilyTestListEvent.NavigateBack -> popBackStack()
@@ -70,7 +75,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
             adapter = familyTestListAdapter
             layoutManager = LinearLayoutManager(requireContext())
             itemAnimator = DefaultItemAnimator()
-            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
+            addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_normal))
             setupSwipe(context = requireContext())
         }
     }

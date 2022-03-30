@@ -50,11 +50,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
     }
 
     fun onBackPressed() {
-        markAllTestAsViewed()
         events.postValue(FamilyTestListEvent.NavigateBack)
     }
 
-    private fun markAllTestAsViewed() {
+    fun markAllTestAsViewed() {
         launch(appScope) {
             familyTestRepository.familyTests.first().map { familyTest ->
                 familyTestRepository.markBadgeAsViewed(familyTest.identifier)
@@ -137,7 +136,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 onSwipeItem = { familyCoronaTest, position ->
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 },
-                onDeleteTest = {}
+                onDeleteTest = { events.postValue(FamilyTestListEvent.ConfirmRemoveTest(this)) }
             )
             // Should not be possible
             State.OUTDATED,
@@ -183,14 +182,14 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 onSwipeItem = { familyCoronaTest, position ->
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 },
-                onDeleteTest = {}
+                onDeleteTest = { events.postValue(FamilyTestListEvent.ConfirmRemoveTest(this)) }
             )
             State.OUTDATED -> FamilyRapidTestOutdatedCard.Item(
                 familyCoronaTest = this,
                 onSwipeItem = { familyCoronaTest, position ->
                     events.postValue(FamilyTestListEvent.ConfirmSwipeTest(familyCoronaTest, position))
                 },
-                onDeleteTest = {}
+                onDeleteTest = { events.postValue(FamilyTestListEvent.ConfirmRemoveTest(this)) }
             )
             // Should not be possible
             State.RECYCLED -> FamilyRapidTestInvalidCard.Item(

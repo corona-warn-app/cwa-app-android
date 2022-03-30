@@ -57,6 +57,8 @@
 
     <!-- Family tests list fragment -->
     <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_title">"Tests von Familienmitgliedern"</string>
+    <!-- XHED: family tests list: Menu: Remove all -->
     <string name="family_tests_list_menu_remove_all">"Alle löschen"</string>
     <!-- XHED: family tests list: Deletion alert window: header -->
     <string name="family_tests_list_deletion_alert_header">"Wollen Sie Ihr Testergebnis löschen?"</string>

@@ -38,8 +38,8 @@ class FamilyPcrTestRedeemedCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val familyCoronaTest: FamilyCoronaTest,
+        override val familyCoronaTest: FamilyCoronaTest,
         val onSwipeItem: (FamilyCoronaTest, Int) -> Unit,
         val onDeleteTest: (Item) -> Unit
-    ) : FamilyTestListItem.PCR, HasPayloadDiffer
+    ) : FamilyTestListItem, HasPayloadDiffer
 }

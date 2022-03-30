@@ -13,9 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/menu_family_test_list"
-        app:navigationIconTint="@color/colorQrCodeScanToolbar"
-        app:title="Tests von Familienmitgliedern"
-        app:titleTextColor="@color/colorQrCodeScanToolbar" />
+        app:navigationIconTint="@color/colorQrCodeScanToolbar">
+
+        <TextView
+            android:id="@+id/product_details_title"
+            style="@style/headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:maxLines="2"
+            android:text="@string/family_tests_list_title"
+            android:textColor="@color/colorQrCodeScanToolbar" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"

@@ -38,8 +38,8 @@ class FamilyRapidTestInvalidCard(parent: ViewGroup) :
     }
 
     data class Item(
-        val familyCoronaTest: FamilyCoronaTest,
+        override val familyCoronaTest: FamilyCoronaTest,
         val onClickAction: (Item) -> Unit,
         val onSwipeItem: (FamilyCoronaTest, Int) -> Unit,
-    ) : FamilyTestListItem.RA, HasPayloadDiffer
+    ) : FamilyTestListItem, HasPayloadDiffer
 }
