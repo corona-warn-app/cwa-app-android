@@ -153,11 +153,9 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         identifier = "booster_rule_identifier"
     )
 
-    private val certificatesRevokedByInvalidationRules = CertificatesRevokedByInvalidationRules(
-        certificateRef = listOf(
-            CertificateRef(barcodeData = "HC1:7..."),
-            CertificateRef(barcodeData = "HC1:8...")
-        )
+    private val certificatesRevokedByInvalidationRules = listOf(
+        CertificatesRevokedByInvalidationRules(certificateRef = CertificateRef(barcodeData = "HC1:7...")),
+        CertificatesRevokedByInvalidationRules(certificateRef = CertificateRef(barcodeData = "HC1:8..."))
     )
 
     private val dccWalletInfo = DccWalletInfo(

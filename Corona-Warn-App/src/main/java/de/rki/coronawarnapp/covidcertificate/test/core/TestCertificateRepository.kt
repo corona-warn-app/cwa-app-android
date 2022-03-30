@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -18,18 +19,19 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertific
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKeyPairGenerator
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.mutate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -56,7 +58,8 @@ class TestCertificateRepository @Inject constructor(
     valueSetsRepository: ValueSetsRepository,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val dccStateChecker: DccStateChecker,
-    dscRepository: DscRepository
+    dscRepository: DscRepository,
+    private val dccWalletInfoRepository: DccWalletInfoRepository
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -79,15 +82,19 @@ class TestCertificateRepository @Inject constructor(
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
-        dscRepository.dscData
-    ) { certMap, valueSets, _ ->
+        dscRepository.dscData,
+        dccWalletInfoRepository.blockedCertificateQrCodeHashes
+    ) { certMap, valueSets, _, blockedCertificateQrCodeHashes ->
         certMap.values
             .filter { it.isNotRecycled }
             .map { container ->
                 val state = when {
                     container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
-                    else -> container.testCertificateQRCode?.data?.let {
-                        dccStateChecker.checkState(it).first()
+                    else -> container.testCertificateQRCode?.let {
+                        dccStateChecker.checkState(
+                            it.data, it.qrCode.toSHA256(),
+                            blockedCertificateQrCodeHashes
+                        ).first()
                     } ?: CwaCovidCertificate.State.Invalid()
                 }
 
@@ -431,7 +438,11 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState = dccStateChecker.checkState(current.testCertificateQRCode!!.data).first()
+            val currentState = dccStateChecker.checkState(
+                current.testCertificateQRCode!!.data,
+                current.qrCodeHash,
+                dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
+            ).first()
 
             if (currentState !is CwaCovidCertificate.State.Invalid) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)
