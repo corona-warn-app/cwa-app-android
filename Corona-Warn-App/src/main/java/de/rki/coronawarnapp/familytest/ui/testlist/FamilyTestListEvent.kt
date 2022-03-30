@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 
 sealed class FamilyTestListEvent {
 
+    data class NavigateToDetails(val familyCoronaTest: FamilyCoronaTest) : FamilyTestListEvent()
+
     data class ConfirmRemoveTest(val familyCoronaTest: FamilyCoronaTest) : FamilyTestListEvent()
 
     object ConfirmRemoveAllTests : FamilyTestListEvent()

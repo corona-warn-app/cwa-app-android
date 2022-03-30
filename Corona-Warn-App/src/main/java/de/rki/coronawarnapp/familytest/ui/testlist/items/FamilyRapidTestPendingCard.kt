@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.familytest.ui.testlist.items
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FamilyRapidTestCardPendingBinding
@@ -36,6 +37,7 @@ class FamilyRapidTestPendingCard(parent: ViewGroup) :
         title.text = latestItem!!.familyCoronaTest.personName
         val userDate = latestItem!!.familyCoronaTest.coronaTest.getFormattedRegistrationDate()
         date.text = resources.getString(R.string.family_tests_cards_rapid_date, userDate)
+        notificationBadge.isVisible = latestItem!!.familyCoronaTest.hasBadge
         itemView.setOnClickListener { latestItem!!.onClickAction(item) }
     }
 

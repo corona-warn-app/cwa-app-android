@@ -45,12 +45,21 @@ class FamilyTestListViewModel @AssistedInject constructor(
     val events = SingleLiveEvent<FamilyTestListEvent>()
     val refreshComplete = SingleLiveEvent<Unit>()
 
+    fun onRemoveAllTests() {
+        events.postValue(FamilyTestListEvent.ConfirmRemoveAllTests)
+    }
+
     fun onBackPressed() {
+        markAllTestAsViewed()
         events.postValue(FamilyTestListEvent.NavigateBack)
     }
 
-    fun onRemoveAllTests() {
-        events.postValue(FamilyTestListEvent.ConfirmRemoveAllTests)
+    private fun markAllTestAsViewed() {
+        launch(appScope) {
+            familyTestRepository.familyTests.first().map { familyTest ->
+                familyTestRepository.markBadgeAsViewed(familyTest.identifier)
+            }
+        }
     }
 
     fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
@@ -88,7 +97,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
                 }
             }.also {
                 if (it.isEmpty()) {
-                    events.postValue(FamilyTestListEvent.NavigateBack)
+                    onBackPressed()
                 }
             }
     }.asLiveData(context = dispatcherProvider.Default)
