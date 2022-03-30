@@ -2,6 +2,7 @@
 
     <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="actionBarSize">56dp</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
