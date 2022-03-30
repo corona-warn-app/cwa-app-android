@@ -121,25 +121,4 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         dao.getAllActive().first().size shouldBe 0
         dao.getAllInRecycleBin().first().size shouldBe 0
     }
-
-    @Test
-    fun testDeleteAfterRetention() = runBlocking {
-        dao.insert(test.toEntity())
-        dao.insert(test2.toEntity())
-
-        dao.getAllActive().first().size shouldBe 2
-        dao.getAllInRecycleBin().first().size shouldBe 0
-
-        dao.update(identifier) {
-            it.moveToRecycleBin(now)
-        }
-
-        dao.getAllActive().first().size shouldBe 1
-        dao.getAllInRecycleBin().first().size shouldBe 1
-
-        dao.deleteFromRecycleBin(now.millis + 1)
-
-        dao.getAllActive().first().size shouldBe 1
-        dao.getAllInRecycleBin().first().size shouldBe 0
-    }
 }
