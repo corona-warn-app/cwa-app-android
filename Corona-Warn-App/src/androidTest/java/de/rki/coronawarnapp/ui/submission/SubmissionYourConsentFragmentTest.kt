@@ -59,7 +59,10 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_results() {
         launchFragmentInContainer2<SubmissionYourConsentFragment>(
-            fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
+            fragmentArgs = SubmissionYourConsentFragmentArgs(
+                isTestResultAvailable = true,
+                testType = testType
+            ).toBundle()
         )
         takeScreenshot<SubmissionYourConsentFragment>()
     }

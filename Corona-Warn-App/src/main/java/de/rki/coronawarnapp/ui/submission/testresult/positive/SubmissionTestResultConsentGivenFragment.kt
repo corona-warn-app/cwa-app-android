@@ -102,9 +102,7 @@ class SubmissionTestResultConsentGivenFragment :
             viewModel.onShowCancelDialog()
         }
 
-        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onShowCancelDialog()
-        }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onShowCancelDialog() }
     }
 
     private fun showCancelDialog() {

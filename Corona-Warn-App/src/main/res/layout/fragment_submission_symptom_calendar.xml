@@ -10,19 +10,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:fillViewport="true">
 
-        <include
-            android:id="@+id/submission_symptom_calendar_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
-            app:title="@{@string/submission_symptom_calendar_title}" />
+            app:title="@string/submission_symptom_calendar_title" />
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -31,7 +31,7 @@
             app:layout_constraintBottom_toTopOf="@+id/symptom_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_symptom_calendar_header">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -120,7 +120,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrollView"/>
+            app:layout_constraintTop_toBottomOf="@id/scrollView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

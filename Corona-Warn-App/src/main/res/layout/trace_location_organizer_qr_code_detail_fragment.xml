@@ -29,6 +29,7 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:contentScrim="@color/colorTransparent"
                 android:nestedScrollingEnabled="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -76,11 +77,12 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
+                    style="@style/CWAMaterialToolbar.Close.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_close_white">
+                    app:navigationIconTint="@color/colorStableLight">
 
                     <LinearLayout
                         android:id="@+id/header_text_layout"

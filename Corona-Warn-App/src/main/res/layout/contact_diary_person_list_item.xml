@@ -22,13 +22,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_below_10"
-            android:layout_width="match_parent"
-            app:backgroundTint="@color/colorSurface"
             style="@style/contactDiaryPersonButton"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingHorizontal="5dp"
-            android:text="@string/contact_diary_person_encounter_duration_below_10_min" />
+            android:text="@string/contact_diary_person_encounter_duration_below_10_min"
+            app:backgroundTint="@color/colorSurface" />
 
         <View
             android:layout_width="match_parent"
@@ -38,11 +38,11 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/duration_above_10"
             style="@style/contactDiaryPersonButton"
-            app:backgroundTint="@color/colorSurface"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/contact_diary_person_encounter_duration_above_10_min" />
+            android:text="@string/contact_diary_person_encounter_duration_above_10_min"
+            app:backgroundTint="@color/colorSurface" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -62,19 +62,19 @@
             android:id="@+id/mask_with"
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
-            app:backgroundTint="@color/colorSurface"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/contact_diary_person_encounter_mask_with" />
+            android:text="@string/contact_diary_person_encounter_mask_with"
+            app:backgroundTint="@color/colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/mask_without"
             style="@style/contactDiaryPersonButton"
-            app:backgroundTint="@color/colorSurface"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/contact_diary_person_encounter_mask_without" />
+            android:text="@string/contact_diary_person_encounter_mask_without"
+            app:backgroundTint="@color/colorSurface" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -95,18 +95,18 @@
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:backgroundTint="@color/colorSurface"
             android:layout_weight="1"
-            android:text="@string/contact_diary_person_encounter_environment_outside" />
+            android:text="@string/contact_diary_person_encounter_environment_outside"
+            app:backgroundTint="@color/colorSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/environment_inside"
             style="@style/contactDiaryPersonButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:backgroundTint="@color/colorSurface"
             android:layout_weight="1"
-            android:text="@string/contact_diary_person_encounter_environment_inside" />
+            android:text="@string/contact_diary_person_encounter_environment_inside"
+            app:backgroundTint="@color/colorSurface" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

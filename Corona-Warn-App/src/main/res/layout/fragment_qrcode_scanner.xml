@@ -26,14 +26,13 @@
 
     <TextView
         android:id="@+id/qr_code_scan_title"
-        style="@style/subtitle"
+        style="@style/boldSubtitle"
         android:layout_width="@dimen/scan_qr_code_viewfinder_size"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/scan_qr_code_viewfinder_center_offset"
         android:paddingTop="@dimen/spacing_normal"
         android:text="@string/qr_code_scan_body_title"
         android:textAlignment="center"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/scanner_preview"
         app:layout_constraintStart_toStartOf="@id/scanner_preview"
         app:layout_constraintTop_toBottomOf="@id/qr_code_scan_guideline_center" />
@@ -106,7 +105,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_open_file"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_medium"
@@ -143,7 +142,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/qr_code_scan_toolbar"
-        style="@style/CWAToolbar.BackArrow.Transparent"
+        style="@style/CWAMaterialToolbar.BackArrow.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

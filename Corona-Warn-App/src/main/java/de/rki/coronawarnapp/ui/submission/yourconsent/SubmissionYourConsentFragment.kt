@@ -65,7 +65,7 @@ class SubmissionYourConsentFragment : Fragment(R.layout.fragment_submission_your
         }
 
         binding.apply {
-            submissionYourConsentTitle.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
+            binding.toolbar.setNavigationOnClickListener { vm.goBack() }
             submissionYourConsentSwitch.setOnClickListener { vm.switchConsent() }
             submissionYourConsentAgreementDetailsText.setOnClickListener { vm.goLegal() }
 
