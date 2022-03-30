@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Exposures with low risk on %1$d day"</item>
+        <item quantity="one">"Exposures with low risk on one day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
         <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Exposures on %1$d day with increased risk"</item>
+        <item quantity="one">"Exposures on one day with increased risk"</item>
         <item quantity="other">"Exposures on %1$d days with increased risk"</item>
         <item quantity="zero">"Exposures on %1$d days with increased risk"</item>
         <item quantity="two">"Exposures on %1$d days with increased risk"</item>
@@ -1134,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scan QR Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others or request your COVID test certificate."</string>
+    <string name="submission_dispatcher_qr_card_text">"Receive your test result and results for your family members in the app and warn others and request your COVID test certificate."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Find Testing Center"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

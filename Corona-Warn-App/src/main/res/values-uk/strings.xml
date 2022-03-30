@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Ризики зараження з низьким ступенем ризику за %1$d день"</item>
+        <item quantity="one">"Ризики зараження з низьким ступенем ризику за один день"</item>
         <item quantity="other">"Ризики зараження з низьким ступенем ризику за %1$d дня"</item>
         <item quantity="zero">"Немає ризиків зараження"</item>
         <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d дні"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Ризики зараження за %1$d день з підвищеним ступенем ризику"</item>
+        <item quantity="one">"Ризики за один день з підвищеним ступенем ризику"</item>
         <item quantity="other">"Ризики зараження за %1$d дня з підвищеним ступенем ризику"</item>
         <item quantity="zero">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
         <item quantity="two">"Ризики зараження за %1$d дні з підвищеним ступенем ризику"</item>
@@ -1134,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканувати QR-код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Отримайте свій результат тесту в застосунку та попередьте інших або запитайте сертифікат тесту на COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Отримайте свій результат тесту і результати для членів вашої родини в застосунку та попередьте інших або запитайте сертифікат тесту на COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Знайдіть центр тестування"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
