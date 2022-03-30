@@ -74,7 +74,17 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             coEvery { save(any()) } answers { testStorage = arg(0) }
         }
 
-        coEvery { dccStateChecker.checkState(any()) } returns flowOf(CwaCovidCertificate.State.Valid(Instant.EPOCH))
+        coEvery {
+            dccStateChecker.checkState(
+                any(),
+                any(),
+                any()
+            )
+        } returns flowOf(
+            CwaCovidCertificate.State.Valid(
+                Instant.EPOCH
+            )
+        )
     }
 
     private fun createInstance(scope: CoroutineScope) = RecoveryCertificateRepository(
@@ -130,7 +140,13 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         }
 
         coEvery { storage.load() } returns setOf(recycled, notRecycled)
-        coEvery { dccStateChecker.checkState(any()) } returns flowOf(CwaCovidCertificate.State.Valid(nowUTC))
+        coEvery {
+            dccStateChecker.checkState(
+                any(),
+                any(),
+                any()
+            )
+        } returns flowOf(CwaCovidCertificate.State.Valid(nowUTC))
 
         createInstance(this).run {
             certificates.first().also {

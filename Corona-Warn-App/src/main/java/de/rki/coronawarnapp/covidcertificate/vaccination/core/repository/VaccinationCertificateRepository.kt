@@ -51,7 +51,7 @@ class VaccinationCertificateRepository @Inject constructor(
     private val vaccinationMigration: VaccinationMigration,
     @AppScope private val appScope: CoroutineScope,
     dscRepository: DscRepository,
-    dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccWalletInfoRepository: DccWalletInfoRepository
 ) {
 
     private val internalData: HotDataFlow<Map<VaccinationCertificateContainerId, VaccinationCertificateContainer>> =
@@ -81,11 +81,13 @@ class VaccinationCertificateRepository @Inject constructor(
         certMap.values
             .filter { it.isNotRecycled }
             .map { container ->
-                val state = if (container.qrCodeHash in blockedCertificateQrCodeHashes) {
-                    CwaCovidCertificate.State.Blocked
-                } else {
-                    dccStateChecker.checkState(container.certificateData).first()
-                }
+
+                val state = dccStateChecker.checkState(
+                    container.certificateData,
+                    container.qrCodeHash,
+                    blockedCertificateQrCodeHashes
+                ).first()
+
                 VaccinationCertificateWrapper(
                     valueSets = valueSets,
                     container = container,
@@ -205,7 +207,11 @@ class VaccinationCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState = dccStateChecker.checkState(toUpdate.certificateData).first()
+            val currentState = dccStateChecker.checkState(
+                toUpdate.certificateData,
+                toUpdate.qrCodeHash,
+                dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
+            ).first()
 
             if (currentState == toUpdate.data.lastSeenStateChange) {
                 Timber.tag(TAG).w("State equals last acknowledged state.")

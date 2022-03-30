@@ -72,7 +72,13 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
+        coEvery {
+            dccStateChecker.checkState(
+                any(),
+                any(),
+                any()
+            )
+        } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
 
         covidTestCertificateConfig.apply {
             every { waitForRetry } returns Duration.standardSeconds(10)

@@ -67,7 +67,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().checkState(mockData).first() shouldBe state
+        createInstance().checkState(mockData, "", setOf()).first() shouldBe state
 
         coVerify {
             dscSignatureValidator.validateSignature(mockData, mockDscData, any())
@@ -84,7 +84,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.ExpiringSoon(expiresAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().checkState(mockData).first() shouldBe state
+        createInstance().checkState(mockData, "", setOf()).first() shouldBe state
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -94,7 +94,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.Expired(expiredAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().checkState(mockData).first() shouldBe state
+        createInstance().checkState(mockData, "", setOf()).first() shouldBe state
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -105,7 +105,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.ExpiringSoon(expiresAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().checkState(mockData).first() shouldBe CwaCovidCertificate.State.Invalid()
+        createInstance().checkState(mockData, "", setOf()).first() shouldBe CwaCovidCertificate.State.Invalid()
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -116,7 +116,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.Expired(expiredAt = Instant.EPOCH)
         coEvery { expirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().checkState(mockData).first() shouldBe CwaCovidCertificate.State.Invalid()
+        createInstance().checkState(mockData, "", setOf()).first() shouldBe CwaCovidCertificate.State.Invalid()
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }

@@ -23,11 +23,17 @@ class DccStateChecker @Inject constructor(
 ) {
 
     suspend fun checkState(
-        dccData: DccData<*>
+        dccData: DccData<*>,
+        qrCodeHash: String,
+        blockedCertificateQrCodeHashes: Set<String>
     ): Flow<CwaCovidCertificate.State> = combine(
         appConfigProvider.currentConfig,
         dscRepository.dscData
     ) { appConfig, dscData ->
+
+        if (qrCodeHash in blockedCertificateQrCodeHashes) {
+            return@combine CwaCovidCertificate.State.Blocked
+        }
 
         try {
             dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)

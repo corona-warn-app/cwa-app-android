@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertific
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RACertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.RetrievedTestCertificate
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -58,7 +59,7 @@ class TestCertificateRepository @Inject constructor(
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val dccStateChecker: DccStateChecker,
     dscRepository: DscRepository,
-    dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccWalletInfoRepository: DccWalletInfoRepository
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -89,12 +90,11 @@ class TestCertificateRepository @Inject constructor(
             .map { container ->
                 val state = when {
                     container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
-                    else -> container.testCertificateQRCode?.data?.let {
-                        if (container.qrCodeHash in blockedCertificateQrCodeHashes) {
-                            CwaCovidCertificate.State.Blocked
-                        } else {
-                            dccStateChecker.checkState(it).first()
-                        }
+                    else -> container.testCertificateQRCode?.let {
+                        dccStateChecker.checkState(
+                            it.data, it.qrCode.toSHA256(),
+                            blockedCertificateQrCodeHashes
+                        ).first()
                     } ?: CwaCovidCertificate.State.Invalid()
                 }
 
@@ -438,7 +438,11 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState = dccStateChecker.checkState(current.testCertificateQRCode!!.data).first()
+            val currentState = dccStateChecker.checkState(
+                current.testCertificateQRCode!!.data,
+                current.qrCodeHash,
+                dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
+            ).first()
 
             if (currentState !is CwaCovidCertificate.State.Invalid) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)
