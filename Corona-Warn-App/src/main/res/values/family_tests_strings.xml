@@ -1,40 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- Family Test Home Card Tile -->
     <!-- XHED Title of the family test card -->
-    <string name="family_test_card_title">"Tests von\nFamilienmitgliedern"</string>
+    <string name="family_test_card_title">"Tests of\nfamily members"</string>
     <!-- XTXT News about family test subtitle -->
-    <string name="family_test_card_subtitle_news">"Es gibt Neuigkeiten"</string>
+    <string name="family_test_card_subtitle_news">"There is news"</string>
 
     <!-- XHED: Test registration selection: header -->
-    <string name="family_test_reg_selection_header">"Test registrieren"</string>
+    <string name="family_test_reg_selection_header">"Register Test"</string>
     <!-- XTXT: Test registration selection: subtitle -->
-    <string name="family_test_reg_selection_subtitle">"Sie erhalten das Ergebnis auf Ihrem Smartphone und können ein digitales COVID-Testzertifikat anfordern. Nur wenn es Ihr eigener Test ist, können Sie im Fall eines positiven Testergebnisses andere warnen."</string>
+    <string name="family_test_reg_selection_subtitle">"You will receive the result on your smartphone and can request a digital COVID test certificate. You can only warn others if the test is yours and you are diagnosed with a coronavirus infection."</string>
     <!-- XTXT: Test registration selection: person title -->
-    <string name="family_test_reg_selection_person_title">"Für mich"</string>
+    <string name="family_test_reg_selection_person_title">"For me"</string>
     <!-- XTXT: Test registration selection: person subtitle -->
-    <string name="family_test_reg_selection_person_subtitle">"Ihr eigener Test"</string>
+    <string name="family_test_reg_selection_person_subtitle">"Your test"</string>
     <!-- XTXT: Test registration selection: family title -->
-    <string name="family_test_reg_selection_family_title">"Für andere"</string>
+    <string name="family_test_reg_selection_family_title">"For others"</string>
     <!-- XTXT: Test registration selection: family subtitle -->
-    <string name="family_test_reg_selection_family_subtitle">"Test eines Familienmitglieds"</string>
+    <string name="family_test_reg_selection_family_subtitle">"Test for a family member"</string>
 
     <!-- XHED: Test registration selection: header -->
-    <string name="family_consent_header">"Ihr Einverständnis"</string>
+    <string name="family_consent_header">"Your Consent"</string>
     <!-- XACT: Test registration selection: description for screen readers -->
-    <string name="family_consent_image_descr">"Eine Familie mit mehreren Mitgliedern; im Hintergrund ein Dokument mit QR-Code darauf."</string>
+    <string name="family_consent_image_descr">"A family with several members; there is a document with a QR code in the background."</string>
     <!-- XTXT: Test registration selection: subtitle -->
-    <string name="family_consent_subtitle">"Testergebnis für Familienmitglieder abrufen"</string>
+    <string name="family_consent_subtitle">"Retrieve test result for a family member"</string>
     <!-- XTXT: Test registration selection: person name label -->
-    <string name="family_consent_person_name_label">"Name der Person, die getestet wurde:"</string>
+    <string name="family_consent_person_name_label">"Name of the person who was tested:"</string>
     <!-- XTXT: Test registration selection: person name tooltip -->
     <string name="family_consent_person_name_tooltip">"Name"</string>
     <!-- XTXT: Test registration selection: test type -->
-    <string name="family_consent_test_type">"Sie registrieren einen Test für ein Familienmitglied. Wurden Sie selber getestet, gehen Sie bitte zurück und wählen dies aus. Nur dann können Sie andere im Falle eines positiven Testergebnisses warnen!"</string>
+    <string name="family_consent_test_type">"You are registering a test for a family member. If this is your test, please go back and select “For me”. You must do this to warn others in case you are diagnosed with coronavirus."</string>
     <!-- XTXT: Test registration selection: test type -->
-    <string name="family_consent_test_result">"Wenn das Testergebnis Ihres Familienmitglieds negativ ist, können Sie in den folgenden Schritten ein offizielles COVID-Testzertifikat anfordern."</string>
+    <string name="family_consent_test_result">"If your family member’s test result is negative, you can request an official COVID test certificate in the next steps."</string>
     <!-- XBUT: Test registration selection: confirm button -->
-    <string name="family_consent_cofirm_button">"Einverstanden"</string>
+    <string name="family_consent_cofirm_button">"Accept"</string>
 
 </resources>

@@ -13,6 +13,7 @@
     <color name="colorSurface2Pressed">#D7D7D7</color>
     <color name="cwaGrayHighlight">#5D6F80</color>
     <color name="colorSystemUI">#F5F5F5</color>
+    <color name="colorBlueIndicator">#E6F5FB</color>
 
     <color name="colorTopBarBackground">#FFFFFF</color>
     <color name="colorTopBarBorder">#EFEFEF</color>

@@ -3,15 +3,19 @@ package de.rki.coronawarnapp.recyclebin.cleanup
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.cleanup.RecycleBinCleanUpService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -34,6 +38,8 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         MockKAnnotations.init(this)
 
         every { timeStamper.nowUTC } returns Instant.parse("2021-10-13T12:00:00.000Z")
+
+        coEvery { recycledCoronaTestsProvider.deleteCoronaTest(any()) } just Runs
     }
 
     private fun createInstance() = RecycleBinCleanUpService(
@@ -53,8 +59,14 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
     }
 
     private fun createTest(days: Int) = createTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
+    private fun familyTest(days: Int) = createFamilyTest(recycleTime = now.minus(Days.days(days).toStandardDuration()))
 
     private fun createTest(recycleTime: Instant): PersonalCoronaTest = mockk {
+        every { recycledAt } returns recycleTime
+        every { identifier } returns recycleTime.toString()
+    }
+
+    private fun createFamilyTest(recycleTime: Instant): FamilyCoronaTest = mockk {
         every { recycledAt } returns recycleTime
         every { identifier } returns recycleTime.toString()
     }
@@ -78,13 +90,20 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         val certWith30DaysOfRetention = createCert(30)
         val testWith0DaysOfRetention = createTest(0)
         val testWith30DaysOfRetention = createTest(30)
+        val familyTestWith0DaysOfRetention = familyTest(0)
+        val familyTestWith30DaysOfRetention = familyTest(30)
 
         every { recycledCertificatesProvider.recycledCertificates } returns flowOf(
             setOf(certWith0DaysOfRetention, certWith30DaysOfRetention)
         )
 
         every { recycledCoronaTestsProvider.tests } returns flowOf(
-            setOf(testWith0DaysOfRetention, testWith30DaysOfRetention)
+            setOf(
+                testWith0DaysOfRetention,
+                testWith30DaysOfRetention,
+                familyTestWith0DaysOfRetention,
+                familyTestWith30DaysOfRetention
+            )
         )
 
         createInstance().clearRecycledItems()
@@ -105,18 +124,21 @@ class RecycleBinCleanUpServiceTest : BaseTest() {
         val testExact30Days = createTest(nowMinus30Days)
         val test30DaysAnd1Ms = createTest(nowMinus30DaysAnd1Ms)
 
+        val familyTestExact30Days = createFamilyTest(nowMinus30Days)
+        val familyTest30DaysAnd1Ms = createFamilyTest(nowMinus30DaysAnd1Ms)
+
         every { recycledCertificatesProvider.recycledCertificates } returns flowOf(
             setOf(certExact30Days, cert30DaysAnd1Ms)
         )
 
         every { recycledCoronaTestsProvider.tests } returns flowOf(
-            setOf(testExact30Days, test30DaysAnd1Ms)
+            setOf(testExact30Days, test30DaysAnd1Ms, familyTest30DaysAnd1Ms, familyTestExact30Days)
         )
 
         createInstance().clearRecycledItems()
 
         val containerIds = listOf(cert30DaysAnd1Ms.containerId)
-        val identifiers = listOf(test30DaysAnd1Ms.identifier)
+        val identifiers = listOf(test30DaysAnd1Ms.identifier, familyTest30DaysAnd1Ms.identifier)
         coVerify(exactly = 1) {
             recycledCertificatesProvider.deleteAllCertificate(containerIds)
             recycledCoronaTestsProvider.deleteAllCoronaTest(identifiers)
