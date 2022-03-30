@@ -39,19 +39,12 @@ class DccWalletInfoRepository @Inject constructor(
             scope = appScope + dispatcherProvider.IO
         )
 
-    val blockedCertificateQrCodeHashes: Flow<Set<String>> = personWallets.map { walletInfoSet ->
-        walletInfoSet.map { walletInfo ->
-            walletInfo
-                .dccWalletInfo
-                ?.certificatesRevokedByInvalidationRules
-                ?.certificateRef
-                ?.map { certificateRef ->
-                    certificateRef.qrCodeHash()
-                } ?: emptyList()
-        }
-            .flatten()
-            .toSet()
-    }
+    val blockedCertificateQrCodeHashes: Flow<Set<String>> = personWallets
+        .map { it.toBlockedCertificateQrCodeHashes() }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope + dispatcherProvider.IO
+        )
 
     suspend fun save(
         personIdentifier: CertificatePersonIdentifier,
@@ -73,6 +66,15 @@ class DccWalletInfoRepository @Inject constructor(
         Timber.d("Delete all DccWalletInfo.")
         dccWalletInfoDao.deleteAll()
     }
+
+    private fun Set<PersonWalletInfo>.toBlockedCertificateQrCodeHashes() = mapNotNull { walletInfo ->
+        walletInfo
+            .dccWalletInfo
+            ?.certificatesRevokedByInvalidationRules
+            ?.map { it.certificateRef.qrCodeHash() }
+    }
+        .flatten()
+        .toSet()
 
     companion object {
         private val TAG = tag<DccWalletInfoRepository>()

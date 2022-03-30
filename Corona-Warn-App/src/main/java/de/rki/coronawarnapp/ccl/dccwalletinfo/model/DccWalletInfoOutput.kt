@@ -32,7 +32,7 @@ data class DccWalletInfo(
     val certificateReissuance: CertificateReissuance? = null,
 
     @JsonProperty("certificatesRevokedByInvalidationRules")
-    val certificatesRevokedByInvalidationRules: CertificatesRevokedByInvalidationRules? = null
+    val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules> = emptyList()
 
 ) {
     @get:JsonIgnore
@@ -270,5 +270,5 @@ data class ReissuanceDivision(
 
 data class CertificatesRevokedByInvalidationRules(
     @JsonProperty("certificateRef")
-    val certificateRef: List<CertificateRef>
+    val certificateRef: CertificateRef
 )
