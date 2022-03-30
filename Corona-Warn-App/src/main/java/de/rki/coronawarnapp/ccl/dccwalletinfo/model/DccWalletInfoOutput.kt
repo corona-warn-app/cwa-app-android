@@ -32,7 +32,7 @@ data class DccWalletInfo(
     val certificateReissuance: CertificateReissuance? = null,
 
     @JsonProperty("certificatesRevokedByInvalidationRules")
-    val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules> = emptyList()
+    val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules>? = null
 
 ) {
     @get:JsonIgnore
