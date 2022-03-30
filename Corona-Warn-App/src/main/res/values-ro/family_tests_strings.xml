@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Family Test Home Card Tile -->
+    <!-- XHED Title of the family test card -->
+    <string name="family_test_card_title">"Teste ale\nmembrilor familiei"</string>
+    <!-- XTXT News about family test subtitle -->
+    <string name="family_test_card_subtitle_news">"Există noutăți"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_test_reg_selection_header">"Înregistrare test"</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_test_reg_selection_subtitle">"Veți primit rezultatul pe smartphone-ul dvs. și puteți solicita un certificat de test COVID digital. Îi puteți avertiza pe ceilalți doar dacă testul vă aparține și sunteți diagnosticat cu infectarea cu coronavirus."</string>
+    <!-- XTXT: Test registration selection: person title -->
+    <string name="family_test_reg_selection_person_title">"Pentru mine"</string>
+    <!-- XTXT: Test registration selection: person subtitle -->
+    <string name="family_test_reg_selection_person_subtitle">"Testul dvs."</string>
+    <!-- XTXT: Test registration selection: family title -->
+    <string name="family_test_reg_selection_family_title">"Pentru alții"</string>
+    <!-- XTXT: Test registration selection: family subtitle -->
+    <string name="family_test_reg_selection_family_subtitle">"Test pentru un membru al familiei"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_consent_header">"Consimțământul dvs."</string>
+    <!-- XACT: Test registration selection: description for screen readers -->
+    <string name="family_consent_image_descr">"O familie cu mai mulți membri. În fundal se află un document cu un cod QR."</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_consent_subtitle">"Obținerea rezultatului unui test pentru un membru al familiei"</string>
+    <!-- XTXT: Test registration selection: person name label -->
+    <string name="family_consent_person_name_label">"Numele persoanei care a fost testată:"</string>
+    <!-- XTXT: Test registration selection: person name tooltip -->
+    <string name="family_consent_person_name_tooltip">"Nume"</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_type">"Înregistrați un test pentru un membru al familiei. Dacă acest test este al dvs., întoarceți-vă și selectați „Pentru mine”. Trebuie să faceți acest lucru pentru a-i avertiza pe ceilalți în cazul în care sunteți diagnosticat cu coronavirus."</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_result">"Dacă rezultatul testului pentru membrul familiei dvs. este negativ, puteți solicita un certificat de test COVID oficial la pașii următori."</string>
+    <!-- XBUT: Test registration selection: confirm button -->
+    <string name="family_consent_cofirm_button">"Accept"</string>
+
+</resources>
