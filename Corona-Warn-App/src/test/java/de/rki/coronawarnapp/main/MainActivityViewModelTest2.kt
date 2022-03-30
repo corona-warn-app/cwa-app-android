@@ -12,6 +12,8 @@ import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvi
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
@@ -67,6 +69,7 @@ class MainActivityViewModelTest2 : BaseTest() {
     @MockK lateinit var tracingSettings: TracingSettings
     @MockK lateinit var coronaTestQRCodeHandler: CoronaTestQRCodeHandler
     @MockK lateinit var coronaTestRestoreHandler: CoronaTestRestoreHandler
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
 
     private val raExtractor = spyk(RapidAntigenQrCodeExtractor())
     private val rPcrExtractor = spyk(RapidPcrQrCodeExtractor())
@@ -97,6 +100,7 @@ class MainActivityViewModelTest2 : BaseTest() {
         }
 
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
+        every { familyTestRepository.familyTests } returns flowOf(setOf())
     }
 
     private fun createInstance(): MainActivityViewModel = MainActivityViewModel(
@@ -116,16 +120,19 @@ class MainActivityViewModelTest2 : BaseTest() {
         valueSetRepository = valueSetsRepository,
         tracingSettings = tracingSettings,
         coronaTestQRCodeHandler = coronaTestQRCodeHandler,
-        coronaTestRestoreHandler = coronaTestRestoreHandler
+        coronaTestRestoreHandler = coronaTestRestoreHandler,
+        familyTestRepository = familyTestRepository,
     )
 
     @Test
     fun `Home screen badge count shows tests badges only`() {
-        val coronaTest = mockk<PersonalCoronaTest>().apply { every { didShowBadge } returns false }
+        val coronaTest = mockk<PersonalCoronaTest>().apply { every { hasBadge } returns true }
+        val familyCoronaTest = mockk<FamilyCoronaTest>().apply { every { hasBadge } returns true }
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
+        every { familyTestRepository.familyTests } returns flowOf(setOf(familyCoronaTest))
 
-        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 1
+        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 2
     }
 
     @Test
@@ -138,16 +145,19 @@ class MainActivityViewModelTest2 : BaseTest() {
 
     @Test
     fun `Home screen badge count shows risk + tests badges only`() {
-        val coronaTest = mockk<PersonalCoronaTest>().apply { every { didShowBadge } returns false }
+        val coronaTest = mockk<PersonalCoronaTest>().apply { every { hasBadge } returns true }
+        val familyCoronaTest = mockk<FamilyCoronaTest>().apply { every { hasBadge } returns true }
+
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(true)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
+        every { familyTestRepository.familyTests } returns flowOf(setOf(familyCoronaTest))
 
-        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 2
+        createInstance().mainBadgeCount.getOrAwaitValue() shouldBe 3
     }
 
     @Test
     fun `Home screen badge count shows risk + tests badges is ZERO`() {
-        val coronaTest = mockk<PersonalCoronaTest>().apply { every { didShowBadge } returns true }
+        val coronaTest = mockk<PersonalCoronaTest>().apply { every { hasBadge } returns false }
         every { tracingSettings.showRiskLevelBadge } returns mockFlowPreference(false)
         every { coronTestRepository.coronaTests } returns flowOf(setOf(coronaTest))
 

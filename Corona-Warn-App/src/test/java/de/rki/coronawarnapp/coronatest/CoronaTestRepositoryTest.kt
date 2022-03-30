@@ -152,7 +152,7 @@ class CoronaTestRepositoryTest : BaseTest() {
         createInstance(this).run {
             allCoronaTests.first() shouldBe tests
             coronaTests.first() shouldBe setOf(notRecycledTest)
-            recycledTests.first() shouldBe setOf(recycledTest)
+            personalTestsInRecycleBin.first() shouldBe setOf(recycledTest)
         }
     }
 }

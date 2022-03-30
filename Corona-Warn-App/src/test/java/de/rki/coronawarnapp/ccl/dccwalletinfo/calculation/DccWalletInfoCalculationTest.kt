@@ -87,6 +87,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
             dccList = listOf(certificate),
             boosterNotificationRules = NullNode.instance,
             scenarioIdentifier = "",
+            invalidationRules = NullNode.instance
         )
         dccWalletInfoInput.language shouldBe "de"
         dccWalletInfoInput.os shouldBe "android"
