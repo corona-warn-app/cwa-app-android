@@ -33,7 +33,7 @@ class SettingsResetFragment : Fragment(R.layout.fragment_settings_reset), AutoIn
         binding.apply {
             settingsResetButtonDelete.setOnClickListener { vm.resetAllData() }
             settingsResetButtonCancel.setOnClickListener { vm.goBack() }
-            settingsResetHeader.headerButtonBack.buttonIcon.setOnClickListener { vm.goBack() }
+            binding.toolbar.setNavigationOnClickListener { popBackStack() }
         }
         vm.clickEvent.observe2(this) {
             when (it) {

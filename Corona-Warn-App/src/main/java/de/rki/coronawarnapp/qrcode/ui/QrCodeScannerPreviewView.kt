@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.qrcode.ui
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
@@ -18,7 +19,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.window.WindowManager
+import androidx.window.layout.WindowMetricsCalculator
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.qrcode.parser.QrCodeBoofCVParser
 import de.rki.coronawarnapp.tag
@@ -42,14 +43,14 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
     private var cameraProvider: ProcessCameraProvider? = null
     private var camera: Camera? = null
     private val cameraExecutor by lazy { Executors.newSingleThreadExecutor() }
-    private val windowManager: WindowManager
+    private val windowMetricsCalculator: WindowMetricsCalculator
     private val qrCodeBoofCVParser by lazy { QrCodeBoofCVParser() }
     private var parseResultCallback: ParseResultCallback? = null
 
     init {
         inflate(context, R.layout.qr_code_scanner_preview_view, this)
         cameraPreview = findViewById(R.id.camera_preview)
-        windowManager = WindowManager(context)
+        windowMetricsCalculator = WindowMetricsCalculator.getOrCreate()
         cameraPreview.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
     }
 
@@ -57,18 +58,18 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         camera?.cameraControl?.enableTorch(enable)
     }
 
-    fun setupCamera(lifecycleOwner: LifecycleOwner) {
+    fun setupCamera(lifecycleOwner: LifecycleOwner, activity: Activity) {
         Timber.tag(TAG).d("Setting up camera")
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
             {
                 cameraProvider = cameraProviderFuture.get()
-                bindUseCases(lifecycleOwner)
+                bindUseCases(lifecycleOwner, activity)
             },
             ContextCompat.getMainExecutor(context)
         )
 
-        setupAutofocus(lifecycleOwner)
+        setupAutofocus(lifecycleOwner, activity)
     }
 
     fun decodeSingle(parseResultCallback: ParseResultCallback) {
@@ -81,12 +82,12 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         cameraExecutor.shutdown()
     }
 
-    private fun setupAutofocus(lifecycleOwner: LifecycleOwner) {
+    private fun setupAutofocus(lifecycleOwner: LifecycleOwner, activity: Activity) {
         if (BuildVersionWrap.lessThanAPILevel(Build.VERSION_CODES.O)) {
             Timber.tag(TAG).d("setupAutofocus()")
             lifecycleOwner.lifecycleScope.launchWhenStarted {
                 while (true) {
-                    runCatching { autoFocus() }.onFailure { Timber.tag(TAG).e(it, "setupAutofocus failed") }
+                    runCatching { autoFocus(activity) }.onFailure { Timber.tag(TAG).e(it, "setupAutofocus failed") }
                     delay(1_000)
                 }
             }
@@ -95,10 +96,10 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         }
     }
 
-    private fun bindUseCases(lifecycleOwner: LifecycleOwner) {
+    private fun bindUseCases(lifecycleOwner: LifecycleOwner, activity: Activity) {
         Timber.tag(TAG).d("Binding camera use cases")
         // Get screen metrics used to setup camera for full screen resolution
-        val metrics = windowManager.getCurrentWindowMetrics().bounds
+        val metrics = windowMetricsCalculator.computeCurrentWindowMetrics(activity).bounds
         Timber.tag(TAG).d("Screen metrics: %d x %d", metrics.width(), metrics.height())
 
         val screenAspectRatio = aspectRatio(metrics.width(), metrics.height())
@@ -174,8 +175,8 @@ class QrCodeScannerPreviewView @JvmOverloads constructor(
         return AspectRatio.RATIO_16_9
     }
 
-    private suspend fun autoFocus() {
-        val bounds = windowManager.getCurrentWindowMetrics().bounds
+    private suspend fun autoFocus(activity: Activity) {
+        val bounds = windowMetricsCalculator.computeCurrentWindowMetrics(activity).bounds
         val focusPoint = SurfaceOrientedMeteringPointFactory(
             bounds.width().toFloat(),
             bounds.height().toFloat()

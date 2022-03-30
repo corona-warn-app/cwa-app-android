@@ -1,27 +1,37 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="BaseTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
+        <item name="actionBarSize">56dp</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="android:windowLightStatusBar">@bool/lightSystemUI</item>
         <item name="android:statusBarColor">@color/colorSystemUI</item>
         <item name="colorSurface">@color/colorSurface</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
         <item name="shapeAppearanceSmallComponent">@style/SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/LargeComponent</item>
         <item name="extendedFloatingActionButtonStyle">@style/ExtendedFloatingActionButton</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
         <item name="materialCalendarTheme">@style/DatePickerTheme</item>
+        <item name="elevationOverlayColor">@color/popupmenu_overlay_color</item>
         <item name="materialTimePickerTheme">@style/TimePickerTheme</item>
+        <item name="floatingActionButtonStyle">
+            @style/Widget.MaterialComponents.FloatingActionButton
+        </item>
+    </style>
+
+    <style name="CertificateDetailTheme" parent="BaseTheme">
+        <item name="android:textColorSecondary">#FFFFFF</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3.Light" />
 
     <!-- Launcher theme with background -->
     <style name="AppTheme.Launcher" parent="AppTheme">
@@ -29,54 +39,54 @@
     </style>
 
     <!-- Date Time pickers-->
-    <style name="DatePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+    <style name="DatePickerTheme" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
         <item name="colorOnPrimary">@android:color/white</item>
     </style>
 
-    <style name="TimePickerTheme" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
+    <style name="TimePickerTheme" parent="@style/ThemeOverlay.Material3.MaterialTimePicker">
         <item name="colorOnPrimary">@android:color/white</item>
     </style>
     <!-- Main Application -->
     <style name="AppTheme.Main" parent="AppTheme" />
 
-    <style name="CWAToolbar" parent="@style/Widget.MaterialComponents.Toolbar">
-        <item name="colorPrimary">@color/colorSurface1</item>
-        <item name="android:background">@color/colorSurface1</item>
-        <item name="android:textColor">@color/colorOnPrimary</item>
+    <style name="CWAMaterialToolbar">
+        <item name="android:background">@drawable/top_app_bar_shape</item>
+        <item name="titleTextAppearance">@style/textTopAppBar</item>
     </style>
 
-    <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:tint">@color/colorOnPrimary</item>
-    </style>
-
-    <style name="CWAToolbar.BackArrow">
-        <item name="navigationIcon">@drawable/ic_back</item>
-        <item name="navigationContentDescription">@string/accessibility_back</item>
-    </style>
-
-    <style name="CWAToolbar.BackArrow.Transparent">
-        <item name="android:background">@color/colorTransparent</item>
-    </style>
-
-    <style name="CWAToolbar.Close">
+    <style name="CWAMaterialToolbar.Close">
         <item name="navigationIcon">@drawable/ic_close</item>
         <item name="navigationContentDescription">@string/accessibility_close</item>
     </style>
 
-    <style name="CWAToolbar.Close.Transparent">
+    <style name="CWAMaterialToolbar.Close.Transparent">
         <item name="android:background">@color/colorTransparent</item>
     </style>
 
-    <style name="BottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="CWAMaterialToolbar.BackArrow">
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="navigationContentDescription">@string/accessibility_back</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.BackArrow.Transparent">
+        <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="BottomNavigationViewStyle" parent="Widget.Material3.BottomNavigationView">
         <item name="labelVisibilityMode">labeled</item>
         <item name="itemTextColor">@color/nav_item_color</item>
         <item name="itemIconTint">@color/nav_item_color</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigation</item>
+        <item name="android:background">@color/colorSurface1</item>
     </style>
 
+    <style name="ThemeOverlay.App.BottomNavigation" parent="">
+        <item name="colorPrimary">@color/colorSurface1</item>
+    </style>
     <!-- ####################################
                     Button
     ###################################### -->
-    <style name="button">
+    <style name="button" parent="Widget.Material3.Button">
         <item name="android:paddingStart">@dimen/button_padding_start_end</item>
         <item name="android:paddingEnd">@dimen/button_padding_start_end</item>
         <item name="android:paddingBottom">12dp</item>
@@ -93,7 +103,7 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="checkValidityButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="checkValidityButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:maxWidth">6000dp</item>
         <item name="android:paddingStart">0dp</item>
         <item name="android:paddingEnd">0dp</item>
@@ -106,9 +116,10 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="contactDiaryPersonButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="contactDiaryPersonButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/button_contact_diary_person</item>
         <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">5dp</item>
         <item name="android:letterSpacing">0</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">sans-serif-medium</item>
@@ -116,7 +127,7 @@
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="certificateSelectionToggleButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="certificateSelectionToggleButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/certificate_selector_button_stroke</item>
         <item name="strokeWidth">2dp</item>
         <item name="android:letterSpacing">0</item>
@@ -144,7 +155,7 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="materialTextButton" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="materialTextButton" parent="Widget.Material3.Button.TextButton">
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
@@ -160,8 +171,7 @@
     </style>
 
     <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
-        <item name="materialThemeOverlay">
-            @style/ThemeOverlay.App.ExtendedFloatingActionButton
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.ExtendedFloatingActionButton
         </item>
     </style>
 
@@ -283,7 +293,12 @@
                    Text
     ###################################### -->
 
-    <style name="headline4" parent="@style/TextAppearance.MaterialComponents.Headline4">
+    <style name="textTopAppBar" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">20sp</item>
+        <item name="fontWeight">500</item>
+    </style>
+
+    <style name="headline4" parent="@style/TextAppearance.Material3.HeadlineLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
@@ -291,7 +306,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="headline5" parent="@style/TextAppearance.MaterialComponents.Headline5">
+    <style name="headline5" parent="@style/TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
@@ -299,20 +314,28 @@
         <item name="android:textColor">@color/colorTextTint</item>
     </style>
 
-    <style name="headline5Bold" parent="@style/TextAppearance.MaterialComponents.Headline5">
+    <style name="headline5Bold" parent="@style/TextAppearance.Material3.HeadlineMedium">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
+    <style name="headline6" parent="@style/TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">20sp</item>
+        <item name="fontWeight">500</item>
+        <item name="android:textFontWeight" tools:targetApi="p">500</item>
+        <item name="android:fontWeight" tools:targetApi="o">500</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="subtitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitle" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="fontWeight">400</item>
     </style>
 
+    <style name="boldSubtitle" parent="@style/subtitle">
+        <item name="fontWeight">500</item>
+    </style>
 
-    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="materialSubtitleSixteen" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textSize">16sp</item>
     </style>
@@ -325,23 +348,28 @@
         <item name="android:textColor">@color/colorTextSemanticRed</item>
     </style>
 
-    <style name="subtitleMedium" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitleMedium" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
+        <item name="fontWeight">400</item>
     </style>
 
-    <style name="body1" parent="@style/TextAppearance.MaterialComponents.Body1">
+    <style name="subtitleMediumBold" parent="@style/subtitleMedium">
+        <item name="fontWeight">600</item>
+    </style>
+
+    <style name="body1" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="body1Medium" parent="@style/TextAppearance.MaterialComponents.Body1">
+    <style name="body1Medium" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorTextPrimary2</item>
     </style>
 
-    <style name="body2" parent="@style/TextAppearance.MaterialComponents.Body2">
+    <style name="body2" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="body2Medium" parent="@style/TextAppearance.MaterialComponents.Body2">
+    <style name="body2Medium" parent="@style/TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/colorTextPrimary2</item>
     </style>
 
@@ -350,21 +378,23 @@
         <item name="android:textColor">@color/colorTextPrimary1InvertedStableTransparent</item>
     </style>
 
-    <style name="bodyButton" parent="@style/TextAppearance.MaterialComponents.Button">
+    <style name="bodyButton" parent="@style/TextAppearance.Material3.LabelLarge">
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
 
-    <style name="headline6Sixteen" parent="@style/TextAppearance.MaterialComponents.Headline6">
+    <style name="headline6Sixteen" parent="@style/TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
-    <style name="subtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="subtitleSixteen" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
-    <style name="bodyNeutral" parent="@style/TextAppearance.MaterialComponents.Body1">
+    <style name="bodyNeutral" parent="@style/TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/colorTextSemanticNeutral</item>
     </style>
+
+    <style name="bodySmall" parent="@style/TextAppearance.Material3.BodySmall" />
 
     <!-- ####################################
               Icons
@@ -458,7 +488,7 @@
     <!-- ####################################
         Contact Diary
     ###################################### -->
-    <style name="contactDiaryListItem" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+    <style name="contactDiaryListItem" parent="@style/TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -475,7 +505,7 @@
         <item name="android:background">@drawable/contact_diary_card_ripple</item>
     </style>
 
-    <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="ContactDiaryCircumstancesTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
         <item name="boxBackgroundColor">@color/colorSurface</item>
         <item name="android:textColorHint">@color/colorTextPrimary2</item>
         <item name="android:textSize">@dimen/font_small</item>
@@ -531,6 +561,10 @@
         <item name="android:textColor">@color/colorStatisticsValueLabel</item>
     </style>
 
+    <style name="StatisticsCardValueLabelBold" parent="boldSubtitle">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+    </style>
+
     <style name="StatisticsCardTitleCaption">
         <item name="android:textColor">@color/colorStatisticsValueLabel</item>
         <item name="android:textSize">@dimen/font_small</item>
@@ -541,7 +575,7 @@
         <item name="android:textSize">@dimen/font_huge</item>
     </style>
 
-    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textSize">@dimen/font_title</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
     </style>
@@ -562,7 +596,7 @@
         Other
     ###################################### -->
 
-    <style name="TextInputLayoutTheme" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="TextInputLayoutTheme" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/colorContactDiaryListItem</item>
         <item name="android:textColorHint">@color/colorTextPrimary2</item>
         <item name="hintTextColor">@color/colorTextPrimary2</item>
@@ -594,17 +628,17 @@
         <item name="cornerSize">3dp</item>
     </style>
 
-    <style name="SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <style name="SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
 
-    <style name="MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+    <style name="MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
     </style>
 
-    <style name="LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+    <style name="LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
     </style>

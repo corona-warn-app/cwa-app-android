@@ -11,7 +11,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close.Transparent"
+        style="@style/CWAMaterialToolbar.Close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/country_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"
@@ -69,6 +69,7 @@
                 android:hint="@string/validation_start_land_hint"
                 android:textColorHint="@color/colorTextPrimary3"
                 app:boxBackgroundColor="@color/colorContactDiaryListItem"
+                app:boxStrokeWidth="0dp"
                 app:layout_constraintStart_toStartOf="@+id/body"
                 app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
@@ -84,8 +85,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_layout"
+                style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:boxStrokeWidth="0dp"
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="22dp"
@@ -113,7 +116,7 @@
 
             <TextView
                 android:id="@+id/date_info"
-                style="@style/TextAppearance.MaterialComponents.Caption"
+                style="@style/bodySmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -131,6 +134,7 @@
                 android:layout_marginEnd="32dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/statistics_info_button"
+                android:transitionName="date_info_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/date_layout"
                 app:srcCompat="@drawable/ic_info"
@@ -151,8 +155,8 @@
                 android:id="@+id/validation_notes"
                 layout="@layout/validation_start_fragment_notes"
                 android:layout_width="0dp"
-                android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="@id/body"
                 app:layout_constraintStart_toStartOf="@id/body"
                 app:layout_constraintTop_toBottomOf="@id/certificate_proof" />

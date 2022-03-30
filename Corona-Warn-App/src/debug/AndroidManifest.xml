@@ -20,9 +20,11 @@
         tools:node="merge">
         <activity
             android:name="de.rki.coronawarnapp.ui.main.FakeMainActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Main" />
         <activity
             android:name="de.rki.coronawarnapp.ui.main.FakeEmptyActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Main" />
     </application>
 

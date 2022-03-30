@@ -6,18 +6,18 @@
         android:id="@+id/main_share_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/main_share_title">
 
-        <include
-            android:id="@+id/main_share_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/main_share_title}" />
+            app:title="@string/main_share_title" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toTopOf="@+id/main_share_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_share_header">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

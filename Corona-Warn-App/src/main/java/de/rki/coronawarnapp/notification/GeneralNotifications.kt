@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_NO_CREATE
 import android.content.Context
 import android.content.Intent
@@ -110,7 +111,7 @@ class GeneralNotifications @Inject constructor(
                 putExtra(NOTIFICATION_ID, notificationId)
                 putExtra(POSITIVE_RESULT_NOTIFICATION_TEST_TYPE, testType.raw)
             },
-            flag
+            flag or FLAG_IMMUTABLE
         )
 
     fun newBaseBuilder(): NotificationCompat.Builder {
@@ -122,7 +123,7 @@ class GeneralNotifications @Inject constructor(
                 context,
                 0,
                 Intent(context, MainActivity::class.java),
-                0
+                FLAG_IMMUTABLE
             )
             setContentIntent(defaultIntent)
             setAutoCancel(true)
