@@ -1,11 +1,9 @@
 package de.rki.coronawarnapp.submission.testresult.pending
 
 import de.rki.coronawarnapp.coronatest.CoronaTestProvider
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

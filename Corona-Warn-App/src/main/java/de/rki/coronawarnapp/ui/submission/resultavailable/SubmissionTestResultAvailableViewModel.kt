@@ -60,7 +60,9 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 val navDirections = if (completedCheckInsExist) {
                     Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToCheckInsConsentFragment(coronaTestFlow.first().type)
+                        .actionSubmissionTestResultAvailableFragmentToCheckInsConsentFragment(
+                            coronaTestFlow.first().type
+                        )
                 } else {
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionTestResultConsentGivenFragment")
