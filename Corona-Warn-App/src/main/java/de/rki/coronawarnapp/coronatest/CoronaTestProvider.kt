@@ -22,7 +22,6 @@ class CoronaTestProvider @Inject constructor(
         familyTestRepository.familyTests
     ) { personalCoronaTests, familyCoronaTests ->
         personalCoronaTests.plus(familyCoronaTests)
-
     }
 
     fun findTestById(testIdentifier: TestIdentifier): Flow<BaseCoronaTest?> =
