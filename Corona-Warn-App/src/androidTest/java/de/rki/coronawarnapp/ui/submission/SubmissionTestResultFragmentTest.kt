@@ -8,12 +8,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
@@ -40,26 +40,25 @@ import testhelpers.takeScreenshot
 class SubmissionTestResultFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultPendingViewModel
-    @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
+    @MockK lateinit var coronaTestProvider: CoronaTestProvider
 
     private val pendingFragmentArgs =
-        SubmissionTestResultPendingFragmentArgs(testType = BaseCoronaTest.Type.PCR, testIdentifier = "").toBundle()
+        SubmissionTestResultPendingFragmentArgs(testIdentifier = "").toBundle()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { submissionRepository.testForType(any()) } returns flowOf()
+        every { coronaTestProvider.findTestById(any()) } returns flowOf()
 
         viewModel = spyk(
             SubmissionTestResultPendingViewModel(
                 TestDispatcherProvider(),
-                submissionRepository,
                 recycledTestProvider = recycledTestProvider,
-                testType = BaseCoronaTest.Type.PCR,
                 initialUpdate = false,
-                testIdentifier = ""
+                testIdentifier = "",
+                coronaTestProvider = coronaTestProvider
             )
         )
 
@@ -80,7 +79,6 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
         setupMockViewModel(
             object : SubmissionTestResultPendingViewModel.Factory {
                 override fun create(
-                    testType: BaseCoronaTest.Type,
                     testIdentifier: TestIdentifier,
                     initialUpdate: Boolean
                 ): SubmissionTestResultPendingViewModel = viewModel
