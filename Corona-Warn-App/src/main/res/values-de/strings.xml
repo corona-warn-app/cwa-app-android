@@ -109,7 +109,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Begegnungen mit niedrigem Risiko an einem Tag"</item>
+        <item quantity="one">"Begegnungen mit niedrigem Risiko an %1$d Tag"</item>
         <item quantity="other">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
         <item quantity="zero">"Keine Risiko-Begegnungen"</item>
         <item quantity="two">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
@@ -132,7 +132,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Begegnungen an einem Tag mit erhöhtem Risiko"</item>
+        <item quantity="one">"Begegnungen an %1$d Tag mit erhöhtem Risiko"</item>
         <item quantity="other">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
         <item quantity="zero">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
         <item quantity="two">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
