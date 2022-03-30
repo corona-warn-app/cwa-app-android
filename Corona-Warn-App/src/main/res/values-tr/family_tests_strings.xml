@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Family Test Home Card Tile -->
+    <!-- XHED Title of the family test card -->
+    <string name="family_test_card_title">"Aile üyelerinin\ntestleri"</string>
+    <!-- XTXT News about family test subtitle -->
+    <string name="family_test_card_subtitle_news">"Haberlerimiz var"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_test_reg_selection_header">"Testi Kaydet"</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_test_reg_selection_subtitle">"Sonuç akıllı telefonunuza gelecek ve dijital COVID test sertifikası talep edebilirsiniz. Yalnızca test size aitse ve koronavirüs enfeksiyonu tanısı aldıysanız diğer kullanıcıları uyarabilirsiniz."</string>
+    <!-- XTXT: Test registration selection: person title -->
+    <string name="family_test_reg_selection_person_title">"Benim için"</string>
+    <!-- XTXT: Test registration selection: person subtitle -->
+    <string name="family_test_reg_selection_person_subtitle">"Testiniz"</string>
+    <!-- XTXT: Test registration selection: family title -->
+    <string name="family_test_reg_selection_family_title">"Diğerleri için"</string>
+    <!-- XTXT: Test registration selection: family subtitle -->
+    <string name="family_test_reg_selection_family_subtitle">"Aile üyesinin testi"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_consent_header">"İzniniz"</string>
+    <!-- XACT: Test registration selection: description for screen readers -->
+    <string name="family_consent_image_descr">"Birden çok üyesi olan aileler için, arka planda QR kod bulunan bir belge vardır."</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_consent_subtitle">"Aile üyesinin test sonucunu alın"</string>
+    <!-- XTXT: Test registration selection: person name label -->
+    <string name="family_consent_person_name_label">"Test yapılan kişinin adı:"</string>
+    <!-- XTXT: Test registration selection: person name tooltip -->
+    <string name="family_consent_person_name_tooltip">"Ad"</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_type">"Bir aile üyesi için test kaydı yapıyorsunuz. Bu test size aitse lütfen geri gidip \"Benim için\" seçeneğini belirleyin. Koronavirüs tanısı almanız halinde diğer kullanıcıları uyarmak için bunu yapmanız gerekir."</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_result">"Aile üyenizin test sonucu negatifse sonraki adımlarda resmi bir COVID test sertifikası talep edebilirsiniz."</string>
+    <!-- XBUT: Test registration selection: confirm button -->
+    <string name="family_consent_cofirm_button">"Kabul Et"</string>
+
+</resources>
