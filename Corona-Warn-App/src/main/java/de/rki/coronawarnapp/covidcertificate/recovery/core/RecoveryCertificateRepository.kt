@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
@@ -45,7 +46,8 @@ class RecoveryCertificateRepository @Inject constructor(
     private val storage: RecoveryCertificateStorage,
     private val dccStateChecker: DccStateChecker,
     private val timeStamper: TimeStamper,
-    dscRepository: DscRepository
+    dscRepository: DscRepository,
+    private val dccWalletInfoRepository: DccWalletInfoRepository
 ) {
 
     private val internalData: HotDataFlow<Map<RecoveryCertificateContainerId, RecoveryCertificateContainer>> =
@@ -81,12 +83,19 @@ class RecoveryCertificateRepository @Inject constructor(
 
     val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
-        dscRepository.dscData
-    ) { certMap, _ ->
+        dscRepository.dscData,
+        dccWalletInfoRepository.blockedCertificateQrCodeHashes
+    ) { certMap, _, blockedCertificateQrCodeHashes ->
         certMap.values
             .filter { it.isNotRecycled }
             .map { container ->
-                val state = dccStateChecker.checkState(container.certificateData).first()
+
+                val state = dccStateChecker.checkState(
+                    container.certificateData,
+                    container.qrCodeHash,
+                    blockedCertificateQrCodeHashes
+                ).first()
+
                 RecoveryCertificateWrapper(
                     valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
                     container = container,
@@ -196,7 +205,12 @@ class RecoveryCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState = dccStateChecker.checkState(toUpdate.certificateData).first()
+            val currentState =
+                dccStateChecker.checkState(
+                    toUpdate.certificateData,
+                    toUpdate.qrCodeHash,
+                    dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
+                ).first()
 
             if (currentState == toUpdate.data.lastSeenStateChange) {
                 Timber.tag(TAG).w("State equals last acknowledged state.")
