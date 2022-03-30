@@ -60,8 +60,6 @@ class SettingsBackgroundPriorityFragment : Fragment(R.layout.fragment_settings_b
         }
 
         // back navigation
-        binding.settingsBackgroundPriorityHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 }

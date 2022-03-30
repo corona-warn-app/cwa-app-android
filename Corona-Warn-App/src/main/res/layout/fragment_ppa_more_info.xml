@@ -7,6 +7,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:orientation="vertical"
         tools:context=".datadonation.analytics.ui.PpaMoreInfoFragment">
 
@@ -39,9 +40,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/spacing_medium"
-            android:paddingHorizontal="@dimen/spacing_normal"
             android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/spacing_normal"
+            android:paddingBottom="@dimen/spacing_medium"
             android:scrollbarStyle="outsideOverlay">
 
             <LinearLayout
@@ -113,8 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small">
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/data_processing_point_1"
@@ -127,14 +127,13 @@
                         <TextView
                             android:id="@+id/data_processing_point_1_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_data_processing_point_1_text" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
                         <ImageView
                             android:id="@+id/data_processing_point_2"
                             android:layout_width="@dimen/bullet_point_size"
@@ -147,14 +146,13 @@
                             android:id="@+id/data_processing_point_2_text"
                             style="@style/subtitle"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
-                            android:text="@string/onboarding_ppa_more_info_data_processing_point_2_text"
-                            android:layout_weight="1" />
+                            android:text="@string/onboarding_ppa_more_info_data_processing_point_2_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/data_processing_point_3"
@@ -173,8 +171,7 @@
                             android:text="@string/onboarding_ppa_more_info_data_processing_point_3_text" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/data_processing_point_4"
@@ -210,8 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small">
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_1"
@@ -224,15 +220,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_1_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_1_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_2"
@@ -245,15 +240,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_2_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_2_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_3"
@@ -266,15 +260,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_3_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_3_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_4"
@@ -287,8 +280,8 @@
                         <TextView
                             android:id="@+id/rki_data_point_4_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_4_text" />
 
@@ -310,8 +303,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small">
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_5"
@@ -324,15 +316,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_5_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_5_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_6"
@@ -345,15 +336,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_6_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_6_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_7"
@@ -366,14 +356,13 @@
                         <TextView
                             android:id="@+id/rki_data_point_7_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_7_text" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_8"
@@ -386,15 +375,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_8_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_8_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_9"
@@ -407,8 +395,8 @@
                         <TextView
                             android:id="@+id/rki_data_point_9_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_9_text" />
 
@@ -431,8 +419,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small">
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_10"
@@ -445,15 +432,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_10_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_10_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_11"
@@ -466,15 +452,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_11_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_11_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_12"
@@ -487,15 +472,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_12_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_12_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_13"
@@ -508,15 +492,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_13_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_13_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_14"
@@ -529,15 +512,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_14_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_14_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_15"
@@ -550,15 +532,14 @@
                         <TextView
                             android:id="@+id/rki_data_point_15_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_15_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/rki_data_point_16"
@@ -571,8 +552,8 @@
                         <TextView
                             android:id="@+id/rki_data_point_16_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_rki_data_point_16_text" />
 
@@ -595,10 +576,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small">
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
-                         <ImageView
+                        <ImageView
                             android:id="@+id/other_info_point_1"
                             android:layout_width="@dimen/bullet_point_size"
                             android:layout_height="@dimen/bullet_point_size"
@@ -609,14 +589,13 @@
                         <TextView
                             android:id="@+id/other_info_point_1_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_other_info_point_1_text" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/other_info_point_3"
@@ -629,15 +608,14 @@
                         <TextView
                             android:id="@+id/other_info_point_3_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_other_info_point_2_text" />
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="@dimen/spacing_small">
+                    <TableRow android:layout_marginTop="@dimen/spacing_small">
 
                         <ImageView
                             android:id="@+id/other_info_point_4"
@@ -650,8 +628,8 @@
                         <TextView
                             android:id="@+id/other_info_point_4_text"
                             style="@style/subtitle"
-                            android:layout_weight="1"
                             android:layout_marginStart="13dp"
+                            android:layout_weight="1"
                             android:focusable="true"
                             android:text="@string/onboarding_ppa_more_info_other_info_point_3_text" />
 

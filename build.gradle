@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.6.10'
     ext.protobufVersion = '0.8.12'
-    ext.nav_version = "2.3.5"
+    ext.nav_version = "2.4.1"
 
     repositories {
         google()

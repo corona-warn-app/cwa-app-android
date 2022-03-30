@@ -19,7 +19,12 @@ class AutoCheckOutIntentFactory @Inject constructor(
                 putExtra(AutoCheckOutReceiver.ARGKEY_RECEIVER_CHECKIN_ID, checkInId)
             }
         }
-        return PendingIntent.getBroadcast(context, REQUEST_CODE, updateServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(
+            context,
+            REQUEST_CODE,
+            updateServiceIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     companion object {

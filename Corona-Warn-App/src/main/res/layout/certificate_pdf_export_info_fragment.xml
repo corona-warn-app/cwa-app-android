@@ -19,6 +19,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
+            app:contentScrim="@drawable/top_app_bar_shape"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -27,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
+                app:contentScrim="@drawable/top_app_bar_shape"
                 android:background="@drawable/covid_certificate_validation_gradient"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
@@ -42,12 +44,11 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
-                    style="@style/CWAToolbar.Close.Transparent"
+                    style="@style/CWAMaterialToolbar.Close.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:expandedTitleGravity="top"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/ic_close"
                     app:title="@string/pdf_export_info_title" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

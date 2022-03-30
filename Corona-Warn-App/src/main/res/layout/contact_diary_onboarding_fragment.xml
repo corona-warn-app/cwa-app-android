@@ -14,6 +14,7 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_contact_diary_illustration_onboarding"/>
+                    app:srcCompat="@drawable/ic_contact_diary_illustration_onboarding" />
 
                 <TextView
                     android:id="@+id/onboarding_headline"

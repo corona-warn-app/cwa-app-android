@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSurface"
+    android:transitionName="date_info_view"
     tools:context=".covidcertificate.validation.ui.datetimeinfo.ValidationTimeInfoFragment">
 
     <ScrollView
@@ -84,7 +85,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close.Transparent"
+        style="@style/CWAMaterialToolbar.Close.Transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/validation_rules_info_title"
