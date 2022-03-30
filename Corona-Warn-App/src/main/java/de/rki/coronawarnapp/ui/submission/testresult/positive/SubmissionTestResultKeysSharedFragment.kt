@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeysSharedBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -60,6 +61,10 @@ class SubmissionTestResultKeysSharedFragment :
                 submissionDonePcrValidation.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN
 
                 submissionDoneIllness.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.PCR
+
+                if (it.coronaTest is FamilyCoronaTest) {
+                    familyMemberName.text = it.coronaTest.personName
+                }
             }
         }
 

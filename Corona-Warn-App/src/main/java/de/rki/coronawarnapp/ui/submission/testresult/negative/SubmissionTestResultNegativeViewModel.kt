@@ -6,14 +6,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -92,7 +87,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultNegativeViewModel> {
-        fun create( testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
+        fun create(testIdentifier: TestIdentifier): SubmissionTestResultNegativeViewModel
     }
 
     companion object {

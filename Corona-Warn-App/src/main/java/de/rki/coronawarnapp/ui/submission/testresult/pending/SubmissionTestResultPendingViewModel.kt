@@ -40,6 +40,8 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     private val coronaTestProvider: CoronaTestProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
+    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
+
     init {
         Timber.v("init() testIdentifier=%s", testIdentifier)
         if (initialUpdate) {
@@ -49,8 +51,6 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
     val errorEvent = SingleLiveEvent<Throwable>()
-
-    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
 
     val showRedeemedTokenWarning = SingleLiveEvent<Unit>()
 

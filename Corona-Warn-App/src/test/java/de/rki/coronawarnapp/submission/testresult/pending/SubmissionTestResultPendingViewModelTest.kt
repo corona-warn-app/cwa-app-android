@@ -7,9 +7,12 @@ import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,6 +35,8 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
+        coEvery { coronaTestProvider.refreshTest(any()) } just Runs
+        every { coronaTestProvider.findTestById(any()) } returns testFlow
     }
 
     fun createInstance(scope: CoroutineScope = TestCoroutineScope(), forceInitialUpdate: Boolean = false) =
@@ -56,13 +61,6 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
             testFlow.value = mockk<PersonalCoronaTest>().apply { every { lastError } returns unexpectedError }
             cwaWebExceptionLiveData.value shouldBe unexpectedError
-        }
-    }
-
-    @Test
-    fun `initial update triggered when forced`() {
-        createInstance(forceInitialUpdate = true).apply {
-            coVerify(exactly = 1) { coronaTestProvider.refreshTest(any()) }
         }
     }
 

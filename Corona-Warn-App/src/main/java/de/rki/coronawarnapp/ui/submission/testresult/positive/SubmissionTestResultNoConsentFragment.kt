@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveNoConsentBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.shortcuts.AppShortcutsHelper
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -53,6 +54,9 @@ class SubmissionTestResultNoConsentFragment :
 
         viewModel.uiState.observe2(this) {
             binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
+            if (it.coronaTest is FamilyCoronaTest) {
+                binding.familyMemberName.text = it.coronaTest.personName
+            }
         }
 
         binding.apply {
