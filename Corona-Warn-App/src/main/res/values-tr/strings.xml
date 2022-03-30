@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Bir gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="one">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="zero">"Hiçbir maruz kalma yok"</item>
         <item quantity="two">"%1$d gün için düşük riskli maruz kalmalar"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Bir gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="one">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="zero">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="two">"%1$d gün için artmış riskli maruz kalmalar"</item>
