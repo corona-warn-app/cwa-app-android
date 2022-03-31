@@ -63,6 +63,7 @@ class SubmissionTestResultKeysSharedFragment :
                 submissionDoneIllness.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.PCR
 
                 if (it.coronaTest is FamilyCoronaTest) {
+                    toolbar.title = getText(R.string.submission_test_result_headline)
                     familyMemberName.text = it.coronaTest.personName
                 }
             }

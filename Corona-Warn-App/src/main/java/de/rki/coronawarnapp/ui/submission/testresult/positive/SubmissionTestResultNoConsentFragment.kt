@@ -55,6 +55,7 @@ class SubmissionTestResultNoConsentFragment :
         viewModel.uiState.observe2(this) {
             binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
             if (it.coronaTest is FamilyCoronaTest) {
+                binding.toolbar.title = getText(R.string.submission_test_result_headline)
                 binding.familyMemberName.text = it.coronaTest.personName
             }
         }

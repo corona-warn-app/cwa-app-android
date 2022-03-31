@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -49,10 +50,20 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
                 BaseCoronaTest.Type.PCR -> {
                     binding.testResultInvalidStepsPcrAdded.isVisible = true
                     binding.testResultInvalidStepsRatAdded.isVisible = false
+                    if (uiState.coronaTest is FamilyCoronaTest) {
+                        binding.testResultInvalidStepsPcrAdded.setEntryTitle(
+                            getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                        )
+                    }
                 }
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> {
                     binding.testResultInvalidStepsPcrAdded.isVisible = false
                     binding.testResultInvalidStepsRatAdded.isVisible = true
+                    if (uiState.coronaTest is FamilyCoronaTest) {
+                        binding.testResultInvalidStepsPcrAdded.setEntryTitle(
+                            getText(R.string.submission_family_test_result_steps_added_rat_heading)
+                        )
+                    }
                 }
             }
 

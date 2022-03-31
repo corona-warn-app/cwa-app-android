@@ -59,6 +59,7 @@ class SubmissionTestResultConsentGivenFragment :
                 uiState = it
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
                 if (it.coronaTest is FamilyCoronaTest) {
+                    toolbar.title = getText(R.string.submission_test_result_headline)
                     familyMemberName.text = it.coronaTest.personName
                 }
             }

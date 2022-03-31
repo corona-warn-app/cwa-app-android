@@ -57,6 +57,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
                 submissionTestResultSection.setTestResultSection(coronaTest)
                 if (coronaTest is FamilyCoronaTest) {
                     familyMemberName.text = coronaTest.personName
+                    toolbar.title = getText(R.string.submission_test_result_headline)
                     testResultNegativeStepsRemoveTest.isVisible = false
                     testResultNegativeStepsCertificate.setEntryTitle(
                         getText(
