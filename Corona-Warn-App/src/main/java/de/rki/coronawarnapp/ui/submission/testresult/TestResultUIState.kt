@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.testresult
 
-import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 
 data class TestResultUIState(
-    val coronaTest: PersonalCoronaTest
+    val coronaTest: BaseCoronaTest
 )

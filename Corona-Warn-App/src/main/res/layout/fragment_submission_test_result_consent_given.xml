@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -45,6 +46,16 @@
                 android:layout_height="wrap_content"
                 android:focusable="true">
 
+                <TextView
+                    android:id="@+id/family_member_name"
+                    style="@style/headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Lara" />
+
                 <de.rki.coronawarnapp.ui.view.TestResultSectionView
                     android:id="@+id/submission_test_result_section"
                     android:layout_width="0dp"
@@ -54,7 +65,7 @@
                     android:importantForAccessibility="yes"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/family_member_name" />
 
                 <TextView
                     android:id="@+id/submission_test_result_consent_given_subtitle"

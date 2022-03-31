@@ -74,7 +74,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                         DuplicateWarningEvent.Direction(
                             SubmissionDeletionWarningFragmentDirections
                                 .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                                    testType = request.type,
                                     forceTestResultUpdate = true,
                                     testIdentifier = request.identifier
                                 )
@@ -92,7 +91,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 DuplicateWarningEvent.Direction(
                     SubmissionDeletionWarningFragmentDirections
                         .actionSubmissionDeletionWarningFragmentToSubmissionTestResultKeysSharedFragment(
-                            testType = request.type,
                             testIdentifier = request.identifier
                         )
                 )
@@ -102,7 +100,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                     DuplicateWarningEvent.Direction(
                         SubmissionDeletionWarningFragmentDirections
                             .actionSubmissionDeletionWarningFragmentToSubmissionTestResultNegativeFragment(
-                                testType = request.type,
                                 testIdentifier = request.identifier
                             )
                     )
@@ -110,7 +107,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> routeToScreen.postValue(
                     DuplicateWarningEvent.Direction(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToNegativeRatFragment(
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultNegativeFragment(
                                 testIdentifier = request.identifier
                             )
                     )
@@ -120,7 +117,6 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 DuplicateWarningEvent.Direction(
                     SubmissionDeletionWarningFragmentDirections
                         .actionSubmissionDeletionWarningFragmentToSubmissionTestResultPendingFragment(
-                            testType = request.type,
                             testIdentifier = request.identifier
                         )
                 )

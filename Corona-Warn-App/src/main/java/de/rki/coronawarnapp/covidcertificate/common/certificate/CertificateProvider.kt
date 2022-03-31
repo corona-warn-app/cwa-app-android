@@ -28,7 +28,7 @@ class CertificateProvider @Inject constructor(
     vcRepo: VaccinationCertificateRepository,
     tcRepo: TestCertificateRepository,
     rcRepo: RecoveryCertificateRepository,
-    @AppScope appScope: CoroutineScope,
+    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider
 ) {
 
