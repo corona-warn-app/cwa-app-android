@@ -102,7 +102,10 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     @Test
     fun `go to your consent page`() = runBlockingTest {
         val viewModel = createViewModel()
-
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
+            every { identifier } returns ""
+            every { type } returns PCR
+        }
         viewModel.goConsent()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
             .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
@@ -125,6 +128,8 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     fun `go to test result without updating TEK history if NO consent is given`() = runBlockingTest {
         coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
+            every { identifier } returns ""
+            every { type } returns PCR
         }
         every { analyticsKeySubmissionCollector.reportConsentWithdrawn(any()) } just Runs
 
