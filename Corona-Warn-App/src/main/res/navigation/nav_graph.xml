@@ -617,7 +617,6 @@
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
-
         <argument
             android:name="testIdentifier"
             app:argType="string" />
@@ -641,9 +640,7 @@
         <argument
             android:name="testIdentifier"
             app:argType="string" />
-
     </fragment>
-
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
