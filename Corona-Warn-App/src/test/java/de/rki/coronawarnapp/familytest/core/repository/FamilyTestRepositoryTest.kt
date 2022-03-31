@@ -104,7 +104,6 @@ class FamilyTestRepositoryTest : BaseTest() {
         createInstance().refresh()
         coVerify(exactly = 0) {
             processor.pollServer(test)
-            storage.update(any())
         }
     }
 
@@ -257,14 +256,7 @@ class FamilyTestRepositoryTest : BaseTest() {
 
         coVerify {
             familyTestNotificationService.showTestResultNotification()
-            storage.update("id-1", any())
-            storage.update("id-5", any())
-        }
-
-        coVerify(exactly = 0) {
-            storage.update("id-2", any())
-            storage.update("id-3", any())
-            storage.update("id-4", any())
+            storage.update(any())
         }
     }
 

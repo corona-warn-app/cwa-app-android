@@ -84,8 +84,8 @@ class FamilyTestRetrievalScheduler @Inject constructor(
                 setRequiredNetworkType(NetworkType.CONNECTED)
             }.build()
         ).setInitialDelay(
-            20L,
-            TimeUnit.SECONDS
+            repeatIntervalMinutes,
+            TimeUnit.MINUTES
         ).setBackoffCriteria(
             BackoffPolicy.LINEAR,
             BackgroundConstants.KIND_DELAY,

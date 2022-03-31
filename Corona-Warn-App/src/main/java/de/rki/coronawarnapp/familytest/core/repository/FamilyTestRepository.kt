@@ -89,7 +89,10 @@ class FamilyTestRepository @Inject constructor(
                 is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
         }
-        storage.update(updates)
+
+        if (updates.isNotEmpty()) {
+            storage.update(updates)
+        }
 
         notifyIfNeeded()
 
@@ -118,7 +121,9 @@ class FamilyTestRepository @Inject constructor(
                 }
             )
         }
-        storage.update(updates)
+        if (updates.isNotEmpty()) {
+            storage.update(updates)
+        }
     }
 
     suspend fun restoreTest(
