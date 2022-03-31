@@ -1360,6 +1360,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr %s-Befund:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"%s-Befund:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
