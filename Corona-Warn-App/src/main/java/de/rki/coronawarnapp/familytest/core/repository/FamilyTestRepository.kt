@@ -1,10 +1,12 @@
 package de.rki.coronawarnapp.familytest.core.repository
 
+import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.model.markAsNotified
 import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
@@ -14,13 +16,16 @@ import de.rki.coronawarnapp.familytest.core.model.updateLabId
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
 import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
+import de.rki.coronawarnapp.familytest.core.notification.FamilyTestNotificationService
 import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
 import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,6 +34,7 @@ class FamilyTestRepository @Inject constructor(
     private val processor: CoronaTestProcessor,
     private val storage: FamilyTestStorage,
     private val timeStamper: TimeStamper,
+    private val familyTestNotificationService: FamilyTestNotificationService
 ) {
 
     val familyTests: Flow<Set<FamilyCoronaTest>> = storage.familyTestMap.map {
@@ -75,7 +81,28 @@ class FamilyTestRepository @Inject constructor(
             }
         }
 
+        notifyIfNeeded()
+
         return exceptions
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal suspend fun notifyIfNeeded() {
+        val familyTestResultChanges = familyTests.first().filter {
+            it.hasResultChangeBadge && !it.isResultAvailableNotificationSent
+        }
+
+        if (familyTestResultChanges.isNotEmpty()) {
+            Timber.tag(TAG).d("Notifying about [%s] family test results", familyTestResultChanges.size)
+            familyTestNotificationService.showTestResultNotification()
+        } else {
+            Timber.tag(TAG).d("No notification required for family tests")
+        }
+
+        familyTestResultChanges.forEach {
+            Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
+            markAsNotified(it.identifier, true) // TODO update the whole list
+        }
     }
 
     suspend fun restoreTest(
@@ -135,12 +162,22 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
+    suspend fun markAsNotified(identifier: TestIdentifier, notified: Boolean) {
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markAsNotified(notified))
+        }
+    }
+
     suspend fun clear() {
         storage.clear()
     }
 
     private suspend fun getTest(identifier: TestIdentifier) =
         storage.familyTestMap.first()[identifier] ?: storage.familyTestRecycleBinMap.first()[identifier]
+
+    companion object {
+        private val TAG = tag<FamilyTestRepository>()
+    }
 }
 
 private fun CoronaTest.isPollingStopped(): Boolean = testResult in finalStates
