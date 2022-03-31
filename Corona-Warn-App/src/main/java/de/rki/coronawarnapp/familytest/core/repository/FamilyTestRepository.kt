@@ -69,21 +69,22 @@ class FamilyTestRepository @Inject constructor(
         familyTestsToRefresh.first().forEach { originalTest ->
             when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
                 is CoronaTestResultUpdate ->
-                    updates.add(Pair(
-                        originalTest.identifier
-                    ) { test ->
-                        test.updateTestResult(
-                            updateResult.coronaTestResult
-                        ).let { updated ->
-                            updateResult.labId?.let { labId ->
-                                updated.updateLabId(labId)
-                            } ?: updated
-                        }.let { updated ->
-                            updateResult.sampleCollectedAt?.let { collectedAt ->
-                                updated.updateSampleCollectedAt(collectedAt)
-                            } ?: updated
+                    updates.add(
+                        Pair(
+                            originalTest.identifier
+                        ) { test ->
+                            test.updateTestResult(
+                                updateResult.coronaTestResult
+                            ).let { updated ->
+                                updateResult.labId?.let { labId ->
+                                    updated.updateLabId(labId)
+                                } ?: updated
+                            }.let { updated ->
+                                updateResult.sampleCollectedAt?.let { collectedAt ->
+                                    updated.updateSampleCollectedAt(collectedAt)
+                                } ?: updated
+                            }
                         }
-                    }
                     )
                 is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
@@ -111,9 +112,11 @@ class FamilyTestRepository @Inject constructor(
         val updates = mutableListOf<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>>()
         familyTestResultChanges.forEach {
             Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
-            updates.add(Pair(it.identifier) { test ->
-                test.copy(coronaTest = test.coronaTest.markAsNotified(true))
-            })
+            updates.add(
+                Pair(it.identifier) { test ->
+                    test.copy(coronaTest = test.coronaTest.markAsNotified(true))
+                }
+            )
         }
         storage.update(updates)
     }

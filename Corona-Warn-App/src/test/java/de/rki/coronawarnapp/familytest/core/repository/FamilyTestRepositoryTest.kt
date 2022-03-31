@@ -69,7 +69,7 @@ class FamilyTestRepositoryTest : BaseTest() {
         coEvery { storage.save(familyTest) } just Runs
         coEvery { storage.update(any(), any()) } just Runs
         coEvery { storage.update(identifier, any()) } just Runs
-        coEvery { storage.update( any()) } just Runs
+        coEvery { storage.update(any()) } just Runs
         coEvery { storage.delete(familyTest) } just Runs
         every { familyTestNotificationService.showTestResultNotification() } just Runs
     }
@@ -104,13 +104,8 @@ class FamilyTestRepositoryTest : BaseTest() {
         createInstance().refresh()
         coVerify(exactly = 0) {
             processor.pollServer(test)
-            storage.update(identifier, any())
+            storage.update(any())
         }
-
-        // Notification todo
-        //coVerify {
-            //storage.update(identifier, any())
-        //}
     }
 
     @Test

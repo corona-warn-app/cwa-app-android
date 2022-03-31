@@ -19,9 +19,9 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -99,7 +99,7 @@ interface FamilyCoronaTestDao {
     suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
         get(identifier)?.let {
             val updated = update(it.test).toEntity()
-            if (it != updated ) insert(updated)
+            if (it != updated) insert(updated)
         }
     }
 
@@ -108,7 +108,7 @@ interface FamilyCoronaTestDao {
         updates.forEach {
             get(it.first)?.let { test ->
                 val updated = it.second(test.test).toEntity()
-                if (test != updated ) insert(updated)
+                if (test != updated) insert(updated)
             }
         }
     }
