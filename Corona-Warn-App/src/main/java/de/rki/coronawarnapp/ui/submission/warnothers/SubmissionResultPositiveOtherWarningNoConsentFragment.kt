@@ -35,7 +35,7 @@ class SubmissionResultPositiveOtherWarningNoConsentFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionResultPositiveOtherWarningNoConsentViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testIdentifier)
         }
     )
 

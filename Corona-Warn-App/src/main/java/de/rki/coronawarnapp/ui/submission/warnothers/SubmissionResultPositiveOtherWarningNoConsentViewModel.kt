@@ -8,7 +8,8 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.exception.ExceptionCategory
@@ -17,13 +18,13 @@ import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
@@ -33,14 +34,16 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
     private val autoSubmission: AutoSubmission,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
     interoperabilityRepository: InteroperabilityRepository,
-    private val submissionRepository: SubmissionRepository,
+    private val coronaTestProvider: CoronaTestProvider,
     private val checkInRepository: CheckInRepository,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testType: BaseCoronaTest.Type
+    @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     init {
-        Timber.v("init() coronaTestType=%s", testType)
+        Timber.v("init() coronaTestIdentifier=%s", testIdentifier)
     }
+
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
@@ -65,13 +68,15 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
                 val navDirections = if (completedCheckInsExist) {
                     Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
-                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment(testType)
+                        .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToCheckInsConsentFragment(
+                            testType = coronaTestFlow.first().type
+                        )
                 } else {
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionResultReadyFragment")
                     SubmissionResultPositiveOtherWarningNoConsentFragmentDirections
                         .actionSubmissionResultPositiveOtherWarningNoConsentFragmentToSubmissionResultReadyFragment(
-                            testType
+                            testType = coronaTestFlow.first().type
                         )
                 }
                 routeToScreen.postValue(navDirections)
@@ -112,7 +117,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
 
     fun onConsentButtonClicked() = launch {
         showKeysRetrievalProgress.postValue(true)
-        submissionRepository.giveConsentToSubmission(type = testType)
+        coronaTestProvider.giveConsent(coronaTestFlow.first())
         if (enfClient.isTracingEnabled.first()) {
             Timber.tag(TAG).d("tekHistoryUpdater.updateTEKHistoryOrRequestPermission()")
             tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
@@ -137,13 +142,13 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         tekHistoryUpdater.handleActivityResult(requestCode, resultCode, data)
     }
 
-    fun onResume() {
-        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, testType)
+    fun onResume() = launch {
+        analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, coronaTestFlow.first().type)
     }
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionResultPositiveOtherWarningNoConsentViewModel> {
-        fun create(testType: BaseCoronaTest.Type): SubmissionResultPositiveOtherWarningNoConsentViewModel
+        fun create(testIdentifier: TestIdentifier): SubmissionResultPositiveOtherWarningNoConsentViewModel
     }
 
     companion object {

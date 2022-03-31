@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.databinding.ViewTestResultSectionBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.toDeviceUIState
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
 import de.rki.coronawarnapp.util.DeviceUIState
@@ -50,13 +51,24 @@ constructor(
     fun setTestResultSection(coronaTest: BaseCoronaTest?) {
         binding.apply {
             when (coronaTest?.type) {
-                BaseCoronaTest.Type.PCR ->
-                    testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
-                        .format(context.getString(R.string.ag_homescreen_card_pcr_title))
-                BaseCoronaTest.Type.RAPID_ANTIGEN ->
-                    testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
-                        .format(context.getString(R.string.submission_test_result_antigen_title))
-
+                BaseCoronaTest.Type.PCR -> {
+                    if (coronaTest is FamilyCoronaTest) {
+                        testResultSectionHeadline.text = context.getString(R.string.family_test_result_card_headline)
+                            .format(context.getString(R.string.ag_homescreen_card_pcr_title))
+                    } else {
+                        testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+                            .format(context.getString(R.string.ag_homescreen_card_pcr_title))
+                    }
+                }
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> {
+                    if (coronaTest is FamilyCoronaTest) {
+                        testResultSectionHeadline.text = context.getString(R.string.family_test_result_card_headline)
+                            .format(context.getString(R.string.submission_test_result_antigen_title))
+                    } else {
+                        testResultSectionHeadline.text = context.getString(R.string.test_result_card_headline)
+                            .format(context.getString(R.string.submission_test_result_antigen_title))
+                    }
+                }
                 else -> Unit
             }
 
