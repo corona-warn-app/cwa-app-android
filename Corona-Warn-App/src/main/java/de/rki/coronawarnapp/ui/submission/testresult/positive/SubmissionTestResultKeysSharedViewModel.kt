@@ -6,10 +6,9 @@ import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -17,23 +16,23 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
-    private val submissionRepository: SubmissionRepository,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
-    @Assisted val testType: Type,
     @Assisted private val testIdentifier: TestIdentifier,
+    private val coronaTestProvider: CoronaTestProvider,
     dispatcherProvider: DispatcherProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
-        Timber.v("init() coronaTestType=%s", testType)
+        Timber.v("init() coronaTestIdentifier=%s", testIdentifier)
     }
 
-    val uiState: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
-        .filterNotNull()
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
+    val uiState: LiveData<TestResultUIState> = coronaTestFlow
         .map { test ->
             TestResultUIState(coronaTest = test)
         }.asLiveData(context = Dispatchers.Default)
@@ -43,7 +42,7 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
     val routeToScreen = SingleLiveEvent<NavDirections?>()
 
     fun onTestOpened() = launch {
-        submissionRepository.setViewedTestResult(type = testType)
+        coronaTestProvider.setTestAsViewed(coronaTestFlow.first())
     }
 
     fun onShowDeleteTestDialog() {
@@ -57,6 +56,6 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultKeysSharedViewModel> {
-        fun create(testType: Type, testIdentifier: TestIdentifier): SubmissionTestResultKeysSharedViewModel
+        fun create(testIdentifier: TestIdentifier): SubmissionTestResultKeysSharedViewModel
     }
 }
