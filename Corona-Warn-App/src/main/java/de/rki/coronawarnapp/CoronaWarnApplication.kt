@@ -32,7 +32,6 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
-import de.rki.coronawarnapp.familytest.core.notification.FamilyTestResultAvailableNotificationService
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -98,7 +97,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @Inject lateinit var vaccinationStorage: VaccinationStorage
     @Inject lateinit var cclConfigurationUpdaterScheduler: CclConfigurationUpdateScheduler
-    @Inject lateinit var familyTestResultAvailableNotificationService: FamilyTestResultAvailableNotificationService
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -173,7 +171,6 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         dccStateCheckScheduler.setup()
         recycleBinCleanUpScheduler.setup()
         cclConfigurationUpdaterScheduler.setup()
-        familyTestResultAvailableNotificationService.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
