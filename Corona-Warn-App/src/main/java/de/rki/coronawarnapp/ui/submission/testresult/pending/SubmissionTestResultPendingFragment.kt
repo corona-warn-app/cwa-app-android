@@ -82,6 +82,9 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                         familyMemberName.text = result.coronaTest.personName
                         testResultPendingStepsContactDiaryResult.isVisible = false
                         consentStatus.isVisible = false
+                        submissionTestResultSpinner.isVisible = false
+                        submissionTestResultContent.isVisible = true
+                        buttonContainer.isVisible = true
                     }
 
                     is PersonalCoronaTest -> {
@@ -101,16 +104,14 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                                 getText(R.string.submission_test_result_pending_steps_waiting_rat_body)
                             )
                         }
-                        binding.apply {
-                            submissionTestResultSection.setTestResultSection(result.coronaTest)
-                            submissionTestResultSpinner.isInvisible = hasResult
-                            submissionTestResultContent.isInvisible = !hasResult
-                            buttonContainer.isInvisible = !hasResult
-                        }
+                        submissionTestResultSpinner.isInvisible = hasResult
+                        submissionTestResultContent.isInvisible = !hasResult
+                        buttonContainer.isInvisible = !hasResult
                         testResultPendingStepsContactDiaryResult.isVisible = true
                         consentStatus.isVisible = true
                     }
                 }
+                submissionTestResultSection.setTestResultSection(result.coronaTest)
             }
         }
 
