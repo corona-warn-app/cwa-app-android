@@ -31,7 +31,7 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
         Timber.v("init() coronaTestIdentifier=%s", testIdentifier)
     }
 
-    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier = testIdentifier)
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier = testIdentifier)
         .filterNotNull()
 
     val uiState: LiveData<TestResultUIState> = coronaTestFlow

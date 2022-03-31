@@ -36,7 +36,7 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         coEvery { coronaTestProvider.refreshTest(any()) } just Runs
-        every { coronaTestProvider.findTestById(any()) } returns testFlow
+        every { coronaTestProvider.getTestForIdentifier(any()) } returns testFlow
     }
 
     fun createInstance(scope: CoroutineScope = TestCoroutineScope(), forceInitialUpdate: Boolean = false) =

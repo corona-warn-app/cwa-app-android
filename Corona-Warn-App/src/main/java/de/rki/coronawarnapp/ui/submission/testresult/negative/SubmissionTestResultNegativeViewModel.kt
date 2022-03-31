@@ -31,7 +31,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<SubmissionTestResultNegativeNavigation>()
     val testResult = combine(
-        coronaTestProvider.findTestById(testIdentifier).filterNotNull(),
+        coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull(),
         certificateRepository.certificates
     ) { test, certs ->
         val cert = certs.firstOrNull {
@@ -53,7 +53,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     val certificate = combine(
-        coronaTestProvider.findTestById(testIdentifier).filterNotNull(),
+        coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull(),
         certificateRepository.certificates
     ) { test, certs ->
         val cert = certs.firstOrNull {

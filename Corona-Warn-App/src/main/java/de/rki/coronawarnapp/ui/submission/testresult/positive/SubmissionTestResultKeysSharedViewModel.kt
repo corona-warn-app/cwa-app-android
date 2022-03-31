@@ -31,7 +31,7 @@ class SubmissionTestResultKeysSharedViewModel @AssistedInject constructor(
         Timber.v("init() coronaTestIdentifier=%s", testIdentifier)
     }
 
-    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
     val uiState: LiveData<TestResultUIState> = coronaTestFlow
         .map { test ->
             TestResultUIState(coronaTest = test)

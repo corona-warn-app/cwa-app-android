@@ -59,7 +59,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
         coronaTestProvider.apply {
             coEvery { giveConsent(any()) } just Runs
-            every { findTestById(any()) } returns coronaTestFlow
+            every { getTestForIdentifier(any()) } returns coronaTestFlow
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)

@@ -31,7 +31,7 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
 
-    val testResult: LiveData<TestResultUIState> = coronaTestProvider.findTestById(testIdentifier)
+    val testResult: LiveData<TestResultUIState> = coronaTestProvider.getTestForIdentifier(testIdentifier)
         .filterNotNull()
         .map { test ->
             coronaTestProvider.setTestAsViewed(test)

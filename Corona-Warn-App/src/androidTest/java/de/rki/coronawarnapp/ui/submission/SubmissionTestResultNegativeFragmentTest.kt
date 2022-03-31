@@ -55,7 +55,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { coronaTestProvider.findTestById(any()) } returns flowOf()
+        every { coronaTestProvider.getTestForIdentifier(any()) } returns flowOf()
         every { certificateRepository.certificates } returns flowOf()
 
         viewModel = spyk(

@@ -45,7 +45,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { coronaTestProvider.findTestById(any()) } returns flowOf()
+        every { coronaTestProvider.getTestForIdentifier(any()) } returns flowOf()
         viewModel =
             spyk(
                 SubmissionTestResultNoConsentViewModel(

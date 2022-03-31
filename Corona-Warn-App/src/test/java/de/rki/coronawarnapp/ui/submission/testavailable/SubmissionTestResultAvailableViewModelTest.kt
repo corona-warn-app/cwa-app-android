@@ -22,6 +22,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -58,7 +59,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         coronaTestProvider.apply {
             coEvery { refreshTest(any()) } just Runs
             coEvery { setTestAsViewed(any()) } just Runs
-            every { findTestById(testIdentifier = any()) } returns coronaTestFlow
+            every { getTestForIdentifier(testIdentifier = any()) } returns coronaTestFlow
         }
     }
 
@@ -99,7 +100,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     }
 
     @Test
-    suspend fun `go to your consent page`() {
+    fun `go to your consent page`() = runBlockingTest {
         val viewModel = createViewModel()
 
         viewModel.goConsent()

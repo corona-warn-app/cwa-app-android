@@ -40,7 +40,7 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
     private val coronaTestProvider: CoronaTestProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
 
     init {
         Timber.v("init() testIdentifier=%s", testIdentifier)
@@ -97,19 +97,10 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
                             testIdentifier = testIdentifier
                         )
-                CoronaTestResult.RAT_NEGATIVE -> {
-                    if (isFamilyTest) {
-                        SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
-                                testIdentifier = testIdentifier
-                            )
-                    } else {
-                        SubmissionTestResultPendingFragmentDirections
-                            .actionSubmissionTestResultPendingFragmentToSubmissionNegativeAntigenTestResultFragment(
-                                testIdentifier = testIdentifier
-                            )
-                    }
-                }
+                CoronaTestResult.RAT_NEGATIVE -> SubmissionTestResultPendingFragmentDirections
+                    .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(
+                        testIdentifier = testIdentifier
+                    )
                 CoronaTestResult.PCR_OR_RAT_REDEEMED,
                 CoronaTestResult.PCR_INVALID,
                 CoronaTestResult.RAT_REDEEMED,

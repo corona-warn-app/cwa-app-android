@@ -107,7 +107,7 @@ class SubmissionDeletionWarningViewModel @AssistedInject constructor(
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> routeToScreen.postValue(
                     DuplicateWarningEvent.Direction(
                         SubmissionDeletionWarningFragmentDirections
-                            .actionSubmissionDeletionWarningFragmentToNegativeRatFragment(
+                            .actionSubmissionDeletionWarningFragmentToSubmissionTestResultNegativeFragment(
                                 testIdentifier = request.identifier
                             )
                     )

@@ -38,7 +38,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
     private val consentFlow = coronaTestFlow
         .map {
             if (it is PersonalCoronaTest) {

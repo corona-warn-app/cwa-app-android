@@ -43,7 +43,7 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModel @AssistedInject con
         Timber.v("init() coronaTestIdentifier=%s", testIdentifier)
     }
 
-    private val coronaTestFlow = coronaTestProvider.findTestById(testIdentifier).filterNotNull()
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
 
     val routeToScreen = SingleLiveEvent<NavDirections>()
 

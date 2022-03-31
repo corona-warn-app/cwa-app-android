@@ -236,7 +236,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
             is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionNegativeAntigenTestResultFragment(event.identifier)
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.identifier)
             )
             is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
