@@ -340,6 +340,7 @@ jobs:
           command: |
             curl -u $CIRCLE_API_ADMIN_TOKEN: \
             -d '{"branch":"main","parameters":{"mobile-os":"android"}}' \
+            -H 'content-type: application/json' \
             https://circleci.com/api/v2/project/github/corona-warn-app/cwa-app-automation/pipeline
 
   instrumentation_tests_device:
