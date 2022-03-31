@@ -26,4 +26,5 @@ object NotificationConstants {
     const val RAT_TEST_RESULT_AVAILABLE_NOTIFICATION_ID: NotificationId = 150
     const val TRACELOCATION_AUTOCHECKOUT_NOTIFICATION_ID: NotificationId = 1001
     const val DCC_STATE_CHECK_NOTIFICATION_ID: NotificationId = 2001
+    const val FAMILY_TEST_RESULT_AVAILABLE_NOTIFICATION_ID: NotificationId = 2_220_3
 }
