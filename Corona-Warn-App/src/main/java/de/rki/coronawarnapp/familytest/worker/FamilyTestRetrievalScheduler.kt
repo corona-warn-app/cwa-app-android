@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.familytest.worker
 
+import androidx.annotation.VisibleForTesting
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -27,6 +28,8 @@ import javax.inject.Singleton
 
 /**
  * Family test result retrieval
+ * every 2 hours in general
+ * every 15 min if there are RA tests that are less than 90min registered
  */
 @Singleton
 class FamilyTestRetrievalScheduler @Inject constructor(
@@ -92,7 +95,8 @@ class FamilyTestRetrievalScheduler @Inject constructor(
 
 private const val PERIODIC_WORK_NAME = "FamilyTestResultRetrieval_PeriodicWork"
 
-private fun FamilyCoronaTest.requiresFrequentPolling(now: Instant): Boolean {
+@VisibleForTesting
+internal fun FamilyCoronaTest.requiresFrequentPolling(now: Instant): Boolean {
     return type == BaseCoronaTest.Type.RAPID_ANTIGEN &&
         registeredAt.plus(frequentPollingDuration) > now
 }
