@@ -30,9 +30,8 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.submissionDeletionWarningFragment, true).build()
+    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.testRegistrationSelectionFragment, true).build()
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
-    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     private val viewModel: SubmissionDeletionWarningViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
@@ -102,7 +101,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 Timber.d("Navigating to %s", event)
                 when (event) {
                     DuplicateWarningEvent.Back -> popBackStack()
-                    is DuplicateWarningEvent.Direction -> doNavigate(event.direction)
+                    is DuplicateWarningEvent.Direction -> findNavController().navigate(event.direction, navOptions)
                 }
             }
         }
