@@ -6,20 +6,20 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
-import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultConsentGivenFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
+import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.spyk
+import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.After
 import org.junit.Before
@@ -38,13 +38,14 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var coronaTestProvider: CoronaTestProvider
     private val noConsentGivenFragmentArgs =
-        SubmissionTestResultConsentGivenFragmentArgs(testType = BaseCoronaTest.Type.PCR).toBundle()
+        SubmissionTestResultNoConsentFragmentArgs(testIdentifier = "").toBundle()
 
     private lateinit var viewModel: SubmissionTestResultNoConsentViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
+        every { coronaTestProvider.findTestById(any()) } returns flowOf()
         viewModel =
             spyk(
                 SubmissionTestResultNoConsentViewModel(
@@ -75,7 +76,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
                 coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
-                    every { type } returns BaseCoronaTest.Type.PCR
+                    every { identifier } returns ""
                 }
             )
         )
