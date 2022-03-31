@@ -1,12 +1,15 @@
 package de.rki.coronawarnapp.familytest.core.model
 
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.appconfig.CoronaTestConfig
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestDcc
 import de.rki.coronawarnapp.coronatest.type.CoronaTestUiState
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 
@@ -54,7 +57,39 @@ data class CoronaTest(
         POSITIVE,
         NEGATIVE,
         REDEEMED,
+        OUTDATED,
         RECYCLED,
+    }
+
+    fun getFormattedRegistrationDate(): String =
+        registeredAt.toUserTimeZone().toLocalDate().toShortDayFormat()
+
+    val testTakenAt: Instant
+        get() = (additionalInfo?.sampleCollectedAt ?: additionalInfo?.createdAt) as Instant
+
+    private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
+        testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
+
+    fun getUiState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
+        isRecycled -> State.RECYCLED
+        testResult == CoronaTestResult.RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
+        else -> when (testResult) {
+            CoronaTestResult.PCR_OR_RAT_PENDING,
+            CoronaTestResult.RAT_PENDING,
+            -> State.PENDING
+
+            CoronaTestResult.RAT_NEGATIVE,
+            CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
+
+            CoronaTestResult.RAT_POSITIVE,
+            CoronaTestResult.PCR_POSITIVE -> State.POSITIVE
+
+            CoronaTestResult.RAT_INVALID,
+            CoronaTestResult.PCR_INVALID -> State.INVALID
+
+            CoronaTestResult.PCR_OR_RAT_REDEEMED,
+            CoronaTestResult.RAT_REDEEMED -> State.REDEEMED
+        }
     }
 
     val state: State
@@ -139,7 +174,7 @@ internal fun CoronaTest.markViewed(): CoronaTest {
 }
 
 internal fun CoronaTest.markBadgeAsViewed(): CoronaTest {
-    return copy(uiState = uiState.copy(didShowBadge = true))
+    return copy(uiState = uiState.copy(didShowBadge = true, hasResultChangeBadge = false))
 }
 
 internal fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {

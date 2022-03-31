@@ -37,4 +37,40 @@
     <!-- XBUT: Test registration selection: confirm button -->
     <string name="family_consent_cofirm_button">"Einverstanden"</string>
 
+    <!-- Family tests -->
+    <!-- XTXT: Family tests: Cards: PCR title -->
+    <string name="family_tests_cards_pcr_title">"PCR-Test-Befund"</string>
+    <!-- XTXT: Family tests: Cards: Rapid title -->
+    <string name="family_tests_cards_rapid_title">"Schnelltest-Befund"</string>
+    <!-- XTXT: Family tests: Cards: PCR date -->
+    <string name="family_tests_cards_pcr_date">"Test hinzugefügt am %s"</string>
+    <!-- XTXT: Family tests: Cards: Rapid date -->
+    <string name="family_tests_cards_rapid_date">"Durchgeführt am %1$s"</string>
+    <!-- XTXT: Family tests: Cards: PCR pending body -->
+    <string name="family_tests_cards_pcr_pending_body">"Die Auswertung des PCR-Tests ist noch nicht abgeschlossen."</string>
+    <!-- XTXT: Family tests: Cards: Rapid pending body -->
+    <string name="family_tests_cards_rapid_pending_body">"Die Auswertung des Schnelltests ist noch nicht abgeschlossen."</string>
+    <!-- XTXT: Family tests: Cards: Invalid body -->
+    <string name="family_tests_cards_invalid_body">"Der Test konnte nicht ausgewertet werden."</string>
+    <!-- XTXT: Family tests: Cards: Redeemed body -->
+    <string name="family_tests_cards_redeemed_body">"Der Test liegt länger als 21 Tage zurück und ist daher nicht länger relevant."</string>
+
+    <!-- Family tests list fragment -->
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_title">"Tests von Familienmitgliedern"</string>
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_menu_remove_all">"Alle löschen"</string>
+    <!-- XHED: family tests list: Deletion alert window: header single test -->
+    <string name="family_tests_list_deletion_alert_header_single">"Wollen Sie Ihr Testergebnis löschen?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body single test -->
+    <string name="family_tests_list_deletion_alert_body_single">"Das Testergebnis wird in den Papierkorb verschoben. Den Papierkorb finden Sie auf der Status-Registerkarte unter den drei Punkten oben rechts. Dort können Sie es endgültig löschen oder wiederherstellen. Nach 30 Tagen wird das Testergebnis automatisch gelöscht."</string>
+    <!-- XHED: family tests list: Deletion alert window: header all tests -->
+    <string name="family_tests_list_deletion_alert_header_all">"Wollen Sie die Testergebnisse löschen?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body all tests -->
+    <string name="family_tests_list_deletion_alert_body_all">"Die Testergebnisse werden in den Papierkorb verschoben. Den Papierkorb finden Sie auf der „Mehr“-Kachel der Status-Registerkarte. Dort können Sie diese endgültig löschen oder wiederherstellen. Nach 30 Tagen werden die Testergebnisse automatisch gelöscht."</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button">"TestERGEBNIS löschen"</string>
+    <!-- XBUT: family tests list: Deletion alert window: cancel button -->
+    <string name="family_tests_list_deletion_alert_cancel_button">"Abbrechen"</string>
+
 </resources>
