@@ -10,12 +10,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestListBinding
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -54,6 +56,36 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
             is FamilyTestListEvent.ConfirmSwipeTest -> showRemovalConfirmation(event.familyCoronaTest, event.position)
             is FamilyTestListEvent.ConfirmRemoveTest -> showRemovalConfirmation(event.familyCoronaTest, null)
             is FamilyTestListEvent.ConfirmRemoveAllTests -> showRemovalConfirmation(null, null)
+            is FamilyTestListEvent.NavigateToDetails -> openDetailsScreen(event.familyCoronaTest)
+        }
+    }
+
+    private fun openDetailsScreen(familyCoronaTest: FamilyCoronaTest) {
+        val coronaTest = familyCoronaTest.coronaTest
+        when (coronaTest.state) {
+            CoronaTest.State.PENDING -> doNavigate(
+                FamilyTestListFragmentDirections.actionFamilyTestListFragmentToPendingTestResult(
+                    testIdentifier = coronaTest.identifier
+                )
+            )
+            CoronaTest.State.INVALID -> doNavigate(
+                FamilyTestListFragmentDirections.actionFamilyTestListFragmentToSubmissionTestResultInvalidFragment(
+                    testIdentifier = coronaTest.identifier
+                )
+            )
+            CoronaTest.State.POSITIVE -> doNavigate(
+                FamilyTestListFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
+                    testIdentifier = coronaTest.identifier
+                )
+            )
+            CoronaTest.State.NEGATIVE -> doNavigate(
+                FamilyTestListFragmentDirections.actionFamilyTestListFragmentToSubmissionTestResultNegativeFragment(
+                    testIdentifier = coronaTest.identifier
+                )
+            )
+            CoronaTest.State.REDEEMED,
+            CoronaTest.State.OUTDATED,
+            CoronaTest.State.RECYCLED -> Unit
         }
     }
 
