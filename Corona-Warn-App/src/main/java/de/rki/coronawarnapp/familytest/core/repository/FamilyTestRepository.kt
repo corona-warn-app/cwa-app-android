@@ -39,6 +39,12 @@ class FamilyTestRepository @Inject constructor(
         it.values.toSet()
     }
 
+    val familyTestsToRefresh: Flow<Set<FamilyCoronaTest>> = familyTests.map {
+        it.filterNot {
+            it.coronaTest.isPollingStopped()
+        }.toSet()
+    }
+
     suspend fun registerTest(
         qrCode: CoronaTestQRCode,
         personName: String
@@ -53,12 +59,13 @@ class FamilyTestRepository @Inject constructor(
 
     suspend fun refresh(): Map<TestIdentifier, Exception> {
         val exceptions = mutableMapOf<TestIdentifier, Exception>()
-        familyTests.first().filterNot {
-            it.coronaTest.isPollingStopped()
-        }.forEach { originalTest ->
+        val updates = mutableListOf<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>>()
+        familyTestsToRefresh.first().forEach { originalTest ->
             when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
                 is CoronaTestResultUpdate ->
-                    storage.update(originalTest.identifier) { test ->
+                    updates.add(Pair(
+                        originalTest.identifier
+                    ) { test ->
                         test.updateTestResult(
                             updateResult.coronaTestResult
                         ).let { updated ->
@@ -71,10 +78,11 @@ class FamilyTestRepository @Inject constructor(
                             } ?: updated
                         }
                     }
+                    )
                 is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
         }
-
+        storage.update(updates)
         return exceptions
     }
 

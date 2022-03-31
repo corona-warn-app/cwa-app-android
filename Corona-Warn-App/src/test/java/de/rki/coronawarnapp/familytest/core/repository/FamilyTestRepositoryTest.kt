@@ -66,6 +66,7 @@ class FamilyTestRepositoryTest : BaseTest() {
         coEvery { storage.familyTestRecycleBinMap } returns flowOf(mapOf())
         coEvery { storage.save(familyTest) } just Runs
         coEvery { storage.update(identifier, any()) } just Runs
+        coEvery { storage.update( any()) } just Runs
         coEvery { storage.delete(familyTest) } just Runs
     }
 
@@ -88,7 +89,7 @@ class FamilyTestRepositoryTest : BaseTest() {
             storage.familyTestMap
             storage.familyTestRecycleBinMap
             processor.pollServer(test)
-            storage.update(identifier, any())
+            storage.update(any())
         }
     }
 
