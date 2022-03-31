@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
     <!-- ####################################
                      Generics
     ###################################### -->
@@ -101,19 +100,19 @@
     <!-- XTXT: risk card - Low risk state - Days with low risk encounters -->
     <plurals name="risk_card_low_risk_encounter_days_body">
         <item quantity="one">"Ризики зараження з низьким ступенем ризику за %1$d день"</item>
-        <item quantity="other">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
+        <item quantity="other">"Ризики зараження з низьким ступенем ризику за %1$d дня"</item>
         <item quantity="zero">"Немає ризиків зараження"</item>
-        <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
-        <item quantity="few">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
+        <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d дні"</item>
+        <item quantity="few">"Ризики зараження з низьким ступенем ризику за %1$d дні"</item>
         <item quantity="many">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
         <item quantity="one">"Ризики зараження з низьким ступенем ризику за %1$d день"</item>
-        <item quantity="other">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
+        <item quantity="other">"Ризики зараження з низьким ступенем ризику за %1$d дня"</item>
         <item quantity="zero">"Немає ризиків зараження"</item>
-        <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d день"</item>
-        <item quantity="few">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
+        <item quantity="two">"Ризики зараження з низьким ступенем ризику за %1$d дні"</item>
+        <item quantity="few">"Ризики зараження з низьким ступенем ризику за %1$d дні"</item>
         <item quantity="many">"Ризики зараження з низьким ступенем ризику за %1$d днів"</item>
     </plurals>
     <!-- XTXT: risk card - Low risk state - Most recent date with low risk and single day of encounters -->
@@ -124,19 +123,19 @@
     <!-- XTXT: risk card - High risk state - Days with high risk encounters -->
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Ризики зараження за %1$d день з підвищеним ступенем ризику"</item>
-        <item quantity="other">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
+        <item quantity="other">"Ризики зараження за %1$d дня з підвищеним ступенем ризику"</item>
         <item quantity="zero">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
-        <item quantity="two">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
-        <item quantity="few">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
+        <item quantity="two">"Ризики зараження за %1$d дні з підвищеним ступенем ризику"</item>
+        <item quantity="few">"Ризики зараження за %1$d дні з підвищеним ступенем ризику"</item>
         <item quantity="many">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Ризики за %1$d день з підвищеним ступенем ризику"</item>
-        <item quantity="other">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
+        <item quantity="one">"Ризики зараження за %1$d день з підвищеним ступенем ризику"</item>
+        <item quantity="other">"Ризики зараження за %1$d дня з підвищеним ступенем ризику"</item>
         <item quantity="zero">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
-        <item quantity="two">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
-        <item quantity="few">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
+        <item quantity="two">"Ризики зараження за %1$d дні з підвищеним ступенем ризику"</item>
+        <item quantity="few">"Ризики зараження за %1$d дні з підвищеним ступенем ризику"</item>
         <item quantity="many">"Ризики зараження за %1$d днів з підвищеним ступенем ризику"</item>
     </plurals>
 
@@ -632,7 +631,7 @@
     <!-- XACT: settings(tracing) - describes illustration -->
     <string name="settings_tracing_bluetooth_illustration_description_inactive">"Особа вимкнула Bluetooth на своєму смартфоні, тому зустріч з двома іншими особами не реєструється."</string>
     <!-- XACT: settings(tracing) - describes illustration -->
-    <string name="settings_tracing_location_illustration_description_inactive" />
+    <string name="settings_tracing_location_illustration_description_inactive"/>
 
     <!-- XHED: settings(notification) - notification page title -->
     <string name="settings_notifications_title">"Сповіщення"</string>
@@ -1101,7 +1100,7 @@
     <!-- XHED: Subtitle text for test result card with consent given -->
     <string name="submission_test_result_consent_given_subtitle">"Дякуємо, що допомагаєте зупинити поширення коронавірусу."</string>
     <!-- YTXT: body text for test result card with consent given -->
-    <string name="submission_test_result_consent_given_body"><b>"Інші, з ким ви контактували, тепер отримають попередження."</b>" "<br /><br />"Тепер ви можете допомогти підвищити точність попереджень. Для цього на наступному кроці повідомте нам, коли у вас вперше з’явилися симптоми. Ви можете будь-коли скасувати цей крок."</string>
+    <string name="submission_test_result_consent_given_body"><b>"Інші, з ким ви контактували, тепер отримають попередження."</b>" "<br/><br/>"Тепер ви можете допомогти підвищити точність попереджень. Для цього на наступному кроці повідомте нам, коли у вас вперше з’явилися симптоми. Ви можете будь-коли скасувати цей крок."</string>
     <!-- XBUT: button text for the 'break up' button option on test result consent given page -->
     <string name="submission_test_result_consent_given_breakup_button">"Вийти"</string>
 
@@ -1135,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканувати QR-код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Отримайте свій результат тесту в застосунку та попередьте інших або запитайте сертифікат тесту на COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Отримайте свій результат тесту і результати для членів вашої родини в застосунку та попередьте інших або запитайте сертифікат тесту на COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Знайдіть центр тестування"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

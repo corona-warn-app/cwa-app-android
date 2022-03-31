@@ -12,11 +12,11 @@ class FamilyTestStorage @Inject constructor(
 ) {
 
     val familyTestMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = dao.getAllActive().map { list ->
-        list.associate { it.identifier to it.fromEntity() }
+        list.filterNotNull().associate { it.identifier to it.fromEntity() }
     }
 
     val familyTestRecycleBinMap: Flow<Map<TestIdentifier, FamilyCoronaTest>> = dao.getAllInRecycleBin().map { list ->
-        list.associate { it.identifier to it.fromEntity() }
+        list.filterNotNull().associate { it.identifier to it.fromEntity() }
     }
 
     suspend fun save(test: FamilyCoronaTest) {

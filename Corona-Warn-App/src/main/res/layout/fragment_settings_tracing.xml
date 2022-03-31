@@ -20,12 +20,13 @@
         invisible="@{loggedPeriod == null || settingsTracingState == null}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/CWAToolbar.Close"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +109,7 @@
                     app:layout_constraintStart_toStartOf="@id/guideline_start"
                     app:layout_constraintTop_toBottomOf="@id/switch_row">
 
-                     <ImageView
+                    <ImageView
                         android:id="@+id/flag_eu"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
@@ -127,7 +128,7 @@
                         app:layout_constraintStart_toEndOf="@id/flag_eu"
                         app:layout_constraintTop_toTopOf="@id/flag_eu" />
 
-                     <ImageView
+                    <ImageView
                         android:id="@+id/flag_ch"
                         android:layout_width="0dp"
                         android:layout_height="22dp"
@@ -258,23 +259,23 @@
                         android:accessibilityHeading="true"
                         android:focusable="true"
                         android:text="@string/settings_tracing_body_headline"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/settings_tracing_body"
                         style="@style/subtitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="27dp"
                         android:focusable="true"
                         android:text="@string/settings_tracing_body_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/settings_tracing_body_headline"
-                        app:layout_constraintVertical_bias="0.0"
-                        android:layout_marginTop="27dp" />
+                        app:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

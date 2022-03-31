@@ -7,21 +7,21 @@
         android:id="@+id/submission_dispatcher_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_dispatcher_accessibility_title"
         android:fillViewport="true"
         tools:context=".ui.submission.fragment.SubmissionDispatcherFragment">
 
-        <include
-            android:id="@+id/submission_dispatcher_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:focusable="true"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_dispatcher_headline}" />
+            app:title="@string/submission_dispatcher_headline" />
 
         <ScrollView
             android:id="@+id/submission_dispatcher_scroll"
@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_dispatcher_header">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

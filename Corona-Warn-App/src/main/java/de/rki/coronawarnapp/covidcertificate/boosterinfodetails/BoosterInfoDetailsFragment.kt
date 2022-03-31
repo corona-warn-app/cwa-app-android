@@ -54,7 +54,7 @@ class BoosterInfoDetailsFragment : Fragment(R.layout.fragment_booster_informatio
 
         viewModel.uiState.observe2(this) {
             with(binding) {
-                title.text = it.titleText
+                toolbar.title = it.titleText
                 subtitle.text = it.subtitleText
                 body.text = it.longText
                 faq.isVisible = it.faqUrl != null

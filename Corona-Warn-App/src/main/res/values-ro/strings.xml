@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Expuneri cu risc redus într-o zi"</item>
+        <item quantity="one">"Expuneri cu risc redus în %1$d zi"</item>
         <item quantity="other">"Expuneri cu risc redus în %1$d de zile"</item>
         <item quantity="zero">"Nicio expunere"</item>
         <item quantity="two">"Expuneri cu risc redus în %1$d de zile"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Expuneri cu risc crescut într-o zi"</item>
+        <item quantity="one">"Expuneri cu risc crescut în %1$d zi"</item>
         <item quantity="other">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="zero">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="two">"Expuneri cu risc crescut în %1$d de zile"</item>
@@ -1134,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți sau solicitați certificatul dvs. de test COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. și rezultatele pentru membrii familiei în aplicație și avertizați-i pe ceilalți sau solicitați certificatul dvs. de test COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Găsire centru de testare"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

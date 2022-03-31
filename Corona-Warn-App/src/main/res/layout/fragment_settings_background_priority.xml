@@ -12,27 +12,27 @@
         android:id="@+id/settings_background_priority_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:focusable="true">
 
-        <include
-            android:id="@+id/settings_background_priority_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:contentDescription="@string/settings_background_priority_title"
             android:focusable="true"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_background_priority_title}" />
+            app:title="@string/settings_background_priority_title" />
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             android:fillViewport="true"
             android:paddingBottom="@dimen/spacing_normal"
-            android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

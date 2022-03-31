@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tan_root"
+    android:background="@color/colorSurface"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/submission_tan_accessibility_title"
@@ -12,7 +13,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.BackArrow.Transparent"
+        style="@style/CWAMaterialToolbar.BackArrow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +48,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/trace_location_organizer_warn_tan_submit_button"
-        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"

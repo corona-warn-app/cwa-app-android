@@ -228,40 +228,33 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         val nestedGraph = navController.findNestedGraph(R.id.contact_diary_nav_graph)
 
         if (viewModel.isContactDiaryOnboardingDone.value == true) {
-            nestedGraph.startDestination = R.id.contactDiaryOverviewFragment
+            nestedGraph.setStartDestination(R.id.contactDiaryOverviewFragment)
             navController.navigate(
                 ContactDiaryOverviewFragmentDirections.actionContactDiaryOverviewFragmentToContactDiaryDayFragment(
                     selectedDay = LocalDate().toString()
                 )
             )
         } else {
-            nestedGraph.startDestination = R.id.contactDiaryOnboardingFragment
+            nestedGraph.setStartDestination(R.id.contactDiaryOnboardingFragment)
             navController.navigate("coronawarnapp://contact-journal/oboarding/?goToDay=true".toUri())
         }
     }
 
     private fun startContactDiaryNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
-        navController.findNestedGraph(R.id.contact_diary_nav_graph).startDestination = if (isOnboardingDone) {
-            R.id.contactDiaryOverviewFragment
-        } else {
-            R.id.contactDiaryOnboardingFragment
-        }
+        val startDestination =
+            if (isOnboardingDone) R.id.contactDiaryOverviewFragment else R.id.contactDiaryOnboardingFragment
+        navController.findNestedGraph(R.id.contact_diary_nav_graph).setStartDestination(startDestination)
     }
 
     private fun startTraceLocationNestedGraphDestination(navController: NavController, isOnboardingDone: Boolean) {
-        navController.findNestedGraph(R.id.trace_location_attendee_nav_graph).startDestination = if (isOnboardingDone) {
-            R.id.checkInsFragment
-        } else {
-            R.id.checkInOnboardingFragment
-        }
+        val startDestination = if (isOnboardingDone) R.id.checkInsFragment else R.id.checkInOnboardingFragment
+        navController.findNestedGraph(R.id.trace_location_attendee_nav_graph).setStartDestination(startDestination)
     }
 
     private fun startCertificatesNestedGraphDestination(navController: NavController, isConsentGiven: Boolean) {
-        navController.findNestedGraph(R.id.covid_certificates_graph).startDestination = if (isConsentGiven) {
-            R.id.personOverviewFragment
-        } else {
-            R.id.covidCertificateOnboardingFragment
-        }
+        val startDestination =
+            if (isConsentGiven) R.id.personOverviewFragment else R.id.covidCertificateOnboardingFragment
+        navController.findNestedGraph(R.id.covid_certificates_graph).setStartDestination(startDestination)
     }
 
     private fun navigateByIntentUri(intent: Intent?) {

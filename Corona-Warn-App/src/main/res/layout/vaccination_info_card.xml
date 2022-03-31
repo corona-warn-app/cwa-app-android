@@ -26,6 +26,7 @@
 
     <TextView
         android:id="@+id/subtitle"
+        style="@style/body2Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Letzte Impfung noch XX Tage gültig" />

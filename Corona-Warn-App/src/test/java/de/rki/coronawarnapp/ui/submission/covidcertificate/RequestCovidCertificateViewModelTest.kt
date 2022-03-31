@@ -63,7 +63,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         coronTestConsent: Boolean = true,
         allowTestReplacement: Boolean = false
     ) = RequestCovidCertificateViewModel(
-        testRegistrationRequest = coronaTestQRCode,
+        testRequest = coronaTestQRCode,
         coronaTestConsent = coronTestConsent,
         allowTestReplacement = allowTestReplacement,
         personName = "Lara",

@@ -16,18 +16,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="assertive"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_test_result_headline">
 
-        <include
-            android:id="@+id/submission_test_result_consent_given_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_test_result_consent_given_heading}" />
+            app:title="@string/submission_test_result_consent_given_heading" />
 
         <ScrollView
             android:id="@+id/scroll_view"
@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toTopOf="@id/submission_test_result_button_consent_given_continue"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/submission_test_result_consent_given_header">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

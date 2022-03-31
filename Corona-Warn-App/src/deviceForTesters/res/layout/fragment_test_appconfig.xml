@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="HardcodedText">
 
     <LinearLayout
@@ -82,6 +83,7 @@
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/fake_correct_devicetime_toggle"
+                app:thumbTint="@color/colorCertificateUserSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/spacing_tiny"

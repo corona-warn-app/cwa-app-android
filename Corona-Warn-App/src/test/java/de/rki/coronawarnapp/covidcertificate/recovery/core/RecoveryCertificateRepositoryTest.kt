@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -43,6 +44,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dscRepository: DscRepository
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
 
@@ -60,6 +62,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns nowUTC
         every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
+        every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
 
         valueSetsRepository.apply {
             every { latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
@@ -71,7 +74,17 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             coEvery { save(any()) } answers { testStorage = arg(0) }
         }
 
-        coEvery { dccStateChecker.checkState(any()) } returns flowOf(CwaCovidCertificate.State.Valid(Instant.EPOCH))
+        coEvery {
+            dccStateChecker.checkState(
+                any(),
+                any(),
+                any()
+            )
+        } returns flowOf(
+            CwaCovidCertificate.State.Valid(
+                Instant.EPOCH
+            )
+        )
     }
 
     private fun createInstance(scope: CoroutineScope) = RecoveryCertificateRepository(
@@ -83,6 +96,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         dccStateChecker = dccStateChecker,
         timeStamper = timeStamper,
         dscRepository = dscRepository,
+        dccWalletInfoRepository = dccWalletInfoRepository
     )
 
     @Test
@@ -126,7 +140,13 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         }
 
         coEvery { storage.load() } returns setOf(recycled, notRecycled)
-        coEvery { dccStateChecker.checkState(any()) } returns flowOf(CwaCovidCertificate.State.Valid(nowUTC))
+        coEvery {
+            dccStateChecker.checkState(
+                any(),
+                any(),
+                any()
+            )
+        } returns flowOf(CwaCovidCertificate.State.Valid(nowUTC))
 
         createInstance(this).run {
             certificates.first().also {

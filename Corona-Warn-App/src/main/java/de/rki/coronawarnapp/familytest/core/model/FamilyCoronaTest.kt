@@ -9,9 +9,7 @@ data class FamilyCoronaTest(
     @SerializedName("personName")
     val personName: String,
     @SerializedName("coronaTest")
-    val coronaTest: CoronaTest,
-    @SerializedName("hasResultChangedBadge")
-    val hasResultChangedBadge: Boolean = false,
+    val coronaTest: CoronaTest
 ) : BaseCoronaTest by coronaTest
 
 internal fun FamilyCoronaTest.markViewed(): FamilyCoronaTest {
@@ -34,14 +32,34 @@ internal fun FamilyCoronaTest.moveToRecycleBin(now: Instant): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.moveToRecycleBin(now))
 }
 
+internal fun CoronaTest.markAsNotified(notified: Boolean): CoronaTest {
+    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = notified))
+}
+
 internal fun FamilyCoronaTest.restore(): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.restore())
 }
 
 internal fun FamilyCoronaTest.updateTestResult(testResult: CoronaTestResult): FamilyCoronaTest {
     val updated = coronaTest.updateTestResult(testResult)
-    val testResultChanged = Pair(coronaTest.state, updated.state).hasChanged
-    return copy(coronaTest = updated, hasResultChangedBadge = testResultChanged)
+    val resultChanged = Pair(coronaTest.state, updated.state).hasChanged
+    return copy(
+        coronaTest = updated.copy(
+            uiState = updated.uiState.update(resultChanged)
+        )
+    )
+}
+
+private fun CoronaTest.UiState.update(
+    resultChanged: Boolean
+) = when {
+    // New result change should also trigger notification -> reset notification flag
+    resultChanged -> copy(
+        hasResultChangeBadge = resultChanged,
+        isResultAvailableNotificationSent = false
+    )
+    // No change -> keep notification flag as is
+    else -> copy(hasResultChangeBadge = resultChanged)
 }
 
 internal fun FamilyCoronaTest.updateLabId(labId: String): FamilyCoronaTest {
@@ -52,7 +70,7 @@ internal fun FamilyCoronaTest.updateSampleCollectedAt(sampleCollectedAt: Instant
     return copy(coronaTest = coronaTest.updateSampleCollectedAt(sampleCollectedAt))
 }
 
-private val Pair<CoronaTest.State, CoronaTest.State>.hasChanged: Boolean
+val Pair<CoronaTest.State, CoronaTest.State>.hasChanged: Boolean
     get() = this.first != this.second && this.second in setOf(
         CoronaTest.State.NEGATIVE,
         CoronaTest.State.POSITIVE,

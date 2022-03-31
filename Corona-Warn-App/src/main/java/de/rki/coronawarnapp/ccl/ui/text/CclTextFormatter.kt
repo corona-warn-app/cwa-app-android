@@ -89,9 +89,7 @@ class CclTextFormatter @Inject constructor(
         return text.cleanText().format(*parameters.convertValues(locale))
     }
 
-    private fun String.cleanText() = this
-        .replace("%@", "%s")
-        .replace("\\n", "\n")
+    private fun String.cleanText() = this.replace("%@", "%s")
 
     private fun PluralText.quantity(): Int = quantity ?: quantityFromIndex()
 
