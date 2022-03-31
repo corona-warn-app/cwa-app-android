@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.familytest.ui.testlist.items
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FamilyRapidTestCardInvalidBinding
@@ -34,6 +35,7 @@ class FamilyRapidTestInvalidCard(parent: ViewGroup) :
     ) -> Unit = { item, payloads ->
         latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         title.text = latestItem!!.familyCoronaTest.personName
+        notificationBadge.isVisible = latestItem!!.familyCoronaTest.hasBadge
         itemView.setOnClickListener { latestItem!!.onClickAction(item) }
     }
 

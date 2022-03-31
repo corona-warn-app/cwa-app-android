@@ -15,8 +15,8 @@
         android:layout_marginEnd="@dimen/spacing_small"
         android:focusable="false"
         app:layout_constrainedWidth="true"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Mohamed Bernd Alexandru Juraj Chilja David Lukas" />
@@ -82,11 +82,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/card_padding"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="@dimen/spacing_small"
         android:layout_marginBottom="32dp"
         android:focusable="false"
         android:text="@string/family_tests_cards_pcr_date"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status" />
 
