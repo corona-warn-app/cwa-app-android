@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestListBinding
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
@@ -34,10 +35,12 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
         setupMenu(binding.toolbar)
         bindRecycler()
         binding.refreshLayout.setOnRefreshListener { viewModel.onRefreshTests() }
-        binding.toolbar.setOnClickListener { viewModel.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
         viewModel.familyTests.observe2(this) { tests -> updateViews(tests) }
         viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
+        viewModel.error.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.refreshComplete.observe2(this) { binding.refreshLayout.isRefreshing = false }
+        viewModel.onRefreshTests()
     }
 
     override fun onStop() {
@@ -83,10 +86,13 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
     private fun showRemovalConfirmation(familyCoronaTest: FamilyCoronaTest?, position: Int?) =
         MaterialAlertDialogBuilder(requireContext()).apply {
             setTitle(
-                if (familyCoronaTest == null) R.string.family_tests_list_deletion_alert_header
-                else R.string.family_tests_list_deletion_alert_header
+                if (familyCoronaTest == null) R.string.family_tests_list_deletion_alert_header_all
+                else R.string.family_tests_list_deletion_alert_header_single
             )
-            setMessage(R.string.family_tests_list_deletion_alert_body)
+            setMessage(
+                if (familyCoronaTest == null) R.string.family_tests_list_deletion_alert_body_all
+                else R.string.family_tests_list_deletion_alert_body_single
+            )
             setPositiveButton(R.string.family_tests_list_deletion_alert_delete_button) { _, _ ->
                 viewModel.onRemoveTestConfirmed(familyCoronaTest)
             }

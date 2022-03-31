@@ -43,6 +43,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val events = SingleLiveEvent<FamilyTestListEvent>()
+    val error = SingleLiveEvent<Exception>()
     val refreshComplete = SingleLiveEvent<Unit>()
 
     fun onRemoveAllTests() {
@@ -55,7 +56,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     fun markAllTestAsViewed() {
         launch(appScope) {
-            familyTestRepository.familyTests.first().map { familyTest ->
+            familyTestRepository.familyTests.first().forEach { familyTest ->
                 familyTestRepository.markBadgeAsViewed(familyTest.identifier)
             }
         }
@@ -64,7 +65,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
         launch(appScope) {
             if (test == null) {
-                familyTestRepository.familyTests.first().map { familyTest ->
+                familyTestRepository.familyTests.first().forEach { familyTest ->
                     familyTestRepository.moveTestToRecycleBin(familyTest.identifier)
                 }
             } else {
@@ -75,8 +76,11 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     fun onRefreshTests() {
         launch(appScope) {
-            familyTestRepository.refresh().also {
+            val result = familyTestRepository.refresh().also {
                 refreshComplete.postValue(null)
+            }
+            if (result.isNotEmpty()) {
+                error.postValue(result.values.first())
             }
         }
     }
@@ -102,7 +106,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
     }.asLiveData(context = dispatcherProvider.Default)
 
     private fun FamilyCoronaTest.toPCRTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
             State.PENDING -> FamilyPcrTestPendingCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {},
@@ -148,7 +152,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
         }
 
     private fun FamilyCoronaTest.toRapidTestCardItem(coronaTestConfig: CoronaTestConfig): FamilyTestListItem =
-        when (this.coronaTest.getState(timeStamper.nowUTC, coronaTestConfig)) {
+        when (this.coronaTest.getUiState(timeStamper.nowUTC, coronaTestConfig)) {
             State.PENDING -> FamilyRapidTestPendingCard.Item(
                 familyCoronaTest = this,
                 onClickAction = {},

@@ -280,7 +280,7 @@ class FamilyTestListFragmentTest : BaseUITest() {
         every { test.type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         every { test.getFormattedRegistrationDate() } returns "26.03.21"
         every { test.testResult } returns CoronaTestResult.RAT_NEGATIVE
-        every { test.getState(any(), any()) } returns CoronaTest.State.OUTDATED
+        every { test.getUiState(any(), any()) } returns CoronaTest.State.OUTDATED
 
         every { it.coronaTest } returns test
         every { it.personName } returns "Marianna"

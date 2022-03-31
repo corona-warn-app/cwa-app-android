@@ -70,7 +70,7 @@ data class CoronaTest(
     private fun isOutdated(nowUTC: Instant, testConfig: CoronaTestConfig): Boolean =
         testTakenAt.plus(testConfig.ratParameters.hoursToDeemTestOutdated).isBefore(nowUTC)
 
-    fun getState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
+    fun getUiState(nowUTC: Instant, testConfig: CoronaTestConfig) = when {
         isRecycled -> State.RECYCLED
         testResult == CoronaTestResult.RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
         else -> when (testResult) {
