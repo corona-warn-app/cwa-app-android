@@ -39,7 +39,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultAvailableViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testIdentifier)
         }
     )
 

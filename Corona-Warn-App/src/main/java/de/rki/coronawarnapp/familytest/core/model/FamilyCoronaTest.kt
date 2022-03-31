@@ -32,6 +32,10 @@ internal fun FamilyCoronaTest.moveToRecycleBin(now: Instant): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.moveToRecycleBin(now))
 }
 
+internal fun CoronaTest.markAsNotified(notified: Boolean): CoronaTest {
+    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = notified))
+}
+
 internal fun FamilyCoronaTest.restore(): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.restore())
 }

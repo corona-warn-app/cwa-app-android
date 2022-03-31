@@ -242,29 +242,25 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             is CoronaTestResult.TestPending ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier,
                     forceTestResultUpdate = true
                 )
             is CoronaTestResult.TestInvalid ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultInvalidFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.TestNegative ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultNegativeFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.TestPositive ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.WarnOthers ->
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                        testType = scannerResult.test.type
+                        testIdentifier = scannerResult.test.identifier
                     )
         }
             ?.let { doNavigate(it) }

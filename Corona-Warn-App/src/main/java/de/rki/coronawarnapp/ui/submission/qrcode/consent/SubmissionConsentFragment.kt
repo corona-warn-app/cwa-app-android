@@ -91,12 +91,13 @@ class SubmissionConsentFragment : Fragment(R.layout.fragment_submission_consent)
                 }
                 is State.TestRegistered -> when {
                     state.test.isPositive ->
-                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                            testIdentifier = state.test.identifier
+                        )
                             .run { findNavController().navigate(this, navOptions) }
 
                     else ->
                         NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                            testType = state.test.type,
                             testIdentifier = state.test.identifier
                         )
                             .run { findNavController().navigate(this, navOptions) }

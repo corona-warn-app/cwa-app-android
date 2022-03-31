@@ -36,7 +36,6 @@ open class TestResultAvailableNotificationService(
             setComponentName(MainActivity::class.java)
             setArguments(
                 SubmissionTestResultPendingFragmentArgs(
-                    testType = test.type,
                     testIdentifier = test.identifier
                 ).toBundle()
             )

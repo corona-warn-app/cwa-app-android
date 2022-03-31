@@ -52,8 +52,7 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionDeletionWarningFragment(
                                 testRegistrationRequest = it.testRegistrationRequest
-                            ),
-                        navOptions
+                            )
                     )
                 }
                 is TestRegistrationSelectionNavigationEvents.NavigateToFamily -> {

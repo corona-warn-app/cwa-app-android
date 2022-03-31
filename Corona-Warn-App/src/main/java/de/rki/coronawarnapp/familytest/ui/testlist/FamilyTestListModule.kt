@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.submission.ui.testresults.negative
+package de.rki.coronawarnapp.familytest.ui.testlist
 
 import dagger.Binds
 import dagger.Module
@@ -8,11 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class RATResultNegativeModule {
+abstract class FamilyTestListModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(RATResultNegativeViewModel::class)
-    abstract fun ratResultNegativeFragment(
-        factory: RATResultNegativeViewModel.Factory
+    @CWAViewModelKey(FamilyTestListViewModel::class)
+    abstract fun familyTestListFragment(
+        factory: FamilyTestListViewModel.Factory
     ): CWAViewModelFactory<out CWAViewModel>
 }
