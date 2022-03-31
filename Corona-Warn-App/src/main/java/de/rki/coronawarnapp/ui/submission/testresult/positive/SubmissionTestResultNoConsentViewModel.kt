@@ -25,7 +25,6 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    private val recycledTestProvider: RecycledCoronaTestsProvider,
     @Assisted private val testIdentifier: TestIdentifier,
     private val coronaTestProvider: CoronaTestProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
@@ -46,10 +45,6 @@ class SubmissionTestResultNoConsentViewModel @AssistedInject constructor(
         analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.TEST_RESULT, coronaTestFlow.first().type)
         coronaTestProvider.setTestAsViewed(coronaTestFlow.first())
         testResultAvailableNotificationService.cancelTestResultAvailableNotification()
-    }
-
-    fun deleteCoronaTest(identifier: TestIdentifier) = launch {
-        recycledTestProvider.deleteCoronaTest(identifier)
     }
 
     @AssistedFactory

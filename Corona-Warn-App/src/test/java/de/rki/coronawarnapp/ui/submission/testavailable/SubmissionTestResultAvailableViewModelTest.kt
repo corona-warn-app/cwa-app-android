@@ -132,7 +132,6 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
         viewModel.proceed()
         viewModel.routeToScreen.value shouldBe SubmissionTestResultAvailableFragmentDirections
             .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
-                coronaTestFlow.first().type,
                 coronaTestFlow.first().identifier
             )
     }

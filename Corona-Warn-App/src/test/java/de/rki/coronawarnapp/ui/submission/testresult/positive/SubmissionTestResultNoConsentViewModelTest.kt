@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.testresult.positive
 
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
@@ -20,6 +21,7 @@ internal class SubmissionTestResultNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
+    @MockK lateinit var coronaTestProvider: CoronaTestProvider
 
     @BeforeEach
     fun setUp() {
@@ -28,10 +30,10 @@ internal class SubmissionTestResultNoConsentViewModelTest : BaseTest() {
 
     private fun createInstance(testType: Type) = SubmissionTestResultNoConsentViewModel(
         TestDispatcherProvider(),
-        submissionRepository,
-        testResultAvailableNotificationService,
-        analyticsKeySubmissionCollector,
-        testType
+        testResultAvailableNotificationService = testResultAvailableNotificationService,
+        analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        coronaTestProvider = coronaTestProvider,
+        testIdentifier = ""
     )
 
     @Test
