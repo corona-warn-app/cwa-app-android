@@ -42,7 +42,6 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
         viewModel.events.observe2(this) { it?.let { onNavigationEvent(it) } }
         viewModel.error.observe2(this) { it.toErrorDialogBuilder(requireContext()).show() }
         viewModel.refreshComplete.observe2(this) { binding.refreshLayout.isRefreshing = false }
-        viewModel.onRefreshTests()
     }
 
     override fun onStop() {
