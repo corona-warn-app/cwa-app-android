@@ -6,7 +6,7 @@ import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -25,7 +25,7 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
     private val submissionRepository: SubmissionRepository,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
     private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
-    @Assisted private val testType: CoronaTest.Type,
+    @Assisted private val testType: BaseCoronaTest.Type,
     @Assisted private val testIdentifier: TestIdentifier
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
@@ -54,6 +54,6 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultInvalidViewModel> {
-        fun create(testType: CoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultInvalidViewModel
+        fun create(testType: BaseCoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultInvalidViewModel
     }
 }

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -89,8 +91,13 @@ class ValidationStartFragment : Fragment(R.layout.validation_start_fragment), Au
 
     private fun ValidationStartFragmentBinding.onNavEvent(event: StartValidationNavEvent?) {
         when (event) {
-            NavigateToValidationInfoFragment -> doNavigate(
-                ValidationStartFragmentDirections.actionValidationStartFragmentToValidationTimeInfoFragment()
+            NavigateToValidationInfoFragment -> findNavController().navigate(
+                R.id.action_validationStartFragment_to_validationTimeInfoFragment,
+                null,
+                null,
+                FragmentNavigatorExtras(
+                    binding.dateInfoIcon to binding.dateInfoIcon.transitionName
+                )
             )
             NavigateToPrivacyFragment -> doNavigate(
                 ValidationStartFragmentDirections.actionValidationStartFragmentToPrivacyFragment()

@@ -6,7 +6,6 @@ import androidx.room.Database
 import androidx.room.Delete
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
@@ -131,13 +130,6 @@ data class AnalyticsExposureWindowEntity(
 @Entity
 data class AnalyticsScanInstanceEntity(
     @PrimaryKey(autoGenerate = true) val id: Long? = null,
-    @ForeignKey(
-        entity = AnalyticsExposureWindowEntity::class,
-        parentColumns = [PARENT_COLUMN],
-        childColumns = [CHILD_COLUMN],
-        onDelete = ForeignKey.CASCADE,
-        deferred = true
-    )
     val fkSha256Hash: String,
     val minAttenuation: Int,
     val typicalAttenuation: Int,

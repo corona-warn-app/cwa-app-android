@@ -4,9 +4,9 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.playbook.Playbook
@@ -77,7 +77,7 @@ class SubmissionTaskTest : BaseTest() {
 
     private val coronaTestsFlow = MutableStateFlow(
         setOf(
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
@@ -294,7 +294,7 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `task throws if no registration token is available`() = runBlockingTest {
         coronaTestsFlow.value = setOf(
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns false
                 every { isSubmitted } returns false
@@ -389,7 +389,7 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `PPA is collected for PCR tests`() = runBlockingTest {
         coronaTestsFlow.value = setOf(
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { type } returns PCR
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns true
@@ -411,7 +411,7 @@ class SubmissionTaskTest : BaseTest() {
     @Test
     fun `PPA is collected for RAT tests`() = runBlockingTest {
         coronaTestsFlow.value = setOf(
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { type } returns RAPID_ANTIGEN
                 every { isAdvancedConsentGiven } returns true
                 every { isSubmissionAllowed } returns true

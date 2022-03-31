@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
@@ -44,17 +44,17 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
         }
 
         binding.apply {
 
             when (navArgs.testType) {
-                CoronaTest.Type.PCR -> {
+                BaseCoronaTest.Type.PCR -> {
                     testResultInvalidStepsPcrAdded.isVisible = true
                     testResultInvalidStepsRatAdded.isVisible = false
                 }
-                CoronaTest.Type.RAPID_ANTIGEN -> {
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> {
                     testResultInvalidStepsPcrAdded.isVisible = false
                     testResultInvalidStepsRatAdded.isVisible = true
                 }

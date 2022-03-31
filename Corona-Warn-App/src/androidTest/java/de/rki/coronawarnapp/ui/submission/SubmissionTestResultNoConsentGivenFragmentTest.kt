@@ -5,7 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -35,9 +36,9 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var testType: BaseCoronaTest.Type
     private val noConsentGivenFragmentArgs =
-        SubmissionTestResultConsentGivenFragmentArgs(testType = CoronaTest.Type.PCR).toBundle()
+        SubmissionTestResultConsentGivenFragmentArgs(testType = BaseCoronaTest.Type.PCR).toBundle()
 
     private lateinit var viewModel: SubmissionTestResultNoConsentViewModel
 
@@ -56,7 +57,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
             )
         setupMockViewModel(
             object : SubmissionTestResultNoConsentViewModel.Factory {
-                override fun create(testType: CoronaTest.Type): SubmissionTestResultNoConsentViewModel = viewModel
+                override fun create(testType: BaseCoronaTest.Type): SubmissionTestResultNoConsentViewModel = viewModel
             }
         )
     }
@@ -71,10 +72,10 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
     fun capture_fragment() {
         every { viewModel.uiState } returns MutableLiveData(
             TestResultUIState(
-                coronaTest = mockk<CoronaTest>().apply {
+                coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
-                    every { type } returns CoronaTest.Type.PCR
+                    every { type } returns BaseCoronaTest.Type.PCR
                 }
             )
         )

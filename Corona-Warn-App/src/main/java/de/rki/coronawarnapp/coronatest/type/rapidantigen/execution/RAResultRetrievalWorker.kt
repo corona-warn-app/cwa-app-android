@@ -8,7 +8,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.latestRAT
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.PHASE1
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler.RatPollingMode.PHASE2
 import de.rki.coronawarnapp.util.TimeStamper
@@ -47,7 +47,7 @@ class RAResultRetrievalWorker @AssistedInject constructor(
                 return Result.success()
             }
             Timber.tag(TAG).v("$id Running RA test result refresh.")
-            coronaTestRepository.refresh(CoronaTest.Type.RAPID_ANTIGEN)
+            coronaTestRepository.refresh(BaseCoronaTest.Type.RAPID_ANTIGEN)
             Timber.tag(TAG).d("$id: RA test result refreshed.")
 
             val nowUTC = timeStamper.nowUTC

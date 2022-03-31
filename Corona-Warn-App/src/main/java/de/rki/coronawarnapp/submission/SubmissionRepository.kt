@@ -4,7 +4,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -28,22 +28,22 @@ class SubmissionRepository @Inject constructor(
 ) {
 
     val pcrTest: Flow<PCRCoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
-        tests.singleOrNull { it.type == CoronaTest.Type.PCR } as? PCRCoronaTest
+        tests.singleOrNull { it.type == BaseCoronaTest.Type.PCR } as? PCRCoronaTest
     }
 
     val raTest: Flow<RACoronaTest?> = coronaTestRepository.coronaTests.map { tests ->
-        tests.singleOrNull { it.type == CoronaTest.Type.RAPID_ANTIGEN } as? RACoronaTest
+        tests.singleOrNull { it.type == BaseCoronaTest.Type.RAPID_ANTIGEN } as? RACoronaTest
     }
 
-    fun testForType(type: CoronaTest.Type) = when (type) {
-        CoronaTest.Type.PCR -> pcrTest
-        CoronaTest.Type.RAPID_ANTIGEN -> raTest
+    fun testForType(type: BaseCoronaTest.Type) = when (type) {
+        BaseCoronaTest.Type.PCR -> pcrTest
+        BaseCoronaTest.Type.RAPID_ANTIGEN -> raTest
     }
 
     val currentSymptoms = submissionSettings.symptoms
 
     // to be used by new submission flow screens
-    suspend fun giveConsentToSubmission(type: CoronaTest.Type) {
+    suspend fun giveConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("giveConsentToSubmission(type=%s)", type)
         withContext(scope.coroutineContext) {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
@@ -54,7 +54,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     // to be used by new submission flow screens
-    suspend fun revokeConsentToSubmission(type: CoronaTest.Type) {
+    suspend fun revokeConsentToSubmission(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("revokeConsentToSubmission(type=%s)", type)
         withContext(scope.coroutineContext) {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
@@ -65,7 +65,7 @@ class SubmissionRepository @Inject constructor(
     }
 
     // to be set to true once the user has opened and viewed their test result
-    suspend fun setViewedTestResult(type: CoronaTest.Type) {
+    suspend fun setViewedTestResult(type: BaseCoronaTest.Type) {
         Timber.tag(TAG).v("setViewedTestResult(type=%s)", type)
         withContext(scope.coroutineContext) {
             val test = coronaTestRepository.coronaTests.first().singleOrNull { it.type == type }
@@ -75,7 +75,7 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    suspend fun refreshTest(type: CoronaTest.Type? = null) {
+    suspend fun refreshTest(type: BaseCoronaTest.Type? = null) {
         Timber.tag(TAG).v("refreshTest(type=%s)", type)
 
         withContext(scope.coroutineContext) {
@@ -83,7 +83,7 @@ class SubmissionRepository @Inject constructor(
         }
     }
 
-    suspend fun registerTest(request: TestRegistrationRequest): CoronaTest {
+    suspend fun registerTest(request: TestRegistrationRequest): BaseCoronaTest {
         Timber.tag(TAG).v("registerTest(request=%s)", request)
         val coronaTest = coronaTestRepository.registerTest(request)
         Timber.d("Registered test %s -> %s", request, coronaTest)
@@ -93,7 +93,7 @@ class SubmissionRepository @Inject constructor(
     /**
      * Attempt to register a new test, but if it is already redeemed, keep the previous test.
      */
-    suspend fun tryReplaceTest(request: TestRegistrationRequest): CoronaTest {
+    suspend fun tryReplaceTest(request: TestRegistrationRequest): BaseCoronaTest {
         Timber.tag(TAG).v("tryReplaceTest(request=%s)", request)
 
         val coronaTest = coronaTestRepository.registerTest(

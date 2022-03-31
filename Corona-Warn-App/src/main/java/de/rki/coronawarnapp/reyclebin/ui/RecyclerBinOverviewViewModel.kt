@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.reyclebin.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -11,10 +11,10 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertifi
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.reyclebin.coronatest.request.toRestoreRecycledTestRequest
 import de.rki.coronawarnapp.reyclebin.covidcertificate.RecycledCertificatesProvider
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
-import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.submission.SubmissionRepository
@@ -25,7 +25,6 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
 class RecyclerBinOverviewViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
@@ -54,7 +53,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         val recyclerBinItems = mapNotNull {
             when (it) {
                 is CwaCovidCertificate -> mapCertToRecyclerBinItem(it)
-                is CoronaTest -> mapTestToRecyclerBinItem(it)
+                is BaseCoronaTest -> mapTestToRecyclerBinItem(it)
                 else -> throw IllegalArgumentException("Can't convert $it to RecyclerBinItem")
             }
         }
@@ -65,7 +64,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         }
     }
 
-    private fun mapTestToRecyclerBinItem(recycledTest: CoronaTest): RecyclerBinItem = CoronaTestCard.Item(
+    private fun mapTestToRecyclerBinItem(recycledTest: BaseCoronaTest): RecyclerBinItem = CoronaTestCard.Item(
         test = recycledTest,
         onRemove = { test, position ->
             currentEvent.postValue(RecyclerBinEvent.RemoveTest(test, position))
@@ -118,7 +117,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         val containerIds = recycledCertificates.first().map { it.containerId }
         recycledCertificatesProvider.deleteAllCertificate(containerIds)
 
-        val testsIdentifiers = recycledCoronaTestsProvider.tests.first().map { it.identifier }
+        val testsIdentifiers = recycledTests.first().map { it.identifier }
         recycledCoronaTestsProvider.deleteAllCoronaTest(testsIdentifiers)
     }
 
@@ -132,12 +131,12 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         recycledCertificatesProvider.restoreCertificate(item.containerId)
     }
 
-    fun onRemoveTest(coronaTest: CoronaTest) = launch {
+    fun onRemoveTest(coronaTest: BaseCoronaTest) = launch {
         Timber.d("onRemoveTest(item=%s)", coronaTest.identifier)
         recycledCoronaTestsProvider.deleteCoronaTest(coronaTest.identifier)
     }
 
-    fun onRestoreTestConfirmation(coronaTest: CoronaTest) = launch {
+    fun onRestoreTestConfirmation(coronaTest: BaseCoronaTest) = launch {
         Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
         val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
         when {

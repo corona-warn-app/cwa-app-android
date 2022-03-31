@@ -9,7 +9,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -20,10 +21,12 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertif
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.OverviewSubHeaderItem
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecoveryCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.RecyclerBinItem
-import de.rki.coronawarnapp.reyclebin.ui.adapter.CoronaTestCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.TestCertificateCard
 import de.rki.coronawarnapp.reyclebin.ui.adapter.VaccinationCertificateCard
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUserTz
@@ -44,6 +47,32 @@ import testhelpers.takeScreenshot
 class RecyclerBinOverviewFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: RecyclerBinOverviewViewModel
+
+    private val recycledFamilyRatTest = FamilyCoronaTest(
+        coronaTest = CoronaTest(
+            type = BaseCoronaTest.Type.RAPID_ANTIGEN,
+            identifier = "RAT-1f",
+            registeredAt = Instant.parse("2021-06-01T11:35:00.000Z"),
+            registrationToken = "RAT_registrationToken-1f",
+            testResult = CoronaTestResult.RAT_INVALID,
+            qrCodeHash = "RAT_qrCodeHash-1f",
+            recycledAt = Instant.parse("2021-11-12T15:21:00.000Z"),
+        ),
+        personName = "Lara"
+    )
+
+    private val recycledFamilyPcrTest = FamilyCoronaTest(
+        coronaTest = CoronaTest(
+            type = BaseCoronaTest.Type.PCR,
+            identifier = "PCR-1f",
+            registeredAt = Instant.parse("2021-06-01T11:35:00.000Z"),
+            registrationToken = "PCR_registrationToken-1f",
+            testResult = CoronaTestResult.PCR_INVALID,
+            qrCodeHash = "PCR_qrCodeHash-1f",
+            recycledAt = Instant.parse("2021-11-12T15:21:00.000Z"),
+        ),
+        personName = "Lara"
+    )
 
     @Before
     fun setUp() {
@@ -79,6 +108,23 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
         return MutableLiveData(
             mutableListOf<RecyclerBinItem>().apply {
                 add(OverviewSubHeaderItem)
+
+                add(
+                    CoronaTestCard.Item(
+                        test = recycledFamilyRatTest,
+                        onRemove = { _, _ -> },
+                        onRestore = {}
+                    )
+                )
+
+                add(
+                    CoronaTestCard.Item(
+                        test = recycledFamilyPcrTest,
+                        onRemove = { _, _ -> },
+                        onRestore = {}
+                    )
+                )
+
                 add(
                     TestCertificateCard.Item(
                         certificate = mockTestCertificate(),
@@ -149,13 +195,15 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
-    private fun mockRATest(): CoronaTest =
+    private fun mockRATest(): BaseCoronaTest =
         mockk<RACoronaTest> {
+            every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
             every { testTakenAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
             every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
         }
 
     private fun mockPCRTest() = mockk<PCRCoronaTest> {
+        every { type } returns BaseCoronaTest.Type.PCR
         every { registeredAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
         every { recycledAt } returns Instant.parse("2021-11-12T15:21:00.000Z")
     }

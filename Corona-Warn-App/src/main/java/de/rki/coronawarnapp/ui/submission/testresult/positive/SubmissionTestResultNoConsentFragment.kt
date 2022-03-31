@@ -56,9 +56,7 @@ class SubmissionTestResultNoConsentFragment :
         }
 
         binding.apply {
-            submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
-                showCancelDialog()
-            }
+            binding.toolbar.setNavigationOnClickListener { showCancelDialog() }
             submissionTestResultPositiveNoConsentButtonAbort.setOnClickListener {
                 showCancelDialog()
             }

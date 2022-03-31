@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.DigitalCovidCertificateUIModule
 import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
 import de.rki.coronawarnapp.dccreissuance.DccReissuanceUiModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingUIModule
+import de.rki.coronawarnapp.familytest.ui.FamilyTestUiModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
@@ -54,7 +55,8 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         DigitalCovidCertificateUIModule::class,
         RecyclerBinUIModule::class,
         DccTicketingUIModule::class,
-        DccReissuanceUiModule::class
+        DccReissuanceUiModule::class,
+        FamilyTestUiModule::class,
     ]
 )
 abstract class MainActivityModule {

@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.AdmissionState
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Certificate
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificateRef
+import de.rki.coronawarnapp.ccl.dccwalletinfo.model.CertificatesRevokedByInvalidationRules
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.DccWalletInfo
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.OutputCertificates
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.Parameters
@@ -152,13 +153,19 @@ class DccWalletInfoDatabaseTest : BaseTestInstrumentation() {
         identifier = "booster_rule_identifier"
     )
 
+    private val certificatesRevokedByInvalidationRules = listOf(
+        CertificatesRevokedByInvalidationRules(certificateRef = CertificateRef(barcodeData = "HC1:7...")),
+        CertificatesRevokedByInvalidationRules(certificateRef = CertificateRef(barcodeData = "HC1:8..."))
+    )
+
     private val dccWalletInfo = DccWalletInfo(
         admissionState = admissionState,
         vaccinationState = vaccinationState,
         verification = verification,
         boosterNotification = boosterNotification,
         mostRelevantCertificate = mostRelevantCertificate,
-        validUntil = "2022-01-14T18:43:00Z"
+        validUntil = "2022-01-14T18:43:00Z",
+        certificatesRevokedByInvalidationRules = certificatesRevokedByInvalidationRules
     )
 
     private val personIdentifier = CertificatePersonIdentifier(

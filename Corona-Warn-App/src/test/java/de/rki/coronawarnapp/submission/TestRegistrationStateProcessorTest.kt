@@ -2,9 +2,10 @@ package de.rki.coronawarnapp.submission
 
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.http.BadRequestException
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -23,9 +24,10 @@ import testhelpers.BaseTest
 class TestRegistrationStateProcessorTest : BaseTest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
+    @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
-    @MockK lateinit var registeredTestRA: CoronaTest
-    @MockK lateinit var registeredTestPCR: CoronaTest
+    @MockK lateinit var registeredTestRA: BaseCoronaTest
+    @MockK lateinit var registeredTestPCR: BaseCoronaTest
 
     private val raRequest: TestRegistrationRequest = CoronaTestQRCode.RapidAntigen(
         hash = "ra-hash",
@@ -52,10 +54,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
         }
 
         registeredTestRA.apply {
-            every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+            every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
         }
         registeredTestPCR.apply {
-            every { type } returns CoronaTest.Type.PCR
+            every { type } returns BaseCoronaTest.Type.PCR
         }
 
         every { analyticsKeySubmissionCollector.reportAdvancedConsentGiven(any()) } just Runs
@@ -64,6 +66,7 @@ class TestRegistrationStateProcessorTest : BaseTest() {
     private fun createInstance() = TestRegistrationStateProcessor(
         submissionRepository = submissionRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
+        familyTestRepository = familyTestRepository
     )
 
     @Test
@@ -72,10 +75,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -86,8 +89,8 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         coVerify {
             submissionRepository.registerTest(raRequest)
-            submissionRepository.giveConsentToSubmission(CoronaTest.Type.RAPID_ANTIGEN)
-            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            submissionRepository.giveConsentToSubmission(BaseCoronaTest.Type.RAPID_ANTIGEN)
+            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(BaseCoronaTest.Type.RAPID_ANTIGEN)
         }
     }
 
@@ -97,10 +100,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -124,10 +127,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -138,8 +141,8 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         coVerify {
             submissionRepository.tryReplaceTest(raRequest)
-            submissionRepository.giveConsentToSubmission(CoronaTest.Type.RAPID_ANTIGEN)
-            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.RAPID_ANTIGEN)
+            submissionRepository.giveConsentToSubmission(BaseCoronaTest.Type.RAPID_ANTIGEN)
+            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(BaseCoronaTest.Type.RAPID_ANTIGEN)
         }
     }
 
@@ -149,10 +152,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -176,10 +179,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -190,8 +193,8 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         coVerify {
             submissionRepository.registerTest(pcrRequest)
-            submissionRepository.giveConsentToSubmission(CoronaTest.Type.PCR)
-            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR)
+            submissionRepository.giveConsentToSubmission(BaseCoronaTest.Type.PCR)
+            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(BaseCoronaTest.Type.PCR)
         }
     }
 
@@ -201,10 +204,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()
@@ -228,10 +231,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -242,8 +245,8 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         coVerify {
             submissionRepository.tryReplaceTest(pcrRequest)
-            submissionRepository.giveConsentToSubmission(CoronaTest.Type.PCR)
-            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(CoronaTest.Type.PCR)
+            submissionRepository.giveConsentToSubmission(BaseCoronaTest.Type.PCR)
+            analyticsKeySubmissionCollector.reportAdvancedConsentGiven(BaseCoronaTest.Type.PCR)
         }
     }
 
@@ -253,10 +256,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = pcrRequest,
             isSubmissionConsentGiven = false,
-            allowReplacement = true
+            allowTestReplacement = true
         )
 
         advanceUntilIdle()
@@ -283,10 +286,10 @@ class TestRegistrationStateProcessorTest : BaseTest() {
 
         instance.state.first() shouldBe TestRegistrationStateProcessor.State.Idle
 
-        instance.startRegistration(
+        instance.startTestRegistration(
             request = raRequest,
             isSubmissionConsentGiven = true,
-            allowReplacement = false
+            allowTestReplacement = false
         )
 
         advanceUntilIdle()

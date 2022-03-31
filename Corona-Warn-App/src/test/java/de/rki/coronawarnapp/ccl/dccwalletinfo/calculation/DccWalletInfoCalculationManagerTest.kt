@@ -8,6 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePerso
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.dccreissuance.notification.DccReissuanceNotificationService
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
@@ -40,6 +41,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     @MockK lateinit var certificatesPersonB: PersonCertificates
     @MockK lateinit var dccWalletInfo1: DccWalletInfo
     @MockK lateinit var dccWalletInfo2: DccWalletInfo
+    @MockK lateinit var dccValidationRepository: DccValidationRepository
 
     lateinit var instance: DccWalletInfoCalculationManager
 
@@ -76,6 +78,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             flowOf(setOf(certificatesPersonA, certificatesPersonB))
         every { timeStamper.nowUTC } returns Instant.EPOCH.withMillis(1000)
         every { boosterRulesRepository.rules } returns flowOf(listOf())
+        every { dccValidationRepository.invalidationRules } returns flowOf(listOf())
         every { certificatesPersonA.certificates } returns listOf(vaccinationCertA)
         every { certificatesPersonB.certificates } returns listOf(vaccinationCertB)
         every { certificatesPersonA.personIdentifier } returns identifierA
@@ -83,7 +86,7 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
         every { dccWalletInfo1.validUntilInstant } returns Instant.EPOCH.withMillis(2000)
         every { dccWalletInfo2.validUntilInstant } returns Instant.EPOCH.withMillis(100)
-        every { calculation.init(any()) } just Runs
+        every { calculation.init(any(), any()) } just Runs
         coEvery { calculation.getDccWalletInfo(any(), "", any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs
         coEvery { boosterNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
@@ -94,7 +97,8 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             personCertificatesProvider = personCertificatesProvider,
             dccWalletInfoRepository = dccWalletInfoRepository,
             calculation = calculation,
-            timeStamper = timeStamper
+            timeStamper = timeStamper,
+            dccValidationRepository = dccValidationRepository
         )
     }
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Family Test Home Card Tile -->
+    <!-- XHED Title of the family test card -->
+    <string name="family_test_card_title">"Тести\nчленів родини"</string>
+    <!-- XTXT News about family test subtitle -->
+    <string name="family_test_card_subtitle_news">"Новини"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_test_reg_selection_header">"Зареєструвати тест"</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_test_reg_selection_subtitle">"Ви отримаєте результат на свій смартфон і зможете запитати цифровий сертифікат тесту на COVID. Ви можете попередити інших, лише якщо тест ваш і у вас діагностовано коронавірусну інфекцію."</string>
+    <!-- XTXT: Test registration selection: person title -->
+    <string name="family_test_reg_selection_person_title">"Для мене"</string>
+    <!-- XTXT: Test registration selection: person subtitle -->
+    <string name="family_test_reg_selection_person_subtitle">"Ваш тест"</string>
+    <!-- XTXT: Test registration selection: family title -->
+    <string name="family_test_reg_selection_family_title">"Для інших"</string>
+    <!-- XTXT: Test registration selection: family subtitle -->
+    <string name="family_test_reg_selection_family_subtitle">"Тест для члена родини"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_consent_header">"Ваша згода"</string>
+    <!-- XACT: Test registration selection: description for screen readers -->
+    <string name="family_consent_image_descr">"Родина з декількох членів; є документ із QR-кодом у фоновому режимі."</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_consent_subtitle">"Отримати результат тесту для члена родини"</string>
+    <!-- XTXT: Test registration selection: person name label -->
+    <string name="family_consent_person_name_label">"Ім\'я особи, для якої було зроблено тест:"</string>
+    <!-- XTXT: Test registration selection: person name tooltip -->
+    <string name="family_consent_person_name_tooltip">"Ім\'я"</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_type">"Ви реєструєте тест для члена родини. Якщо це ваш тест, поверніться назад і виберіть «Для мене». Ви повинні зробити це, щоб попередити інших у разі виявлення у вас коронавірусу."</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_result">"Якщо результат тесту члена вашої родини негативний, ви можете попросити офіційний сертифікат тесту на COVID у наступних кроках."</string>
+    <!-- XBUT: Test registration selection: confirm button -->
+    <string name="family_consent_cofirm_button">"Прийняти"</string>
+
+</resources>

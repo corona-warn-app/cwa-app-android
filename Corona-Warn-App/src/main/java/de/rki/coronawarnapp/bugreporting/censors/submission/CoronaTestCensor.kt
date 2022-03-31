@@ -7,7 +7,7 @@ import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.contactdiary.storage.entity.ContactDiaryCoronaTestEntity
 import de.rki.coronawarnapp.contactdiary.storage.repo.ContactDiaryRepository
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
@@ -40,7 +40,7 @@ class CoronaTestCensor @Inject constructor(
                 mutex.withLock {
                     tests.forEach { test ->
                         when (test) {
-                            is CoronaTest -> {
+                            is BaseCoronaTest -> {
                                 // The Registration Token is received after registration of PCR and RAT tests. It is required to poll the test result.
                                 tokenHistory.add(test.registrationToken)
                                 identifierHistory.add(test.identifier)

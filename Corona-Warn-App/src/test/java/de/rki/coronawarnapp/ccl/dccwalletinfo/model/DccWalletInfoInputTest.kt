@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.dccwalletinfo.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.NullNode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -67,7 +68,8 @@ internal class DccWalletInfoInputTest : BaseTest() {
             )
         ),
         boosterNotificationRules = readBoosterRules(),
-        scenarioIdentifier = ""
+        scenarioIdentifier = "",
+        invalidationRules = NullNode.instance
     )
 
     @Test

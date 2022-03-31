@@ -7,88 +7,20 @@
         android:id="@+id/statistics_explanation_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/statistics_explanation_title"
         tools:context=".statistics.ui.StatisticsExplanationFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/statistics_explanation_title"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <include
-                android:id="@+id/statistics_explanation_header_button_back"
-                layout="@layout/include_button_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:focusable="true"
-                app:icon="@{@drawable/ic_close}"
-                app:iconDescription="@{@string/accessibility_back}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/statistics_explanation_header_title"
-                style="@style/headline6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="6dp"
-                android:accessibilityHeading="true"
-                android:focusable="true"
-                android:text="@string/statistics_explanation_title"
-                app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
-                app:layout_constraintTop_toTopOf="@+id/statistics_explanation_header_button_back"
-                tools:text="@string/statistics_explanation_title" />
-
-            <TextView
-                android:id="@+id/statistics_explanation_header_subtitle"
-                style="@style/body2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="3dp"
-                android:focusable="true"
-                android:text="@string/statistics_explanation_subtitle"
-                app:layout_constraintStart_toEndOf="@+id/statistics_explanation_header_button_back"
-                app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_title"
-                tools:text="@string/statistics_explanation_subtitle" />
-
-            <View
-                android:id="@+id/statistics_explanation_header_subtitle_divider"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/card_divider"
-                android:layout_marginTop="13dp"
-                android:background="@color/dividerColor"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_header_subtitle" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/guideline_start" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/guideline_end" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="14dp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            app:subtitle="@string/statistics_explanation_subtitle"
+            app:title="@string/statistics_explanation_title" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -100,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/statistics_explanation_title"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintVertical_bias="1.0">
 
             <LinearLayout

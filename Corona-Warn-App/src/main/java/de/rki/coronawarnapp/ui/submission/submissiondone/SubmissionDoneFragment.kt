@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDoneBinding
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ContextExtensions.getDrawableCompat
@@ -49,10 +49,10 @@ class SubmissionDoneFragment : Fragment(R.layout.fragment_submission_done), Auto
             }
 
             submissionDoneContent.submissionDoneContent.submissionDonePcrValidation.root.isVisible =
-                (viewModel.testType == CoronaTest.Type.RAPID_ANTIGEN)
+                (viewModel.testType == BaseCoronaTest.Type.RAPID_ANTIGEN)
 
             submissionDoneContent.submissionDoneContent.submissionDoneIllness.root.isVisible =
-                (viewModel.testType == CoronaTest.Type.PCR)
+                (viewModel.testType == BaseCoronaTest.Type.PCR)
         }
 
         viewModel.routeToScreen.observe2(this) {
