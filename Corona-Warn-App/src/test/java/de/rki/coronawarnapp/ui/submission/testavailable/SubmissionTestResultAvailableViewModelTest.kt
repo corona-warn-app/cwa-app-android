@@ -122,7 +122,7 @@ class SubmissionTestResultAvailableViewModelTest : BaseTest() {
     }
 
     @Test
-    suspend fun `go to test result without updating TEK history if NO consent is given`() {
+    fun `go to test result without updating TEK history if NO consent is given`() = runBlockingTest {
         coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
