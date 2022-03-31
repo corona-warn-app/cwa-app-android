@@ -200,8 +200,8 @@ class MockProvider {
     fun dccWalletInfoUpdateTrigger(): DccWalletInfoUpdateTrigger = mockk()
 
     @Provides
-    fun familyTestScheduler(): FamilyTestRetrievalScheduler  = mockk()
+    fun familyTestScheduler(): FamilyTestRetrievalScheduler = mockk()
 
     @Provides
-    fun familyTestRepository(): FamilyTestRepository  = mockk()
+    fun familyTestRepository(): FamilyTestRepository = mockk()
 }
