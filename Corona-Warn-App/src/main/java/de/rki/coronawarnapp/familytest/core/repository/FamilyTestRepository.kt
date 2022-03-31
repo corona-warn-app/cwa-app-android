@@ -108,10 +108,14 @@ class FamilyTestRepository @Inject constructor(
             Timber.tag(TAG).d("No notification required for family tests")
         }
 
+        val updates = mutableListOf<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>>()
         familyTestResultChanges.forEach {
             Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
-            markAsNotified(it.identifier, true) // TODO update the whole list
+            updates.add(Pair(it.identifier) { test ->
+                test.copy(coronaTest = test.coronaTest.markAsNotified(true))
+            })
         }
+        storage.update(updates)
     }
 
     suspend fun restoreTest(
