@@ -75,7 +75,8 @@ data class CoronaTest(
         testResult == CoronaTestResult.RAT_NEGATIVE && isOutdated(nowUTC, testConfig) -> State.OUTDATED
         else -> when (testResult) {
             CoronaTestResult.PCR_OR_RAT_PENDING,
-            CoronaTestResult.RAT_PENDING, -> State.PENDING
+            CoronaTestResult.RAT_PENDING,
+            -> State.PENDING
 
             CoronaTestResult.RAT_NEGATIVE,
             CoronaTestResult.PCR_NEGATIVE -> State.NEGATIVE
@@ -148,7 +149,7 @@ data class CoronaTest(
         @SerializedName("hasResultChangeBadge")
         override val hasResultChangeBadge: Boolean = false,
 
-    ) : CoronaTestUiState
+        ) : CoronaTestUiState
 
     data class AdditionalInfo(
         @SerializedName("createdAt")
@@ -173,7 +174,7 @@ internal fun CoronaTest.markViewed(): CoronaTest {
 }
 
 internal fun CoronaTest.markBadgeAsViewed(): CoronaTest {
-    return copy(uiState = uiState.copy(didShowBadge = true))
+    return copy(uiState = uiState.copy(didShowBadge = true, hasResultChangeBadge = false))
 }
 
 internal fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
