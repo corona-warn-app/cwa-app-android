@@ -42,8 +42,8 @@ import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
-import kotlin.math.abs
 import javax.inject.Inject
+import kotlin.math.abs
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -256,7 +256,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                    event.type
+                    testIdentifier = event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(

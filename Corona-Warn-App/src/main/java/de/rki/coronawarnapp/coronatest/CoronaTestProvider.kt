@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
 class CoronaTestProvider @Inject constructor(
@@ -49,6 +50,14 @@ class CoronaTestProvider @Inject constructor(
             is FamilyCoronaTest -> {
                 familyTestRepository.refresh() // TODO refresh specific test
             }
+        }
+    }
+
+    suspend fun giveConsent(test: BaseCoronaTest) {
+        if (test is PersonalCoronaTest) {
+            Timber.v("giveConsentToSubmission(type=%s)", test.type)
+            Timber.v("giveConsentToSubmission(type=$test.type): %s", test)
+            coronaTestRepository.updateSubmissionConsent(identifier = test.identifier, consented = true)
         }
     }
 }

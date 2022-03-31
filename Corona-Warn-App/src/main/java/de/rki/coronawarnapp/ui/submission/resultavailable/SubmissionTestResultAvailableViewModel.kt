@@ -80,7 +80,6 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
-                            coronaTestFlow.first().type,
                             testIdentifier
                         )
                 )
@@ -143,7 +142,6 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
                         .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
-                            testType = coronaTestFlow.first().type,
                             testIdentifier = testIdentifier
                         )
                 )

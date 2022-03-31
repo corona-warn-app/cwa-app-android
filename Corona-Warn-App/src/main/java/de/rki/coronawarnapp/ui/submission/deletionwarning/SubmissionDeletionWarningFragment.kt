@@ -84,7 +84,6 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                         if (args.testRegistrationRequest is CoronaTestTAN) {
                             SubmissionDeletionWarningFragmentDirections
                                 .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
-                                    testType = state.test.type,
                                     testIdentifier = state.test.identifier
                                 )
                         } else {

@@ -79,11 +79,19 @@ class SubmissionTestResultPendingViewModel @AssistedInject constructor(
         .onEach { testResultUIState ->
             val isFamilyTest = testResultUIState.coronaTest is FamilyCoronaTest
             when (val deviceState = testResultUIState.coronaTest.testResult) {
-                CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE ->
-                    SubmissionTestResultPendingFragmentDirections
-                        .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
-                            testIdentifier = testIdentifier
-                        )
+                CoronaTestResult.PCR_POSITIVE, CoronaTestResult.RAT_POSITIVE -> {
+                    if (isFamilyTest) {
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultKeysSharedFragment(
+                                testIdentifier = testIdentifier
+                            )
+                    } else {
+                        SubmissionTestResultPendingFragmentDirections
+                            .actionSubmissionTestResultPendingFragmentToSubmissionTestResultAvailableFragment(
+                                testIdentifier = testIdentifier
+                            )
+                    }
+                }
                 CoronaTestResult.PCR_NEGATIVE ->
                     SubmissionTestResultPendingFragmentDirections
                         .actionSubmissionTestResultPendingFragmentToSubmissionTestResultNegativeFragment(

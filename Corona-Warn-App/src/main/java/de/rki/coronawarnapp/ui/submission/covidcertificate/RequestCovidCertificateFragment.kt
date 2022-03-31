@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -93,9 +94,15 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
-                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
-                        testIdentifier = state.test.identifier
-                    )
+                    if (state.test is FamilyCoronaTest) {
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testIdentifier = state.test.identifier
+                        )
+                    } else {
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                            testIdentifier = state.test.identifier
+                        )
+                    }
                         .run { findNavController().navigate(this, navOptions) }
 
                 else ->

@@ -98,7 +98,7 @@ class SubmissionTestResultNoConsentFragment :
         doNavigate(
             SubmissionTestResultNoConsentFragmentDirections
                 .actionSubmissionTestResultNoConsentFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                    navArgs.testType
+                    testIdentifier = navArgs.testIdentifier
                 )
         )
     }

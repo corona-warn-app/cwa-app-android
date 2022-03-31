@@ -260,7 +260,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             is CoronaTestResult.WarnOthers ->
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                        testType = scannerResult.test.type
+                        testIdentifier = scannerResult.test.identifier
                     )
         }
             ?.let { doNavigate(it) }
