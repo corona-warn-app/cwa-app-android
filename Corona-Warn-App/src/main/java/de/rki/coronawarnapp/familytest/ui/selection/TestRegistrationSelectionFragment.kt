@@ -60,7 +60,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToFamilyTestConsentFragment(
                                 coronaTestQrCode = it.coronaTestQRCode
-                            )
+                            ),
+                        navOptions
                     )
                 }
             }
