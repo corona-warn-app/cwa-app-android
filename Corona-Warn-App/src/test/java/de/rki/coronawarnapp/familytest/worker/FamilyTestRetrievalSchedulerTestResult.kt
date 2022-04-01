@@ -29,6 +29,7 @@ class FamilyTestRetrievalSchedulerTestResult : BaseTest() {
         MockKAnnotations.init(this)
 
         every { workManager.enqueueUniquePeriodicWork(any(), any(), any()) } returns mockk()
+        every { workManager.cancelUniqueWork(any()) } returns mockk()
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
     }
 
