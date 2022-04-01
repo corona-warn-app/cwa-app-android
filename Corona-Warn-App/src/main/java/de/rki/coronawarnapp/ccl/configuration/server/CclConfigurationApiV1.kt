@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface CclConfigurationApiV1 {
 
-    @GET("/version/v1/ccl/config-v1")
+    @GET("/version/v1/ccl/config-v2")
     suspend fun getCclConfiguration(): Response<ResponseBody>
 }
