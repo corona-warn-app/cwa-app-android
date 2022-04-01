@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -140,7 +141,7 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
         val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
         when {
-            currentCoronaTest != null -> currentEvent.postValue(
+            coronaTest is PersonalCoronaTest &&  currentCoronaTest != null -> currentEvent.postValue(
                 RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(fromRecycleBin = true))
             )
             else -> recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
