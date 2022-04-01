@@ -19,7 +19,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
-import de.rki.coronawarnapp.familytest.worker.FamilyTestRetrievalScheduler
+import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -90,7 +90,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
     @MockK lateinit var cclConfigurationUpdateScheduler: CclConfigurationUpdateScheduler
-    @MockK lateinit var familyTestRetrievalScheduler: FamilyTestRetrievalScheduler
+    @MockK lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -156,7 +156,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
                 app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
-                app.familyTestRetrievalScheduler = familyTestRetrievalScheduler
+                app.familyTestResultRetrievalScheduler = familyTestResultRetrievalScheduler
             }
         }
     }
@@ -179,7 +179,7 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             pcrTestResultScheduler.setup()
             raTestResultScheduler.setup()
-            familyTestRetrievalScheduler.setup()
+            familyTestResultRetrievalScheduler.setup()
 
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()

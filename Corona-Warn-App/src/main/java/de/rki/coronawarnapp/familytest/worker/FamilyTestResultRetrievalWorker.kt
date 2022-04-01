@@ -18,7 +18,7 @@ class FamilyTestResultRetrievalWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val repository: FamilyTestRepository,
-    private val familyTestRetrievalScheduler: FamilyTestRetrievalScheduler,
+    private val familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -37,7 +37,7 @@ class FamilyTestResultRetrievalWorker @AssistedInject constructor(
             Timber.e(e, "Family test results retrieval failed.")
             Result.retry()
         }.also {
-            familyTestRetrievalScheduler.checkPollingSchedule()
+            familyTestResultRetrievalScheduler.checkPollingSchedule()
         }
     }
 

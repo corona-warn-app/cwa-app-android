@@ -32,7 +32,7 @@ import javax.inject.Singleton
  * every 15 min if there are RA tests that are less than 90min registered
  */
 @Singleton
-class FamilyTestRetrievalScheduler @Inject constructor(
+class FamilyTestResultRetrievalScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val workManager: WorkManager,
     private val repository: FamilyTestRepository,
@@ -93,7 +93,8 @@ class FamilyTestRetrievalScheduler @Inject constructor(
         ).build()
 }
 
-private const val PERIODIC_WORK_NAME = "FamilyTestResultRetrieval_PeriodicWork"
+@VisibleForTesting
+internal const val PERIODIC_WORK_NAME = "FamilyTestResultRetrieval_PeriodicWork"
 
 @VisibleForTesting
 internal fun FamilyCoronaTest.requiresFrequentPolling(now: Instant): Boolean {
