@@ -96,7 +96,7 @@ interface FamilyCoronaTestDao {
     suspend fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?
 
     @Transaction
-    suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
+    suspend fun update(identifier: TestIdentifier, update: suspend (FamilyCoronaTest) -> FamilyCoronaTest) {
         get(identifier)?.let {
             val updated = update(it.test).toEntity()
             insert(updated)

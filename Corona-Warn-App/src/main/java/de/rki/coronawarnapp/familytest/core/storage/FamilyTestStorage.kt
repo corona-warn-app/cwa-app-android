@@ -23,7 +23,7 @@ class FamilyTestStorage @Inject constructor(
         dao.insert(test.toEntity())
     }
 
-    suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
+    suspend fun update(identifier: TestIdentifier, update: suspend (FamilyCoronaTest) -> FamilyCoronaTest) {
         dao.update(identifier, update)
     }
 
