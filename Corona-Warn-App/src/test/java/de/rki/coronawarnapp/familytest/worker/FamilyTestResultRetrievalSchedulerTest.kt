@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class FamilyTestRetrievalSchedulerTestResult : BaseTest() {
+class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
 
     @MockK lateinit var workManager: WorkManager
     @MockK lateinit var repository: FamilyTestRepository
