@@ -124,7 +124,7 @@ class QrCodeScannerViewModel @AssistedInject constructor(
     }
 
     fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest) = launch {
-        val coronaTestRestoreEvent = coronaTestRestoreHandler.restoreCoronaTest(recycledCoronaTest)
+        val coronaTestRestoreEvent = coronaTestRestoreHandler.restoreCoronaTest(recycledCoronaTest, openResult = true)
         result.postValue(coronaTestRestoreEvent.toCoronaResult())
     }
 

@@ -141,8 +141,8 @@ class RecyclerBinOverviewViewModel @AssistedInject constructor(
         Timber.d("onRestoreTestConfirmation(item=%s)", coronaTest.identifier)
         val currentCoronaTest = submissionRepository.testForType(coronaTest.type).first()
         when {
-            coronaTest is PersonalCoronaTest &&  currentCoronaTest != null -> currentEvent.postValue(
-                RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(fromRecycleBin = true))
+            coronaTest is PersonalCoronaTest && currentCoronaTest != null -> currentEvent.postValue(
+                RecyclerBinEvent.RestoreDuplicateTest(coronaTest.toRestoreRecycledTestRequest(openResult = false))
             )
             else -> recycledCoronaTestsProvider.restoreCoronaTest(coronaTest.identifier)
         }

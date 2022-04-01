@@ -5,6 +5,7 @@ import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.errors.AlreadyRedeemedException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryStorage
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -39,6 +41,19 @@ class SubmissionRepository @Inject constructor(
         BaseCoronaTest.Type.PCR -> pcrTest
         BaseCoronaTest.Type.RAPID_ANTIGEN -> raTest
     }
+
+    fun hasActiveTest(identifier: TestIdentifier, type: BaseCoronaTest.Type) =
+        coronaTestRepository.allCoronaTests.map {
+            val testToRestore = it.find { test -> test.identifier == identifier }
+            if (testToRestore != null) { // Test exists in personal tests
+                when (type) {
+                    BaseCoronaTest.Type.PCR -> pcrTest.first()
+                    BaseCoronaTest.Type.RAPID_ANTIGEN -> raTest.first()
+                }
+            } else {
+                null
+            }
+        }
 
     val currentSymptoms = submissionSettings.symptoms
 
