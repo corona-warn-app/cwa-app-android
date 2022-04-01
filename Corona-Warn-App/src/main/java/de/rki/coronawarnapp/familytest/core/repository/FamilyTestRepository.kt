@@ -144,6 +144,18 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
+    suspend fun markAllBadgeAsViewed(identifiers: Set<TestIdentifier>) {
+        storage.updateAll(identifiers) { test ->
+            test.markBadgeAsViewed()
+        }
+    }
+
+    suspend fun moveAllToRecycleBin(identifiers: Set<TestIdentifier>) {
+        storage.updateAll(identifiers) { test ->
+            test.moveToRecycleBin(timeStamper.nowUTC)
+        }
+    }
+
     suspend fun updateResultNotification(
         identifier: TestIdentifier,
         sent: Boolean
