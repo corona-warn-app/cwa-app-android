@@ -48,21 +48,31 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         viewModel.testResult.observe2(this) { uiState ->
             when (uiState.coronaTest.type) {
                 BaseCoronaTest.Type.PCR -> {
-                    binding.testResultInvalidStepsPcrAdded.isVisible = true
-                    binding.testResultInvalidStepsRatAdded.isVisible = false
-                    if (uiState.coronaTest is FamilyCoronaTest) {
-                        binding.testResultInvalidStepsPcrAdded.setEntryTitle(
-                            getText(R.string.submission_family_test_result_steps_added_pcr_heading)
-                        )
+                    binding.apply {
+                        testResultInvalidStepsPcrAdded.isVisible = true
+                        testResultInvalidStepsRatAdded.isVisible = false
+                        if (uiState.coronaTest is FamilyCoronaTest) {
+                            familyMemberName.isVisible = true
+                            familyMemberName.text = uiState.coronaTest.personName
+                            testResultInvalidStepsPcrAdded.setEntryTitle(
+                                getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                            )
+                            testResultInvalidStepsRemoveTest.isVisible = false
+                        }
                     }
                 }
                 BaseCoronaTest.Type.RAPID_ANTIGEN -> {
-                    binding.testResultInvalidStepsPcrAdded.isVisible = false
-                    binding.testResultInvalidStepsRatAdded.isVisible = true
-                    if (uiState.coronaTest is FamilyCoronaTest) {
-                        binding.testResultInvalidStepsPcrAdded.setEntryTitle(
-                            getText(R.string.submission_family_test_result_steps_added_rat_heading)
-                        )
+                    binding.apply {
+                        testResultInvalidStepsPcrAdded.isVisible = false
+                        testResultInvalidStepsRatAdded.isVisible = true
+                        if (uiState.coronaTest is FamilyCoronaTest) {
+                            familyMemberName.isVisible = true
+                            familyMemberName.text = uiState.coronaTest.personName
+                            testResultInvalidStepsRatAdded.setEntryTitle(
+                                getText(R.string.submission_family_test_result_steps_added_rat_heading)
+                            )
+                            testResultInvalidStepsRemoveTest.isVisible = false
+                        }
                     }
                 }
             }

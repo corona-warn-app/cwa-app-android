@@ -60,10 +60,13 @@ class CoronaTestCard(parent: ViewGroup) :
             else -> R.string.reycle_bin_rat_test_date
         }
         certificateInfoLine2.text = when (test) {
-            is FamilyCoronaTest -> context.getString(
-                typeString,
-                test.registeredAt.toDate().toUIFormat(context)
-            )
+            is FamilyCoronaTest -> {
+                val time = if (test.type == BaseCoronaTest.Type.PCR) test.registeredAt else test.coronaTest.testTakenAt
+                context.getString(
+                    typeString,
+                    time.toDate().toUIFormat(context)
+                )
+            }
 
             is PCRCoronaTest -> context.getString(
                 typeString,
