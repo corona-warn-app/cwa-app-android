@@ -139,7 +139,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
             recycledPCR,
             openResult = false
         ) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
-            restoreRecycledTestRequest = recycledPCR.toRestoreRecycledTestRequest()
+            restoreRecycledTestRequest = recycledPCR.toRestoreRecycledTestRequest(openResult = false)
         )
 
         coVerify {
@@ -156,7 +156,7 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
             recycledRAT,
             openResult = false
         ) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
-            restoreRecycledTestRequest = recycledRAT.toRestoreRecycledTestRequest()
+            restoreRecycledTestRequest = recycledRAT.toRestoreRecycledTestRequest(openResult = false)
         )
 
         coVerify {

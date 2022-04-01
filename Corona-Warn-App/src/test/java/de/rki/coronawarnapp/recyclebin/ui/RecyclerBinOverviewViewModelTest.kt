@@ -232,7 +232,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.apply {
             onRestoreTestConfirmation(recycledPCR)
             events.getOrAwaitValue() shouldBe
-                RecyclerBinEvent.RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest(true))
+                RecyclerBinEvent.RestoreDuplicateTest(recycledPCR.toRestoreRecycledTestRequest(false))
         }
         coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
@@ -244,7 +244,7 @@ class RecyclerBinOverviewViewModelTest : BaseTest() {
         instance.apply {
             onRestoreTestConfirmation(recycledRAT)
             events.getOrAwaitValue() shouldBe
-                RecyclerBinEvent.RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest(true))
+                RecyclerBinEvent.RestoreDuplicateTest(recycledRAT.toRestoreRecycledTestRequest(false))
         }
         coVerify(exactly = 0) { recycledCoronaTestsProvider.restoreCoronaTest(any()) }
     }
