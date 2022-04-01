@@ -114,22 +114,28 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
         }
     }
 
-    private fun showRemovalConfirmation(familyCoronaTest: FamilyCoronaTest?, position: Int?) =
-        MaterialAlertDialogBuilder(requireContext()).apply {
-            setTitle(
-                if (familyCoronaTest == null) R.string.family_tests_list_deletion_alert_header_all
-                else R.string.family_tests_list_deletion_alert_header_single
+    private fun showRemovalConfirmation(familyCoronaTest: FamilyCoronaTest?, position: Int?) {
+
+        val (title, message, button) = if (familyCoronaTest == null) {
+            Triple(
+                R.string.family_tests_list_deletion_alert_header_all,
+                R.string.family_tests_list_deletion_alert_body_all,
+                R.string.family_tests_list_deletion_alert_delete_button_all
             )
-            setMessage(
-                if (familyCoronaTest == null) R.string.family_tests_list_deletion_alert_body_all
-                else R.string.family_tests_list_deletion_alert_body_single
+        } else {
+            Triple(
+                R.string.family_tests_list_deletion_alert_header_single,
+                R.string.family_tests_list_deletion_alert_body_single,
+                R.string.family_tests_list_deletion_alert_delete_button
             )
-            setPositiveButton(R.string.family_tests_list_deletion_alert_delete_button) { _, _ ->
-                viewModel.onRemoveTestConfirmed(familyCoronaTest)
-            }
-            setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
-            setOnDismissListener {
+        }
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(button) { _, _ -> viewModel.onRemoveTestConfirmed(familyCoronaTest) }
+            .setNegativeButton(R.string.family_tests_list_deletion_alert_cancel_button) { _, _ -> }
+            .setOnDismissListener {
                 position?.let { familyTestListAdapter.notifyItemChanged(position) }
-            }
-        }.show()
+            }.show()
+    }
 }

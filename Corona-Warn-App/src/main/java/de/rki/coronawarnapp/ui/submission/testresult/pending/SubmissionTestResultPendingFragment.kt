@@ -80,6 +80,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
                             getText(R.string.submission_family_test_result_pending_steps_certificate_heading)
                         )
                         toolbar.title = getText(R.string.submission_test_result_headline)
+                        familyMemberName.isVisible = true
                         familyMemberName.text = result.coronaTest.personName
                         testResultPendingStepsContactDiaryResult.isVisible = false
                         consentStatus.isVisible = false

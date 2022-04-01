@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- Family Test Home Card Tile -->
     <!-- XHED Title of the family test card -->
@@ -72,7 +73,9 @@
     <!-- XHED: family tests list: Deletion alert window: body all tests -->
     <string name="family_tests_list_deletion_alert_body_all">"Die Testergebnisse werden in den Papierkorb verschoben. Den Papierkorb finden Sie auf der „Mehr“-Kachel der Status-Registerkarte. Dort können Sie diese endgültig löschen oder wiederherstellen. Nach 30 Tagen werden die Testergebnisse automatisch gelöscht."</string>
     <!-- XBUT: family tests list: Deletion alert window: delete button -->
-    <string name="family_tests_list_deletion_alert_delete_button">"TestERGEBNIS löschen"</string>
+    <string name="family_tests_list_deletion_alert_delete_button">"Testergebnis löschen"</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button_all">"Testergebnisse löschen"</string>
     <!-- XBUT: family tests list: Deletion alert window: cancel button -->
     <string name="family_tests_list_deletion_alert_cancel_button">"Abbrechen"</string>
 
