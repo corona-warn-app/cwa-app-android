@@ -165,3 +165,14 @@ private val certificateReissuance = CertificateReissuance(
 )
 
 val dccWalletInfoWithReissuance = dccWalletInfo.copy(certificateReissuance = certificateReissuance)
+
+val certificatesRevokedByInvalidationRules = CertificatesRevokedByInvalidationRules(
+    certificateRef = CertificateRef(
+        barcodeData = "HC1:6BFSW2C9QZPODR3RVJN+1PG0V328D9VRNN0OHXNCX90F2 9JZZ0-KA8+F0MN9UUVDNIHHDBK8KUSILRO1.X8.24BRKGWGX25DNNZ+ELQ2QJTLON*:3MTO92K -D ESIUG-OLAMUX\$S+WPKX5ARM*B87UH8:PCL4TQ79QV1*E+I3:FN-MQMHBF.9-P4UFLXHTR\$9Q%LVYV-TKPLOP2OI%B+3L+\$PW+IJEAP PEAD-J91TAVR9KRTO*LK 3*1K8OF/FU:EJNML/OIDR6ID52V6Q63+YME+GW783LNCZDF6B*89BG6MJKT27 WPJIUACI%31RLO2C2I-PODJ4*93944F29S5/MS91Q2VVK+T-/QPFH4AQRGV82VVYPON1F5FN5498RBCST*QK*NL-USPCQPB4F40OI+OOCQ3UCA8T9.EW6MK43LFRJGLVG.JN4IHCU\$1DYZUE4BWSA+RTW/PNKOJ9N/9J22H\$DVDSGX-R1OA.AMI6N%1CEO5%TGDJR-LM\$YNE9VU/6%PCR-NDFS8:E"
+
+    )
+)
+
+val dccWalletInfoWithCertificatesRevokedByInvalidationRules = dccWalletInfo.copy(
+    certificatesRevokedByInvalidationRules = listOf(certificatesRevokedByInvalidationRules)
+)

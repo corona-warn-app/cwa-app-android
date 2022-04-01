@@ -85,4 +85,22 @@ internal class DccWalletInfoParserTest : BaseTest() {
                     it.readText().toComparableJsonPretty()
             }
     }
+
+    @Test
+    fun `Deserialize DCCWalletInfo - CertificatesRevokedByInvalidationRules`() {
+        javaClass.classLoader!!.getResourceAsStream(certificatesRevokedByInvalidationRulesPath).use {
+            mapper.readValue<DccWalletInfo>(it) shouldBe dccWalletInfoWithCertificatesRevokedByInvalidationRules
+        }
+    }
+
+    @Test
+    fun `Serialize DCCWalletInfo - CertificatesRevokedByInvalidationRules`() {
+        javaClass.classLoader!!.getResourceAsStream(certificatesRevokedByInvalidationRulesPath).bufferedReader().use {
+            mapper.writeValueAsString(dccWalletInfoWithCertificatesRevokedByInvalidationRules)
+                .toComparableJsonPretty() shouldBe it.readText().toComparableJsonPretty()
+        }
+    }
 }
+
+private const val certificatesRevokedByInvalidationRulesPath =
+    "ccl/dcc_wallet_info_output_with_certificatesRevokedByInvalidationRules.json"
