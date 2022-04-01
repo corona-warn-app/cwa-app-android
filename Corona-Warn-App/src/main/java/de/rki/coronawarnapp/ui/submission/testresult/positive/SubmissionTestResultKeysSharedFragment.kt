@@ -64,6 +64,7 @@ class SubmissionTestResultKeysSharedFragment :
 
                 if (it.coronaTest is FamilyCoronaTest) {
                     toolbar.title = getText(R.string.submission_test_result_headline)
+                    familyMemberName.isVisible = true
                     familyMemberName.text = it.coronaTest.personName
                 }
             }
