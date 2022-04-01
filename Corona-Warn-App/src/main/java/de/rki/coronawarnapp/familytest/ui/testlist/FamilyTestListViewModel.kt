@@ -90,7 +90,7 @@ class FamilyTestListViewModel @AssistedInject constructor(
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged()
     ) { familyTests, coronaTestParameters ->
         familyTests
-            .sortedBy {
+            .sortedByDescending {
                 if (it.type == Type.RAPID_ANTIGEN) it.coronaTest.testTakenAt else it.registeredAt
             }
             .map {
