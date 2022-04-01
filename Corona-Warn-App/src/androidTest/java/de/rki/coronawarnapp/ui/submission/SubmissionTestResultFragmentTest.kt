@@ -13,6 +13,8 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragment
@@ -112,7 +114,7 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment() {
+    fun capture_fragment_for_personal_test() {
         every { viewModel.testState } returns MutableLiveData(
             TestResultUIState(
                 coronaTest = mockk<PersonalCoronaTest>().apply {
@@ -120,6 +122,30 @@ class SubmissionTestResultFragmentTest : BaseUITest() {
                     every { registeredAt } returns Instant.now()
                     every { isProcessing } returns false
                     every { type } returns BaseCoronaTest.Type.PCR
+                }
+            )
+        )
+        launchFragmentInContainer2<SubmissionTestResultPendingFragment>(fragmentArgs = pendingFragmentArgs)
+        takeScreenshot<SubmissionTestResultPendingFragment>()
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_for_family_test() {
+        every { viewModel.testState } returns MutableLiveData(
+            TestResultUIState(
+                coronaTest = mockk<FamilyCoronaTest>().apply {
+                    every { testResult } returns CoronaTestResult.PCR_OR_RAT_PENDING
+                    every { registeredAt } returns Instant.now()
+                    every { type } returns BaseCoronaTest.Type.PCR
+                    every { identifier } returns ""
+                    every { personName } returns "Lara"
+                    every { coronaTest } returns CoronaTest(
+                        identifier = identifier,
+                        type = type,
+                        registeredAt = registeredAt,
+                        registrationToken = ""
+                    )
                 }
             )
         )
