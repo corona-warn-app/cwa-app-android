@@ -58,10 +58,12 @@
                     style="@style/headline5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:paddingBottom="16dp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="Lara"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Lara"
+                    tools:visibility="visible" />
 
                 <de.rki.coronawarnapp.ui.view.TestResultSectionView
                     android:id="@+id/submission_test_result_section"
