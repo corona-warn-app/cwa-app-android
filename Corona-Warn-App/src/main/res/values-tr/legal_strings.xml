@@ -227,4 +227,12 @@
     <string name="dcc_reissuance_legal_one" translatable="false">Uygulama, kontrol amaçlı olarak aşı sertifikasını RKI’ya iletir.</string>
     <!-- XTXT: DCC Reissuance legal second bullet point-->
     <string name="dcc_reissuance_legal_two" translatable="false">RKI aşı sertifikasını kontrol eder ve güncel bir sertifika oluşturur ve bunu uygulamanıza aktarır.</string>
+
+    <!-- Family Consent Screen -->
+    <!-- XTXT: Family Consent Screen: Legal: Body -->
+    <string name="family_consent_legal_body" translatable="false">"Kabul et" seçeneğine tıklayarak aşağıdaki adımı kabul etmiş olursunuz:"</string>
+    <!-- XTXT: Family Consent Screen: Legal: Point 1 -->
+    <string name="family_consent_legal_point_1" translatable="false">"<b>Uygulama, aile ferdinin test sonucunu alır.</b>\nSonradan fikrinizi değiştirirseniz, testi uygulamadan kaldırabilirsiniz."</string>
+    <!-- YTXT: Text on the bottom of the survey consent screen that opens a new screen about more information-->
+    <string name="family_consent_legal_bottom_link" translatable="false">"Veri işleme hakkında ayrıntılı bilgiler ve rıza beyanınız."</string>
 </resources>
