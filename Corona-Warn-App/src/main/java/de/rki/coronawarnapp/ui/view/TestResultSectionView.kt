@@ -97,6 +97,18 @@ constructor(
                 R.string.ag_homescreen_card_rapid_body_result_date,
                 coronaTest.testTakenAt.toDate()?.toUIFormat(context)
             )
+        } else if (coronaTest is FamilyCoronaTest) {
+            if (coronaTest.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN) {
+                context.getString(
+                    R.string.ag_homescreen_card_rapid_body_result_date,
+                    coronaTest.coronaTest.testTakenAt.toDate()?.toUIFormat(context)
+                )
+            } else {
+                context.getString(
+                    R.string.test_result_card_registered_at_text,
+                    coronaTest.registeredAt.toDate()?.toUIFormat(context)
+                )
+            }
         } else {
             context.getString(
                 R.string.test_result_card_registered_at_text,
