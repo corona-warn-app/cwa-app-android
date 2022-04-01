@@ -229,6 +229,8 @@
     <string name="dcc_reissuance_legal_two" translatable="false">The RKI will check the vaccination certificate, issue an updated certificate and send this to your app.</string>
 
     <!-- Family Consent Screen -->
+    <!-- XTXT: Family Consent Screen: Legal: Title -->
+    <string name="family_consent_legal_title" translatable="false">"Your Consent"</string>
     <!-- XTXT: Family Consent Screen: Legal: Body -->
     <string name="family_consent_legal_body" translatable="false">"By tapping on “Accept”, you consent to the following step:"</string>
     <!-- XTXT: Family Consent Screen: Legal: Point 1 -->

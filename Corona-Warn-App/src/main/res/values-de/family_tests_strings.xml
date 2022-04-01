@@ -7,10 +7,6 @@
     <!-- XTXT News about family test subtitle -->
     <string name="family_test_card_subtitle_news">"Es gibt Neuigkeiten"</string>
 
-    <!-- Family Consent Screen -->
-    <!-- XTXT: Family Consent Screen: Legal: Title -->
-    <string name="family_consent_legal_title" translatable="false">"Ihr Einverständnis"</string>
-
     <!-- XHED: Test registration selection: header -->
     <string name="family_test_reg_selection_header">"Test registrieren"</string>
     <!-- XTXT: Test registration selection: subtitle -->

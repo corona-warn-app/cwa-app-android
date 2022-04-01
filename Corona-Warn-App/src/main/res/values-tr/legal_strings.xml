@@ -229,6 +229,8 @@
     <string name="dcc_reissuance_legal_two" translatable="false">RKI aşı sertifikasını kontrol eder ve güncel bir sertifika oluşturur ve bunu uygulamanıza aktarır.</string>
 
     <!-- Family Consent Screen -->
+    <!-- XTXT: Family Consent Screen: Legal: Title -->
+    <string name="family_consent_legal_title" translatable="false">"Rıza Beyanı"</string>
     <!-- XTXT: Family Consent Screen: Legal: Body -->
     <string name="family_consent_legal_body" translatable="false">"Kabul et" seçeneğine tıklayarak aşağıdaki adımı kabul etmiş olursunuz:"</string>
     <!-- XTXT: Family Consent Screen: Legal: Point 1 -->
