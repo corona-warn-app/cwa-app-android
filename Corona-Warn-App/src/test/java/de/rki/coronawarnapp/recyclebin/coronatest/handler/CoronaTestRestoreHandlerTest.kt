@@ -95,7 +95,9 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
     @Test
     fun `restore personal corona test PCR whether no other PCR is active`() = runBlockingTest {
-        instance.restoreCoronaTest(recycledPCR) shouldBe CoronaTestRestoreEvent.RestoredTest(recycledPCR)
+        instance.restoreCoronaTest(recycledPCR, openResult = false) shouldBe CoronaTestRestoreEvent.RestoredTest(
+            recycledPCR
+        )
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(recycledPCR.identifier)
@@ -105,7 +107,9 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
 
     @Test
     fun `restore personal corona test RAT whether no other RAT is active`() = runBlockingTest {
-        instance.restoreCoronaTest(recycledRAT) shouldBe CoronaTestRestoreEvent.RestoredTest(recycledRAT)
+        instance.restoreCoronaTest(recycledRAT, openResult = false) shouldBe CoronaTestRestoreEvent.RestoredTest(
+            recycledRAT
+        )
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(recycledRAT.identifier)
@@ -117,7 +121,9 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     fun `restore family corona test PCR regardless of whether another PCR is active`() = runBlockingTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(recycledPCR)
 
-        instance.restoreCoronaTest(familyCoronaTest) shouldBe CoronaTestRestoreEvent.RestoredTest(familyCoronaTest)
+        instance.restoreCoronaTest(familyCoronaTest, openResult = false) shouldBe CoronaTestRestoreEvent.RestoredTest(
+            familyCoronaTest
+        )
 
         coVerify {
             recycledCoronaTestsProvider.restoreCoronaTest(familyCoronaTest.identifier)
@@ -129,7 +135,10 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     fun `show duplicate warning if another personal test PCR is active`() = runBlockingTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.PCR) } returns flowOf(anotherPCR)
 
-        instance.restoreCoronaTest(recycledPCR) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
+        instance.restoreCoronaTest(
+            recycledPCR,
+            openResult = false
+        ) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
             restoreRecycledTestRequest = recycledPCR.toRestoreRecycledTestRequest()
         )
 
@@ -143,7 +152,10 @@ class CoronaTestRestoreHandlerTest : BaseTest() {
     fun `show duplicate warning if another personal test RAT is active`() = runBlockingTest {
         every { submissionRepository.testForType(BaseCoronaTest.Type.RAPID_ANTIGEN) } returns flowOf(anotherRAT)
 
-        instance.restoreCoronaTest(recycledRAT) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
+        instance.restoreCoronaTest(
+            recycledRAT,
+            openResult = false
+        ) shouldBe CoronaTestRestoreEvent.RestoreDuplicateTest(
             restoreRecycledTestRequest = recycledRAT.toRestoreRecycledTestRequest()
         )
 
