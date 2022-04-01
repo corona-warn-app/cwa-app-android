@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
+import io.mockk.Called
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -119,5 +120,23 @@ class DccStateCheckerTest : BaseTest() {
         createInstance().checkState(mockData, "", setOf()).first() shouldBe CwaCovidCertificate.State.Invalid()
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
+    }
+
+    @Test
+    fun `state is blocked`() = runBlockingTest {
+        val qrCodeHash = "qrCodeHash"
+        val blockedCertificateQrCodeHashes = setOf(qrCodeHash)
+
+        createInstance().checkState(
+            dccData = mockData,
+            qrCodeHash = qrCodeHash,
+            blockedCertificateQrCodeHashes = blockedCertificateQrCodeHashes
+        ).first() shouldBe CwaCovidCertificate.State.Blocked
+
+        coVerify {
+            dscSignatureValidator wasNot Called
+            expirationChecker wasNot Called
+            timeStamper wasNot Called
+        }
     }
 }
