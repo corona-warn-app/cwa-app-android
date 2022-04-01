@@ -6,12 +6,14 @@ import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragment
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragment
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionModule
-import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragment
-import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentModule
-import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment
-import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningModule
+import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListFragment
+import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
+import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment
+import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningModule
+import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragment
+import de.rki.coronawarnapp.ui.submission.covidcertificate.RequestCovidCertificateFragmentModule
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentFragment
 import de.rki.coronawarnapp.ui.submission.qrcode.consent.SubmissionConsentModule
 import de.rki.coronawarnapp.ui.submission.resultavailable.SubmissionTestResultAvailableFragment
@@ -115,4 +117,7 @@ internal abstract class SubmissionFragmentModule {
 
     @ContributesAndroidInjector(modules = [TestRegistrationSelectionModule::class])
     abstract fun testRegistrationSelectionFragment(): TestRegistrationSelectionFragment
+
+    @ContributesAndroidInjector(modules = [FamilyTestListModule::class])
+    abstract fun familyTestListFragment(): FamilyTestListFragment
 }

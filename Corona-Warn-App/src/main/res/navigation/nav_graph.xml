@@ -617,7 +617,6 @@
             app:destination="@id/submissionTestResultNoConsentFragment"
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="false" />
-
         <argument
             android:name="testIdentifier"
             app:argType="string" />
@@ -641,9 +640,7 @@
         <argument
             android:name="testIdentifier"
             app:argType="string" />
-
     </fragment>
-
     <fragment
         android:id="@+id/debuglogFragment"
         android:name="de.rki.coronawarnapp.bugreporting.debuglog.ui.DebugLogFragment"
@@ -1015,7 +1012,18 @@
         tools:layout="@layout/fragment_family_test_list">
 
         <action
-            android:id="@+id/action_familyTestListFragment_to_requestCovidCertificateFragment"
-            app:destination="@id/requestCovidCertificateFragment" />
+            android:id="@+id/action_universalScanner_to_submissionTestResultKeysSharedFragment"
+            app:destination="@id/submissionTestResultKeysSharedFragment" />
+
+        <action
+            android:id="@+id/action_familyTestListFragment_to_submissionTestResultInvalidFragment"
+            app:destination="@id/submissionTestResultInvalidFragment" />
+        <action
+            android:id="@+id/action_familyTestListFragment_to_submissionTestResultNegativeFragment"
+            app:destination="@id/submissionTestResultNegativeFragment" />
+
+        <action
+            android:id="@+id/action_familyTestListFragment_to_pendingTestResult"
+            app:destination="@id/submissionTestResultPendingFragment" />
     </fragment>
 </navigation>

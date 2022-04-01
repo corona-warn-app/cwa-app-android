@@ -17,6 +17,7 @@ import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFr
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
+import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
@@ -153,6 +154,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         // --------- Family Test Certificate ---------
         FamilyTestConsentFragmentTestModule::class,
         TestRegistrationSelectionFragmentTestModule::class,
+        FamilyTestsListFragmentTestModule::class,
     ]
 )
 class FragmentTestModuleRegistrar
