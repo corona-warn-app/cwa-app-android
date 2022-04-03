@@ -19,6 +19,8 @@ import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.Serve
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
+import de.rki.coronawarnapp.util.list.ifEmptyDo
+import de.rki.coronawarnapp.util.list.ifNotEmptyDo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -73,22 +75,19 @@ class FamilyTestRepository @Inject constructor(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun notifyIfNeeded() {
-        val identifiers = familyTests.first()
-            .filter { it.hasResultChangeBadge && !it.isResultAvailableNotificationSent }
-            .map { it.identifier }
-            .toSet()
-
-        if (identifiers.isNotEmpty()) {
-            Timber.tag(TAG).d("Notifying about [%s] family test results", identifiers.size)
-            familyTestNotificationService.showTestResultNotification()
-            storage.updateAll(identifiers) { test ->
-                Timber.tag(TAG).d("Mark test=%s as notified", test.identifier)
-                test.markAsNotified(true)
-            }
-        } else {
-            Timber.tag(TAG).d("No notification required for family tests")
+    internal suspend fun notifyIfNeeded() = familyTests.first().filter {
+        it.hasResultChangeBadge && !it.isResultAvailableNotificationSent
+    }.map {
+        it.identifier
+    }.toSet().ifNotEmptyDo { identifiers ->
+        Timber.tag(TAG).d("Notifying about [%s] family test result changes", identifiers.size)
+        familyTestNotificationService.showTestResultNotification()
+        storage.updateAll(identifiers) { test ->
+            Timber.tag(TAG).d("Mark test=%s as notified", test.identifier)
+            test.markAsNotified(true)
         }
+    }.ifEmptyDo {
+        Timber.tag(TAG).d("No notification required for family tests")
     }
 
     suspend fun restoreTest(
