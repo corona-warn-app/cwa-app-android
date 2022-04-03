@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
+import de.rki.coronawarnapp.familytest.core.model.markBadgeAsViewed
 import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateTestResult
@@ -120,5 +121,74 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
 
         dao.getAllActive().first().size shouldBe 0
         dao.getAllInRecycleBin().first().size shouldBe 0
+    }
+
+    @Test
+    fun moveAllToRecycleBin() = runBlocking {
+        val entity = test.toEntity()
+        val entity2 = test2.toEntity()
+
+        dao.insert(entity)
+        dao.insert(entity2)
+
+        val entries = dao.getAllActive().first()
+
+        entries.size shouldBe 2
+        entries[0]!!.fromEntity() shouldBe test
+        entries[1]!!.fromEntity() shouldBe test2
+
+        dao.getAllInRecycleBin().first().size shouldBe 0
+
+        dao.updateAll(setOf(identifier, identifier2)) {
+            it.moveToRecycleBin(Instant.EPOCH)
+        }
+
+        dao.getAllActive().first().size shouldBe 0
+        val recycledEntities = dao.getAllInRecycleBin().first()
+        recycledEntities.size shouldBe 2
+    }
+
+    @Test
+    fun getAll() = runBlocking {
+        val entity = test.toEntity()
+        val entity2 = test2.toEntity()
+
+        dao.insert(entity)
+        dao.insert(entity2)
+
+        val entries = dao.getAll(setOf(identifier, identifier2))
+        entries.size shouldBe 2
+        entries[0]!!.fromEntity() shouldBe test
+        entries[1]!!.fromEntity() shouldBe test2
+    }
+
+    @Test
+    fun markAllBadgesAsViewed() = runBlocking {
+        val entity = test.toEntity()
+        val entity2 = test2.toEntity()
+
+        dao.insert(entity)
+        dao.insert(entity2)
+
+        val entries = dao.getAllActive().first()
+        entries.size shouldBe 2
+        entries[0]!!.fromEntity() shouldBe test
+        entries[1]!!.fromEntity() shouldBe test2
+
+        dao.update(identifier) {
+            test.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
+        }
+
+        dao.update(identifier2) {
+            test.updateTestResult(CoronaTestResult.RAT_NEGATIVE)
+        }
+
+        dao.getAll(setOf(identifier, identifier2)).filter { it!!.test.hasBadge }.size shouldBe 2
+
+        dao.updateAll(setOf(identifier, identifier2)) {
+            it.markBadgeAsViewed()
+        }
+
+        dao.getAll(setOf(identifier, identifier2)).filter { it!!.test.hasBadge }.size shouldBe 0
     }
 }

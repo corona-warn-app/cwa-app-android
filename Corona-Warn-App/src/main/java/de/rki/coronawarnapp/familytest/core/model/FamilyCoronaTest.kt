@@ -21,8 +21,8 @@ internal fun FamilyCoronaTest.markBadgeAsViewed(): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.markBadgeAsViewed())
 }
 
-internal fun FamilyCoronaTest.updateResultNotification(sent: Boolean): FamilyCoronaTest {
-    return copy(coronaTest = coronaTest.updateResultNotification(sent))
+internal fun FamilyCoronaTest.markAsNotified(notified: Boolean): FamilyCoronaTest {
+    return copy(coronaTest = coronaTest.markAsNotified(notified))
 }
 
 internal fun CoronaTest.markDccCreated(created: Boolean): CoronaTest {
@@ -32,15 +32,6 @@ internal fun CoronaTest.markDccCreated(created: Boolean): CoronaTest {
 internal fun FamilyCoronaTest.moveToRecycleBin(now: Instant): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.moveToRecycleBin(now))
 }
-
-internal fun FamilyCoronaTest.markAsNotified(notified: Boolean): FamilyCoronaTest =
-    copy(
-        coronaTest = coronaTest.copy(
-            uiState = coronaTest.uiState.copy(
-                isResultAvailableNotificationSent = notified
-            )
-        )
-    )
 
 internal fun FamilyCoronaTest.restore(): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.restore())

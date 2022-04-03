@@ -13,7 +13,6 @@ import de.rki.coronawarnapp.familytest.core.model.markViewed
 import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
 import de.rki.coronawarnapp.familytest.core.model.updateFromResponse
-import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
 import de.rki.coronawarnapp.familytest.core.notification.FamilyTestNotificationService
 import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Success
 import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
@@ -150,7 +149,7 @@ class FamilyTestRepository @Inject constructor(
         sent: Boolean
     ) {
         storage.update(identifier) { test ->
-            test.updateResultNotification(sent)
+            test.markAsNotified(sent)
         }
     }
 
