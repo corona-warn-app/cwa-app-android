@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.familytest.core.model
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Success
 import org.joda.time.Instant
 
 data class FamilyCoronaTest(
@@ -32,9 +33,14 @@ internal fun FamilyCoronaTest.moveToRecycleBin(now: Instant): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.moveToRecycleBin(now))
 }
 
-internal fun CoronaTest.markAsNotified(notified: Boolean): CoronaTest {
-    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = notified))
-}
+internal fun FamilyCoronaTest.markAsNotified(notified: Boolean): FamilyCoronaTest =
+    copy(
+        coronaTest = coronaTest.copy(
+            uiState = coronaTest.uiState.copy(
+                isResultAvailableNotificationSent = notified
+            )
+        )
+    )
 
 internal fun FamilyCoronaTest.restore(): FamilyCoronaTest {
     return copy(coronaTest = coronaTest.restore())
@@ -50,16 +56,29 @@ internal fun FamilyCoronaTest.updateTestResult(testResult: CoronaTestResult): Fa
     )
 }
 
+internal fun FamilyCoronaTest.updateFromResponse(
+    updateResult: Success
+): FamilyCoronaTest = updateTestResult(updateResult.coronaTestResult)
+    .let { updated ->
+        updateResult.labId?.let { labId ->
+            updated.updateLabId(labId)
+        } ?: updated
+    }.let { updated ->
+        updateResult.sampleCollectedAt?.let { collectedAt ->
+            updated.updateSampleCollectedAt(collectedAt)
+        } ?: updated
+    }
+
 private fun CoronaTest.UiState.update(
     resultChanged: Boolean
 ) = when {
     // New result change should also trigger notification -> reset notification flag
     resultChanged -> copy(
-        hasResultChangeBadge = resultChanged,
+        hasResultChangeBadge = true,
         isResultAvailableNotificationSent = false
     )
     // No change -> keep notification flag as is
-    else -> copy(hasResultChangeBadge = resultChanged)
+    else -> copy(hasResultChangeBadge = false)
 }
 
 internal fun FamilyCoronaTest.updateLabId(labId: String): FamilyCoronaTest {

@@ -171,7 +171,7 @@ class CoronaTestProcessorTest : BaseTest() {
                 CoronaTestResult.PCR_OR_RAT_REDEEMED -> {
                     Timber.v("Should NOT throw for $it")
                     val result = instance.pollServer(pcrTest) as
-                        CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+                        CoronaTestProcessor.ServerResponse.Success
                     result.coronaTestResult shouldBe it
                 }
                 CoronaTestResult.RAT_PENDING,
@@ -181,7 +181,7 @@ class CoronaTestProcessorTest : BaseTest() {
                 CoronaTestResult.RAT_REDEEMED -> {
                     Timber.v("Should throw for $it")
                     val result = instance.pollServer(pcrTest) as
-                        CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+                        CoronaTestProcessor.ServerResponse.Success
                     result.coronaTestResult shouldBe CoronaTestResult.PCR_INVALID
                 }
             }

@@ -12,12 +12,10 @@ import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
 import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
-import de.rki.coronawarnapp.familytest.core.model.updateLabId
+import de.rki.coronawarnapp.familytest.core.model.updateFromResponse
 import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
-import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
-import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.familytest.core.notification.FamilyTestNotificationService
-import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Success
 import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.tag
@@ -63,20 +61,9 @@ class FamilyTestRepository @Inject constructor(
             it.coronaTest.isPollingStopped()
         }.forEach { originalTest ->
             when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
-                is CoronaTestResultUpdate ->
-                    storage.update(originalTest.identifier) { test ->
-                        test.updateTestResult(
-                            updateResult.coronaTestResult
-                        ).let { updated ->
-                            updateResult.labId?.let { labId ->
-                                updated.updateLabId(labId)
-                            } ?: updated
-                        }.let { updated ->
-                            updateResult.sampleCollectedAt?.let { collectedAt ->
-                                updated.updateSampleCollectedAt(collectedAt)
-                            } ?: updated
-                        }
-                    }
+                is Success -> storage.update(originalTest.identifier) { test ->
+                    test.updateFromResponse(updateResult)
+                }
                 is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
         }
@@ -88,20 +75,20 @@ class FamilyTestRepository @Inject constructor(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal suspend fun notifyIfNeeded() {
-        val familyTestResultChanges = familyTests.first().filter {
-            it.hasResultChangeBadge && !it.isResultAvailableNotificationSent
-        }
+        val identifiers = familyTests.first()
+            .filter { it.hasResultChangeBadge && !it.isResultAvailableNotificationSent }
+            .map { it.identifier }
+            .toSet()
 
-        if (familyTestResultChanges.isNotEmpty()) {
-            Timber.tag(TAG).d("Notifying about [%s] family test results", familyTestResultChanges.size)
+        if (identifiers.isNotEmpty()) {
+            Timber.tag(TAG).d("Notifying about [%s] family test results", identifiers.size)
             familyTestNotificationService.showTestResultNotification()
+            storage.updateAll(identifiers) { test ->
+                Timber.tag(TAG).d("Mark test=%s as notified", test.identifier)
+                test.markAsNotified(true)
+            }
         } else {
             Timber.tag(TAG).d("No notification required for family tests")
-        }
-
-        familyTestResultChanges.forEach {
-            Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
-            markAsNotified(it.identifier, true) // TODO update the whole list
         }
     }
 
@@ -144,13 +131,15 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun markAllBadgeAsViewed(identifiers: Set<TestIdentifier>) {
+    suspend fun markAllBadgesAsViewed() {
+        val identifiers = familyTests.first().filter { it.hasBadge }.map { it.identifier }.toSet()
         storage.updateAll(identifiers) { test ->
             test.markBadgeAsViewed()
         }
     }
 
-    suspend fun moveAllToRecycleBin(identifiers: Set<TestIdentifier>) {
+    suspend fun moveAllToRecycleBin() {
+        val identifiers = familyTests.first().map { it.identifier }.toSet()
         storage.updateAll(identifiers) { test ->
             test.moveToRecycleBin(timeStamper.nowUTC)
         }
@@ -171,12 +160,6 @@ class FamilyTestRepository @Inject constructor(
     ) {
         storage.update(identifier) { test ->
             test.copy(coronaTest = test.coronaTest.markDccCreated(created))
-        }
-    }
-
-    suspend fun markAsNotified(identifier: TestIdentifier, notified: Boolean) {
-        storage.update(identifier) { test ->
-            test.copy(coronaTest = test.coronaTest.markAsNotified(notified))
         }
     }
 

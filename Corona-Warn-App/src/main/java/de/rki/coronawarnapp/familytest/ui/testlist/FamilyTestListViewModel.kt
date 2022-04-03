@@ -53,19 +53,13 @@ class FamilyTestListViewModel @AssistedInject constructor(
     /**
      * This is executed on AppScope ,as it is called when screen is closing
      */
-    fun markAllTestAsViewed() = launch(appScope) {
-        val identifiers = familyTestRepository.familyTests.first()
-            .filter { it.hasBadge }
-            .map { it.identifier }
-            .toSet()
-
-        familyTestRepository.markAllBadgeAsViewed(identifiers)
+    fun markAllBadgesAsViewed() = launch(appScope) {
+        familyTestRepository.markAllBadgesAsViewed()
     }
 
     fun onRemoveTestConfirmed(test: FamilyCoronaTest?) = launch {
         if (test == null) {
-            val identifiers = familyTestRepository.familyTests.first().map { it.identifier }.toSet()
-            familyTestRepository.moveAllToRecycleBin(identifiers)
+            familyTestRepository.moveAllToRecycleBin()
         } else {
             familyTestRepository.moveTestToRecycleBin(test.identifier)
         }

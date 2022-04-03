@@ -85,7 +85,7 @@ class CoronaTestProcessor @Inject constructor(
                 PCR -> response.coronaTestResult.toValidatedPcrResult()
             }
 
-            ServerResponse.CoronaTestResultUpdate(
+            ServerResponse.Success(
                 coronaTestResult = testResult,
                 sampleCollectedAt = response.sampleCollectedAt,
                 labId = response.labId,
@@ -129,7 +129,7 @@ class CoronaTestProcessor @Inject constructor(
     }
 
     sealed class ServerResponse {
-        data class CoronaTestResultUpdate(
+        data class Success(
             val coronaTestResult: CoronaTestResult,
             val sampleCollectedAt: Instant? = null,
             val labId: String? = null,

@@ -46,7 +46,7 @@ class FamilyTestListFragment : Fragment(R.layout.fragment_family_test_list), Aut
 
     override fun onStop() {
         super.onStop()
-        viewModel.markAllTestAsViewed()
+        viewModel.markAllBadgesAsViewed()
     }
 
     private fun onNavigationEvent(event: FamilyTestListEvent) {
