@@ -60,7 +60,6 @@ import javax.inject.Inject
 class CoronaWarnApplication : Application(), HasAndroidInjector {
 
     @Inject lateinit var component: ApplicationComponent
-
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
