@@ -46,15 +46,16 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
     @Test
     fun `setup works`() = runBlockingTest2(ignoreActive = true) {
         val flow = MutableStateFlow(setOf<FamilyCoronaTest>())
-        every { repository.familyTests} returns flow
-        every { repository.familyTestsToRefresh} returns flowOf(setOf(
-            mockk<FamilyCoronaTest>().apply {
-                every { identifier } returns "id1"
-                every { registeredAt } returns Instant.parse("2021-03-20T06:00:00.000Z")
-                every { type } returns BaseCoronaTest.Type.PCR
-            }
-        ))
-
+        every { repository.familyTests } returns flow
+        every { repository.familyTestsToRefresh } returns flowOf(
+            setOf(
+                mockk<FamilyCoronaTest>().apply {
+                    every { identifier } returns "id1"
+                    every { registeredAt } returns Instant.parse("2021-03-20T06:00:00.000Z")
+                    every { type } returns BaseCoronaTest.Type.PCR
+                }
+            )
+        )
         createInstance(this).setup()
         flow.emit(
             setOf(
