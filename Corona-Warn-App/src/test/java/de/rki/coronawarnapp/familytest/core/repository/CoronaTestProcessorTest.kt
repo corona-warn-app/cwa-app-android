@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
-import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -87,14 +86,11 @@ class CoronaTestProcessorTest : BaseTest() {
 
     @Test
     fun `polling works`() = runBlockingTest {
-        val test = FamilyCoronaTest(
-            coronaTest = CoronaTest(
-                identifier = "familyTest1",
-                type = BaseCoronaTest.Type.PCR,
-                registeredAt = nowUTC,
-                registrationToken = "registrationToken1"
-            ),
-            personName = "Person"
+        val test = CoronaTest(
+            identifier = "familyTest1",
+            type = BaseCoronaTest.Type.PCR,
+            registeredAt = nowUTC,
+            registrationToken = "registrationToken1"
         )
 
         createInstance().pollServer(test)
@@ -161,12 +157,10 @@ class CoronaTestProcessorTest : BaseTest() {
 
         val instance = createInstance()
 
-        val pcrTest = FamilyCoronaTest(
-            coronaTest = test.copy(
-                testResult = CoronaTestResult.PCR_POSITIVE,
-            ),
-            personName = "Person"
+        val pcrTest = test.copy(
+            testResult = CoronaTestResult.PCR_POSITIVE,
         )
+
         CoronaTestResult.values().forEach {
             pollResult = it
             when (it) {
@@ -177,8 +171,8 @@ class CoronaTestProcessorTest : BaseTest() {
                 CoronaTestResult.PCR_OR_RAT_REDEEMED -> {
                     Timber.v("Should NOT throw for $it")
                     val result = instance.pollServer(pcrTest) as
-                        CoronaTestProcessor.PollResult.Success
-                    result.updated.testResult shouldBe it
+                        CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+                    result.coronaTestResult shouldBe it
                 }
                 CoronaTestResult.RAT_PENDING,
                 CoronaTestResult.RAT_NEGATIVE,
@@ -187,8 +181,8 @@ class CoronaTestProcessorTest : BaseTest() {
                 CoronaTestResult.RAT_REDEEMED -> {
                     Timber.v("Should throw for $it")
                     val result = instance.pollServer(pcrTest) as
-                        CoronaTestProcessor.PollResult.Success
-                    result.updated.testResult shouldBe CoronaTestResult.PCR_INVALID
+                        CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+                    result.coronaTestResult shouldBe CoronaTestResult.PCR_INVALID
                 }
             }
         }
