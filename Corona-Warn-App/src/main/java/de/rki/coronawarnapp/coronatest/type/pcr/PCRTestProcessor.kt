@@ -245,12 +245,7 @@ class PCRTestProcessor @Inject constructor(
         FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
         else -> null
     }
-
-    override suspend fun onRemove(toBeRemoved: PersonalCoronaTest) {
-        Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
-        // Currently nothing to do
-    }
-
+    
     override suspend fun markSubmitted(test: PersonalCoronaTest): PCRCoronaTest {
         Timber.tag(TAG).v("markSubmitted(test=%s)", test)
         test as PCRCoronaTest

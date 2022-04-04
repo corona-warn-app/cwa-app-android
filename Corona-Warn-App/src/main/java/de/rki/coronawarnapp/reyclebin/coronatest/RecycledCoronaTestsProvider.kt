@@ -65,15 +65,10 @@ class RecycledCoronaTestsProvider @Inject constructor(
     }
 
     suspend fun deleteCoronaTest(identifier: TestIdentifier) {
-        try {
-            Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
-            when (findTest(identifier)) {
-                is PersonalCoronaTest -> coronaTestRepository.deleteTest(identifier)
-                is FamilyCoronaTest -> familyTestRepository.deleteTest(identifier)
-            }
-        } catch (e: CoronaTestNotFoundException) {
-            Timber.tag(TAG).e(e)
-        }
+        Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
+        // Test might not be in the recycled ones yet, both repos should be called
+        runCatching { coronaTestRepository.deleteTest(identifier) }.onFailure { Timber.tag(TAG).e(it) }
+        familyTestRepository.deleteTest(identifier)
     }
 
     suspend fun deleteAllCoronaTest(identifiers: Collection<TestIdentifier>) {

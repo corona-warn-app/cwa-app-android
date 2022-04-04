@@ -10,10 +10,6 @@ interface PersonalCoronaTestProcessor {
 
     suspend fun pollServer(test: PersonalCoronaTest): PersonalCoronaTest
 
-    /**
-     * Called before a test is removed.
-     */
-    suspend fun onRemove(toBeRemoved: PersonalCoronaTest)
 
     suspend fun markProcessing(test: PersonalCoronaTest, isProcessing: Boolean): PersonalCoronaTest
 

@@ -164,10 +164,9 @@ class CoronaTestRepository @Inject constructor(
         var removedTest: BaseCoronaTest? = null
 
         internalData.updateBlocking {
-            val toBeRemoved = values.singleOrNull { it.identifier == identifier }
-                ?: throw CoronaTestNotFoundException("No found for $identifier")
-
-            getProcessor(toBeRemoved.type).onRemove(toBeRemoved)
+            val toBeRemoved = values.singleOrNull { it.identifier == identifier } ?: throw CoronaTestNotFoundException(
+                "No found for $identifier"
+            )
 
             toMutableMap().apply {
                 removedTest = remove(toBeRemoved.identifier)
