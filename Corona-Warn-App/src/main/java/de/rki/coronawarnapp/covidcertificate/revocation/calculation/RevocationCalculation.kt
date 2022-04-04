@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
-import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates.Type.*
+
 import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,9 +16,9 @@ class RevocationCalculation @Inject constructor() {
         Timber.tag(TAG).d("calculateRevocationEntryForType(type=%s)", type)
         return with(dgc) {
             when (type) {
-                SIGNATURE -> calculateRevocationEntryTypeSIGNATURE()
-                UCI -> calculateRevocationEntryTypeUCI()
-                COUNTRYCODEUCI -> calculateRevocationEntryTypeCOUNTRYCODEUCI()
+                RevocationEntryCoordinates.Type.SIGNATURE -> calculateRevocationEntryTypeSIGNATURE()
+                RevocationEntryCoordinates.Type.UCI -> calculateRevocationEntryTypeUCI()
+                RevocationEntryCoordinates.Type.COUNTRYCODEUCI -> calculateRevocationEntryTypeCOUNTRYCODEUCI()
             }
         }.also { Timber.tag(TAG).d("revocationEntry=%s", it) }
     }
