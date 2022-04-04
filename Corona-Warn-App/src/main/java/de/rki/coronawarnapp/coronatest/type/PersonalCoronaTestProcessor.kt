@@ -10,7 +10,6 @@ interface PersonalCoronaTestProcessor {
 
     suspend fun pollServer(test: PersonalCoronaTest): PersonalCoronaTest
 
-
     suspend fun markProcessing(test: PersonalCoronaTest, isProcessing: Boolean): PersonalCoronaTest
 
     suspend fun markViewed(test: PersonalCoronaTest): PersonalCoronaTest

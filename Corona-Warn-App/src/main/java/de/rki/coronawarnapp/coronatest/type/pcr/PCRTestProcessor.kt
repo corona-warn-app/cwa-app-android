@@ -245,7 +245,7 @@ class PCRTestProcessor @Inject constructor(
         FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
         else -> null
     }
-    
+
     override suspend fun markSubmitted(test: PersonalCoronaTest): PCRCoronaTest {
         Timber.tag(TAG).v("markSubmitted(test=%s)", test)
         test as PCRCoronaTest
