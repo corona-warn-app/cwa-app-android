@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.revocation.server
 import dagger.Lazy
 import javax.inject.Inject
 
-// TODO("Implement)
+// To Do: Implement
 class RevocationServer @Inject constructor(
     private val revocationApiLazy: Lazy<RevocationApi>
 ) {

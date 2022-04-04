@@ -8,5 +8,5 @@ import javax.inject.Inject
 class RevocationUpdateSettings @Inject constructor(
     @RevocationDataStore private val revocationDataStore: DataStore<Preferences>
 ) {
-    // TODO(Save last successful execution time)
+    // TO DO(Save last successful execution time)
 }

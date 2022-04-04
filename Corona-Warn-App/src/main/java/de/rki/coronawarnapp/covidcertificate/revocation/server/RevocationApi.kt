@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.server
 
-// TODO("Implement)
+// To Do: Implement
 interface RevocationApi {
 
     suspend fun getRevocationKidList()

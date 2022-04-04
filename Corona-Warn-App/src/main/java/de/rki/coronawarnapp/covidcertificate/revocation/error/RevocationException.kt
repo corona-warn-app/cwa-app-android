@@ -5,7 +5,7 @@ class RevocationException(
     cause: Throwable? = null
 ) : Exception(errorCode.message, cause) {
 
-    // TODO(Add error codes)
+    // Add error codes
     enum class ErrorCode(val message: String) {
     }
 }

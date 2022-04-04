@@ -15,7 +15,7 @@ class RevocationRepository @Inject constructor(
     @AppScope appScope: CoroutineScope
 ) {
 
-    // TODO("Not yet implemented")
+    // To Do: Implement
 
     val revocationList: Flow<List<RevocationEntryCoordinates>> = flowOf<List<RevocationEntryCoordinates>>(emptyList())
         .shareLatest(

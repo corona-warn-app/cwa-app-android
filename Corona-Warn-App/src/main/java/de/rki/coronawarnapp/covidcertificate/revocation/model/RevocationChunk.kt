@@ -1,4 +1,4 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-// TODO("Implement)
+// To Do: Implement
 interface RevocationChunk

@@ -4,5 +4,5 @@ data class RevocationKidList(
     val items: List<RevocationKidListItem>
 )
 
-// TODO("Implement)
+// To Do: Implement
 interface RevocationKidListItem

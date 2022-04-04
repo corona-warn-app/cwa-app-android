@@ -1,8 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-// TODO("Implement)
+// To Do: Implement
 data class RevocationKidTypeIndex(
     val items: List<RevocationKidTypeIndexItem>
 )
 
+// To Do: Implement
 interface RevocationKidTypeIndexItem

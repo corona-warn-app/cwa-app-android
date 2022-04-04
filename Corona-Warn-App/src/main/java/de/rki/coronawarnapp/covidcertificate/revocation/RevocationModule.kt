@@ -21,7 +21,7 @@ import javax.inject.Singleton
 object RevocationModule {
 
     @Provides
-    // TODO("Add Client and URL)
+    // TO DO("Add Client and URL)
     fun provideRevocationApi(): RevocationApi = Retrofit.Builder().build().create(RevocationApi::class.java)
 
     @Singleton
