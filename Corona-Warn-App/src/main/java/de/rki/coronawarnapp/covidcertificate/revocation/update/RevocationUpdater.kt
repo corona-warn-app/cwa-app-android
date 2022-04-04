@@ -14,7 +14,7 @@ class RevocationUpdater @Inject constructor(
 
     private val mutex = Mutex()
 
-    suspend fun updateRevocationList(forceUpdate: Boolean = false): Nothing = mutex.withLock {
-        TODO("Not yet implemented")
+    suspend fun updateRevocationList(forceUpdate: Boolean = false) = mutex.withLock {
+        // TO DO("Not yet implemented")
     }
 }

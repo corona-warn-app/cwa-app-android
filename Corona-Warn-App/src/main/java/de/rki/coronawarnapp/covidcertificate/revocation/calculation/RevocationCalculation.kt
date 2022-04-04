@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("FunctionOnlyReturningConstant")
 class RevocationCalculation @Inject constructor() {
 
     fun calculateRevocationEntryForType(
@@ -24,15 +25,15 @@ class RevocationCalculation @Inject constructor() {
     }
 
     private fun CwaCovidCertificate.calculateRevocationEntryTypeUCI(): String {
-        TODO("Not yet implemented")
+        return "Not yet implemented"
     }
 
     private fun CwaCovidCertificate.calculateRevocationEntryTypeCOUNTRYCODEUCI(): String {
-        TODO("Not yet implemented")
+        return "Not yet implemented"
     }
 
     private fun CwaCovidCertificate.calculateRevocationEntryTypeSIGNATURE(): String {
-        TODO("Not yet implemented")
+        return "Not yet implemented"
     }
 }
 

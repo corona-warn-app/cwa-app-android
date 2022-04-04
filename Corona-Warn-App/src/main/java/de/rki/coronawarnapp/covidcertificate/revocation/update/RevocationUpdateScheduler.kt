@@ -41,8 +41,7 @@ class RevocationUpdateScheduler @Inject constructor(
         triggerUpdate(forceUpdate = true)
     }
 
-    private suspend fun triggerUpdate(forceUpdate: Boolean): Nothing =
-        revocationUpdater.updateRevocationList(forceUpdate)
+    private suspend fun triggerUpdate(forceUpdate: Boolean) = revocationUpdater.updateRevocationList(forceUpdate)
 
     private fun scheduleDailyWorker() {
         Timber.tag(TAG).d("scheduleDailyWorker()")
