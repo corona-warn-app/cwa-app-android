@@ -10,6 +10,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
@@ -17,6 +19,7 @@ import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
+import testhelpers.coroutines.runBlockingTest2
 
 class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
 
@@ -33,12 +36,37 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.parse("2021-03-20T07:00:00.000Z")
     }
 
-    private fun createInstance() = FamilyTestResultRetrievalScheduler(
-        appScope = TestCoroutineScope(),
+    private fun createInstance(scope: CoroutineScope = TestCoroutineScope()) = FamilyTestResultRetrievalScheduler(
+        appScope = scope,
         repository = repository,
         workManager = workManager,
         timeStamper = timeStamper,
     )
+
+    @Test
+    fun `setup works`() = runBlockingTest2(ignoreActive = true) {
+        val flow = MutableStateFlow(setOf<FamilyCoronaTest>())
+        every { repository.familyTests} returns flow
+        every { repository.familyTestsToRefresh} returns flowOf(setOf(
+            mockk<FamilyCoronaTest>().apply {
+                every { identifier } returns "id1"
+                every { registeredAt } returns Instant.parse("2021-03-20T06:00:00.000Z")
+                every { type } returns BaseCoronaTest.Type.PCR
+            }
+        ))
+
+        createInstance(this).setup()
+        flow.emit(
+            setOf(
+                mockk<FamilyCoronaTest>().apply {
+                    every { identifier } returns "id1"
+                    every { registeredAt } returns Instant.parse("2021-03-20T06:00:00.000Z")
+                    every { type } returns BaseCoronaTest.Type.PCR
+                }
+            )
+        )
+        verify { workManager.enqueueUniquePeriodicWork(PERIODIC_WORK_NAME, any(), any()) }
+    }
 
     @Test
     fun `frequent polling needs to be scheduled`() {
@@ -77,7 +105,7 @@ class FamilyTestResultRetrievalSchedulerTest : BaseTest() {
     }
 
     @Test
-    fun `cancel worker withou tests`() {
+    fun `cancel worker without tests`() {
         every { repository.familyTestsToRefresh } returns flowOf(emptySet())
 
         runBlockingTest {

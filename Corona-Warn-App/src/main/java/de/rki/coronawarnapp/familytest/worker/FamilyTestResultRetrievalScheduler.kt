@@ -15,10 +15,11 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.worker.BackgroundConstants
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.joda.time.Instant
 import org.joda.time.Minutes
 import timber.log.Timber
@@ -39,15 +40,20 @@ class FamilyTestResultRetrievalScheduler @Inject constructor(
     private val timeStamper: TimeStamper,
 ) : ResultScheduler(workManager = workManager) {
 
-    fun setup() {
-        repository.familyTestsToRefresh
-            .distinctUntilChanged()
-            .onEach { tests ->
-                adjustPollingSchedule(tests)
-            }.launchIn(appScope)
+    fun setup() = appScope.launch {
+        Timber.d("setup $PERIODIC_WORK_NAME")
+        // adjust for added or removed tests by user
+        repository.familyTests
+            .drop(1) // Drop first value on app start
+            .distinctUntilChangedBy { it.sortedIdentifierSet }
+            .collectLatest {
+                checkPollingSchedule()
+            }
     }
 
     suspend fun checkPollingSchedule() {
+        // adjust after each polling, addition or removal of tests
+        Timber.d("checkPollingSchedule $PERIODIC_WORK_NAME")
         repository.familyTestsToRefresh.first().let {
             adjustPollingSchedule(it)
         }
@@ -61,7 +67,7 @@ class FamilyTestResultRetrievalScheduler @Inject constructor(
     }
 
     private fun enqueuePeriodicWorker(repeatIntervalMinutes: Long) {
-        Timber.d("enqueueUniquePeriodicWork $PERIODIC_WORK_NAME")
+        Timber.d("enqueueUniquePeriodicWork $PERIODIC_WORK_NAME repeating every $repeatIntervalMinutes minutes")
         workManager.enqueueUniquePeriodicWork(
             PERIODIC_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
@@ -70,6 +76,7 @@ class FamilyTestResultRetrievalScheduler @Inject constructor(
     }
 
     private fun cancelPeriodicWorker() {
+        Timber.d("cancel $PERIODIC_WORK_NAME")
         workManager.cancelUniqueWork(PERIODIC_WORK_NAME)
     }
 
@@ -101,6 +108,9 @@ internal fun FamilyCoronaTest.requiresFrequentPolling(now: Instant): Boolean {
     return type == BaseCoronaTest.Type.RAPID_ANTIGEN &&
         registeredAt.plus(frequentPollingDuration) > now
 }
+
+private val Set<FamilyCoronaTest>.sortedIdentifierSet: Set<String>
+    get() = map { test -> test.identifier }.sorted().toSet()
 
 private val frequentPollingDuration = Minutes.minutes(90).toStandardDuration()
 private const val INTERVAL_MINUTES = 120L // every 2h

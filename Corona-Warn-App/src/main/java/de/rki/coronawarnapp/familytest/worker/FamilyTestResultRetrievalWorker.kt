@@ -32,12 +32,11 @@ class FamilyTestResultRetrievalWorker @AssistedInject constructor(
         return try {
             repository.refresh()
             Timber.d("$id: Family test results retrieval successful.")
+            familyTestResultRetrievalScheduler.checkPollingSchedule()
             Result.success()
         } catch (e: Exception) {
             Timber.e(e, "Family test results retrieval failed.")
             Result.retry()
-        }.also {
-            familyTestResultRetrievalScheduler.checkPollingSchedule()
         }
     }
 
