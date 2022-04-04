@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
@@ -76,7 +78,8 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
             )
         setupMockViewModel(
             object : SubmissionTestResultConsentGivenViewModel.Factory {
-                override fun create(testType: BaseCoronaTest.Type): SubmissionTestResultConsentGivenViewModel = viewModel
+                override fun create(testType: BaseCoronaTest.Type): SubmissionTestResultConsentGivenViewModel =
+                    viewModel
             }
         )
     }
@@ -105,13 +108,38 @@ class SubmissionTestResultConsentGivenFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment() {
+    fun capture_fragment_for_personal_test() {
         every { viewModel.uiState } returns MutableLiveData(
             TestResultUIState(
                 coronaTest = mockk<PersonalCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
                     every { type } returns BaseCoronaTest.Type.PCR
+                }
+            )
+        )
+
+        launchFragmentInContainer2<SubmissionTestResultConsentGivenFragment>(fragmentArgs = consentGivenFragmentArgs)
+        takeScreenshot<SubmissionTestResultConsentGivenFragment>()
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_for_family_test() {
+        every { viewModel.uiState } returns MutableLiveData(
+            TestResultUIState(
+                coronaTest = mockk<FamilyCoronaTest>().apply {
+                    every { testResult } returns CoronaTestResult.PCR_POSITIVE
+                    every { registeredAt } returns Instant.now()
+                    every { type } returns BaseCoronaTest.Type.PCR
+                    every { identifier } returns ""
+                    every { personName } returns "Lara"
+                    every { coronaTest } returns CoronaTest(
+                        identifier = identifier,
+                        type = type,
+                        registeredAt = registeredAt,
+                        registrationToken = ""
+                    )
                 }
             )
         )
