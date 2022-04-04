@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class RevocationCheck @Inject constructor(
     private val revocationRepository: RevocationRepository
-){
+) {
 
     suspend fun checkDccAgainstCachedRevocationList(dcc: CwaCovidCertificate): Boolean {
         TODO("Not yet implemented")
