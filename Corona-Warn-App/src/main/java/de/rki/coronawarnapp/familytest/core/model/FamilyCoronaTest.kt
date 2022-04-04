@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.familytest.core.model
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
-import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Success
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor
 import org.joda.time.Instant
 
 data class FamilyCoronaTest(
@@ -48,7 +48,7 @@ internal fun FamilyCoronaTest.updateTestResult(testResult: CoronaTestResult): Fa
 }
 
 internal fun FamilyCoronaTest.updateFromResponse(
-    updateResult: Success
+    updateResult: CoronaTestProcessor.CoronaTestUpdate
 ): FamilyCoronaTest = updateTestResult(updateResult.coronaTestResult)
     .let { updated ->
         updateResult.labId?.let { labId ->

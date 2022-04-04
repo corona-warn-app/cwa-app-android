@@ -136,8 +136,9 @@ class FamilyTestRepositoryTest : BaseTest() {
         test
     )
 
-    private val update = CoronaTestProcessor.ServerResponse.Success(
-        coronaTestResult = CoronaTestResult.PCR_POSITIVE
+    private val update = CoronaTestProcessor.PollResult.Success(
+        original = familyTest,
+        updated = familyTest.updateTestResult(CoronaTestResult.PCR_POSITIVE)
     )
 
     @BeforeEach
@@ -146,12 +147,13 @@ class FamilyTestRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns nowUTC
         coEvery { processor.register(qrCode) } returns test
-        coEvery { processor.pollServer(test) } returns update
+        coEvery { processor.pollServer(familyTest) } returns update
         coEvery { storage.familyTestMap } returns flowOf(mapOf(identifier to familyTest))
         coEvery { storage.familyTestRecycleBinMap } returns flowOf(mapOf())
         coEvery { storage.save(familyTest) } just Runs
         coEvery { storage.update(any(), any()) } just Runs
         coEvery { storage.updateAll(any(), any()) } just Runs
+        coEvery { storage.updateAll(any()) } just Runs
         coEvery { storage.delete(familyTest) } just Runs
         every { familyTestNotificationService.showTestResultNotification() } just Runs
     }
@@ -174,8 +176,8 @@ class FamilyTestRepositoryTest : BaseTest() {
         coVerifySequence {
             storage.familyTestMap
             storage.familyTestRecycleBinMap
-            processor.pollServer(test)
-            storage.update(identifier, any())
+            processor.pollServer(familyTest)
+            storage.updateAll(listOf(update.updated))
         }
     }
 
@@ -185,7 +187,7 @@ class FamilyTestRepositoryTest : BaseTest() {
             flowOf(mapOf(identifier to familyTest.updateTestResult(CoronaTestResult.PCR_POSITIVE)))
         createInstance().refresh()
         coVerify(exactly = 0) {
-            processor.pollServer(test)
+            processor.pollServer(familyTest)
         }
 
         // Notification

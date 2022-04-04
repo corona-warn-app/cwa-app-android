@@ -26,6 +26,7 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.list.ifNotEmptyDo
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -66,12 +67,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
     }
 
     fun onRefreshTests() = launch {
-        val result = familyTestRepository.refresh().also {
-            refreshComplete.postValue(Unit)
+        familyTestRepository.refresh().ifNotEmptyDo { errors ->
+            error.postValue(errors.first().cause)
         }
-        if (result.isNotEmpty()) {
-            error.postValue(result.values.first())
-        }
+        refreshComplete.postValue(Unit)
     }
 
     val familyTests: LiveData<List<FamilyTestListItem>> = combine(

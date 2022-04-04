@@ -12,10 +12,9 @@ import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
 import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
-import de.rki.coronawarnapp.familytest.core.model.updateFromResponse
 import de.rki.coronawarnapp.familytest.core.notification.FamilyTestNotificationService
-import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Success
-import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.PollResult.Success
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.PollResult.Error
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
@@ -56,22 +55,21 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun refresh(): Map<TestIdentifier, Exception> {
-        val exceptions = mutableMapOf<TestIdentifier, Exception>()
-        familyTests.first().filterNot {
+    suspend fun refresh(): Set<Error> {
+        val pollResults = familyTests.first().filterNot {
             it.coronaTest.isPollingStopped()
-        }.forEach { originalTest ->
-            when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
-                is Success -> storage.update(originalTest.identifier) { test ->
-                    test.updateFromResponse(updateResult)
-                }
-                is Error -> exceptions[originalTest.identifier] = updateResult.error
-            }
+        }.map { originalTest ->
+            processor.pollServer(originalTest)
         }
 
-        notifyIfNeeded()
-
-        return exceptions
+        pollResults.filterIsInstance<Success>()
+            .filter { it.hasUpdate }
+            .map { it.updated }
+            .also { updates ->
+                storage.updateAll(updates)
+                notifyIfNeeded()
+            }
+        return pollResults.filterIsInstance<Error>().toSet()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
