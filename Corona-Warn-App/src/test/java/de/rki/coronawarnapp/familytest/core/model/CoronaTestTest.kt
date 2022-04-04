@@ -58,7 +58,7 @@ class CoronaTestTest : BaseTest() {
 
     @Test
     fun `set ResultNotification`() {
-        val updated = test.markAsNotified(true)
+        val updated = test.updateResultNotification(true)
         updated.isResultAvailableNotificationSent shouldBe true
     }
 
