@@ -20,6 +20,9 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.list.ifEmptyDo
 import de.rki.coronawarnapp.util.list.ifNotEmptyDo
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -55,12 +58,12 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun refresh(): Set<Error> {
+    suspend fun refresh(): Set<Error> = coroutineScope {
         val pollResults = familyTests.first().filterNot {
             it.coronaTest.isPollingStopped()
         }.map { originalTest ->
-            processor.pollServer(originalTest)
-        }
+            async { processor.pollServer(originalTest) }
+        }.awaitAll()
 
         pollResults.filterIsInstance<Success>()
             .filter { it.hasUpdate }
@@ -69,7 +72,8 @@ class FamilyTestRepository @Inject constructor(
                 storage.updateAll(updates)
                 notifyIfNeeded()
             }
-        return pollResults.filterIsInstance<Error>().toSet()
+
+        pollResults.filterIsInstance<Error>().toSet()
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
