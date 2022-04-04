@@ -80,12 +80,6 @@ interface FamilyCoronaTestDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: FamilyCoronaTestEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(entities: List<FamilyCoronaTestEntity>)
-
-    @Query("SELECT * FROM family_corona_test WHERE identifier IN(:identifiers)")
-    suspend fun getAll(identifiers: Set<TestIdentifier>): List<FamilyCoronaTestEntity?>
-
     @Delete
     suspend fun delete(entity: FamilyCoronaTestEntity)
 
@@ -102,16 +96,10 @@ interface FamilyCoronaTestDao {
     suspend fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?
 
     @Transaction
-    suspend fun update(identifier: TestIdentifier, update: suspend (FamilyCoronaTest) -> FamilyCoronaTest) {
+    suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
         get(identifier)?.let {
             val updated = update(it.test).toEntity()
             insert(updated)
         }
-    }
-
-    @Transaction
-    suspend fun updateAll(identifiers: Set<TestIdentifier>, update: suspend (FamilyCoronaTest) -> FamilyCoronaTest) {
-        val updated = getAll(identifiers).filterNotNull().map { entity -> update(entity.test).toEntity() }
-        insertAll(updated)
     }
 }
