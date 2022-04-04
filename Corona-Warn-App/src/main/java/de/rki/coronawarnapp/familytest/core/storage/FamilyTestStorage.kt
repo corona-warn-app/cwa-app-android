@@ -23,16 +23,8 @@ class FamilyTestStorage @Inject constructor(
         dao.insert(test.toEntity())
     }
 
-    suspend fun update(identifier: TestIdentifier, update: suspend (FamilyCoronaTest) -> FamilyCoronaTest) {
+    suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
         dao.update(identifier, update)
-    }
-
-    suspend fun updateAll(identifiers: Set<TestIdentifier>, update: suspend (FamilyCoronaTest) -> FamilyCoronaTest) {
-        dao.updateAll(identifiers, update)
-    }
-
-    suspend fun updateAll(tests: List<FamilyCoronaTest>) {
-        dao.insertAll(tests.map { it.toEntity() })
     }
 
     suspend fun delete(test: FamilyCoronaTest) {

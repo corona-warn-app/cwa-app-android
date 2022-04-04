@@ -177,8 +177,8 @@ internal fun CoronaTest.markBadgeAsViewed(): CoronaTest {
     return copy(uiState = uiState.copy(didShowBadge = true, hasResultChangeBadge = false))
 }
 
-internal fun CoronaTest.markAsNotified(notified: Boolean): CoronaTest {
-    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = notified))
+internal fun CoronaTest.updateResultNotification(sent: Boolean): CoronaTest {
+    return copy(uiState = uiState.copy(isResultAvailableNotificationSent = sent))
 }
 
 internal fun CoronaTest.restore(): CoronaTest {

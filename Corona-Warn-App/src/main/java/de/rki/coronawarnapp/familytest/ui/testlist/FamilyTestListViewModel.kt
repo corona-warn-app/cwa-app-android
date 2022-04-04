@@ -26,7 +26,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.combine
-import de.rki.coronawarnapp.util.list.ifNotEmptyDo
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
@@ -47,30 +46,43 @@ class FamilyTestListViewModel @AssistedInject constructor(
     val error = SingleLiveEvent<Exception>()
     val refreshComplete = SingleLiveEvent<Unit>()
 
-    fun onRemoveAllTests() = events.postValue(FamilyTestListEvent.ConfirmRemoveAllTests)
-
-    fun onBackPressed() = events.postValue(FamilyTestListEvent.NavigateBack)
-
-    /**
-     * This is executed on AppScope ,as it is called when screen is closing
-     */
-    fun markAllBadgesAsViewed() = launch(appScope) {
-        familyTestRepository.markAllBadgesAsViewed()
+    fun onRemoveAllTests() {
+        events.postValue(FamilyTestListEvent.ConfirmRemoveAllTests)
     }
 
-    fun onRemoveTestConfirmed(test: FamilyCoronaTest?) = launch {
-        if (test == null) {
-            familyTestRepository.moveAllToRecycleBin()
-        } else {
-            familyTestRepository.moveTestToRecycleBin(test.identifier)
+    fun onBackPressed() {
+        events.postValue(FamilyTestListEvent.NavigateBack)
+    }
+
+    fun markAllTestAsViewed() {
+        launch(appScope) {
+            familyTestRepository.familyTests.first().forEach { familyTest ->
+                familyTestRepository.markBadgeAsViewed(familyTest.identifier)
+            }
         }
     }
 
-    fun onRefreshTests() = launch {
-        familyTestRepository.refresh().ifNotEmptyDo { errors ->
-            error.postValue(errors.first().cause)
+    fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
+        launch(appScope) {
+            if (test == null) {
+                familyTestRepository.familyTests.first().forEach { familyTest ->
+                    familyTestRepository.moveTestToRecycleBin(familyTest.identifier)
+                }
+            } else {
+                familyTestRepository.moveTestToRecycleBin(test.identifier)
+            }
         }
-        refreshComplete.postValue(Unit)
+    }
+
+    fun onRefreshTests() {
+        launch(appScope) {
+            val result = familyTestRepository.refresh().also {
+                refreshComplete.postValue(null)
+            }
+            if (result.isNotEmpty()) {
+                error.postValue(result.values.first())
+            }
+        }
     }
 
     val familyTests: LiveData<List<FamilyTestListItem>> = combine(

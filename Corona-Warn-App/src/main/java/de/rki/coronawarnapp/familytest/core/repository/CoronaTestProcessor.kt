@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
-import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.coronatest.type.pcr.toValidatedPcrResult
@@ -20,8 +19,6 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
-import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.familytest.core.model.updateFromResponse
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.Instant
@@ -69,40 +66,35 @@ class CoronaTestProcessor @Inject constructor(
         )
     }
 
-    suspend fun pollServer(familyTest: FamilyCoronaTest): PollResult = try {
-        val response = try {
-            coronaTestService.checkTestResult(familyTest.registrationToken)
-        } catch (e: BadRequestException) {
-            if (familyTest.isOlderThan21Days(timeStamper.nowUTC)) {
-                Timber.v("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
-                CoronaTestResultResponse(coronaTestResult = PCR_OR_RAT_REDEEMED)
-            } else {
-                throw e
+    suspend fun pollServer(test: CoronaTest): ServerResponse {
+
+        return try {
+            val response = try {
+                coronaTestService.checkTestResult(test.registrationToken)
+            } catch (e: BadRequestException) {
+                if (test.isOlderThan21Days(timeStamper.nowUTC)) {
+                    Timber.v("HTTP 400 error after 21 days, remapping to PCR_OR_RAT_REDEEMED.")
+                    CoronaTestResultResponse(coronaTestResult = PCR_OR_RAT_REDEEMED)
+                } else {
+                    throw e
+                }
             }
+
+            val testResult = when (test.type) {
+                RAPID_ANTIGEN -> response.coronaTestResult.toValidatedRaResult()
+                PCR -> response.coronaTestResult.toValidatedPcrResult()
+            }
+
+            ServerResponse.CoronaTestResultUpdate(
+                coronaTestResult = testResult,
+                sampleCollectedAt = response.sampleCollectedAt,
+                labId = response.labId,
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to poll server for  %s", test)
+            if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
+            return ServerResponse.Error(e)
         }
-
-        val testResult = when (familyTest.type) {
-            RAPID_ANTIGEN -> response.coronaTestResult.toValidatedRaResult()
-            PCR -> response.coronaTestResult.toValidatedPcrResult()
-        }
-
-        val update = CoronaTestUpdate(
-            coronaTestResult = testResult,
-            sampleCollectedAt = response.sampleCollectedAt,
-            labId = response.labId,
-        )
-
-        PollResult.Success(
-            original = familyTest,
-            updated = familyTest.updateFromResponse(update)
-        )
-    } catch (e: Exception) {
-        Timber.e(e, "Failed to poll server for  %s", familyTest)
-        if (e !is CwaWebException) e.report(ExceptionCategory.INTERNAL)
-        PollResult.Error(
-            identifier = familyTest.identifier,
-            cause = e
-        )
     }
 
     private fun createServerRequest(qrCode: CoronaTestQRCode): RegistrationRequest {
@@ -136,23 +128,15 @@ class CoronaTestProcessor @Inject constructor(
         }
     }
 
-    data class CoronaTestUpdate(
-        val coronaTestResult: CoronaTestResult,
-        val sampleCollectedAt: Instant? = null,
-        val labId: String? = null,
-    )
-
-    sealed interface PollResult {
-        data class Success(
-            val original: FamilyCoronaTest,
-            val updated: FamilyCoronaTest,
-        ) : PollResult {
-            val hasUpdate get() = original != updated
-        }
+    sealed class ServerResponse {
+        data class CoronaTestResultUpdate(
+            val coronaTestResult: CoronaTestResult,
+            val sampleCollectedAt: Instant? = null,
+            val labId: String? = null,
+        ) : ServerResponse()
 
         data class Error(
-            val identifier: TestIdentifier,
-            val cause: Exception
-        ) : PollResult
+            val error: Exception
+        ) : ServerResponse()
     }
 }

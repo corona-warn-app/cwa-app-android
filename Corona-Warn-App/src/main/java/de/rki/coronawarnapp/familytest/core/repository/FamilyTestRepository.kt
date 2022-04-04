@@ -12,17 +12,16 @@ import de.rki.coronawarnapp.familytest.core.model.markDccCreated
 import de.rki.coronawarnapp.familytest.core.model.markViewed
 import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
 import de.rki.coronawarnapp.familytest.core.model.restore
+import de.rki.coronawarnapp.familytest.core.model.updateLabId
+import de.rki.coronawarnapp.familytest.core.model.updateResultNotification
+import de.rki.coronawarnapp.familytest.core.model.updateSampleCollectedAt
+import de.rki.coronawarnapp.familytest.core.model.updateTestResult
 import de.rki.coronawarnapp.familytest.core.notification.FamilyTestNotificationService
-import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.PollResult.Success
-import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.PollResult.Error
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate
+import de.rki.coronawarnapp.familytest.core.repository.CoronaTestProcessor.ServerResponse.Error
 import de.rki.coronawarnapp.familytest.core.storage.FamilyTestStorage
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeStamper
-import de.rki.coronawarnapp.util.list.ifEmptyDo
-import de.rki.coronawarnapp.util.list.ifNotEmptyDo
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -58,38 +57,52 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun refresh(): Set<Error> = coroutineScope {
-        val pollResults = familyTests.first().filterNot {
+    suspend fun refresh(): Map<TestIdentifier, Exception> {
+        val exceptions = mutableMapOf<TestIdentifier, Exception>()
+        familyTests.first().filterNot {
             it.coronaTest.isPollingStopped()
-        }.map { originalTest ->
-            async { processor.pollServer(originalTest) }
-        }.awaitAll()
-
-        pollResults.filterIsInstance<Success>()
-            .filter { it.hasUpdate }
-            .map { it.updated }
-            .also { updates ->
-                storage.updateAll(updates)
-                notifyIfNeeded()
+        }.forEach { originalTest ->
+            when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
+                is CoronaTestResultUpdate ->
+                    storage.update(originalTest.identifier) { test ->
+                        test.updateTestResult(
+                            updateResult.coronaTestResult
+                        ).let { updated ->
+                            updateResult.labId?.let { labId ->
+                                updated.updateLabId(labId)
+                            } ?: updated
+                        }.let { updated ->
+                            updateResult.sampleCollectedAt?.let { collectedAt ->
+                                updated.updateSampleCollectedAt(collectedAt)
+                            } ?: updated
+                        }
+                    }
+                is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
+        }
 
-        pollResults.filterIsInstance<Error>().toSet()
+        notifyIfNeeded()
+
+        return exceptions
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal suspend fun notifyIfNeeded() = familyTests.first().filter {
-        it.hasResultChangeBadge && !it.isResultAvailableNotificationSent
-    }.map {
-        it.identifier
-    }.toSet().ifNotEmptyDo { identifiers ->
-        Timber.tag(TAG).d("Notifying about [%s] family test result changes", identifiers.size)
-        familyTestNotificationService.showTestResultNotification()
-        storage.updateAll(identifiers) { test ->
-            Timber.tag(TAG).d("Mark test=%s as notified", test.identifier)
-            test.markAsNotified(true)
+    internal suspend fun notifyIfNeeded() {
+        val familyTestResultChanges = familyTests.first().filter {
+            it.hasResultChangeBadge && !it.isResultAvailableNotificationSent
         }
-    }.ifEmptyDo {
-        Timber.tag(TAG).d("No notification required for family tests")
+
+        if (familyTestResultChanges.isNotEmpty()) {
+            Timber.tag(TAG).d("Notifying about [%s] family test results", familyTestResultChanges.size)
+            familyTestNotificationService.showTestResultNotification()
+        } else {
+            Timber.tag(TAG).d("No notification required for family tests")
+        }
+
+        familyTestResultChanges.forEach {
+            Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
+            markAsNotified(it.identifier, true) // TODO update the whole list
+        }
     }
 
     suspend fun restoreTest(
@@ -131,26 +144,12 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun markAllBadgesAsViewed() {
-        val identifiers = familyTests.first().filter { it.hasBadge }.map { it.identifier }.toSet()
-        storage.updateAll(identifiers) { test ->
-            test.markBadgeAsViewed()
-        }
-    }
-
-    suspend fun moveAllToRecycleBin() {
-        val identifiers = familyTests.first().map { it.identifier }.toSet()
-        storage.updateAll(identifiers) { test ->
-            test.moveToRecycleBin(timeStamper.nowUTC)
-        }
-    }
-
     suspend fun updateResultNotification(
         identifier: TestIdentifier,
         sent: Boolean
     ) {
         storage.update(identifier) { test ->
-            test.markAsNotified(sent)
+            test.updateResultNotification(sent)
         }
     }
 
@@ -160,6 +159,12 @@ class FamilyTestRepository @Inject constructor(
     ) {
         storage.update(identifier) { test ->
             test.copy(coronaTest = test.coronaTest.markDccCreated(created))
+        }
+    }
+
+    suspend fun markAsNotified(identifier: TestIdentifier, notified: Boolean) {
+        storage.update(identifier) { test ->
+            test.copy(coronaTest = test.coronaTest.markAsNotified(notified))
         }
     }
 

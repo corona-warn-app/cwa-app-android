@@ -32,89 +32,6 @@ class FamilyTestRepositoryTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var familyTestNotificationService: FamilyTestNotificationService
 
-    private val familyTest1 = FamilyCoronaTest(
-        personName = "Person 1",
-        coronaTest = CoronaTest(
-            identifier = "id-1",
-            type = BaseCoronaTest.Type.PCR,
-            registeredAt = Instant.EPOCH,
-            registrationToken = "registrationToken",
-            uiState = CoronaTest.UiState(
-                isResultAvailableNotificationSent = false,
-                hasResultChangeBadge = true,
-                didShowBadge = false // Creation badge
-            )
-        )
-    )
-
-    private val familyTest2 = FamilyCoronaTest(
-        personName = "Person 1",
-        coronaTest = CoronaTest(
-            identifier = "id-2",
-            type = BaseCoronaTest.Type.RAPID_ANTIGEN,
-            registeredAt = Instant.EPOCH,
-            registrationToken = "registrationToken",
-            uiState = CoronaTest.UiState(
-                isResultAvailableNotificationSent = true,
-                hasResultChangeBadge = true,
-                didShowBadge = true // Creation badge
-            )
-        )
-    )
-
-    private val familyTest3 = FamilyCoronaTest(
-        personName = "Person 1",
-        coronaTest = CoronaTest(
-            identifier = "id-3",
-            type = BaseCoronaTest.Type.PCR,
-            registeredAt = Instant.EPOCH,
-            registrationToken = "registrationToken",
-            uiState = CoronaTest.UiState(
-                isResultAvailableNotificationSent = true,
-                hasResultChangeBadge = false,
-                didShowBadge = true // Creation badge
-            )
-        )
-    )
-
-    private val familyTest4 = FamilyCoronaTest(
-        personName = "Person 1",
-        coronaTest = CoronaTest(
-            identifier = "id-4",
-            type = BaseCoronaTest.Type.RAPID_ANTIGEN,
-            registeredAt = Instant.EPOCH,
-            registrationToken = "registrationToken",
-            uiState = CoronaTest.UiState(
-                isResultAvailableNotificationSent = true,
-                hasResultChangeBadge = false,
-                didShowBadge = true // Creation badge
-            )
-        )
-    )
-
-    private val familyTest5 = FamilyCoronaTest(
-        personName = "Person 2",
-        coronaTest = CoronaTest(
-            identifier = "id-5",
-            type = BaseCoronaTest.Type.PCR,
-            registeredAt = Instant.EPOCH,
-            registrationToken = "registrationToken",
-            uiState = CoronaTest.UiState(
-                isResultAvailableNotificationSent = false,
-                hasResultChangeBadge = true,
-                didShowBadge = true // Creation badge
-            )
-        )
-    )
-
-    private val testsMap = setOf(
-        familyTest1,
-        familyTest2,
-        familyTest3,
-        familyTest4,
-        familyTest5
-    ).associateBy { it.identifier }
-
     private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
 
     private val qrCode = CoronaTestQRCode.PCR(
@@ -136,9 +53,8 @@ class FamilyTestRepositoryTest : BaseTest() {
         test
     )
 
-    private val update = CoronaTestProcessor.PollResult.Success(
-        original = familyTest,
-        updated = familyTest.updateTestResult(CoronaTestResult.PCR_POSITIVE)
+    private val update = CoronaTestProcessor.ServerResponse.CoronaTestResultUpdate(
+        coronaTestResult = CoronaTestResult.PCR_POSITIVE
     )
 
     @BeforeEach
@@ -147,13 +63,11 @@ class FamilyTestRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns nowUTC
         coEvery { processor.register(qrCode) } returns test
-        coEvery { processor.pollServer(familyTest) } returns update
+        coEvery { processor.pollServer(test) } returns update
         coEvery { storage.familyTestMap } returns flowOf(mapOf(identifier to familyTest))
         coEvery { storage.familyTestRecycleBinMap } returns flowOf(mapOf())
         coEvery { storage.save(familyTest) } just Runs
         coEvery { storage.update(any(), any()) } just Runs
-        coEvery { storage.updateAll(any(), any()) } just Runs
-        coEvery { storage.updateAll(any()) } just Runs
         coEvery { storage.delete(familyTest) } just Runs
         every { familyTestNotificationService.showTestResultNotification() } just Runs
     }
@@ -176,8 +90,8 @@ class FamilyTestRepositoryTest : BaseTest() {
         coVerifySequence {
             storage.familyTestMap
             storage.familyTestRecycleBinMap
-            processor.pollServer(familyTest)
-            storage.updateAll(listOf(update.updated))
+            processor.pollServer(test)
+            storage.update(identifier, any())
         }
     }
 
@@ -187,12 +101,12 @@ class FamilyTestRepositoryTest : BaseTest() {
             flowOf(mapOf(identifier to familyTest.updateTestResult(CoronaTestResult.PCR_POSITIVE)))
         createInstance().refresh()
         coVerify(exactly = 0) {
-            processor.pollServer(familyTest)
+            processor.pollServer(test)
         }
 
         // Notification
         coVerify {
-            storage.updateAll(setOf(identifier), any())
+            storage.update(identifier, any())
         }
     }
 
@@ -261,28 +175,99 @@ class FamilyTestRepositoryTest : BaseTest() {
 
     @Test
     fun `notifyIfNeeded notify and update tests after change`() = runBlockingTest {
-        every { storage.familyTestMap } returns flowOf(testsMap)
+        val familyTest1 = FamilyCoronaTest(
+            personName = "Person 1",
+            coronaTest = CoronaTest(
+                identifier = "id-1",
+                type = BaseCoronaTest.Type.PCR,
+                registeredAt = Instant.EPOCH,
+                registrationToken = "registrationToken",
+                uiState = CoronaTest.UiState(
+                    isResultAvailableNotificationSent = false,
+                    hasResultChangeBadge = true
+                )
+            )
+        )
+
+        val familyTest2 = FamilyCoronaTest(
+            personName = "Person 1",
+            coronaTest = CoronaTest(
+                identifier = "id-2",
+                type = BaseCoronaTest.Type.RAPID_ANTIGEN,
+                registeredAt = Instant.EPOCH,
+                registrationToken = "registrationToken",
+                uiState = CoronaTest.UiState(
+                    isResultAvailableNotificationSent = true,
+                    hasResultChangeBadge = true
+                )
+            )
+        )
+
+        val familyTest3 = FamilyCoronaTest(
+            personName = "Person 1",
+            coronaTest = CoronaTest(
+                identifier = "id-3",
+                type = BaseCoronaTest.Type.PCR,
+                registeredAt = Instant.EPOCH,
+                registrationToken = "registrationToken",
+                uiState = CoronaTest.UiState(
+                    isResultAvailableNotificationSent = false,
+                    hasResultChangeBadge = false
+                )
+            )
+        )
+
+        val familyTest4 = FamilyCoronaTest(
+            personName = "Person 1",
+            coronaTest = CoronaTest(
+                identifier = "id-4",
+                type = BaseCoronaTest.Type.RAPID_ANTIGEN,
+                registeredAt = Instant.EPOCH,
+                registrationToken = "registrationToken",
+                uiState = CoronaTest.UiState(
+                    isResultAvailableNotificationSent = true,
+                    hasResultChangeBadge = true
+                )
+            )
+        )
+
+        val familyTest5 = FamilyCoronaTest(
+            personName = "Person 2",
+            coronaTest = CoronaTest(
+                identifier = "id-5",
+                type = BaseCoronaTest.Type.PCR,
+                registeredAt = Instant.EPOCH,
+                registrationToken = "registrationToken",
+                uiState = CoronaTest.UiState(
+                    isResultAvailableNotificationSent = false,
+                    hasResultChangeBadge = true
+                )
+            )
+        )
+
+        every { storage.familyTestMap } returns flowOf(
+            setOf(
+                familyTest1,
+                familyTest2,
+                familyTest3,
+                familyTest4,
+                familyTest5
+            ).associateBy { it.identifier }
+        )
         val instance = createInstance()
         instance.notifyIfNeeded()
 
         coVerify {
             familyTestNotificationService.showTestResultNotification()
-            storage.updateAll(setOf("id-1", "id-5"), any())
+            storage.update("id-1", any())
+            storage.update("id-5", any())
         }
-    }
 
-    @Test
-    fun `markAllBadgesAsViewed dismisses all badges creation + result changes`() = runBlockingTest {
-        every { storage.familyTestMap } returns flowOf(testsMap)
-        createInstance().markAllBadgesAsViewed()
-        coVerify { storage.updateAll(setOf("id-1", "id-2", "id-5"), any()) }
-    }
-
-    @Test
-    fun `moveAllToRecycleBin moves all tests to recycle bin`() = runBlockingTest {
-        every { storage.familyTestMap } returns flowOf(testsMap)
-        createInstance().moveAllToRecycleBin()
-        coVerify { storage.updateAll(setOf("id-1", "id-2", "id-3", "id-4", "id-5"), any()) }
+        coVerify(exactly = 0) {
+            storage.update("id-2", any())
+            storage.update("id-3", any())
+            storage.update("id-4", any())
+        }
     }
 
     private fun createInstance() = FamilyTestRepository(
