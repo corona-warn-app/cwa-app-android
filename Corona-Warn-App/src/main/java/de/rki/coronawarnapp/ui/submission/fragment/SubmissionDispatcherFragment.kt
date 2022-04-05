@@ -75,17 +75,6 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 else -> Unit
             }
         }
-
-        viewModel.profileCardId.observe(viewLifecycleOwner) { layoutId ->
-            binding.ratProfileCard.viewStub?.apply {
-                layoutResource = layoutId
-                Timber.d("layoutId=$layoutId")
-                inflate()
-                binding.ratProfileCard.root.setOnClickListener {
-                    viewModel.onClickProfileCard()
-                }
-            }
-        }
     }
 
     private fun openUniversalScanner() {
@@ -121,6 +110,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         }
         binding.submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
             viewModel.onTestCenterPressed()
+        }
+        binding.ratProfileCard.dispatcherCard.setOnClickListener {
+            viewModel.onRatProfilePressed()
         }
     }
 }
