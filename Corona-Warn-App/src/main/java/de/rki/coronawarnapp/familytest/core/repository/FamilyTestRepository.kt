@@ -162,10 +162,14 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun markBadgeAsViewed(
-        identifier: TestIdentifier
+        identifiers: List<TestIdentifier>
     ) {
-        storage.update(identifier) { test ->
-            test.markBadgeAsViewed()
+        identifiers.map {
+            Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>(it) { test ->
+                test.markBadgeAsViewed()
+            }
+        }.let {
+            storage.update(it)
         }
     }
 

@@ -56,8 +56,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     fun markAllTestAsViewed() {
         launch(appScope) {
-            familyTestRepository.familyTests.first().forEach { familyTest ->
-                familyTestRepository.markBadgeAsViewed(familyTest.identifier)
+            familyTestRepository.familyTests.first().map { familyTest ->
+                familyTest.identifier
+            }.let {
+                familyTestRepository.markBadgeAsViewed(it)
             }
         }
     }
