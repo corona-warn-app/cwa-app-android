@@ -36,11 +36,11 @@ fun View.setCWAContentDescription(description: String?) {
 @SuppressLint("RestrictedApi")
 @BindingAdapter("navigationButtonId")
 fun MaterialToolbar.setNavigationButtonId(id: Int) {
-    ToolbarUtils.getNavigationIconButton(this)?.id =  id
+    ToolbarUtils.getNavigationIconButton(this)?.id = id
 }
 
 @SuppressLint("RestrictedApi")
 @BindingAdapter("titleTextViewId")
 fun MaterialToolbar.settitleTextViewId(id: Int) {
-    ToolbarUtils.getTitleTextView(this)?.id =  id
+    ToolbarUtils.getTitleTextView(this)?.id = id
 }
