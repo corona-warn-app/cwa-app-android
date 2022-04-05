@@ -43,7 +43,7 @@ android {
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
-        resConfigs 'de', 'en', 'tr', 'bg', 'pl', 'ro'
+        resConfigs 'de', 'en', 'tr', 'bg', 'pl', 'ro', 'uk'
 
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
