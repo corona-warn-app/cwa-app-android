@@ -122,7 +122,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         dao.insert(entity)
         dao.insert(test2.toEntity())
 
-        dao.moveToRecycleBin(listOf(identifier,identifier2), now.millis)
+        dao.moveToRecycleBin(listOf(identifier, identifier2), now.millis)
 
         dao.getAllActive().first().size shouldBe 0
         val entries = dao.getAllInRecycleBin().first()
