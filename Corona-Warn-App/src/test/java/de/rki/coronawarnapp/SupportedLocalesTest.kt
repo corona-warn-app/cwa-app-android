@@ -32,7 +32,6 @@ class SupportedLocalesTest : BaseTest() {
         val message = """
             New Locale detected in `res` directory!. Make sure to update the following:
             - `supportedLocales` array in build.gradle file
-            - `CclDefaultInputParameters`
             - `CWADateTimeFormatPatternFactory` 
             - `CWADateTimeFormatPatternFactoryTest`
             - `NewReleaseInfoFragmentTest`
