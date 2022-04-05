@@ -50,4 +50,11 @@ class ContactDiaryDateFormatterExtensionTest {
             Locale("tr", "TR")
         ) shouldBe "Çarşamba, 6.01.2021"
     }
+
+    @Test
+    fun `format ukrainian date`() {
+        LocalDate("2021-01-06").toFormattedDay(
+            Locale("uk", "UA")
+        ) shouldBe "середа, 06.01.2021"
+    }
 }
