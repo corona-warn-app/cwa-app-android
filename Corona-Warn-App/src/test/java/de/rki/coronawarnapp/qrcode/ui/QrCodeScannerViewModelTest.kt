@@ -260,7 +260,12 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val request = recycledRAT.toRestoreRecycledTestRequest()
         val coronaTestRestoreEvent = CoronaTestRestoreEvent.RestoreDuplicateTest(restoreRecycledTestRequest = request)
         val scannerResult = RestoreDuplicateTest(restoreRecycledTestRequest = request)
-        coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledRAT) } returns coronaTestRestoreEvent
+        coEvery {
+            coronaTestRestoreHandler.restoreCoronaTest(
+                recycledRAT,
+                openResult = true
+            )
+        } returns coronaTestRestoreEvent
 
         with(viewModel()) {
             restoreCoronaTest(recycledRAT)
@@ -276,7 +281,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         }
 
         coVerify {
-            coronaTestRestoreHandler.restoreCoronaTest(recycledRAT)
+            coronaTestRestoreHandler.restoreCoronaTest(recycledRAT, openResult = true)
         }
     }
 
@@ -289,7 +294,7 @@ class QrCodeScannerViewModelTest : BaseTest() {
         val restoreEvent = CoronaTestRestoreEvent.RestoredTest(test)
         val scannerResult = createScannerResult(test)
 
-        coEvery { coronaTestRestoreHandler.restoreCoronaTest(test) } returns restoreEvent
+        coEvery { coronaTestRestoreHandler.restoreCoronaTest(test, openResult = true) } returns restoreEvent
 
         restoreCoronaTest(test)
         result.getOrAwaitValue() shouldBe scannerResult
