@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp
 
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import timber.log.Timber
@@ -16,18 +17,29 @@ class SupportedLocalesTest : BaseTest() {
             "bg",
             "pl",
             "ro",
-            "uk"
+            "uk",
         ).sorted()
         BuildConfig.SUPPORTED_LOCALES.toList().sorted() shouldBe expectedSupportedLocales
 
+        val regex = "values-[a-z]{2}$".toRegex()
         val values = File("./src/main/res")
             .listFiles()!!
             .map { it.name.substringAfterLast("/") }
-            .filter { it == "values" || it.matches("values-[a-z]{2}$".toRegex()) }
+            .filter { it == "values" || it.matches(regex) }
             .map { if (it == "values") "en" else it.substringAfterLast("-") }
             .sorted()
 
-        values shouldBe expectedSupportedLocales
+        val message = """
+            New Locale detected in `res` directory!. Make sure to update the following:
+            - `supportedLocales` array in build.gradle file
+            - `CclDefaultInputParameters`
+            - `CWADateTimeFormatPatternFactory` 
+            - `CWADateTimeFormatPatternFactoryTest`
+            - `NewReleaseInfoFragmentTest`
+            - run the App and check newly added localization and ccl localization
+        """.trimIndent()
+
+        Assertions.assertIterableEquals(expectedSupportedLocales, values, message)
 
         Timber.d("Locales in values=$values")
     }
