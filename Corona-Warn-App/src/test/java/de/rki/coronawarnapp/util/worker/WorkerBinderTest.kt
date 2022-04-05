@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultSched
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotification
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationUpdater
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -196,4 +197,7 @@ class MockProvider {
 
     @Provides
     fun dccWalletInfoUpdateTrigger(): DccWalletInfoUpdateTrigger = mockk()
+
+    @Provides
+    fun revocationUpdater(): RevocationUpdater = mockk()
 }

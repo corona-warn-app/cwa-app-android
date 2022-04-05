@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvaila
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
+import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationUpdateScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -89,6 +90,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
     @MockK lateinit var cclConfigurationUpdateScheduler: CclConfigurationUpdateScheduler
+    @MockK lateinit var revocationUpdateScheduler: RevocationUpdateScheduler
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -154,6 +156,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
                 app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
+                app.revocationUpdateScheduler = revocationUpdateScheduler
             }
         }
     }
@@ -193,6 +196,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             dscCheckScheduler.setup()
             recycleBinCleanUpScheduler.setup()
             cclConfigurationUpdateScheduler.setup()
+            revocationUpdateScheduler.setup()
         }
     }
 }
