@@ -127,7 +127,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun `moveAllTestTsoRecycleBin calls update`() = runBlockingTest {
+    fun `moveAllTestsToRecycleBin calls moveAllToRecycleBin`() = runBlockingTest {
         val instance = createInstance()
         instance.moveAllTestsToRecycleBin(listOf("1", "2", "3"))
         coVerify {
