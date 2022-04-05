@@ -45,6 +45,12 @@ class FamilyTestRepository @Inject constructor(
         it.values.toSet()
     }
 
+    val familyTestsToRefresh: Flow<Set<FamilyCoronaTest>> = familyTests.map {
+        it.filterNot {
+            it.coronaTest.isPollingStopped()
+        }.toSet()
+    }
+
     suspend fun registerTest(
         qrCode: CoronaTestQRCode,
         personName: String
@@ -59,26 +65,33 @@ class FamilyTestRepository @Inject constructor(
 
     suspend fun refresh(): Map<TestIdentifier, Exception> {
         val exceptions = mutableMapOf<TestIdentifier, Exception>()
-        familyTests.first().filterNot {
-            it.coronaTest.isPollingStopped()
-        }.forEach { originalTest ->
+        val updates = mutableListOf<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>>()
+        familyTestsToRefresh.first().forEach { originalTest ->
             when (val updateResult = processor.pollServer(originalTest.coronaTest)) {
                 is CoronaTestResultUpdate ->
-                    storage.update(originalTest.identifier) { test ->
-                        test.updateTestResult(
-                            updateResult.coronaTestResult
-                        ).let { updated ->
-                            updateResult.labId?.let { labId ->
-                                updated.updateLabId(labId)
-                            } ?: updated
-                        }.let { updated ->
-                            updateResult.sampleCollectedAt?.let { collectedAt ->
-                                updated.updateSampleCollectedAt(collectedAt)
-                            } ?: updated
+                    updates.add(
+                        Pair(
+                            originalTest.identifier
+                        ) { test ->
+                            test.updateTestResult(
+                                updateResult.coronaTestResult
+                            ).let { updated ->
+                                updateResult.labId?.let { labId ->
+                                    updated.updateLabId(labId)
+                                } ?: updated
+                            }.let { updated ->
+                                updateResult.sampleCollectedAt?.let { collectedAt ->
+                                    updated.updateSampleCollectedAt(collectedAt)
+                                } ?: updated
+                            }
                         }
-                    }
+                    )
                 is Error -> exceptions[originalTest.identifier] = updateResult.error
             }
+        }
+
+        if (updates.isNotEmpty()) {
+            storage.update(updates)
         }
 
         notifyIfNeeded()
@@ -99,9 +112,17 @@ class FamilyTestRepository @Inject constructor(
             Timber.tag(TAG).d("No notification required for family tests")
         }
 
+        val updates = mutableListOf<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>>()
         familyTestResultChanges.forEach {
             Timber.tag(TAG).d("Mark test=%s as notified", it.identifier)
-            markAsNotified(it.identifier, true) // TODO update the whole list
+            updates.add(
+                Pair(it.identifier) { test ->
+                    test.copy(coronaTest = test.coronaTest.markAsNotified(true))
+                }
+            )
+        }
+        if (updates.isNotEmpty()) {
+            storage.update(updates)
         }
     }
 
