@@ -226,20 +226,25 @@ class MainActivityViewModelTest2 : BaseTest() {
         )
         val request = recycledPCR.toRestoreRecycledTestRequest()
         val restoreEvent = CoronaTestRestoreEvent.RestoreDuplicateTest(restoreRecycledTestRequest = request)
-        coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledPCR) } returns restoreEvent
+        coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledPCR, openResult = false) } returns restoreEvent
 
         with(createInstance()) {
             restoreCoronaTest(recycledPCR)
             coronaTestRestoreEvent.getOrAwaitValue() shouldBe restoreEvent
 
             val restoreEvent2 = CoronaTestRestoreEvent.RestoredTest(recycledPCR)
-            coEvery { coronaTestRestoreHandler.restoreCoronaTest(recycledPCR) } returns restoreEvent2
+            coEvery {
+                coronaTestRestoreHandler.restoreCoronaTest(
+                    recycledPCR,
+                    openResult = false
+                )
+            } returns restoreEvent2
             restoreCoronaTest(recycledPCR)
             coronaTestRestoreEvent.getOrAwaitValue() shouldBe restoreEvent2
         }
 
         coVerify {
-            coronaTestRestoreHandler.restoreCoronaTest(recycledPCR)
+            coronaTestRestoreHandler.restoreCoronaTest(recycledPCR, openResult = false)
         }
     }
 }
