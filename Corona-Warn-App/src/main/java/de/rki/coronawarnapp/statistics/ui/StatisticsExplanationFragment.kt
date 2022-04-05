@@ -51,8 +51,6 @@ class StatisticsExplanationFragment : Fragment(R.layout.fragment_statistics_expl
     }
 
     private fun setButtonOnClickListener() {
-        binding.statisticsExplanationHeaderButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 }

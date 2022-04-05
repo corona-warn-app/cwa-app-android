@@ -59,8 +59,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         binding.apply {
             root.transitionName = args.personCode
             toolbar.setNavigationOnClickListener {
-                viewModel.dismissAdmissionStateBadge()
-                popBackStack()
+                viewModel.dismissAdmissionStateBadge(true)
             }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
@@ -89,7 +88,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            viewModel.dismissAdmissionStateBadge()
+            viewModel.dismissAdmissionStateBadge(true)
         }
     }
 
@@ -101,7 +100,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         fromScanner = false,
                         colorShade = event.colorShade
-                    )
+                    ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is OpenTestCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
@@ -109,7 +108,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         fromScanner = false,
                         colorShade = event.colorShade
-                    )
+                    ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is OpenVaccinationCertificateDetails -> doNavigate(
                 PersonDetailsFragmentDirections
@@ -117,12 +116,12 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                         certIdentifier = event.containerId.qrCodeHash,
                         fromScanner = false,
                         colorShade = event.colorShade
-                    )
+                    ).also { viewModel.dismissAdmissionStateBadge() }
             )
             is ValidationStart -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToValidationStartFragment(event.containerId)
-            )
+            ).also { viewModel.dismissAdmissionStateBadge() }
             is ShowErrorDialog -> with(event) {
                 if (error is DccValidationException && error.errorCode == DccValidationException.ErrorCode.NO_NETWORK) {
                     DccValidationNoInternetErrorDialog(requireContext()).show()
@@ -133,14 +132,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             is OpenBoosterInfoDetails -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToBoosterInfoDetailsFragment(event.personIdentifierCode)
-            )
+            ).also { viewModel.dismissAdmissionStateBadge() }
             is OpenCertificateReissuanceConsent -> doNavigate(
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToDccReissuanceConsentFragment(event.personIdentifierCode)
-            )
+            ).also { viewModel.dismissAdmissionStateBadge() }
             Back -> popBackStack()
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
+                    .also { viewModel.dismissAdmissionStateBadge() }
         }
     }
 

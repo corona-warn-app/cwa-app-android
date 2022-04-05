@@ -108,10 +108,10 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Narażenia z niskim ryzykiem w ciągu jednego dnia"</item>
+        <item quantity="one">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
         <item quantity="other">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
         <item quantity="zero">"Brak narażeń"</item>
-        <item quantity="two">"Narażenia z niskim ryzykiem w ciągu %1$d dnia"</item>
+        <item quantity="two">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
         <item quantity="few">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
         <item quantity="many">"Narażenia z niskim ryzykiem w ciągu %1$d dni"</item>
     </plurals>
@@ -124,17 +124,17 @@
     <plurals name="risk_card_high_risk_encounter_days_body">
         <item quantity="one">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
         <item quantity="other">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="zero">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="two">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
+        <item quantity="zero">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
+        <item quantity="two">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="few">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="many">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Narażenia w ciągu jednego dnia z podwyższonym ryzykiem"</item>
+        <item quantity="one">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
         <item quantity="other">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="zero">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
-        <item quantity="two">"Narażenia w ciągu %1$d dnia z podwyższonym ryzykiem"</item>
+        <item quantity="zero">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
+        <item quantity="two">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="few">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
         <item quantity="many">"Narażenia w ciągu %1$d dni z podwyższonym ryzykiem"</item>
     </plurals>
@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Zmiana Twojego statusu ryzyka"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Ostatnie narażenie, które spowodowało zwiększenie Twojego ryzyka, miało miejsce ponad 14 dni temu. Z tego powodu ryzyko zakażenia zostało ponownie sklasyfikowane jako niskie.\n\nZalecenia:\n1. Jeśli nie masz żadnych objawów zakażenia COVID-19, przestrzegaj nadal obowiązujących zasad dotyczących zachowania dystansu i higieny.\n2. Jeżeli masz objawy zakażenia COVID-19, zalecamy wizytę u lekarza i wykonanie testu."</string>
+    <string name="risk_lowered_dialog_body">"Ostatnie narażenie, które spowodowało zwiększenie Twojego ryzyka, miało miejsce ponad %d dni temu. Z tego powodu ryzyko zakażenia zostało ponownie sklasyfikowane jako niskie.\n\nZalecenia:\n1. Jeśli nie masz żadnych objawów zakażenia COVID-19, przestrzegaj nadal obowiązujących zasad dotyczących zachowania dystansu i higieny.\n2. Jeżeli masz objawy zakażenia COVID-19, zalecamy wizytę u lekarza i wykonanie testu."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Zapewniamy obsługę klienta w następujących językach:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"angielskim, niemieckim, tureckim\n\nGodziny pracy:\nod poniedziałku do soboty: 7:00 - 22:00 (CET)\n(za wyjątkiem świąt państwowych)"</string>
+    <string name="information_contact_body_open">"niemieckim\n\nGodziny pracy:\nod poniedziałku do piątku: 9:00 - 17:00 (CET)\n(za wyjątkiem świąt państwowych)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"W razie jakichkolwiek innych pytań zadzwoń na numer 116 117 (w Niemczech). Następnie w trakcie automatycznego komunikatu naciśnij 2 (punkt Związkowego Ministerstwa Zdrowia). Naciśnij 1 (pogotowie ratunkowe) tylko, jeśli masz objawy."</string>
     <!-- XACT: describes illustration -->
@@ -1134,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Skanuj kod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik testu w aplikacji i ostrzegaj innych lub poproś o certyfikat testu na COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik swojego testu i wyniki testów członków swojej rodziny w aplikacji i ostrzegaj innych lub poproś o certyfikat testu na COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Znajdź ośrodek testujący"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

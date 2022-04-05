@@ -9,17 +9,21 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidAntigenQrCodeExtractor
 import de.rki.coronawarnapp.coronatest.qrcode.rapid.RapidPcrQrCodeExtractor
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.playbook.BackgroundNoise
 import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
+import de.rki.coronawarnapp.qrcode.handler.CoronaTestQRCodeHandler
 import de.rki.coronawarnapp.qrcode.scanner.QrCodeExtractor
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreEvent
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.CoronaTestRestoreHandler
 import de.rki.coronawarnapp.storage.OnboardingSettings
 import de.rki.coronawarnapp.storage.TracingSettings
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.main.home.MainActivityEvent
 import de.rki.coronawarnapp.ui.presencetracing.attendee.checkins.CheckInsFragment
 import de.rki.coronawarnapp.util.CWADebug
@@ -45,8 +49,10 @@ class MainActivityViewModel @AssistedInject constructor(
     private val covidCertificateSettings: CovidCertificateSettings,
     private val raExtractor: RapidAntigenQrCodeExtractor,
     private val rPcrExtractor: RapidPcrQrCodeExtractor,
-    private val submissionRepository: SubmissionRepository,
+    private val coronaTestQRCodeHandler: CoronaTestQRCodeHandler,
+    private val coronaTestRestoreHandler: CoronaTestRestoreHandler,
     coronaTestRepository: CoronaTestRepository,
+    familyTestRepository: FamilyTestRepository,
     checkInRepository: CheckInRepository,
     personCertificatesProvider: PersonCertificatesProvider,
     valueSetRepository: ValueSetsRepository,
@@ -60,6 +66,12 @@ class MainActivityViewModel @AssistedInject constructor(
     }.asLiveData2()
     val showEnvironmentHint = SingleLiveEvent<String>()
     val event = SingleLiveEvent<MainActivityEvent>()
+
+    private val mutableCoronaTestResult = SingleLiveEvent<CoronaTestQRCodeHandler.Result>()
+    val coronaTestResult: LiveData<CoronaTestQRCodeHandler.Result> = mutableCoronaTestResult
+
+    private val mutableCoronaTestRestoreEvent = SingleLiveEvent<CoronaTestRestoreEvent>()
+    val coronaTestRestoreEvent: LiveData<CoronaTestRestoreEvent> = mutableCoronaTestRestoreEvent
 
     val showBackgroundJobDisabledNotification = SingleLiveEvent<Unit>()
     val showEnergyOptimizedEnabledForBackground = SingleLiveEvent<Unit>()
@@ -78,11 +90,10 @@ class MainActivityViewModel @AssistedInject constructor(
 
     val mainBadgeCount: LiveData<Int> = combine(
         coronaTestRepository.coronaTests,
+        familyTestRepository.familyTests,
         tracingSettings.showRiskLevelBadge.flow
-    ) { coronaTests, showBadge ->
-        coronaTests.filter { !it.didShowBadge }
-            .count()
-            .plus(if (showBadge) 1 else 0)
+    ) { personalTests, familyTests, showBadge ->
+        personalTests.plus(familyTests).count { it.hasBadge }.plus(if (showBadge) 1 else 0)
     }.asLiveData2()
 
     init {
@@ -145,14 +156,16 @@ class MainActivityViewModel @AssistedInject constructor(
 
     private suspend fun QrCodeExtractor<CoronaTestQRCode>.handleCoronaTestQr(uriString: String) = try {
         val qrCode = extract(rawString = uriString)
-        val test = submissionRepository.testForType(qrCode.type).first()
-        when {
-            test != null -> event.postValue(MainActivityEvent.GoToDeletionScreen(qrCode))
-            else -> event.postValue(MainActivityEvent.GoToSubmissionConsentFragment(qrCode))
-        }
+        val coronaTestResult = coronaTestQRCodeHandler.handleQrCode(qrCode)
+        mutableCoronaTestResult.postValue(coronaTestResult)
     } catch (e: Exception) {
         Timber.w(e, "onNavigationUri failed")
         event.postValue(MainActivityEvent.Error(e))
+    }
+
+    fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest) = launch {
+        val coronaTestRestoreEvent = coronaTestRestoreHandler.restoreCoronaTest(recycledCoronaTest)
+        mutableCoronaTestRestoreEvent.postValue(coronaTestRestoreEvent)
     }
 
     fun openScanner() = launch {

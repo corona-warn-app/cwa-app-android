@@ -19,13 +19,14 @@ import androidx.transition.TransitionSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.ui.onboarding.CovidCertificateOnboardingFragment
 import de.rki.coronawarnapp.databinding.FragmentQrcodeScannerBinding
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragment
 import de.rki.coronawarnapp.dccticketing.ui.dialog.DccTicketingDialogType
 import de.rki.coronawarnapp.dccticketing.ui.dialog.show
+import de.rki.coronawarnapp.reyclebin.coronatest.handler.RestoreCoronaTestConfirmationDialog
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.presencetracing.attendee.confirm.ConfirmCheckInFragment
 import de.rki.coronawarnapp.ui.presencetracing.attendee.onboarding.CheckInOnboardingFragment
@@ -80,7 +81,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     ) {
         _binding = this
 
-        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner)
+        scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner, activity = requireActivity())
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
         buttonOpenFile.setOnClickListener {
@@ -241,36 +242,32 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                 )
             is CoronaTestResult.TestPending ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToPendingTestResult(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier,
                     forceTestResultUpdate = true
                 )
             is CoronaTestResult.TestInvalid ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultInvalidFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.TestNegative ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultNegativeFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.TestPositive ->
                 QrCodeScannerFragmentDirections.actionUniversalScannerToSubmissionTestResultKeysSharedFragment(
-                    testType = scannerResult.test.type,
                     testIdentifier = scannerResult.test.identifier
                 )
             is CoronaTestResult.WarnOthers ->
                 QrCodeScannerFragmentDirections
                     .actionUniversalScannerToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                        testType = scannerResult.test.type
+                        testIdentifier = scannerResult.test.identifier
                     )
         }
             ?.let { doNavigate(it) }
     }
 
     private fun onDccResult(scannerResult: DccResult) {
-        Timber.tag(TAG).d(" onDccResult(scannerResult=%s)", scannerResult)
+        Timber.tag(TAG).d("onDccResult(scannerResult=%s)", scannerResult)
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.universalScanner, true)
             .build()
@@ -338,16 +335,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
             .show()
     }
 
-    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: CoronaTest) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.recycle_bin_restore_corona_test_dialog_title)
-            .setCancelable(false)
-            .setMessage(R.string.recycle_bin_restore_corona_test_dialog_message)
-            .setPositiveButton(android.R.string.ok) { _, _ ->
-                viewModel.restoreCoronaTest(recycledCoronaTest)
-            }
-            .show()
-    }
+    private fun showRestoreCoronaTestConfirmation(recycledCoronaTest: BaseCoronaTest) =
+        RestoreCoronaTestConfirmationDialog
+            .showDialog(context = requireContext()) { viewModel.restoreCoronaTest(recycledCoronaTest) }
 
     private fun showMaxPersonExceedsThresholdResult(max: Int, deeplink: Uri, navOptions: NavOptions) {
         MaterialAlertDialogBuilder(requireContext())

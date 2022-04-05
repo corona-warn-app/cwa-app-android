@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Брой дни с излагания на нисък риск: 1"</item>
+        <item quantity="one">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="other">"Брой дни с излагания с нисък риск - %1$d"</item>
         <item quantity="zero">"Няма излагане на риск"</item>
         <item quantity="two">"Брой дни с излагания с нисък риск - %1$d"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Брой дни с излагания на повишен риск: 1"</item>
+        <item quantity="one">"Брой дни с излагания с повишен риск - %1$d"</item>
         <item quantity="other">"Брой дни с излагания с повишен риск - %1$d"</item>
         <item quantity="zero">"Брой дни с излагания с повишен риск - %1$d"</item>
         <item quantity="two">"Брой дни с излагания с повишен риск - %1$d"</item>
@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Промяна на Вашия статус на риск"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Изминаха повече от 14 дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nЕто какво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
+    <string name="risk_lowered_dialog_body">"Изминаха повече от %d дни от последния контакт, който предизвика повишаване на нивото на Вашия риск. Затова рискът Ви от заразяване отново е определен като нисък.\n\nКакво трябва да направите:\n1. Ако нямате симптоми за заразяване с COVID-19, продължете да следвате общоприетите правила за спазване на дистанция и хигиена.\n2. Ако имате симптоми за заразяване с COVID-19, препоръчваме Ви да посетите своя лекар и да се тествате."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Нашият екип за обслужване на клиенти е готов да Ви помогне на следните езици:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"Английски, немски, турски\n\nРаботно време:\nот понеделник до неделя: 7:00 - 22:00\n(с изключение на национални празници)"</string>
+    <string name="information_contact_body_open">"Немски\n\nРаботно време:\nот понеделник до петък: 9:00 - 17:00 (CET)\n(с изключение на национални празници)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Ако имате въпроси се обадете на тел. 116 117(за Германия). По време на автоматичното съобщение натиснете 2 за свързване с Федерално министерство на здравеопазването. Натиснете 1(за свързване със службата за спешна медицинска помощ) само ако имате симптоми."</string>
     <!-- XACT: describes illustration -->
@@ -1134,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Получете резултата си в приложението и предупредете останалите потребители или заявете своя сертификат за тест за COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултата си, както и резултатите за членовете на семейството Ви в приложението и предупредете останалите потребители или заявете своя сертификат за тест за COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

@@ -6,8 +6,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
-import de.rki.coronawarnapp.coronatest.isFamilyTest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode.CategoryType
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.LocalDate
 
 class RequestCovidCertificateViewModel @AssistedInject constructor(
-    @Assisted private val testRegistrationRequest: TestRegistrationRequest,
+    @Assisted private val testRequest: TestRegistrationRequest,
     @Assisted("coronaTestConsent") private val coronaTestConsent: Boolean,
     @Assisted("allowTestReplacement") private val allowTestReplacement: Boolean,
     @Assisted private val personName: String?,
@@ -39,20 +39,20 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
     fun navigateBack() = events.postValue(Back)
 
     private fun registerTestWithDccConsent(dccConsent: Boolean) = launch {
-        val consentedQrCode = when (testRegistrationRequest) {
-            is CoronaTestQRCode.PCR -> testRegistrationRequest.copy(
+        val consentedQrCode = when (testRequest) {
+            is CoronaTestQRCode.PCR -> testRequest.copy(
                 dateOfBirth = birthDateData.value,
                 isDccConsentGiven = dccConsent
             )
-            is CoronaTestQRCode.RapidPCR -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
-            is CoronaTestQRCode.RapidAntigen -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
-            else -> testRegistrationRequest
+            is CoronaTestQRCode.RapidPCR -> testRequest.copy(isDccConsentGiven = dccConsent)
+            is CoronaTestQRCode.RapidAntigen -> testRequest.copy(isDccConsentGiven = dccConsent)
+            else -> testRequest
         }
 
-        if (testRegistrationRequest.isFamilyTest) {
+        if (consentedQrCode is CoronaTestQRCode && consentedQrCode.categoryType == CategoryType.FAMILY) {
             requireNotNull(personName) { "Family test should have a person name" }
             registrationStateProcessor.startFamilyTestRegistration(
-                request = testRegistrationRequest,
+                request = consentedQrCode,
                 personName = personName,
             )
         } else {

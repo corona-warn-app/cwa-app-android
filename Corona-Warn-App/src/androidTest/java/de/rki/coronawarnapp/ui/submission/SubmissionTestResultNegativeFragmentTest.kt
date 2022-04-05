@@ -4,8 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
@@ -18,7 +19,6 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragmentArgs
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeViewModel
@@ -44,37 +44,33 @@ import testhelpers.takeScreenshot
 class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
-    @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var certificateRepository: TestCertificateRepository
     @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
-    @MockK lateinit var testType: CoronaTest.Type
     @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
+    @MockK lateinit var coronaTestProvider: CoronaTestProvider
     private val resultNegativeFragmentArgs =
-        SubmissionTestResultNegativeFragmentArgs(testType = CoronaTest.Type.PCR, testIdentifier = "").toBundle()
+        SubmissionTestResultNegativeFragmentArgs(testIdentifier = "").toBundle()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
-        every { submissionRepository.testForType(any()) } returns flowOf()
+        every { coronaTestProvider.getTestForIdentifier(any()) } returns flowOf()
         every { certificateRepository.certificates } returns flowOf()
 
         viewModel = spyk(
             SubmissionTestResultNegativeViewModel(
                 TestDispatcherProvider(),
-                submissionRepository,
-                recycledCoronaTestsProvider,
-                certificateRepository,
-                testResultAvailableNotificationService,
-                testType,
-                testIdentifier = ""
+                recycledTestProvider = recycledCoronaTestsProvider,
+                certificateRepository = certificateRepository,
+                testIdentifier = "",
+                coronaTestProvider = coronaTestProvider
             )
         )
 
         setupMockViewModel(
             object : SubmissionTestResultNegativeViewModel.Factory {
                 override fun create(
-                    testType: CoronaTest.Type,
                     testIdentifier: TestIdentifier
                 ): SubmissionTestResultNegativeViewModel = viewModel
             }
@@ -91,10 +87,10 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
     fun capture_fragment() {
         every { viewModel.testResult } returns MutableLiveData(
             SubmissionTestResultNegativeViewModel.UIState(
-                coronaTest = mockk<CoronaTest>().apply {
+                coronaTest = mockk<BaseCoronaTest>().apply {
                     every { testResult } returns CoronaTestResult.PCR_NEGATIVE
                     every { registeredAt } returns Instant.now()
-                    every { type } returns CoronaTest.Type.PCR
+                    every { type } returns BaseCoronaTest.Type.PCR
                     every { identifier } returns TestIdentifier()
                 },
                 certificateState = SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE

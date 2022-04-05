@@ -4,7 +4,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -20,7 +20,7 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
     val dispatcherProvider: DispatcherProvider,
     interoperabilityRepository: InteroperabilityRepository,
     val submissionRepository: SubmissionRepository,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: BaseCoronaTest.Type
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
@@ -62,6 +62,6 @@ class SubmissionYourConsentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionYourConsentViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionYourConsentViewModel
+        fun create(testType: BaseCoronaTest.Type): SubmissionYourConsentViewModel
     }
 }

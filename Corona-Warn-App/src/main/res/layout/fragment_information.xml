@@ -7,11 +7,12 @@
         android:id="@+id/information_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/information_title">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/information_header"
-            style="@style/CWAToolbar.Close"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

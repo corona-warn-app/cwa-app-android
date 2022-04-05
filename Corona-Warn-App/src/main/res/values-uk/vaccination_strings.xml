@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- XTXT: Vaccination Details subtitle-->
+    <string name="vaccination_details_subtitle">"Сертифікат вакцинації"</string>
+
+    <!-- XACT: Vaccination List Qr-Code for screen readers -->
+    <string name="vaccination_list_qr_code_accessibility">"Код QR"</string>
+
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_not_yet_supported">"Цей сертифікат вакцинації ще не підтримується у вашій версії застосунку. Оновіть свій застосунок або зв’яжіться з гарячою лінією технічної підтримки в розділі «Інформація про застосунок»."</string>
+    <!-- XTXT: Vaccination QR code scan error message-->
+    <string name="error_vc_different_person">"Особисті дані цього сертифіката вакцинації не збігаються з даними у вже зареєстрованих сертифікатах. У застосунку можна зареєструвати сертифікати лише для однієї особи."</string>
+
+    <!-- XTXT: Vaccination certificate Detail title -->
+    <string name="vaccination_certificate_title">"Сертифікат вакцинації"</string>
+    <!-- XTXT: Vaccination certificate Detail subtitle -->
+    <string name="vaccination_certificate_subtitle">"Цифровий COVID-сертифікат ЄС"</string>
+
+</resources>

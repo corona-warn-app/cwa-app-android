@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- XTXT: Request green certificate title -->
+    <string name="request_green_certificate_title">"Сертифікат тесту на COVID"</string>
+    <!-- XTXT: Request green certificate subtitle -->
+    <string name="request_green_certificate_subtitle">"Ви можете використовувати застосунок, щоб запитати офіційний цифровий сертифікат тесту на COVID-19, який потім додається в застосунок."</string>
+    <!-- XTXT: Request green certificate body section 1 -->
+    <string name="request_green_certificate_body_1">"Сертифікат тесту видається тільки в тому випадку, якщо результат тесту негативний."</string>
+    <!-- XTXT: Request green certificate body section 2 -->
+    <string name="request_green_certificate_body_2">"Сертифікат тесту є дійсним доказом негативного результату тесту в межах ЄС (наприклад, для подорожей)."</string>
+    <!-- XTXT: Request green certificate body section 3 -->
+    <!-- XBUT: Request green certificate agree button -->
+    <string name="request_green_certificate_agree_button">"Запитати сертифікат тесту"</string>
+    <!-- XBUT: Request green certificate disagree button -->
+    <string name="request_green_certificate_disagree_button">"Ні, дякую"</string>
+    <!-- XTXT: Request green certificate birth date description -->
+    <string name="request_green_certificate_birthdate_description">"З міркувань безпеки ваш сертифікат тесту захищений датою вашого народження. Сертифікат тесту може бути виданий тільки за умови правильної дати народження."</string>
+    <!-- XTXT: Request green certificate birth date hint -->
+    <string name="request_green_certificate_birthdate_hint">"Дата народження"</string>
+    <!-- XTXT: Request green certificate exit dialog title -->
+    <string name="request_gc_dialog_title">"Скасувати реєстрацію"</string>
+    <!-- XTXT: Request green certificate exit dialog message -->
+    <string name="request_gc_dialog_message">"Якщо ви скасуєте реєстрацію тесту, ви не зможете отримати результат тесту в застосунку."</string>
+    <!-- XBUT: Request green certificate exit dialog positive button -->
+    <string name="request_gc_dialog_positive_button">"Скасувати реєстрацію"</string>
+    <!-- XBUT: Request green certificate exit dialog negative button -->
+    <string name="request_gc_dialog_negative_button">"Продовжити реєстрацію"</string>
+    <!-- XTXT: Detail green certificate title -->
+    <!-- XTXT: Detail green certificate test type -->
+    <!-- XTXT: Detail green certificate menu item: delete -->
+    <string name="green_certificate_details_menu_item_delete">"Видалити сертифікат"</string>
+    <!-- XTXT: Detail green certificate menu item: print -->
+    <string name="green_certificate_details_menu_item_export">"Відобразити версію для друку"</string>
+
+    <!-- XTXT: Green certificate main screen title -->
+    <string name="certification_screen_title">"Сертифікати"</string>
+    <!-- XTXT: Green certificate menu item -->
+    <string name="menu_certification_information">"Інформація"</string>
+    <!-- XTXT: Green certificate main screen header text -->
+    <!-- XTXT: Green certificate info card title 1st line -->
+    <!-- XTXT: Green certificate info card title 2nd line  -->
+    <!-- XTXT: Green certificate info card body  -->
+
+    <!-- XTXT: Test certificate time -->
+    <!-- XTXT: Test certificate registration time -->
+    <string name="test_certificate_registration_time">"Дата реєстрації %1$s, %2$s"</string>
+    <!-- XTXT: Test error label -->
+    <string name="test_certificate_error_label">"Помилка під час отримання сертифіката"</string>
+    <!-- XBUT: Test error retry button -->
+    <string name="test_certificate_error_retry_button">"Спробуйте ще раз"</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again">"Не вдалося встановити з’єднання. Спробуйте ще раз."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_not_supported_by_lab">"Ви не можете запросити сертифікат тесту, оскільки цей пункт тестування не підтримує видачу сертифікатів тест. Видаліть сертифікат або зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_no_network">"Ваше з’єднання з Інтернетом було втрачено. Перевірте з’єднання та спробуйте ще раз."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_e2e_error_call_hotline">"Сталась помилка. Спробуйте пізніше або зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_try_again_dcc_not_available_yet">"Ваш сертифікат ще недоступний. Спробуйте ще раз. Якщо помилка не зникає, зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_client_error_call_hotline">"Сталась помилка. Спробуйте пізніше або зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+    <!-- XTXT: Error text -->
+    <string name="error_tc_dcc_expired">"Цей сертифікат більше не актуальний. Ви можете видалити його з Corona-Warn-App."</string>
+    <!-- XBUT: Test error delete button -->
+    <string name="test_certificate_error_delete_button">"Видалити сертифікат тесту"</string>
+    <!-- XTXT: Test error refresh dialog title -->
+    <string name="test_certificate_refresh_dialog_title">"Все ще існують проблеми із запитом."</string>
+    <!-- XTXT: Test error delete dialog title -->
+    <string name="test_certificate_delete_dialog_title">"Ви хочете видалити сертифікат?"</string>
+    <!-- XTXT: Test error delete dialog body -->
+    <string name="test_certificate_delete_dialog_body">"Якщо ви видалите сертифікат, ви не зможете запитати його знову."</string>
+    <!-- XBUT: Test error delete dialog confirm button -->
+    <string name="test_certificate_delete_dialog_confirm_button">"Видалити"</string>
+    <!-- XBUT: Test error delete dialog cancel button -->
+    <string name="test_certificate_delete_dialog_cancel_button">"Скасувати"</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_label_refreshing">"Ваш сертифікат створюється..."</string>
+    <!-- XTXT: Test error card body refreshing -->
+    <string name="test_certificate_error_refreshing_status">"Запитується ваш сертифікат. Це може зайняти декілька хвилин..."</string>
+    <!-- XBUT: Text for invalid test certificate error button, linking to FAQ-->
+    <string name="test_certificate_error_invalid_labid_faq">"ЗіВ щодо сертифікатів тестів"</string>
+    <!-- XTXT: Text for invalid test certificate error text -->
+    <string name="test_certificate_error_faq">"Для отримання додаткової інформації про те, як отримати сертифікат тесту, перегляньте нашу сторінку ЗіВ."</string>
+</resources>

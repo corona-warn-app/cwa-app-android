@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.reyclebin.coronatest.request
 
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import io.kotest.matchers.shouldBe
@@ -21,7 +21,7 @@ class RestoreRecycledTestRequestTest : BaseTest() {
             testResult = CoronaTestResult.PCR_NEGATIVE,
             isDccConsentGiven = true
         ).toRestoreRecycledTestRequest() shouldBe RestoreRecycledTestRequest(
-            type = CoronaTest.Type.PCR,
+            type = BaseCoronaTest.Type.PCR,
             identifier = "pcr-identifier",
             isDccSupportedByPoc = true,
             isDccConsentGiven = true
@@ -37,7 +37,7 @@ class RestoreRecycledTestRequestTest : BaseTest() {
             isDccConsentGiven = false,
             isDccSupportedByPoc = false
         ).toRestoreRecycledTestRequest() shouldBe RestoreRecycledTestRequest(
-            type = CoronaTest.Type.RAPID_ANTIGEN,
+            type = BaseCoronaTest.Type.RAPID_ANTIGEN,
             identifier = "rat-identifier",
             isDccSupportedByPoc = false,
             isDccConsentGiven = false

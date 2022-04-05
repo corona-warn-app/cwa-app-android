@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Exposures with low risk on one day"</item>
+        <item quantity="one">"Exposures with low risk on %1$d day"</item>
         <item quantity="other">"Exposures with low risk on %1$d days"</item>
         <item quantity="zero">"No exposures"</item>
         <item quantity="two">"Exposures with low risk on %1$d days"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Exposures on one day with increased risk"</item>
+        <item quantity="one">"Exposures on %1$d day with increased risk"</item>
         <item quantity="other">"Exposures on %1$d days with increased risk"</item>
         <item quantity="zero">"Exposures on %1$d days with increased risk"</item>
         <item quantity="two">"Exposures on %1$d days with increased risk"</item>
@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Change of Your Risk Status"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than 14 days ago. Therefore, your risk of infection has been ranked as low again.\n\nThis is what you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
+    <string name="risk_lowered_dialog_body">"The last exposure that resulted in your increased risk was more than %d days ago. Therefore, your risk of infection has been ranked as low again.\n\nWhat you should do:\n1. If you do not have any COVID-19 symptoms, continue to follow the prevailing rules regarding distancing and hygiene.\n2. If you have COVID-19 symptoms, we recommend that you visit your doctor and get tested."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Our customer service is available in the following languages:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"English, German, Turkish\n\nBusiness hours:\nMonday to Saturday: 7am - 10pm (CET)\n(except national holidays)"</string>
+    <string name="information_contact_body_open">"German\n\nBusiness hours:\nMonday to Friday: 9am - 5pm (CET)\n(except national holidays)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"If you have any questions, please call 116 117 (in Germany). Then, during the automated message, press 2 for the Federal Ministry of Health service point. Only press 1 (the general medical emergency service) if you have symptoms."</string>
     <!-- XACT: describes illustration -->
@@ -1029,18 +1029,28 @@
     <string name="submission_test_result_subtitle">"How this works:"</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_heading">"Your PCR Test Was Added"</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"Der PCR-Test wurde hinzugefügt"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Der Schnelltest wurde hinzugefügt"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Your test has been stored in the Corona-Warn-App."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Your Test Result Is Not Available Yet"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Das Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"As soon as your test result becomes available, it will be displayed in the app.\n\nYou will also receive your test result outside of the app. The public health authorities will notify you, should your test be positive.\n\nIf you are notified of a positive test result outside the app, please delete the test currently registered in the app. Call the number shown under Request TAN to get a TAN. You can then use this TAN to register your result in the app and warn others."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\nSie bekommen das Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Your rapid test was added"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_rat_heading">"Your test result is not available yet"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_rat_body">"As soon as your test result becomes available, it will be displayed in the app."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Your test result will be added to your contact journal"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
@@ -1048,10 +1058,16 @@
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Your COVID Test Certificate"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID-Testzertifikat"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Das digitale  COVID-Testzertifikat liegt im Tab „Zertifikate“ vor."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"An official digital COVID test certificate cannot be issued because this testing point does not support the issuing of test certificates."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Your official digital COVID test certificate is not available yet. As soon as it becomes available, it will be displayed in your app."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Das offizielle digitale COVID-Testzertifikat liegt noch nicht vor. Sobald es vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"No official digital COVID test certificate will be issued, as per your request."</string>
 
@@ -1134,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scan QR Code"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Receive your test result in the app and warn others or request your COVID test certificate."</string>
+    <string name="submission_dispatcher_qr_card_text">"Receive your test result and results for your family members in the app and warn others and request your COVID test certificate."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Find Testing Center"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1363,6 +1379,10 @@
         <item>"Do not go to work if you feel unwell to ensure you do not put other people at risk."</item>
         <item>"If you feel very ill or your symptoms get worse, please contact your family doctor. They can also advise you whether you should take another SARS-CoV-2 test."</item>
     </string-array>
+
+    <!-- Family Test Result Card -->
+    <!-- XHED PCR headline -->
+    <string name="family_test_result_card_headline">"%s-Befund:"</string>
 
     <!-- XBUT Symptoms exact date button -->
     <string name="symptoms_calendar_exact_date_button">"Date"</string>

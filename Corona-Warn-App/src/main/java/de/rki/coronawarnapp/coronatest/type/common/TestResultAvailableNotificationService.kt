@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.coronatest.type.common
 import android.content.Context
 import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationId
 import de.rki.coronawarnapp.ui.main.MainActivity
@@ -23,7 +23,7 @@ open class TestResultAvailableNotificationService(
     private val logTag: String,
 ) {
 
-    suspend fun showTestResultAvailableNotification(test: CoronaTest) {
+    suspend fun showTestResultAvailableNotification(test: BaseCoronaTest) {
         Timber.tag(logTag).v("showTestResultAvailableNotification(test=%s)", test)
 
         if (foregroundState.isInForeground.first()) {
@@ -36,7 +36,6 @@ open class TestResultAvailableNotificationService(
             setComponentName(MainActivity::class.java)
             setArguments(
                 SubmissionTestResultPendingFragmentArgs(
-                    testType = test.type,
                     testIdentifier = test.identifier
                 ).toBundle()
             )

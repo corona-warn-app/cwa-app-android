@@ -2,8 +2,12 @@ package de.rki.coronawarnapp.ui.submission.viewmodel
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeFragment
-import de.rki.coronawarnapp.submission.ui.testresults.negative.RATResultNegativeModule
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragment
+import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentModule
+import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragment
+import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionModule
+import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListFragment
+import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestListModule
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionContactFragment
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.deletionwarning.SubmissionDeletionWarningFragment
@@ -102,12 +106,18 @@ internal abstract class SubmissionFragmentModule {
     @ContributesAndroidInjector(modules = [SubmissionDeletionWarningModule::class])
     abstract fun submissionDeletionWarningScreen(): SubmissionDeletionWarningFragment
 
-    @ContributesAndroidInjector(modules = [RATResultNegativeModule::class])
-    abstract fun submissionNegativeRATResultScreen(): RATResultNegativeFragment
-
     @ContributesAndroidInjector(modules = [SubmissionTestResultKeysSharedModule::class])
     abstract fun submissionTestResultKeysSharedScreen(): SubmissionTestResultKeysSharedFragment
 
     @ContributesAndroidInjector(modules = [RequestCovidCertificateFragmentModule::class])
     abstract fun requestCovidCertificateFragment(): RequestCovidCertificateFragment
+
+    @ContributesAndroidInjector(modules = [FamilyTestConsentModule::class])
+    abstract fun familyTestConsentFragment(): FamilyTestConsentFragment
+
+    @ContributesAndroidInjector(modules = [TestRegistrationSelectionModule::class])
+    abstract fun testRegistrationSelectionFragment(): TestRegistrationSelectionFragment
+
+    @ContributesAndroidInjector(modules = [FamilyTestListModule::class])
+    abstract fun familyTestListFragment(): FamilyTestListFragment
 }

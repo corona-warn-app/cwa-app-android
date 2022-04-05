@@ -97,7 +97,7 @@ class TraceLocationWarnDurationFragment :
             }
         }
 
-        viewModel.events.observe(this) {
+        viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 is TraceLocationWarnDurationEvent.ContinueWithTraceLocationDuration ->
                     doNavigate(

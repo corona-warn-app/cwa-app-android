@@ -7,8 +7,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultInvalidBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -29,7 +30,7 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultInvalidViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -38,31 +39,35 @@ class SubmissionTestResultInvalidFragment : Fragment(R.layout.fragment_submissio
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onTestOpened()
-
         binding.apply {
             submissionTestResultButtonInvalidRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            toolbar.setNavigationOnClickListener { popBackStack() }
         }
-
-        binding.apply {
-
-            when (navArgs.testType) {
-                CoronaTest.Type.PCR -> {
-                    testResultInvalidStepsPcrAdded.isVisible = true
-                    testResultInvalidStepsRatAdded.isVisible = false
+        viewModel.testResult.observe2(this) { uiState ->
+            when (uiState.coronaTest.type) {
+                BaseCoronaTest.Type.PCR -> {
+                    binding.testResultInvalidStepsPcrAdded.isVisible = true
+                    binding.testResultInvalidStepsRatAdded.isVisible = false
+                    if (uiState.coronaTest is FamilyCoronaTest) {
+                        binding.testResultInvalidStepsPcrAdded.setEntryTitle(
+                            getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                        )
+                    }
                 }
-                CoronaTest.Type.RAPID_ANTIGEN -> {
-                    testResultInvalidStepsPcrAdded.isVisible = false
-                    testResultInvalidStepsRatAdded.isVisible = true
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> {
+                    binding.testResultInvalidStepsPcrAdded.isVisible = false
+                    binding.testResultInvalidStepsRatAdded.isVisible = true
+                    if (uiState.coronaTest is FamilyCoronaTest) {
+                        binding.testResultInvalidStepsPcrAdded.setEntryTitle(
+                            getText(R.string.submission_family_test_result_steps_added_rat_heading)
+                        )
+                    }
                 }
             }
-        }
 
-        viewModel.testResult.observe2(this) {
-            binding.submissionTestResultSection.setTestResultSection(it.coronaTest)
+            binding.submissionTestResultSection.setTestResultSection(uiState.coronaTest)
         }
 
         viewModel.routeToScreen.observe2(this) { navDirections ->

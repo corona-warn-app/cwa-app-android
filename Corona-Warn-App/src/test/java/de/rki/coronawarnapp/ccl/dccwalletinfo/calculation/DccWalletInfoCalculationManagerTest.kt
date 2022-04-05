@@ -7,7 +7,10 @@ import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.dccreissuance.notification.DccReissuanceNotificationService
+import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -16,6 +19,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -33,29 +37,56 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var calculation: DccWalletInfoCalculation
     @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var certificatesPerson1: PersonCertificates
-    @MockK lateinit var certificatesPerson2: PersonCertificates
-    @MockK lateinit var certificatePersonIdentifier1: CertificatePersonIdentifier
-    @MockK lateinit var certificatePersonIdentifier2: CertificatePersonIdentifier
+    @MockK lateinit var certificatesPersonA: PersonCertificates
+    @MockK lateinit var certificatesPersonB: PersonCertificates
     @MockK lateinit var dccWalletInfo1: DccWalletInfo
     @MockK lateinit var dccWalletInfo2: DccWalletInfo
+    @MockK lateinit var dccValidationRepository: DccValidationRepository
 
     lateinit var instance: DccWalletInfoCalculationManager
+
+    private val identifierA = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "01.10.1982",
+        firstNameStandardized = "fNA",
+        lastNameStandardized = "lNA"
+    )
+
+    private val vaccinationCertA = mockk<VaccinationCertificate>().apply {
+        every { personIdentifier } returns identifierA
+        every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
+        every { hasNotificationBadge } returns false
+        every { headerIssuedAt } returns Instant.EPOCH
+    }
+
+    private val identifierB = CertificatePersonIdentifier(
+        dateOfBirthFormatted = "01.01.1976",
+        firstNameStandardized = "fNB",
+        lastNameStandardized = "lNB"
+    )
+
+    private val vaccinationCertB = mockk<VaccinationCertificate>().apply {
+        every { personIdentifier } returns identifierB
+        every { vaccinatedOn } returns Instant.EPOCH.toLocalDateUtc()
+        every { hasNotificationBadge } returns false
+        every { headerIssuedAt } returns Instant.EPOCH
+    }
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
         every { personCertificatesProvider.personCertificates } returns
-            flowOf(setOf(certificatesPerson1, certificatesPerson2))
+            flowOf(setOf(certificatesPersonA, certificatesPersonB))
         every { timeStamper.nowUTC } returns Instant.EPOCH.withMillis(1000)
         every { boosterRulesRepository.rules } returns flowOf(listOf())
-        every { certificatesPerson1.certificates } returns listOf()
-        every { certificatesPerson2.certificates } returns listOf()
-        every { certificatesPerson1.personIdentifier } returns certificatePersonIdentifier1
-        every { certificatesPerson2.personIdentifier } returns certificatePersonIdentifier2
+        every { dccValidationRepository.invalidationRules } returns flowOf(listOf())
+        every { certificatesPersonA.certificates } returns listOf(vaccinationCertA)
+        every { certificatesPersonB.certificates } returns listOf(vaccinationCertB)
+        every { certificatesPersonA.personIdentifier } returns identifierA
+        every { certificatesPersonB.personIdentifier } returns identifierB
+
         every { dccWalletInfo1.validUntilInstant } returns Instant.EPOCH.withMillis(2000)
         every { dccWalletInfo2.validUntilInstant } returns Instant.EPOCH.withMillis(100)
-        every { calculation.init(any()) } just Runs
+        every { calculation.init(any(), any()) } just Runs
         coEvery { calculation.getDccWalletInfo(any(), "", any()) } returns dccWalletInfo1
         coEvery { dccWalletInfoRepository.save(any(), any()) } just Runs
         coEvery { boosterNotificationService.notifyIfNecessary(any(), any(), any()) } just Runs
@@ -66,7 +97,8 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             personCertificatesProvider = personCertificatesProvider,
             dccWalletInfoRepository = dccWalletInfoRepository,
             calculation = calculation,
-            timeStamper = timeStamper
+            timeStamper = timeStamper,
+            dccValidationRepository = dccValidationRepository
         )
     }
 
@@ -82,8 +114,8 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
 
     @Test
     fun `calculation runs for each person after certificate change`() {
-        every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
-        every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
+        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
         runBlockingTest2 {
             instance.triggerNow("")
         }
@@ -92,17 +124,17 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierA, dccWalletInfo1)
         }
         coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier2, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierB, dccWalletInfo1)
         }
     }
 
     @Test
     fun `calculation runs for each person after config change`() {
-        every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
-        every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
+        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
         runBlockingTest2 {
             instance.triggerAfterConfigChange("")
         }
@@ -111,17 +143,17 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierA, dccWalletInfo1)
         }
         coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier2, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierB, dccWalletInfo1)
         }
     }
 
     @Test
     fun `calculation runs for each person without walletInfo`() {
-        every { certificatesPerson1.dccWalletInfo } returns null
-        every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPersonA.dccWalletInfo } returns null
+        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo1
 
         runBlockingTest2 {
             instance.triggerAfterConfigChange("", false)
@@ -131,27 +163,27 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierA, dccWalletInfo1)
             boosterNotificationService.notifyIfNecessary(
-                personIdentifier = certificatePersonIdentifier1,
+                personIdentifier = identifierA,
                 oldWalletInfo = null,
                 newWalletInfo = dccWalletInfo1
             )
             dccReissuanceNotificationService.notifyIfNecessary(
-                personIdentifier = certificatePersonIdentifier1,
+                personIdentifier = identifierA,
                 oldWalletInfo = null,
                 newWalletInfo = dccWalletInfo1
             )
         }
         coVerify(exactly = 0) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier2, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierB, dccWalletInfo1)
         }
     }
 
     @Test
     fun `calculation runs for each person with invalid walletInfo`() {
-        every { certificatesPerson1.dccWalletInfo } returns dccWalletInfo1
-        every { certificatesPerson2.dccWalletInfo } returns dccWalletInfo2
+        every { certificatesPersonA.dccWalletInfo } returns dccWalletInfo1
+        every { certificatesPersonB.dccWalletInfo } returns dccWalletInfo2
 
         runBlockingTest2 {
             instance.triggerAfterConfigChange("", false)
@@ -161,10 +193,10 @@ class DccWalletInfoCalculationManagerTest : BaseTest() {
             calculation.getDccWalletInfo(any(), "", any())
         }
         coVerify(exactly = 0) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier1, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierA, dccWalletInfo1)
         }
         coVerify(exactly = 1) {
-            dccWalletInfoRepository.save(certificatePersonIdentifier2, dccWalletInfo1)
+            dccWalletInfoRepository.save(identifierB, dccWalletInfo1)
         }
     }
 }

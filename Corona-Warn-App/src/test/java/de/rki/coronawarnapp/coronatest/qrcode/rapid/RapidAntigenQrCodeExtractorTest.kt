@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.coronatest.qrcode.raQrCode7
 import de.rki.coronawarnapp.coronatest.qrcode.raQrIncompletePersonalData
 import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcAndFullPersonalData
 import de.rki.coronawarnapp.coronatest.qrcode.rawPayloadWithDgcWithoutPersonalData
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.test.runBlockingTest
@@ -71,7 +71,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     @Test
     fun `personal data is extracted`() = runBlockingTest {
         val data = instance.extract(raQrCode3)
-        data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        data.type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         data.hash shouldBe "7dce08db0d4abd5ac1d2498b571afb221ca947c75c847d05466b4cfe9d95dc66"
         data.createdAt shouldBe Instant.ofEpochMilli(1619618352000)
         data.dateOfBirth shouldBe LocalDate.parse("1963-03-17")
@@ -82,7 +82,7 @@ class RapidAntigenQrCodeExtractorTest : BaseTest() {
     @Test
     fun `empty strings are treated as null or not set`() = runBlockingTest {
         val data = instance.extract(raQrAnonymousValidHash)
-        data.type shouldBe CoronaTest.Type.RAPID_ANTIGEN
+        data.type shouldBe BaseCoronaTest.Type.RAPID_ANTIGEN
         data.hash shouldBe "61df099207704a072fb2a97d31687523ca50f5bb031fc58bcd325bd9a976fd68"
         data.createdAt shouldBe Instant.ofEpochMilli(1627403671000)
         data.dateOfBirth shouldBe null

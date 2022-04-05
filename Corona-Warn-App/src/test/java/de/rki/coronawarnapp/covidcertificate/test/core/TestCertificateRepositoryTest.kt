@@ -1,7 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -54,6 +56,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var dccStateChecker: DccStateChecker
     @MockK lateinit var dscRepository: DscRepository
+    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
 
     @Inject lateinit var testData: TestCertificateTestData
 
@@ -69,7 +72,13 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
-        coEvery { dccStateChecker.checkState(any()) } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
+        coEvery {
+            dccStateChecker.checkState(
+                any(),
+                any(),
+                any()
+            )
+        } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
 
         covidTestCertificateConfig.apply {
             every { waitForRetry } returns Duration.standardSeconds(10)
@@ -95,6 +104,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
 
         every { dscRepository.dscData } returns flowOf(DscData(listOf(), timeStamper.nowUTC))
+        every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = TestCertificateRepository(
@@ -108,6 +118,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         rsaKeyPairGenerator = RSAKeyPairGenerator(),
         dccStateChecker = dccStateChecker,
         dscRepository = dscRepository,
+        dccWalletInfoRepository = dccWalletInfoRepository
     )
 
     @Test
@@ -115,11 +126,11 @@ class TestCertificateRepositoryTest : BaseTest() {
         val instance = createInstance(scope = this)
 
         instance.requestCertificate(
-            test = mockk<CoronaTest>().apply {
+            test = mockk<PersonalCoronaTest>().apply {
                 every { identifier } returns "test-identifier"
                 every { isDccSupportedByPoc } returns true
                 every { isDccConsentGiven } returns true
-                every { type } returns CoronaTest.Type.PCR
+                every { type } returns BaseCoronaTest.Type.PCR
                 every { registeredAt } returns Instant.ofEpochSecond(4555)
                 every { registrationToken } returns "token"
                 every { labId } returns "best-lab"

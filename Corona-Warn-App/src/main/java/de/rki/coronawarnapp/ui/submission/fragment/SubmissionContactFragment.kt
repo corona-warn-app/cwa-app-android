@@ -54,9 +54,7 @@ class SubmissionContactFragment : Fragment(R.layout.fragment_submission_contact)
     }
 
     private fun setButtonOnClickListener() {
-        binding.submissionContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onBackPressed()
-        }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
         binding.includeSubmissionContact.submissionContactNavigationRowPhone.navigationRow
             .setOnClickListener {
                 callPhone(getString(R.string.submission_contact_number_display))

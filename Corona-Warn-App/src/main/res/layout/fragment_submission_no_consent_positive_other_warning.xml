@@ -14,13 +14,14 @@
         android:id="@+id/submission_positive_other_privacy_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_positive_other_warning_title"
         android:fillViewport="true"
         tools:context=".ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/CWAToolbar.Close"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +199,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/submission_accept_button"
-            android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"

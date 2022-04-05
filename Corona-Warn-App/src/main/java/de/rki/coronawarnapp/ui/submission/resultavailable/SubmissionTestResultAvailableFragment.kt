@@ -39,7 +39,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultAvailableViewModel.Factory
-            factory.create(navArgs.testType)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -75,7 +75,7 @@ class SubmissionTestResultAvailableFragment : Fragment(R.layout.fragment_submiss
         binding.apply {
             submissionTestResultAvailableProceedButton.setOnClickListener { viewModel.proceed() }
             submissionTestResultAvailableConsentStatus.setOnClickListener { viewModel.goConsent() }
-            submissionTestResultAvailableHeader.headerButtonBack.buttonIcon.setOnClickListener { viewModel.goBack() }
+            toolbar.setNavigationOnClickListener { viewModel.goBack() }
         }
 
         viewModel.showCloseDialog.observe2(this) {

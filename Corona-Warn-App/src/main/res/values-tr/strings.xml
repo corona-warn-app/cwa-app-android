@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Bir gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="one">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="zero">"Hiçbir maruz kalma yok"</item>
         <item quantity="two">"%1$d gün için düşük riskli maruz kalmalar"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Bir gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="one">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="zero">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="two">"%1$d gün için artmış riskli maruz kalmalar"</item>
@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Risk Durumunuzda Değişiklik"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma 14 günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
+    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
+    <string name="information_contact_body_open">"Almanca\n\nMesai saatleri:\nPazartesi - Cuma: 9.00 - 17.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XACT: describes illustration -->
@@ -1134,7 +1134,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR Kodu Tara"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Uygulamada test sonucunuzu alın ve diğer kullanıcıları uyarın ya da COVID test sertifikanızı talep edin."</string>
+    <string name="submission_dispatcher_qr_card_text">"Uygulamada size ait test sonucunu ve aile üyelerinize ait test sonuçlarını alın ve diğer kullanıcıları uyarın ya da COVID test sertifikanızı talep edin."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

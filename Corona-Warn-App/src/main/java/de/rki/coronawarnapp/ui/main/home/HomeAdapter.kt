@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.main.home
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
 import de.rki.coronawarnapp.statistics.ui.homecards.StatisticsHomeCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestErrorCard
 import de.rki.coronawarnapp.submission.ui.homecards.PcrTestInvalidCard
@@ -53,6 +54,7 @@ class HomeAdapter :
                 TypedVHCreatorMod({ data[it] is FAQCard.Item }) { FAQCard(it) },
                 TypedVHCreatorMod({ data[it] is IncompatibleCard.Item }) { IncompatibleCard(it) },
                 TypedVHCreatorMod({ data[it] is CreateTraceLocationCard.Item }) { CreateTraceLocationCard(it) },
+                TypedVHCreatorMod({ data[it] is FamilyTestCard.Item }) { FamilyTestCard(it) },
                 TypedVHCreatorMod({ data[it] is IncreasedRiskCard.Item }) { IncreasedRiskCard(it) },
                 TypedVHCreatorMod({ data[it] is LowRiskCard.Item }) { LowRiskCard(it) },
                 TypedVHCreatorMod({ data[it] is TracingFailedCard.Item }) { TracingFailedCard(it) },

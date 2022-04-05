@@ -11,8 +11,8 @@ import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestPCRT
 import de.rki.coronawarnapp.coronatest.latestRAT
 import de.rki.coronawarnapp.coronatest.testErrorsSingleEvent
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.SubmissionStatePCR
@@ -20,13 +20,16 @@ import de.rki.coronawarnapp.coronatest.type.pcr.toSubmissionState
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.SubmissionStateRAT
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.toSubmissionState
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.familytest.ui.homecard.FamilyTestCard
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.risk.RiskCardDisplayInfo
 import de.rki.coronawarnapp.risk.RiskState
 import de.rki.coronawarnapp.statistics.AddStatsItem
 import de.rki.coronawarnapp.statistics.LocalIncidenceAndHospitalizationStats
+import de.rki.coronawarnapp.statistics.StatisticsData
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.local.storage.LocalStatisticsConfigStorage
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -65,6 +68,7 @@ import de.rki.coronawarnapp.tracing.ui.homecards.LowRiskCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingDisabledCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingFailedCard
 import de.rki.coronawarnapp.tracing.ui.homecards.TracingProgressCard
+import de.rki.coronawarnapp.tracing.ui.homecards.TracingStateItem
 import de.rki.coronawarnapp.tracing.ui.statusbar.TracingHeaderState
 import de.rki.coronawarnapp.tracing.ui.statusbar.toHeaderState
 import de.rki.coronawarnapp.ui.main.home.HomeFragmentEvents.ShowErrorResetDialog
@@ -87,6 +91,7 @@ import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -116,7 +121,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     private val familyTestRepository: FamilyTestRepository,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
-    private var isLoweredRiskLevelDialogBeingShown = false
     private val tracingStateProvider by lazy { tracingStateProviderFactory.create(isDetailsMode = false) }
     private val tracingCardItems = tracingStateProvider.state.map { tracingStateItem(it) }.distinctUntilChanged()
 
@@ -127,11 +131,26 @@ class HomeFragmentViewModel @AssistedInject constructor(
         tracingSettings
             .isUserToBeNotifiedOfAdditionalHighRiskLevel
             .flow
+            .distinctUntilChanged()
             .filter { it }
             .onEach {
                 events.postValue(
                     HomeFragmentEvents.ShowAdditionalHighRiskLevelDialogEvent(
-                        maxEncounterAgeInDays = appConfigProvider.getAppConfig().maxEncounterAgeInDays
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
+                    )
+                )
+            }
+            .launchInViewModel()
+
+        tracingSettings
+            .isUserToBeNotifiedOfLoweredRiskLevel
+            .flow
+            .distinctUntilChanged()
+            .filter { it }
+            .onEach {
+                events.postValue(
+                    HomeFragmentEvents.ShowLoweredRiskLevelDialogEvent(
+                        maxEncounterAgeInDays = appConfigProvider.currentConfig.first().maxEncounterAgeInDays
                     )
                 )
             }
@@ -160,7 +179,7 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     val markTestBadgesAsSeen = coronaTestRepository.coronaTests
         .onEach { tests ->
-            tests.filter { !it.didShowBadge }
+            tests.filter { it.hasBadge }
                 .forEach {
                     coronaTestRepository.markBadgeAsViewed(it.identifier)
                 }
@@ -195,122 +214,15 @@ class HomeFragmentViewModel @AssistedInject constructor(
         appConfigProvider.currentConfig.map { it.coronaTestParameters }.distinctUntilChanged(),
         familyTestRepository.familyTests
     ) { tracingItem, testPCR, testRAT, statsData, coronaTestParameters, familyTests ->
-        val statePCR = testPCR.toSubmissionState()
-        val stateRAT = testRAT.toSubmissionState(timeStamper.nowUTC, coronaTestParameters)
-        val pcrIdentifier = testPCR?.identifier ?: ""
-        val ratIdentifier = testRAT?.identifier ?: ""
-
         mutableListOf<HomeItem>().apply {
-
-            val currentRiskState = when (tracingItem) {
-                is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
-                is LowRiskCard.Item -> RiskState.LOW_RISK
-                is TracingFailedCard.Item -> RiskState.CALCULATION_FAILED
-                else -> null // tracing is disabled or calculation is currently in progress
-            }
-
-            if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
-                add(tracingItem)
-            }
-
-            if (bluetoothSupport.isAdvertisingSupported == false) {
-                val scanningSupported = bluetoothSupport.isScanningSupported != false
-                add(
-                    IncompatibleCard.Item(
-                        onClickAction = { events.postValue(HomeFragmentEvents.OpenIncompatibleUrl(scanningSupported)) },
-                        bluetoothSupported = scanningSupported
-                    )
-                )
-            }
-
-            // My own tests
-            when (statePCR) {
-                SubmissionStatePCR.NoTest -> {
-                    if (stateRAT == SubmissionStateRAT.NoTest) {
-                        add(testPCR.toTestCardItem(pcrIdentifier))
-                    } else {
-                        add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
-                        add(testPCR.toTestCardItem(pcrIdentifier))
-                    }
-                }
-                else -> {
-                    add(testPCR.toTestCardItem(pcrIdentifier))
-                    if (stateRAT != SubmissionStateRAT.NoTest) {
-                        add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
-                        add(
-                            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
-                                events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
-                            }
-                        )
-                    } else {
-                        add(testRAT.toTestCardItem(coronaTestParameters, ratIdentifier))
-                    }
-                }
-            }
-
-            // Family tests tile
-            if (familyTests.isNotEmpty()) {
-                val badgeCount = familyTests.count { !it.didShowBadge }
-                // TBD family tests tile
-            }
-
-            if (statsData.isDataAvailable) {
-                add(
-                    StatisticsHomeCard.Item(
-                        data = statsData,
-                        onClickListener = {
-                            when (it) {
-                                is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
-                                else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
-                            }
-                        },
-                        onRemoveListener = { statsItem ->
-                            when (statsItem) {
-                                is LocalIncidenceAndHospitalizationStats -> {
-                                    localStatisticsConfigStorage.activeSelections.update {
-                                        it.withoutLocation(
-                                            statsItem.selectedLocation
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    )
-                )
-            }
-
-            add(
-                CreateTraceLocationCard.Item(
-                    onClickAction = {
-                        events.postValue(
-                            HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
-                                traceLocationOrganizerSettings.qrInfoAcknowledged
-                            )
-                        )
-                    }
-                )
-            )
-
-            add(FAQCard.Item(onClickAction = { events.postValue(HomeFragmentEvents.OpenFAQUrl) }))
+            addRiskLevelCard(tracingItem)
+            addIncompatibleCard()
+            addTestCards(testPCR, testRAT, coronaTestParameters, familyTests)
+            addStatisticsCard(statsData)
+            addTraceLocationCard()
+            addFaqCard()
         }
-    }
-        .distinctUntilChanged()
-        .asLiveData(dispatcherProvider.Default)
-
-    // TODO only lazy to keep tests going which would break because of LocalData access
-    val showLoweredRiskLevelDialog: LiveData<Boolean> by lazy {
-        tracingSettings
-            .isUserToBeNotifiedOfLoweredRiskLevel
-            .flow
-            .map { shouldBeNotified ->
-                val shouldBeShown = shouldBeNotified && !isLoweredRiskLevelDialogBeingShown
-                if (shouldBeShown) {
-                    isLoweredRiskLevelDialogBeingShown = true
-                }
-                shouldBeShown
-            }
-            .asLiveData(context = dispatcherProvider.Default)
-    }
+    }.distinctUntilChanged().asLiveData2()
 
     fun errorResetDialogDismissed() {
         errorResetTool.isResetNoticeToBeShown = false
@@ -343,7 +255,6 @@ class HomeFragmentViewModel @AssistedInject constructor(
     }
 
     fun userHasAcknowledgedTheLoweredRiskLevel() {
-        isLoweredRiskLevelDialogBeingShown = false
         tracingSettings.isUserToBeNotifiedOfLoweredRiskLevel.update { false }
     }
 
@@ -357,6 +268,114 @@ class HomeFragmentViewModel @AssistedInject constructor(
 
     fun tracingExplanationWasShown() {
         cwaSettings.wasTracingExplanationDialogShown = true
+    }
+
+    private fun MutableList<HomeItem>.addFaqCard() {
+        add(FAQCard.Item(onClickAction = { events.postValue(HomeFragmentEvents.OpenFAQUrl) }))
+    }
+
+    private fun MutableList<HomeItem>.addTraceLocationCard() {
+        add(
+            CreateTraceLocationCard.Item(
+                onClickAction = {
+                    events.postValue(
+                        HomeFragmentEvents.OpenTraceLocationOrganizerGraph(
+                            traceLocationOrganizerSettings.qrInfoAcknowledged
+                        )
+                    )
+                }
+            )
+        )
+    }
+
+    private fun MutableList<HomeItem>.addStatisticsCard(statsData: StatisticsData) {
+        if (statsData.isDataAvailable) {
+            add(
+                StatisticsHomeCard.Item(
+                    data = statsData,
+                    onClickListener = {
+                        when (it) {
+                            is AddStatsItem -> events.postValue(HomeFragmentEvents.GoToFederalStateSelection)
+                            else -> events.postValue(HomeFragmentEvents.GoToStatisticsExplanation)
+                        }
+                    },
+                    onRemoveListener = { statsItem ->
+                        when (statsItem) {
+                            is LocalIncidenceAndHospitalizationStats -> {
+                                localStatisticsConfigStorage.activeSelections.update {
+                                    it.withoutLocation(
+                                        statsItem.selectedLocation
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+            )
+        }
+    }
+
+    private fun MutableList<HomeItem>.addTestCards(
+        testPCR: PCRCoronaTest?,
+        testRAT: RACoronaTest?,
+        coronaTestParameters: CoronaTestConfig,
+        familyTests: Set<FamilyCoronaTest>
+    ) {
+        // PCR test card, register test is added below
+        val pcrTestCard = testPCR.toTestCardItem(testPCR?.identifier.orEmpty())
+        if (pcrTestCard !is TestUnregisteredCard.Item) {
+            add(pcrTestCard)
+        }
+
+        // RAT test card, register test is added below
+        val ratTestCard = testRAT.toTestCardItem(coronaTestParameters, testRAT?.identifier.orEmpty())
+        if (ratTestCard !is TestUnregisteredCard.Item) {
+            add(ratTestCard)
+        }
+
+        // Family tests tile
+        if (familyTests.isNotEmpty()) {
+            add(
+                FamilyTestCard.Item(
+                    badgeCount = familyTests.count { it.hasBadge },
+                    onCLickAction = { events.postValue(HomeFragmentEvents.GoToFamilyTests) }
+                )
+            )
+        }
+
+        // Register test card
+        add(
+            TestUnregisteredCard.Item(SubmissionStatePCR.NoTest) {
+                events.postValue(HomeFragmentEvents.GoToSubmissionDispatcher)
+            }
+        )
+    }
+
+    private fun MutableList<HomeItem>.addIncompatibleCard() {
+        if (bluetoothSupport.isAdvertisingSupported == false) {
+            val scanningSupported = bluetoothSupport.isScanningSupported != false
+            add(
+                IncompatibleCard.Item(
+                    onClickAction = { events.postValue(HomeFragmentEvents.OpenIncompatibleUrl(scanningSupported)) },
+                    bluetoothSupported = scanningSupported
+                )
+            )
+        }
+    }
+
+    private suspend fun MutableList<HomeItem>.addRiskLevelCard(
+        tracingItem: TracingStateItem
+    ) {
+        val currentRiskState = when (tracingItem) {
+            is IncreasedRiskCard.Item -> RiskState.INCREASED_RISK
+            is LowRiskCard.Item -> RiskState.LOW_RISK
+            is TracingFailedCard.Item -> RiskState.CALCULATION_FAILED
+            else -> null // tracing is disabled or calculation is currently in progress
+        }
+
+        if (riskCardDisplayInfo.shouldShowRiskCard(currentRiskState)) {
+            add(tracingItem)
+        }
     }
 
     private fun PCRCoronaTest?.toTestCardItem(testIdentifier: TestIdentifier) =
