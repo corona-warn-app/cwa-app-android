@@ -14,7 +14,7 @@
         tools:context=".ui.submission.resultready.SubmissionResultReadyFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/submission_done_no_consent_header"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             app:layout_constraintBottom_toTopOf="@+id/submission_done_button_continue_with_symptom_recording"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/submission_done_no_consent_header"
             app:layout_constraintVertical_bias="1.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout

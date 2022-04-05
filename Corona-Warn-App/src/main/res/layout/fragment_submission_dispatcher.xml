@@ -13,7 +13,7 @@
         tools:context=".ui.submission.fragment.SubmissionDispatcherFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/submission_dispatcher_header"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

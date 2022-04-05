@@ -10,7 +10,7 @@
         android:fillViewport="true">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/submission_symptom_header"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toTopOf="@+id/symptom_button_next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/submission_symptom_header">
 
             <LinearLayout
                 android:id="@+id/submission_symptom_container"

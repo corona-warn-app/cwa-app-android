@@ -19,7 +19,7 @@
         tools:context=".ui.submission.tan.SubmissionTanFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/submission_tan_header"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

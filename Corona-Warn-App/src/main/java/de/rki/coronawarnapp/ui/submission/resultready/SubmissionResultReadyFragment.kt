@@ -76,7 +76,7 @@ class SubmissionResultReadyFragment : Fragment(R.layout.fragment_submission_resu
     }
 
     private fun setButtonOnClickListener() {
-        binding.toolbar.setNavigationOnClickListener { onConfirmSkipSymptomsInput() }
+        binding.submissionDoneNoConsentHeader.setNavigationOnClickListener { onConfirmSkipSymptomsInput() }
         binding.submissionDoneButtonContinueWithSymptomRecording.setOnClickListener {
             viewModel.onContinueWithSymptomRecordingPressed()
         }

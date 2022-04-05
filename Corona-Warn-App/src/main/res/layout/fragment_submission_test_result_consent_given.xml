@@ -21,7 +21,7 @@
         android:contentDescription="@string/submission_test_result_headline">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/submission_test_result_consent_given_header"
             style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

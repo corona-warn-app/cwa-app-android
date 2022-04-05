@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="default_button" type="id" />
+    <item name="information_privacy_header" type="id" />
+    <item name="header_button_back" type="id" />
+    <item name="statistics_explanation_header_button_back" type="id" />
+    <item name="statistics_explanation_header_title" type="id" />
+    <item name="header_title" type="id" />
+
+</resources>

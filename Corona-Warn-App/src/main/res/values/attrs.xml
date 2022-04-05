@@ -56,8 +56,6 @@
         <attr name="android:checked" />
     </declare-styleable>
 
-    <item name="default_button" type="id" />
-
     <declare-styleable name="ProgressLoadingButton">
         <attr name="buttonText" format="string" />
         <attr name="loadingText" format="string" />

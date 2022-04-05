@@ -74,7 +74,7 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 submissionTanButtonEnter.hideKeyboard()
                 viewModel.startTanSubmission()
             }
-            toolbar.setNavigationOnClickListener { goBack() }
+            submissionTanHeader.setNavigationOnClickListener { goBack() }
         }
 
         viewModel.registrationState.observe2(this) {

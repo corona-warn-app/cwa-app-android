@@ -60,7 +60,7 @@ class SubmissionTestResultConsentGivenFragment :
                 uiState = it
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
                 if (it.coronaTest is FamilyCoronaTest) {
-                    toolbar.title = getText(R.string.submission_test_result_headline)
+                    submissionTestResultConsentGivenHeader.title = getText(R.string.submission_test_result_headline)
                     familyMemberName.isVisible = true
                     familyMemberName.text = it.coronaTest.personName
                 }
@@ -109,7 +109,7 @@ class SubmissionTestResultConsentGivenFragment :
             viewModel.onShowCancelDialog()
         }
 
-        binding.toolbar.setNavigationOnClickListener { viewModel.onShowCancelDialog() }
+        binding.submissionTestResultConsentGivenHeader.setNavigationOnClickListener { viewModel.onShowCancelDialog() }
     }
 
     private fun showCancelDialog() {
