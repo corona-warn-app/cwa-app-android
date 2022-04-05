@@ -19,7 +19,10 @@ class SupportedLocalesTest : BaseTest() {
             "ro",
             "uk",
         ).sorted()
-        BuildConfig.SUPPORTED_LOCALES.toList().sorted() shouldBe expectedSupportedLocales
+        BuildConfig.SUPPORTED_LOCALES.toList().sorted().apply {
+            this shouldBe expectedSupportedLocales
+            size shouldBe expectedSupportedLocales.size
+        }
 
         val regex = "values-[a-z]{2}$".toRegex()
         val values = File("./src/main/res")
@@ -38,6 +41,7 @@ class SupportedLocalesTest : BaseTest() {
             - run the App and check newly added localization and ccl localization
         """.trimIndent()
 
+        expectedSupportedLocales.size shouldBe values.size
         Assertions.assertIterableEquals(expectedSupportedLocales, values, message)
 
         Timber.d("Locales in values=$values")
