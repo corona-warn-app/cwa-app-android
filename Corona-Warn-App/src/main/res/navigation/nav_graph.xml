@@ -756,6 +756,11 @@
             android:name="testRegistrationRequest"
             app:argType="de.rki.coronawarnapp.coronatest.TestRegistrationRequest" />
 
+        <argument
+            android:name="popToTestCategorySelection"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
         <action
             android:id="@+id/action_submissionDeletionFragment_to_submissionTestResultNoConsentFragment"
             app:destination="@id/submissionTestResultNoConsentFragment"
