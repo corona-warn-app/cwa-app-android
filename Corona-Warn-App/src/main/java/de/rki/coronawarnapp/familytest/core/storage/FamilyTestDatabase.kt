@@ -89,9 +89,11 @@ interface FamilyCoronaTestDao {
     @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NOT NULL")
     fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity?>>
 
+    @Transaction
     @Query("DELETE FROM family_corona_test")
     suspend fun deleteAll()
 
+    @Transaction
     @Query("UPDATE family_corona_test SET moved_to_recycle_bin_at_millis = :atMillis WHERE identifier IN(:ids)")
     suspend fun moveToRecycleBin(ids: List<TestIdentifier>, atMillis: Long )
 

@@ -81,7 +81,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         entries[0]!!.fromEntity() shouldBe test
 
         dao.update(identifier) {
-            it.moveAllTestsToRecycleBin(now)
+            it.moveToRecycleBin(now)
         }
 
         dao.deleteAll()
@@ -114,6 +114,20 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         val entries = dao.getAllInRecycleBin().first()
         entries.size shouldBe 1
         entries[0]!!.test.coronaTest.state shouldBe CoronaTest.State.NEGATIVE
+    }
+
+    @Test
+    fun testMoveToRecycleBin() = runBlocking {
+        val entity = test.toEntity()
+        dao.insert(entity)
+        dao.insert(test2.toEntity())
+
+        dao.moveToRecycleBin(listOf(identifier,identifier2), now.millis)
+
+        dao.getAllActive().first().size shouldBe 0
+        val entries = dao.getAllInRecycleBin().first()
+        entries.size shouldBe 2
+        entries.forEach { it!!.movedToRecycleBinAtMillis shouldBe now.millis }
     }
 
     @Test
