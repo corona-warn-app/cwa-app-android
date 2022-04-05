@@ -22,13 +22,25 @@
             name="icon"
             type="android.graphics.drawable.Drawable" />
 
+        <variable
+            name="cardBackground"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="textColor"
+            type="int" />
+
+        <variable
+            name="iconTint"
+            type="int" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dispatcher_card"
-        style="@style/GreyCard.Ripple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{cardBackground}"
         android:focusable="true"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -42,6 +54,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:accessibilityHeading="true"
             android:text="@{headline}"
+            android:textColor="@{textColor}"
             app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +71,7 @@
             android:src="@{icon ?? @drawable/ic_forward}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTextPrimary2"
+            app:tint="@{iconTint}"
             tools:src="@drawable/ic_forward" />
 
         <TextView
@@ -71,6 +84,7 @@
             android:layout_marginEnd="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:text="@{body}"
+            android:textColor="@{textColor}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/dispatcher_card_illustration"
             app:layout_constraintStart_toStartOf="parent"

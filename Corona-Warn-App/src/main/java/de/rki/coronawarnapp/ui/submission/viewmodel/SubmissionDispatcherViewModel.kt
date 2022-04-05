@@ -20,14 +20,6 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
 ) : CWAViewModel(dispatcherProvider) {
 
     val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
-    val profileCardId: LiveData<Int> = ratProfileSettings.profileFlow
-        .map { profile ->
-            Timber.d("profile=$profile")
-            if (profile == null)
-                R.layout.submission_create_rat_profile_card
-            else
-                R.layout.submission_open_rat_profile_card
-        }.asLiveData()
 
     fun onBackPressed() {
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToMainActivity)
@@ -45,13 +37,8 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
 
-    fun onClickProfileCard() = launch {
-        val event = if (ratProfileSettings.profileFlow.first() != null) {
-            SubmissionNavigationEvents.NavigateToOpenProfile
-        } else {
-            SubmissionNavigationEvents.NavigateToCreateProfile(ratProfileSettings.onboardedFlow.first())
-        }
-        routeToScreen.postValue(event)
+    fun onRatProfilePressed() {
+        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToOpenProfile)
     }
 
     fun onTestCenterPressed() {
