@@ -10,7 +10,7 @@
     <string name="request_green_certificate_body_2">Das Testzertifikat gilt innerhalb der EU als gültiger Nachweis eines negativen Testergebnisses (z.B. für Reisen).</string>
     <!-- XTXT: Request green certificate body section 3 -->
     <!-- XBUT: Request green certificate agree button -->
-    <string name="request_green_certificate_agree_button">Testzertifikat Anfordern</string>
+    <string name="request_green_certificate_agree_button">Testzertifikat anfordern</string>
     <!-- XBUT: Request green certificate disagree button -->
     <string name="request_green_certificate_disagree_button">Nein Danke</string>
     <!-- XTXT: Request green certificate birth date description -->
