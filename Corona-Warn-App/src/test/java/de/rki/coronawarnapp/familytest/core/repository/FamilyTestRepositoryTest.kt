@@ -70,7 +70,7 @@ class FamilyTestRepositoryTest : BaseTest() {
         coEvery { storage.update(any(), any()) } just Runs
         coEvery { storage.update(identifier, any()) } just Runs
         coEvery { storage.update(any()) } just Runs
-        coEvery { storage.moveToRecycleBin(any(), instant) } just Runs
+        coEvery { storage.moveAllToRecycleBin(any(), instant) } just Runs
         coEvery { storage.delete(familyTest) } just Runs
         every { familyTestNotificationService.showTestResultNotification() } just Runs
     }
@@ -131,7 +131,7 @@ class FamilyTestRepositoryTest : BaseTest() {
         val instance = createInstance()
         instance.moveAllTestsToRecycleBin(listOf("1", "2", "3"))
         coVerify {
-            storage.moveToRecycleBin(listOf("1", "2", "3"), instant)
+            storage.moveAllToRecycleBin(listOf("1", "2", "3"), instant)
         }
     }
 
@@ -156,7 +156,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     @Test
     fun `markBadgeAsViewed calls update`() = runBlockingTest {
         val instance = createInstance()
-        instance.markBadgeAsViewed(listOf(identifier))
+        instance.markAllBadgesAsViewed(listOf(identifier))
         coVerify {
             storage.update(any())
         }

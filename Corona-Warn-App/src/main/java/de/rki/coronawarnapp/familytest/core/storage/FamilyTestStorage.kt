@@ -37,8 +37,8 @@ class FamilyTestStorage @Inject constructor(
         dao.delete(test.toEntity())
     }
 
-    suspend fun moveToRecycleBin(identifiers: List<TestIdentifier>, atInstant: Instant) {
-        dao.moveToRecycleBin(identifiers, atInstant.millis)
+    suspend fun moveAllToRecycleBin(identifiers: List<TestIdentifier>, atInstant: Instant) {
+        dao.moveAllToRecycleBin(identifiers, atInstant.millis)
     }
 
     suspend fun clear() {

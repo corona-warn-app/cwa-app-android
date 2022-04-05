@@ -95,7 +95,7 @@ interface FamilyCoronaTestDao {
 
     @Transaction
     @Query("UPDATE family_corona_test SET moved_to_recycle_bin_at_millis = :atMillis WHERE identifier IN(:ids)")
-    suspend fun moveToRecycleBin(ids: List<TestIdentifier>, atMillis: Long)
+    suspend fun moveAllToRecycleBin(ids: List<TestIdentifier>, atMillis: Long)
 
     @Query("SELECT * FROM family_corona_test WHERE identifier = :identifier")
     suspend fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?

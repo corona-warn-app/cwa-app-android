@@ -143,7 +143,7 @@ class FamilyTestRepository @Inject constructor(
     }
 
     suspend fun moveAllTestsToRecycleBin(identifiers: List<TestIdentifier>) {
-        storage.moveToRecycleBin(identifiers, timeStamper.nowUTC)
+        storage.moveAllToRecycleBin(identifiers, timeStamper.nowUTC)
     }
 
     suspend fun deleteTest(
@@ -161,7 +161,7 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun markBadgeAsViewed(
+    suspend fun markAllBadgesAsViewed(
         identifiers: List<TestIdentifier>
     ) {
         identifiers.map {
