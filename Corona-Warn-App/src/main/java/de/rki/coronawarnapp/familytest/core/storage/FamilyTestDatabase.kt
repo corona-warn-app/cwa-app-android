@@ -19,9 +19,9 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -91,6 +91,9 @@ interface FamilyCoronaTestDao {
 
     @Query("DELETE FROM family_corona_test")
     suspend fun deleteAll()
+
+    @Query("UPDATE family_corona_test SET moved_to_recycle_bin_at_millis = :atMillis WHERE identifier IN(:ids)")
+    suspend fun moveToRecycleBin(ids: List<TestIdentifier>, atMillis: Long )
 
     @Query("SELECT * FROM family_corona_test WHERE identifier = :identifier")
     suspend fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?

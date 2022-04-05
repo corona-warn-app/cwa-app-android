@@ -185,7 +185,7 @@ internal fun CoronaTest.restore(): CoronaTest {
     return copy(recycledAt = null)
 }
 
-internal fun CoronaTest.moveToRecycleBin(now: Instant): CoronaTest {
+internal fun CoronaTest.moveAllTestsToRecycleBin(now: Instant): CoronaTest {
     return copy(recycledAt = now)
 }
 

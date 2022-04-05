@@ -28,7 +28,7 @@ class CoronaTestTest : BaseTest() {
 
     @Test
     fun `move to recycle bin`() {
-        val updated = test.moveToRecycleBin(timestamp)
+        val updated = test.moveAllTestsToRecycleBin(timestamp)
         updated.recycledAt shouldBe timestamp
     }
 

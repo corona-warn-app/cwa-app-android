@@ -29,7 +29,7 @@ internal fun CoronaTest.markDccCreated(created: Boolean): CoronaTest {
 }
 
 internal fun FamilyCoronaTest.moveToRecycleBin(now: Instant): FamilyCoronaTest {
-    return copy(coronaTest = coronaTest.moveToRecycleBin(now))
+    return copy(coronaTest = coronaTest.moveAllTestsToRecycleBin(now))
 }
 
 internal fun CoronaTest.markAsNotified(notified: Boolean): CoronaTest {

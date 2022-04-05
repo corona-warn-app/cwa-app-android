@@ -65,8 +65,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
     fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
         launch(appScope) {
             if (test == null) {
-                familyTestRepository.familyTests.first().forEach { familyTest ->
-                    familyTestRepository.moveTestToRecycleBin(familyTest.identifier)
+                familyTestRepository.familyTests.first().map { familyTest ->
+                    familyTest.identifier
+                }.let {
+                    familyTestRepository.moveAllTestsToRecycleBin(it)
                 }
             } else {
                 familyTestRepository.moveTestToRecycleBin(test.identifier)

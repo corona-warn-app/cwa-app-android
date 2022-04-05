@@ -121,6 +121,10 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
+    suspend fun moveAllTestsToRecycleBin(identifiers: List<TestIdentifier>) {
+        storage.moveToRecycleBin(identifiers, timeStamper.nowUTC)
+    }
+
     suspend fun deleteTest(
         identifier: TestIdentifier
     ) {

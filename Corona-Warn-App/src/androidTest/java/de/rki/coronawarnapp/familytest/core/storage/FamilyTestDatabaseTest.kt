@@ -80,7 +80,7 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         entries[0]!!.fromEntity() shouldBe test
 
         dao.update(identifier) {
-            it.moveToRecycleBin(now)
+            it.moveAllTestsToRecycleBin(now)
         }
 
         dao.deleteAll()
