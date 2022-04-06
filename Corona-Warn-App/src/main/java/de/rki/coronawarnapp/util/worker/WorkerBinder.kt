@@ -16,6 +16,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationPeriodicWorker
 import de.rki.coronawarnapp.deniability.BackgroundNoiseOneTimeWorker
 import de.rki.coronawarnapp.deniability.BackgroundNoisePeriodicWorker
 import de.rki.coronawarnapp.diagnosiskeys.execution.DiagnosisKeyRetrievalWorker
+import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalWorker
 import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOutWorker
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingWarningWorker
@@ -142,5 +143,12 @@ abstract class WorkerBinder {
     @WorkerKey(CclConfigurationUpdateWorker::class)
     abstract fun cclConfigurationUpdateWorker(
         factory: CclConfigurationUpdateWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(FamilyTestResultRetrievalWorker::class)
+    abstract fun familyTestResultRetrievalWorker(
+        factory: FamilyTestResultRetrievalWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

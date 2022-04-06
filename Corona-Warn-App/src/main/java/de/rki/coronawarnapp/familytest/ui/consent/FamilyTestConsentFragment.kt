@@ -75,7 +75,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                     else -> true
                 }
             }
-            toolbar.setOnClickListener {
+            toolbar.setNavigationOnClickListener {
                 viewModel.onNavigateBack()
             }
             dataPrivacy.setOnClickListener {

@@ -15,13 +15,13 @@ class CoronaTestRestoreHandler @Inject constructor(
     private val recycledCoronaTestsProvider: RecycledCoronaTestsProvider
 ) {
 
-    suspend fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest): CoronaTestRestoreEvent {
+    suspend fun restoreCoronaTest(recycledCoronaTest: BaseCoronaTest, openResult: Boolean): CoronaTestRestoreEvent {
         Timber.tag(TAG).d("restoreCoronaTest(recycledCoronaTest=%S)", recycledCoronaTest::class.java.simpleName)
         val currentCoronaTest by lazy { submissionRepository.testForType(recycledCoronaTest.type) }
         return when {
             recycledCoronaTest is PersonalCoronaTest && currentCoronaTest.first() != null ->
                 CoronaTestRestoreEvent
-                    .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest())
+                    .RestoreDuplicateTest(recycledCoronaTest.toRestoreRecycledTestRequest(openResult))
             else -> {
                 recycledCoronaTestsProvider.restoreCoronaTest(recycledCoronaTest.identifier)
                 CoronaTestRestoreEvent.RestoredTest(recycledCoronaTest)
