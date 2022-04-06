@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.recyclebin.coronatest
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
@@ -13,7 +12,6 @@ import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.util.TimeStamper
-import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -197,20 +195,6 @@ class RecycledCoronaTestsProviderTest : BaseTest() {
         coVerify(exactly = 1) {
             familyTestRepository.deleteTest(recycledFamilyPcrTest.identifier)
             familyTestRepository.deleteTest(recycledFamilyRatTest.identifier)
-        }
-    }
-
-    @Test
-    fun `Delete recycled test does not throw if test not found`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { coronaTestRepository.deleteTest(any()) } throws CoronaTestNotFoundException("Test error")
-
-        shouldNotThrowAny {
-            createInstance().deleteCoronaTest("I do not exist")
-        }
-
-        coVerify(exactly = 0) {
-            coronaTestRepository.deleteTest(any())
-            familyTestRepository.deleteTest(any())
         }
     }
 

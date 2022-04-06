@@ -47,20 +47,14 @@ class CoronaTestProvider @Inject constructor(
                 coronaTestRepository.markAsViewed(test.identifier)
                 testResultAvailableNotificationService.cancelTestResultAvailableNotification()
             }
-            is FamilyCoronaTest -> {
-                familyTestRepository.markViewed(test.identifier)
-            }
+            is FamilyCoronaTest -> familyTestRepository.markViewed(test.identifier)
         }
     }
 
     suspend fun refreshTest(test: BaseCoronaTest) {
         when (test) {
-            is PersonalCoronaTest -> {
-                coronaTestRepository.refresh(test.type)
-            }
-            is FamilyCoronaTest -> {
-                familyTestRepository.refresh() // TODO refresh specific test
-            }
+            is PersonalCoronaTest -> coronaTestRepository.refresh(test.type)
+            is FamilyCoronaTest -> familyTestRepository.refresh()
         }
     }
 

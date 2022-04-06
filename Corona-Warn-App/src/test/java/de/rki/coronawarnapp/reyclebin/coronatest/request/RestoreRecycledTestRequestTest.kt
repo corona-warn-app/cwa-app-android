@@ -20,11 +20,12 @@ class RestoreRecycledTestRequestTest : BaseTest() {
             registrationToken = "token",
             testResult = CoronaTestResult.PCR_NEGATIVE,
             isDccConsentGiven = true
-        ).toRestoreRecycledTestRequest() shouldBe RestoreRecycledTestRequest(
+        ).toRestoreRecycledTestRequest(openResult = false) shouldBe RestoreRecycledTestRequest(
             type = BaseCoronaTest.Type.PCR,
             identifier = "pcr-identifier",
             isDccSupportedByPoc = true,
-            isDccConsentGiven = true
+            isDccConsentGiven = true,
+            openResult = false
         )
 
         RACoronaTest(
@@ -36,11 +37,12 @@ class RestoreRecycledTestRequestTest : BaseTest() {
             testedAt = Instant.EPOCH,
             isDccConsentGiven = false,
             isDccSupportedByPoc = false
-        ).toRestoreRecycledTestRequest() shouldBe RestoreRecycledTestRequest(
+        ).toRestoreRecycledTestRequest(openResult = true) shouldBe RestoreRecycledTestRequest(
             type = BaseCoronaTest.Type.RAPID_ANTIGEN,
             identifier = "rat-identifier",
             isDccSupportedByPoc = false,
-            isDccConsentGiven = false
+            isDccConsentGiven = false,
+            openResult = true
         )
     }
 }

@@ -51,7 +51,8 @@ class TestRegistrationSelectionFragment : Fragment(R.layout.fragment_test_regist
                     findNavController().navigate(
                         TestRegistrationSelectionFragmentDirections
                             .actionTestRegistrationSelectionFragmentToSubmissionDeletionWarningFragment(
-                                testRegistrationRequest = it.testRegistrationRequest
+                                testRegistrationRequest = it.testRegistrationRequest,
+                                popToTestCategorySelection = true
                             )
                     )
                 }

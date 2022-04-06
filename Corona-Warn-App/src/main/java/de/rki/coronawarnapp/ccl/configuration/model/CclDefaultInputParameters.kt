@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.ccl.configuration.model
 
 import android.os.Build
 import android.os.LocaleList
+import de.rki.coronawarnapp.BuildConfig
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
@@ -34,20 +35,12 @@ data class CclDateTime(
     val utcDateTimeMidnight: String = dateTimeUtc.toLocalDateTimeMidnightString()
 }
 
-private val supportedLanguages = arrayOf(
-    "de",
-    "en",
-    "bg",
-    "pl",
-    "ro",
-    "tr",
-)
-
 val cclLanguage: String by lazy {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        LocaleList.getDefault().getFirstMatch(supportedLanguages)?.language ?: Locale.getDefault().language.also {
-            Timber.d("No match. Using default language $it")
-        }
+        LocaleList.getDefault().getFirstMatch(BuildConfig.SUPPORTED_LOCALES)?.language
+            ?: Locale.getDefault().language.also {
+                Timber.d("No match. Using default language $it")
+            }
     } else {
         Locale.getDefault().language
     }.also {
