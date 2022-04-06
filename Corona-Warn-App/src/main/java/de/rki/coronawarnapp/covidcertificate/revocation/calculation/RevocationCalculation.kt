@@ -24,20 +24,16 @@ class RevocationCalculation @Inject constructor() {
         }.also { Timber.tag(TAG).d("revocationEntry=%s", it) }
     }
 
-    private fun CwaCovidCertificate.calculateRevocationEntryTypeUCI(): String = ci.hash256(endIndex = 16)
+    private fun CwaCovidCertificate.calculateRevocationEntryTypeUCI(): String = uniqueCertificateIdentifier
+        .hash256(endIndex = 16)
 
-    private fun CwaCovidCertificate.calculateRevocationEntryTypeCOUNTRYCODEUCI(): String {
-        return "Not yet implemented"
-    }
+    private fun CwaCovidCertificate.calculateRevocationEntryTypeCOUNTRYCODEUCI(): String = headerIssuer
+        .plus(uniqueCertificateIdentifier)
+        .hash256(endIndex = 16)
 
     private fun CwaCovidCertificate.calculateRevocationEntryTypeSIGNATURE(): String {
         return "Not yet implemented"
     }
-
-    private val CwaCovidCertificate.ci: String
-        get() = rawCertificate
-            .payload
-            .uniqueCertificateIdentifier
 
     private fun String.hash256(beginIndex: Int = 0, endIndex: Int) = toByteArray()
         .toByteString()

@@ -60,8 +60,10 @@ class RevocationCalculationTest: BaseTest() {
 
     private suspend fun createMockCert(barcodeData: String): CwaCovidCertificate {
         val metadata = dccQrCodeExtractor.extract(barcodeData)
+        metadata.data.certificate.payload.certificateIssuer
         return mockk {
-            every { rawCertificate } returns metadata.data.certificate
+            every { uniqueCertificateIdentifier } returns metadata.data.certificate.payload.uniqueCertificateIdentifier
+            every { headerIssuer } returns metadata.data.header.issuer
         }
     }
 }
