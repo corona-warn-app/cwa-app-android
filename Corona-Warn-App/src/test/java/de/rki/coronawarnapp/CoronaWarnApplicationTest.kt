@@ -20,6 +20,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -90,6 +91,7 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
     @MockK lateinit var cclConfigurationUpdateScheduler: CclConfigurationUpdateScheduler
+    @MockK lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
     @MockK lateinit var revocationUpdateScheduler: RevocationUpdateScheduler
 
     @ExperimentalCoroutinesApi
@@ -156,6 +158,7 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
                 app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
+                app.familyTestResultRetrievalScheduler = familyTestResultRetrievalScheduler
                 app.revocationUpdateScheduler = revocationUpdateScheduler
             }
         }
@@ -179,6 +182,7 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             pcrTestResultScheduler.setup()
             raTestResultScheduler.setup()
+            familyTestResultRetrievalScheduler.setup()
 
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()
