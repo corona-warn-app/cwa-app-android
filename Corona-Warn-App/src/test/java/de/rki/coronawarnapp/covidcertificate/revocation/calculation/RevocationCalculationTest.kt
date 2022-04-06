@@ -17,11 +17,10 @@ import testhelpers.coroutines.runBlockingTest2
 import java.nio.file.Paths
 import javax.inject.Inject
 
-class RevocationCalculationTest: BaseTest() {
+class RevocationCalculationTest : BaseTest() {
 
     @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
     @BaseGson @Inject lateinit var gson: Gson
-
 
     private val jsonFile = Paths.get(
         "src",
@@ -30,8 +29,6 @@ class RevocationCalculationTest: BaseTest() {
         "revocation",
         "RevocationCalculationSampleData.json"
     ).toFile()
-
-    private val instance = RevocationCalculation()
 
     @BeforeEach
     fun setup() {
@@ -44,15 +41,15 @@ class RevocationCalculationTest: BaseTest() {
         testCases.forEach {
             val dgc = createMockCert(it.barcodeData)
 
-            val uci = instance.calculateRevocationEntryForType(dgc, Type.UCI)
+            val uci = dgc.calculateRevocationEntryForType(Type.UCI)
             println("calculated uci=$uci, expUCI=${it.expUCI}")
             uci shouldBe it.expUCI
 
-            val countryUci = instance.calculateRevocationEntryForType(dgc, Type.COUNTRYCODEUCI)
+            val countryUci = dgc.calculateRevocationEntryForType(Type.COUNTRYCODEUCI)
             println("calculated countryUci=$countryUci, expCOUNTRYCODEUCI=${it.expCOUNTRYCODEUCI}")
             countryUci shouldBe it.expCOUNTRYCODEUCI
 
-            val signature = instance.calculateRevocationEntryForType(dgc, Type.SIGNATURE)
+            val signature = dgc.calculateRevocationEntryForType(Type.SIGNATURE)
             println("calculated signature=$signature, expSIGNATURE=${it.expSIGNATURE}")
             signature shouldBe it.expSIGNATURE
         }
@@ -60,10 +57,10 @@ class RevocationCalculationTest: BaseTest() {
 
     private suspend fun createMockCert(barcodeData: String): CwaCovidCertificate {
         val metadata = dccQrCodeExtractor.extract(barcodeData)
-        metadata.data.certificate.payload.certificateIssuer
         return mockk {
             every { uniqueCertificateIdentifier } returns metadata.data.certificate.payload.uniqueCertificateIdentifier
             every { headerIssuer } returns metadata.data.header.issuer
+            every { dccData.dscMessage } returns metadata.data.dscMessage
         }
     }
 }
