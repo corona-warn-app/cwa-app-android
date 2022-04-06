@@ -33,6 +33,11 @@ class CWADateTimeFormatPatternFactoryTest {
     }
 
     @Test
+    fun `pattern for ukrainian  date`() {
+        Locale("uk", "UA").shortDatePattern() shouldBe "dd.MM.yyyy"
+    }
+
+    @Test
     fun `pattern for polish date`() {
         Locale("pl", "PL").shortDatePattern() shouldBe "dd.MM.yyyy"
     }
