@@ -54,9 +54,9 @@ interface CwaCovidCertificate : Recyclable {
     val lastSeenStateChangeAt: Instant?
 
     /**
-     * Indicates that certificate has updates regarding its status
-     * for example state changed to Expiring_Soon, Expired, Invalid or
-     * retrieved Test certificate became available
+     * Indicates that certificate has updates regarding its status such as:
+     * Expiring_Soon, Expired, Invalid, Blocked, Revoked or certificate is newly registered in the App
+     * @see [isNew]
      */
     val hasNotificationBadge: Boolean
 
