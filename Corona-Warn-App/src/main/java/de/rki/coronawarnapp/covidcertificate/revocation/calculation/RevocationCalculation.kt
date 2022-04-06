@@ -2,8 +2,8 @@ package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
-
 import de.rki.coronawarnapp.tag
+import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,9 +24,7 @@ class RevocationCalculation @Inject constructor() {
         }.also { Timber.tag(TAG).d("revocationEntry=%s", it) }
     }
 
-    private fun CwaCovidCertificate.calculateRevocationEntryTypeUCI(): String {
-        return "Not yet implemented"
-    }
+    private fun CwaCovidCertificate.calculateRevocationEntryTypeUCI(): String = ci.hash256(endIndex = 16)
 
     private fun CwaCovidCertificate.calculateRevocationEntryTypeCOUNTRYCODEUCI(): String {
         return "Not yet implemented"
@@ -35,6 +33,17 @@ class RevocationCalculation @Inject constructor() {
     private fun CwaCovidCertificate.calculateRevocationEntryTypeSIGNATURE(): String {
         return "Not yet implemented"
     }
+
+    private val CwaCovidCertificate.ci: String
+        get() = rawCertificate
+            .payload
+            .uniqueCertificateIdentifier
+
+    private fun String.hash256(beginIndex: Int = 0, endIndex: Int) = toByteArray()
+        .toByteString()
+        .sha256()
+        .substring(beginIndex, endIndex)
+        .hex()
 }
 
 private val TAG = tag<RevocationCalculation>()
