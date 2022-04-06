@@ -48,7 +48,9 @@ class DccReissuanceConsentFragment : Fragment(R.layout.fragment_dcc_reissuance_c
             toolbar.setNavigationOnClickListener { viewModel.navigateBack() }
             cancelButton.setOnClickListener { viewModel.navigateBack() }
             privacyInformation.setOnClickListener { viewModel.openPrivacyScreen() }
-            agreeButton.setOnClickListener { viewModel.startReissuance() }
+            agreeButton.defaultButton.setOnClickListener {
+                viewModel.startReissuance()
+            }
 
             viewModel.apply {
                 stateLiveData.observe2(this@DccReissuanceConsentFragment) {
