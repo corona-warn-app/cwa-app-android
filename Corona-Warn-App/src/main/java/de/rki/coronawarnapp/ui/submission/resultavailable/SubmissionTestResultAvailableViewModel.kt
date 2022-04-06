@@ -137,7 +137,10 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.tag(TAG).d("routeToScreen:SubmissionTestResultNoConsentFragment")
-                analyticsKeySubmissionCollector.reportConsentWithdrawn(coronaTestFlow.first().type)
+                coronaTestFlow.first().let {
+                    if (it is PersonalCoronaTest)
+                        analyticsKeySubmissionCollector.reportConsentWithdrawn(it.type)
+                }
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections

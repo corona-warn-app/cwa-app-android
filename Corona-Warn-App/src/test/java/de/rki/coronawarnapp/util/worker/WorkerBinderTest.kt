@@ -23,6 +23,8 @@ import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsS
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationSender
 import de.rki.coronawarnapp.deniability.NoiseScheduler
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
+import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalScheduler
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.playbook.Playbook
@@ -197,6 +199,12 @@ class MockProvider {
 
     @Provides
     fun dccWalletInfoUpdateTrigger(): DccWalletInfoUpdateTrigger = mockk()
+
+    @Provides
+    fun familyTestScheduler(): FamilyTestResultRetrievalScheduler = mockk()
+
+    @Provides
+    fun familyTestRepository(): FamilyTestRepository = mockk()
 
     @Provides
     fun revocationUpdater(): RevocationUpdater = mockk()

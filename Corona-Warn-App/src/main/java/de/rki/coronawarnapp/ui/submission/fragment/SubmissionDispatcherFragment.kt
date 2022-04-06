@@ -20,7 +20,6 @@ import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
-import timber.log.Timber
 import javax.inject.Inject
 
 class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispatcher), AutoInject {
@@ -75,17 +74,6 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 else -> Unit
             }
         }
-
-        viewModel.profileCardId.observe(viewLifecycleOwner) { layoutId ->
-            binding.ratProfileCard.viewStub?.apply {
-                layoutResource = layoutId
-                Timber.d("layoutId=$layoutId")
-                inflate()
-                binding.ratProfileCard.root.setOnClickListener {
-                    viewModel.onClickProfileCard()
-                }
-            }
-        }
     }
 
     private fun openUniversalScanner() {
@@ -121,6 +109,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         }
         binding.submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
             viewModel.onTestCenterPressed()
+        }
+        binding.ratProfileCard.dispatcherCard.setOnClickListener {
+            viewModel.onRatProfilePressed()
         }
     }
 }
