@@ -36,4 +36,42 @@
     <!-- XBUT: Test registration selection: confirm button -->
     <string name="family_consent_cofirm_button">"Приемам"</string>
 
+    <!-- Family tests -->
+    <!-- XTXT: Family tests: Cards: PCR title -->
+    <string name="family_tests_cards_pcr_title">"Диагноза от PCR тест"</string>
+    <!-- XTXT: Family tests: Cards: Rapid title -->
+    <string name="family_tests_cards_rapid_title">"Диагноза от бърз тест"</string>
+    <!-- XTXT: Family tests: Cards: PCR date -->
+    <string name="family_tests_cards_pcr_date">"Тестът е добавен на %s"</string>
+    <!-- XTXT: Family tests: Cards: Rapid date -->
+    <string name="family_tests_cards_rapid_date">"Извършено на %1$s"</string>
+    <!-- XTXT: Family tests: Cards: PCR pending body -->
+    <string name="family_tests_cards_pcr_pending_body">"Резултатът от PCR теста все още не е определен."</string>
+    <!-- XTXT: Family tests: Cards: Rapid pending body -->
+    <string name="family_tests_cards_rapid_pending_body">"Резултатът от бързия тест все още не е определен."</string>
+    <!-- XTXT: Family tests: Cards: Invalid body -->
+    <string name="family_tests_cards_invalid_body">"Не може да бъде определен резултат от теста."</string>
+    <!-- XTXT: Family tests: Cards: Redeemed body -->
+    <string name="family_tests_cards_redeemed_body">"Тестът е на повече от 21 дни и затова вече не е релевантен."</string>
+
+    <!-- Family tests list fragment -->
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_title">"Тестове на членове от семейството"</string>
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_menu_remove_all">"Изтриване на всички"</string>
+    <!-- XHED: family tests list: Deletion alert window: header single test -->
+    <string name="family_tests_list_deletion_alert_header_single">"Изтриване на резултата от теста?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body single test -->
+    <string name="family_tests_list_deletion_alert_body_single">"Резултатът от тест ще бъде преместен в кошчето. То се намира в страницата на таб \"Статус\", която може да отворите през трите точки горе вдясно. Там можете да го изтриете за постоянно или да го възстановите. Резултатът ще бъде изтрит автоматично след 30 дни."</string>
+    <!-- XHED: family tests list: Deletion alert window: header all tests -->
+    <string name="family_tests_list_deletion_alert_header_all">"Изтриване на резултатите от теста?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body all tests -->
+    <string name="family_tests_list_deletion_alert_body_all">"Резултатите от теста ще бъдат преместени в кошчето, което се намира на плочка \"Още\" от страницата на таб \"Статус\". Там можете да ги изтриете за постоянно или да ги възстановите. Резултатите ще бъде изтрити автоматично след 30 дни."</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button">"Изтриване на резултат от тест"</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button_all">"Изтриване на резултати от тест"</string>
+    <!-- XBUT: family tests list: Deletion alert window: cancel button -->
+    <string name="family_tests_list_deletion_alert_cancel_button">"Отказ"</string>
+
 </resources>

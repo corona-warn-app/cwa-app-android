@@ -16,40 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Report of Increased Risk Shortened"</item>
-        <item>"Risk Report after Positive Test Result"</item>
-        <item>"Message for New Exposure"</item>
-        <item>"Report of Status Change"</item>
-        <item>"Certificates of Recovery without Validity Data"</item>
-        <item>"Duplicate QR Code Removed"</item>
+        <item>"Manage Tests for your Family"</item>
+        <item>"Android 12 and Material Design 3"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"An increased risk after an exposure is now only displayed for ten days instead of 14."</item>
-        <item>"The red tile for increased risk is now displayed after an exposure even if you have registered a positive test in the Corona-Warn-App. Your risk status is shown again seven days after the positive test."</item>
-        <item>"If you have another exposure with increased risk after a previous exposure, a notification will now be displayed for this exposure as well."</item>
-        <item>"If your status has changed (because you added a certificate, for example, or because the rules have changed), you will be notified of this on the Certificates tab."</item>
-        <item>"Validity data is no longer displayed for certificates of recovery, because their validity depends on the local rules. The date of the first positive test is now displayed instead."</item>
-        <item>"The QR code for your currently used certificate has been removed from the detail screen for individuals, creating more space for notifications and decluttering the screen in general. The QR code is also contained in the certificate overview and is therefore not needed on the detail screen."</item>
+        <item>"You can now manage tests for your family members in your app: You can receive their test results on your smartphone and request digital COVID test certificates. If one of their tests is positive, however, you cannot warn other users. This is only possible if you register the test for yourself."</item>
+        <item>"The Corona-Warn-App has been optimized to run on Android 12. It now also supports Material Design 3."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>

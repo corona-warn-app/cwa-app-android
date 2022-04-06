@@ -1031,10 +1031,18 @@
     <string name="submission_test_result_steps_added_heading">"Testul dvs. PCR a fost adăugat"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"Testul PCR a fost adăugat"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Testul rapid a fost adăugat"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Rezultatul testului nu este încă disponibil"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la Solicitare TAN pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului va fi afișat în aplicație.\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul este pozitiv."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Testul dvs. rapid a fost adăugat"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1045,13 +1053,21 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Rezultatul testului dvs. va fi adăugat la jurnalul dvs. de contacte"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Imediat ce devine disponibil, rezultatul testului va fi afișat în aplicație."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Certificatul dvs. de test COVID"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"Certificat de test COVID"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Certificatul de test COVID digital este disponibil pe tabul „Certificate”."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Un certificat de test COVID digital oficial nu poate fi emis deoarece acest punct de testare nu suportă emiterea de certificate de test."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Certificatul dvs. de test COVID digital oficial nu este disponibil încă. De îndată ce devine disponibil, va fi afișat în aplicație."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Certificatul de test COVID digital oficial nu este disponibil încă. De îndată ce devine disponibil, va fi afișat în aplicație."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Nu va fi emis niciun certificat de test COVID digital oficial, conform cererii dvs."</string>
 
@@ -1341,6 +1357,8 @@
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Diagnosticul dvs. pentru %s:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"Diagnostic %s:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
