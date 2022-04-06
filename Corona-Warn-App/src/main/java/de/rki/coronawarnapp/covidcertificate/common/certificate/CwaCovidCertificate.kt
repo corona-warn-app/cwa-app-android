@@ -108,6 +108,8 @@ interface CwaCovidCertificate : Recyclable {
 
         object Recycled : State("Recycled")
 
+        object Revoked : State("Revoked")
+
         companion object {
             val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
                 .of(State::class.java, "type", true)
@@ -116,6 +118,7 @@ interface CwaCovidCertificate : Recyclable {
                 .registerSubtype(Expired::class.java, "Expired")
                 .registerSubtype(Invalid::class.java, "Invalid")
                 .registerSubtype(Blocked::class.java, "Blocked")
+                .registerSubtype(Revoked::class.java, "Revoked")
         }
 
         override fun equals(other: Any?): Boolean {
