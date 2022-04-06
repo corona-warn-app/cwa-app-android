@@ -22,4 +22,3 @@ data class Profile(
         phone.isNotBlank() ||
         email.isNotBlank()
 }
-
