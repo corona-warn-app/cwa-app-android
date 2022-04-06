@@ -142,7 +142,7 @@ class DccTicketingConsentTwoFragmentTest : BaseUITest() {
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
         }
 
     private fun generateDccTicketingQrCodeData(): DccTicketingQrCodeData {

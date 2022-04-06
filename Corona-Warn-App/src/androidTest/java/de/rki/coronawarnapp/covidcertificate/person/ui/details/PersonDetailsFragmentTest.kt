@@ -361,7 +361,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
         every { hasNotificationBadge } returns false
-        every { isNotBlocked } returns true
+        every { isNotScreened } returns true
         every { qrCodeHash } returns "TC"
         every { isPCRTestCertificate } returns true
     }
@@ -402,7 +402,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { qrCodeHash } returns "VC$number"
             every { headerIssuedAt } returns Instant.parse("2021-06-01T11:35:00.000Z")
         }
@@ -420,7 +420,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { qrCodeHash } returns "RC"
         }
 

@@ -96,7 +96,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     private fun validMockCertificate() = MutableLiveData(
         mockCertificate().apply {
             every { isDisplayValid } returns true
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
         }
     )
@@ -104,7 +104,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     private fun invalidMockCertificate() = MutableLiveData(
         mockCertificate().apply {
             every { isDisplayValid } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { getState() } returns CwaCovidCertificate.State.Invalid()
         }
     )
@@ -112,7 +112,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
     private fun expiredMockCertificate() = MutableLiveData(
         mockCertificate().apply {
             every { isDisplayValid } returns false
-            every { isNotBlocked } returns true
+            every { isNotScreened } returns true
             every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
     )
@@ -133,7 +133,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
 
         every { fullNameFormatted } returns "Mustermann, Max"
         every { headerExpiresAt } returns Instant.now().plus(21)
-        every { isNotBlocked } returns true
+        every { isNotScreened } returns true
     }
 
     @After

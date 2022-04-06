@@ -76,7 +76,7 @@ interface CwaCovidCertificate : Recyclable {
             else -> getState() is State.Valid || getState() is State.ExpiringSoon
         }
 
-    val isNotBlocked get() = getState() != State.Blocked
+    val isNotScreened get() = getState() !is State.Blocked && getState() !is State.Revoked
 
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
