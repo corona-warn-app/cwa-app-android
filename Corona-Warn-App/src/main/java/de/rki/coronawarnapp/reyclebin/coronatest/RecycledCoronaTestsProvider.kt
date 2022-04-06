@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.reyclebin.coronatest
 
 import dagger.Reusable
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
@@ -65,15 +64,10 @@ class RecycledCoronaTestsProvider @Inject constructor(
     }
 
     suspend fun deleteCoronaTest(identifier: TestIdentifier) {
-        try {
-            Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
-            when (findTest(identifier)) {
-                is PersonalCoronaTest -> coronaTestRepository.deleteTest(identifier)
-                is FamilyCoronaTest -> familyTestRepository.deleteTest(identifier)
-            }
-        } catch (e: CoronaTestNotFoundException) {
-            Timber.tag(TAG).e(e)
-        }
+        Timber.tag(TAG).d("deleteCoronaTest(identifier=%s)", identifier)
+        // Test might not be in the recycled ones yet, both repos should be called
+        runCatching { coronaTestRepository.deleteTest(identifier) }.onFailure { Timber.tag(TAG).e(it) }
+        familyTestRepository.deleteTest(identifier)
     }
 
     suspend fun deleteAllCoronaTest(identifiers: Collection<TestIdentifier>) {

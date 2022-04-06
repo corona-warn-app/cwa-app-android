@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateCo
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
+import de.rki.coronawarnapp.familytest.core.model.CoronaTest
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragment
 import de.rki.coronawarnapp.ui.submission.testresult.negative.SubmissionTestResultNegativeFragmentArgs
@@ -84,7 +86,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
-    fun capture_fragment() {
+    fun capture_fragment_for_personal_test() {
         every { viewModel.testResult } returns MutableLiveData(
             SubmissionTestResultNegativeViewModel.UIState(
                 coronaTest = mockk<BaseCoronaTest>().apply {
@@ -99,6 +101,32 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
         every { viewModel.certificate } returns MutableLiveData(
             mockTestCertificateWrapper(false)
+        )
+
+        launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
+        takeScreenshot<SubmissionTestResultNegativeFragment>()
+    }
+
+    @Test
+    @Screenshot
+    fun capture_fragment_for_family_test() {
+        every { viewModel.testResult } returns MutableLiveData(
+            SubmissionTestResultNegativeViewModel.UIState(
+                coronaTest = mockk<FamilyCoronaTest>().apply {
+                    every { testResult } returns CoronaTestResult.RAT_NEGATIVE
+                    every { registeredAt } returns Instant.now()
+                    every { type } returns BaseCoronaTest.Type.PCR
+                    every { identifier } returns ""
+                    every { personName } returns "Lara"
+                    every { coronaTest } returns CoronaTest(
+                        identifier = identifier,
+                        type = type,
+                        registeredAt = registeredAt,
+                        registrationToken = ""
+                    )
+                },
+                certificateState = SubmissionTestResultNegativeViewModel.CertificateState.AVAILABLE
+            )
         )
 
         launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
