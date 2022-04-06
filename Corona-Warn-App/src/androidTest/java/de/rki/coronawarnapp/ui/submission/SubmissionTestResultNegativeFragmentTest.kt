@@ -164,7 +164,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         )
         every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+        every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
     }
 
     private val certificatePersonIdentifier = CertificatePersonIdentifier(

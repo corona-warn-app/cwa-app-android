@@ -205,7 +205,7 @@ class TestCertificateDetailsFragmentTest : BaseUITest() {
 
             override val recycledAt: Instant? get() = null
 
-            override fun getState(): CwaCovidCertificate.State = state
+            override val state: CwaCovidCertificate.State get() = state
         }
     }
 

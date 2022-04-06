@@ -60,7 +60,7 @@ data class RecoveryCertificateContainer(
         val recoveryCertificate = certificate.recovery
 
         return object : RecoveryCertificate {
-            override fun getState(): State = certificateState
+            override val state: State get() = certificateState
 
             override val notifiedExpiresSoonAt: Instant?
                 get() = data.notifiedExpiresSoonAt
@@ -153,10 +153,7 @@ data class RecoveryCertificateContainer(
                 get() = certificateData
 
             override val hasNotificationBadge: Boolean
-                get() {
-                    val state = getState()
-                    return (state !is State.Valid && state != lastSeenStateChange) || isNew
-                }
+                get() = (state !is State.Valid && state != lastSeenStateChange) || isNew
 
             override val isNew: Boolean
                 get() = !data.certificateSeenByUser

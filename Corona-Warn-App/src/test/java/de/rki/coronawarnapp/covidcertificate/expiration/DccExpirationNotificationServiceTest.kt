@@ -76,7 +76,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         every { vaccinationCertificateWrapper.vaccinationCertificate } returns vaccinationCertificate
 
         vaccinationCertificate.apply {
-            every { getState() } returns State.Valid(expiresAt = Instant.EPOCH)
+            every { state } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns vaccinationContainerId
             every { notifiedExpiresSoonAt } returns null
             every { notifiedExpiredAt } returns null
@@ -90,7 +90,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         }
         every { recoveryCertificateWrapper.recoveryCertificate } returns recoveryCertificate
         recoveryCertificate.apply {
-            every { getState() } returns State.Valid(expiresAt = Instant.EPOCH)
+            every { state } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns recoverContainerId
             every { notifiedExpiresSoonAt } returns null
             every { notifiedExpiredAt } returns null
@@ -100,7 +100,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         every { testCertificateWrapper.testCertificate } returns testCertificate
         testCertificate.apply {
-            every { getState() } returns State.Valid(expiresAt = Instant.EPOCH)
+            every { state } returns State.Valid(expiresAt = Instant.EPOCH)
             every { containerId } returns testContainerId
             every { notifiedExpiresSoonAt } returns null
             every { notifiedExpiredAt } returns null
@@ -178,8 +178,8 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `two expired certificates`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.Expired(expiredAt = Instant.EPOCH)
-        every { recoveryCertificate.getState() } returns State.Expired(expiredAt = Instant.EPOCH)
+        every { vaccinationCertificate.state } returns State.Expired(expiredAt = Instant.EPOCH)
+        every { recoveryCertificate.state } returns State.Expired(expiredAt = Instant.EPOCH)
 
         createInstance().showNotificationIfStateChanged()
 
@@ -188,8 +188,8 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `two soon expiring certificates`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
-        every { recoveryCertificate.getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
+        every { vaccinationCertificate.state } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
+        every { recoveryCertificate.state } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
 
         createInstance().showNotificationIfStateChanged()
 
@@ -198,9 +198,9 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `one of each`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
-        every { recoveryCertificate.getState() } returns State.Expired(expiredAt = Instant.EPOCH)
-        every { testCertificate.getState() } returns State.Blocked
+        every { vaccinationCertificate.state } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
+        every { recoveryCertificate.state } returns State.Expired(expiredAt = Instant.EPOCH)
+        every { testCertificate.state } returns State.Blocked
 
         createInstance().showNotificationIfStateChanged()
 
@@ -229,9 +229,9 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `one invalid each - one notification`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.Invalid()
-        every { recoveryCertificate.getState() } returns State.Invalid()
-        every { testCertificate.getState() } returns State.Invalid()
+        every { vaccinationCertificate.state } returns State.Invalid()
+        every { recoveryCertificate.state } returns State.Invalid()
+        every { testCertificate.state } returns State.Invalid()
 
         createInstance().showNotificationIfStateChanged()
 
@@ -261,7 +261,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `one invalid test certificate`() = runBlockingTest {
-        every { testCertificate.getState() } returns State.Invalid()
+        every { testCertificate.state } returns State.Invalid()
 
         createInstance().showNotificationIfStateChanged()
 
@@ -277,7 +277,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `one invalid vaccination certificate`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.Invalid()
+        every { vaccinationCertificate.state } returns State.Invalid()
 
         createInstance().showNotificationIfStateChanged()
 
@@ -293,7 +293,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `one invalid recovery certificate`() = runBlockingTest {
-        every { recoveryCertificate.getState() } returns State.Invalid()
+        every { recoveryCertificate.state } returns State.Invalid()
 
         createInstance().showNotificationIfStateChanged()
 
@@ -309,9 +309,9 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `one blocked each - one notification`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.Blocked
-        every { recoveryCertificate.getState() } returns State.Blocked
-        every { testCertificate.getState() } returns State.Blocked
+        every { vaccinationCertificate.state } returns State.Blocked
+        every { recoveryCertificate.state } returns State.Blocked
+        every { testCertificate.state } returns State.Blocked
 
         createInstance().showNotificationIfStateChanged()
 
@@ -341,7 +341,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `blocked test certificate notification`() = runBlockingTest {
-        every { testCertificate.getState() } returns State.Blocked
+        every { testCertificate.state() } returns State.Blocked
 
         createInstance().showNotificationIfStateChanged()
 
@@ -357,7 +357,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `blocked vaccination certificate notification`() = runBlockingTest {
-        every { vaccinationCertificate.getState() } returns State.Blocked
+        every { vaccinationCertificate.state } returns State.Blocked
 
         createInstance().showNotificationIfStateChanged()
 
@@ -373,7 +373,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `blocked recovery certificate notification`() = runBlockingTest {
-        every { recoveryCertificate.getState() } returns State.Blocked
+        every { recoveryCertificate.state } returns State.Blocked
 
         createInstance().showNotificationIfStateChanged()
 
@@ -390,11 +390,11 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     @Test
     fun `one of each but already notified the user`() = runBlockingTest {
         vaccinationCertificate.apply {
-            every { getState() } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
+            every { state } returns State.ExpiringSoon(expiresAt = Instant.EPOCH)
             every { notifiedExpiresSoonAt } returns Instant.EPOCH
         }
         recoveryCertificate.apply {
-            every { getState() } returns State.Expired(expiredAt = Instant.EPOCH)
+            every { state } returns State.Expired(expiredAt = Instant.EPOCH)
             every { notifiedExpiredAt } returns Instant.EPOCH
         }
 

@@ -68,15 +68,15 @@ interface CwaCovidCertificate : Recyclable {
     /**
      * The current state of the certificate, see [State]
      */
-    fun getState(): State
+    val state: State
 
     val isDisplayValid
         get() = when (this) {
-            is TestCertificate -> getState() !is State.Invalid
-            else -> getState() is State.Valid || getState() is State.ExpiringSoon
+            is TestCertificate -> state !is State.Invalid
+            else -> state is State.Valid || state is State.ExpiringSoon
         }
 
-    val isNotScreened get() = getState() !is State.Blocked && getState() !is State.Revoked
+    val isNotScreened get() = state !is State.Blocked && state !is State.Revoked
 
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]

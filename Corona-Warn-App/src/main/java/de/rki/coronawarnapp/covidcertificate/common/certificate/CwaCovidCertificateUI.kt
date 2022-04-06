@@ -16,7 +16,6 @@ fun CwaCovidCertificate.getValidQrCode(locale: Locale = Locale.getDefault(), sho
         else -> Invalid.URL_INVALID_SIGNATURE_EN
     }.let { CoilQrCode(it, QrCodeOptions(correctionLevel = ErrorCorrectionLevel.M)) }
 
-    val state = getState()
     return when {
         state is Invalid || (state is Blocked && !showBlocked) || state is Revoked -> getInvalidQrCode()
         else -> qrCodeToDisplay

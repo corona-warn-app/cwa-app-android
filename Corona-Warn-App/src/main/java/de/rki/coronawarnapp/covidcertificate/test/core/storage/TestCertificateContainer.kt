@@ -82,7 +82,7 @@ data class TestCertificateContainer(
         val testCertificate = certificate.test
 
         return object : TestCertificate {
-            override fun getState(): State = certificateState
+            override val state: State get() = certificateState
 
             override val containerId: TestCertificateContainerId
                 get() = this@TestCertificateContainer.containerId
@@ -175,10 +175,7 @@ data class TestCertificateContainer(
                 get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
             override val hasNotificationBadge: Boolean
-                get() {
-                    val state = getState()
-                    return (state is State.Invalid && state != lastSeenStateChange) || isNew
-                }
+                get() = (state is State.Invalid && state != lastSeenStateChange) || isNew
 
             override val recycledAt: Instant?
                 get() = data.recycledAt

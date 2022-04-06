@@ -10,6 +10,8 @@ import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -66,7 +68,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusBody.text = context.getText(R.string.expired_certificate_info)
         }
 
-        is CwaCovidCertificate.State.Invalid -> {
+        is Invalid -> {
             expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
@@ -86,7 +88,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             expirationStatusBody.text = context.getText(R.string.error_dcc_in_blocklist_message)
         }
 
-        is CwaCovidCertificate.State.Valid -> {
+        is Valid -> {
             expirationStatusIcon.isVisible = false
             expirationStatusText.isVisible = false
             expirationStatusBody.isVisible = false
@@ -149,7 +151,7 @@ fun PersonOverviewItemBinding.setUIState(
             verticalBias = 1.0f,
             expirationText = R.string.certificate_qr_expired
         )
-        is CwaCovidCertificate.State.Invalid -> updateExpirationViews(
+        is Invalid -> updateExpirationViews(
             badgeCount,
             expirationText = R.string.certificate_qr_invalid_signature
         )
@@ -224,12 +226,12 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
             text = context.getText(R.string.certificate_qr_expired)
         }
 
-        is CwaCovidCertificate.State.Invalid -> {
+        is Invalid -> {
             isVisible = true
             text = context.getText(R.string.certificate_qr_invalid_signature)
         }
 
-        is CwaCovidCertificate.State.Valid -> {
+        is Valid -> {
             isVisible = false
             if (certificate.isNew) {
                 isVisible = true
@@ -263,11 +265,8 @@ fun CwaCovidCertificate.expendedImageResource(colorShade: PersonColorShade): Int
 /**
  * Display state is just for UI purpose only and does change the state for Test Certificate only
  */
-private fun CwaCovidCertificate.displayedState(): CwaCovidCertificate.State = when (this) {
-    is TestCertificate -> if (isDisplayValid) {
-        CwaCovidCertificate.State.Valid(headerExpiresAt)
-    } else {
-        CwaCovidCertificate.State.Invalid()
+private fun CwaCovidCertificate.displayedState(): CwaCovidCertificate.State =
+    when (this) {
+        is TestCertificate -> if (isDisplayValid) Valid(headerExpiresAt) else Invalid()
+        else -> state
     }
-    else -> getState()
-}

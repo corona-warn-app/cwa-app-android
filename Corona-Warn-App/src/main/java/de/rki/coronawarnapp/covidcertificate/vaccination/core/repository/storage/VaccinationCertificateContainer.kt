@@ -64,7 +64,7 @@ data class VaccinationCertificateContainer(
         certificateState: State,
         userLocale: Locale = Locale.getDefault(),
     ) = object : VaccinationCertificate {
-        override fun getState(): State = certificateState
+        override val state: State get() = certificateState
 
         override val notifiedExpiresSoonAt: Instant?
             get() = this@VaccinationCertificateContainer.data.notifiedExpiresSoonAt
@@ -163,10 +163,7 @@ data class VaccinationCertificateContainer(
             get() = certificateData
 
         override val hasNotificationBadge: Boolean
-            get() {
-                val state = getState()
-                return (state !is State.Valid && state != lastSeenStateChange) || isNew
-            }
+            get() = (state !is State.Valid && state != lastSeenStateChange) || isNew
 
         override val isNew: Boolean get() = !data.certificateSeenByUser
 

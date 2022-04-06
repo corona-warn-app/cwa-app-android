@@ -42,7 +42,7 @@ class DccExpirationNotificationService @Inject constructor(
         val vacRecCerts = getCertificates()
 
         vacRecCerts
-            .filter { it.getState() is CwaCovidCertificate.State.Expired }
+            .filter { it.state is CwaCovidCertificate.State.Expired }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expired: %s", it)
                 it.notifiedExpiredAt == null
@@ -54,7 +54,7 @@ class DccExpirationNotificationService @Inject constructor(
             }
 
         vacRecCerts
-            .filter { it.getState() is CwaCovidCertificate.State.ExpiringSoon }
+            .filter { it.state is CwaCovidCertificate.State.ExpiringSoon }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expiring soon: %s", it)
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
@@ -70,7 +70,7 @@ class DccExpirationNotificationService @Inject constructor(
         val allCerts = vacRecCerts + testCerts
 
         allCerts
-            .filter { it.getState() is CwaCovidCertificate.State.Invalid }
+            .filter { it.state is CwaCovidCertificate.State.Invalid }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate is invalid: %s", it)
                 it.notifiedInvalidAt == null
@@ -82,7 +82,7 @@ class DccExpirationNotificationService @Inject constructor(
             }
 
         allCerts
-            .filter { it.getState() is CwaCovidCertificate.State.Blocked }
+            .filter { it.state is CwaCovidCertificate.State.Blocked }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate is blocked: %s", it)
                 it.notifiedBlockedAt == null
@@ -98,7 +98,7 @@ class DccExpirationNotificationService @Inject constructor(
 
     private suspend fun setStateNotificationShown(certificate: CwaCovidCertificate) {
         val now = timeStamper.nowUTC
-        val state = certificate.getState()
+        val state = certificate.state
         when (certificate) {
             is RecoveryCertificate ->
                 recoveryRepository.setNotifiedState(certificate.containerId, state, now)

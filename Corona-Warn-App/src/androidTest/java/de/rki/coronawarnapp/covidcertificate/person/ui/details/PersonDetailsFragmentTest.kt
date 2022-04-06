@@ -358,7 +358,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
         )
         every { isDisplayValid } returns true
         every { sampleCollectedAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
-        every { getState() } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
+        every { state } returns CwaCovidCertificate.State.Valid(headerExpiresAt)
         every { isNew } returns false
         every { hasNotificationBadge } returns false
         every { isNotScreened } returns true
@@ -399,7 +399,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { isSeriesCompletingShot } returns final
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.vaccinationCertificate)
             every { isDisplayValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true
@@ -417,7 +417,7 @@ class PersonDetailsFragmentTest : BaseUITest() {
             every { qrCodeToDisplay } returns CoilQrCode(ScreenshotCertificateTestData.recoveryCertificate)
             every { containerId } returns rcContainerId
             every { isDisplayValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(20))
             every { hasNotificationBadge } returns false
             every { isNew } returns false
             every { isNotScreened } returns true

@@ -97,7 +97,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         mockCertificate().apply {
             every { isDisplayValid } returns true
             every { isNotScreened } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
         }
     )
 
@@ -105,7 +105,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         mockCertificate().apply {
             every { isDisplayValid } returns false
             every { isNotScreened } returns true
-            every { getState() } returns CwaCovidCertificate.State.Invalid()
+            every { state } returns CwaCovidCertificate.State.Invalid()
         }
     )
 
@@ -113,7 +113,7 @@ class RecoveryCertificateDetailFragmentTest : BaseUITest() {
         mockCertificate().apply {
             every { isDisplayValid } returns false
             every { isNotScreened } returns true
-            every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
+            every { state } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
     )
 

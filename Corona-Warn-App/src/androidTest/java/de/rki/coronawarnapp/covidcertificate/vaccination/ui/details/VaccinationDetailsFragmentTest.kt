@@ -105,7 +105,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
         val vaccinationCertificate = vaccinationCertificate().apply {
             if (complete) every { doseNumber } returns 2 else every { doseNumber } returns 1
             every { isDisplayValid } returns true
-            every { getState() } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
+            every { state } returns CwaCovidCertificate.State.Valid(Instant.now().plus(21))
         }
         return MutableLiveData(vaccinationCertificate)
     }
@@ -115,7 +115,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { doseNumber } returns 2
             every { isDisplayValid } returns false
             every { isNotScreened } returns true
-            every { getState() } returns CwaCovidCertificate.State.Invalid()
+            every { state } returns CwaCovidCertificate.State.Invalid()
         }
         return MutableLiveData(vaccinationCertificate)
     }
@@ -125,7 +125,7 @@ class VaccinationDetailsFragmentTest : BaseUITest() {
             every { doseNumber } returns 2
             every { isDisplayValid } returns false
             every { isNotScreened } returns true
-            every { getState() } returns CwaCovidCertificate.State.Expired(Instant.now())
+            every { state } returns CwaCovidCertificate.State.Expired(Instant.now())
         }
         return MutableLiveData(vaccinationCertificate)
     }
