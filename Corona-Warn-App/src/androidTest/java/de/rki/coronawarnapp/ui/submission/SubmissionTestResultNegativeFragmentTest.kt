@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.ScreenshotCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
@@ -17,7 +16,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.TestDccV1
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
@@ -47,11 +45,9 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
 
     lateinit var viewModel: SubmissionTestResultNegativeViewModel
     @MockK lateinit var certificateRepository: TestCertificateRepository
-    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
     @MockK lateinit var recycledCoronaTestsProvider: RecycledCoronaTestsProvider
     @MockK lateinit var coronaTestProvider: CoronaTestProvider
-    private val resultNegativeFragmentArgs =
-        SubmissionTestResultNegativeFragmentArgs(testIdentifier = "").toBundle()
+    private val resultNegativeFragmentArgs = SubmissionTestResultNegativeFragmentArgs(testIdentifier = "").toBundle()
 
     @Before
     fun setup() {
@@ -100,7 +96,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         )
 
         every { viewModel.certificate } returns MutableLiveData(
-            mockTestCertificateWrapper(false)
+            mockTestCertificate()
         )
 
         launchFragmentInContainer2<SubmissionTestResultNegativeFragment>(fragmentArgs = resultNegativeFragmentArgs)
@@ -133,14 +129,6 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         takeScreenshot<SubmissionTestResultNegativeFragment>()
     }
 
-    private fun mockTestCertificateWrapper(isUpdating: Boolean) = mockk<TestCertificateWrapper>().apply {
-        every { isCertificateRetrievalPending } returns true
-        every { isUpdatingData } returns isUpdating
-        every { registeredAt } returns Instant.EPOCH
-        every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
-        every { testCertificate } returns mockTestCertificate()
-    }
-
     private fun mockTestCertificate(): TestCertificate = mockk<TestCertificate>().apply {
         every { uniqueCertificateIdentifier } returns "URN:UVCI:01:AT:858CC18CFCF5965EF82F60E493349AA5#K"
         every { fullName } returns "Andrea Schneider"
@@ -152,6 +140,7 @@ class SubmissionTestResultNegativeFragmentTest : BaseUITest() {
         }
         every { containerId } returns TestCertificateContainerId("testCertificateContainerId")
         every { testType } returns "PCR-Test"
+        every { isPCRTestCertificate } returns true
         every { dateOfBirthFormatted } returns "1943-04-18"
         every { sampleCollectedAt } returns Instant.parse("2021-05-31T11:35:00.000Z")
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
