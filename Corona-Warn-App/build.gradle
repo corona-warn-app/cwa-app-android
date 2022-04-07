@@ -404,6 +404,14 @@ dependencies {
     implementation("org.boofcv:boofcv-android:$boofCV_version") {
         exclude group: 'com.google.protobuf'
     }
+    constraints {
+        implementation('net.lingala.zip4j:zip4j:2.10.0') {
+            because 'fixing zip4j vulnerability'
+        }
+        implementation('com.fasterxml.jackson.core:jackson-databind:2.13.2.2') {
+            because 'fixing fasterxml vulnerability'
+        }
+    }
 
     // Testing
     testImplementation "androidx.arch.core:core-testing:2.1.0"
