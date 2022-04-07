@@ -117,6 +117,20 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
     }
 
     @Test
+    fun testMoveToRecycleBin() = runBlocking {
+        val entity = test.toEntity()
+        dao.insert(entity)
+        dao.insert(test2.toEntity())
+
+        dao.moveAllToRecycleBin(listOf(identifier, identifier2), now.millis)
+
+        dao.getAllActive().first().size shouldBe 0
+        val entries = dao.getAllInRecycleBin().first()
+        entries.size shouldBe 2
+        entries.forEach { it!!.movedToRecycleBinAtMillis shouldBe now.millis }
+    }
+
+    @Test
     fun testLifeCycle() = runBlocking {
         val entity = test.toEntity()
         dao.insert(entity)

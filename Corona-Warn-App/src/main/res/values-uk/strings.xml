@@ -1031,10 +1031,18 @@
     <string name="submission_test_result_steps_added_heading">"Ваш ПЛР-тест додано"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Ваш тест було збережено в Corona-Warn-App."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"ПЛР-тест було додано"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Експрес-тест було додано"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Результат вашого тесту ще недоступний"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Результат тесту ще недоступний"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку.\n\nВи також отримаєте результат тесту поза межами застосунку. Державні органи охорони здоров’я повідомлять вас, якщо ваш тест буде позитивним.\n\nЯкщо ви отримаєте сповіщення про позитивний результат тесту поза межами застосунку, видаліть тест, наразі зареєстрований у застосунку. Щоб отримати TAN, зателефонуйте за номером, вказаним у розділі Запитати TAN. Потім ви можете використовувати цей TAN, щоб зареєструвати свій результат у застосунку та попередити інших."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку.\nВи також отримаєте результат тесту поза межами застосунку. Державні органи охорони здоров’я повідомлять вас, якщо тест буде позитивним."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Ваш швидкий тест додано"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1045,13 +1053,21 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Результат вашого тесту буде доданий до вашого журналу контактів"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Щойно результат тесту стане доступним, він відобразиться в застосунку."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Ваш сертифікат тесту на COVID"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"Сертифікат тесту на COVID"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Цифровий сертифікат тесту на COVID доступний на вкладці «Сертифікати»."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Офіційний цифровий сертифікат тесту на COVID не може бути виданий, оскільки цей пункт тестування не підтримує видачу сертифікатів тестування."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Ваш офіційний цифровий сертифікат тесту на COVID ще недоступний. Як тільки він стане доступним, він відобразиться у вашому застосунку."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Офіційний цифровий сертифікат тесту на COVID ще недоступний. Як тільки він стане доступним, він відобразиться у застосунку."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"За вашим запитом офіційний цифровий сертифікат тесту на COVID не буде видано."</string>
 
@@ -1341,6 +1357,8 @@
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ваш діагноз %s:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"Діагноз %s:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
