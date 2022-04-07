@@ -164,6 +164,12 @@
     <string name="rat_profile_create_phone_error">"Ungültige Telefonnummer"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Ungültige E-Mail-Adresse"</string>
+    <!-- XTXT: RAT profile fab text -->
+    <string name="rat_profile_fab_text">"Schnelltest Profil"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Noch kein Schnelltest-Profil erstellt"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Legen Sie ein Schnelltest-Profil mit Ihren persönlichen Daten an, das Sie per QR-Code bei jeder teilnehmenden Teststelle vorlegen können."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">Eine Frau mit einem Smartphone in der Hand steht vor einem Gebäude. Ein QR-Code symbolisiert das zu scannende Schnelltest-Profil.</string>

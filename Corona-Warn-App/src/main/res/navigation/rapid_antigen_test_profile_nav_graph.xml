@@ -52,4 +52,11 @@
         android:name="de.rki.coronawarnapp.ui.information.InformationPrivacyFragment"
         android:label="InformationPrivacyFragment"
         tools:layout="@layout/fragment_information_privacy" />
+    <fragment
+        android:id="@+id/profileListFragment"
+        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragment"
+        android:label="profile_list_fragment"
+        tools:layout="@layout/profile_list_fragment">
+
+    </fragment>
 </navigation>
