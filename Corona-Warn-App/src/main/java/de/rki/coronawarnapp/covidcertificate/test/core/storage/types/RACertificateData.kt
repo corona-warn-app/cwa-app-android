@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage.types
 
 import com.google.gson.annotations.SerializedName
 import de.rki.coronawarnapp.coronatest.type.RegistrationToken
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
 import de.rki.coronawarnapp.util.encryption.rsa.RSAKey
 import okio.ByteString
 import org.joda.time.Instant
@@ -27,7 +27,7 @@ data class RACertificateData(
     override val notifiedRevokedAt: Instant? = null,
 
     @SerializedName("lastSeenStateChange")
-    override val lastSeenStateChange: CwaCovidCertificate.State? = null,
+    override val lastSeenStateChange: State? = null,
 
     @SerializedName("lastSeenStateChangeAt")
     override val lastSeenStateChangeAt: Instant? = null,

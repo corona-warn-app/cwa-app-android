@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storag
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccHeader
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -67,25 +68,25 @@ data class VaccinationCertificateContainer(
         override val state: State get() = certificateState
 
         override val notifiedExpiresSoonAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedExpiresSoonAt
+            get() = data.notifiedExpiresSoonAt
 
         override val notifiedExpiredAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedExpiredAt
+            get() = data.notifiedExpiredAt
 
         override val notifiedInvalidAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedInvalidAt
+            get() = data.notifiedInvalidAt
 
         override val notifiedBlockedAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedBlockedAt
+            get() = data.notifiedBlockedAt
 
         override val notifiedRevokedAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.notifiedRevokedAt
+            get() = data.notifiedRevokedAt
 
         override val lastSeenStateChange: State?
-            get() = this@VaccinationCertificateContainer.data.lastSeenStateChange
+            get() = data.lastSeenStateChange
 
         override val lastSeenStateChangeAt: Instant?
-            get() = this@VaccinationCertificateContainer.data.lastSeenStateChangeAt
+            get() = data.lastSeenStateChangeAt
 
         override val containerId: VaccinationCertificateContainerId
             get() = this@VaccinationCertificateContainer.containerId
@@ -166,7 +167,7 @@ data class VaccinationCertificateContainer(
             get() = certificateData
 
         override val hasNotificationBadge: Boolean
-            get() = (state !is State.Valid && state != lastSeenStateChange) || isNew
+            get() = (state !is Valid && state != lastSeenStateChange) || isNew
 
         override val isNew: Boolean get() = !data.certificateSeenByUser
 

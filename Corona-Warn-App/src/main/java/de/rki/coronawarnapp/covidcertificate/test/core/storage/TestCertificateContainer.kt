@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.covidcertificate.test.core.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificatePersonIdentifier
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
@@ -178,12 +181,16 @@ data class TestCertificateContainer(
                 get() = !certificateSeenByUser && !isCertificateRetrievalPending
 
             override val hasNotificationBadge: Boolean
-                get() = (state is State.Invalid && state != lastSeenStateChange) || isNew
+                get() = (state.isNotifyingState() && state != lastSeenStateChange) || isNew
 
             override val recycledAt: Instant?
                 get() = data.recycledAt
 
             override fun toString(): String = "TestCertificate($containerId)"
         }
+    }
+
+    private fun State.isNotifyingState(): Boolean {
+        return this is Invalid || this is Blocked || this is Revoked
     }
 }
