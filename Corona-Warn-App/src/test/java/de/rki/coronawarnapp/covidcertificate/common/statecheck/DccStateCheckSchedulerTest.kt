@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.util.TimeStamper
@@ -29,7 +28,6 @@ import testhelpers.coroutines.runBlockingTest2
 class DccStateCheckSchedulerTest : BaseTest() {
     @MockK lateinit var foregroundState: ForegroundState
     @MockK(relaxed = true) lateinit var workManager: WorkManager
-    @MockK lateinit var dccExpirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var mockDscData: DscData
@@ -49,14 +47,12 @@ class DccStateCheckSchedulerTest : BaseTest() {
 
         every { mockDscData.updatedAt } returns Instant.EPOCH
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(1234567)
-        coEvery { dccExpirationNotificationService.showNotificationIfStateChanged() } just Runs
     }
 
     fun createInstance(scope: CoroutineScope) = DccStateCheckScheduler(
         appScope = scope,
         foregroundState = foregroundState,
         workManager = workManager,
-        dccExpirationNotificationService = dccExpirationNotificationService,
         dscRepository = dscRepository,
         timeStamper = timeStamper
     )
@@ -73,30 +69,6 @@ class DccStateCheckSchedulerTest : BaseTest() {
                 ExistingPeriodicWorkPolicy.KEEP,
                 any()
             )
-        }
-    }
-
-    @Test
-    fun `force expiration state check when app comes into foreground`() = runBlockingTest2(ignoreActive = true) {
-        createInstance(this).apply {
-            setup()
-
-            advanceUntilIdle()
-
-            isForeground.value = false
-            advanceUntilIdle()
-
-            coVerify { dccExpirationNotificationService wasNot Called }
-
-            isForeground.value = true
-            advanceUntilIdle()
-            isForeground.value = true
-            advanceUntilIdle()
-
-            isForeground.value = false
-            advanceUntilIdle()
-
-            coVerify(exactly = 1) { dccExpirationNotificationService.showNotificationIfStateChanged() }
         }
     }
 
