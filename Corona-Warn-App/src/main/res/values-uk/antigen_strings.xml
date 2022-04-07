@@ -75,7 +75,7 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Дата реєстрації тесту %1$s"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Продовжити"</string>
+    <string name="submission_deletion_warning_continue_button">"Перезаписати тест"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Нотатка"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
