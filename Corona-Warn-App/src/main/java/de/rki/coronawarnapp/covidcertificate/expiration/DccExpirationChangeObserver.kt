@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,8 +24,9 @@ class DccExpirationChangeObserver @Inject constructor(
         Timber.tag(TAG).d("setup()")
 
         certificateProvider.certificateContainer
-            .map { certs ->
-                certs.allCwaCertificates
+            .onStart { Timber.tag(TAG).d("Started monitoring certs for state changes") }
+            .map { certificateContainer ->
+                certificateContainer.allCwaCertificates
                     .filterNot { it.getState() is CwaCovidCertificate.State.Valid }
                     .associate { it.uniqueCertificateIdentifier to it.getState() }
             }
