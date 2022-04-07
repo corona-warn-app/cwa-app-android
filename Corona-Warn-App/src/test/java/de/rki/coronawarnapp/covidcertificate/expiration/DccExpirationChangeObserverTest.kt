@@ -160,9 +160,9 @@ class DccExpirationChangeObserverTest : BaseTest() {
         dccExpirationNotificationService = dccExpirationNotificationService
     )
 
-    private fun createCert(state: CwaCovidCertificate.State): CwaCovidCertificate = mockk {
-        every { getState() } returns state
-        every { uniqueCertificateIdentifier } returns state.type
+    private fun createCert(requiredState: CwaCovidCertificate.State): CwaCovidCertificate = mockk {
+        every { state } returns requiredState
+        every { uniqueCertificateIdentifier } returns requiredState.type
     }
 
     private fun createContainer(certs: Set<CwaCovidCertificate>): CertificateProvider.CertificateContainer = mockk {

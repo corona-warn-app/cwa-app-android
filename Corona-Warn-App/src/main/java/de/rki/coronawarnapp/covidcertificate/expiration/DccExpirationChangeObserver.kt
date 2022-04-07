@@ -30,8 +30,8 @@ class DccExpirationChangeObserver @Inject constructor(
             .onStart { Timber.tag(TAG).d("Started monitoring certs for state changes") }
             .mapLatest { certificateContainer ->
                 certificateContainer.allCwaCertificates
-                    .filterNot { it.getState() is CwaCovidCertificate.State.Valid }
-                    .associate { it.uniqueCertificateIdentifier to it.getState() }
+                    .filterNot { it.state is CwaCovidCertificate.State.Valid }
+                    .associate { it.uniqueCertificateIdentifier to it.state }
             }
             .distinctUntilChanged()
             .filter { it.isNotEmpty() }
