@@ -36,4 +36,42 @@
     <!-- XBUT: Test registration selection: confirm button -->
     <string name="family_consent_cofirm_button">"Прийняти"</string>
 
+    <!-- Family tests -->
+    <!-- XTXT: Family tests: Cards: PCR title -->
+    <string name="family_tests_cards_pcr_title">"Діагноз на основі тесту ПЛР"</string>
+    <!-- XTXT: Family tests: Cards: Rapid title -->
+    <string name="family_tests_cards_rapid_title">"Діагноз на основі експрес-тесту"</string>
+    <!-- XTXT: Family tests: Cards: PCR date -->
+    <string name="family_tests_cards_pcr_date">"Тест додано %s"</string>
+    <!-- XTXT: Family tests: Cards: Rapid date -->
+    <string name="family_tests_cards_rapid_date">"Дата виконання %1$s"</string>
+    <!-- XTXT: Family tests: Cards: PCR pending body -->
+    <string name="family_tests_cards_pcr_pending_body">"Аналіз тесту ПЛР ще не виконаний."</string>
+    <!-- XTXT: Family tests: Cards: Rapid pending body -->
+    <string name="family_tests_cards_rapid_pending_body">"Аналіз експрес-тесту ще не виконано."</string>
+    <!-- XTXT: Family tests: Cards: Invalid body -->
+    <string name="family_tests_cards_invalid_body">"Тест неможливо проаналізувати."</string>
+    <!-- XTXT: Family tests: Cards: Redeemed body -->
+    <string name="family_tests_cards_redeemed_body">"Тесту більше 21 дня, тому він більше не є релевантним."</string>
+
+    <!-- Family tests list fragment -->
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_title">"Тести членів родини"</string>
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_menu_remove_all">"Видалити все"</string>
+    <!-- XHED: family tests list: Deletion alert window: header single test -->
+    <string name="family_tests_list_deletion_alert_header_single">"Видалити результат тесту?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body single test -->
+    <string name="family_tests_list_deletion_alert_body_single">"Результат тесту буде переміщено в кошик. Ви знайдете кошик на закладці «Статус» під трьома крапками у верхньому правому куті. Ви можете назавжди видалити або відновити його там. Результат тесту буде автоматично видалено через 30 днів."</string>
+    <!-- XHED: family tests list: Deletion alert window: header all tests -->
+    <string name="family_tests_list_deletion_alert_header_all">"Видалити результати тестів?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body all tests -->
+    <string name="family_tests_list_deletion_alert_body_all">"Результати тестів будуть переміщені в кошик. Ви знайдете кошик на плитці «Більше» на закладці статусу.\nВи можете назавжди видалити результати тестів або відновити їх там. Результати тестів будуть автоматично видалено через 30 днів."</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button">"Видалити результат тесту"</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button_all">"Видалити результати тестів"</string>
+    <!-- XBUT: family tests list: Deletion alert window: cancel button -->
+    <string name="family_tests_list_deletion_alert_cancel_button">"Скасувати"</string>
+
 </resources>
