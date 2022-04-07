@@ -45,50 +45,50 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
-            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
-            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
-            expirationStatusText.text = context.getString(
+            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
+            statusTitle.text = context.getString(
                 R.string.certificate_qr_expiration,
                 certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
                 certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
             )
-            expirationStatusBody.text = context.getText(R.string.expiration_info)
+            statusBody.text = context.getText(R.string.expiration_info)
         }
 
         is Expired -> {
-            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
-            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
-            expirationStatusBody.text = context.getText(R.string.expired_certificate_info)
+            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
+            statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            statusTitle.text = context.getText(R.string.certificate_qr_expired)
+            statusBody.text = context.getText(R.string.expired_certificate_info)
         }
 
         is Invalid -> {
-            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
-            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
-            expirationStatusBody.text = context.getText(R.string.invalid_certificate_signature_info)
+            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            statusTitle.text = context.getText(R.string.certificate_qr_invalid_signature)
+            statusBody.text = context.getText(R.string.invalid_certificate_signature_info)
         }
 
         is Blocked -> {
-            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
-            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
-            expirationStatusBody.text = context.getText(messageForScreenedCert(certificate))
+            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
+            statusBody.text = context.getText(messageForScreenedCert(certificate))
         }
 
         is Revoked -> {
-            (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
-            expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
-            expirationStatusBody.text = context.getText(
+            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+            statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
+            statusBody.text = context.getText(
                 messageForScreenedCert(certificate)
             )
         }
 
         is Valid -> {
-            expirationStatusIcon.isVisible = false
-            expirationStatusText.isVisible = false
-            expirationStatusBody.isVisible = false
+            statusIcon.isVisible = false
+            statusTitle.isVisible = false
+            statusBody.isVisible = false
         }
         CwaCovidCertificate.State.Recycled -> Unit
     }
@@ -203,12 +203,12 @@ private fun PersonOverviewItemBinding.updateExpirationViews(
     expirationText: Int = 0
 ) {
     val context = root.context
-    expirationStatusIcon.isVisible = badgeCount == 0
-    (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = verticalBias
-    expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-    expirationStatusText.isVisible = badgeCount == 0
+    statusIcon.isVisible = badgeCount == 0
+    (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = verticalBias
+    statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
+    statusTitle.isVisible = badgeCount == 0
     if (expirationText != 0) {
-        expirationStatusText.text = context.getText(expirationText)
+        statusTitle.text = context.getText(expirationText)
     }
 }
 
