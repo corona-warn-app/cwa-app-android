@@ -127,9 +127,9 @@
     <string name="test_certificate_qr_new">"New"</string>
 
     <!-- XTXT: DCC Revoked DE error message-->
-    <string name="error_dcc_in_rovoked_de_message">"Das RKI hat das Zertifikat aufgrund einer behördlichen Verfügung gesperrt. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
+    <string name="dcc_screened_de_message">"Das RKI hat das Zertifikat aufgrund einer behördlichen Verfügung gesperrt. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
     <!-- XTXT: DCC Revoked foreign error message-->
-    <string name="error_dcc_in_rovoked_foreign_message">"Das Zertifikat wurde vom Zertifikataussteller aufgrund einer behördlichen Entscheidung gesperrt. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
+    <string name="dcc_screened_foreign_message">"Das Zertifikat wurde vom Zertifikataussteller aufgrund einer behördlichen Entscheidung gesperrt. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
 
 
     <!-- #####################################################

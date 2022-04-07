@@ -29,11 +29,8 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortTimeFormat
 import de.rki.coronawarnapp.util.coil.loadingView
 
-@Suppress("LongParameterList", "ComplexMethod")
 fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     certificate: CwaCovidCertificate,
-    isCertificateDetails: Boolean = false,
-    badgeCount: Int = 0,
     onCovPassInfoAction: () -> Unit
 ) {
     val valid = certificate.isDisplayValid
@@ -42,66 +39,49 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     covpassInfoButton.isVisible = valid
     covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
 
-    invalidOverlay.isGone = valid || (isCertificateDetails && !certificate.isNotScreened)
-    image.isEnabled = isCertificateDetails && (valid || !certificate.isNotScreened) // Disable Qr-Code full-screen mode
+    val isActualQrCodeVisible = valid || certificate.state is Blocked
+    invalidOverlay.isGone = isActualQrCodeVisible
+    image.isEnabled = isActualQrCodeVisible // Disable Qr-Code full-screen mode
 
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
-            expirationStatusIcon.isVisible = isCertificateDetails
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
-            expirationStatusText.isVisible = isCertificateDetails
             expirationStatusText.text = context.getString(
                 R.string.certificate_qr_expiration,
                 certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortDayFormat(),
                 certificate.headerExpiresAt.toLocalDateTimeUserTz().toShortTimeFormat()
             )
-            expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expiration_info)
         }
 
         is Expired -> {
-            expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = badgeCount == 0
             expirationStatusText.text = context.getText(R.string.certificate_qr_expired)
-            expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.expired_certificate_info)
         }
 
         is Invalid -> {
-            expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = badgeCount == 0
             expirationStatusText.text = context.getText(R.string.certificate_qr_invalid_signature)
-            expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(R.string.invalid_certificate_signature_info)
         }
 
         is Blocked -> {
-            expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = badgeCount == 0
             expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
-            expirationStatusBody.isVisible = isCertificateDetails
-            expirationStatusBody.text = context.getText(R.string.error_dcc_in_blocklist_message)
+            expirationStatusBody.text = context.getText(messageForScreenedCert(certificate))
         }
 
         is Revoked -> {
-            expirationStatusIcon.isVisible = badgeCount == 0
             (expirationStatusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
             expirationStatusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            expirationStatusText.isVisible = badgeCount == 0
             expirationStatusText.text = context.getText(R.string.error_dcc_in_blocklist_title)
-            expirationStatusBody.isVisible = isCertificateDetails
             expirationStatusBody.text = context.getText(
-                when (certificate.dccData.header.issuer) {
-                    "DE" -> R.string.error_dcc_in_rovoked_de_message
-                    else -> R.string.error_dcc_in_rovoked_foreign_message
-                }
+                messageForScreenedCert(certificate)
             )
         }
 
@@ -113,6 +93,12 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         CwaCovidCertificate.State.Recycled -> Unit
     }
 }
+
+private fun messageForScreenedCert(certificate: CwaCovidCertificate) =
+    when (certificate.dccData.header.issuer) {
+        "DE" -> R.string.dcc_screened_de_message
+        else -> R.string.dcc_screened_foreign_message
+    }
 
 @Suppress("LongParameterList", "ComplexMethod")
 fun PersonOverviewItemBinding.setUIState(

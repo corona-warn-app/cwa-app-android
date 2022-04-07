@@ -94,7 +94,6 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
     ) {
         qrCodeCard.bindValidityViews(
             certificate,
-            isCertificateDetails = true,
             onCovPassInfoAction = { onNavEvent(TestCertificateDetailsNavigation.OpenCovPassInfo) }
         )
 

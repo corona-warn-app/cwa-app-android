@@ -185,7 +185,6 @@ class VaccinationDetailsFragment : Fragment(R.layout.fragment_vaccination_detail
         toolbar.menu.findItem(R.id.menu_covid_certificate_export).isEnabled = certificate.isNotScreened
         qrCodeCard.bindValidityViews(
             certificate,
-            isCertificateDetails = true,
             onCovPassInfoAction = { viewModel.onCovPassInfoAction() }
         )
         fullname.text = certificate.fullNameFormatted
