@@ -341,7 +341,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
     @Test
     fun `blocked test certificate notification`() = runBlockingTest {
-        every { testCertificate.state() } returns State.Blocked
+        every { testCertificate.state } returns State.Blocked
 
         createInstance().showNotificationIfStateChanged()
 
