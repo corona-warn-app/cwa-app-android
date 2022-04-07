@@ -176,6 +176,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         dccStateCheckScheduler.setup()
         recycleBinCleanUpScheduler.setup()
         cclConfigurationUpdaterScheduler.setup()
+        dccExpirationChangeObserver.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
