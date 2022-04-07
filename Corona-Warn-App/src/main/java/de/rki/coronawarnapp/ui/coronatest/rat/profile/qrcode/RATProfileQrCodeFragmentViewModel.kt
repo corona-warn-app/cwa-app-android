@@ -22,7 +22,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     // TO DO get id as nav arg
-    private val id = "1"
+    private val id = 1
 
     private var qrCodeString: String? = null
     val personProfile: LiveData<PersonProfile> = profileRepository.profilesFlow

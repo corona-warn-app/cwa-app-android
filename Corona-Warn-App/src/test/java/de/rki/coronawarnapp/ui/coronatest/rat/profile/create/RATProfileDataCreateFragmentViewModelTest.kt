@@ -49,7 +49,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @Test
     fun `Saved profile is displayed`() {
         val savedProfile = Profile(
-            id = "1",
+            id = 1,
             firstName = "First name",
             lastName = "Last name",
             birthDate = birthDate,

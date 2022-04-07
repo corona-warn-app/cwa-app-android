@@ -31,6 +31,7 @@ import de.rki.coronawarnapp.nearby.ENFModule
 import de.rki.coronawarnapp.playbook.Playbook
 import de.rki.coronawarnapp.playbook.PlaybookModule
 import de.rki.coronawarnapp.presencetracing.PresenceTracingModule
+import de.rki.coronawarnapp.profile.ProfileModule
 import de.rki.coronawarnapp.qrcode.QrCodeScannerModule
 import de.rki.coronawarnapp.receiver.ReceiverBinder
 import de.rki.coronawarnapp.risk.RiskModule
@@ -99,6 +100,7 @@ import javax.inject.Singleton
         DccReissuanceModule::class,
         GStatusModule::class,
         FamilyTestModule::class,
+        ProfileModule::class,
     ]
 )
 interface ApplicationComponent : AndroidInjector<CoronaWarnApplication> {
