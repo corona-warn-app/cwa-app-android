@@ -123,6 +123,7 @@ interface CwaCovidCertificate : Recyclable {
 
         override fun equals(other: Any?): Boolean {
             if (this is Blocked && other is Blocked) return true
+            if (this is Revoked && other is Revoked) return true
             if (this is Recycled && other is Recycled) return true
             return super.equals(other)
         }
