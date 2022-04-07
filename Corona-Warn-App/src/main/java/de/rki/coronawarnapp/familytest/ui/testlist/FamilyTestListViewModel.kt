@@ -56,8 +56,12 @@ class FamilyTestListViewModel @AssistedInject constructor(
 
     fun markAllTestAsViewed() {
         launch(appScope) {
-            familyTestRepository.familyTests.first().forEach { familyTest ->
-                familyTestRepository.markBadgeAsViewed(familyTest.identifier)
+            familyTestRepository.familyTests.first().filter {
+                it.hasBadge
+            }.map { familyTest ->
+                familyTest.identifier
+            }.let {
+                familyTestRepository.markAllBadgesAsViewed(it)
             }
         }
     }
@@ -65,8 +69,10 @@ class FamilyTestListViewModel @AssistedInject constructor(
     fun onRemoveTestConfirmed(test: FamilyCoronaTest?) {
         launch(appScope) {
             if (test == null) {
-                familyTestRepository.familyTests.first().forEach { familyTest ->
-                    familyTestRepository.moveTestToRecycleBin(familyTest.identifier)
+                familyTestRepository.familyTests.first().map { familyTest ->
+                    familyTest.identifier
+                }.let {
+                    familyTestRepository.moveAllTestsToRecycleBin(it)
                 }
             } else {
                 familyTestRepository.moveTestToRecycleBin(test.identifier)

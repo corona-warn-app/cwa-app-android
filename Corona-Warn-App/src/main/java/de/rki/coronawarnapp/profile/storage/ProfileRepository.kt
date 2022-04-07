@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ProfileRepository @Inject constructor() {
-    val profileFlow: Flow<Set<Profile>> = flowOf(setOf(dummy1, dummy2))
+    val profilesFlow: Flow<Set<Profile>> = flowOf(setOf(dummy1, dummy2))
 
     fun deleteProfile(id: String) {
         // to do

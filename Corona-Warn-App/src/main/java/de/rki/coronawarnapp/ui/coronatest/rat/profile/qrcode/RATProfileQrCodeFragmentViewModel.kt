@@ -25,7 +25,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     private val id = "1"
 
     private var qrCodeString: String? = null
-    val personProfile: LiveData<PersonProfile> = profileRepository.profileFlow
+    val personProfile: LiveData<PersonProfile> = profileRepository.profilesFlow
         .map { profiles ->
             val profile = profiles.find { it.id == id }
             PersonProfile(
