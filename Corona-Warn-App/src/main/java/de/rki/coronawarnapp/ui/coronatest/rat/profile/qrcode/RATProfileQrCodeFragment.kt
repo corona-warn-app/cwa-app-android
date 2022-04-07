@@ -14,8 +14,8 @@ import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
@@ -68,7 +68,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 viewModel.openFullScreen()
             }
         }
-        viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
+        viewModel.personProfile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
                 personProfile.profile?.let { bindPersonInfo(it) }
 
@@ -117,7 +117,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             .show()
     }
 
-    private fun bindPersonInfo(ratProfile: RATProfile) = with(ratProfile) {
+    private fun bindPersonInfo(profile: Profile) = with(profile) {
         val name = buildSpannedString { bold { append("$firstName $lastName") } }
         val birthDate = birthDate?.let {
             getString(

@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.coronatest.antigen.profile.VCard
+import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -16,14 +16,18 @@ import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
 class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
-    private val ratProfileSettings: RATProfileSettingsDataStore,
+    private val profileRepository: ProfileRepository,
     private val vCard: VCard,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
+    // TO DO get id as nav arg
+    private val id = "1"
+
     private var qrCodeString: String? = null
-    val profile: LiveData<PersonProfile> = ratProfileSettings.profileFlow
-        .map { profile ->
+    val personProfile: LiveData<PersonProfile> = profileRepository.profilesFlow
+        .map { profiles ->
+            val profile = profiles.find { it.id == id }
             PersonProfile(
                 profile,
                 profile?.let { vCard.create(it).also { qrCode -> qrCodeString = qrCode } }
@@ -34,7 +38,9 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     fun deleteProfile() {
         Timber.d("deleteProfile")
-        ratProfileSettings.deleteProfile()
+        personProfile.value?.profile?.id?.let {
+            profileRepository.deleteProfile(it)
+        }
         events.postValue(ProfileQrCodeNavigation.Back)
     }
 
@@ -59,6 +65,6 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 }
 
 data class PersonProfile(
-    val profile: RATProfile?,
+    val profile: Profile?,
     val qrCode: String?
 )

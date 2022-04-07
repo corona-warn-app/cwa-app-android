@@ -6,31 +6,40 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
+import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
+import kotlinx.coroutines.flow.map
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
-    private val ratProfileSettings: RATProfileSettingsDataStore,
+    private val profileRepository: ProfileRepository,
     @Assisted private val format: DateTimeFormatter = DateTimeFormat.mediumDate()
 ) : CWAViewModel() {
 
-    private val profileData = MutableLiveData(RATProfileData())
-    val profile: LiveData<RATProfileData> = profileData
+    // TO DO get id as nav arg
+    private val id: String? = "1"
+
+    // TO DO check logic
+    private val profileData = MutableLiveData(Profile())
+    val profile: LiveData<Profile> = profileData
     val events = SingleLiveEvent<CreateRATProfileNavigation>()
 
-    val latestProfile = ratProfileSettings.profileFlow.asLiveData()
+    val savedProfile = profileRepository.profilesFlow
+        .map { profiles ->
+            profiles.find { it.id == id }
+        }.asLiveData()
 
     fun createProfile() {
-        val ratProfileData = profileData.value
-        Timber.d("Profile=%s", ratProfileData)
-        if (ratProfileData?.isValid == true) {
-            ratProfileSettings.updateProfile(ratProfileData.toRATProfile())
+        val profileData = profileData.value
+        Timber.d("Profile=%s", profileData)
+        if (profileData?.isValid == true) {
+            profileRepository.upsertProfile(profileData.copy(id = id))
             Timber.d("Profile created")
             events.value = CreateRATProfileNavigation.ProfileScreen
         }

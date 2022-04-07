@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.coronatest.antigen.profile
 
 import dagger.Reusable
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.util.TimeStamper
 import org.joda.time.format.ISODateTimeFormat
 import javax.inject.Inject
@@ -16,7 +17,7 @@ class VCard @Inject constructor(
      * Return V-Card format for [RATProfile]
      * @return [String]
      */
-    fun create(ratProfile: RATProfile): String = ratProfile.run {
+    fun create(profile: Profile): String = profile.run {
         val lastName = lastName.escapeAll()
         val firstName = firstName.escapeAll()
         val fullName = buildString {

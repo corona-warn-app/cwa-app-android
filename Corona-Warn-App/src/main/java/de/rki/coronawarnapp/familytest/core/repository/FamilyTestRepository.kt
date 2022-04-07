@@ -142,6 +142,10 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
+    suspend fun moveAllTestsToRecycleBin(identifiers: List<TestIdentifier>) {
+        storage.moveAllToRecycleBin(identifiers, timeStamper.nowUTC)
+    }
+
     suspend fun deleteTest(
         identifier: TestIdentifier
     ) {
@@ -157,11 +161,15 @@ class FamilyTestRepository @Inject constructor(
         }
     }
 
-    suspend fun markBadgeAsViewed(
-        identifier: TestIdentifier
+    suspend fun markAllBadgesAsViewed(
+        identifiers: List<TestIdentifier>
     ) {
-        storage.update(identifier) { test ->
-            test.markBadgeAsViewed()
+        identifiers.map {
+            Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>(it) { test ->
+                test.markBadgeAsViewed()
+            }
+        }.let {
+            storage.update(it)
         }
     }
 

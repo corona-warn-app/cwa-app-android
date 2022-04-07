@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.coronatest.notification
 
 import android.content.Context
 import android.os.Bundle
-import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
@@ -13,6 +12,7 @@ import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,6 +22,7 @@ class ShareTestResultNotification @Inject constructor(
     @AppContext private val context: Context,
     private val timeStamper: TimeStamper,
     private val notificationHelper: GeneralNotifications,
+    private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 
     fun scheduleSharePositiveTestResultReminder(testType: BaseCoronaTest.Type, notificationId: Int) {
@@ -38,7 +39,7 @@ class ShareTestResultNotification @Inject constructor(
 
         val args = Bundle().apply { putSerializable("testType", testType) }
 
-        val pendingIntent = NavDeepLinkBuilder(context)
+        val pendingIntent = navDeepLinkBuilderFactory.create(context)
             .setGraph(R.navigation.nav_graph)
             .setComponentName(MainActivity::class.java)
             .setDestination(R.id.submissionResultPositiveOtherWarningNoConsentFragment)
