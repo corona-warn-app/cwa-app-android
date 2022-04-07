@@ -148,7 +148,6 @@ class DccExpirationChangeObserverTest : BaseTest() {
 
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certBlocked)) }
 
-
         advanceUntilIdle()
 
         coVerify(exactly = 3) {
