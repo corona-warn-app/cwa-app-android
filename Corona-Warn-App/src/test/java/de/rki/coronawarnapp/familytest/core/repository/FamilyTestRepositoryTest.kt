@@ -32,7 +32,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var familyTestNotificationService: FamilyTestNotificationService
 
-    private val nowUTC = Instant.parse("2021-03-15T05:45:00.000Z")
+    private val instant = Instant.parse("2021-03-15T05:45:00.000Z")
 
     private val qrCode = CoronaTestQRCode.PCR(
         qrCodeGUID = "guid",
@@ -43,7 +43,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     private val test = CoronaTest(
         type = BaseCoronaTest.Type.PCR,
         identifier = identifier,
-        registeredAt = nowUTC,
+        registeredAt = instant,
         registrationToken = "regtoken",
         testResult = CoronaTestResult.PCR_OR_RAT_PENDING
     )
@@ -61,7 +61,7 @@ class FamilyTestRepositoryTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { timeStamper.nowUTC } returns nowUTC
+        every { timeStamper.nowUTC } returns instant
         coEvery { processor.register(qrCode) } returns test
         coEvery { processor.pollServer(test) } returns update
         coEvery { storage.familyTestMap } returns flowOf(mapOf(identifier to familyTest))
@@ -70,6 +70,7 @@ class FamilyTestRepositoryTest : BaseTest() {
         coEvery { storage.update(any(), any()) } just Runs
         coEvery { storage.update(identifier, any()) } just Runs
         coEvery { storage.update(any()) } just Runs
+        coEvery { storage.moveAllToRecycleBin(any(), instant) } just Runs
         coEvery { storage.delete(familyTest) } just Runs
         every { familyTestNotificationService.showTestResultNotification() } just Runs
     }
@@ -126,6 +127,15 @@ class FamilyTestRepositoryTest : BaseTest() {
     }
 
     @Test
+    fun `moveAllTestsToRecycleBin calls moveAllToRecycleBin`() = runBlockingTest {
+        val instance = createInstance()
+        instance.moveAllTestsToRecycleBin(listOf("1", "2", "3"))
+        coVerify {
+            storage.moveAllToRecycleBin(listOf("1", "2", "3"), instant)
+        }
+    }
+
+    @Test
     fun `markViewed calls update`() = runBlockingTest {
         val instance = createInstance()
         instance.markViewed(identifier)
@@ -146,9 +156,9 @@ class FamilyTestRepositoryTest : BaseTest() {
     @Test
     fun `markBadgeAsViewed calls update`() = runBlockingTest {
         val instance = createInstance()
-        instance.markBadgeAsViewed(identifier)
+        instance.markAllBadgesAsViewed(listOf(identifier))
         coVerify {
-            storage.update(identifier = identifier, any())
+            storage.update(any())
         }
     }
 
