@@ -4,7 +4,6 @@ import androidx.work.BackoffPolicy
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -28,7 +27,6 @@ class DccStateCheckScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val foregroundState: ForegroundState,
     private val workManager: WorkManager,
-    private val dccExpirationNotificationService: DccExpirationNotificationService,
     private val dscRepository: DscRepository,
     private val timeStamper: TimeStamper,
 ) {
@@ -36,18 +34,8 @@ class DccStateCheckScheduler @Inject constructor(
     fun setup() {
         Timber.d("setup()")
 
-        foregroundState.isInForeground
-            .onStart {
-                Timber.tag(TAG).v("Monitoring foregroundstate (expiration checks) ")
-                // Due to KEEP policy, we just call to make sure it's scheduled
-                schedulePeriodicWorker()
-            }
-            .distinctUntilChanged()
-            .filter { it } // Only when going into foreground
-            .onEach {
-                dccExpirationNotificationService.showNotificationIfStateChanged()
-            }
-            .launchIn(appScope)
+        // Due to KEEP policy, we just call to make sure it's scheduled
+        schedulePeriodicWorker()
 
         foregroundState.isInForeground
             .onStart { Timber.tag(TAG).v("Monitoring foregroundstate (dsc downloads) ") }
