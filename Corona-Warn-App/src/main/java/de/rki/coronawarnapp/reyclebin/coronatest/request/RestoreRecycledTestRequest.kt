@@ -12,13 +12,13 @@ data class RestoreRecycledTestRequest(
     override val isDccSupportedByPoc: Boolean,
     override val isDccConsentGiven: Boolean,
     override val dateOfBirth: LocalDate? = null, // Test does not have DoB
-    val fromRecycleBin: Boolean = false
+    val openResult: Boolean = false
 ) : TestRegistrationRequest
 
-fun BaseCoronaTest.toRestoreRecycledTestRequest(fromRecycleBin: Boolean = false) = RestoreRecycledTestRequest(
+fun BaseCoronaTest.toRestoreRecycledTestRequest(openResult: Boolean = true) = RestoreRecycledTestRequest(
     type = type,
     identifier = identifier,
     isDccSupportedByPoc = isDccSupportedByPoc,
     isDccConsentGiven = isDccConsentGiven,
-    fromRecycleBin = fromRecycleBin
+    openResult = openResult
 )

@@ -19,9 +19,9 @@ import com.google.gson.Gson
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.fromJson
 import kotlinx.coroutines.flow.Flow
-import de.rki.coronawarnapp.util.serialization.SerializationModule
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -89,8 +89,13 @@ interface FamilyCoronaTestDao {
     @Query("SELECT * FROM family_corona_test WHERE moved_to_recycle_bin_at_millis IS NOT NULL")
     fun getAllInRecycleBin(): Flow<List<FamilyCoronaTestEntity?>>
 
+    @Transaction
     @Query("DELETE FROM family_corona_test")
     suspend fun deleteAll()
+
+    @Transaction
+    @Query("UPDATE family_corona_test SET moved_to_recycle_bin_at_millis = :atMillis WHERE identifier IN(:ids)")
+    suspend fun moveAllToRecycleBin(ids: List<TestIdentifier>, atMillis: Long)
 
     @Query("SELECT * FROM family_corona_test WHERE identifier = :identifier")
     suspend fun get(identifier: TestIdentifier): FamilyCoronaTestEntity?
@@ -99,7 +104,17 @@ interface FamilyCoronaTestDao {
     suspend fun update(identifier: TestIdentifier, update: (FamilyCoronaTest) -> FamilyCoronaTest) {
         get(identifier)?.let {
             val updated = update(it.test).toEntity()
-            insert(updated)
+            if (it != updated) insert(updated)
+        }
+    }
+
+    @Transaction
+    suspend fun update(updates: List<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>>) {
+        updates.forEach {
+            get(it.first)?.let { test ->
+                val updated = it.second(test.test).toEntity()
+                if (test != updated) insert(updated)
+            }
         }
     }
 }

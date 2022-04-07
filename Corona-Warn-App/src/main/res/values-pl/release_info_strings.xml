@@ -16,40 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Raport o skróceniu okresu podwyższonego ryzyka"</item>
-        <item>"Raport o ryzyku po pozytywnym wyniku testu"</item>
-        <item>"Wiadomość dotycząca nowego narażenia"</item>
-        <item>"Raport o zmianie statusu"</item>
-        <item>"Certyfikaty statusu ozdrowieńca bez danych dotyczących ważności"</item>
-        <item>"Usunięto zduplikowany kod QR"</item>
+        <item>"Zarządzaj testami swojej rodziny"</item>
+        <item>"Android 12 i Material Design 3"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Podwyższone ryzyko po narażeniu jest teraz wyświetlane tylko przez dziesięć dni zamiast 14."</item>
-        <item>"Po wystąpieniu narażenia wyświetla się teraz czerwony kafelek informujący o podwyższonym ryzyku, nawet jeśli zarejestrowałeś(-aś) pozytywny wynik testu w aplikacji Corona-Warn-App. Twój status ryzyka jest ponownie wyświetlany po siedmiu dniach od pozytywnego wyniku testu."</item>
-        <item>"Jeśli po wcześniejszym narażeniu wystąpi kolejne narażenie o podwyższonym ryzyku, wyświetlane będzie teraz również powiadomienie dotyczące takiego narażenia."</item>
-        <item>"Jeśli Twój status uległ zmianie (np. z powodu dodania certyfikatu lub zmiany zasad), otrzymasz powiadomienie na karcie Certyfikaty."</item>
-        <item>"Dane dotyczące ważności nie są już wyświetlane w przypadku certyfikatów statusu ozdrowieńca , ponieważ ich ważność zależy od lokalnych przepisów. Zamiast nich wyświetlana jest teraz data pierwszego testu z wynikiem pozytywnym."</item>
-        <item>"Kod QR aktualnie używanego certyfikatu został usunięty z ekranu szczegółów dla poszczególnych osób, co pozwoliło uzyskać więcej miejsca na powiadomienia i ogólnie uporządkować ekran. Kod QR jest również zawarty w przeglądzie certyfikatu i dlatego nie jest potrzebny na ekranie szczegółów."</item>
+        <item>"Teraz możesz zarządzać testami członków swojej rodziny w aplikacji: Możesz odbierać wyniki ich testów na swoim smartfonie i prosić o cyfrowe certyfikaty testów na COVID. Jeśli jednak wynik jednego z testów będzie pozytywny, nie będziesz mieć możliwości ostrzegania innych użytkowników. Jest to możliwe tylko wtedy, gdy zarejestrujesz test dla siebie."</item>
+        <item>"Aplikacja Corona-Warn-App została zoptymalizowana pod kątem działania w systemie Android 12. Teraz obsługuje również Material Design 3."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>

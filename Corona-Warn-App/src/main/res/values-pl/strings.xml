@@ -1031,10 +1031,18 @@
     <string name="submission_test_result_steps_added_heading">"Test PCR został dodany"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Twój test został zapisany w Corona-Warn-App."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"Test PCR został dodany"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Szybki test został dodany"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Wynik Twojego testu nie jest jeszcze dostępny"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Wynik testu nie jest jeszcze dostępny"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\n\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny.\n\nJeśli otrzymasz powiadomienie o pozytywnym wyniku testu poza aplikacją, usuń test aktualnie zarejestrowany w aplikacji. Zadzwoń na numer podany w sekcji Poproś o TAN, aby otrzymać numer TAN. Będziesz mieć wówczas możliwość zarejestrowania swojego wyniku w aplikacji za pomocą tego numeru, aby ostrzegać innych."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny.\nWynik testu otrzymasz również poza aplikacją. Organ ds. zdrowia publicznego powiadomi Cię, jeśli wynik testu będzie pozytywny."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Twój szybki test został dodany"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1045,13 +1053,21 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Wynik Twojego testu zostanie dodany do dziennika kontaktów"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Wynik testu zostanie wyświetlony w aplikacji, jak tylko będzie dostępny."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Twój certyfikat testu na COVID"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"Certyfikat testu na COVID"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Cyfrowy certyfikat testu na COVID jest dostępny w karcie „Certyfikaty”."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Oficjalny cyfrowy certyfikat testu na COVID nie może zostać wydany, ponieważ ten punkt testowania nie wydaje certyfikatów testów."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Twój oficjalny cyfrowy certyfikat testu na COVID nie jest jeszcze dostępny. Gdy tylko stanie się dostępny, pojawi się w Twojej aplikacji."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Oficjalny cyfrowy certyfikat testu na COVID nie jest jeszcze dostępny. Gdy tylko stanie się dostępny, pojawi się w aplikacji."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Zgodnie z Twoją prośbą nie zostanie wydany żaden oficjalny cyfrowy certyfikat testu na COVID."</string>
 
@@ -1341,6 +1357,8 @@
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Twoja %s diagnoza:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"%s diagnoza:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->

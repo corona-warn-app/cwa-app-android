@@ -56,6 +56,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             binding.apply {
                 submissionTestResultSection.setTestResultSection(coronaTest)
                 if (coronaTest is FamilyCoronaTest) {
+                    familyMemberName.isVisible = true
                     familyMemberName.text = coronaTest.personName
                     toolbar.title = getText(R.string.submission_test_result_headline)
                     testResultNegativeStepsRemoveTest.isVisible = false
@@ -141,10 +142,16 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             }
         }
 
-        viewModel.certificate.observe(viewLifecycleOwner) {
+        viewModel.certificate.observe(viewLifecycleOwner) { certificate ->
+            if (certificate?.isPCRTestCertificate == true) {
+                R.string.test_certificate_pcr_test_type
+            } else {
+                R.string.test_certificate_rapid_test_type
+            }.also { binding.testCertificateType.setText(it) }
+
             binding.certificateDate.text = getString(
                 R.string.test_certificate_sampled_on,
-                it?.testCertificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
+                certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
         }
     }

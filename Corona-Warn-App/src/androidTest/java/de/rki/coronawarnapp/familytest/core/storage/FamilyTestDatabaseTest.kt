@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.moveToRecycleBin
@@ -86,6 +87,47 @@ class FamilyTestDatabaseTest : BaseTestInstrumentation() {
         dao.deleteAll()
         dao.getAllActive().first().size shouldBe 0
         dao.getAllInRecycleBin().first().size shouldBe 0
+    }
+
+    @Test
+    fun testListUpdate() = runBlocking {
+        val entity = test.toEntity()
+        dao.insert(entity)
+        dao.insert(test2.toEntity())
+
+        // 2 updates on the same entity
+        val updates: List<Pair<TestIdentifier, (FamilyCoronaTest) -> FamilyCoronaTest>> = listOf(
+            Pair(identifier) {
+                it.updateTestResult(CoronaTestResult.PCR_NEGATIVE)
+            },
+            Pair(identifier) {
+                it.moveToRecycleBin(now)
+            },
+            Pair(identifier2) {
+                it.updateTestResult(CoronaTestResult.RAT_REDEEMED)
+            }
+        )
+
+        dao.update(updates)
+
+        dao.getAllActive().first().size shouldBe 1
+        val entries = dao.getAllInRecycleBin().first()
+        entries.size shouldBe 1
+        entries[0]!!.test.coronaTest.state shouldBe CoronaTest.State.NEGATIVE
+    }
+
+    @Test
+    fun testMoveToRecycleBin() = runBlocking {
+        val entity = test.toEntity()
+        dao.insert(entity)
+        dao.insert(test2.toEntity())
+
+        dao.moveAllToRecycleBin(listOf(identifier, identifier2), now.millis)
+
+        dao.getAllActive().first().size shouldBe 0
+        val entries = dao.getAllInRecycleBin().first()
+        entries.size shouldBe 2
+        entries.forEach { it!!.movedToRecycleBinAtMillis shouldBe now.millis }
     }
 
     @Test

@@ -58,11 +58,6 @@ class PersonOverviewFragment : Fragment(R.layout.person_overview_fragment), Auto
         viewModel.admissionTile.observe(viewLifecycleOwner) { binding.admissionContainer.bindAdmissionTile(it) }
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.checkExpiration()
-    }
-
     private fun onNavEvent(event: PersonOverviewFragmentEvents) {
         Timber.tag(TAG).d(" onNavEvent(event=%s)", event)
         when (event) {

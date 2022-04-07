@@ -25,6 +25,7 @@ import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvaila
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChangeObserver
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -32,6 +33,7 @@ import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
 import de.rki.coronawarnapp.exception.reporting.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.reporting.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
+import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -97,6 +99,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @Inject lateinit var vaccinationStorage: VaccinationStorage
     @Inject lateinit var cclConfigurationUpdaterScheduler: CclConfigurationUpdateScheduler
+    @Inject lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
+    @Inject lateinit var dccExpirationChangeObserver: DccExpirationChangeObserver
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -151,6 +155,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         Timber.v("Setting up test result work schedulers.")
         pcrTestResultScheduler.setup()
         raTestResultScheduler.setup()
+        familyTestResultRetrievalScheduler.setup()
 
         Timber.v("Setting up test result available notification services.")
         pcrTestResultAvailableNotificationService.setup()
@@ -171,6 +176,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         dccStateCheckScheduler.setup()
         recycleBinCleanUpScheduler.setup()
         cclConfigurationUpdaterScheduler.setup()
+        dccExpirationChangeObserver.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {
