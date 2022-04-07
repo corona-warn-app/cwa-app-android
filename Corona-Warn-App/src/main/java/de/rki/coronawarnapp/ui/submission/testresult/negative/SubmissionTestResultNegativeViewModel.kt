@@ -60,7 +60,7 @@ class SubmissionTestResultNegativeViewModel @AssistedInject constructor(
             it.registrationToken == test.registrationToken
         }
 
-        cert
+        cert?.testCertificate
     }.asLiveData(context = dispatcherProvider.Default)
 
     fun moveTestToRecycleBinStorage() = launch {
