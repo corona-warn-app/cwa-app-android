@@ -30,7 +30,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { profileRepository.profileFlow } returns flowOf(emptySet())
+        every { profileRepository.profilesFlow } returns flowOf(emptySet())
         every { profileRepository.upsertProfile(any()) } just Runs
     }
 
@@ -42,7 +42,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
 
         verify(exactly = 1) {
-            profileRepository.profileFlow
+            profileRepository.profilesFlow
         }
     }
 
@@ -59,7 +59,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             phone = "111111111",
             email = "email@example.com"
         )
-        every { profileRepository.profileFlow } returns flowOf(setOf(savedProfile))
+        every { profileRepository.profilesFlow } returns flowOf(setOf(savedProfile))
 
         viewModel().apply {
             // Fields updated
@@ -93,7 +93,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
 
         verify {
-            profileRepository.profileFlow
+            profileRepository.profilesFlow
         }
     }
 

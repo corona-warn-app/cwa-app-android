@@ -30,7 +30,7 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     val profile: LiveData<Profile> = profileData
     val events = SingleLiveEvent<CreateRATProfileNavigation>()
 
-    val savedProfile = profileRepository.profileFlow
+    val savedProfile = profileRepository.profilesFlow
         .map { profiles ->
             profiles.find { it.id == id }
         }.asLiveData()
