@@ -75,7 +75,7 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Test %1$s tarihinde kaydedildi"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Devam"</string>
+    <string name="submission_deletion_warning_continue_button">"Testin Üzerine Yaz"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Not"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
