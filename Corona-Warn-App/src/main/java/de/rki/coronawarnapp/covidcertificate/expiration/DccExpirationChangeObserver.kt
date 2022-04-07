@@ -7,6 +7,8 @@ import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -33,6 +35,8 @@ class DccExpirationChangeObserver @Inject constructor(
                     .associate { it.uniqueCertificateIdentifier to it.getState() }
             }
             .distinctUntilChanged()
+            .drop(1) // Drop initial emission to avoid unnecessary check after app start
+            .filter { it.isNotEmpty() }
             .onEach {
                 Timber.tag(TAG).d("Expiration changed: %s", it)
                 dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
