@@ -85,10 +85,14 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
 
         binding.mainTracingAppBarLayout.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
-                    binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
-                } else {
-                    binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
+                try {
+                    if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                        binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
+                    } else {
+                        binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e, "Listener triggering after onDestroyView()")
                 }
             }
         )
