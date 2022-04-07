@@ -24,7 +24,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
-class DccValidtyStateNotification @Inject constructor(
+class DccValidityStateNotification @Inject constructor(
     @AppContext private val context: Context,
     private val notificationHelper: DigitalCovidCertificateNotifications,
     private val deepLinkBuilderFactory: NavDeepLinkBuilderFactory,

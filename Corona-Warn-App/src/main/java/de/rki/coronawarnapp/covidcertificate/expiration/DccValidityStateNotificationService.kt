@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DccValidityStateNotificationService @Inject constructor(
-    private val dccValidtyStateNotification: DccValidtyStateNotification,
+    private val dccValidityStateNotification: DccValidityStateNotification,
     private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val recoveryRepository: RecoveryCertificateRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
@@ -53,7 +53,7 @@ class DccValidityStateNotificationService @Inject constructor(
                 it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dccValidtyStateNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -65,7 +65,7 @@ class DccValidityStateNotificationService @Inject constructor(
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dccValidtyStateNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -81,7 +81,7 @@ class DccValidityStateNotificationService @Inject constructor(
                 it.notifiedInvalidAt == null
             }
             ?.let {
-                if (dccValidtyStateNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -93,7 +93,7 @@ class DccValidityStateNotificationService @Inject constructor(
                 it.notifiedBlockedAt == null
             }
             ?.let {
-                if (dccValidtyStateNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -105,7 +105,7 @@ class DccValidityStateNotificationService @Inject constructor(
                 it.notifiedRevokedAt == null
             }
             ?.let {
-                if (dccValidtyStateNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }

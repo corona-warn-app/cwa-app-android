@@ -42,7 +42,7 @@ class DccStateCheckWorkerTest : BaseTest() {
     private fun createWorker() = DccStateCheckWorker(
         context = context,
         workerParams = workerParams,
-        dccExpirationNotificationService = dccValidityStateNotificationService,
+        dccValidityStateNotificationService = dccValidityStateNotificationService,
     )
 
     @Test
