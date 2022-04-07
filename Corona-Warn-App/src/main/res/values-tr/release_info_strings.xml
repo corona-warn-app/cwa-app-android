@@ -16,40 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Artmış Risk Raporunun Süresi Kısaltıldı"</item>
-        <item>"Pozitif Test Sonucundan Sonra Risk Raporu"</item>
-        <item>"Yeni Maruz Kalma Mesajı"</item>
-        <item>"Durum Değişikliği Raporu"</item>
-        <item>"Geçerlilik Verileri Olmayan İyileşme Sertifikaları"</item>
-        <item>"Çift QR Kod Kaldırıldı"</item>
+        <item>"Aileniz için Testleri Yönetin"</item>
+        <item>"Android 12 ve Material Design 3"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Bir maruz kalmadan sonra artmış risk raporu artık 14 yerine yalnızca on gün süreyle gösterilmektedir."</item>
-        <item>"Artık Corona-Warn-App uygulamasında pozitif test sonucu kaydetseniz bile bir maruz kalmadan sonra kırmızı renkli artmış risk kutucuğu görüntülenmektedir. Risk durumunuz, pozitif testten yedi gün sonra yeniden gösterilir."</item>
-        <item>"Daha önceki bir maruz kalmadan sonra artmış riskli başka bir maruz kalma yaşarsanız bu maruz kalma için de bir bildirim görüntülenecektir."</item>
-        <item>"Durumunuz değişmişse (örneğin, bir sertifika eklediğiniz için veya kurallar değiştiği için), Sertifikalar sekmesinde bu yönde bir bildirim gösterilecektir."</item>
-        <item>"Geçerlilikleri yerel kurallara bağlı olduğundan artık iyileşme sertifikaları için geçerlilik verileri görüntülenmemektedir. Bunun yerine ilk pozitif test sonucunun tarihi görüntülenmektedir."</item>
-        <item>"Geçerli olarak kullandığınız sertifikanızın QR kodu, bireyler için ayrıntı ekranından kaldırılarak bildirimler için daha fazla alan oluşturulmuş ve genel olarak ekran dağınıklığı giderilmiştir. QR kod, sertifikaya genel bakış bölümünde de bulunmaktadır ve bu nedenle ayrıntı ekranında bulunması gerekmez."</item>
+        <item>"Artık uygulamanızda aile üyelerinizin testlerini yönetebilirsiniz. Test sonuçlarını akıllı telefonunuza alabilir ve dijital COVID test sertifikaları talep edebilirsiniz. Ancak testlerinden biri pozitif sonuç verirse diğer kullanıcıları uyaramazsınız. Bu işlev yalnızca testi kendiniz için kaydettiğinizde kullanılabilir."</item>
+        <item>"Corona-Warn-App Android 12\'de çalışacak şekilde optimize edilmiştir. Artık Material Design 3 desteği de sunmaktadır."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>

@@ -6,7 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.joda.time.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FamilyTestStorage @Inject constructor(
     private val dao: FamilyCoronaTestDao
 ) {
@@ -33,6 +35,10 @@ class FamilyTestStorage @Inject constructor(
 
     suspend fun delete(test: FamilyCoronaTest) {
         dao.delete(test.toEntity())
+    }
+
+    suspend fun moveAllToRecycleBin(identifiers: List<TestIdentifier>, atInstant: Instant) {
+        dao.moveAllToRecycleBin(identifiers, atInstant.millis)
     }
 
     suspend fun clear() {

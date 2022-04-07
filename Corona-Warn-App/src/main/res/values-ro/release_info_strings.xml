@@ -16,40 +16,24 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Raportul despre riscul crescut a fost scurtat"</item>
-        <item>"Raport de risc după un rezultat de test pozitiv"</item>
-        <item>"Mesaj pentru expunere nouă"</item>
-        <item>"Raport despre modificarea de stare"</item>
-        <item>"Certificate de recuperare fără date de valabilitate"</item>
-        <item>"Codul QR duplicat a fost eliminat"</item>
+        <item>"Gestionarea testelor familiei dvs."</item>
+        <item>"Android 12 și Material Design 3"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Un risc crescut după o expunere este afișat acum pentru doar 10 zile, în loc de 14."</item>
-        <item>"Mozaicul roșu pentru risc crescut este afișat acum după o expunere, chiar dacă ați înregistrat un test pozitiv în aplicația Corona-Warn. Starea riscului este afișată din nou la șapte zile după testul pozitiv."</item>
-        <item>"Dacă aveți o altă expunere cu risc crescut după o expunere anterioară, acum se va afișa o notificare și pentru această expunere."</item>
-        <item>"Dacă starea dvs. s-a modificat (deoarece, de exemplu, ați adăugat un certificat sau pentru că s-au schimbat regulile), veți fi notificat despre acest lucru pe tabul Certificate."</item>
-        <item>"Datele de valabilitate nu mai sunt afișate pentru certificatele de recuperare, deoarece valabilitatea acestora depinde de regulile locale. În schimb, acum este afișată data primului test pozitiv."</item>
-        <item>"Codul QR pentru certificatul utilizat în mod curent a fost eliminat din ecranul detaliat personal, ceea ce a creat mai mult spațiu pentru notificări și a făcut mai mult loc pe ecranul general. Codul QR este, de asemenea, conținut în sumarul certificatului și, astfel, nu este necesar pe ecranul detaliat."</item>
+        <item>"Acum puteți gestiona testele pentru membrii familiei dvs. în aplicația dvs.: puteți primi rezultatele testelor acestora pe smartphone-ul dvs. și puteți solicita certificate de test COVID digitale. Însă, dacă un test al acestora este pozitiv, nu puteți avertiza alte persoane. Avertizarea este posibilă doar dacă înregistrați un test personal."</item>
+        <item>"Aplicația Corona-Warn a fost optimizată pentru a rula pe Android 12. Acum suportă și Material Design 3."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
         <item/>
-        <item/>
-        <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
-        <item/>
-        <item/>
         <item/>
         <item/>
     </string-array>
