@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -30,8 +31,8 @@ class DccExpirationChangeObserver @Inject constructor(
             .onStart { Timber.tag(TAG).d("Started monitoring certs for state changes") }
             .mapLatest { certificateContainer ->
                 certificateContainer.allCwaCertificates
-                    .filterNot { it.state is CwaCovidCertificate.State.Valid }
-                    .associate { it.uniqueCertificateIdentifier to it.state }
+                    .filterNot { it.state is Valid }
+                    .associate { it.qrCodeHash to it.state }
             }
             .distinctUntilChanged()
             .filter { it.isNotEmpty() }
