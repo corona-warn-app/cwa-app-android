@@ -76,7 +76,7 @@
     <!-- XTXT: Vaccination certificate vaccinated on -->
     <string name="vaccination_certificate_vaccinated_on">"Дата вакцинації %s"</string>
     <!-- XTXT: Vaccination  card doses-->
-    <string name="vaccination_certificate_doses">"Вакцинація %1$d %2$d"</string>
+    <string name="vaccination_certificate_doses">"Вакцинація %1$d з %2$d"</string>
     <!-- XTXT: Vaccination card name-->
     <string name="vaccination_certificate_name">"Сертифікат вакцинації"</string>
 
