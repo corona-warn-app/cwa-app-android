@@ -11,8 +11,8 @@ import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -104,7 +104,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             }
 
             viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
-            viewModel.latestProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
+            viewModel.savedProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
                     CreateRATProfileNavigation.Back -> popBackStack()
@@ -116,7 +116,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             }
         }
 
-    private fun RatProfileCreateFragmentBinding.bindProfile(data: RATProfile) {
+    private fun RatProfileCreateFragmentBinding.bindProfile(data: Profile) {
         firstNameInputEdit.setText(data.firstName)
         lastNameInputEdit.setText(data.lastName)
 

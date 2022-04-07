@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode
 import androidx.lifecycle.MutableLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -33,9 +33,9 @@ class RATProfileQrCodeFragmentTest : BaseUITest() {
 
         viewModel.apply {
             every { events } returns SingleLiveEvent()
-            every { profile } returns MutableLiveData(
+            every { personProfile } returns MutableLiveData(
                 PersonProfile(
-                    profile = RATProfile(
+                    profile = Profile(
                         firstName = "Max",
                         lastName = "Mustermann",
                         birthDate = LocalDate(1990, 11, 17),

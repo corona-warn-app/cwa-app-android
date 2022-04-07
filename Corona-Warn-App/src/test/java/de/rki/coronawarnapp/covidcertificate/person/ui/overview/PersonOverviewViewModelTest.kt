@@ -4,7 +4,6 @@ import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenar
 import de.rki.coronawarnapp.ccl.dccwalletinfo.calculation.CclJsonFunctions
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
@@ -26,7 +25,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import io.mockk.runs
 import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -44,7 +42,6 @@ class PersonOverviewViewModelTest : BaseTest() {
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
     @MockK lateinit var refreshResult: TestCertificateRepository.RefreshResult
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
-    @MockK lateinit var expirationNotificationService: DccExpirationNotificationService
     @MockK lateinit var admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation
     @MockK lateinit var admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel
     @MockK lateinit var cclJsonFunctions: CclJsonFunctions
@@ -71,7 +68,6 @@ class PersonOverviewViewModelTest : BaseTest() {
         every { refreshResult.error } returns null
         every { testCertificateRepository.certificates } returns flowOf(setOf())
         every { valueSetsRepository.triggerUpdateValueSet(any()) } just Runs
-        coEvery { expirationNotificationService.showNotificationIfStateChanged(any()) } just runs
         every { admissionTileProvider.admissionTile } returns flowOf(
             AdmissionTileProvider.AdmissionTile(
                 visible = true,
@@ -243,17 +239,6 @@ class PersonOverviewViewModelTest : BaseTest() {
     }
 
     @Test
-    fun `checkExpiration calls expiration notification service`() {
-        instance.run {
-            checkExpiration()
-
-            coVerify {
-                expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
-            }
-        }
-    }
-
-    @Test
     fun `admission tile is visible`() {
         instance.run {
             admissionTile.getOrAwaitValue() shouldBe AdmissionTileProvider.AdmissionTile(
@@ -303,7 +288,6 @@ class PersonOverviewViewModelTest : BaseTest() {
             testCertificateRepository = testCertificateRepository,
             certificatesProvider = personCertificatesProvider,
             appScope = TestCoroutineScope(),
-            expirationNotificationService = expirationNotificationService,
             format = CclTextFormatter(cclJsonFunctions, mapper),
             admissionScenariosSharedViewModel = admissionScenariosSharedViewModel,
             admissionCheckScenariosCalculation = admissionCheckScenariosCalculation,
