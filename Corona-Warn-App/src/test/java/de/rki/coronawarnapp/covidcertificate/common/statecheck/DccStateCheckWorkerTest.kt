@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.common.statecheck
 import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotificationService
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -23,13 +23,13 @@ class DccStateCheckWorkerTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @RelaxedMockK lateinit var workerParams: WorkerParameters
-    @MockK lateinit var dccExpirationNotificationService: DccExpirationNotificationService
+    @MockK lateinit var dccValidityStateNotificationService: DccValidityStateNotificationService
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
 
-        dccExpirationNotificationService.apply {
+        dccValidityStateNotificationService.apply {
             coEvery { showNotificationIfStateChanged() } just Runs
         }
     }
@@ -42,7 +42,7 @@ class DccStateCheckWorkerTest : BaseTest() {
     private fun createWorker() = DccStateCheckWorker(
         context = context,
         workerParams = workerParams,
-        dccExpirationNotificationService = dccExpirationNotificationService,
+        dccExpirationNotificationService = dccValidityStateNotificationService,
     )
 
     @Test
@@ -50,18 +50,18 @@ class DccStateCheckWorkerTest : BaseTest() {
         createWorker().doWork() shouldBe ListenableWorker.Result.success()
 
         coVerifySequence {
-            dccExpirationNotificationService.showNotificationIfStateChanged()
+            dccValidityStateNotificationService.showNotificationIfStateChanged()
         }
     }
 
     @Test
     fun `retry on errors`() = runBlockingTest {
-        coEvery { dccExpirationNotificationService.showNotificationIfStateChanged() } throws RuntimeException()
+        coEvery { dccValidityStateNotificationService.showNotificationIfStateChanged() } throws RuntimeException()
 
         createWorker().doWork() shouldBe ListenableWorker.Result.retry()
 
         coVerifySequence {
-            dccExpirationNotificationService.showNotificationIfStateChanged()
+            dccValidityStateNotificationService.showNotificationIfStateChanged()
         }
     }
 }

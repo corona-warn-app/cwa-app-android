@@ -107,4 +107,7 @@ fun testCertificate(
         get() = null
     override val notifiedBlockedAt: Instant?
         get() = null
+
+    override val notifiedRevokedAt: Instant?
+        get() = null
 }

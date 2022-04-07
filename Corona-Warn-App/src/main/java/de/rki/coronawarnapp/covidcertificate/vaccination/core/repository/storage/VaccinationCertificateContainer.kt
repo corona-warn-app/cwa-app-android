@@ -78,6 +78,9 @@ data class VaccinationCertificateContainer(
         override val notifiedBlockedAt: Instant?
             get() = this@VaccinationCertificateContainer.data.notifiedBlockedAt
 
+        override val notifiedRevokedAt: Instant?
+            get() = this@VaccinationCertificateContainer.data.notifiedRevokedAt
+
         override val lastSeenStateChange: State?
             get() = this@VaccinationCertificateContainer.data.lastSeenStateChange
 

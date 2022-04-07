@@ -23,6 +23,9 @@ data class PCRCertificateData internal constructor(
     @SerializedName("notifiedBlockedAt")
     override val notifiedBlockedAt: Instant? = null,
 
+    @SerializedName("notifiedRevokedAt")
+    override val notifiedRevokedAt: Instant? = null,
+
     @SerializedName("lastSeenStateChange")
     override val lastSeenStateChange: CwaCovidCertificate.State? = null,
 

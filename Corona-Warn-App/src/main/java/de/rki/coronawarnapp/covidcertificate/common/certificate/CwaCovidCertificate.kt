@@ -49,6 +49,7 @@ interface CwaCovidCertificate : Recyclable {
     val notifiedExpiredAt: Instant?
     val notifiedInvalidAt: Instant?
     val notifiedBlockedAt: Instant?
+    val notifiedRevokedAt: Instant?
 
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?

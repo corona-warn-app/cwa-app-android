@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider.CertificateContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
@@ -26,12 +27,12 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
-class DccExpirationChangeObserverTest : BaseTest() {
+class DccValidityStateChangeObserverTest : BaseTest() {
 
-    @RelaxedMockK lateinit var dccExpirationNotificationService: DccExpirationNotificationService
+    @RelaxedMockK lateinit var dccValidityStateNotificationService: DccValidityStateNotificationService
     @MockK lateinit var certificateProvider: CertificateProvider
 
-    private lateinit var certificateContainerFlow: MutableStateFlow<CertificateProvider.CertificateContainer>
+    private lateinit var certificateContainerFlow: MutableStateFlow<CertificateContainer>
 
     private val certValid = createCert(Valid(Instant.EPOCH))
     private val certInvalid = createCert(Invalid())
@@ -57,7 +58,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -69,7 +70,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify {
-            dccExpirationNotificationService wasNot Called
+            dccValidityStateNotificationService wasNot Called
         }
     }
 
@@ -81,7 +82,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify {
-            dccExpirationNotificationService wasNot Called
+            dccValidityStateNotificationService wasNot Called
         }
     }
 
@@ -93,7 +94,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -105,7 +106,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -117,7 +118,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -129,7 +130,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -141,7 +142,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -153,7 +154,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -171,14 +172,14 @@ class DccExpirationChangeObserverTest : BaseTest() {
         advanceUntilIdle()
 
         coVerify(exactly = 3) {
-            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+            dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
-    private fun createInstance(scope: CoroutineScope) = DccExpirationChangeObserver(
+    private fun createInstance(scope: CoroutineScope) = DccValidityStateChangeObserver(
         appScope = scope,
         certificateProvider = certificateProvider,
-        dccExpirationNotificationService = dccExpirationNotificationService
+        dccValidityStateNotificationService = dccValidityStateNotificationService
     )
 
     private fun createCert(requiredState: CwaCovidCertificate.State): CwaCovidCertificate = mockk {
@@ -186,7 +187,7 @@ class DccExpirationChangeObserverTest : BaseTest() {
         every { qrCodeHash } returns requiredState.type.toSHA256()
     }
 
-    private fun createContainer(certs: Set<CwaCovidCertificate>): CertificateProvider.CertificateContainer = mockk {
+    private fun createContainer(certs: Set<CwaCovidCertificate>): CertificateContainer = mockk {
         every { allCwaCertificates } returns certs
     }
 }

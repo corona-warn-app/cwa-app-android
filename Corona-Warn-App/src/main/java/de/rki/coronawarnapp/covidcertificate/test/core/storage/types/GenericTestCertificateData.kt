@@ -27,6 +27,9 @@ data class GenericTestCertificateData(
     @SerializedName("notifiedBlockedAt")
     override val notifiedBlockedAt: Instant? = null,
 
+    @SerializedName("notifiedRevokedAt")
+    override val notifiedRevokedAt: Instant? = null,
+
     @SerializedName("lastSeenStateChangeAt")
     override val lastSeenStateChangeAt: Instant? = null,
 

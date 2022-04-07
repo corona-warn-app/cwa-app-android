@@ -33,8 +33,8 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.mockFlowPreference
 
-class DccExpirationNotificationServiceTest : BaseTest() {
-    @MockK lateinit var expirationNotification: DccExpirationNotification
+class DccValidityStateNotificationServiceTest : BaseTest() {
+    @MockK lateinit var validtyStateNotification: DccValidtyStateNotification
     @MockK lateinit var vaccinationCertificateRepository: VaccinationCertificateRepository
     @MockK lateinit var recoveryRepository: RecoveryCertificateRepository
     @MockK lateinit var testCertificateRepository: TestCertificateRepository
@@ -64,7 +64,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         every { covidCertificateSettings.lastDccStateBackgroundCheck } returns lastDccStateBackgroundCheck
 
-        expirationNotification.apply {
+        validtyStateNotification.apply {
             coEvery { showNotification(any()) } returns true
         }
 
@@ -114,8 +114,8 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         }
     }
 
-    fun createInstance() = DccExpirationNotificationService(
-        dscCheckNotification = expirationNotification,
+    fun createInstance() = DccValidityStateNotificationService(
+        dscCheckNotification = validtyStateNotification,
         vaccinationCertificateRepository = vaccinationCertificateRepository,
         recoveryRepository = recoveryRepository,
         covidCertificateSettings = covidCertificateSettings,
@@ -132,7 +132,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
             verify {
                 vaccinationCertificateRepository wasNot Called
                 recoveryRepository wasNot Called
-                expirationNotification wasNot Called
+                validtyStateNotification wasNot Called
             }
         }
     }
@@ -160,7 +160,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         verify {
             vaccinationCertificateRepository.freshCertificates
             recoveryRepository.freshCertificates
-            expirationNotification wasNot Called
+            validtyStateNotification wasNot Called
         }
     }
 
@@ -168,7 +168,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
     fun `certificates that are all valid`() = runBlockingTest {
         createInstance().showNotificationIfStateChanged()
 
-        verify { expirationNotification wasNot Called }
+        verify { validtyStateNotification wasNot Called }
 
         coVerify(exactly = 0) {
             vaccinationCertificateRepository.setNotifiedState(any(), any(), any())
@@ -183,7 +183,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfStateChanged()
 
-        coVerify { expirationNotification.showNotification(any()) }
+        coVerify { validtyStateNotification.showNotification(any()) }
     }
 
     @Test
@@ -193,7 +193,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfStateChanged()
 
-        coVerify { expirationNotification.showNotification(any()) }
+        coVerify { validtyStateNotification.showNotification(any()) }
     }
 
     @Test
@@ -204,7 +204,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
 
         createInstance().showNotificationIfStateChanged()
 
-        coVerify(exactly = 3) { expirationNotification.showNotification(any()) }
+        coVerify(exactly = 3) { validtyStateNotification.showNotification(any()) }
 
         coVerify(exactly = 1) {
             vaccinationCertificateRepository.setNotifiedState(
@@ -236,7 +236,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Invalid(),
@@ -266,7 +266,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Invalid(),
@@ -282,7 +282,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Invalid(),
@@ -298,7 +298,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Invalid(),
@@ -316,7 +316,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Blocked,
@@ -346,7 +346,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             testCertificateRepository.setNotifiedState(
                 containerId = testContainerId,
                 state = State.Blocked,
@@ -362,7 +362,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             vaccinationCertificateRepository.setNotifiedState(
                 containerId = vaccinationContainerId,
                 state = State.Blocked,
@@ -378,7 +378,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 1) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
             recoveryRepository.setNotifiedState(
                 containerId = recoverContainerId,
                 state = State.Blocked,
@@ -401,7 +401,7 @@ class DccExpirationNotificationServiceTest : BaseTest() {
         createInstance().showNotificationIfStateChanged()
 
         coVerify(exactly = 0) {
-            expirationNotification.showNotification(any())
+            validtyStateNotification.showNotification(any())
         }
     }
 }

@@ -165,6 +165,9 @@ data class TestCertificateContainer(
             override val notifiedBlockedAt: Instant?
                 get() = data.notifiedBlockedAt
 
+            override val notifiedRevokedAt: Instant?
+                get() = data.notifiedRevokedAt
+
             override val lastSeenStateChange: State?
                 get() = data.lastSeenStateChange
 
