@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 import androidx.lifecycle.MutableLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -32,8 +33,8 @@ class RATProfileCreateFragmentTest : BaseUITest() {
 
         viewModel.apply {
             every { events } returns SingleLiveEvent()
-            every { latestProfile } returns SingleLiveEvent()
-            every { profile } returns MutableLiveData(RATProfileData())
+            every { savedProfile } returns SingleLiveEvent()
+            every { profile } returns MutableLiveData(Profile())
         }
     }
 
