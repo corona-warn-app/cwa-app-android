@@ -148,26 +148,26 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
 
     private fun setToolbarOverlay() {
         binding.recyclerViewCertificatesList.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                if (binding.recyclerViewCertificatesList.childCount > 0) {
-                    val firstElement = binding.recyclerViewCertificatesList[0]
-                    val emptySpaceToTop = binding.recyclerViewCertificatesList.paddingTop
-                    + binding.recyclerViewCertificatesList.marginTop + firstElement.marginTop
-                    val overlap = (firstElement.height / 2) + 24 /* 24 is space between screen border and Card */
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (binding.recyclerViewCertificatesList.childCount > 0) {
+                        val firstElement = binding.recyclerViewCertificatesList[0]
+                        val emptySpaceToTop = binding.recyclerViewCertificatesList.paddingTop
+                        + binding.recyclerViewCertificatesList.marginTop + firstElement.marginTop
+                        val overlap = (firstElement.height / 2) + 24 /* 24 is space between screen border and Card */
 
-                    val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
-                        binding.recyclerViewCertificatesList.layoutParams
-                            as (CoordinatorLayout.LayoutParams)
-                    val behavior: AppBarLayout.ScrollingViewBehavior =
-                        layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-                    behavior.overlayTop = overlap + emptySpaceToTop
+                        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
+                            binding.recyclerViewCertificatesList.layoutParams
+                                as (CoordinatorLayout.LayoutParams)
+                        val behavior: AppBarLayout.ScrollingViewBehavior =
+                            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
+                        behavior.overlayTop = overlap + emptySpaceToTop
 
-                    binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
-                    binding.europaImage.requestLayout()
-                    binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
+                        binding.europaImage.requestLayout()
+                        binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
                 }
-            }
-        })
+            })
     }
 }
