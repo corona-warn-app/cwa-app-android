@@ -31,6 +31,8 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
 
+        // TODO check revoked state
+
         if (qrCodeHash in blockedCertificateQrCodeHashes) {
             return@combine CwaCovidCertificate.State.Blocked
         }
