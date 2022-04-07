@@ -11,17 +11,17 @@
         android:label="rat_profile_onboarding_fragment"
         tools:layout="@layout/rat_profile_onboarding_fragment">
         <action
-            android:id="@+id/action_ratProfileOnboardingFragment_to_ratProfileCreateFragment"
-            app:destination="@id/ratProfileCreateFragment"
-            app:popUpTo="@id/rapid_test_profile_nav_graph"
-            app:popUpToInclusive="false" />
-        <action
             android:id="@+id/action_ratProfileOnboardingFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
         <argument
             android:name="showButton"
             app:argType="boolean"
             android:defaultValue="true" />
+        <action
+            android:id="@+id/action_ratProfileOnboardingFragment_to_profileListFragment"
+            app:destination="@id/profileListFragment"
+            app:popUpTo="@id/rapid_test_profile_nav_graph"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/ratProfileCreateFragment"
@@ -58,5 +58,8 @@
         android:label="profile_list_fragment"
         tools:layout="@layout/profile_list_fragment">
 
+        <action
+            android:id="@+id/action_profileListFragment_to_ratProfileOnboardingFragment"
+            app:destination="@id/ratProfileOnboardingFragment" />
     </fragment>
 </navigation>

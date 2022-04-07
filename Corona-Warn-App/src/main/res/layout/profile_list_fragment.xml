@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_profile_list"
         app:title="@string/rat_profile_create_title" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -82,8 +83,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_normal"
-        android:text="@string/rat_profile_fab_text"
         android:contentDescription="@string/trace_location_organiser_list_new_button_description"
+        android:text="@string/rat_profile_fab_text"
         android:transitionName="trace_location_organizer_category"
         app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"

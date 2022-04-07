@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.databinding.ProfileListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.onScroll
+import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -35,6 +36,16 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
             }
         }
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.rat_profile_information -> doNavigate(
+                    ProfileListFragmentDirections.actionProfileListFragmentToRatProfileOnboardingFragment(
+                        showButton = false
+                    )
+                )
+            }
+            true
+        }
         binding.profileFab.setOnClickListener {
             viewModel.onCreateProfileClicked()
         }
