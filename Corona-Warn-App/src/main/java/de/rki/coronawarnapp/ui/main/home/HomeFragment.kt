@@ -92,7 +92,7 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                         binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
                     }
                 } catch (e: Exception) {
-                    Timber.e(e, "Listener triggering after onDestroyView()")
+                    Timber.e(e, "Listener has been triggered after onDestroyView()")
                 }
             }
         )
