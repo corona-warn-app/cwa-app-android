@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DccExpirationChangeObserver @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val certificateProvider: CertificateProvider,
