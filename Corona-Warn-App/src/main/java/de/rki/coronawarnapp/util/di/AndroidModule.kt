@@ -12,13 +12,13 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.work.WorkManager
 import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.safetynet.SafetyNetClient
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.CoronaWarnApplication
+import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
 import de.rki.coronawarnapp.util.worker.WorkManagerProvider
 import javax.inject.Singleton
 
@@ -51,7 +51,7 @@ class AndroidModule {
     ): WorkManager = workManagerProvider.workManager
 
     @Provides
-    fun navDeepLinkBuilder(@AppContext context: Context): NavDeepLinkBuilder = NavDeepLinkBuilder(context)
+    fun navDeepLinkBuilder(@AppContext context: Context): SafeNavDeepLinkBuilder = SafeNavDeepLinkBuilder(context)
 
     @Provides
     @Singleton

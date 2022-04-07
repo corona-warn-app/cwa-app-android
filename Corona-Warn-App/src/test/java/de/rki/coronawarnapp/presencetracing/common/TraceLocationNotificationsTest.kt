@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 import de.rki.coronawarnapp.util.BuildVersionWrap
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
@@ -22,6 +23,7 @@ class TraceLocationNotificationsTest : BaseTest() {
 
     @MockK lateinit var context: Context
     @MockK lateinit var notificationManager: NotificationManagerCompat
+    @MockK lateinit var deepLinkBuilderFactory: NavDeepLinkBuilderFactory
 
     private val channelSlot = slot<NotificationChannelCompat>()
 
@@ -45,7 +47,8 @@ class TraceLocationNotificationsTest : BaseTest() {
 
     fun createInstance() = PresenceTracingNotifications(
         context = context,
-        notificationManagerCompat = notificationManager
+        notificationManagerCompat = notificationManager,
+        navDeepLinkBuilderFactory = deepLinkBuilderFactory
     )
 
     @Test

@@ -7,7 +7,6 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.ccl.dccadmission.calculation.DccAdmissionCheckScenariosCalculation
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
 import de.rki.coronawarnapp.covidcertificate.person.core.MigrationCheck
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesProvider
@@ -28,7 +27,6 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
-import timber.log.Timber
 
 @Suppress("LongParameterList")
 class PersonOverviewViewModel @AssistedInject constructor(
@@ -38,7 +36,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
     @Assisted private val admissionScenariosSharedViewModel: AdmissionScenariosSharedViewModel,
     @AppScope private val appScope: CoroutineScope,
     private val testCertificateRepository: TestCertificateRepository,
-    private val expirationNotificationService: DccExpirationNotificationService,
     private val format: CclTextFormatter,
     private val admissionCheckScenariosCalculation: DccAdmissionCheckScenariosCalculation,
     private val migrationCheck: MigrationCheck
@@ -132,11 +129,6 @@ class PersonOverviewViewModel @AssistedInject constructor(
         val refreshResults = testCertificateRepository.refresh(containerId)
         val error = refreshResults.mapNotNull { it.error }.singleOrNull()
         error?.let { events.postValue(ShowRefreshErrorDialog(error)) }
-    }
-
-    fun checkExpiration() = launch(scope = appScope) {
-        Timber.tag(TAG).d("checkExpiration()")
-        expirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
     }
 
     fun openAdmissionScenarioScreen() = launch {
