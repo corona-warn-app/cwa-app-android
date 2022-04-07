@@ -36,18 +36,19 @@ class DccExpirationChangeObserverTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
 
-        certificateContainerFlow = MutableStateFlow(createContainer(setOf(certExpired)))
+        certificateContainerFlow = MutableStateFlow(createContainer(emptySet()))
         every { certificateProvider.certificateContainer } returns certificateContainerFlow
     }
 
     @Test
-    fun `drops initial emission`() = runBlockingTest2(ignoreActive = true) {
+    fun `does trigger on initial emission`() = runBlockingTest2(ignoreActive = true) {
+        certificateContainerFlow.value = createContainer(setOf(certExpired))
         createInstance(scope = this).setup()
 
         advanceUntilIdle()
 
-        coVerify {
-            dccExpirationNotificationService wasNot Called
+        coVerify(exactly = 1) {
+            dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
         }
     }
 
@@ -113,7 +114,6 @@ class DccExpirationChangeObserverTest : BaseTest() {
 
     @Test
     fun `does trigger on Expired`() = runBlockingTest2(ignoreActive = true) {
-        certificateContainerFlow.value = createContainer(emptySet())
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
 
@@ -138,7 +138,6 @@ class DccExpirationChangeObserverTest : BaseTest() {
 
     @Test
     fun `only triggers if changed`() = runBlockingTest2(ignoreActive = true) {
-        certificateContainerFlow.value = createContainer(emptySet())
         createInstance(scope = this).setup()
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpired)) }
         certificateContainerFlow.update { createContainer(it.allCwaCertificates.plusElement(certExpiringSoon)) }
