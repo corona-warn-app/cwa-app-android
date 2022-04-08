@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 
 import com.google.gson.annotations.SerializedName
 
-data class RevocationCalculationSampleData(
+data class RevocationCalculationTestCase(
     @SerializedName("description")
     val description: String,
 
