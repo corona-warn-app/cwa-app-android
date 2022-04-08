@@ -480,26 +480,11 @@ workflows:
   version: 2
   check_buildtype_device:
     jobs:
-      - detekt
-      - lint_device_release_check
-      - ktlint_check
-      - quick_build_device_release_no_tests
-      - unit_tests_device_release
-      - run_sonar:
-          requires:
-            - unit_tests_device_release
-      - instrumentation_tests_device:
-          requires:
-            - ktlint_check
-            - detekt
+      - firebase_screenshots
 
   check_buildtype_device_for_testers:
     jobs:
-      - detekt
-      - lint_device_for_testers_release_check
-      - ktlint_check
-      - quick_build_device_for_testers_release_no_tests
-      - unit_tests_device_for_testers_release
+      - firebase_screenshots
 
   signed_build:
     jobs:
