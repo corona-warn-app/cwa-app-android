@@ -57,6 +57,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             testResult = CoronaTestResult.RAT_INVALID,
             qrCodeHash = "RAT_qrCodeHash-1f",
             recycledAt = Instant.parse("2021-11-12T15:21:00.000Z"),
+            additionalInfo = CoronaTest.AdditionalInfo(createdAt = Instant.parse("2021-06-01T11:35:00.000Z"))
         ),
         personName = "Lara"
     )
@@ -70,6 +71,7 @@ class RecyclerBinOverviewFragmentTest : BaseUITest() {
             testResult = CoronaTestResult.PCR_INVALID,
             qrCodeHash = "PCR_qrCodeHash-1f",
             recycledAt = Instant.parse("2021-11-12T15:21:00.000Z"),
+            additionalInfo = CoronaTest.AdditionalInfo(createdAt = Instant.parse("2021-06-01T11:35:00.000Z"))
         ),
         personName = "Lara"
     )
