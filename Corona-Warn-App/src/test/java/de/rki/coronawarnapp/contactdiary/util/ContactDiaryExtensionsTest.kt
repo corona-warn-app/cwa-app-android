@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.contactdiary.util
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryLocation
 import de.rki.coronawarnapp.contactdiary.model.DefaultContactDiaryPerson
 import de.rki.coronawarnapp.contactdiary.model.sortByNameAndIdASC
-import org.junit.Assert
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class ContactDiaryExtensionsTest {
@@ -23,7 +23,7 @@ class ContactDiaryExtensionsTest {
         )
 
         // Test that lowercase "erika musterfrau2" is sorted to the 2nd position instead of the end
-        Assert.assertEquals(expectedResult, testList.sortByNameAndIdASC())
+        Assertions.assertEquals(expectedResult, testList.sortByNameAndIdASC())
     }
 
     @Test
@@ -42,7 +42,7 @@ class ContactDiaryExtensionsTest {
 
         // Test that "Erika Musterfrau" with lower personId comes before the other one, even though it was
         // added as the last entry to the testList
-        Assert.assertEquals(expectedResult, testList.sortByNameAndIdASC())
+        Assertions.assertEquals(expectedResult, testList.sortByNameAndIdASC())
     }
 
     @Test
@@ -60,7 +60,7 @@ class ContactDiaryExtensionsTest {
         )
 
         // Test that lowercase "at home" is sorted to the 2nd position instead of the end
-        Assert.assertEquals(expectedResult, testList.sortByNameAndIdASC())
+        Assertions.assertEquals(expectedResult, testList.sortByNameAndIdASC())
     }
 
     @Test
@@ -79,6 +79,6 @@ class ContactDiaryExtensionsTest {
 
         // Test that "At home" with lower locationId comes before the other one, even though it was
         // added as the last entry to the testList
-        Assert.assertEquals(expectedResult, testList.sortByNameAndIdASC())
+        Assertions.assertEquals(expectedResult, testList.sortByNameAndIdASC())
     }
 }

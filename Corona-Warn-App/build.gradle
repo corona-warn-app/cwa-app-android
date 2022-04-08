@@ -12,6 +12,8 @@ def environmentExtractor = { File path ->
     return "\"${escapedJson}\""
 }
 
+def supportedLocales = ['de', 'en', 'tr', 'bg', 'pl', 'ro', 'uk']
+
 jacoco {
     toolVersion = "0.8.7"
 }
@@ -43,7 +45,9 @@ android {
         println("Used versionName: $versionName")
 
         testInstrumentationRunner "testhelpers.TestApplicationUIRunner"
-        resConfigs 'de', 'en', 'tr', 'bg', 'pl', 'ro'
+        resConfigs supportedLocales.join(",")
+
+        println("Supported Locales: ${supportedLocales.join(",")}")
 
 
         def prodEnvJson = environmentExtractor(file("../prod_environments.json"))
@@ -157,6 +161,8 @@ android {
                 output.outputFileName = apkName
             }
         }
+
+        buildConfigField("String[]", "SUPPORTED_LOCALES", 'new String[]{' + supportedLocales.collect { "\"${it}\"" }.join(",") + '}')
     }
 
     buildFeatures {
