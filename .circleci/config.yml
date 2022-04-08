@@ -439,7 +439,7 @@ jobs:
               --test-targets "annotation testhelpers.Screenshot" \
               --timeout 20m \
               --device-ids x1q \
-              --os-version-ids 29 \
+              --os-version-ids 31 \
               --locales de_DE,en_US \
               --orientations portrait \
               --no-record-video
