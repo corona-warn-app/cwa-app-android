@@ -285,6 +285,6 @@ private val View.constraintLayoutParams get() = layoutParams as ConstraintLayout
  */
 private fun CwaCovidCertificate.displayedState(): CwaCovidCertificate.State =
     when (this) {
-        is TestCertificate -> if (isDisplayValid) Valid(headerExpiresAt) else Invalid()
+        is TestCertificate -> if (isDisplayValid) Valid(headerExpiresAt) else state
         else -> state
     }

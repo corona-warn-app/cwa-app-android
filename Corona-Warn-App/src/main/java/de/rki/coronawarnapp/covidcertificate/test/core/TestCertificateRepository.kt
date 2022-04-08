@@ -423,7 +423,6 @@ class TestCertificateRepository @Inject constructor(
     }
 
     suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
-        // Currently Invalid state supported
         Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
         internalData.updateBlocking {
             val current = this[containerId]
@@ -448,7 +447,7 @@ class TestCertificateRepository @Inject constructor(
                 dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
             ).first()
 
-            if (currentState !is Invalid) {
+            if (!isScreenedTestCert(currentState)) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)
                 return@updateBlocking this
             }
