@@ -54,18 +54,15 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @FlakyTest
     fun testEventTanNextClicked() {
         launchFragmentInContainer2<SubmissionTanFragment>()
-        closeSoftKeyboard()
-        onView(withId(R.id.submission_tan_button_enter))
-            .perform(click())
+        onView(withId(R.id.submission_tan_button_enter)).perform(click(), closeSoftKeyboard())
     }
 
     @Test
     @Screenshot
     fun capture_fragment_empty() {
         launchFragmentInContainer2<SubmissionTanFragment>()
-        onView(withId(R.id.tan_input_edittext))
-            .perform(click())
-            .perform(closeSoftKeyboard())
+        onView(withId(R.id.tan_input_edittext)).perform(click(), closeSoftKeyboard())
+
         takeScreenshot<SubmissionTanFragment>()
     }
 
@@ -73,9 +70,9 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_done() {
         launchFragmentInContainer2<SubmissionTanFragment>()
-        onView(withId(R.id.tan_input_edittext))
-            .perform(click())
-            .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
+        onView(withId(R.id.tan_input_edittext)).perform(
+            click(), typeText("AC9UHD65AF"), closeSoftKeyboard()
+        )
         takeScreenshot<SubmissionTanFragment>("done")
     }
 
@@ -84,8 +81,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     fun capture_fragment_invalid() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
-            .perform(click())
-            .perform(typeText("AC9U0"), closeSoftKeyboard())
+            .perform(click(), typeText("AC9U0"), closeSoftKeyboard())
         takeScreenshot<SubmissionTanFragment>("invalid")
     }
 }
