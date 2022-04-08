@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileListFragmentBinding
@@ -12,6 +15,7 @@ import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
+import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -37,17 +41,28 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
         }
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
         binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.rat_profile_information -> doNavigate(
-                    ProfileListFragmentDirections.actionProfileListFragmentToRatProfileOnboardingFragment(
-                        showButton = false
-                    )
+            doNavigate(
+                ProfileListFragmentDirections.actionProfileListFragmentToRatProfileOnboardingFragment(
+                    showButton = false
                 )
-            }
+            )
             true
         }
         binding.profileFab.setOnClickListener {
             viewModel.onCreateProfileClicked()
+        }
+
+        viewModel.events.observe2(this) {
+            when (it) {
+                ProfileListEvent.NavigateToAddProfile -> {
+                    findNavController().navigate(
+                        R.id.action_profileListFragment_to_ratProfileCreateFragment,
+                        null,
+                        null,
+                        FragmentNavigatorExtras(binding.profileFab to binding.profileFab.transitionName)
+                    )
+                }
+            }
         }
     }
 

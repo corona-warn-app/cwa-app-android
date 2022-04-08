@@ -51,10 +51,6 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.rat_profile_information -> doNavigate(
-                        RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileOnboardingFragment(false)
-                    )
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
                             .actionRatProfileQrCodeFragmentToRatProfileCreateFragment()

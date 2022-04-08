@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
@@ -38,6 +39,14 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             factory.create(formatter)
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val transform = MaterialContainerTransform()
+        sharedElementEnterTransition = transform
+        sharedElementReturnTransition = transform
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {

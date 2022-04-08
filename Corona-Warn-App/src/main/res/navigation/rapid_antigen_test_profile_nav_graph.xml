@@ -42,9 +42,6 @@
         <action
             android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileCreateFragment"
             app:destination="@id/ratProfileCreateFragment" />
-        <action
-            android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileOnboardingFragment"
-            app:destination="@id/ratProfileOnboardingFragment" />
     </fragment>
 
     <fragment
@@ -61,5 +58,8 @@
         <action
             android:id="@+id/action_profileListFragment_to_ratProfileOnboardingFragment"
             app:destination="@id/ratProfileOnboardingFragment" />
+        <action
+            android:id="@+id/action_profileListFragment_to_ratProfileCreateFragment"
+            app:destination="@id/ratProfileCreateFragment" />
     </fragment>
 </navigation>
