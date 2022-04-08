@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.coronatest.notification
 
 import android.content.Context
-import android.os.Bundle
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.notification.GeneralNotifications
-import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET
-import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL
+import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.ui.main.MainActivity
+import de.rki.coronawarnapp.ui.submission.warnothers.SubmissionResultPositiveOtherWarningNoConsentFragmentArgs
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
@@ -25,19 +25,25 @@ class ShareTestResultNotification @Inject constructor(
     private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 
-    fun scheduleSharePositiveTestResultReminder(testType: BaseCoronaTest.Type, notificationId: Int) {
+    fun scheduleSharePositiveTestResultReminder(
+        testType: BaseCoronaTest.Type,
+        testIdentifier: TestIdentifier,
+        notificationId: Int
+    ) {
         notificationHelper.scheduleRepeatingNotification(
             testType,
-            timeStamper.nowUTC.plus(POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
-            POSITIVE_RESULT_NOTIFICATION_INTERVAL,
-            notificationId
+            testIdentifier,
+            timeStamper.nowUTC.plus(NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INITIAL_OFFSET),
+            NotificationConstants.POSITIVE_RESULT_NOTIFICATION_INTERVAL,
+            notificationId,
         )
     }
 
-    fun showSharePositiveTestResultNotification(notificationId: Int, testType: BaseCoronaTest.Type) {
+    fun showSharePositiveTestResultNotification(notificationId: Int, testIdentifier: TestIdentifier) {
         Timber.tag(TAG).d("showSharePositiveTestResultNotification(notificationId=$notificationId)")
 
-        val args = Bundle().apply { putSerializable("testType", testType) }
+        val args = SubmissionResultPositiveOtherWarningNoConsentFragmentArgs(testIdentifier = testIdentifier)
+            .toBundle()
 
         val pendingIntent = navDeepLinkBuilderFactory.create(context)
             .setGraph(R.navigation.nav_graph)
