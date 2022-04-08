@@ -2,8 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.isScreenedTestCert
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -73,11 +78,11 @@ interface CwaCovidCertificate : Recyclable {
 
     val isDisplayValid
         get() = when (this) {
-            is TestCertificate -> state !is State.Invalid
-            else -> state is State.Valid || state is State.ExpiringSoon
+            is TestCertificate -> !isScreenedTestCert(state)
+            else -> state is State.Valid || state is ExpiringSoon
         }
 
-    val isNotScreened get() = state !in setOf(State.Blocked, State.Revoked)
+    val isNotScreened get() = state !in setOf(Blocked, Revoked)
 
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
