@@ -121,14 +121,14 @@ data class ProfileEntity(
 @Dao
 interface ProfileDao {
     @Insert
-    fun insert(entity: ProfileEntity)
+    suspend fun insert(entity: ProfileEntity)
 
     @Transaction
     @Query("DELETE FROM profile WHERE id = :id")
-    fun delete(id: Int)
+    suspend fun delete(id: Int)
 
     @Update
-    fun update(entity: ProfileEntity)
+    suspend fun update(entity: ProfileEntity)
 
     @Transaction
     @Query("SELECT * FROM profile")

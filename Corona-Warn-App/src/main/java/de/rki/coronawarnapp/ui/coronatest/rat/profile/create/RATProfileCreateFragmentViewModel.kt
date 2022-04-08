@@ -23,7 +23,7 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     // TO DO get id as nav arg
-    internal var id: Int? = null
+    internal var id: Int? = 1
 
     // TO DO check logic
     private val profileData = MutableLiveData(Profile())
