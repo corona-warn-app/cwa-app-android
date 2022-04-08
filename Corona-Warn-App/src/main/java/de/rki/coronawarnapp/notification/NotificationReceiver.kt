@@ -22,6 +22,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
     @Inject lateinit var shareTestResultNotificationService: ShareTestResultNotificationService
 
+    @Suppress("MaxLineLength")
     override fun onReceive(context: Context, intent: Intent) {
         AndroidInjection.inject(this, context)
         when (val notificationId = intent.getIntExtra(NOTIFICATION_ID, Int.MIN_VALUE)) {
