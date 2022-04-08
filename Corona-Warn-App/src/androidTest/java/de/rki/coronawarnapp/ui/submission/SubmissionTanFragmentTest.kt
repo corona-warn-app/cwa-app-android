@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -71,7 +72,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     fun capture_fragment_done() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext)).perform(
-            click(), typeText("AC9UHD65AF"), closeSoftKeyboard()
+            click(), replaceText("AC9UHD65AF"), closeSoftKeyboard()
         )
         takeScreenshot<SubmissionTanFragment>("done")
     }
