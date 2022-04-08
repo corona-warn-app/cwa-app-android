@@ -10,7 +10,6 @@ import androidx.test.filters.FlakyTest
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
 import io.mockk.MockKAnnotations
@@ -21,7 +20,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
@@ -29,12 +27,7 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class SubmissionTanFragmentTest : BaseUITest() {
 
-    @MockK lateinit var submissionRepository: SubmissionRepository
-
-    private fun createViewModel() = SubmissionTanViewModel(
-        dispatcherProvider = TestDispatcherProvider(),
-        submissionRepository = submissionRepository
-    )
+    @MockK lateinit var viewModel: SubmissionTanViewModel
 
     @Before
     fun setup() {
@@ -42,7 +35,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTanViewModel.Factory {
-                override fun create(): SubmissionTanViewModel = createViewModel()
+                override fun create(): SubmissionTanViewModel = viewModel
             }
         )
     }
