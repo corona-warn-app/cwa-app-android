@@ -40,7 +40,7 @@ private fun ByteString.hash256(beginIndex: Int = 0, endIndex: Int) = sha256()
     .substring(beginIndex, endIndex)
     .hex()
 
-private fun ByteString.bisect(): ByteString = when (size > 0) {
+private fun ByteString.bisect(): ByteString = when (size > 1) {
     true -> {
         val half = size / 2
         substring(endIndex = half)
