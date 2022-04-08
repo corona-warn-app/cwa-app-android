@@ -19,7 +19,6 @@ import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -65,7 +64,6 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
-                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
@@ -152,16 +150,15 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 override fun onGlobalLayout() {
                     if (binding.recyclerViewCertificatesList.childCount > 0) {
                         val firstElement = binding.recyclerViewCertificatesList[0]
-                        val emptySpaceToTop = binding.recyclerViewCertificatesList.paddingTop
-                        + binding.recyclerViewCertificatesList.marginTop + firstElement.marginTop
-                        val overlap = (firstElement.height / 2) + 24 /* 24 is space between screen border and Card */
+                        val emptySpaceToTop = firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
+                        val overlap = (firstElement.height / 2) + emptySpaceToTop
 
                         val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
                             binding.recyclerViewCertificatesList.layoutParams
                                 as (CoordinatorLayout.LayoutParams)
                         val behavior: AppBarLayout.ScrollingViewBehavior =
                             layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-                        behavior.overlayTop = overlap + emptySpaceToTop
+                        behavior.overlayTop = overlap
 
                         binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
                         binding.europaImage.requestLayout()
