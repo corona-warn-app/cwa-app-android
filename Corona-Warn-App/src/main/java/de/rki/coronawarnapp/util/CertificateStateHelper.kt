@@ -2,6 +2,8 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import android.graphics.Typeface
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
@@ -45,7 +47,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
-            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_av_timer))
             statusTitle.text = context.getString(
                 R.string.certificate_qr_expiration,
@@ -56,28 +58,28 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
         }
 
         is Expired -> {
-            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 1.0f
+            statusIcon.constraintLayoutParams.verticalBias = 1.0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.certificate_qr_expired)
             statusBody.text = context.getText(R.string.expired_certificate_info)
         }
 
         is Invalid -> {
-            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.certificate_qr_invalid_signature)
             statusBody.text = context.getText(R.string.invalid_certificate_signature_info)
         }
 
         is Blocked -> {
-            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
             statusBody.text = context.getText(messageForScreenedCert(certificate))
         }
 
         is Revoked -> {
-            (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = 0f
+            statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
             statusBody.text = context.getText(
@@ -204,7 +206,7 @@ private fun PersonOverviewItemBinding.updateExpirationViews(
 ) {
     val context = root.context
     statusIcon.isVisible = badgeCount == 0
-    (statusIcon.layoutParams as ConstraintLayout.LayoutParams).verticalBias = verticalBias
+    statusIcon.constraintLayoutParams.verticalBias = verticalBias
     statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
     statusTitle.isVisible = badgeCount == 0
     if (expirationText != 0) {
@@ -275,6 +277,8 @@ fun CwaCovidCertificate.expendedImageResource(colorShade: PersonColorShade): Int
         else -> R.drawable.vaccination_incomplete
     }
 }
+
+private val View.constraintLayoutParams get() = layoutParams as ConstraintLayout.LayoutParams
 
 /**
  * Display state is just for UI purpose only and does change the state for Test Certificate only
