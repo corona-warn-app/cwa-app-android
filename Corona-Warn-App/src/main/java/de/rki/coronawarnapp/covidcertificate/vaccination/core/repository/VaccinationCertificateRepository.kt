@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckObserver
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
@@ -54,7 +54,7 @@ class VaccinationCertificateRepository @Inject constructor(
     private val dccState: DccStateChecker,
     private val vaccinationMigration: VaccinationMigration,
     @AppScope private val appScope: CoroutineScope,
-    private val dccStateCheckObserver: DccStateCheckObserver
+    private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
 ) {
 
     private val internalData: HotDataFlow<Map<VaccinationCertificateContainerId, VaccinationCertificateContainer>> =
@@ -93,8 +93,8 @@ class VaccinationCertificateRepository @Inject constructor(
     val certificates: Flow<Set<VaccinationCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
-        dccStateCheckObserver.dccStateValidity
-    ) { certMap, valueSets, dccStateValidity ->
+        dccValidityMeasuresObserver.dccValidityMeasures
+    ) { certMap, valueSets, dccValidityMeasures ->
         certMap.values.filter {
             it.isNotRecycled
         }.map { container ->
@@ -102,7 +102,7 @@ class VaccinationCertificateRepository @Inject constructor(
             val state = dccState(
                 dccData = container.certificateData,
                 qrCodeHash = container.qrCodeHash,
-                dccStateValidity = dccStateValidity
+                dccValidityMeasures = dccValidityMeasures
             )
 
             VaccinationCertificateWrapper(
@@ -210,7 +210,7 @@ class VaccinationCertificateRepository @Inject constructor(
             val currentState = dccState(
                 dccData = toUpdate.certificateData,
                 qrCodeHash = toUpdate.qrCodeHash,
-                dccStateValidity = dccStateCheckObserver.dccStateValidity()
+                dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
             )
 
             if (currentState == toUpdate.data.lastSeenStateChange) {

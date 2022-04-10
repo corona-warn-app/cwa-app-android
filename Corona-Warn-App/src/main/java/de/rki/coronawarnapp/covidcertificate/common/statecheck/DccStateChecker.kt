@@ -28,16 +28,16 @@ class DccStateChecker @Inject constructor(
     suspend operator fun invoke(
         dccData: DccData<*>,
         qrCodeHash: String,
-        dccStateValidity: DccStateValidity
+        dccValidityMeasures: DccValidityMeasures
     ): CwaCovidCertificate.State = when {
-        dccRevocationChecker.isRevoked(dccData, dccStateValidity.revocationList) -> Revoked
-        qrCodeHash in dccStateValidity.blockedQrCodeHashes -> Blocked
-        else -> runCatching {
+        dccRevocationChecker.isRevoked(dccData, dccValidityMeasures.revocationList) -> Revoked
+        qrCodeHash in dccValidityMeasures.blockedQrCodeHashes -> Blocked
+        else -> try {
             val threshold = appConfigProvider.currentConfig.first().covidCertificateParameters.expirationThreshold
-            dscSignatureValidator.validateSignature(dccData, dccStateValidity.dscSignatureList) // throws if invalid
+            dscSignatureValidator.validateSignature(dccData, dccValidityMeasures.dscSignatureList) // throws if invalid
             dccExpirationChecker.getExpirationState(dccData, threshold, timeStamper.nowUTC)
-        }.getOrElse {
-            Timber.tag(TAG).w("Certificate had invalid signature %s", it.message)
+        } catch (e: Exception) {
+            Timber.tag(TAG).w("Certificate had invalid signature %s", e.message)
             Invalid()
         }
     }

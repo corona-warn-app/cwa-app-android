@@ -1,15 +1,15 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinatedPersonData
@@ -27,7 +27,6 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.jupiter.api.BeforeEach
@@ -46,9 +45,8 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var vaccinationValueSet: VaccinationValueSets
     @MockK lateinit var dccStateChecker: DccStateChecker
-    @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var vaccinationMigration: VaccinationMigration
-    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK lateinit var dccValidityMeasuresObserver: DccValidityMeasuresObserver
 
     private var testStorage: Set<VaccinatedPersonData> = emptySet()
 
@@ -65,24 +63,28 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         coEvery {
-            dccStateChecker.checkState(
+            dccStateChecker(
                 any(),
                 any(),
                 any()
             )
-        } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
+        } returns CwaCovidCertificate.State.Invalid()
 
         every { timeStamper.nowUTC } returns nowUTC
 
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
-        every { dscRepository.dscSignatureList } returns flowOf(DscSignatureList(listOf(), nowUTC))
-        every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
-
         storage.apply {
             coEvery { loadLegacyData() } answers { testStorage }
             coEvery { save(any()) } answers { testStorage = arg(0) }
         }
+        every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
+            DccValidityMeasures(
+                dscSignatureList = DscSignatureList(listOf(), Instant.EPOCH),
+                revocationList = listOf(),
+                blockedQrCodeHashes = setOf()
+            )
+        )
     }
 
     private fun createInstance(scope: CoroutineScope) = VaccinationCertificateRepository(
@@ -92,10 +94,9 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         storage = storage,
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = dccQrCodeExtractor,
-        dccStateChecker = dccStateChecker,
-        dscRepository = dscRepository,
+        dccState = dccStateChecker,
         vaccinationMigration = vaccinationMigration,
-        dccWalletInfoRepository = dccWalletInfoRepository
+        dccValidityMeasuresObserver = dccValidityMeasuresObserver
     )
 
     @Test

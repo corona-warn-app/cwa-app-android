@@ -38,11 +38,7 @@ class DccStateCheckerTest : BaseTest() {
     @MockK lateinit var dccRevocationChecker: DccRevocationChecker
     @MockK lateinit var mockData: DccData<*>
 
-    private val dccStateValidity = DccStateValidity(
-        dscSignatureList = mockDscData,
-        blockedQrCodeHashes = setOf(),
-        revocationList = listOf()
-    )
+    private lateinit var dccValidityMeasures: DccValidityMeasures
 
     @BeforeEach
     fun setup() {
@@ -55,6 +51,12 @@ class DccStateCheckerTest : BaseTest() {
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
         coEvery { dscSignatureValidator.validateSignature(any(), any(), any()) } just Runs
         coEvery { dccRevocationChecker.isRevoked(any(), any()) } returns false
+
+        dccValidityMeasures = DccValidityMeasures(
+            dscSignatureList = mockDscData,
+            blockedQrCodeHashes = setOf(),
+            revocationList = listOf()
+        )
     }
 
     fun createInstance() = DccStateChecker(
@@ -70,7 +72,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
         coEvery { dccExpirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().invoke(mockData, "", dccStateValidity) shouldBe state
+        createInstance().invoke(mockData, "", dccValidityMeasures) shouldBe state
 
         coVerify {
             dscSignatureValidator.validateSignature(mockData, mockDscData, any())
@@ -87,7 +89,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.ExpiringSoon(expiresAt = Instant.EPOCH)
         coEvery { dccExpirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().invoke(mockData, "", dccStateValidity) shouldBe state
+        createInstance().invoke(mockData, "", dccValidityMeasures) shouldBe state
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -97,7 +99,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.Expired(expiredAt = Instant.EPOCH)
         coEvery { dccExpirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().invoke(mockData, "", dccStateValidity) shouldBe state
+        createInstance().invoke(mockData, "", dccValidityMeasures) shouldBe state
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -108,7 +110,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.ExpiringSoon(expiresAt = Instant.EPOCH)
         coEvery { dccExpirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().invoke(mockData, "", dccStateValidity) shouldBe CwaCovidCertificate.State.Invalid()
+        createInstance().invoke(mockData, "", dccValidityMeasures) shouldBe CwaCovidCertificate.State.Invalid()
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -119,7 +121,7 @@ class DccStateCheckerTest : BaseTest() {
         val state = CwaCovidCertificate.State.Expired(expiredAt = Instant.EPOCH)
         coEvery { dccExpirationChecker.getExpirationState(any(), any(), any()) } returns state
 
-        createInstance().invoke(mockData, "", dccStateValidity) shouldBe CwaCovidCertificate.State.Invalid()
+        createInstance().invoke(mockData, "", dccValidityMeasures) shouldBe CwaCovidCertificate.State.Invalid()
 
         coVerify { dscSignatureValidator.validateSignature(mockData, mockDscData, any()) }
     }
@@ -129,8 +131,24 @@ class DccStateCheckerTest : BaseTest() {
         createInstance().invoke(
             dccData = mockData,
             qrCodeHash = "qrCodeHash",
-            dccStateValidity.copy(blockedQrCodeHashes = setOf("qrCodeHash"))
+            dccValidityMeasures.copy(blockedQrCodeHashes = setOf("qrCodeHash"))
         ) shouldBe CwaCovidCertificate.State.Blocked
+
+        coVerify {
+            dscSignatureValidator wasNot Called
+            dccExpirationChecker wasNot Called
+            timeStamper wasNot Called
+        }
+    }
+
+    @Test
+    fun `state is revoked`() = runBlockingTest {
+        coEvery { dccRevocationChecker.isRevoked(any(), any()) } returns true
+        createInstance().invoke(
+            dccData = mockData,
+            qrCodeHash = "qrCodeHash",
+            dccValidityMeasures.copy(blockedQrCodeHashes = setOf("qrCodeHash"))
+        ) shouldBe CwaCovidCertificate.State.Revoked
 
         coVerify {
             dscSignatureValidator wasNot Called

@@ -9,8 +9,10 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -52,7 +54,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var testCertificateProcessor: TestCertificateProcessor
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var dccStateChecker: DccStateChecker
-    @MockK lateinit var dccRevocationChecker: DccRevocationChecker
+    @MockK lateinit var dccValidityMeasuresObserver: DccValidityMeasuresObserver
 
     @Inject lateinit var testData: TestCertificateTestData
 
@@ -98,7 +100,13 @@ class TestCertificateRepositoryTest : BaseTest() {
         every { valueSetsRepository.latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
-
+        every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
+            DccValidityMeasures(
+                dscSignatureList = DscSignatureList(listOf(), Instant.EPOCH),
+                revocationList = listOf(),
+                blockedQrCodeHashes = setOf()
+            )
+        )
     }
 
     private fun createInstance(scope: CoroutineScope) = TestCertificateRepository(
@@ -110,8 +118,8 @@ class TestCertificateRepositoryTest : BaseTest() {
         timeStamper = timeStamper,
         processor = testCertificateProcessor,
         rsaKeyPairGenerator = RSAKeyPairGenerator(),
-        dccStateChecker = dccStateChecker,
-
+        dccState = dccStateChecker,
+        dccValidityMeasuresObserver = dccValidityMeasuresObserver
     )
 
     @Test

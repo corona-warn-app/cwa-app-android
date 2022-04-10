@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckObserver
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
@@ -50,7 +50,7 @@ class RecoveryCertificateRepository @Inject constructor(
     private val dccState: DccStateChecker,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val storage: RecoveryCertificateStorage,
-    private val dccStateCheckObserver: DccStateCheckObserver
+    private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
 ) {
 
     private val internalData: HotDataFlow<Map<RecoveryCertificateContainerId, RecoveryCertificateContainer>> =
@@ -86,15 +86,15 @@ class RecoveryCertificateRepository @Inject constructor(
 
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
-        dccStateCheckObserver.dccStateValidity
-    ) { certMap, dccStateValidity ->
+        dccValidityMeasuresObserver.dccValidityMeasures
+    ) { certMap, dccValidityMeasures ->
         certMap.values.filter {
             it.isNotRecycled
         }.map { container ->
             val state = dccState(
                 dccData = container.certificateData,
                 qrCodeHash = container.qrCodeHash,
-                dccStateValidity = dccStateValidity
+                dccValidityMeasures = dccValidityMeasures
             )
 
             RecoveryCertificateWrapper(
@@ -207,7 +207,7 @@ class RecoveryCertificateRepository @Inject constructor(
             val currentState = dccState(
                 dccData = toUpdate.certificateData,
                 qrCodeHash = toUpdate.qrCodeHash,
-                dccStateValidity = dccStateCheckObserver.dccStateValidity()
+                dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
             )
 
             if (currentState == toUpdate.data.lastSeenStateChange) {

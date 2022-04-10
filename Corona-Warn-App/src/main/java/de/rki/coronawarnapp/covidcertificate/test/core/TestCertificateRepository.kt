@@ -10,7 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
-import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckObserver
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -61,7 +60,7 @@ class TestCertificateRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
     private val dccState: DccStateChecker,
-    private val dccStateCheckObserver: DccStateCheckObserver
+    private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -100,8 +99,8 @@ class TestCertificateRepository @Inject constructor(
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
-        dccStateCheckObserver.dccStateValidity
-    ) { certMap, valueSets, dccStateValidity ->
+        dccValidityMeasuresObserver.dccValidityMeasures
+    ) { certMap, valueSets, dccValidityMeasures ->
         certMap.values.filter {
             it.isNotRecycled
         }.map { container ->
@@ -111,7 +110,7 @@ class TestCertificateRepository @Inject constructor(
                     dccState(
                         dccData = it.data,
                         qrCodeHash = it.qrCode.toSHA256(),
-                        dccStateValidity = dccStateValidity
+                        dccValidityMeasures = dccValidityMeasures
                     )
                 } ?: Invalid()
             }
@@ -441,7 +440,7 @@ class TestCertificateRepository @Inject constructor(
             val currentState = dccState(
                 dccData = current.testCertificateQRCode!!.data,
                 qrCodeHash = current.qrCodeHash,
-                dccStateValidity = dccStateCheckObserver.dccStateValidity()
+                dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
             )
 
             if (!isScreenedTestCert(currentState)) {

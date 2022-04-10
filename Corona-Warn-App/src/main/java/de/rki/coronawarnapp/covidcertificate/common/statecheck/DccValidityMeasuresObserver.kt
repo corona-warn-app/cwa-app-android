@@ -13,28 +13,28 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DccStateCheckObserver @Inject constructor(
+class DccValidityMeasuresObserver @Inject constructor(
     dscRepository: DscRepository,
     dccWalletInfoRepository: DccWalletInfoRepository,
     revocationRepository: RevocationRepository,
 ) {
 
-    val dccStateValidity: Flow<DccStateValidity> = combine(
+    val dccValidityMeasures: Flow<DccValidityMeasures> = combine(
         dscRepository.dscSignatureList,
-        dccWalletInfoRepository.blockedCertificateQrCodeHashes,
+        dccWalletInfoRepository.blockedQrCodeHashes,
         revocationRepository.revocationList
     ) { dscSignatureList, blockedQrCodeHashes, revocationList ->
-        DccStateValidity(
+        DccValidityMeasures(
             dscSignatureList = dscSignatureList,
             blockedQrCodeHashes = blockedQrCodeHashes,
             revocationList = revocationList
         )
     }.distinctUntilChanged()
 
-    suspend fun dccStateValidity() = dccStateValidity.first()
+    suspend fun dccValidityMeasures() = dccValidityMeasures.first()
 }
 
-data class DccStateValidity(
+data class DccValidityMeasures(
     val dscSignatureList: DscSignatureList,
     val blockedQrCodeHashes: Set<String>,
     val revocationList: List<RevocationEntryCoordinates>
