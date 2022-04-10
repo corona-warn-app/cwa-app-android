@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
@@ -12,12 +11,12 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -44,15 +43,14 @@ import javax.inject.Singleton
 
 @Singleton
 class RecoveryCertificateRepository @Inject constructor(
-    @AppScope private val appScope: CoroutineScope,
-    dispatcherProvider: DispatcherProvider,
-    private val qrCodeExtractor: DccQrCodeExtractor,
     valueSetsRepository: ValueSetsRepository,
-    private val storage: RecoveryCertificateStorage,
-    private val dccStateChecker: DccStateChecker,
+    dispatcherProvider: DispatcherProvider,
+    @AppScope private val appScope: CoroutineScope,
     private val timeStamper: TimeStamper,
-    dscRepository: DscRepository,
-    private val dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccState: DccStateChecker,
+    private val qrCodeExtractor: DccQrCodeExtractor,
+    private val storage: RecoveryCertificateStorage,
+    private val dccStateCheckObserver: DccStateCheckObserver
 ) {
 
     private val internalData: HotDataFlow<Map<RecoveryCertificateContainerId, RecoveryCertificateContainer>> =
@@ -86,34 +84,29 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val freshCertificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
-        dscRepository.dscData,
-        dccWalletInfoRepository.blockedCertificateQrCodeHashes
-    ) { certMap, _, blockedCertificateQrCodeHashes ->
-        certMap.values
-            .filter { it.isNotRecycled }
-            .map { container ->
+        dccStateCheckObserver.dccStateValidity
+    ) { certMap, dccStateValidity ->
+        certMap.values.filter {
+            it.isNotRecycled
+        }.map { container ->
+            val state = dccState(
+                dccData = container.certificateData,
+                qrCodeHash = container.qrCodeHash,
+                dccStateValidity = dccStateValidity
+            )
 
-                val state = dccStateChecker.checkState(
-                    container.certificateData,
-                    container.qrCodeHash,
-                    blockedCertificateQrCodeHashes
-                ).first()
-
-                RecoveryCertificateWrapper(
-                    valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                    container = container,
-                    certificateState = state
-                )
-            }.toSet()
-    }
-
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> = freshCertificates
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+            RecoveryCertificateWrapper(
+                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
+                container = container,
+                certificateState = state
+            )
+        }.toSet()
+    }.shareLatest(
+        tag = TAG,
+        scope = appScope
+    )
 
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
@@ -211,12 +204,11 @@ class RecoveryCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState =
-                dccStateChecker.checkState(
-                    toUpdate.certificateData,
-                    toUpdate.qrCodeHash,
-                    dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
-                ).first()
+            val currentState = dccState(
+                dccData = toUpdate.certificateData,
+                qrCodeHash = toUpdate.qrCodeHash,
+                dccStateValidity = dccStateCheckObserver.dccStateValidity()
+            )
 
             if (currentState == toUpdate.data.lastSeenStateChange) {
                 Timber.tag(TAG).w("State equals last acknowledged state.")

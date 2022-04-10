@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
@@ -11,8 +10,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtract
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
@@ -53,17 +52,16 @@ import javax.inject.Singleton
 @Singleton
 @Suppress("LongParameterList")
 class TestCertificateRepository @Inject constructor(
+    valueSetsRepository: ValueSetsRepository,
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: TestCertificateStorage,
     private val qrCodeExtractor: DccQrCodeExtractor,
     private val processor: TestCertificateProcessor,
     private val timeStamper: TimeStamper,
-    valueSetsRepository: ValueSetsRepository,
     private val rsaKeyPairGenerator: RSAKeyPairGenerator,
-    private val dccStateChecker: DccStateChecker,
-    dscRepository: DscRepository,
-    private val dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccState: DccStateChecker,
+    private val dccStateCheckObserver: DccStateCheckObserver
 ) {
 
     private val internalData: HotDataFlow<Map<TestCertificateContainerId, TestCertificateContainer>> = HotDataFlow(
@@ -83,52 +81,6 @@ class TestCertificateRepository @Inject constructor(
             }
     }
 
-    val certificates: Flow<Set<TestCertificateWrapper>> = combine(
-        internalData.data,
-        valueSetsRepository.latestTestCertificateValueSets,
-        dscRepository.dscData,
-        dccWalletInfoRepository.blockedCertificateQrCodeHashes
-    ) { certMap, valueSets, _, blockedCertificateQrCodeHashes ->
-        certMap.values
-            .filter { it.isNotRecycled }
-            .map { container ->
-                val state = when {
-                    container.isCertificateRetrievalPending -> Invalid()
-                    else -> container.testCertificateQRCode?.let {
-                        dccStateChecker.checkState(
-                            it.data, it.qrCode.toSHA256(),
-                            blockedCertificateQrCodeHashes
-                        ).first()
-                    } ?: Invalid()
-                }
-
-                TestCertificateWrapper(
-                    valueSets = valueSets,
-                    container = container,
-                    certificateState = state,
-                )
-            }.toSet()
-    }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
-
-    /**
-     * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
-     */
-    val recycledCertificates: Flow<Set<TestCertificate>> = internalData.data
-        .map { certMap ->
-            certMap.values
-                .filter { it.isRecycled }
-                .mapNotNull { it.toTestCertificate(certificateState = CwaCovidCertificate.State.Recycled) }
-                .toSet()
-        }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
-
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing TestCertificateContainer data.") }
@@ -144,6 +96,51 @@ class TestCertificateRepository @Inject constructor(
             }
             .launchIn(appScope + dispatcherProvider.IO)
     }
+
+    val certificates: Flow<Set<TestCertificateWrapper>> = combine(
+        internalData.data,
+        valueSetsRepository.latestTestCertificateValueSets,
+        dccStateCheckObserver.dccStateValidity
+    ) { certMap, valueSets, dccStateValidity ->
+        certMap.values.filter {
+            it.isNotRecycled
+        }.map { container ->
+            val state = when {
+                container.isCertificateRetrievalPending -> Invalid()
+                else -> container.testCertificateQRCode?.let {
+                    dccState(
+                        dccData = it.data,
+                        qrCodeHash = it.qrCode.toSHA256(),
+                        dccStateValidity = dccStateValidity
+                    )
+                } ?: Invalid()
+            }
+
+            TestCertificateWrapper(
+                valueSets = valueSets,
+                container = container,
+                certificateState = state,
+            )
+        }.toSet()
+    }.shareLatest(
+        tag = TAG,
+        scope = appScope
+    )
+
+    /**
+     * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
+     */
+    val recycledCertificates: Flow<Set<TestCertificate>> = internalData.data
+        .map { certMap ->
+            certMap.values
+                .filter { it.isRecycled }
+                .mapNotNull { it.toTestCertificate(certificateState = CwaCovidCertificate.State.Recycled) }
+                .toSet()
+        }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     /**
      * Will create a new test certificate entry.
@@ -441,11 +438,11 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState = dccStateChecker.checkState(
-                current.testCertificateQRCode!!.data,
-                current.qrCodeHash,
-                dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
-            ).first()
+            val currentState = dccState(
+                dccData = current.testCertificateQRCode!!.data,
+                qrCodeHash = current.qrCodeHash,
+                dccStateValidity = dccStateCheckObserver.dccStateValidity()
+            )
 
             if (!isScreenedTestCert(currentState)) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)

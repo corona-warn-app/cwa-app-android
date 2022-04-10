@@ -8,7 +8,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationTestData
@@ -76,7 +76,7 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
 
         every { valueSetsRepository.latestVaccinationValueSets } returns flowOf(vaccinationValueSet)
 
-        every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
+        every { dscRepository.dscSignatureList } returns flowOf(DscSignatureList(listOf(), nowUTC))
         every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
 
         storage.apply {

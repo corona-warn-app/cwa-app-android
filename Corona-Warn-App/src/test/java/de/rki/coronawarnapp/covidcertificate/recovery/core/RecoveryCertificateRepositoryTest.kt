@@ -11,7 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
@@ -61,7 +61,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { timeStamper.nowUTC } returns nowUTC
-        every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
+        every { dscRepository.dscSignatureList } returns flowOf(DscSignatureList(listOf(), nowUTC))
         every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
 
         valueSetsRepository.apply {

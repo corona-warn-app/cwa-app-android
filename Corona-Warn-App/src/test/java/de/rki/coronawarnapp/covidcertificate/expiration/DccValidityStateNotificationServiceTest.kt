@@ -69,7 +69,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
         }
 
         vaccinationCertificateRepository.apply {
-            every { freshCertificates } returns flowOf(setOf(vaccinationCertificateWrapper))
+            every { certificates } returns flowOf(setOf(vaccinationCertificateWrapper))
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
 
@@ -85,7 +85,7 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
         }
 
         recoveryRepository.apply {
-            coEvery { freshCertificates } returns flowOf(setOf(recoveryCertificateWrapper))
+            coEvery { certificates } returns flowOf(setOf(recoveryCertificateWrapper))
             coEvery { setNotifiedState(any(), any(), any()) } just Runs
         }
         every { recoveryCertificateWrapper.recoveryCertificate } returns recoveryCertificate
@@ -144,22 +144,22 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
             showNotificationIfStateChanged(ignoreLastCheck = true)
 
             verify {
-                vaccinationCertificateRepository.freshCertificates
-                recoveryRepository.freshCertificates
+                vaccinationCertificateRepository.certificates
+                recoveryRepository.certificates
             }
         }
     }
 
     @Test
     fun `no certificates at all`() = runBlockingTest {
-        every { vaccinationCertificateRepository.freshCertificates } returns flowOf(emptySet())
-        every { recoveryRepository.freshCertificates } returns flowOf(emptySet())
+        every { vaccinationCertificateRepository.certificates } returns flowOf(emptySet())
+        every { recoveryRepository.certificates } returns flowOf(emptySet())
 
         createInstance().showNotificationIfStateChanged()
 
         verify {
-            vaccinationCertificateRepository.freshCertificates
-            recoveryRepository.freshCertificates
+            vaccinationCertificateRepository.certificates
+            recoveryRepository.certificates
             dccValidityStateNotification wasNot Called
         }
     }

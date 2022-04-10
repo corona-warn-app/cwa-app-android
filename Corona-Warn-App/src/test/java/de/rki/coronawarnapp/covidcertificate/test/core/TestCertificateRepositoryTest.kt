@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.test.core
 
 import de.rki.coronawarnapp.appconfig.CovidCertificateConfig
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
@@ -11,8 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCerti
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationChecker
 import de.rki.coronawarnapp.covidcertificate.test.TestCertificateTestData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
@@ -34,7 +32,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.joda.time.Duration
@@ -55,8 +52,7 @@ class TestCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var testCertificateProcessor: TestCertificateProcessor
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var dccStateChecker: DccStateChecker
-    @MockK lateinit var dscRepository: DscRepository
-    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK lateinit var dccRevocationChecker: DccRevocationChecker
 
     @Inject lateinit var testData: TestCertificateTestData
 
@@ -73,12 +69,12 @@ class TestCertificateRepositoryTest : BaseTest() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         coEvery {
-            dccStateChecker.checkState(
+            dccStateChecker.invoke(
                 any(),
                 any(),
                 any()
             )
-        } returns flow { emit(CwaCovidCertificate.State.Invalid()) }
+        } returns CwaCovidCertificate.State.Invalid()
 
         covidTestCertificateConfig.apply {
             every { waitForRetry } returns Duration.standardSeconds(10)
@@ -103,8 +99,6 @@ class TestCertificateRepositoryTest : BaseTest() {
 
         every { timeStamper.nowUTC } returns Instant.ofEpochSecond(12345678)
 
-        every { dscRepository.dscData } returns flowOf(DscData(listOf(), timeStamper.nowUTC))
-        every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
     }
 
     private fun createInstance(scope: CoroutineScope) = TestCertificateRepository(
@@ -117,8 +111,7 @@ class TestCertificateRepositoryTest : BaseTest() {
         processor = testCertificateProcessor,
         rsaKeyPairGenerator = RSAKeyPairGenerator(),
         dccStateChecker = dccStateChecker,
-        dscRepository = dscRepository,
-        dccWalletInfoRepository = dccWalletInfoRepository
+
     )
 
     @Test
