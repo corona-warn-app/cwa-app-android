@@ -289,12 +289,6 @@ class VaccinationCertificateRepository @Inject constructor(
         certificateToReplace: VaccinationCertificateContainerId,
         newCertificateQrCode: VaccinationCertificateQRCode
     ) {
-        val newContainer = newCertificateQrCode.toVaccinationContainer(
-            scannedAt = timeStamper.nowUTC,
-            qrCodeExtractor = qrCodeExtractor,
-            certificateSeenByUser = false,
-        )
-
         internalData.updateBlocking {
             val recycledCertificate = this[certificateToReplace]?.setRecycled(true)
             val newCertificate = newCertificateQrCode.createContainer()
