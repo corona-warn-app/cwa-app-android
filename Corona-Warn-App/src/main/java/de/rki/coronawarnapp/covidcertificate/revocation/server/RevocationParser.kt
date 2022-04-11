@@ -30,7 +30,7 @@ class RevocationParser @Inject constructor() {
         items = itemsList.map { it.toRevocationKidListItem() }
     )
 
-    private fun RevocationKidListItemItem.toRevocationKidListItem() = RevocationKidListItem(
+    private fun RevocationKidListItemProto.toRevocationKidListItem() = RevocationKidListItem(
         kid = kid.toOkioByteString(),
         hashTypes = hashTypesList.map { RevocationHashType.from(it.toOkioByteString()) }
     )
@@ -50,7 +50,7 @@ class RevocationParser @Inject constructor() {
 }
 
 private typealias RevocationKidListProto = RevocationKidListOuterClass.RevocationKidList
-private typealias RevocationKidListItemItem = RevocationKidListOuterClass.RevocationKidListItem
+private typealias RevocationKidListItemProto = RevocationKidListOuterClass.RevocationKidListItem
 
 private typealias RevocationKidTypeIndexProto = RevocationKidTypeIndexOuterClass.RevocationKidTypeIndex
 private typealias RevocationKidTypeIndexItemProto = RevocationKidTypeIndexOuterClass.RevocationKidTypeIndexItem
