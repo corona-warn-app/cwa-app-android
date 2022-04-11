@@ -1,9 +1,12 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-// To Do: Implement
+import okio.ByteString
+
 data class RevocationKidTypeIndex(
     val items: List<RevocationKidTypeIndexItem>
 )
 
-// To Do: Implement
-interface RevocationKidTypeIndexItem
+data class RevocationKidTypeIndexItem(
+    val x: ByteString,
+    val y: List<ByteString>
+)
