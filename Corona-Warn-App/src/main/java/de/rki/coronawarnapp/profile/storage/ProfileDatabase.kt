@@ -65,7 +65,7 @@ abstract class ProfileDatabase : RoomDatabase() {
 
                 with(db) {
                     beginTransaction()
-                    insert("profile", SQLiteDatabase.CONFLICT_ABORT, values)
+                    insert(PROFILE_TABLE_NAME, SQLiteDatabase.CONFLICT_ABORT, values)
                     setTransactionSuccessful()
                     endTransaction()
                 }

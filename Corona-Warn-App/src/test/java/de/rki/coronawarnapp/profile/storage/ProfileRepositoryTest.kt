@@ -2,8 +2,10 @@ package de.rki.coronawarnapp.profile.storage
 
 import de.rki.coronawarnapp.profile.model.Profile
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -15,6 +17,7 @@ class ProfileRepositoryTest {
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)
+        coEvery { dao.getAll() } returns flowOf(emptyList())
     }
 
     @Test
