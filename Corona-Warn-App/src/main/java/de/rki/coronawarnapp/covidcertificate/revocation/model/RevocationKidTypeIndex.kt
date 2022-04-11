@@ -1,12 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
+import com.google.gson.annotations.SerializedName
 import okio.ByteString
 
 data class RevocationKidTypeIndex(
-    val items: List<RevocationKidTypeIndexItem>
+    @SerializedName("items") val items: List<RevocationKidTypeIndexItem>
 )
 
 data class RevocationKidTypeIndexItem(
-    val x: ByteString,
-    val y: List<ByteString>
+    @SerializedName("x") val x: ByteString,
+    @SerializedName("y") val y: List<ByteString>
+)
+
+data class CachedRevocationKidTypeIndex(
+    @SerializedName("kid") val kid: String,
+    @SerializedName("hashType") val hashType: RevocationHashType,
+    @SerializedName("revocationKidTypeIndex") val revocationKidTypeIndex: RevocationKidTypeIndex
 )
