@@ -27,10 +27,10 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 
     // TO DO check logic
     private val profileData = MutableLiveData(Profile())
-    val profile: LiveData<Profile> = profileData
-    val events = SingleLiveEvent<CreateRATProfileNavigation>()
+    internal val profile: LiveData<Profile> = profileData
+    internal val events = SingleLiveEvent<CreateRATProfileNavigation>()
 
-    val savedProfile = profileRepository.profilesFlow
+    internal val savedProfile = profileRepository.profilesFlow
         .map { profiles ->
             profiles.find { it.id == id }
         }.asLiveData()

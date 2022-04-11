@@ -34,6 +34,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -95,6 +96,7 @@ class DataReset @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
     private val familyTestRepository: FamilyTestRepository,
+    private val profileRepository: ProfileRepository,
 ) {
 
     private val mutex = Mutex()
@@ -164,6 +166,8 @@ class DataReset @Inject constructor(
         dccWalletInfoRepository.clear()
 
         familyTestRepository.clear()
+
+        profileRepository.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }

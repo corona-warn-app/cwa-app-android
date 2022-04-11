@@ -14,8 +14,8 @@ class ProfileRepository @Inject constructor(
     private val dao: ProfileDao,
     @AppScope private val scope: CoroutineScope,
 ) {
-    val profilesFlow: Flow<Set<Profile>> = dao.getAll().mapLatest {
-        it.map { it.fromEntity() }.toSet()
+    val profilesFlow: Flow<Set<Profile>> = dao.getAll().mapLatest { list ->
+        list.map { it.fromEntity() }.toSet()
     }
 
     fun deleteProfile(id: Int) = scope.launch {
@@ -29,9 +29,13 @@ class ProfileRepository @Inject constructor(
         else
             dao.update(entity)
     }
+
+    fun clear() = scope.launch {
+        dao.deleteAll()
+    }
 }
 
-fun Profile.toEntity() = ProfileEntity(
+internal fun Profile.toEntity() = ProfileEntity(
     id = id ?: 0,
     firstName = firstName,
     lastName = lastName,
@@ -43,7 +47,7 @@ fun Profile.toEntity() = ProfileEntity(
     email = email
 )
 
-fun ProfileEntity.fromEntity() = Profile(
+internal fun ProfileEntity.fromEntity() = Profile(
     id = id,
     firstName = firstName,
     lastName = lastName,

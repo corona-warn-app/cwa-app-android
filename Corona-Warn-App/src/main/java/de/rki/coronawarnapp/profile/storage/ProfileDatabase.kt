@@ -83,7 +83,7 @@ abstract class ProfileDatabase : RoomDatabase() {
     }
 
     companion object {
-        private const val DATABASE_NAME = "Profile-db"
+        const val DATABASE_NAME = "Profile-db"
     }
 }
 
@@ -126,6 +126,10 @@ interface ProfileDao {
     @Transaction
     @Query("DELETE FROM profile WHERE id = :id")
     suspend fun delete(id: Int)
+
+    @Transaction
+    @Query("DELETE FROM profile")
+    suspend fun deleteAll()
 
     @Update
     suspend fun update(entity: ProfileEntity)
