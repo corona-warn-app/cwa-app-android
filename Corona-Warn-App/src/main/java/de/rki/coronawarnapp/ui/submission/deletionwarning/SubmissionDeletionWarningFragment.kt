@@ -29,13 +29,12 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     private val navOptions by lazy {
         NavOptions.Builder().setPopUpTo(
-            destinationId = when {
+            when {
                 args.popToTestCategorySelection -> R.id.testRegistrationSelectionFragment
                 else -> R.id.submissionDeletionWarningFragment
             },
-            inclusive = true
-        )
-            .build()
+            true
+        ).build()
     }
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
 

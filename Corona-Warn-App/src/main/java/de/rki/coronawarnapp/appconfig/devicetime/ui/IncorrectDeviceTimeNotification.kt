@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.appconfig.devicetime.ui
 
 import android.content.Context
-import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.notification.GeneralNotifications
@@ -9,17 +8,17 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Provider
 
 @Reusable
 class IncorrectDeviceTimeNotification @Inject constructor(
     @AppContext private val context: Context,
     private val foregroundState: ForegroundState,
-    private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
+    private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationHelper: GeneralNotifications
 ) {
 
@@ -31,7 +30,7 @@ class IncorrectDeviceTimeNotification @Inject constructor(
             return false
         }
 
-        val pendingIntent = navDeepLinkBuilderProvider.get().apply {
+        val pendingIntent = navDeepLinkBuilderFactory.create(context).apply {
             setGraph(R.navigation.nav_graph)
             setComponentName(MainActivity::class.java)
             setDestination(R.id.mainFragment)

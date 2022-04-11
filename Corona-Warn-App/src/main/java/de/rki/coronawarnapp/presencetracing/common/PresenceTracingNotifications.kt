@@ -6,13 +6,13 @@ import android.os.Build
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.NavDeepLinkBuilder
 import dagger.Reusable
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.util.BuildVersionWrap
 import de.rki.coronawarnapp.util.di.AppContext
 import de.rki.coronawarnapp.util.hasAPILevel
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,6 +26,7 @@ import javax.inject.Inject
 class PresenceTracingNotifications @Inject constructor(
     @AppContext private val context: Context,
     private val notificationManagerCompat: NotificationManagerCompat,
+    private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
 ) {
 
     private val channelId = "${context.packageName}.notification.presenceTracingChannelId"
@@ -50,7 +51,7 @@ class PresenceTracingNotifications @Inject constructor(
             setSmallIcon(R.drawable.ic_notification_icon_default_small)
             priority = NotificationCompat.PRIORITY_DEFAULT
 
-            val pendingIntent = NavDeepLinkBuilder(context)
+            val pendingIntent = navDeepLinkBuilderFactory.create(context)
                 .setGraph(R.navigation.trace_location_attendee_nav_graph)
                 .setComponentName(MainActivity::class.java)
                 .setDestination(R.id.checkInsFragment)

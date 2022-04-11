@@ -2,11 +2,11 @@ package de.rki.coronawarnapp.covidcertificate.expiration
 
 import android.app.PendingIntent
 import android.content.Context
-import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.covidcertificate.common.notification.DigitalCovidCertificateNotifications
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.util.SafeNavDeepLinkBuilder
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import io.mockk.MockKAnnotations
@@ -26,7 +26,7 @@ class DccExpirationNotificationTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
-    @MockK(relaxed = true) lateinit var navDeepLinkBuilder: NavDeepLinkBuilder
+    @MockK(relaxed = true) lateinit var navDeepLinkBuilder: SafeNavDeepLinkBuilder
     @MockK lateinit var pendingIntent: PendingIntent
     @MockK lateinit var deepLinkBuilderFactory: NavDeepLinkBuilderFactory
     @MockK lateinit var notificationHelper: DigitalCovidCertificateNotifications
