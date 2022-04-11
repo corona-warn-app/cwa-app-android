@@ -75,7 +75,7 @@ class VaccinationCertificateCard(parent: ViewGroup) :
             defaultButton.setOnClickListener {
                 curItem.validateCertificate(certificate.containerId)
             }
-            if (isEnabled) {
+            if (certificate.isNotBlocked) {
                 isLoading = curItem.isLoading
             }
         }
