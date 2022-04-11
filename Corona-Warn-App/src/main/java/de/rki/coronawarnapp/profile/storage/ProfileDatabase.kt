@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
+import timber.log.Timber
 import javax.inject.Inject
 
 @Database(
@@ -59,18 +60,22 @@ abstract class ProfileDatabase : RoomDatabase() {
 
         @VisibleForTesting
         internal suspend fun migrateFromDataStore(db: SupportSQLiteDatabase) {
+            Timber.i("Start migration of profile")
             val ratProfile = settings.profileFlow.first()
             if (ratProfile != null) {
+                Timber.d("Migrate profile data to database")
                 val values = ratProfile.toContentValues()
-
                 with(db) {
                     beginTransaction()
-                    insert(PROFILE_TABLE_NAME, SQLiteDatabase.CONFLICT_ABORT, values)
+                    insert(PROFILE_TABLE_NAME, SQLiteDatabase.CONFLICT_ABORT, values).also {
+                        Timber.d("Inserted into db with id $it")
+                    }
                     setTransactionSuccessful()
                     endTransaction()
                 }
                 settings.deleteProfile()
             }
+            Timber.i("Migration complete")
         }
     }
 }
