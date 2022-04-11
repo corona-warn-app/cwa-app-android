@@ -8,9 +8,9 @@ data class RevocationChunk(
 )
 
 data class CachedRevocationChunk(
-    @SerializedName("kid") val kid: String,
+    @SerializedName("kid") val kid: ByteString,
     @SerializedName("hashType") val hashType: RevocationHashType,
-    @SerializedName("x") val x: String,
-    @SerializedName("y") val y: String,
+    @SerializedName("x") val x: ByteString,
+    @SerializedName("y") val y: ByteString,
     @SerializedName("revocationChunk") val revocationChunk: RevocationChunk
 )

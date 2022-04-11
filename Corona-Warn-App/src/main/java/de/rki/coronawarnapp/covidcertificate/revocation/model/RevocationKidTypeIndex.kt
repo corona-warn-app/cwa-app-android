@@ -13,7 +13,7 @@ data class RevocationKidTypeIndexItem(
 )
 
 data class CachedRevocationKidTypeIndex(
-    @SerializedName("kid") val kid: String,
+    @SerializedName("kid") val kid: ByteString,
     @SerializedName("hashType") val hashType: RevocationHashType,
     @SerializedName("revocationKidTypeIndex") val revocationKidTypeIndex: RevocationKidTypeIndex
 )
