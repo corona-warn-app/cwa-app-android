@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPersonOverviewQrCardGrey"
+    android:paddingBottom="16dp">
+
+    <ImageView
+        android:id="@+id/background_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/qrcode_center_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/rat_profile_gradient" />
+
+    <TextView
+        android:id="@+id/certificate_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="42dp"
+        android:maxLines="1"
+        android:text="@string/rat_profile_create_title"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:textSize="20sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/headline5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="27dp"
+        android:maxLines="1"
+        android:textColor="@color/colorTextPrimary1InvertedStable"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/qr_code_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/certificate_subtitle"
+        app:layout_constraintTop_toBottomOf="@+id/certificate_subtitle"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Andrea Schneider" />
+
+    <ImageView
+        android:id="@+id/arrow_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="22dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/certificate_subtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/certificate_subtitle"
+        app:srcCompat="@drawable/ic_person_overview_item_right_arrow"
+        app:tint="@color/colorStableLight" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/qr_code_card"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/ic_certificate_background_border"
+        android:contentDescription="@string/vaccination_list_qr_code_accessibility"
+        android:padding="16dp"
+        android:transitionName="full_qr_code_image"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay"
+        tools:src="@drawable/ic_qrcode"
+        tools:tint="@android:color/black" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:hideAnimationBehavior="inward"
+        app:layout_constraintBottom_toBottomOf="@id/qr_code_card"
+        app:layout_constraintEnd_toEndOf="@id/qr_code_card"
+        app:layout_constraintStart_toStartOf="@id/qr_code_card"
+        app:layout_constraintTop_toTopOf="@id/qr_code_card" />
+
+    <View
+        android:id="@+id/qrcode_center_guideline"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/qr_code_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/qr_code_card" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

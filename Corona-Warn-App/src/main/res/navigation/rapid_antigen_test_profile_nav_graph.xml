@@ -61,5 +61,8 @@
         <action
             android:id="@+id/action_profileListFragment_to_ratProfileCreateFragment"
             app:destination="@id/ratProfileCreateFragment" />
+        <action
+            android:id="@+id/action_profileListFragment_to_ratProfileQrCodeFragment"
+            app:destination="@id/ratProfileQrCodeFragment" />
     </fragment>
 </navigation>

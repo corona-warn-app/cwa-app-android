@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.list
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
+import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.onScroll
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -52,6 +54,14 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
             viewModel.onCreateProfileClicked()
         }
 
+        viewModel.profiles.observe2(this) {
+            profilesListAdapter.update(it)
+            binding.apply {
+                recyclerView.isGone = it.isEmpty()
+                profileListNoItemsGroup.isGone = it.isNotEmpty()
+            }
+        }
+
         viewModel.events.observe2(this) {
             when (it) {
                 ProfileListEvent.NavigateToAddProfile -> {
@@ -62,6 +72,14 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
                         FragmentNavigatorExtras(binding.profileFab to binding.profileFab.transitionName)
                     )
                 }
+                is ProfileListEvent.OpenProfile -> {
+                    setupHoldTransition()
+                    findNavController().navigate(
+                        R.id.action_profileListFragment_to_ratProfileQrCodeFragment,
+                        null,
+                        null
+                    )
+                }
             }
         }
     }
@@ -70,4 +88,9 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
         with(binding.profileFab) {
             if (extend) extend() else shrink()
         }
+
+    private fun setupHoldTransition() {
+        exitTransition = Hold()
+        reenterTransition = Hold()
+    }
 }
