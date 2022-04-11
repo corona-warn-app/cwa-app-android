@@ -3,22 +3,15 @@ package de.rki.coronawarnapp.covidcertificate.revocation.model
 import com.google.gson.annotations.SerializedName
 
 data class RevocationEntryCoordinates(
-    @SerializedName("kid")
-    val kid: String,
+    /** The hex-encoded KID of a DCC (usually 16 characters) */
+    @SerializedName("kid") val kid: String,
 
-    @SerializedName("type")
-    val type: Type,
+    /** See [RevocationHashType] */
+    @SerializedName("type") val type: RevocationHashType,
 
-    @SerializedName("x")
-    val x: String,
+    /** A hex-encoded byte representing the first byte of the hash */
+    @SerializedName("x") val x: String,
 
-    @SerializedName("y")
-    val y: String
-) {
-
-    enum class Type(type: String) {
-        SIGNATURE("0a"),
-        UCI("0b"),
-        COUNTRYCODEUCI("0c")
-    }
-}
+    /** A hex-encoded byte representing the second byte of the hash */
+    @SerializedName("y") val y: String
+)
