@@ -2,8 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.isScreenedTestCert
 import de.rki.coronawarnapp.reyclebin.common.Recyclable
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 import de.rki.coronawarnapp.util.serialization.SerializationModule
@@ -49,14 +54,15 @@ interface CwaCovidCertificate : Recyclable {
     val notifiedExpiredAt: Instant?
     val notifiedInvalidAt: Instant?
     val notifiedBlockedAt: Instant?
+    val notifiedRevokedAt: Instant?
 
     val lastSeenStateChange: State?
     val lastSeenStateChangeAt: Instant?
 
     /**
-     * Indicates that certificate has updates regarding its status
-     * for example state changed to Expiring_Soon, Expired, Invalid or
-     * retrieved Test certificate became available
+     * Indicates that certificate has updates regarding its status such as:
+     * Expiring_Soon, Expired, Invalid, Blocked, Revoked or certificate is newly registered in the App
+     * @see [isNew]
      */
     val hasNotificationBadge: Boolean
 
@@ -68,15 +74,15 @@ interface CwaCovidCertificate : Recyclable {
     /**
      * The current state of the certificate, see [State]
      */
-    fun getState(): State
+    val state: State
 
     val isDisplayValid
         get() = when (this) {
-            is TestCertificate -> getState() !is State.Invalid
-            else -> getState() is State.Valid || getState() is State.ExpiringSoon
+            is TestCertificate -> !isScreenedTestCert(state)
+            else -> state is State.Valid || state is ExpiringSoon
         }
 
-    val isNotBlocked get() = getState() != State.Blocked
+    val isNotScreened get() = state !in setOf(Blocked, Revoked)
 
     /**
      * Requires RuntimeAdapterFactory, see [SerializationModule]
@@ -108,6 +114,8 @@ interface CwaCovidCertificate : Recyclable {
 
         object Recycled : State("Recycled")
 
+        object Revoked : State("Revoked")
+
         companion object {
             val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
                 .of(State::class.java, "type", true)
@@ -116,10 +124,12 @@ interface CwaCovidCertificate : Recyclable {
                 .registerSubtype(Expired::class.java, "Expired")
                 .registerSubtype(Invalid::class.java, "Invalid")
                 .registerSubtype(Blocked::class.java, "Blocked")
+                .registerSubtype(Revoked::class.java, "Revoked")
         }
 
         override fun equals(other: Any?): Boolean {
             if (this is Blocked && other is Blocked) return true
+            if (this is Revoked && other is Revoked) return true
             if (this is Recycled && other is Recycled) return true
             return super.equals(other)
         }

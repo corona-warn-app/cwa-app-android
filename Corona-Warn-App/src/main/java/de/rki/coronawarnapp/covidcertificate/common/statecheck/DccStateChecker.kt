@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.common.statecheck
 import dagger.Reusable
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
@@ -31,15 +33,17 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
 
+        // TODO check revoked state
+
         if (qrCodeHash in blockedCertificateQrCodeHashes) {
-            return@combine CwaCovidCertificate.State.Blocked
+            return@combine Blocked
         }
 
         try {
             dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)
         } catch (e: Exception) {
             Timber.tag(TAG).w("Certificate had invalid signature %s", e.message)
-            return@combine CwaCovidCertificate.State.Invalid()
+            return@combine Invalid()
         }
 
         val nowUtc = timeStamper.nowUTC

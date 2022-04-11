@@ -153,7 +153,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 it.size shouldBe 1
 
                 val wrapper = it.first()
-                wrapper.recoveryCertificate.getState() shouldBe CwaCovidCertificate.State.Valid(nowUTC)
+                wrapper.recoveryCertificate.state shouldBe CwaCovidCertificate.State.Valid(nowUTC)
                 wrapper.recycleInfo.isNotRecycled shouldBe true
             }
 
@@ -161,7 +161,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 it.size shouldBe 1
 
                 val cert = it.first()
-                cert.getState() shouldBe CwaCovidCertificate.State.Recycled
+                cert.state shouldBe CwaCovidCertificate.State.Recycled
                 cert.isRecycled shouldBe true
             }
         }

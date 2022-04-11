@@ -4,6 +4,9 @@ import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidTestCertificateException
@@ -13,6 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.qrcode.TestCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateStorage
+import de.rki.coronawarnapp.covidcertificate.test.core.storage.isScreenedTestCert
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.BaseTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.GenericTestCertificateData
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.types.PCRCertificateData
@@ -89,13 +93,13 @@ class TestCertificateRepository @Inject constructor(
             .filter { it.isNotRecycled }
             .map { container ->
                 val state = when {
-                    container.isCertificateRetrievalPending -> CwaCovidCertificate.State.Invalid()
+                    container.isCertificateRetrievalPending -> Invalid()
                     else -> container.testCertificateQRCode?.let {
                         dccStateChecker.checkState(
                             it.data, it.qrCode.toSHA256(),
                             blockedCertificateQrCodeHashes
                         ).first()
-                    } ?: CwaCovidCertificate.State.Invalid()
+                    } ?: Invalid()
                 }
 
                 TestCertificateWrapper(
@@ -419,7 +423,6 @@ class TestCertificateRepository @Inject constructor(
     }
 
     suspend fun acknowledgeState(containerId: TestCertificateContainerId) {
-        // Currently Invalid state supported
         Timber.tag(TAG).d("acknowledgeState(containerId=$containerId)")
         internalData.updateBlocking {
             val current = this[containerId]
@@ -444,7 +447,7 @@ class TestCertificateRepository @Inject constructor(
                 dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
             ).first()
 
-            if (currentState !is CwaCovidCertificate.State.Invalid) {
+            if (!isScreenedTestCert(currentState)) {
                 Timber.tag(TAG).w("%s is still valid ", containerId)
                 return@updateBlocking this
             }
@@ -483,7 +486,7 @@ class TestCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val isValid = !(state is CwaCovidCertificate.State.Invalid || state is CwaCovidCertificate.State.Blocked)
+            val isValid = !isScreenedTestCert(state)
             if (isValid) {
                 Timber.tag(TAG).w("%s is still valid", containerId)
                 return@updateBlocking this
@@ -599,12 +602,19 @@ class TestCertificateRepository @Inject constructor(
         now: Instant
     ): BaseTestCertificateData {
         return when (state) {
-            is CwaCovidCertificate.State.Blocked -> when (data) {
+            is Blocked -> when (data) {
                 is PCRCertificateData -> data.copy(notifiedBlockedAt = now)
                 is RACertificateData -> data.copy(notifiedBlockedAt = now)
                 is GenericTestCertificateData -> data.copy(notifiedBlockedAt = now)
             }
-            is CwaCovidCertificate.State.Invalid -> when (data) {
+
+            is Revoked -> when (data) {
+                is PCRCertificateData -> data.copy(notifiedRevokedAt = now)
+                is RACertificateData -> data.copy(notifiedRevokedAt = now)
+                is GenericTestCertificateData -> data.copy(notifiedRevokedAt = now)
+            }
+
+            is Invalid -> when (data) {
                 is PCRCertificateData -> data.copy(notifiedInvalidAt = now)
                 is RACertificateData -> data.copy(notifiedInvalidAt = now)
                 is GenericTestCertificateData -> data.copy(notifiedInvalidAt = now)

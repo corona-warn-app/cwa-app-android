@@ -3,6 +3,11 @@ package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
@@ -184,10 +189,11 @@ class VaccinationCertificateRepository @Inject constructor(
             }
 
             val newData = when (state) {
-                is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
-                is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
-                is CwaCovidCertificate.State.Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
-                is CwaCovidCertificate.State.Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
+                is Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
+                is ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
+                is Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
+                is Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
+                is Revoked -> toUpdate.data.copy(notifiedRevokedAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 

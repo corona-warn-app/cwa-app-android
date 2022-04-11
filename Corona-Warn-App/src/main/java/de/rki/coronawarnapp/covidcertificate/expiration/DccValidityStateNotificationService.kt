@@ -1,6 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
@@ -19,8 +24,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DccExpirationNotificationService @Inject constructor(
-    private val dscCheckNotification: DccExpirationNotification,
+class DccValidityStateNotificationService @Inject constructor(
+    private val dccValidityStateNotification: DccValidityStateNotification,
     private val vaccinationCertificateRepository: VaccinationCertificateRepository,
     private val recoveryRepository: RecoveryCertificateRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
@@ -42,25 +47,25 @@ class DccExpirationNotificationService @Inject constructor(
         val vacRecCerts = getCertificates()
 
         vacRecCerts
-            .filter { it.getState() is CwaCovidCertificate.State.Expired }
+            .filter { it.state is Expired }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expired: %s", it)
                 it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
 
         vacRecCerts
-            .filter { it.getState() is CwaCovidCertificate.State.ExpiringSoon }
+            .filter { it.state is ExpiringSoon }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate expiring soon: %s", it)
                 it.notifiedExpiresSoonAt == null && it.notifiedExpiredAt == null
             }
             ?.let {
-                if (dscCheckNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -70,25 +75,37 @@ class DccExpirationNotificationService @Inject constructor(
         val allCerts = vacRecCerts + testCerts
 
         allCerts
-            .filter { it.getState() is CwaCovidCertificate.State.Invalid }
+            .filter { it.state is Invalid }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate is invalid: %s", it)
                 it.notifiedInvalidAt == null
             }
             ?.let {
-                if (dscCheckNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
 
         allCerts
-            .filter { it.getState() is CwaCovidCertificate.State.Blocked }
+            .filter { it.state is Blocked }
             .firstOrNull {
                 Timber.tag(TAG).w("Certificate is blocked: %s", it)
                 it.notifiedBlockedAt == null
             }
             ?.let {
-                if (dscCheckNotification.showNotification(it.containerId)) {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
+                    setStateNotificationShown(it)
+                }
+            }
+
+        allCerts
+            .filter { it.state is Revoked }
+            .firstOrNull {
+                Timber.tag(TAG).w("Certificate is revoked: %s", it)
+                it.notifiedRevokedAt == null
+            }
+            ?.let {
+                if (dccValidityStateNotification.showNotification(it.containerId)) {
                     setStateNotificationShown(it)
                 }
             }
@@ -98,7 +115,7 @@ class DccExpirationNotificationService @Inject constructor(
 
     private suspend fun setStateNotificationShown(certificate: CwaCovidCertificate) {
         val now = timeStamper.nowUTC
-        val state = certificate.getState()
+        val state = certificate.state
         when (certificate) {
             is RecoveryCertificate ->
                 recoveryRepository.setNotifiedState(certificate.containerId, state, now)
@@ -120,6 +137,6 @@ class DccExpirationNotificationService @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<DccExpirationNotificationService>()
+        private val TAG = tag<DccValidityStateNotificationService>()
     }
 }
