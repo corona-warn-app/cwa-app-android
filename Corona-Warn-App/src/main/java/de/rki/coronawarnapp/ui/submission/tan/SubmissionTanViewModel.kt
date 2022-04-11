@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.ui.submission.tan
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import dagger.assisted.AssistedFactory
@@ -7,11 +8,11 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.submission.SubmissionRepository
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -29,7 +30,6 @@ class SubmissionTanViewModel @AssistedInject constructor(
 
     private val currentTan = MutableStateFlow(Tan(""))
 
-    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val state = currentTan.map { currentTan ->
         UIState(
             isTanValid = currentTan.isTanValid,
@@ -39,7 +39,9 @@ class SubmissionTanViewModel @AssistedInject constructor(
         )
     }.asLiveData(context = dispatcherProvider.Default)
 
-    val registrationState = MutableLiveData(ApiRequestState.IDLE)
+    val mutableRegistrationState: MutableLiveData<TanApiRequestState> = MutableLiveData(TanApiRequestState.IDLE)
+    val registrationState: LiveData<TanApiRequestState> = mutableRegistrationState
+    val routeToScreen = SingleLiveEvent<SubmissionNavigationEvents>()
     val registrationError = SingleLiveEvent<CwaWebException>()
 
     fun onTanChanged(tan: String) {
@@ -74,15 +76,15 @@ class SubmissionTanViewModel @AssistedInject constructor(
     private suspend fun onTanSubmit(teletan: Tan) {
 
         try {
-            registrationState.postValue(ApiRequestState.STARTED)
+            mutableRegistrationState.postValue(TanApiRequestState.STARTED)
             val request = CoronaTestTAN.PCR(tan = teletan.value)
             submissionRepository.registerTest(request)
-            registrationState.postValue(ApiRequestState.SUCCESS)
+            mutableRegistrationState.postValue(TanApiRequestState.SUCCESS(request.identifier))
         } catch (err: CwaWebException) {
-            registrationState.postValue(ApiRequestState.FAILED)
+            mutableRegistrationState.postValue(TanApiRequestState.FAILED)
             registrationError.postValue(err)
         } catch (err: Exception) {
-            registrationState.postValue(ApiRequestState.FAILED)
+            mutableRegistrationState.postValue(TanApiRequestState.FAILED)
             err.report(ExceptionCategory.INTERNAL)
         }
     }
@@ -96,4 +98,11 @@ class SubmissionTanViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : SimpleCWAViewModelFactory<SubmissionTanViewModel>
+
+    sealed class TanApiRequestState {
+        object IDLE : TanApiRequestState()
+        object STARTED : TanApiRequestState()
+        object FAILED : TanApiRequestState()
+        data class SUCCESS(val identifier: TestIdentifier) : TanApiRequestState()
+    }
 }
