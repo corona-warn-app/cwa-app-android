@@ -2,12 +2,13 @@ package de.rki.coronawarnapp.covidcertificate.revocation
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
 import dagger.Module
 import dagger.Provides
 import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationApi
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationChunkSerializer
+import de.rki.coronawarnapp.server.protocols.internal.dgc.RevocationChunkOuterClass.RevocationChunk
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.di.AppContext
@@ -31,13 +32,12 @@ object RevocationModule {
         @AppContext context: Context,
         @AppScope scope: CoroutineScope,
         dispatcherProvider: DispatcherProvider
-    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+    ): DataStore<RevocationChunk> = DataStoreFactory.create(
         scope = scope + dispatcherProvider.IO,
-        produceFile = { context.preferencesDataStoreFile(REVOCATION_DATASTORE_NAME) }
+        produceFile = { context.dataStoreFile("revocation_chunk_store.pb") },
+        serializer = RevocationChunkSerializer
     )
 }
-
-private const val REVOCATION_DATASTORE_NAME = "revocation_localdata"
 
 @Qualifier
 @MustBeDocumented

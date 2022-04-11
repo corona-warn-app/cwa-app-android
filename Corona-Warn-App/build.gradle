@@ -356,7 +356,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    def datastore_version = "1.0.0"
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
+    implementation "androidx.datastore:datastore:$datastore_version"
 
     def activity_version = "1.4.0"
     implementation "androidx.activity:activity-ktx:$activity_version"
