@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
-import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
+import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
@@ -37,5 +37,5 @@ class DccValidityMeasuresObserver @Inject constructor(
 data class DccValidityMeasures(
     val dscSignatureList: DscSignatureList,
     val blockedQrCodeHashes: Set<String>,
-    val revocationList: List<RevocationEntryCoordinates>
+    val revocationList: List<CachedRevocationChunk>
 )

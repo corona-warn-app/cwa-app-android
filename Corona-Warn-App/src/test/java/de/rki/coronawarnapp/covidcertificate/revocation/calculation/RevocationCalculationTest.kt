@@ -41,12 +41,5 @@ class RevocationCalculationTest : BaseTest() {
         signature shouldBe testCase.expSIGNATURE
     }
 
-    private suspend fun createMockCert(barcodeData: String): CwaCovidCertificate {
-        val metadata = dccQrCodeExtractor.extract(barcodeData)
-        return mockk {
-            every { uniqueCertificateIdentifier } returns metadata.data.certificate.payload.uniqueCertificateIdentifier
-            every { headerIssuer } returns metadata.data.header.issuer
-            every { dccData.dscMessage } returns metadata.data.dscMessage
-        }
-    }
+    private suspend fun createMockCert(barcodeData: String) = dccQrCodeExtractor.extract(barcodeData).data
 }
