@@ -1,12 +1,9 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
 import io.kotest.matchers.shouldBe
-import io.mockk.every
-import io.mockk.mockk
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ArgumentsSource

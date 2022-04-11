@@ -10,7 +10,7 @@ class DccRevocationChecker @Inject constructor() {
         dccData: DccData<*>,
         revocationList: List<CachedRevocationChunk>,
     ): Boolean {
-
-        return false
+        // TODO
+        return listOf(true, false).random()
     }
 }
