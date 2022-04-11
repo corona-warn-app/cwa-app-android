@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  android: circleci/android@2.0.2
+  android: circleci/android@0.2.1
   sonarcloud: sonarsource/sonarcloud@1.0.3
 
 #######################
