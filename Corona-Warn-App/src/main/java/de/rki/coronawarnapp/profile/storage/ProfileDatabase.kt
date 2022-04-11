@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.profile.storage
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import androidx.annotation.VisibleForTesting
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
@@ -16,6 +17,7 @@ import androidx.room.Transaction
 import androidx.room.TypeConverters
 import androidx.room.Update
 import androidx.sqlite.db.SupportSQLiteDatabase
+import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.database.CommonConverters
@@ -44,7 +46,7 @@ abstract class ProfileDatabase : RoomDatabase() {
         private val settings: RATProfileSettingsDataStore,
     ) {
         fun create(): ProfileDatabase = Room
-            .databaseBuilder(context, ProfileDatabase::class.java, DATABASE_NAME)
+            .databaseBuilder(context, ProfileDatabase::class.java, PROFILE_DATABASE_NAME)
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -55,19 +57,11 @@ abstract class ProfileDatabase : RoomDatabase() {
             })
             .build()
 
-        private suspend fun migrateFromDataStore(db: SupportSQLiteDatabase) {
+        @VisibleForTesting
+        internal suspend fun migrateFromDataStore(db: SupportSQLiteDatabase) {
             val ratProfile = settings.profileFlow.first()
             if (ratProfile != null) {
-                val values = ContentValues().apply {
-                    put("first_name", ratProfile.firstName)
-                    put("last_name", ratProfile.lastName)
-                    put("birth_date", ratProfile.birthDate?.toString())
-                    put("street", ratProfile.street)
-                    put("zip_code", ratProfile.zipCode)
-                    put("city", ratProfile.city)
-                    put("phone", ratProfile.phone)
-                    put("email", ratProfile.email)
-                }
+                val values = ratProfile.toContentValues()
 
                 with(db) {
                     beginTransaction()
@@ -79,13 +73,12 @@ abstract class ProfileDatabase : RoomDatabase() {
             }
         }
     }
-
-    companion object {
-        const val DATABASE_NAME = "Profile-db"
-    }
 }
 
-@Entity(tableName = "profile")
+internal const val PROFILE_DATABASE_NAME = "Profile-db"
+internal const val PROFILE_TABLE_NAME = "profile"
+
+@Entity(tableName = PROFILE_TABLE_NAME)
 data class ProfileEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -122,17 +115,28 @@ interface ProfileDao {
     suspend fun insert(entity: ProfileEntity)
 
     @Transaction
-    @Query("DELETE FROM profile WHERE id = :id")
+    @Query("DELETE FROM $PROFILE_TABLE_NAME WHERE id = :id")
     suspend fun delete(id: Int)
 
     @Transaction
-    @Query("DELETE FROM profile")
+    @Query("DELETE FROM $PROFILE_TABLE_NAME")
     suspend fun deleteAll()
 
     @Update
     suspend fun update(entity: ProfileEntity)
 
     @Transaction
-    @Query("SELECT * FROM profile")
+    @Query("SELECT * FROM $PROFILE_TABLE_NAME")
     fun getAll(): Flow<List<ProfileEntity>>
+}
+
+internal fun RATProfile.toContentValues(): ContentValues = ContentValues().apply {
+    put("first_name", firstName)
+    put("last_name", lastName)
+    put("birth_date", birthDate?.toString())
+    put("street", street)
+    put("zip_code", zipCode)
+    put("city", city)
+    put("phone", phone)
+    put("email", email)
 }
