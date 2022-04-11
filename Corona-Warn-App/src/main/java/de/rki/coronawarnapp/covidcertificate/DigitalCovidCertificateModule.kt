@@ -34,7 +34,7 @@ import dgca.verifier.app.engine.DefaultJsonLogicValidator
         DccValidationModule::class,
         DscServerModule::class,
         ExportCertificateModule::class,
-        RevocationModule::class
+        RevocationModule::class,
     ]
 )
 class DigitalCovidCertificateModule {
