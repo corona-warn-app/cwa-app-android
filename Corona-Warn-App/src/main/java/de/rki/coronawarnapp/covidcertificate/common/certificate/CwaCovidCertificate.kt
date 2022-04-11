@@ -114,6 +114,8 @@ interface CwaCovidCertificate : Recyclable {
         object Recycled : State("Recycled")
         object Revoked : State("Revoked")
 
+        object Revoked : State("Revoked")
+
         companion object {
             val typeAdapter: RuntimeTypeAdapterFactory<State> = RuntimeTypeAdapterFactory
                 .of(State::class.java, "type", true)
