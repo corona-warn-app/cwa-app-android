@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  android: circleci/android@0.2.1
+  android: circleci/android@2.0.2
   sonarcloud: sonarsource/sonarcloud@1.0.3
 
 #######################
@@ -176,7 +176,7 @@ jobs:
     executor: android/android
     resource_class: xlarge
     working_directory: ~/project
-    parallelism: 3
+    parallelism: 5
     steps:
       - checkout
       - restore-gradle-cache
@@ -203,7 +203,7 @@ jobs:
     executor: android/android
     resource_class: xlarge
     working_directory: ~/project
-    parallelism: 3
+    parallelism: 5
     steps:
       - checkout
       - restore-gradle-cache
@@ -480,11 +480,26 @@ workflows:
   version: 2
   check_buildtype_device:
     jobs:
-      - firebase_screenshots
+      - detekt
+      - lint_device_release_check
+      - ktlint_check
+      - quick_build_device_release_no_tests
+      - unit_tests_device_release
+      - run_sonar:
+          requires:
+            - unit_tests_device_release
+      - instrumentation_tests_device:
+          requires:
+            - ktlint_check
+            - detekt
 
   check_buildtype_device_for_testers:
     jobs:
-      - firebase_screenshots
+      - detekt
+      - lint_device_for_testers_release_check
+      - ktlint_check
+      - quick_build_device_for_testers_release_no_tests
+      - unit_tests_device_for_testers_release
 
   signed_build:
     jobs:
