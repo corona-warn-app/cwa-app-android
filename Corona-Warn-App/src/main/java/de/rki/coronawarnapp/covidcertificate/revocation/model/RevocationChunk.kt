@@ -1,4 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-// To Do: Implement
-interface RevocationChunk
+import okio.ByteString
+
+data class RevocationChunk(
+    val hashes: List<ByteString>
+)
