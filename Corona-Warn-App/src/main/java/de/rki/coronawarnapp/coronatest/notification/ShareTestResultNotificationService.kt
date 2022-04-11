@@ -40,23 +40,28 @@ class ShareTestResultNotificationService @Inject constructor(
         resetPositiveRATTestReminder()
     }
 
-    fun maybeShowSharePositiveTestResultNotification(notificationId: Int, testType: BaseCoronaTest.Type) {
+    fun maybeShowSharePositiveTestResultNotification(
+        notificationId: Int,
+        testType: BaseCoronaTest.Type,
+        testIdentifier: TestIdentifier
+    ) {
         Timber.tag(TAG).d(
-            "maybeShowSharePositiveTestResultNotification(notificationId=%s,testType=%s)",
+            "maybeShowSharePositiveTestResultNotification(notificationId=%s, testType=%s, testIdentifier=%s)",
             notificationId,
-            testType
+            testType,
+            testIdentifier
         )
         if (testType == PCR) {
             if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr > 0) {
                 cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr -= 1
-                notification.showSharePositiveTestResultNotification(notificationId, testType)
+                notification.showSharePositiveTestResultNotification(notificationId, testIdentifier)
             } else {
                 notification.cancelSharePositiveTestResultNotification(testType, POSITIVE_PCR_RESULT_NOTIFICATION_ID)
             }
         } else if (testType == RAPID_ANTIGEN) {
             if (cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat > 0) {
                 cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat -= 1
-                notification.showSharePositiveTestResultNotification(notificationId, testType)
+                notification.showSharePositiveTestResultNotification(notificationId, testIdentifier)
             } else {
                 notification.cancelSharePositiveTestResultNotification(testType, POSITIVE_RAT_RESULT_NOTIFICATION_ID)
             }
@@ -131,7 +136,11 @@ class ShareTestResultNotificationService @Inject constructor(
                     cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr =
                         POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
                     cwaSettings.idOfPositiveTestResultRemindersPcr = testId
-                    notification.scheduleSharePositiveTestResultReminder(testType, POSITIVE_PCR_RESULT_NOTIFICATION_ID)
+                    notification.scheduleSharePositiveTestResultReminder(
+                        testType,
+                        testId,
+                        POSITIVE_PCR_RESULT_NOTIFICATION_ID
+                    )
                 } else {
                     Timber.tag(TAG)
                         .v("Positive test result notification for PCR test has already been scheduled reminders = ${cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr}, testId == $testId, previous testId = ${cwaSettings.idOfPositiveTestResultRemindersPcr}")
@@ -149,7 +158,11 @@ class ShareTestResultNotificationService @Inject constructor(
                     cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat =
                         POSITIVE_RESULT_NOTIFICATION_TOTAL_COUNT
                     cwaSettings.idOfPositiveTestResultRemindersRat = testId
-                    notification.scheduleSharePositiveTestResultReminder(testType, POSITIVE_RAT_RESULT_NOTIFICATION_ID)
+                    notification.scheduleSharePositiveTestResultReminder(
+                        testType,
+                        testId,
+                        POSITIVE_RAT_RESULT_NOTIFICATION_ID
+                    )
                 } else {
                     Timber.tag(TAG)
                         .v("Positive test result notification for RAT test has already been scheduled reminders = ${cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat}, testId == $testId, previous testId = ${cwaSettings.idOfPositiveTestResultRemindersRat}")

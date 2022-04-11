@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -22,6 +21,7 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import javax.inject.Inject
 
 /**
@@ -79,14 +79,14 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
 
         viewModel.registrationState.observe2(this) {
             binding.submissionTanSpinner.visibility = when (it) {
-                ApiRequestState.STARTED -> View.VISIBLE
+                TanApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
 
-            if (ApiRequestState.SUCCESS == it) {
+            if (it is TanApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-                        testIdentifier = ""
+                        testIdentifier = it.identifier
                     )
                 )
             }
