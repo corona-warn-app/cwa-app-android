@@ -1,11 +1,10 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-// To Do: Implement
-interface RevocationEntryCoordinates {
+import okio.ByteString
 
-    enum class Type(type: String) {
-        SIGNATURE("0a"),
-        UCI("0b"),
-        COUNTRYCODEUCI("0c")
-    }
-}
+data class RevocationEntryCoordinates(
+    val kid: ByteString,
+    val type: RevocationHashType,
+    val x: ByteString,
+    val y: ByteString
+)

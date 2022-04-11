@@ -1,6 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.storage
 
-import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
+import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -17,7 +17,7 @@ class RevocationRepository @Inject constructor(
 
     // To Do: Implement
 
-    val revocationList: Flow<List<RevocationEntryCoordinates>> = flowOf<List<RevocationEntryCoordinates>>(emptyList())
+    val revocationList: Flow<List<CachedRevocationChunk>> = flowOf<List<CachedRevocationChunk>>(emptyList())
         .shareLatest(
             tag = TAG,
             scope = appScope
