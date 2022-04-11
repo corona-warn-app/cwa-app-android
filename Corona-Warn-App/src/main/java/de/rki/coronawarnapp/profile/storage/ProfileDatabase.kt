@@ -42,10 +42,10 @@ abstract class ProfileDatabase : RoomDatabase() {
         @AppContext private val context: Context,
         @AppScope private val scope: CoroutineScope,
         private val settings: RATProfileSettingsDataStore,
-        ) {
+    ) {
         fun create(): ProfileDatabase = Room
             .databaseBuilder(context, ProfileDatabase::class.java, DATABASE_NAME)
-            .addCallback(object: RoomDatabase.Callback() {
+            .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     scope.launch {
@@ -75,10 +75,8 @@ abstract class ProfileDatabase : RoomDatabase() {
                     setTransactionSuccessful()
                     endTransaction()
                 }
-
                 settings.deleteProfile()
             }
-
         }
     }
 

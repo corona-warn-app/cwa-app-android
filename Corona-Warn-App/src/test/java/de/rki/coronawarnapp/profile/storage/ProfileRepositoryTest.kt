@@ -47,11 +47,8 @@ class ProfileRepositoryTest {
         coVerify { dao.deleteAll() }
     }
 
-    fun createInstance() =  ProfileRepository(
+    fun createInstance() = ProfileRepository(
         dao,
         TestCoroutineScope()
     )
-
-
-
 }

@@ -44,7 +44,7 @@ class ProfileDatabaseTest : BaseTestInstrumentation() {
         entries.size shouldBe 2
         val anna = entries.find { it.firstName == "Anna" }
         dao.update(anna!!.copy(lastName = "Meier"))
-        dao.getAll().first().find { it.lastName == "Meier"}!!.firstName shouldBe "Anna"
+        dao.getAll().first().find { it.lastName == "Meier" }!!.firstName shouldBe "Anna"
         dao.deleteAll()
         dao.getAll().first() shouldBe emptyList()
     }
