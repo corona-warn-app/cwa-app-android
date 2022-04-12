@@ -8,9 +8,12 @@ data class RevocationChunk(
 )
 
 data class CachedRevocationChunk(
-    @SerializedName("kid") val kid: ByteString,
-    @SerializedName("hashType") val hashType: RevocationHashType,
-    @SerializedName("x") val x: ByteString,
-    @SerializedName("y") val y: ByteString,
-    @SerializedName("revocationChunk") val revocationChunk: RevocationChunk
+    /**
+     * Used as an identifier of the respective hash list
+     */
+    @SerializedName("coordinates")
+    val coordinates: RevocationEntryCoordinates,
+
+    @SerializedName("revocationChunk")
+    val revocationChunk: RevocationChunk
 )
