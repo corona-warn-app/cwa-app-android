@@ -1,45 +1,60 @@
 package de.rki.coronawarnapp.profile.storage
 
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.util.coroutine.AppScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
-import org.joda.time.LocalDate
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProfileRepository @Inject constructor() {
-    val profilesFlow: Flow<Set<Profile>> = flowOf(setOf(dummy1, dummy2))
-
-    fun deleteProfile(id: String) {
-        // to do
+class ProfileRepository @Inject constructor(
+    private val dao: ProfileDao,
+    @AppScope private val scope: CoroutineScope,
+) {
+    val profilesFlow: Flow<Set<Profile>> = dao.getAll().mapLatest { list ->
+        list.map { it.fromEntity() }.toSet()
     }
 
-    fun upsertProfile(profile: Profile) {
-        // to do
+    fun deleteProfile(id: Int) = scope.launch {
+        dao.delete(id)
+    }
+
+    fun upsertProfile(profile: Profile) = scope.launch {
+        val entity = profile.toEntity()
+        if (profile.id == null)
+            dao.insert(entity)
+        else
+            dao.update(entity)
+    }
+
+    fun clear() = scope.launch {
+        dao.deleteAll()
     }
 }
 
-val dummy1 = Profile(
-    id = "1",
-    firstName = "First name",
-    lastName = "Last name",
-    birthDate = LocalDate(1981, 3, 20),
-    street = "Main street",
-    zipCode = "12132",
-    city = "London",
-    phone = "111111111",
-    email = "email@example.com"
+internal fun Profile.toEntity() = ProfileEntity(
+    id = id ?: 0,
+    firstName = firstName,
+    lastName = lastName,
+    birthDate = birthDate,
+    street = street,
+    zipCode = zipCode,
+    city = city,
+    phone = phone,
+    email = email
 )
 
-val dummy2 = Profile(
-    id = "2",
-    firstName = "Jimmy",
-    lastName = "Fallon",
-    birthDate = null,
-    street = "",
-    zipCode = "",
-    city = "New York",
-    phone = "",
-    email = ""
+internal fun ProfileEntity.fromEntity() = Profile(
+    id = id,
+    firstName = firstName,
+    lastName = lastName,
+    birthDate = birthDate,
+    street = street,
+    zipCode = zipCode,
+    city = city,
+    phone = phone,
+    email = email
 )
