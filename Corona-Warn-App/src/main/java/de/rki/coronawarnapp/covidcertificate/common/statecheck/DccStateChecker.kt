@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccBlocklistValidator
 import de.rki.coronawarnapp.util.TimeStamper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -19,7 +20,8 @@ class DccStateChecker @Inject constructor(
     private val appConfigProvider: AppConfigProvider,
     private val dscRepository: DscRepository,
     private val dscSignatureValidator: DscSignatureValidator,
-    private val expirationChecker: DccExpirationChecker,
+    private val dccExpirationChecker: DccExpirationChecker,
+    private val dccBlocklistValidator: DccBlocklistValidator,
 ) {
 
     suspend fun checkState(
@@ -36,6 +38,16 @@ class DccStateChecker @Inject constructor(
         }
 
         try {
+            dccBlocklistValidator.validate(
+                dccData = dccData,
+                blocklist = appConfig.covidCertificateParameters.blockListParameters
+            )
+        } catch (e: Exception) {
+            Timber.tag(TAG).w("Certificate is in the blocklist %s", e.message)
+            return@combine CwaCovidCertificate.State.Blocked
+        }
+
+        try {
             dscSignatureValidator.validateSignature(dccData = dccData, preFetchedDscData = dscData)
         } catch (e: Exception) {
             Timber.tag(TAG).w("Certificate had invalid signature %s", e.message)
@@ -44,7 +56,7 @@ class DccStateChecker @Inject constructor(
 
         val nowUtc = timeStamper.nowUTC
 
-        return@combine expirationChecker.getExpirationState(
+        return@combine dccExpirationChecker.getExpirationState(
             dccData = dccData,
             expirationThreshold = appConfig.covidCertificateParameters.expirationThreshold,
             now = nowUtc
