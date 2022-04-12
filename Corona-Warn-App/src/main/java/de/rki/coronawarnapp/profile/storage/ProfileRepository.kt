@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.profile.storage
 
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
-import de.rki.coronawarnapp.profile.model.ProfileId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class ProfileRepository @Inject constructor(
 
     fun upsertProfile(profile: Profile) = scope.launch {
         val entity = profile.toEntity()
-        if (profile.id == null)
+        if (entity.id == 0)
             dao.insert(entity)
         else
             dao.update(entity)

@@ -23,12 +23,14 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     // TO DO get id as nav arg
-    private val profileId: ProfileId = 1
+    var profileId: ProfileId? = 0
 
     private var qrCodeString: String? = null
     val personProfile: LiveData<PersonProfile> = profileRepository.profilesFlow
         .map { profiles ->
-            val profile = profiles.find { it.id == profileId } ?: Profile()
+            //val profile = profiles.find { it.id == profileId } ?: Profile()
+            val profile = profiles.firstOrNull() ?: Profile()
+            profileId = profile.id
             PersonProfile(
                 profile = profile,
                 qrCode = vCard.create(profile)

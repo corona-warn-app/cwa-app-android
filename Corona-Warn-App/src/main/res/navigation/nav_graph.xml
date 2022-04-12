@@ -209,7 +209,6 @@
             app:destination="@id/settingsTracingFragment" />
     </fragment>
 
-
     <fragment
         android:id="@+id/settingsNotificationFragment"
         android:name="de.rki.coronawarnapp.ui.settings.notifications.NotificationSettingsFragment"
@@ -910,8 +909,8 @@
 
         <argument
             android:name="familyTestPersonName"
-            android:defaultValue="null"
-            app:argType="String" />
+            android:defaultValue=""
+            app:argType="string" />
 
         <action
             android:id="@+id/action_universalScanner_to_testRegistrationSelectionFragment"

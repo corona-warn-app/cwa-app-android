@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
@@ -57,7 +58,9 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                     )
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment()
+                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(
+                                viewModel.profileId ?: 0
+                            )
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()
                 }
@@ -89,7 +92,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                         .build()
                     findNavController().navigate(
                         R.id.action_to_universal_scanner,
-                        null,
+                        QrCodeScannerFragmentDirections.actionToUniversalScanner(it.personName).arguments,
                         navOptions,
                         FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
                     )

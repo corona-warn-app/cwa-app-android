@@ -7,6 +7,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -19,27 +20,23 @@ import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     private val profileRepository: ProfileRepository,
-    @Assisted private val format: DateTimeFormatter = DateTimeFormat.mediumDate()
+    @Assisted private val format: DateTimeFormatter = DateTimeFormat.mediumDate(),
+    @Assisted private val profileId: ProfileId?,
 ) : CWAViewModel() {
 
-    // TO DO get id as nav arg
-    internal var id: Int? = 1
-
-    // TO DO check logic
     private val profileData = MutableLiveData(Profile())
     internal val profile: LiveData<Profile> = profileData
     internal val events = SingleLiveEvent<CreateRATProfileNavigation>()
-
     internal val savedProfile = profileRepository.profilesFlow
         .map { profiles ->
-            profiles.find { it.id == id }
+            profiles.find { it.id == profileId }
         }.asLiveData()
 
-    fun createProfile() {
+    fun saveProfile() {
         val profileData = profileData.value
         Timber.d("Profile=%s", profileData)
         if (profileData?.isValid == true) {
-            profileRepository.upsertProfile(profileData.copy(id = id))
+            profileRepository.upsertProfile(profileData.copy(id = profileId))
             Timber.d("Profile created")
             events.value = CreateRATProfileNavigation.ProfileScreen
         }
@@ -110,6 +107,9 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RATProfileCreateFragmentViewModel> {
-        fun create(formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel
+        fun create(
+            formatter: DateTimeFormatter,
+            profileId: ProfileId?
+        ): RATProfileCreateFragmentViewModel
     }
 }

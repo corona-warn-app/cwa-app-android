@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -30,12 +31,16 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
+    private val navArgs by navArgs<RATProfileCreateFragmentArgs>()
     private val binding: RatProfileCreateFragmentBinding by viewBinding()
     private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RATProfileCreateFragmentViewModel.Factory
-            factory.create(formatter)
+            factory.create(
+                formatter,
+                if (navArgs.profileId > 0) navArgs.profileId else null
+            )
         }
     )
 
@@ -47,7 +52,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
             profileSaveButton.setOnClickListener {
                 it.hideKeyboard()
-                viewModel.createProfile()
+                viewModel.saveProfile()
             }
 
             // Full name
