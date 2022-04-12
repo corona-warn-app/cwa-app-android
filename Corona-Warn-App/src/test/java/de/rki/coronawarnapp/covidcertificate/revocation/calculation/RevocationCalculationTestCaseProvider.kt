@@ -6,20 +6,14 @@ import org.junit.jupiter.api.Named
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.ArgumentsProvider
-import java.nio.file.Paths
 import java.util.stream.Stream
+import kotlin.io.path.div
 
 class RevocationCalculationTestCaseProvider : ArgumentsProvider {
 
     override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
         val gson = SerializationModule().baseGson()
-        val jsonFile = Paths.get(
-            "src",
-            "test",
-            "resources",
-            "revocation",
-            "RevocationCalculationSampleData.json"
-        ).toFile()
+        val jsonFile = javaClass.classLoader!!.getResourceAsStream("revocation/RevocationCalculationSampleData.json")
         val testCases: List<RevocationCalculationTestCase> = jsonFile.bufferedReader().use { gson.fromJson(it) }
         return testCases.map { Arguments.of(Named.of(it.description, it)) }.stream()
     }

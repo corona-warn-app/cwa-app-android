@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRe
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorageTest
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.RevocationCalculationTest
+import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationCheckerTest
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidatorTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.test.core.storage.TestCertificateContainerTest
@@ -73,6 +74,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: DccTicketingQrCodeExtractorTest)
     fun inject(testClass: DccHolderComparisonTest)
     fun inject(testClass: RevocationCalculationTest)
+    fun inject(testClass: DccRevocationCheckerTest)
 
     @Component.Factory
     interface Factory {
