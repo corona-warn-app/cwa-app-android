@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationErrorCod
 import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationException
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationKidTypeIndex
+import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidList
 import de.rki.coronawarnapp.exception.http.CwaClientError
@@ -48,7 +49,8 @@ class RevocationServer @Inject constructor(
         Timber.tag(TAG).d("getRevocationKidList()")
         val response = revocationApi.getRevocationKidList()
         val rawData = response.parseAndValidate(parseErrorCode = RevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE)
-        revocationParser.kidListFrom(rawData).also {
+
+        return@execute revocationParser.kidListFrom(rawData).also {
             Timber.tag(TAG).d("returning kid list with %d items", it.items.size)
         }
     }
@@ -66,7 +68,8 @@ class RevocationServer @Inject constructor(
         val response = revocationApi.getRevocationKidTypeIndex(kid = kid.hex(), type = hashType.type)
         val rawData = response.parseAndValidate(parseErrorCode = RevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE)
         val revocationKidTypeIndex = revocationParser.kidTypeIndexFrom(rawData)
-        CachedRevocationKidTypeIndex(
+
+        return@execute CachedRevocationKidTypeIndex(
             kid = kid,
             hashType = hashType,
             revocationKidTypeIndex = revocationKidTypeIndex
@@ -88,11 +91,10 @@ class RevocationServer @Inject constructor(
         val response = revocationApi.getRevocationChunk(kid = kid.hex(), type = hashType.type, x = x.hex(), y = y.hex())
         val rawData = response.parseAndValidate(parseErrorCode = RevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE)
         val revocationChunk = revocationParser.chunkFrom(rawData)
-        CachedRevocationChunk(
-            kid = kid,
-            hashType = hashType,
-            x = x,
-            y = y,
+        val revocationEntryCoordinates = RevocationEntryCoordinates(kid = kid, type = hashType, x = x, y = y)
+
+        return@execute CachedRevocationChunk(
+            coordinates = revocationEntryCoordinates,
             revocationChunk = revocationChunk
         ).also { Timber.tag(TAG).d("returning %s", it) }
     }
