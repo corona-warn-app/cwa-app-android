@@ -5,7 +5,10 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationCh
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.combine
+import de.rki.coronawarnapp.util.flow.shareLatest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -14,6 +17,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DccValidityMeasuresObserver @Inject constructor(
+    @AppScope appScope: CoroutineScope,
     dscRepository: DscRepository,
     dccWalletInfoRepository: DccWalletInfoRepository,
     revocationRepository: RevocationRepository,
@@ -29,7 +33,7 @@ class DccValidityMeasuresObserver @Inject constructor(
             blockedQrCodeHashes = blockedQrCodeHashes,
             revocationList = revocationList
         )
-    }.distinctUntilChanged()
+    }.distinctUntilChanged().shareLatest(scope = appScope)
 
     suspend fun dccValidityMeasures() = dccValidityMeasures.first()
 }
