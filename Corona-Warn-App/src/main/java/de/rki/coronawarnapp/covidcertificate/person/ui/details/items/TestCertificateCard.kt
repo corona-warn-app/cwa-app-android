@@ -69,11 +69,9 @@ class TestCertificateCard(parent: ViewGroup) :
         startValidationCheckButton.apply {
             defaultButton.isEnabled = certificate.isNotBlocked
             isEnabled = certificate.isNotBlocked
+            isLoading = curItem.isLoading
             defaultButton.setOnClickListener {
                 curItem.validateCertificate(certificate.containerId)
-            }
-            if (certificate.isNotBlocked) {
-                isLoading = curItem.isLoading
             }
         }
     }
