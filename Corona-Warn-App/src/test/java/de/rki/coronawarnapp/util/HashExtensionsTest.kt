@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.util
 
 import de.rki.coronawarnapp.util.HashExtensions.hashToMD5
+import de.rki.coronawarnapp.util.HashExtensions.sha256
 import de.rki.coronawarnapp.util.HashExtensions.toMD5
 import de.rki.coronawarnapp.util.HashExtensions.toSHA1
 import de.rki.coronawarnapp.util.HashExtensions.toSHA256
@@ -35,6 +36,7 @@ class HashExtensionsTest : BaseIOTest() {
     @Test
     fun `hash string to SHA256`() {
         testInputText.toSHA256() shouldBe "3afc82e0c5df81d1733fe0c289538a1a1f7a5038d5c261860a5c83952f4bcb61"
+        testInputText.sha256().hex() shouldBe "3afc82e0c5df81d1733fe0c289538a1a1f7a5038d5c261860a5c83952f4bcb61"
     }
 
     @Test
