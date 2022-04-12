@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChecker
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidator
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccBlocklistValidator
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.Called
@@ -37,6 +38,7 @@ class DccStateCheckerTest : BaseTest() {
     @MockK lateinit var mockDscData: DscData
     @MockK lateinit var dscSignatureValidator: DscSignatureValidator
     @MockK lateinit var expirationChecker: DccExpirationChecker
+    @MockK lateinit var dccBlocklistValidator: DccBlocklistValidator
     @MockK lateinit var mockData: DccData<*>
 
     @BeforeEach
@@ -46,6 +48,7 @@ class DccStateCheckerTest : BaseTest() {
         every { configData.covidCertificateParameters } returns covidCertificateConfig
         every { covidCertificateConfig.expirationThreshold } returns Duration.standardDays(10)
         every { covidCertificateConfig.blockListParameters } returns emptyList()
+        every { dccBlocklistValidator.validate(any(), any()) } just Runs
         coEvery { appConfigProvider.currentConfig } returns flowOf(configData)
 
         every { dscRepository.dscData } returns flowOf(mockDscData)
@@ -60,7 +63,8 @@ class DccStateCheckerTest : BaseTest() {
         appConfigProvider = appConfigProvider,
         dscRepository = dscRepository,
         dscSignatureValidator = dscSignatureValidator,
-        expirationChecker = expirationChecker,
+        dccExpirationChecker = expirationChecker,
+        dccBlocklistValidator = dccBlocklistValidator
     )
 
     @Test
