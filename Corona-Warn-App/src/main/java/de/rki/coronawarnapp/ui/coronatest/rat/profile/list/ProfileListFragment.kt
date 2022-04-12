@@ -73,7 +73,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
                     setupHoldTransition()
                     doNavigate(
                         ProfileListFragmentDirections
-                            .actionProfileListFragmentToRatProfileQrCodeFragment(it.id.toString())
+                            .actionProfileListFragmentToRatProfileQrCodeFragment(it.id)
                     )
                 }
             }

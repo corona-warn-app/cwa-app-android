@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,7 +27,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -34,8 +35,15 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: RATProfileQrCodeFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: RatProfileQrCodeFragmentBinding by viewBinding()
+    private val navArgs by navArgs<RATProfileQrCodeFragmentArgs>()
+    private val viewModel: RATProfileQrCodeFragmentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as RATProfileQrCodeFragmentViewModel.Factory
+            factory.create(navArgs.id)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarOverlay()
@@ -53,7 +61,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 when (it.itemId) {
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment()
+                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(navArgs.id)
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()
                 }

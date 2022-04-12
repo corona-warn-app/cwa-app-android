@@ -15,8 +15,8 @@
             app:destination="@id/privacyFragment" />
         <argument
             android:name="showButton"
-            app:argType="boolean"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_ratProfileOnboardingFragment_to_profileListFragment"
             app:destination="@id/profileListFragment"
@@ -33,6 +33,10 @@
             app:destination="@id/ratProfileQrCodeFragment"
             app:popUpTo="@id/rapid_test_profile_nav_graph"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/ratProfileQrCodeFragment"
@@ -44,9 +48,7 @@
             app:destination="@id/ratProfileCreateFragment" />
         <argument
             android:name="id"
-            android:defaultValue="true"
-            app:nullable="true"
-            app:argType="string" />
+            app:argType="integer" />
     </fragment>
 
     <fragment
