@@ -21,7 +21,7 @@
             android:id="@+id/action_ratProfileOnboardingFragment_to_profileListFragment"
             app:destination="@id/profileListFragment"
             app:popUpTo="@id/rapid_test_profile_nav_graph"
-            app:popUpToInclusive="false"/>
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/ratProfileCreateFragment"
@@ -38,10 +38,13 @@
         android:id="@+id/ratProfileQrCodeFragment"
         android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragment"
         android:label="rat_profile_qr_code_fragment"
-        tools:layout="@layout/rat_profile_qr_code_fragment" >
+        tools:layout="@layout/rat_profile_qr_code_fragment">
         <action
             android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileCreateFragment"
             app:destination="@id/ratProfileCreateFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 
     <fragment

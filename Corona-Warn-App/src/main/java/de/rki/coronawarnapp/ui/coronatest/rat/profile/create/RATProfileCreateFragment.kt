@@ -117,9 +117,9 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
                     CreateRATProfileNavigation.Back -> popBackStack()
-                    CreateRATProfileNavigation.ProfileScreen -> doNavigate(
+                    is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment()
+                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.id)
                     )
                 }
             }
