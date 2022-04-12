@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.databinding.ProfileCardItemBinding
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfilesListAdapter
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.PersonProfile
 import de.rki.coronawarnapp.util.coil.loadingView
-import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
 class ProfileCard(parent: ViewGroup) : ProfilesListAdapter.ItemVH<ProfileCard.Item, ProfileCardItemBinding>(

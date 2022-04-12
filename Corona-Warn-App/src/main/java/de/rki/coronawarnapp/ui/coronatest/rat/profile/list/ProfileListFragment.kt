@@ -2,14 +2,11 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialSharedAxis
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileListFragmentBinding
 import de.rki.coronawarnapp.util.di.AutoInject
