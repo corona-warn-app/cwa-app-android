@@ -59,6 +59,7 @@ class RATProfileSettingsDataStore @Inject constructor(
         }
     }
 
+    @Deprecated("legacy storage")
     fun updateProfile(profile: RATProfile) = appScope.launch {
         Timber.d("Updating RATProfile - new value: %s", profile)
         dataStore.edit { preferences ->
@@ -66,6 +67,7 @@ class RATProfileSettingsDataStore @Inject constructor(
         }
     }
 
+    @Deprecated("legacy storage")
     fun deleteProfile() = appScope.launch {
         Timber.d("Deleting RATProfile")
         dataStore.edit { preferences ->
