@@ -135,7 +135,8 @@ class RevocationServerTest : BaseTest() {
             )
         )
 
-        coEvery { revocationParser.kidTypeIndexFrom(exportBinaryKidTypeIndex) } returns kidTypeIndex.revocationKidTypeIndex
+        coEvery { revocationParser.kidTypeIndexFrom(exportBinaryKidTypeIndex) } returns
+            kidTypeIndex.revocationKidTypeIndex
 
         instance.getRevocationKidTypeIndex(kid, hashType) shouldBe kidTypeIndex
 
