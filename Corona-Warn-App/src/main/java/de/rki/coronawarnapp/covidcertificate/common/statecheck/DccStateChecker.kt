@@ -33,10 +33,12 @@ class DccStateChecker @Inject constructor(
         dscRepository.dscData
     ) { appConfig, dscData ->
 
+        //Check for newly scanned certificates
         if (qrCodeHash in blockedCertificateQrCodeHashes) {
             return@combine CwaCovidCertificate.State.Blocked
         }
 
+        //Check for imported certificates from older app versions < 2.21
         try {
             dccBlocklistValidator.validate(
                 dccData = dccData,
