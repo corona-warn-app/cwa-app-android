@@ -41,7 +41,7 @@ class RevocationServer @Inject constructor(
     ) {
         Timber.tag(TAG).d("getRevocationKidList()")
         val response = revocationApi.getRevocationKidList()
-        val rawData = response.parseAndValidate(signatureErrorCode = RevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE)
+        val rawData = response.parseAndValidate(parseErrorCode = RevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE)
         revocationParser.kidListFrom(rawData).also {
             Timber.tag(TAG).d("returning kid list with %d items", it.items.size)
         }
@@ -57,7 +57,7 @@ class RevocationServer @Inject constructor(
     ) {
         Timber.tag(TAG).d("getRevocationKidTypeIndex(kid=%s, hashType=%s)", kid, hashType)
         val response = revocationApi.getRevocationKidTypeIndex(kid = kid.hex(), type = hashType.type)
-        val rawData = response.parseAndValidate(signatureErrorCode = RevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE)
+        val rawData = response.parseAndValidate(parseErrorCode = RevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE)
         val revocationKidTypeIndex = revocationParser.kidTypeIndexFrom(rawData)
         CachedRevocationKidTypeIndex(
             kid = kid,
@@ -78,7 +78,7 @@ class RevocationServer @Inject constructor(
     ) {
         Timber.tag(TAG).d("getRevocationChunk(kid=%s, hashType=%s, x=%s, y=%s)", kid, hashType, x, y)
         val response = revocationApi.getRevocationChunk(kid = kid.hex(), type = hashType.type, x = x.hex(), y = y.hex())
-        val rawData = response.parseAndValidate(signatureErrorCode = RevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE)
+        val rawData = response.parseAndValidate(parseErrorCode = RevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE)
         val revocationChunk = revocationParser.chunkFrom(rawData)
         CachedRevocationChunk(
             kid = kid,
@@ -110,7 +110,7 @@ class RevocationServer @Inject constructor(
         }
     }
 
-    private fun Response<ResponseBody>.parseAndValidate(signatureErrorCode: RevocationErrorCode): ByteArray = try {
+    private fun Response<ResponseBody>.parseAndValidate(parseErrorCode: RevocationErrorCode): ByteArray = try {
         if (!isSuccessful) throw HttpException(this)
 
         val fileMap = requireNotNull(body()) { "Response was successful but body was null" }
@@ -126,13 +126,13 @@ class RevocationServer @Inject constructor(
             toVerify = exportBinary,
             signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
         )
-        if (!isSignatureValid) throw RevocationException(errorCode = signatureErrorCode)
+        if (!isSignatureValid) throw RevocationException(errorCode = parseErrorCode)
 
         exportBinary
     } catch (e: Exception) {
         throw when (e) {
             is RevocationException -> e
-            else -> RevocationException(errorCode = signatureErrorCode, cause = e)
+            else -> RevocationException(errorCode = parseErrorCode, cause = e)
         }
     }
 }
