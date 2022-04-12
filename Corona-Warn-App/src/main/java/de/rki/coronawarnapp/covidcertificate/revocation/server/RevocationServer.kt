@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.server
 
+import androidx.annotation.VisibleForTesting
 import dagger.Lazy
 import de.rki.coronawarnapp.covidcertificate.revocation.RevocationCache
 import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationErrorCode
@@ -154,5 +155,5 @@ class RevocationServer @Inject constructor(
 
 private val TAG = tag<RevocationServer>()
 
-private const val EXPORT_BINARY_FILE_NAME = "export.bin"
-private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
+@VisibleForTesting const val EXPORT_BINARY_FILE_NAME = "export.bin"
+@VisibleForTesting const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
