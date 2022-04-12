@@ -6,6 +6,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.calculation.kidHash
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
+import de.rki.coronawarnapp.tag
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -15,10 +16,13 @@ class DccRevocationChecker @Inject constructor() {
         dccData: DccData<*>,
         revocationList: List<CachedRevocationChunk>,
     ): Boolean {
-        if (dccData.kid.isEmpty()) return false // early return
-
-        val coordinatesHashes = revocationList.associateBy { chunk -> chunk.coordinates }
-        RevocationHashType.values().forEach { type ->
+        if (dccData.kid.isEmpty()) {
+            Timber.tag(TAG).d("Certificate kid is missing -> not Revoked")
+            return false // early return
+        }
+        
+        val cachedChunks = revocationList.associateBy { chunk -> chunk.coordinates }
+        return RevocationHashType.values().any { type ->
             val hash = dccData.calculateRevocationEntryForType(type)
             val coordinates = RevocationEntryCoordinates(
                 kid = dccData.kidHash(),
@@ -27,14 +31,16 @@ class DccRevocationChecker @Inject constructor() {
                 y = hash.substring(1, 1),
             )
 
-            val cachedRevocationChunk = coordinatesHashes[coordinates]
-            if (cachedRevocationChunk != null &&
-                cachedRevocationChunk.revocationChunk.hashes.contains(hash)
-            ) {
-                return true
-            }
+            val chunk = cachedChunks[coordinates]
+            chunk != null && chunk.revocationChunk.hashes.contains(hash)
+        }.also {
+            Timber.tag(TAG).d(
+                "Certificate[ci=%s isRevoked=%s]", dccData.certificate.payload.uniqueCertificateIdentifier, it
+            )
         }
+    }
 
-        return false
+    companion object {
+        private val TAG = tag<DccRevocationChecker>()
     }
 }
