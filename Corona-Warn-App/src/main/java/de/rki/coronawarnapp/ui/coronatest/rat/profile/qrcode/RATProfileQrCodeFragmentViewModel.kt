@@ -6,6 +6,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.antigen.profile.VCard
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
@@ -22,15 +23,15 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     // TO DO get id as nav arg
-    private val id = "1"
+    private val profileId: ProfileId = 1
 
     private var qrCodeString: String? = null
     val personProfile: LiveData<PersonProfile> = profileRepository.profilesFlow
         .map { profiles ->
-            val profile = profiles.find { it.id == id }
+            val profile = profiles.find { it.id == profileId } ?: Profile()
             PersonProfile(
-                profile,
-                profile?.let { vCard.create(it).also { qrCode -> qrCodeString = qrCode } }
+                profile = profile,
+                qrCode = vCard.create(profile)
             )
         }.asLiveData(context = dispatcherProvider.Default)
 
@@ -51,7 +52,14 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     fun onNext() {
         Timber.d("onNext")
-        events.postValue(ProfileQrCodeNavigation.OpenScanner)
+        val fullName: String = personProfile.value?.profile?.let {
+            it.firstName + " " + it.lastName
+        }?.trim() ?: ""
+        events.postValue(
+            ProfileQrCodeNavigation.OpenScanner(
+                fullName
+            )
+        )
     }
 
     fun openFullScreen() = qrCodeString?.let {
@@ -65,6 +73,6 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 }
 
 data class PersonProfile(
-    val profile: Profile?,
+    val profile: Profile,
     val qrCode: String?
 )

@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.profile.storage
 
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 class ProfileRepository @Inject constructor() {
     val profilesFlow: Flow<Set<Profile>> = flowOf(setOf(dummy1, dummy2))
 
-    fun deleteProfile(id: String) {
+    fun deleteProfile(id: ProfileId) {
         // to do
     }
 
@@ -21,7 +22,7 @@ class ProfileRepository @Inject constructor() {
 }
 
 val dummy1 = Profile(
-    id = "1",
+    id = 1,
     firstName = "First name",
     lastName = "Last name",
     birthDate = LocalDate(1981, 3, 20),
@@ -33,7 +34,7 @@ val dummy1 = Profile(
 )
 
 val dummy2 = Profile(
-    id = "2",
+    id = 1,
     firstName = "Jimmy",
     lastName = "Fallon",
     birthDate = null,

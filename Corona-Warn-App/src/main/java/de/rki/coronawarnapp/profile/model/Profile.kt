@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.profile.model
 import org.joda.time.LocalDate
 
 data class Profile(
-    val id: String? = null,
+    val id: ProfileId? = null,
     val firstName: String = "",
     val lastName: String = "",
     val birthDate: LocalDate? = null,
@@ -22,3 +22,5 @@ data class Profile(
         phone.isNotBlank() ||
         email.isNotBlank()
 }
+
+typealias ProfileId = Int

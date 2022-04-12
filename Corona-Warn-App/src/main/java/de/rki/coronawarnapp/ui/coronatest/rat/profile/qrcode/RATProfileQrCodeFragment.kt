@@ -70,7 +70,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         }
         viewModel.personProfile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
-                personProfile.profile?.let { bindPersonInfo(it) }
+                personProfile.profile.let { bindPersonInfo(it) }
 
                 val request = personProfile?.qrCode?.let { CoilQrCode(content = it) }
                 qrCodeImage.loadAny(request) {
@@ -83,7 +83,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 ProfileQrCodeNavigation.Back -> popBackStack()
-                ProfileQrCodeNavigation.OpenScanner -> {
+                is ProfileQrCodeNavigation.OpenScanner -> {
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(R.id.ratProfileQrCodeFragment, false)
                         .build()
