@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.server
 
 import dagger.Lazy
+import de.rki.coronawarnapp.covidcertificate.revocation.RevocationCache
 import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationErrorCode
 import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationException
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
@@ -17,23 +18,28 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
+import okhttp3.Cache
 import okhttp3.ResponseBody
 import okio.ByteString
 import retrofit2.HttpException
 import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RevocationServer @Inject constructor(
     private val revocationApiLazy: Lazy<RevocationApi>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation,
-    private val revocationParser: RevocationParser
+    private val revocationParser: RevocationParser,
+    @RevocationCache private val revocationCache: Cache
 ) {
 
     private val revocationApi: RevocationApi
         get() = revocationApiLazy.get()
 
+    @Throws(RevocationException::class)
     suspend fun getRevocationKidList(): RevocationKidList = execute(
         noNetworkErrorCode = RevocationErrorCode.DCC_RL_KID_LIST_NO_NETWORK,
         clientErrorCode = RevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR,
@@ -47,6 +53,7 @@ class RevocationServer @Inject constructor(
         }
     }
 
+    @Throws(RevocationException::class)
     suspend fun getRevocationKidTypeIndex(
         kid: ByteString,
         hashType: RevocationHashType
@@ -66,6 +73,7 @@ class RevocationServer @Inject constructor(
         ).also { Timber.tag(TAG).d("returning %s", it) }
     }
 
+    @Throws(RevocationException::class)
     suspend fun getRevocationChunk(
         kid: ByteString,
         hashType: RevocationHashType,
@@ -87,6 +95,11 @@ class RevocationServer @Inject constructor(
             y = y,
             revocationChunk = revocationChunk
         ).also { Timber.tag(TAG).d("returning %s", it) }
+    }
+
+    fun clearCache() {
+        Timber.tag(TAG).d("clearCache()")
+        revocationCache.evictAll()
     }
 
     private suspend fun <T> execute(
