@@ -6,7 +6,6 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
-import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 
