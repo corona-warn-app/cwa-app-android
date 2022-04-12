@@ -68,7 +68,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
     var isLoading: Boolean = false
         set(value) {
             binding.apply {
-                defaultButton.isEnabled = !value
+                defaultButton.isClickable = !value
                 loadingButtonContainer.isVisible = value
                 defaultButton.text = if (value) "" else defaultText
             }
