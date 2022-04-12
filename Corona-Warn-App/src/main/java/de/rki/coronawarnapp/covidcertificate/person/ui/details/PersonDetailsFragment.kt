@@ -2,12 +2,14 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.activity.addCallback
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.get
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
@@ -17,7 +19,6 @@ import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.lists.decorations.TopBottomPaddingDecorator
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -63,7 +64,6 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
-                addItemDecoration(TopBottomPaddingDecorator(topPadding = R.dimen.spacing_tiny))
             }
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
@@ -145,19 +145,26 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun setToolbarOverlay() {
-        val deviceWidth = requireContext().resources.displayMetrics.widthPixels
+        binding.recyclerViewCertificatesList.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (binding.recyclerViewCertificatesList.childCount > 0) {
+                        val firstElement = binding.recyclerViewCertificatesList[0]
+                        val emptySpaceToTop = firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
+                        val overlap = (firstElement.height / 2) + emptySpaceToTop
 
-        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams = binding.recyclerViewCertificatesList.layoutParams
-            as (CoordinatorLayout.LayoutParams)
+                        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
+                            binding.recyclerViewCertificatesList.layoutParams
+                                as (CoordinatorLayout.LayoutParams)
+                        val behavior: AppBarLayout.ScrollingViewBehavior =
+                            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
+                        behavior.overlayTop = overlap
 
-        val textParams = binding.toolbarLinearLayout.layoutParams as (CollapsingToolbarLayout.LayoutParams)
-
-        val divider = 2
-        textParams.bottomMargin = (deviceWidth / divider) - 24 /* 24 is space between screen border and Card */
-        binding.toolbarLinearLayout.requestLayout()
-
-        val behavior: AppBarLayout.ScrollingViewBehavior =
-            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-        behavior.overlayTop = (deviceWidth / divider) - 24
+                        binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
+                        binding.europaImage.requestLayout()
+                        binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+                }
+            })
     }
 }
