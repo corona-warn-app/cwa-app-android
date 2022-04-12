@@ -57,7 +57,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             // Birth date
             birthDateInputEdit.setOnClickListener { openDatePicker() }
             birthDateInputEdit.doAfterTextChanged {
-                val dob = if (it.toString().isBlank()) null else it.toString()
+                val dob = it.toString().ifBlank { null }
                 viewModel.birthDateChanged(dob)
             }
 

@@ -26,7 +26,7 @@ class VCardTest : BaseTest() {
     @Test
     fun `Case 1`() {
         val profile = Profile(
-            id = "1",
+            id = 1,
             firstName = "Max",
             lastName = "Mustermann",
             birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
@@ -54,7 +54,7 @@ class VCardTest : BaseTest() {
     @Test
     fun `Case 2`() {
         val profile = Profile(
-            id = "1",
+            id = 1,
             firstName = "",
             lastName = "",
             birthDate = null,
@@ -82,7 +82,7 @@ class VCardTest : BaseTest() {
     @Test
     fun `Case 3`() {
         val profile = Profile(
-            id = "1",
+            id = 1,
             firstName = "Max",
             lastName = "Mustermann",
             birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
@@ -110,7 +110,7 @@ class VCardTest : BaseTest() {
     @Test
     fun `Case 4`() {
         val profile = Profile(
-            id = "1",
+            id = 1,
             firstName = "Max,",
             lastName = "Mustermann;",
             birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
