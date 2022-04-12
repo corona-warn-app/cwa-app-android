@@ -3,11 +3,28 @@ package de.rki.coronawarnapp.covidcertificate.revocation.calculation
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
+import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
 import okio.ByteString
 import okio.ByteString.Companion.decodeBase64
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
+
+fun DccData<out DccV1.MetaData>.calculateCoordinatesToHash(
+    type: RevocationHashType
+): Pair<RevocationEntryCoordinates, ByteString> {
+    Timber.tag(TAG).d("revocationCoordinates(type=%s)", type)
+    val hash = calculateRevocationEntryForType(type)
+    return Pair(
+        first = RevocationEntryCoordinates(
+            kid = kidHash(),
+            type = type,
+            x = hash.substring(0, 1), // First byte as ByteString
+            y = hash.substring(1, 2), // Second byte as ByteString
+        ),
+        second = hash
+    ).also { Timber.tag(TAG).d("revocationCoordinates=%s", it) }
+}
 
 fun DccData<out DccV1.MetaData>.calculateRevocationEntryForType(type: RevocationHashType): ByteString {
     Timber.tag(TAG).d("calculateRevocationEntryForType(type=%s)", type)
@@ -19,8 +36,9 @@ fun DccData<out DccV1.MetaData>.calculateRevocationEntryForType(type: Revocation
 }
 
 fun DccData<out DccV1.MetaData>.kidHash(): ByteString {
-    Timber.tag(TAG).d("kidHash()")
-    return kid.decodeBase64() ?: error("Bad KID!")
+    val kidHash = kid.decodeBase64()
+    Timber.tag(TAG).d("kidHash($kidHash)")
+    return kidHash ?: error("Bad KID!")
 }
 
 private fun DccData<out DccV1.MetaData>.calculateRevocationEntryTypeUCI(): ByteString = certificate
