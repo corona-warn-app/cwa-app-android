@@ -20,7 +20,7 @@ class DccRevocationChecker @Inject constructor() {
             Timber.tag(TAG).d("Certificate kid is missing -> not Revoked")
             return false // early return
         }
-        
+
         val cachedChunks = revocationList.associateBy { chunk -> chunk.coordinates }
         return RevocationHashType.values().any { type ->
             val hash = dccData.calculateRevocationEntryForType(type)
