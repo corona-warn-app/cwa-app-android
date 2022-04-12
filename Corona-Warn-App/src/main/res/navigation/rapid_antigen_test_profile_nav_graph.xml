@@ -44,7 +44,9 @@
             app:destination="@id/ratProfileCreateFragment" />
         <argument
             android:name="id"
-            app:argType="integer" />
+            android:defaultValue="true"
+            app:nullable="true"
+            app:argType="string" />
     </fragment>
 
     <fragment
