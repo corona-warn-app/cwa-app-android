@@ -26,7 +26,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
     private val viewModel: ProfileListViewModel by cwaViewModels { viewModelFactory }
     private val binding: ProfileListFragmentBinding by viewBinding()
-    private val profilesListAdapter = ProfilesListAdapter()
+    private val profilesListAdapter = ProfileListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

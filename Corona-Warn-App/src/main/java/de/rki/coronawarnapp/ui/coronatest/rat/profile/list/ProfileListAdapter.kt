@@ -13,8 +13,8 @@ import de.rki.coronawarnapp.util.lists.modular.mods.DataBinderMod
 import de.rki.coronawarnapp.util.lists.modular.mods.StableIdMod
 import de.rki.coronawarnapp.util.lists.modular.mods.TypedVHCreatorMod
 
-class ProfilesListAdapter : ModularAdapter<ProfilesListAdapter.ItemVH<ProfileListItem, ViewBinding>>(),
-    AsyncDiffUtilAdapter<ProfileListItem> {
+class ProfileListAdapter :
+    ModularAdapter<ProfileListAdapter.ItemVH<ProfileListItem, ViewBinding>>(), AsyncDiffUtilAdapter<ProfileListItem> {
 
     override val asyncDiffer: AsyncDiffer<ProfileListItem> = AsyncDiffer(adapter = this)
 

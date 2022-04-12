@@ -5,12 +5,12 @@ import androidx.core.view.isVisible
 import coil.loadAny
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.ProfileCardItemBinding
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfilesListAdapter
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListAdapter
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.PersonProfile
 import de.rki.coronawarnapp.util.coil.loadingView
 import de.rki.coronawarnapp.util.qrcode.coil.CoilQrCode
 
-class ProfileCard(parent: ViewGroup) : ProfilesListAdapter.ItemVH<ProfileCard.Item, ProfileCardItemBinding>(
+class ProfileCard(parent: ViewGroup) : ProfileListAdapter.ItemVH<ProfileCard.Item, ProfileCardItemBinding>(
     layoutRes = R.layout.home_card_container_layout,
     parent
 ) {
