@@ -158,6 +158,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
 
     @Test
     @Screenshot
+    fun capture_fragment_third_certificate() {
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificate()))
+        takeSelfie("third_certificate")
+    }
+
+    @Test
+    @Screenshot
     fun capture_fragment_two_g_plus_certificate_with_badge() {
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificateWithBadge()))
         takeSelfie("two_g_plus_with_badge")
@@ -376,6 +383,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
             add(
                 PersonCertificateCard.Item(
                     overviewCertificates = listOf(
+                        OverviewCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Geimpf"
+                                else -> "2G Certificate"
+                            }
+                        ),
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             buttonText = when (Locale.getDefault()) {

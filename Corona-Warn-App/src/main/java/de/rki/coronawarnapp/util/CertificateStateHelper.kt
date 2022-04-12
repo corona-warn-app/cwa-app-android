@@ -39,8 +39,6 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     invalidOverlay.isGone = valid || (isCertificateDetails && !certificate.isNotBlocked)
     image.isEnabled = isCertificateDetails && (valid || !certificate.isNotBlocked) // Disable Qr-Code full-screen mode
 
-    val isNewTestCertificate = certificate is TestCertificate && certificate.isNew
-
     when (certificate.displayedState()) {
         is CwaCovidCertificate.State.ExpiringSoon -> {
             expirationStatusIcon.isVisible = isCertificateDetails
@@ -132,12 +130,12 @@ fun PersonOverviewItemBinding.setUIState(
         invalidOverlay.isGone = valid
         image.isEnabled = valid
         certificateToggleGroup.isVisible = secondaryCertificate != null
-        if (primaryCertificateButtonText.isNotEmpty()) primaryCertificateButton.text = primaryCertificateButtonText
+        if (primaryCertificateButtonText.isNotEmpty()) firstCertificateButton.text = primaryCertificateButtonText
         if (secondaryCertificateButtonText != null && secondaryCertificateButtonText.isNotEmpty()) {
-            secondaryCertificateButton.text = secondaryCertificateButtonText
+            secondCertificateButton.text = secondaryCertificateButtonText
         }
-        primaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
-        secondaryCertificateButton.typeface = Typeface.DEFAULT
+        firstCertificateButton.typeface = Typeface.DEFAULT_BOLD
+        secondCertificateButton.typeface = Typeface.DEFAULT
         certificateToggleGroup.setOnCheckedChangeListener { checkedId ->
             changeQrCodeOnButtonPress(checkedId, primaryCertificate, secondaryCertificate)
         }
@@ -167,15 +165,15 @@ private fun IncludeCertificateOverviewQrCardBinding.changeQrCodeOnButtonPress(
     secondaryCertificate: CwaCovidCertificate?
 ) {
     when (checkedId) {
-        R.id.primary_certificate_button -> {
+        R.id.first_certificate_button -> {
             loadQrImage(primaryCertificate)
-            primaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
-            secondaryCertificateButton.typeface = Typeface.DEFAULT
+            firstCertificateButton.typeface = Typeface.DEFAULT_BOLD
+            secondCertificateButton.typeface = Typeface.DEFAULT
         }
-        R.id.secondary_certificate_button -> {
+        R.id.second_certificate_button -> {
             loadQrImage(secondaryCertificate)
-            primaryCertificateButton.typeface = Typeface.DEFAULT
-            secondaryCertificateButton.typeface = Typeface.DEFAULT_BOLD
+            firstCertificateButton.typeface = Typeface.DEFAULT
+            secondCertificateButton.typeface = Typeface.DEFAULT_BOLD
         }
     }
 }

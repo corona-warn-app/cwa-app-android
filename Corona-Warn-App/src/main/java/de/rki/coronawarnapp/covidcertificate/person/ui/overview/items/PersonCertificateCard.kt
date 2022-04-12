@@ -27,6 +27,8 @@ class PersonCertificateCard(parent: ViewGroup) :
 
         val firstCertificate = curItem.overviewCertificates[0]
         val secondCertificate = curItem.overviewCertificates.getOrNull(1)
+        val thirdCertificate = curItem.overviewCertificates.getOrNull(2)
+
         setUIState(
             primaryCertificate = firstCertificate.cwaCertificate,
             primaryCertificateButtonText = firstCertificate.buttonText,
