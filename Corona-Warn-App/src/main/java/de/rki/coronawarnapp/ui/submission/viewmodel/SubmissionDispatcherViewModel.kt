@@ -32,7 +32,7 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
 
-    fun onRatProfilePressed() = launch {
+    fun onProfilePressed() = launch {
         routeToScreen.postValue(
             SubmissionNavigationEvents.NavigateToProfileList(
                 ratProfileSettings.onboardedFlow.first()

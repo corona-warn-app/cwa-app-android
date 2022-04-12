@@ -5,11 +5,11 @@ import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragment
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragment
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragmentModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragment
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragmentModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragment
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragmentModule
-import de.rki.coronawarnapp.ui.presencetracing.organizer.list.ProfileListFragmentModule
 
 @Module
 internal abstract class RATProfileUIModule {

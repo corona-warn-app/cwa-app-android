@@ -102,7 +102,7 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                 viewModel.onTestCenterPressed()
             }
             profileCard.dispatcherCard.setOnClickListener {
-                viewModel.onRatProfilePressed()
+                viewModel.onProfilePressed()
             }
         }
     }

@@ -1,9 +1,8 @@
-package de.rki.coronawarnapp.ui.presencetracing.organizer.list
+package de.rki.coronawarnapp.ui.coronatest.rat.profile.list
 
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey

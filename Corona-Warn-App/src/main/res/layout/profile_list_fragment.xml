@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_profile_list"
-        app:title="@string/rat_profile_create_title" />
+        app:title="@string/profiles_list_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_normal"
         android:contentDescription="@string/trace_location_organiser_list_new_button_description"
-        android:text="@string/rat_profile_fab_text"
+        android:text="@string/profile_fab_text"
         android:transitionName="profile_list_fragment_create"
         app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"

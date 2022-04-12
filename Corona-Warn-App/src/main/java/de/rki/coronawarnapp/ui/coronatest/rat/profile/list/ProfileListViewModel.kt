@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.VCard
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.items.ProfileCard
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.items.ProfileListItem
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.PersonProfile
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -30,10 +29,8 @@ class ProfileListViewModel @AssistedInject constructor(
         .map { profiles ->
             profiles.map { profile ->
                 ProfileCard.Item(
-                    personProfile = PersonProfile(
-                        profile,
-                        profile.let { vCard.create(it) }
-                    ),
+                    profile = profile,
+                    qrCode = profile.let { vCard.create(it) },
                     onClickAction = { _, position ->
                         profile.id?.let {
                             events.postValue(ProfileListEvent.OpenProfile(profile.id, position))
