@@ -5,6 +5,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.DccV1
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DscMessage
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationHashType
 import okio.ByteString
+import okio.ByteString.Companion.decodeBase64
+import okio.ByteString.Companion.decodeHex
 import okio.ByteString.Companion.toByteString
 import timber.log.Timber
 
@@ -15,6 +17,11 @@ fun DccData<out DccV1.MetaData>.calculateRevocationEntryForType(type: Revocation
         RevocationHashType.UCI -> calculateRevocationEntryTypeUCI()
         RevocationHashType.COUNTRYCODEUCI -> calculateRevocationEntryTypeCOUNTRYCODEUCI()
     }.also { Timber.tag(TAG).d("revocationEntry=%s", it) }
+}
+
+fun DccData<out DccV1.MetaData>.kidHash(): ByteString {
+    Timber.tag(TAG).d("kidHash()")
+    return kid.decodeBase64() ?: error("Bad KID!")
 }
 
 private fun DccData<out DccV1.MetaData>.calculateRevocationEntryTypeUCI(): ByteString = certificate
