@@ -20,7 +20,7 @@ class QrcodeSharedViewModel : ViewModel() {
 
     private val dccTicketingTransactionContextCache = mutableMapOf<String, DccTicketingTransactionContext>()
 
-    var personNameFamilyTest: String = ""
+    var familyTestPersonName: String = ""
 
     fun verifiedTraceLocation(locationId: String): VerifiedTraceLocation {
         return verifiedTraceLocationCache.remove(locationId) ?: throw IllegalArgumentException(

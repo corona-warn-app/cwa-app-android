@@ -23,14 +23,12 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 ) : CWAViewModel() {
 
     // TO DO get id as nav arg
-    var profileId: ProfileId? = 0
+    var profileId: ProfileId = 0
 
     private var qrCodeString: String? = null
     val personProfile: LiveData<PersonProfile> = profileRepository.profilesFlow
         .map { profiles ->
-            //val profile = profiles.find { it.id == profileId } ?: Profile()
-            val profile = profiles.firstOrNull() ?: Profile()
-            profileId = profile.id
+            val profile = profiles.find { it.id == profileId } ?: Profile()
             PersonProfile(
                 profile = profile,
                 qrCode = vCard.create(profile)
@@ -41,9 +39,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     fun deleteProfile() {
         Timber.d("deleteProfile")
-        personProfile.value?.profile?.id?.let {
-            profileRepository.deleteProfile(it)
-        }
+        profileRepository.deleteProfile(profileId)
         events.postValue(ProfileQrCodeNavigation.Back)
     }
 
@@ -54,12 +50,12 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     fun onNext() {
         Timber.d("onNext")
-        val fullName: String = personProfile.value?.profile?.let {
-            it.firstName + " " + it.lastName
+        val personName: String = personProfile.value?.profile?.let {
+            "${it.firstName} ${it.lastName}"
         }?.trim() ?: ""
         events.postValue(
             ProfileQrCodeNavigation.OpenScanner(
-                fullName
+                personName
             )
         )
     }

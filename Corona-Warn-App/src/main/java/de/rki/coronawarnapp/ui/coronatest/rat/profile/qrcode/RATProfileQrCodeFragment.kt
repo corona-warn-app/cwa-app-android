@@ -59,7 +59,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
                             .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(
-                                viewModel.profileId ?: 0
+                                viewModel.profileId
                             )
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()

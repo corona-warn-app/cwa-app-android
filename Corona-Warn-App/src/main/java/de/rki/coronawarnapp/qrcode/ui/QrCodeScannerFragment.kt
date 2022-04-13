@@ -83,7 +83,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     ) {
         _binding = this
 
-        qrcodeSharedViewModel.personNameFamilyTest = navArgs.familyTestPersonName
+        qrcodeSharedViewModel.familyTestPersonName = navArgs.familyTestPersonName
 
         scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner, activity = requireActivity())
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
