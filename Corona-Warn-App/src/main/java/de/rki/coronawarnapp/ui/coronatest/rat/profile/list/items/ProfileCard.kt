@@ -24,18 +24,11 @@ class ProfileCard(parent: ViewGroup) : ProfileListAdapter.ItemVH<ProfileCard.Ite
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val fullName = buildString {
-            if (curItem.profile.firstName.isNotBlank()) {
-                append(curItem.profile.firstName.trim())
-            }
-            if (curItem.profile.lastName.isNotBlank()) {
-                append(" ${curItem.profile.lastName.trim()}")
-            }
-        }
+        val fullName = "${curItem.profile.firstName.trim()} ${curItem.profile.lastName.trim()}"
 
         name.isVisible = fullName.isNotBlank()
         name.text = fullName
-        val request = curItem.qrCode.let { CoilQrCode(content = it) }
+        val request = CoilQrCode(content = curItem.qrCode)
         qrCodeCard.loadAny(request) {
             crossfade(true)
             loadingView(qrCodeCard, progressBar)

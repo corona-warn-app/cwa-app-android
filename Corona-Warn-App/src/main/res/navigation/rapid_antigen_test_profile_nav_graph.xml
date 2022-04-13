@@ -31,8 +31,8 @@
         <action
             android:id="@+id/action_ratProfileCreateFragment_to_ratProfileQrCodeFragment"
             app:destination="@id/ratProfileQrCodeFragment"
-            app:popUpTo="@id/rapid_test_profile_nav_graph"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/profileListFragment"
+            app:popUpToInclusive="false" />
         <argument
             android:name="id"
             android:defaultValue="0"
