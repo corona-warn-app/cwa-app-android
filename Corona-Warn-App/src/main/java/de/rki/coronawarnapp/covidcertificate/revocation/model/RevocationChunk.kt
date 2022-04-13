@@ -9,7 +9,7 @@ data class RevocationChunk(
 
 data class CachedRevocationChunk(
     /**
-     * Used as an identifier of the respective hash list
+     * Used as an identifier of the respective hashes list
      */
     @SerializedName("coordinates")
     val coordinates: RevocationEntryCoordinates,

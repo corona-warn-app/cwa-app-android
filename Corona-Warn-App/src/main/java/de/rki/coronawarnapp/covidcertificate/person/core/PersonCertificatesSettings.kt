@@ -48,7 +48,7 @@ class PersonCertificatesSettings @Inject constructor(
             runCatching {
                 mapper.readValue<SettingsMap>(prefs[PERSONS_SETTINGS_MAP].orEmpty()).settings
             }.onFailure {
-                Timber.tag(TAG).d(it, "personsSettings failed to parse")
+                Timber.tag(TAG).d("personsSettings failed to parse => %s", it.message)
             }.getOrDefault(emptyMap())
         }
 

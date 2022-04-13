@@ -14,9 +14,9 @@ class DccWalletInfoCleaner @Inject constructor(
 
     suspend fun clean() = runCatching {
         val persons = personCertificatesProvider.personCertificates.first()
-        val personGroupKeys = persons.mapNotNull { it.personIdentifier?.groupingKey }
+        val personGroupKeys = persons.map { it.personIdentifier.groupingKey }
         val dccWalletGroupKeys = dccWalletInfoRepository.personWallets.first().map { it.personGroupKey }
-        val idsToClean = dccWalletGroupKeys subtract personGroupKeys
+        val idsToClean = dccWalletGroupKeys subtract personGroupKeys.toSet()
         Timber.tag(TAG).d("Cleaning DccWalletInfo for [%d] persons", idsToClean.size)
 
         // Cleanup DccWalletInfo for persons who don't have certificates any longer
