@@ -74,7 +74,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             every { uiState } returns MutableLiveData()
             every { admissionTile } returns MutableLiveData(
                 AdmissionTileProvider.AdmissionTile(
-                    visible = false,
+                    visible = true,
                     title = "Status anzeigen für folgendes Bundesland:",
                     subtitle = "Bundesweit"
                 )
