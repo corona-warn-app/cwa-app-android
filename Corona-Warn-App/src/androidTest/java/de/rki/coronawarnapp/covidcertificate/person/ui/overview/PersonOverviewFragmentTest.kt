@@ -74,7 +74,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
             every { uiState } returns MutableLiveData()
             every { admissionTile } returns MutableLiveData(
                 AdmissionTileProvider.AdmissionTile(
-                    visible = true,
+                    visible = false,
                     title = "Status anzeigen für folgendes Bundesland:",
                     subtitle = "Bundesweit"
                 )
@@ -152,6 +152,13 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_two_g_plus_certificate() {
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = false,
+                title = "",
+                subtitle = ""
+            )
+        )
         every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificate()))
         takeSelfie("two_g_plus")
     }
@@ -159,7 +166,14 @@ class PersonOverviewFragmentTest : BaseUITest() {
     @Test
     @Screenshot
     fun capture_fragment_third_certificate() {
-        every { viewModel.uiState } returns MutableLiveData(UiState.Done(twoGPlusCertificate()))
+        every { viewModel.admissionTile } returns MutableLiveData(
+            AdmissionTileProvider.AdmissionTile(
+                visible = false,
+                title = "",
+                subtitle = ""
+            )
+        )
+        every { viewModel.uiState } returns MutableLiveData(UiState.Done(threeCertificates()))
         takeSelfie("third_certificate")
     }
 
@@ -386,13 +400,6 @@ class PersonOverviewFragmentTest : BaseUITest() {
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Geimpf"
-                                else -> "2G Certificate"
-                            }
-                        ),
-                        OverviewCertificate(
-                            mockVaccinationCertificate("Andrea Schneider"),
-                            buttonText = when (Locale.getDefault()) {
                                 Locale.GERMANY, Locale.GERMAN -> "2G-Zertifikat"
                                 else -> "2G Certificate"
                             }
@@ -402,6 +409,42 @@ class PersonOverviewFragmentTest : BaseUITest() {
                             buttonText = when (Locale.getDefault()) {
                                 Locale.GERMANY, Locale.GERMAN -> "Testzertifikat"
                                 else -> "Test Certificate"
+                            }
+                        )
+                    ),
+                    admissionBadgeText = "2G+",
+                    colorShade = PersonColorShade.COLOR_1,
+                    badgeCount = 0,
+                    onClickAction = { _, _ -> },
+                    onCovPassInfoAction = {}
+                )
+            )
+        }
+
+    private fun threeCertificates() = mutableListOf<PersonCertificatesItem>()
+        .apply {
+            add(
+                PersonCertificateCard.Item(
+                    overviewCertificates = listOf(
+                        OverviewCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Geimpf"
+                                else -> "2G Certificate"
+                            }
+                        ),
+                        OverviewCertificate(
+                            mockTestCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Getestet"
+                                else -> "Test Certificate"
+                            }
+                        ),
+                        OverviewCertificate(
+                            mockVaccinationCertificate("Andrea Schneider"),
+                            buttonText = when (Locale.getDefault()) {
+                                Locale.GERMANY, Locale.GERMAN -> "Genesen"
+                                else -> "Recovery Certificate"
                             }
                         )
                     ),
