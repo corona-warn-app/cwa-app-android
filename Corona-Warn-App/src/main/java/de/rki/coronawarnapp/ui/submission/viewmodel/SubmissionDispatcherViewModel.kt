@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
 import de.rki.coronawarnapp.util.viewmodel.SimpleCWAViewModelFactory
+import kotlinx.coroutines.flow.first
 
 class SubmissionDispatcherViewModel @AssistedInject constructor(
     private val ratProfileSettings: RATProfileSettingsDataStore,
@@ -31,8 +32,12 @@ class SubmissionDispatcherViewModel @AssistedInject constructor(
         routeToScreen.postValue(SubmissionNavigationEvents.NavigateToQRCodeScan)
     }
 
-    fun onRatProfilePressed() {
-        routeToScreen.postValue(SubmissionNavigationEvents.NavigateToOpenProfile)
+    fun onProfilePressed() = launch {
+        routeToScreen.postValue(
+            SubmissionNavigationEvents.NavigateToProfileList(
+                ratProfileSettings.onboardedFlow.first()
+            )
+        )
     }
 
     fun onTestCenterPressed() {
