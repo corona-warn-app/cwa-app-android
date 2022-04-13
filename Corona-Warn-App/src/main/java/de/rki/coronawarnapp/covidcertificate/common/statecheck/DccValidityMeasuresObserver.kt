@@ -10,7 +10,6 @@ import de.rki.coronawarnapp.util.flow.combine
 import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,7 +32,7 @@ class DccValidityMeasuresObserver @Inject constructor(
             blockedQrCodeHashes = blockedQrCodeHashes,
             revocationList = revocationList
         )
-    }.distinctUntilChanged().shareLatest(scope = appScope)
+    }.shareLatest(scope = appScope)
 
     suspend fun dccValidityMeasures() = dccValidityMeasures.first()
 }
