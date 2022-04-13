@@ -26,18 +26,13 @@ class PersonCertificateCard(parent: ViewGroup) :
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
 
         val firstCertificate = curItem.overviewCertificates[0]
-        val secondCertificate = curItem.overviewCertificates.getOrNull(1)
-        val thirdCertificate = curItem.overviewCertificates.getOrNull(2)
 
         setUIState(
-            primaryCertificate = firstCertificate.cwaCertificate,
-            primaryCertificateButtonText = firstCertificate.buttonText,
-            secondaryCertificate = secondCertificate?.cwaCertificate,
-            secondaryCertificateButtonText = secondCertificate?.buttonText,
+            certificateItems = curItem.overviewCertificates.take(3),
             colorShade = curItem.colorShade,
             statusBadgeText = curItem.admissionBadgeText,
             badgeCount = curItem.badgeCount,
-            onCovPassInfoAction = curItem.onCovPassInfoAction
+            onCovPassInfoAction = curItem.onCovPassInfoAction,
         )
 
         itemView.apply {

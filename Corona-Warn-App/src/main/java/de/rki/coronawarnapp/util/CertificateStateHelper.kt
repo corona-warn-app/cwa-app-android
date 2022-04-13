@@ -2,16 +2,19 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import android.graphics.Typeface
+import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import coil.loadAny
+import com.google.android.material.button.MaterialButton
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.ui.day.tabs.common.setOnCheckedChangeListener
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.getValidQrCode
 import de.rki.coronawarnapp.covidcertificate.person.ui.overview.PersonColorShade
+import de.rki.coronawarnapp.covidcertificate.person.ui.overview.items.PersonCertificateCard
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.databinding.IncludeCertificateOverviewQrCardBinding
 import de.rki.coronawarnapp.databinding.IncludeCertificateQrcodeCardBinding
@@ -95,17 +98,31 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
 
 @Suppress("LongParameterList", "ComplexMethod")
 fun PersonOverviewItemBinding.setUIState(
-    primaryCertificate: CwaCovidCertificate,
-    secondaryCertificate: CwaCovidCertificate? = null,
-    primaryCertificateButtonText: String = "",
-    secondaryCertificateButtonText: String?,
+    certificateItems: List<PersonCertificateCard.Item.OverviewCertificate>,
     colorShade: PersonColorShade,
     statusBadgeText: String = "",
     badgeCount: Int = 0,
     onCovPassInfoAction: () -> Unit
 ) {
+    val firstCertificate = certificateItems.first()
+    val secondCertificate = certificateItems.getOrNull(1)
+    val thirdCertificate = certificateItems.getOrNull(2)
+
+    fun setButton(
+        button: MaterialButton,
+        certificate: PersonCertificateCard.Item.OverviewCertificate?,
+        typeface: Typeface = Typeface.DEFAULT,
+    ) {
+        if (certificate?.buttonText == null) {
+            button.isGone = true
+        } else {
+            button.typeface = typeface
+            button.text = certificate.buttonText
+        }
+    }
+
     val context = root.context
-    val valid = primaryCertificate.isDisplayValid
+    val valid = firstCertificate.cwaCertificate.isDisplayValid
     val color = when {
         valid -> colorShade
         else -> PersonColorShade.COLOR_INVALID
@@ -113,12 +130,12 @@ fun PersonOverviewItemBinding.setUIState(
 
     backgroundImage.setImageResource(color.background)
     starsImage.setImageDrawable(starsDrawable(context, color))
-    name.text = primaryCertificate.fullName
+    name.text = firstCertificate.cwaCertificate.fullName
     certificateBadgeCount.isVisible = badgeCount != 0
     certificateBadgeCount.text = badgeCount.toString()
     certificateBadgeText.isVisible = badgeCount != 0
     qrCodeCard.apply {
-        loadQrImage(primaryCertificate)
+        loadQrImage(firstCertificate.cwaCertificate)
         statusText.isVisible = statusBadgeText.isNotEmpty()
         statusBadge.isVisible = statusBadgeText.isNotEmpty()
         if (statusBadgeText.isNotEmpty()) {
@@ -129,19 +146,24 @@ fun PersonOverviewItemBinding.setUIState(
         covpassInfoButton.setOnClickListener { onCovPassInfoAction() }
         invalidOverlay.isGone = valid
         image.isEnabled = valid
-        certificateToggleGroup.isVisible = secondaryCertificate != null
-        if (primaryCertificateButtonText.isNotEmpty()) firstCertificateButton.text = primaryCertificateButtonText
-        if (secondaryCertificateButtonText != null && secondaryCertificateButtonText.isNotEmpty()) {
-            secondCertificateButton.text = secondaryCertificateButtonText
-        }
-        firstCertificateButton.typeface = Typeface.DEFAULT_BOLD
-        secondCertificateButton.typeface = Typeface.DEFAULT
+        certificateToggleGroup.isVisible = secondCertificate != null || thirdCertificate != null
+
+        setButton(firstCertificateButton, firstCertificate, Typeface.DEFAULT_BOLD)
+        setButton(secondCertificateButton, secondCertificate)
+        setButton(thirdCertificateButton, thirdCertificate)
+
         certificateToggleGroup.setOnCheckedChangeListener { checkedId ->
-            changeQrCodeOnButtonPress(checkedId, primaryCertificate, secondaryCertificate)
+            changeQrCodeOnButtonPress(
+                checkedId,
+                firstCertificate.cwaCertificate,
+                secondCertificate?.cwaCertificate,
+                thirdCertificate?.cwaCertificate
+            )
         }
+        certificateToggleGroup.check(0)
     }
 
-    when (primaryCertificate.displayedState()) {
+    when (firstCertificate.cwaCertificate.displayedState()) {
         is CwaCovidCertificate.State.Expired -> updateExpirationViews(
             badgeCount,
             verticalBias = 1.0f,
@@ -161,19 +183,28 @@ fun PersonOverviewItemBinding.setUIState(
 
 private fun IncludeCertificateOverviewQrCardBinding.changeQrCodeOnButtonPress(
     checkedId: Int?,
-    primaryCertificate: CwaCovidCertificate,
-    secondaryCertificate: CwaCovidCertificate?
+    firstCertificate: CwaCovidCertificate,
+    secondCertificate: CwaCovidCertificate?,
+    thirdCertificate: CwaCovidCertificate?
 ) {
     when (checkedId) {
         R.id.first_certificate_button -> {
-            loadQrImage(primaryCertificate)
+            loadQrImage(firstCertificate)
             firstCertificateButton.typeface = Typeface.DEFAULT_BOLD
             secondCertificateButton.typeface = Typeface.DEFAULT
+            thirdCertificateButton.typeface = Typeface.DEFAULT
         }
         R.id.second_certificate_button -> {
-            loadQrImage(secondaryCertificate)
+            loadQrImage(secondCertificate)
             firstCertificateButton.typeface = Typeface.DEFAULT
             secondCertificateButton.typeface = Typeface.DEFAULT_BOLD
+            thirdCertificateButton.typeface = Typeface.DEFAULT
+        }
+        R.id.third_certificate_button -> {
+            loadQrImage(thirdCertificate)
+            firstCertificateButton.typeface = Typeface.DEFAULT
+            secondCertificateButton.typeface = Typeface.DEFAULT
+            thirdCertificateButton.typeface = Typeface.DEFAULT_BOLD
         }
     }
 }
