@@ -485,7 +485,6 @@ workflows:
       - ktlint_check
       - quick_build_device_release_no_tests
       - unit_tests_device_release
-      - firebase_screenshots
       - run_sonar:
           requires:
             - unit_tests_device_release
