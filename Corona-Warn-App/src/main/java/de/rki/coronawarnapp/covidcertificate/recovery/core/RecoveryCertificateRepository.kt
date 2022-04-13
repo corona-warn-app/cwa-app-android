@@ -84,6 +84,8 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
+    val allCertificateSize = internalData.data.map { it.values.size }
+
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
         internalData.data,
         dccValidityMeasuresObserver.dccValidityMeasures

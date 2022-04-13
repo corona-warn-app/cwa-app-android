@@ -30,24 +30,20 @@ class CertificateProvider @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) {
 
+    val allCertificatesSize = combine(
+        vcRepo.allCertificateSize,
+        rcRepo.allCertificateSize,
+        tcRepo.allCertificateSize
+    ) { vs, rs, ts ->
+        vs + rs + ts
+    }.shareLatest(scope = appScope)
+
     val certificateContainer: Flow<CertificateContainer> = combine(
         rcRepo.certificates,
         tcRepo.certificates,
         vcRepo.certificates
     ) { recoveries, tests, vaccinations ->
         CertificateContainer(recoveries, tests, vaccinations)
-    }.shareLatest(scope = appScope + dispatcherProvider.IO)
-
-    val recycledCertificateContainer: Flow<RecycledCertificateContainer> = combine(
-        rcRepo.recycledCertificates,
-        tcRepo.recycledCertificates,
-        vcRepo.recycledCertificates
-    ) { recoveries, tests, vaccinations ->
-        RecycledCertificateContainer(
-            recoveryCertificates = recoveries,
-            testCertificates = tests,
-            vaccinationCertificates = vaccinations
-        )
     }.shareLatest(scope = appScope + dispatcherProvider.IO)
 
     /**
@@ -79,16 +75,6 @@ class CertificateProvider @Inject constructor(
 
         val allCwaCertificates by lazy {
             recoveryCwaCertificates + testCwaCertificates + vaccinationCwaCertificates
-        }
-    }
-
-    data class RecycledCertificateContainer(
-        val recoveryCertificates: Set<RecoveryCertificate>,
-        val testCertificates: Set<TestCertificate>,
-        val vaccinationCertificates: Set<VaccinationCertificate>
-    ) {
-        val allCwaCertificates by lazy {
-            recoveryCertificates + testCertificates + vaccinationCertificates
         }
     }
 }

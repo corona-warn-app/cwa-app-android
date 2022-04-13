@@ -96,6 +96,10 @@ class TestCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
+    val allCertificateSize = internalData.data.map {
+        it.values.count { c -> !c.isCertificateRetrievalPending }
+    }
+
     val certificates: Flow<Set<TestCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
