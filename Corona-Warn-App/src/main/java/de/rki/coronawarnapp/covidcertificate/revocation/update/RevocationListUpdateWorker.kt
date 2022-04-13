@@ -9,18 +9,19 @@ import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.util.worker.InjectedWorkerFactory
 import timber.log.Timber
 
-class RevocationUpdateWorker @AssistedInject constructor(
+class RevocationListUpdateWorker @AssistedInject constructor(
     @Assisted val context: Context,
     @Assisted val workerParams: WorkerParameters,
-    private val revocationUpdater: RevocationUpdater
+    private val revocationListUpdater: RevocationListUpdater
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        // satisfy CI ¯\_(ツ)_/¯
-        Timber.e("Not yet implemented")
-        return Result.failure()
+        Timber.d("RevocationListUpdateWorker - Started")
+        revocationListUpdater.updateRevocationList(false)
+        Timber.d("RevocationListUpdateWorker - Finished")
+        return Result.success()
     }
 
     @AssistedFactory
-    interface Factory : InjectedWorkerFactory<RevocationUpdateWorker>
+    interface Factory : InjectedWorkerFactory<RevocationListUpdateWorker>
 }
