@@ -36,9 +36,13 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
         val profileData = profileData.value
         Timber.d("Profile=%s", profileData)
         if (profileData?.isValid == true) {
-            profileRepository.upsertProfile(profileData.copy(id = profileId))
-            Timber.d("Profile created")
-            events.value = CreateRATProfileNavigation.ProfileScreen
+            launch {
+                val id = profileRepository.upsertProfile(
+                    profileData.copy(id = profileId)
+                )
+                Timber.d("Profile created")
+                events.value = CreateRATProfileNavigation.ProfileScreen(id)
+            }
         }
     }
 

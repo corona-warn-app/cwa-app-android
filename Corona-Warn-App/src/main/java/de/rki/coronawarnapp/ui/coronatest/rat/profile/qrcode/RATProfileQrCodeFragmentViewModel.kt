@@ -37,7 +37,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     val events = SingleLiveEvent<ProfileQrCodeNavigation>()
 
-    fun deleteProfile() {
+    fun deleteProfile() = launch {
         Timber.d("deleteProfile")
         profileRepository.deleteProfile(profileId)
         events.postValue(ProfileQrCodeNavigation.Back)
@@ -51,8 +51,8 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     fun onNext() {
         Timber.d("onNext")
         val personName: String = personProfile.value?.profile?.let {
-            "${it.firstName} ${it.lastName}"
-        }?.trim() ?: ""
+            "${it.firstName} ${it.lastName}".trim()
+        } ?: ""
         events.postValue(
             ProfileQrCodeNavigation.OpenScanner(
                 personName

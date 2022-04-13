@@ -2,36 +2,33 @@ package de.rki.coronawarnapp.profile.storage
 
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.model.ProfileId
-import de.rki.coronawarnapp.util.coroutine.AppScope
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ProfileRepository @Inject constructor(
     private val dao: ProfileDao,
-    @AppScope private val scope: CoroutineScope,
 ) {
     val profilesFlow: Flow<Set<Profile>> = dao.getAll().mapLatest { list ->
         list.map { it.fromEntity() }.toSet()
     }
 
-    fun deleteProfile(id: ProfileId) = scope.launch {
+    suspend fun deleteProfile(id: ProfileId) {
         dao.delete(id)
     }
 
-    fun upsertProfile(profile: Profile) = scope.launch {
+    suspend fun upsertProfile(profile: Profile): ProfileId {
         val entity = profile.toEntity()
-        if (entity.id == 0)
-            dao.insert(entity)
-        else
+        return if (entity.id == 0)
+            dao.insert(entity).toInt()
+        else {
             dao.update(entity)
+        }
     }
 
-    fun clear() = scope.launch {
+    suspend fun clear() {
         dao.deleteAll()
     }
 }

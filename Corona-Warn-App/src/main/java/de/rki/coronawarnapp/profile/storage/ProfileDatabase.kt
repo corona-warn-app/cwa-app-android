@@ -117,7 +117,7 @@ data class ProfileEntity(
 @Dao
 interface ProfileDao {
     @Insert
-    suspend fun insert(entity: ProfileEntity)
+    suspend fun insert(entity: ProfileEntity): Long
 
     @Transaction
     @Query("DELETE FROM $PROFILE_TABLE_NAME WHERE id = :id")
@@ -128,7 +128,7 @@ interface ProfileDao {
     suspend fun deleteAll()
 
     @Update
-    suspend fun update(entity: ProfileEntity)
+    suspend fun update(entity: ProfileEntity): Int
 
     @Transaction
     @Query("SELECT * FROM $PROFILE_TABLE_NAME")
