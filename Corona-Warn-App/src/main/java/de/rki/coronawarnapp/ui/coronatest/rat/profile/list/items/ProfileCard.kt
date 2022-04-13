@@ -24,7 +24,7 @@ class ProfileCard(parent: ViewGroup) : ProfileListAdapter.ItemVH<ProfileCard.Ite
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val fullName = "${curItem.profile.firstName.trim()} ${curItem.profile.lastName.trim()}"
+        val fullName = "${curItem.profile.firstName.trim()} ${curItem.profile.lastName.trim()}".trim()
 
         name.isVisible = fullName.isNotBlank()
         name.text = fullName
