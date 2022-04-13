@@ -54,7 +54,7 @@
 
     <TextView
         android:id="@+id/profile_list_no_items_title"
-        style="@style/subtitle"
+        style="@style/subtitleMediumBold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_huge"
