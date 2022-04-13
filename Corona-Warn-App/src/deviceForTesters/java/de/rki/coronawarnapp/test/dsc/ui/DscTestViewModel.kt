@@ -26,7 +26,7 @@ class DscTestViewModel @AssistedInject constructor(
 
     private val searchTerm = MutableStateFlow("")
 
-    val dscData: LiveData<DscDataInfo> = searchTerm.combine(dscRepository.dscData) { searchTerm, dscList ->
+    val dscData: LiveData<DscDataInfo> = searchTerm.combine(dscRepository.dscSignatureList) { searchTerm, dscList ->
         DscDataInfo(
             lastUpdate = if (dscList.updatedAt == Instant.EPOCH)
                 "NEVER (using default_dsc_list)"

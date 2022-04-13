@@ -22,12 +22,15 @@ class RATProfileCreateFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: RATProfileCreateFragmentViewModel
 
+    private val args = RATProfileCreateFragmentArgs(id = 1).toBundle()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : RATProfileCreateFragmentViewModel.Factory {
-                override fun create(formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel = viewModel
+                override fun create(id: Int, formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel =
+                    viewModel
             }
         )
 
@@ -40,13 +43,17 @@ class RATProfileCreateFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<RATProfileCreateFragment>()
+        launchFragment2<RATProfileCreateFragment>(
+            fragmentArgs = args
+        )
     }
 
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchFragmentInContainer2<RATProfileCreateFragment>()
+        launchFragmentInContainer2<RATProfileCreateFragment>(
+            fragmentArgs = args
+        )
         takeScreenshot<RATProfileCreateFragment>()
     }
 

@@ -136,7 +136,7 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Профил за бързи тестове"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Спестете време като представите профила си в пункта за тестване."</string>
+    <string name="rat_profile_open_card_subtitle">"Профил за бързи тестове в Вашите лични данни, който може да използвате при ползване на всеки пункт за тестване чрез QR кода."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Профил за бързи тестове"</string>
     <!-- XTXT: Create RAT profile first name hint -->
@@ -167,9 +167,9 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жена със смартфон в ръката стои пред сграда. QR кодът символизира профила за бързи тестове, който трябва да се сканира."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Запазете личните си данни като QR код, за да ускорите регистрацията в пунктовете за тестване."</string>
+    <string name="rat_profile_onboarding_title">"Запазете личните си данни като QR код, който да използвате, за да ускорите регистрацията в пунктовете за тестване."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Ако си създадете профил за бързи тестове, няма да се налага да попълвате личните си данни наново при всеки антигенен тест."</string>
+    <string name="rat_profile_onboarding_subtitle">"Когато си създадете профил за бързи тестове, няма да се налага да попълвате личните си данни наново при всеки бърз тест. Може да създадете няколко профила за бързи тестове, напр. един за Вас и един за всеки от членове на семейството Ви."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Напред"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->

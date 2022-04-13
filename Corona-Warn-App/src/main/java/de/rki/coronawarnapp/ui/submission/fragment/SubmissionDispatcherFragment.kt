@@ -15,7 +15,6 @@ import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.ExternalActionHelper.openUrl
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
-import de.rki.coronawarnapp.util.ui.findNestedGraph
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
@@ -50,21 +49,12 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
                     )
                 is SubmissionNavigationEvents.NavigateToQRCodeScan -> openUniversalScanner()
 
-                is SubmissionNavigationEvents.NavigateToCreateProfile -> {
-                    val ratGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
+                is SubmissionNavigationEvents.NavigateToProfileList -> {
+                    val profileGraph = findNavController().graph.findNode(R.id.rapid_test_profile_nav_graph) as NavGraph
                     val startDestination =
-                        if (it.onboarded) R.id.ratProfileCreateFragment else R.id.ratProfileOnboardingFragment
-                    ratGraph.setStartDestination(startDestination)
+                        if (it.onboarded) R.id.profileListFragment else R.id.ratProfileOnboardingFragment
+                    profileGraph.startDestination = startDestination
 
-                    doNavigate(
-                        SubmissionDispatcherFragmentDirections
-                            .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
-                    )
-                }
-                is SubmissionNavigationEvents.NavigateToOpenProfile -> {
-                    findNestedGraph(R.id.rapid_test_profile_nav_graph).setStartDestination(
-                        R.id.ratProfileQrCodeFragment
-                    )
                     doNavigate(
                         SubmissionDispatcherFragmentDirections
                             .actionSubmissionDispatcherFragmentToRapidTestProfileNavGraph()
@@ -97,21 +87,23 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     }
 
     private fun setButtonOnClickListener() {
-        binding.toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
-        binding.submissionDispatcherQr.dispatcherCard.setOnClickListener {
-            viewModel.onQRCodePressed()
-        }
-        binding.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
-            viewModel.onTanPressed()
-        }
-        binding.submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
-            viewModel.onTeleTanPressed()
-        }
-        binding.submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
-            viewModel.onTestCenterPressed()
-        }
-        binding.ratProfileCard.dispatcherCard.setOnClickListener {
-            viewModel.onRatProfilePressed()
+        binding.apply {
+            toolbar.setNavigationOnClickListener { viewModel.onBackPressed() }
+            submissionDispatcherQr.dispatcherCard.setOnClickListener {
+                viewModel.onQRCodePressed()
+            }
+            submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
+                viewModel.onTanPressed()
+            }
+            submissionDispatcherTanTele.dispatcherCard.setOnClickListener {
+                viewModel.onTeleTanPressed()
+            }
+            submissionDispatcherTestCenter.dispatcherCard.setOnClickListener {
+                viewModel.onTestCenterPressed()
+            }
+            profileCard.dispatcherCard.setOnClickListener {
+                viewModel.onProfilePressed()
+            }
         }
     }
 }
