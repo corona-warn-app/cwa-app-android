@@ -8,10 +8,16 @@ import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -32,14 +38,21 @@ class RevocationListUpdater @Inject constructor(
     private val mutex = Mutex()
 
     init {
-        appScope.launch {
-            certificatesProvider.certificateContainer.map {
-
-            }.distinctUntilChanged()
-                .collectLatest {
-                    updateRevocationList()
-                }
-        }
+        combine(
+            certificatesProvider.certificateContainer,
+            certificatesProvider.recycledCertificateContainer
+        ) { certificateContainer, recycledCertificateContainer ->
+            certificateContainer.allCwaCertificates + recycledCertificateContainer.allCwaCertificates
+        }.drop(1) // App start emission
+            .distinctUntilChanged { old, new ->
+                // Compare all certificates size in App recycled or not, so only new added certificates would count
+                // moving to and from recycle bin is not a new registration
+                old.size < new.size
+            }.onEach {
+                updateRevocationList(true) // Force updating the list
+            }.catch {
+                Timber.tag(TAG).d("Updating revocation list failed on new certificate addition -> %s", it.message)
+            }.launchIn(appScope)
     }
 
     suspend fun updateRevocationList(forceUpdate: Boolean = false) = mutex.withLock {
