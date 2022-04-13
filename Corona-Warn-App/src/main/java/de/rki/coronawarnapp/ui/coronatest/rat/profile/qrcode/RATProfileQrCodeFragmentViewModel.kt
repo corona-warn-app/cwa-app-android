@@ -19,7 +19,7 @@ import timber.log.Timber
 class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
     private val profileRepository: ProfileRepository,
     private val vCard: VCard,
-    @Assisted private val id: Int?,
+    @Assisted private val id: Int,
     dispatcherProvider: DispatcherProvider,
 ) : CWAViewModel() {
 
@@ -61,7 +61,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RATProfileQrCodeFragmentViewModel> {
-        fun create(id: Int?): RATProfileQrCodeFragmentViewModel
+        fun create(id: Int): RATProfileQrCodeFragmentViewModel
     }
 }
 

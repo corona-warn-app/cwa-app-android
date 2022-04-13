@@ -27,7 +27,7 @@ class RATProfileQrCodeFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : RATProfileQrCodeFragmentViewModel.Factory {
-                override fun create(): RATProfileQrCodeFragmentViewModel = viewModel
+                override fun create(id: Int): RATProfileQrCodeFragmentViewModel = viewModel
             }
         )
 

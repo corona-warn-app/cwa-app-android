@@ -26,10 +26,10 @@ class ProfileCard(parent: ViewGroup) : ProfileListAdapter.ItemVH<ProfileCard.Ite
         val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
         val fullName = buildString {
             if (curItem.profile.firstName.isNotBlank()) {
-                append(curItem.profile.firstName)
+                append(curItem.profile.firstName.trim())
             }
             if (curItem.profile.lastName.isNotBlank()) {
-                append(" ${curItem.profile.lastName}")
+                append(" ${curItem.profile.lastName.trim()}")
             }
         }
 
