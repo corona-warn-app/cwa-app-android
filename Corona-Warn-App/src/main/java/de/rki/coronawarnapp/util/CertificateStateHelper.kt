@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.util
 
 import android.content.Context
 import android.graphics.Typeface
-import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isGone
