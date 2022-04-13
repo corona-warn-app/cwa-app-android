@@ -24,7 +24,7 @@ class ProfileListViewModel @AssistedInject constructor(
 
     val profiles: LiveData<List<ProfileListItem>> = profileRepository.profilesFlow
         .map { profiles ->
-            profiles.sortedBy { it.firstName }
+            profiles.sortedWith(compareBy({ it.firstName }, { it.lastName }))
         }
         .map { profiles ->
             profiles.map { profile ->
