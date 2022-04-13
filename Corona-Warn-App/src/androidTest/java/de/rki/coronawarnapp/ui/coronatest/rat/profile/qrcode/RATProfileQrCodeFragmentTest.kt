@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentArgs
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -21,6 +22,8 @@ import testhelpers.takeScreenshot
 class RATProfileQrCodeFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: RATProfileQrCodeFragmentViewModel
+
+    private val args = RATProfileCreateFragmentArgs(id = 1).toBundle()
 
     @Before
     fun setup() {
@@ -64,13 +67,17 @@ class RATProfileQrCodeFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<RATProfileQrCodeFragment>()
+        launchFragment2<RATProfileQrCodeFragment>(
+            fragmentArgs = args
+        )
     }
 
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchFragmentInContainer2<RATProfileQrCodeFragment>()
+        launchFragmentInContainer2<RATProfileQrCodeFragment>(
+            fragmentArgs = args
+        )
         takeScreenshot<RATProfileQrCodeFragment>()
     }
 
