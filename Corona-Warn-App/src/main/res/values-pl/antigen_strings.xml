@@ -136,7 +136,7 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Profil szybkiego testu"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Zaoszczędź czas i przedstaw swój profil szybkiego testu w punkcie testowania."</string>
+    <string name="rat_profile_open_card_subtitle">"Profil szybkiego testu z Twoimi danymi osobowymi, który możesz przesłać do dowolnego uczestniczącego punktu testowania za pomocą kodu QR."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Profil szybkiego testu"</string>
     <!-- XTXT: Create RAT profile first name hint -->
@@ -167,9 +167,9 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Przed budynkiem stoi kobieta ze smartfonem w dłoni. Kod QR symbolizuje profil szybkiego testu do zeskanowania."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Zapisz swoje dane osobowe w postaci kodu QR, aby przyspieszyć rejestrację w punktach testowania."</string>
+    <string name="rat_profile_onboarding_title">"Zapisz swoje dane osobowe w postaci kodu QR w celu przesłania do dowolnego uczestniczącego punktu testowania."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Dzięki utworzeniu profilu szybkiego testu, nie będziesz musiał(a) ponownie wypełniać swoich danych osobowych przed wykonaniem szybkiego testu."</string>
+    <string name="rat_profile_onboarding_subtitle">"Dzięki utworzeniu profilu szybkiego testu nie będziesz musiał(a) ponownie podawać swoich danych osobowych przed wykonaniem szybkiego testu.\nMożesz utworzyć kilka profili szybkiego testu, np. jeden dla siebie i po jednym dla członków rodziny."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Kontynuuj"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->
