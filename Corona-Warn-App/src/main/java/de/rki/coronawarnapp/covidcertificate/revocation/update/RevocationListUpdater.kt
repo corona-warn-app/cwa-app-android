@@ -9,7 +9,6 @@ import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -35,7 +34,6 @@ class RevocationListUpdater @Inject constructor(
         appScope.launch {
             certificatesProvider.allCertificatesSize
                 .drop(1) // App start emission
-                .distinctUntilChanged()
                 .collectLatest {
                     Timber.tag(TAG).d("Update revocation list on new registration")
                     updateRevocationList(true)
@@ -44,16 +42,21 @@ class RevocationListUpdater @Inject constructor(
     }
 
     suspend fun updateRevocationList(forceUpdate: Boolean = false) = mutex.withLock {
-        val updateRequired = isUpdateRequired()
-        Timber.tag(TAG).d("updateRevocationList(forceUpdate=$forceUpdate, updateRequired=$updateRequired)")
-        if (forceUpdate || updateRequired) {
-            Timber.tag(TAG).d("updateRevocationList is required")
-            revocationRepository.updateRevocationList(
-                certificatesProvider.certificateContainer.first().allCwaCertificates
-            )
-            revocationUpdateSettings.setUpdateTimeToNow()
-        } else {
-            Timber.tag(TAG).d("updateRevocationList isn't required")
+        try {
+            val timeUpdateRequired = isUpdateRequired()
+            Timber.tag(TAG).d("updateRevocationList(forceUpdate=$forceUpdate, timeUpdateRequired=$timeUpdateRequired)")
+            when {
+                forceUpdate || timeUpdateRequired -> {
+                    Timber.tag(TAG).d("updateRevocationList is required")
+                    revocationRepository.updateRevocationList(
+                        certificatesProvider.certificateContainer.first().allCwaCertificates
+                    )
+                    revocationUpdateSettings.setUpdateTimeToNow()
+                }
+                else -> Timber.tag(TAG).d("updateRevocationList isn't required")
+            }
+        } catch (e: Exception) {
+            Timber.tag(TAG).d("updateRevocationList failed ->%s", e.message)
         }
     }
 
