@@ -19,18 +19,16 @@ import timber.log.Timber
 
 class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     private val profileRepository: ProfileRepository,
+    @Assisted private val id: Int,
     @Assisted private val format: DateTimeFormatter = DateTimeFormat.mediumDate()
 ) : CWAViewModel() {
 
-    // TO DO get id as nav arg
-    private val id: String? = "1"
-
     // TO DO check logic
     private val profileData = MutableLiveData(Profile())
-    val profile: LiveData<Profile> = profileData
-    val events = SingleLiveEvent<CreateRATProfileNavigation>()
+    internal val profile: LiveData<Profile> = profileData
+    internal val events = SingleLiveEvent<CreateRATProfileNavigation>()
 
-    val savedProfile = profileRepository.profilesFlow
+    internal val savedProfile = profileRepository.profilesFlow
         .map { profiles ->
             profiles.find { it.id == id }
         }.asLiveData()
@@ -41,7 +39,7 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
         if (profileData?.isValid == true) {
             profileRepository.upsertProfile(profileData.copy(id = id))
             Timber.d("Profile created")
-            events.value = CreateRATProfileNavigation.ProfileScreen
+            events.value = CreateRATProfileNavigation.ProfileScreen(id)
         }
     }
 
@@ -110,6 +108,6 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RATProfileCreateFragmentViewModel> {
-        fun create(formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel
+        fun create(id: Int, formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel
     }
 }

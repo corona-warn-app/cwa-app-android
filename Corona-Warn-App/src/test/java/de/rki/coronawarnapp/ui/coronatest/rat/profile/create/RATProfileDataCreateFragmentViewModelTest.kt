@@ -4,11 +4,10 @@ import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import io.mockk.verify
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -31,7 +30,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { profileRepository.profilesFlow } returns flowOf(emptySet())
-        every { profileRepository.upsertProfile(any()) } just Runs
+        every { profileRepository.upsertProfile(any()) } returns Job()
     }
 
     @Test
@@ -49,7 +48,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @Test
     fun `Saved profile is displayed`() {
         val savedProfile = Profile(
-            id = "1",
+            id = 1,
             firstName = "First name",
             lastName = "Last name",
             birthDate = birthDate,
@@ -89,7 +88,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         viewModel().apply {
             firstNameChanged("First name")
             createProfile()
-            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen
+            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen(1)
         }
 
         verify {
@@ -220,5 +219,5 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel() = RATProfileCreateFragmentViewModel(profileRepository, formatter)
+    fun viewModel() = RATProfileCreateFragmentViewModel(profileRepository, 1, formatter)
 }

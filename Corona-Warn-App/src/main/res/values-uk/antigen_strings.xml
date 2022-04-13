@@ -136,7 +136,7 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Профіль експрес-тесту"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Заощаджуйте час і надавайте свій профіль експрес-тесту на місці тестування."</string>
+    <string name="rat_profile_open_card_subtitle">"Профіль експрес-тесту з вашими особистими даними, які ви можете надіслати до будь-якого пункту тестування, що приймає участь, за допомогою QR-коду."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Профіль експрес-тесту"</string>
     <!-- XTXT: Create RAT profile first name hint -->
@@ -167,9 +167,9 @@
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жінка зі смартфоном у руці стоїть перед будівлею. QR-код символізує профіль експрес-тесту, який потрібно сканувати."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
+    <string name="rat_profile_onboarding_title">"Збережіть свої особисті дані у вигляді QR-коду, щоб ви мали змогу надіслати до будь-якого пункту тестування, що приймає участь."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Коли ви створюєте профіль експрес-тесту, вам не доведеться знову заповнювати свої особисті дані перед кожним експрес-тестом."</string>
+    <string name="rat_profile_onboarding_subtitle">"Коли ви створюєте профіль експрес-тесту, вам не доведеться знову заповнювати свої особисті дані перед кожним експрес-тестом.\nВи можете створити декілька профілів експрес-тесту, наприклад, один для себе і по одному для кожного члена вашої родини."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Продовжити"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->
