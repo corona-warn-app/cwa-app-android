@@ -90,6 +90,8 @@ class VaccinationCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
+    val allCertificateSize = internalData.data.map { it.values.size }
+
     val certificates: Flow<Set<VaccinationCertificateWrapper>> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,

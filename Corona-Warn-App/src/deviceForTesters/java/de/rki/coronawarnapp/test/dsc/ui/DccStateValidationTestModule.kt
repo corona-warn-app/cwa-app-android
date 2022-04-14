@@ -8,9 +8,9 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class DscTestModule {
+abstract class DccStateValidationTestModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(DscTestViewModel::class)
-    abstract fun dscTest(factory: DscTestViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    @CWAViewModelKey(DccStateValidationTestViewModel::class)
+    abstract fun dscTest(factory: DccStateValidationTestViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
 }
