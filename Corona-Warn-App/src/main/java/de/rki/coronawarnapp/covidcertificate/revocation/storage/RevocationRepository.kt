@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.revocation.storage
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
+import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 
 @Singleton
 class RevocationRepository @Inject constructor(
-    @AppScope appScope: CoroutineScope
+    @AppScope appScope: CoroutineScope,
+    private val revocationServer: RevocationServer
 ) {
     // To Do: Implement
     val revocationList: Flow<List<CachedRevocationChunk>> = flowOf<List<CachedRevocationChunk>>(emptyList())
@@ -26,6 +28,11 @@ class RevocationRepository @Inject constructor(
     suspend fun updateRevocationList(certificates: Set<CwaCovidCertificate>) {
         Timber.tag(TAG).d("updateRevocationList(certificates=%s)", certificates.size)
         // Update
+    }
+
+    fun clear() {
+        Timber.tag(TAG).d("clear()")
+        revocationServer.clearCache()
     }
 }
 
