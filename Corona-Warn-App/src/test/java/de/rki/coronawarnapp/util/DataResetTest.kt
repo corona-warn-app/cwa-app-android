@@ -12,6 +12,7 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataSto
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -33,7 +34,6 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
-import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -93,7 +93,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
-    @MockK lateinit var profileRepository: ProfileRepository
+    @MockK lateinit var revocationRepository: RevocationRepository
 
     @BeforeEach
     fun setUp() {
@@ -142,7 +142,7 @@ internal class DataResetTest : BaseTest() {
         dccWalletInfoRepository = dccWalletInfoRepository,
         cclSettings = cclSettings,
         familyTestRepository = familyTestRepository,
-        profileRepository = profileRepository
+        revocationRepository = revocationRepository,
     )
 
     @Test
@@ -190,7 +190,7 @@ internal class DataResetTest : BaseTest() {
             cclConfigurationRepository.clear()
             dccWalletInfoRepository.clear()
             familyTestRepository.clear()
-            profileRepository.clear()
+            revocationRepository.clear()
         }
     }
 }
