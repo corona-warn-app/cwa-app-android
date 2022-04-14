@@ -46,12 +46,13 @@ class RevocationUpdateSettings @Inject constructor(
     /**
      * Stores the update time of the Dcc revocation list
      */
-    suspend fun setUpdateTimeToNow(time: Instant = Instant.now()) =
+    suspend fun setUpdateTimeToNow(time: Instant = Instant.now()) {
         runCatching {
             revocationDataStore.edit { prefs -> prefs[LAST_UPDATE_TIME_KEY] = time.seconds }
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "Failed to set RevocationList update time.")
         }
+    }
 
     suspend fun clear() {
         Timber.tag(TAG).d("Clearing Revocation Settings data store.")
