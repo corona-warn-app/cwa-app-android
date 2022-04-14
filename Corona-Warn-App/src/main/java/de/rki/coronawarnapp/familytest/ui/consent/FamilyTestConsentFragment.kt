@@ -64,7 +64,6 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
         }
 
         binding.apply {
-            nameInputEdit.setText(qrcodeSharedViewModel.familyTestPersonName)
             nameInputEdit.doAfterTextChanged {
                 viewModel.nameChanged(it.toString())
             }
@@ -79,6 +78,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                     else -> true
                 }
             }
+            nameInputEdit.setText(qrcodeSharedViewModel.familyTestPersonName)
             toolbar.setNavigationOnClickListener {
                 viewModel.onNavigateBack()
             }

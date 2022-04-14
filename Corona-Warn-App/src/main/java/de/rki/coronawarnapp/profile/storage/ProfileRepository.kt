@@ -25,6 +25,7 @@ class ProfileRepository @Inject constructor(
             dao.insert(entity).toInt()
         else {
             dao.update(entity)
+            entity.id
         }
     }
 

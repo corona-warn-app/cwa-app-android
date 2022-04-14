@@ -51,7 +51,7 @@
             android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileCreateFragment"
             app:destination="@id/ratProfileCreateFragment" />
         <argument
-            android:name="id"
+            android:name="profileId"
             app:argType="integer" />
     </fragment>
 

@@ -124,7 +124,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                     CreateRATProfileNavigation.Back -> popBackStack()
                     is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.id)
+                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.profileId)
                     )
                 }
             }

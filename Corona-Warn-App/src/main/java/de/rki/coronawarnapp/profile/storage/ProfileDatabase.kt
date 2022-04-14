@@ -128,7 +128,7 @@ interface ProfileDao {
     suspend fun deleteAll()
 
     @Update
-    suspend fun update(entity: ProfileEntity): Int
+    suspend fun update(entity: ProfileEntity)
 
     @Transaction
     @Query("SELECT * FROM $PROFILE_TABLE_NAME")

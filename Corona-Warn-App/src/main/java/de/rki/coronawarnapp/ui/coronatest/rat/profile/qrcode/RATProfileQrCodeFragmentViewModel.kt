@@ -66,7 +66,7 @@ class RATProfileQrCodeFragmentViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<RATProfileQrCodeFragmentViewModel> {
-        fun create(id: Int): RATProfileQrCodeFragmentViewModel
+        fun create(profileId: ProfileId): RATProfileQrCodeFragmentViewModel
     }
 }
 

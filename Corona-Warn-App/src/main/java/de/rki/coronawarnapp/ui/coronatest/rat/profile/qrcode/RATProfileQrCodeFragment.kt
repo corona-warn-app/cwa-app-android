@@ -42,7 +42,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RATProfileQrCodeFragmentViewModel.Factory
-            factory.create(navArgs.id)
+            factory.create(navArgs.profileId)
         }
     )
 
@@ -62,7 +62,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 when (it.itemId) {
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(navArgs.id)
+                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(navArgs.profileId)
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()
                 }
