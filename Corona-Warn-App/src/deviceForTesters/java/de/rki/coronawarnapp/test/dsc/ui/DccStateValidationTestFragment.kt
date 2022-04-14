@@ -8,7 +8,7 @@ import androidx.core.text.buildSpannedString
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.databinding.FragmentTestDscBinding
+import de.rki.coronawarnapp.databinding.FragmentTestStateValidationDccBinding
 import de.rki.coronawarnapp.test.menu.ui.TestMenuItem
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.observe2
@@ -17,12 +17,12 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import javax.inject.Inject
 
-class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
+class DccStateValidationTestFragment : Fragment(R.layout.fragment_test_state_validation_dcc), AutoInject {
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: DscTestViewModel by cwaViewModels { viewModelFactory }
-    private val binding: FragmentTestDscBinding by viewBinding()
+    private val viewModel: DccStateValidationTestViewModel by cwaViewModels { viewModelFactory }
+    private val binding: FragmentTestStateValidationDccBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +43,10 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
 
             checkValidityNotifications.setOnClickListener { viewModel.checkValidityNotifications() }
 
-            viewModel.dscData.observe2(this@DscTestFragment) {
+            refreshRevocationList.setOnClickListener { viewModel.refreshRevocationList() }
+            clearRevocationList.setOnClickListener { viewModel.clearRevocationList() }
+
+            viewModel.dscData.observe2(this@DccStateValidationTestFragment) {
                 infoText.text = buildSpannedString {
                     bold { append("Last update: ") }
                     appendLine(it.lastUpdate)
@@ -57,7 +60,7 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
                 }
             }
 
-            viewModel.errorEvent.observe2(this@DscTestFragment) {
+            viewModel.errorEvent.observe2(this@DccStateValidationTestFragment) {
                 Toast.makeText(requireContext(), "Can't refresh List of DSCs", Toast.LENGTH_SHORT).show()
             }
         }
@@ -65,8 +68,8 @@ class DscTestFragment : Fragment(R.layout.fragment_test_dsc), AutoInject {
 
     companion object {
         val MENU_ITEM = TestMenuItem(
-            title = "DCC Signature Verification",
-            description = "Clear or refresh list of DSCs",
+            title = "DCC State Validation",
+            description = "Clear or refresh Dcc Signature & Revocation lists",
             targetId = R.id.dscFragment
         )
     }

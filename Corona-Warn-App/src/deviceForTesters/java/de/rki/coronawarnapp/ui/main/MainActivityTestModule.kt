@@ -18,8 +18,8 @@ import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragmentModule
-import de.rki.coronawarnapp.test.dsc.ui.DscTestFragment
-import de.rki.coronawarnapp.test.dsc.ui.DscTestModule
+import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment
+import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestModule
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -87,8 +87,8 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [HomeTestCardsFragmentModule::class])
     abstract fun homeTestCards(): HomeTestCardsFragment
 
-    @ContributesAndroidInjector(modules = [DscTestModule::class])
-    abstract fun dscTest(): DscTestFragment
+    @ContributesAndroidInjector(modules = [DccStateValidationTestModule::class])
+    abstract fun dscTest(): DccStateValidationTestFragment
 
     @ContributesAndroidInjector(modules = [DccTicketingTestModule::class])
     abstract fun dccTicketingTestFragment(): DccTicketingTestFragment
