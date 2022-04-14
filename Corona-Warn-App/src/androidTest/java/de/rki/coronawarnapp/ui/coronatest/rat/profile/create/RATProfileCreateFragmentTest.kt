@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -29,7 +30,7 @@ class RATProfileCreateFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : RATProfileCreateFragmentViewModel.Factory {
-                override fun create(id: Int, formatter: DateTimeFormatter): RATProfileCreateFragmentViewModel =
+                override fun create(formatter: DateTimeFormatter, profileId: ProfileId?): RATProfileCreateFragmentViewModel =
                     viewModel
             }
         )
