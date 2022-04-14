@@ -220,5 +220,6 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel(profileId: ProfileId? = null) = RATProfileCreateFragmentViewModel(profileRepository, formatter, profileId )
+    fun viewModel(profileId: ProfileId? = null) =
+        RATProfileCreateFragmentViewModel(profileRepository, formatter, profileId)
 }
