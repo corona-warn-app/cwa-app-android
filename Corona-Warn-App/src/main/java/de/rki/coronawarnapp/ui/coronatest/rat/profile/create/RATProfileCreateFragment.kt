@@ -6,9 +6,11 @@ import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
@@ -31,13 +33,22 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
     private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
     private val binding: RatProfileCreateFragmentBinding by viewBinding()
+    private val navArgs by navArgs<RATProfileCreateFragmentArgs>()
     private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RATProfileCreateFragmentViewModel.Factory
-            factory.create(formatter)
+            factory.create(navArgs.id, formatter)
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val transform = MaterialContainerTransform()
+        sharedElementEnterTransition = transform
+        sharedElementReturnTransition = transform
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -108,9 +119,9 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
                     CreateRATProfileNavigation.Back -> popBackStack()
-                    CreateRATProfileNavigation.ProfileScreen -> doNavigate(
+                    is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment()
+                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.id)
                     )
                 }
             }

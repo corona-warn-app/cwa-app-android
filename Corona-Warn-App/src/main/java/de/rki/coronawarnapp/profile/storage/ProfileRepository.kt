@@ -24,7 +24,7 @@ class ProfileRepository @Inject constructor(
 
     fun upsertProfile(profile: Profile) = scope.launch {
         val entity = profile.toEntity()
-        if (profile.id == null)
+        if (profile.id == null || profile.id == 0)
             dao.insert(entity)
         else
             dao.update(entity)
