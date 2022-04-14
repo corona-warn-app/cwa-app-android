@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
+import de.rki.coronawarnapp.ccl.configuration.update.CclSettings
 import de.rki.coronawarnapp.covidcertificate.revocation.RevocationDataStore
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
@@ -51,6 +52,15 @@ class RevocationUpdateSettings @Inject constructor(
         }.onFailure { e ->
             Timber.tag(TAG).e(e, "Failed to set RevocationList update time.")
         }
+
+    suspend fun clear() {
+        Timber.tag(TAG).d("Clearing Revocation Settings data store.")
+        runCatching {
+            revocationDataStore.edit { prefs -> prefs.clear() }
+        }.onFailure { e ->
+            Timber.tag(TAG).e(e, "Failed to clear Revocation settings.")
+        }
+    }
 
     companion object {
         private val TAG = tag<RevocationUpdateSettings>()
