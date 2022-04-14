@@ -30,6 +30,9 @@ class CertificateProvider @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) {
 
+    /**
+     * All certificates in the App size recycled or not
+     */
     val allCertificatesSize = combine(
         vcRepo.allCertificateSize,
         rcRepo.allCertificateSize,
