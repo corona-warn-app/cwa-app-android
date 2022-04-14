@@ -115,11 +115,11 @@ class DccValidityStateNotificationServiceTest : BaseTest() {
     }
 
     fun createInstance() = DccValidityStateNotificationService(
-        dccValidityStateNotification = dccValidityStateNotification,
-        vaccinationCertificateRepository = vaccinationCertificateRepository,
-        recoveryRepository = recoveryRepository,
+        stateNotification = dccValidityStateNotification,
+        vcRepo = vaccinationCertificateRepository,
+        rcRepo = recoveryRepository,
         covidCertificateSettings = covidCertificateSettings,
-        testCertificateRepository = testCertificateRepository,
+        tcRepo = testCertificateRepository,
         timeStamper = timeStamper,
     )
 

@@ -70,14 +70,7 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
             statusBody.text = context.getText(R.string.invalid_certificate_signature_info)
         }
 
-        is Blocked -> {
-            statusIcon.constraintLayoutParams.verticalBias = 0f
-            statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
-            statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
-            statusBody.text = context.getText(messageForScreenedCert(certificate))
-        }
-
-        is Revoked -> {
+        Blocked, Revoked -> {
             statusIcon.constraintLayoutParams.verticalBias = 0f
             statusIcon.setImageDrawable(context.getDrawableCompat(R.drawable.ic_error_outline))
             statusTitle.text = context.getText(R.string.error_dcc_in_blocklist_title)
@@ -159,12 +152,8 @@ fun PersonOverviewItemBinding.setUIState(
             badgeCount,
             expirationText = R.string.certificate_qr_invalid_signature
         )
-        is Blocked -> updateExpirationViews(
-            badgeCount,
-            expirationText = R.string.error_dcc_in_blocklist_title
-        )
 
-        is Revoked -> updateExpirationViews(
+        Blocked, Revoked -> updateExpirationViews(
             badgeCount,
             expirationText = R.string.error_dcc_in_blocklist_title
         )
@@ -247,12 +236,7 @@ fun TextView.displayExpirationState(certificate: CwaCovidCertificate) {
                 text = context.getText(R.string.test_certificate_qr_new)
             }
         }
-        Blocked -> {
-            isVisible = true
-            text = context.getText(R.string.error_dcc_in_blocklist_title)
-        }
-
-        Revoked -> {
+        Blocked, Revoked -> {
             isVisible = true
             text = context.getText(R.string.error_dcc_in_blocklist_title)
         }
