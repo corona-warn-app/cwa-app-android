@@ -164,9 +164,9 @@
         android:name="de.rki.coronawarnapp.test.qrcode.ui.QrCodeTestFragment"
         android:label="QrCodeTestFragment" />
     <fragment
-        android:id="@+id/dscFragment"
+        android:id="@+id/dccStateValidationTestFragment"
         android:name="de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment"
-        android:label="DscFragment"
+        android:label="DccStateValidationTestFragment"
         tools:layout="@layout/fragment_test_state_validation_dcc" />
 
     <fragment

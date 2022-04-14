@@ -70,7 +70,7 @@ class DccStateValidationTestFragment : Fragment(R.layout.fragment_test_state_val
         val MENU_ITEM = TestMenuItem(
             title = "DCC State Validation",
             description = "Clear or refresh Dcc Signature & Revocation lists",
-            targetId = R.id.dscFragment
+            targetId = R.id.dccStateValidationTestFragment
         )
     }
 }
