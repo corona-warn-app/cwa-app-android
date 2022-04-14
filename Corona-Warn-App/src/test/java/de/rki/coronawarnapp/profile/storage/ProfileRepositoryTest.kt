@@ -20,7 +20,7 @@ class ProfileRepositoryTest {
     fun setUp() {
         MockKAnnotations.init(this)
         coEvery { dao.getAll() } returns flowOf(emptyList())
-        coEvery { dao.update(any()) } returns 1
+        coEvery { dao.update(any()) } just Runs
         coEvery { dao.insert(any()) } returns 1
         coEvery { dao.deleteAll() } just Runs
         coEvery { dao.delete(any()) } just Runs
