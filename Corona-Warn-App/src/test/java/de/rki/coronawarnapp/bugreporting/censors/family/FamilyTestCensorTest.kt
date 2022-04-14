@@ -27,9 +27,9 @@ internal class FamilyTestCensorTest {
         registrationToken = "ac7f72a0-0135-41c5-ad14-6a4299865aca",
         testResult = CoronaTestResult.PCR_OR_RAT_PENDING,
         additionalInfo = CoronaTest.AdditionalInfo(
-            firstName= "Louisa",
-            lastName= "Davis",
-            dateOfBirth= LocalDate.parse("1999-12-02"),
+            firstName = "Louisa",
+            lastName = "Davis",
+            dateOfBirth = LocalDate.parse("1999-12-02"),
             createdAt = Instant.parse("2022-04-13T15:33:14.637Z")
         )
     )
