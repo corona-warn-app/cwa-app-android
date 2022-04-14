@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -60,7 +61,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         )
         every { profileRepository.profilesFlow } returns flowOf(setOf(savedProfile))
 
-        viewModel().apply {
+        viewModel(savedProfile.id).apply {
             // Fields updated
             firstNameChanged(savedProfile.firstName)
             lastNameChanged(savedProfile.lastName)
@@ -219,5 +220,5 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel() = RATProfileCreateFragmentViewModel(profileRepository, formatter, null)
+    fun viewModel(profileId: ProfileId? = null) = RATProfileCreateFragmentViewModel(profileRepository, formatter, profileId )
 }
