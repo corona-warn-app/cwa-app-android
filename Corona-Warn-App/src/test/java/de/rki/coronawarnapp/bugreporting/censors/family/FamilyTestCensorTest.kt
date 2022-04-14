@@ -85,6 +85,10 @@ internal class FamilyTestCensorTest {
         censored.contains("ac7f72a0-0135-41c5-ad14-6a4299865aca") shouldBe false
         // first name
         censored.contains("Louisa") shouldBe false
+        // last name
+        censored.contains("Davis") shouldBe false
+        // date of birth
+        censored.contains("1999-12-02") shouldBe false
     }
 
     @Test
