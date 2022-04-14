@@ -6,10 +6,9 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
-import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragment
 import de.rki.coronawarnapp.ui.submission.testresult.positive.SubmissionTestResultNoConsentFragmentArgs
@@ -18,7 +17,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import io.mockk.spyk
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.Instant
 import org.junit.After
@@ -27,35 +25,22 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
 
-    @MockK lateinit var testResultAvailableNotificationService: PCRTestResultAvailableNotificationService
-    @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var coronaTestProvider: CoronaTestProvider
-    private val noConsentGivenFragmentArgs =
-        SubmissionTestResultNoConsentFragmentArgs(testIdentifier = "").toBundle()
+    private val noConsentGivenFragmentArgs = SubmissionTestResultNoConsentFragmentArgs(testIdentifier = "").toBundle()
 
-    private lateinit var viewModel: SubmissionTestResultNoConsentViewModel
+    @MockK lateinit var viewModel: SubmissionTestResultNoConsentViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         every { coronaTestProvider.getTestForIdentifier(any()) } returns flowOf()
-        viewModel =
-            spyk(
-                SubmissionTestResultNoConsentViewModel(
-                    TestDispatcherProvider(),
-                    testResultAvailableNotificationService,
-                    analyticsKeySubmissionCollector,
-                    coronaTestProvider = coronaTestProvider,
-                    testIdentifier = ""
-                )
-            )
+
         setupMockViewModel(
             object : SubmissionTestResultNoConsentViewModel.Factory {
                 override fun create(testIdentifier: TestIdentifier): SubmissionTestResultNoConsentViewModel = viewModel
@@ -77,6 +62,7 @@ class SubmissionTestResultNoConsentGivenFragmentTest : BaseUITest() {
                     every { testResult } returns CoronaTestResult.PCR_POSITIVE
                     every { registeredAt } returns Instant.now()
                     every { identifier } returns ""
+                    every { type } returns BaseCoronaTest.Type.PCR
                 }
             )
         )
