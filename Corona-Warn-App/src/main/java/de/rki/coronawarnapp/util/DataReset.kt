@@ -14,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationUpdateSettings
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -62,8 +63,8 @@ class DataReset @Inject constructor(
     private val downloadDiagnosisKeysSettings: DownloadDiagnosisKeysSettings,
     private val riskLevelStorage: RiskLevelStorage,
     private val contactDiaryRepository: ContactDiaryRepository,
-    private var contactDiaryPreferences: ContactDiaryPreferences,
-    private var traceLocationPreferences: TraceLocationPreferences,
+    private val contactDiaryPreferences: ContactDiaryPreferences,
+    private val traceLocationPreferences: TraceLocationPreferences,
     private val cwaSettings: CWASettings,
     private val statisticsProvider: StatisticsProvider,
     private val localStatisticsProvider: LocalStatisticsProvider,
@@ -96,7 +97,8 @@ class DataReset @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
     private val familyTestRepository: FamilyTestRepository,
-    private val revocationRepository: RevocationRepository
+    private val revocationRepository: RevocationRepository,
+    private val revocationUpdateSettings: RevocationUpdateSettings,
 ) {
 
     private val mutex = Mutex()
@@ -168,6 +170,8 @@ class DataReset @Inject constructor(
         familyTestRepository.clear()
 
         revocationRepository.clear()
+
+        revocationUpdateSettings.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
