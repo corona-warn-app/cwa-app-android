@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
@@ -43,6 +44,14 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             )
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val transform = MaterialContainerTransform()
+        sharedElementEnterTransition = transform
+        sharedElementReturnTransition = transform
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -115,9 +124,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                     CreateRATProfileNavigation.Back -> popBackStack()
                     is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(
-                               // to do it.profileId
-                            )
+                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.id)
                     )
                 }
             }
