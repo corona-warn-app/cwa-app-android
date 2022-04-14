@@ -10,8 +10,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -27,6 +29,7 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
 
     private val request = CoronaTestQRCode.PCR(qrCodeGUID = "qrCodeGUID", rawQrCode = "rawQrCode")
     private lateinit var viewModel: FamilyTestConsentViewModel
+    @MockK lateinit var familyTestCensor: FamilyTestCensor
 
     private val fragmentArgs = FamilyTestConsentFragmentArgs(
         coronaTestQrCode = request
@@ -37,7 +40,8 @@ class FamilyTestConsentFragmentTest : BaseUITest() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel = FamilyTestConsentViewModel(
             TestDispatcherProvider(),
-            request
+            request,
+            familyTestCensor
         )
         setupMockViewModel(
             object : FamilyTestConsentViewModel.Factory {
