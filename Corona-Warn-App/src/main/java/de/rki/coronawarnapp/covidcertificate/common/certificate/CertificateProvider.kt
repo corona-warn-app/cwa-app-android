@@ -2,6 +2,9 @@ package de.rki.coronawarnapp.covidcertificate.common.certificate
 
 import dagger.Reusable
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.TestCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateWrapper
@@ -11,6 +14,7 @@ import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateWrapper
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateWrapper
+import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.shareLatest
@@ -19,13 +23,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.plus
+import timber.log.Timber
 import javax.inject.Inject
 
 @Reusable
 class CertificateProvider @Inject constructor(
-    vcRepo: VaccinationCertificateRepository,
-    tcRepo: TestCertificateRepository,
-    rcRepo: RecoveryCertificateRepository,
+    private val vcRepo: VaccinationCertificateRepository,
+    private val tcRepo: TestCertificateRepository,
+    private val rcRepo: RecoveryCertificateRepository,
     @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider
 ) {
@@ -44,6 +49,15 @@ class CertificateProvider @Inject constructor(
     suspend fun findCertificate(containerId: CertificateContainerId): CwaCovidCertificate {
         val certificates = certificateContainer.first().allCwaCertificates
         return certificates.find { it.containerId == containerId }!! // Must be a certificate
+    }
+
+    suspend fun recycleCertificate(containerId: CertificateContainerId) {
+        Timber.tag(TAG).d("recycleCertificate(containerId=%s)", containerId)
+        when (containerId) {
+            is RecoveryCertificateContainerId -> rcRepo.recycleCertificate(containerId)
+            is TestCertificateContainerId -> tcRepo.recycleCertificate(containerId)
+            is VaccinationCertificateContainerId -> vcRepo.recycleCertificate(containerId)
+        }
     }
 
     data class CertificateContainer(
@@ -67,5 +81,9 @@ class CertificateProvider @Inject constructor(
         val allCwaCertificates by lazy {
             recoveryCwaCertificates + testCwaCertificates + vaccinationCwaCertificates
         }
+    }
+
+    companion object {
+        private val TAG = tag<CertificateProvider>()
     }
 }

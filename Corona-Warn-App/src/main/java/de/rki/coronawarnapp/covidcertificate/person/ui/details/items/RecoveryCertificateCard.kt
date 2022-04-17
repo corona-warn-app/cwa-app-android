@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
@@ -10,13 +11,21 @@ import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.databinding.RecoveryCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.displayExpirationState
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class RecoveryCertificateCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<RecoveryCertificateCard.Item, RecoveryCertificateCardBinding>(
         layoutRes = R.layout.recovery_certificate_card,
         parent = parent
-    ) {
+    ),
+    Swipeable {
+
+    private var latestItem: Item? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeItem(it.certificate, holder.bindingAdapterPosition) }
+    }
 
     override val viewBinding: Lazy<RecoveryCertificateCardBinding> = lazy {
         RecoveryCertificateCardBinding.bind(itemView)
@@ -26,9 +35,9 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         payloads: List<Any>
     ) -> Unit = { item, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = curItem.certificate
-        root.setOnClickListener { curItem.onClick() }
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
+        val certificate = latestItem!!.certificate
+        root.setOnClickListener { latestItem!!.onClick() }
 
         certificateDate.text = context.getString(
             R.string.recovery_certificate_sample_collection,
@@ -36,35 +45,35 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         )
 
         val bookmarkIcon =
-            if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
+            if (latestItem!!.certificate.isDisplayValid) latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+        currentCertificateGroup.isVisible = latestItem!!.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 
         val color = when {
-            curItem.certificate.isDisplayValid -> curItem.colorShade
+            latestItem!!.certificate.isDisplayValid -> latestItem!!.colorShade
             else -> PersonColorShade.COLOR_INVALID
         }
 
         when {
-            curItem.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
+            latestItem!!.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
             else -> R.drawable.ic_certificate_invalid
         }.also { certificateIcon.setImageResource(it) }
 
         when {
-            curItem.isCurrentCertificate -> color.currentCertificateBg
+            latestItem!!.isCurrentCertificate -> color.currentCertificateBg
             else -> color.defaultCertificateBg
         }.also { certificateBg.setImageResource(it) }
 
-        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
+        notificationBadge.isVisible = latestItem!!.certificate.hasNotificationBadge
 
-        certificateExpiration.displayExpirationState(curItem.certificate)
+        certificateExpiration.displayExpirationState(latestItem!!.certificate)
 
         startValidationCheckButton.apply {
             defaultButton.isEnabled = certificate.isNotBlocked
             isEnabled = certificate.isNotBlocked
-            isLoading = curItem.isLoading
+            isLoading = latestItem!!.isLoading
             defaultButton.setOnClickListener {
-                curItem.validateCertificate(certificate.containerId)
+                latestItem!!.validateCertificate(certificate.containerId)
             }
         }
     }
@@ -75,6 +84,7 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         val colorShade: PersonColorShade,
         val isLoading: Boolean = false,
         val onClick: () -> Unit,
+        val onSwipeItem: (RecoveryCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId: Long = certificate.containerId.hashCode().toLong()
