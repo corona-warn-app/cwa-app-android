@@ -218,13 +218,15 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
         },
-        onSwipeItem = { certificate, _ ->
-            events.postValue(RecycleCertificate(certificate))
+        onSwipeItem = { certificate, position ->
+            events.postValue(RecycleCertificate(certificate, position))
         }
     )
 
-    suspend fun recycleCertificate(certificate: CwaCovidCertificate) {
-        certificateProvider.recycleCertificate(certificate.containerId)
+    fun recycleCertificate(certificate: CwaCovidCertificate) {
+        viewModelScope.launch {
+            certificateProvider.recycleCertificate(certificate.containerId)
+        }
     }
 
     private fun vcItem(
@@ -245,8 +247,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
         },
-        onSwipeItem = { certificate, _ ->
-            events.postValue(RecycleCertificate(certificate))
+        onSwipeItem = { certificate, position ->
+            events.postValue(RecycleCertificate(certificate, position))
         }
     )
 
@@ -268,8 +270,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
                 )
             )
         },
-        onSwipeItem = { certificate, _ ->
-            events.postValue(RecycleCertificate(certificate))
+        onSwipeItem = { certificate, position ->
+            events.postValue(RecycleCertificate(certificate, position))
         }
     )
 
