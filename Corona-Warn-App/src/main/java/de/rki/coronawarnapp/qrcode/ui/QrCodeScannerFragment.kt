@@ -83,8 +83,6 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     ) {
         _binding = this
 
-        qrcodeSharedViewModel.familyTestPersonName = navArgs.familyTestPersonName
-
         scannerPreview.setupCamera(lifecycleOwner = viewLifecycleOwner, activity = requireActivity())
         qrCodeScanTorch.setOnCheckedChangeListener { _, isChecked -> scannerPreview.enableTorch(enable = isChecked) }
         qrCodeScanToolbar.setNavigationOnClickListener { popBackStack() }
@@ -231,10 +229,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.TestRegistrationSelection ->
+            is CoronaTestResult.TestRegistrationSelection -> {
+                qrcodeSharedViewModel.familyTestPersonName = navArgs.familyTestPersonName
                 QrCodeScannerFragmentDirections.actionUniversalScannerToTestRegistrationSelectionFragment(
                     scannerResult.coronaTestQrCode
                 )
+            }
 
             is CoronaTestResult.InRecycleBin -> {
                 showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
@@ -267,7 +267,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                         testIdentifier = scannerResult.test.identifier
                     )
         }
-            ?.let { doNavigate(it) }
+            ?.let {
+                doNavigate(it)
+            }
     }
 
     private fun onDccResult(scannerResult: DccResult) {
