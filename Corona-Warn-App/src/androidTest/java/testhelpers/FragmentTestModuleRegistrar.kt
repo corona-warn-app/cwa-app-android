@@ -28,6 +28,8 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestMo
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentTestModule
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragmentTest
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragmentTest.*
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
@@ -133,6 +135,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         RATProfileCreateFragmentTestModule::class,
         RATProfileOnboardingFragmentTestModule::class,
         RATProfileQrCodeFragmentTestModule::class,
+        ProfileListFragmentTestModule::class,
 
         QrCodeScannerFragmentTestModule::class,
 
