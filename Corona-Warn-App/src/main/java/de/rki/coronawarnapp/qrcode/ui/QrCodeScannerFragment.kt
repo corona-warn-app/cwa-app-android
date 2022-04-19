@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.transition.Fade
 import androidx.transition.Slide
@@ -53,6 +54,7 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
     private var showsPermissionDialog = false
     private var _binding: FragmentQrcodeScannerBinding? = null
     private val binding get() = _binding!!
+    private val navArgs by navArgs<QrCodeScannerFragmentArgs>()
 
     private val requestPermissionLauncher = registerForActivityResult(RequestPermission()) { isGranted ->
         Timber.tag(TAG).d("Camera permission granted? %b", isGranted)
@@ -227,10 +229,12 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
 
     private fun onCoronaTestResult(scannerResult: CoronaTestResult) {
         when (scannerResult) {
-            is CoronaTestResult.TestRegistrationSelection ->
+            is CoronaTestResult.TestRegistrationSelection -> {
+                qrcodeSharedViewModel.familyTestPersonName = navArgs.familyTestPersonName
                 QrCodeScannerFragmentDirections.actionUniversalScannerToTestRegistrationSelectionFragment(
                     scannerResult.coronaTestQrCode
                 )
+            }
 
             is CoronaTestResult.InRecycleBin -> {
                 showRestoreCoronaTestConfirmation(scannerResult.recycledCoronaTest)
@@ -263,7 +267,9 @@ class QrCodeScannerFragment : Fragment(R.layout.fragment_qrcode_scanner), AutoIn
                         testIdentifier = scannerResult.test.identifier
                     )
         }
-            ?.let { doNavigate(it) }
+            ?.let {
+                doNavigate(it)
+            }
     }
 
     private fun onDccResult(scannerResult: DccResult) {
