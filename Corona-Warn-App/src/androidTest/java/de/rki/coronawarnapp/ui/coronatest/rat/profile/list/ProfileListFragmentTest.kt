@@ -57,21 +57,21 @@ class ProfileListFragmentTest : BaseUITest() {
                 ProfileCard.Item(
                     profile = Profile(
                         id = 1,
-                        firstName = "Max",
-                        lastName = "Mustermann",
+                        firstName = "Andrea",
+                        lastName = "Schneider",
                         birthDate = LocalDate(1990, 11, 17),
                         city = "Potsdam",
                         zipCode = "14471",
                         street = "Lange Straße 5",
                         phone = "0151123456789",
-                        email = "maxmustermann@web.de"
+                        email = "andreaschneider@web.de"
                     ),
                     qrCode = "BEGIN:VCARD\n" +
                         "VERSION:4.0\n" +
-                        "N:Musterman;Max;;;\n" +
-                        "FN:Max Musterman\n" +
+                        "N:Schneider;Andrea;;;\n" +
+                        "FN:Andrea Schneider\n" +
                         "BDAY:19690420\n" +
-                        "EMAIL;TYPE=home:max.musterman@gmail.com\n" +
+                        "EMAIL;TYPE=home:andrea.schneider@gmail.com\n" +
                         "TEL;TYPE=\"cell,home\":(359) 260-345\n" +
                         "ADR;TYPE=home:;;Long Str\\, No. 4;Liverpool;;12345\n" +
                         "REV:20220418T091325Z\n" +
