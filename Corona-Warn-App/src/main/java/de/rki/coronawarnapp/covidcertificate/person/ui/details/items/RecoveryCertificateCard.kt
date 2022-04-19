@@ -44,8 +44,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
             certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
         )
 
-        val bookmarkIcon =
-            if (latestItem!!.certificate.isDisplayValid) latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+        val bookmarkIcon = if (latestItem!!.certificate.isDisplayValid)
+            latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
         currentCertificateGroup.isVisible = latestItem!!.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
 

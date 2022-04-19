@@ -51,8 +51,8 @@ class TestCertificateCard(parent: ViewGroup) :
             else -> R.string.test_certificate_rapid_test_type
         }.also { testCertificateType.setText(it) }
 
-        val bookmarkIcon =
-            if (latestItem!!.certificate.isDisplayValid) latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+        val bookmarkIcon = if (latestItem!!.certificate.isDisplayValid)
+            latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
         currentCertificateGroup.isVisible = latestItem!!.isCurrentCertificate
         bookmark.setImageResource(bookmarkIcon)
         val color = when {
