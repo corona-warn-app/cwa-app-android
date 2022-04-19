@@ -1,6 +1,7 @@
 package de.rki.coronawarnapp.bugreporting.censors.family
 
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import kotlinx.coroutines.CoroutineScope
@@ -61,7 +62,9 @@ class FamilyTestCensor @Inject constructor(
                 container = container.censor(it, "#identifier")
             }
             names.forEach {
-                container = container.censor(it, "#name")
+                withValidName(it) { firstName ->
+                    container = container.censor(firstName, "#name")
+                }
             }
             dates.forEach {
                 container = container.censor(it.toString(dateFormatter), "#dateOfBirth")

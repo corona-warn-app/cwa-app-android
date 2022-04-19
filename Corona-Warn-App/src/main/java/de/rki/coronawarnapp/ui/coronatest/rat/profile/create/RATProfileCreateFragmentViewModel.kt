@@ -24,7 +24,6 @@ class RATProfileCreateFragmentViewModel @AssistedInject constructor(
     @Assisted private val profileId: ProfileId?,
 ) : CWAViewModel() {
 
-    // TO DO check logic
     private val profileData = MutableLiveData(Profile())
     internal val profile: LiveData<Profile> = profileData
     internal val events = SingleLiveEvent<CreateRATProfileNavigation>()
