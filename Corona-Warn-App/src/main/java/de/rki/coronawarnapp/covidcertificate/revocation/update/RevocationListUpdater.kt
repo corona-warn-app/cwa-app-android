@@ -25,7 +25,7 @@ class RevocationListUpdater @Inject constructor(
     private val timeStamper: TimeStamper,
     private val certificatesProvider: CertificateProvider,
     private val revocationUpdateSettings: RevocationUpdateSettings,
-    private val revocationRepository: RevocationRepository,
+    private val revocationUpdateService: RevocationUpdateService
 ) {
 
     private val mutex = Mutex()
@@ -48,8 +48,8 @@ class RevocationListUpdater @Inject constructor(
             when {
                 forceUpdate || timeUpdateRequired -> {
                     Timber.tag(TAG).d("updateRevocationList is required")
-                    revocationRepository.updateRevocationList(
-                        certificatesProvider.certificateContainer.first().allCwaCertificates
+                    revocationUpdateService.updateRevocationList(
+                        certificatesProvider.certificateContainer.first()
                     )
                     revocationUpdateSettings.setUpdateTimeToNow()
                 }
