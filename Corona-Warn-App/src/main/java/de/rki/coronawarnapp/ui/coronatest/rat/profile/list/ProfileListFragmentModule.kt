@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.test.dsc.ui
+package de.rki.coronawarnapp.ui.coronatest.rat.profile.list
 
 import dagger.Binds
 import dagger.Module
@@ -8,9 +8,11 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
 
 @Module
-abstract class DscTestModule {
+abstract class ProfileListFragmentModule {
     @Binds
     @IntoMap
-    @CWAViewModelKey(DscTestViewModel::class)
-    abstract fun dscTest(factory: DscTestViewModel.Factory): CWAViewModelFactory<out CWAViewModel>
+    @CWAViewModelKey(ProfileListViewModel::class)
+    abstract fun profileListViewModel(
+        factory: ProfileListViewModel.Factory
+    ): CWAViewModelFactory<out CWAViewModel>
 }

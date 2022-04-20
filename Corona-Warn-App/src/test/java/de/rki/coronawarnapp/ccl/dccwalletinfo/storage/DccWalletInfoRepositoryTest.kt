@@ -111,15 +111,15 @@ internal class DccWalletInfoRepositoryTest : BaseTest() {
             }
         }
 
-        repo(scope = this).blockedCertificateQrCodeHashes.first() shouldBe emptySet()
+        repo(scope = this).blockedQrCodeHashes.first() shouldBe emptySet()
 
         coEvery { dao.getAll() } returns flowOf(listOf(walletInfoEntity2))
 
-        repo(scope = this).blockedCertificateQrCodeHashes.first() shouldBe emptySet()
+        repo(scope = this).blockedQrCodeHashes.first() shouldBe emptySet()
 
         coEvery { dao.getAll() } returns flowOf(listOf(walletInfoEntity, walletInfoEntity2, walletInfoEntity3))
 
-        repo(scope = this).blockedCertificateQrCodeHashes.first() shouldBe setOf(
+        repo(scope = this).blockedQrCodeHashes.first() shouldBe setOf(
             barCodeData.toSHA256(),
             barCodeData2.toSHA256(),
             barCodeData3.toSHA256(),

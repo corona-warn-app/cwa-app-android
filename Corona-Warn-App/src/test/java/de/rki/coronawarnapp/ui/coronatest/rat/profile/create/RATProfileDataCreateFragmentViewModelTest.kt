@@ -88,7 +88,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         viewModel().apply {
             firstNameChanged("First name")
             createProfile()
-            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen
+            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen(1)
         }
 
         verify {
@@ -219,5 +219,5 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel() = RATProfileCreateFragmentViewModel(profileRepository, formatter)
+    fun viewModel() = RATProfileCreateFragmentViewModel(profileRepository, 1, formatter)
 }
