@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.revocation.server
 
 import androidx.annotation.VisibleForTesting
 import dagger.Lazy
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationCache
 import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationErrorCode
 import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationException
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
@@ -20,7 +19,6 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.security.SignatureValidation
 import kotlinx.coroutines.withContext
-import okhttp3.Cache
 import okhttp3.ResponseBody
 import okio.ByteString
 import retrofit2.HttpException
@@ -34,8 +32,7 @@ class RevocationServer @Inject constructor(
     private val revocationApiLazy: Lazy<RevocationApi>,
     private val dispatcherProvider: DispatcherProvider,
     private val signatureValidation: SignatureValidation,
-    private val revocationParser: RevocationParser,
-    @RevocationCache private val revocationCache: Cache
+    private val revocationParser: RevocationParser
 ) {
 
     private val revocationApi: RevocationApi
@@ -98,11 +95,6 @@ class RevocationServer @Inject constructor(
             coordinates = revocationEntryCoordinates,
             revocationChunk = revocationChunk
         ).also { Timber.tag(TAG).d("returning %s", it) }
-    }
-
-    fun clearCache() {
-        Timber.tag(TAG).d("clearCache()")
-        revocationCache.evictAll()
     }
 
     private suspend fun <T> execute(

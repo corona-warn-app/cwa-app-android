@@ -1,20 +1,25 @@
 package de.rki.coronawarnapp.covidcertificate.revocation
 
-import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import de.rki.coronawarnapp.tag
+import okhttp3.Cache
 import timber.log.Timber
 import javax.inject.Inject
 
 class RevocationReset @Inject constructor(
-    private val revocationServer: RevocationServer,
-    private val revocationRepository: RevocationRepository
+    @RevocationCache private val cache: Cache,
+    @RevocationDataStore private val dataStore: DataStore<Preferences>
 ) {
 
-    suspend fun clear() {
+    @Suppress("BlockingMethodInNonBlockingContext")
+    suspend fun clear() = try {
         Timber.tag(TAG).d("clear()")
-        revocationServer.clearCache()
-        revocationRepository.clear()
+        cache.evictAll()
+        dataStore.edit { prefs -> prefs.clear() }
+    } catch (e: Exception) {
+        Timber.tag(TAG).e(e, "Failed to clear revocation data")
     }
 }
 
