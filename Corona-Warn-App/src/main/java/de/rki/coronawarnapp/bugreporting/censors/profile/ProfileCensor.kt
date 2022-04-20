@@ -5,12 +5,14 @@ import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidAddress
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidCity
+import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidEmail
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidName
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidPhoneNumber
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.Companion.withValidZipCode
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,17 +40,32 @@ class ProfileCensor @Inject constructor(
     init {
         profileRepository.profilesFlow
             .filterNotNull()
+            .distinctUntilChanged()
             .onEach { profiles ->
                 mutex.withLock {
                     profiles.forEach { profile ->
-                        names.add(profile.firstName)
-                        names.add(profile.lastName)
+                        withValidName(profile.firstName) {
+                            names.add(it)
+                        }
+                        withValidName(profile.lastName) {
+                            names.add(it)
+                        }
                         profile.birthDate?.let { dates.add(it.toString(dateFormatter)) }
-                        emails.add(profile.email)
-                        cities.add(profile.city)
-                        phoneNumbers.add(profile.phone)
-                        zipCodes.add(profile.zipCode)
-                        streets.add(profile.street)
+                        withValidEmail(profile.email) {
+                            emails.add(it)
+                        }
+                        withValidCity(profile.city) {
+                            cities.add(it)
+                        }
+                        withValidPhoneNumber(profile.phone) {
+                            phoneNumbers.add(it)
+                        }
+                        withValidZipCode(profile.zipCode) {
+                            zipCodes.add(it)
+                        }
+                        withValidAddress(profile.street) {
+                            streets.add(it)
+                        }
                     }
                 }
             }.launchIn(debugScope)
@@ -57,44 +74,32 @@ class ProfileCensor @Inject constructor(
     override suspend fun checkLog(message: String): CensorContainer? = mutex.withLock {
         var container = CensorContainer(message)
 
-        names.forEach {
-            withValidName(it) { firstName ->
-                container = container.censor(firstName, "#name")
-            }
+        names.forEach { name ->
+            container = container.censor(name, "#name")
         }
 
         dates.forEach { dateString ->
             container = container.censor(dateString, "#date")
         }
 
-        streets.forEach {
-            withValidAddress(it) { street ->
-                container = container.censor(street, "#street")
-            }
+        streets.forEach {street ->
+            container = container.censor(street, "#street")
         }
 
-        cities.forEach {
-            withValidCity(it) { city ->
-                container = container.censor(city, "#city")
-            }
+        cities.forEach { city ->
+            container = container.censor(city, "#city")
         }
 
-        zipCodes.forEach {
-            withValidZipCode(it) { zipCode ->
-                container = container.censor(zipCode, "#zipCode")
-            }
+        zipCodes.forEach { zipCode ->
+            container = container.censor(zipCode, "#zipCode")
         }
 
-        phoneNumbers.forEach {
-            withValidPhoneNumber(it) { phone ->
-                container = container.censor(phone, "#phone")
-            }
+        phoneNumbers.forEach { phone ->
+            container = container.censor(phone, "#phone")
         }
 
-        emails.forEach {
-            withValidPhoneNumber(it) { phone ->
-                container = container.censor(phone, "#email")
-            }
+        emails.forEach { email ->
+            container = container.censor(email, "#email")
         }
 
         return container.nullIfEmpty()
