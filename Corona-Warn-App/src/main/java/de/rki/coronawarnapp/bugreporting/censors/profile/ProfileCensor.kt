@@ -82,7 +82,7 @@ class ProfileCensor @Inject constructor(
             container = container.censor(dateString, "#date")
         }
 
-        streets.forEach {street ->
+        streets.forEach { street ->
             container = container.censor(street, "#street")
         }
 
