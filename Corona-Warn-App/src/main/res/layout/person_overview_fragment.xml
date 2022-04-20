@@ -27,6 +27,7 @@
 
             <include
                 android:id="@+id/admission_container"
+                android:visibility="gone"
                 layout="@layout/admission_scenario_tile" />
         </com.google.android.material.appbar.AppBarLayout>
 
