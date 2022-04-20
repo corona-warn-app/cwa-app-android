@@ -48,6 +48,10 @@ class RevocationRepository @Inject constructor(
         dataStore.edit { prefs -> prefs[CACHED_REVOCATION_CHUNKS_KEY] = data }
     }
 
+    suspend fun clear() {
+
+    }
+
     private fun String.toCachedRevocationChunks(): List<CachedRevocationChunk> = gson.fromJson(this)
     private fun List<CachedRevocationChunk>.toJson(): String = gson.toJson(this)
 }
