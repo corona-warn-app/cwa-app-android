@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
@@ -41,7 +42,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RATProfileQrCodeFragmentViewModel.Factory
-            factory.create(navArgs.id)
+            factory.create(navArgs.profileId)
         }
     )
 
@@ -61,7 +62,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 when (it.itemId) {
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(navArgs.id)
+                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(navArgs.profileId)
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()
                 }
@@ -74,7 +75,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         }
         viewModel.personProfile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
-                personProfile.profile?.let { bindPersonInfo(it) }
+                personProfile.profile.let { bindPersonInfo(it) }
 
                 val request = personProfile?.qrCode?.let { CoilQrCode(content = it) }
                 qrCodeImage.loadAny(request) {
@@ -87,13 +88,13 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 ProfileQrCodeNavigation.Back -> popBackStack()
-                ProfileQrCodeNavigation.OpenScanner -> {
+                is ProfileQrCodeNavigation.OpenScanner -> {
                     val navOptions = NavOptions.Builder()
                         .setPopUpTo(R.id.ratProfileQrCodeFragment, false)
                         .build()
                     findNavController().navigate(
                         R.id.action_to_universal_scanner,
-                        null,
+                        QrCodeScannerFragmentDirections.actionToUniversalScanner(it.personName).arguments,
                         navOptions,
                         FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
                     )
