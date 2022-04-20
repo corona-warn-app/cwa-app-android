@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class DccQrCodeCensor @Inject constructor() : BugCensor {
 
-    private val qrCodeFlow = MutableStateFlow<Set<String>>(value = emptySet())
+    private val qrCodes = MutableStateFlow<Set<String>>(value = emptySet())
     private val names = MutableStateFlow<Set<String>>(value = emptySet())
     private val dates = MutableStateFlow<Set<String>>(value = emptySet())
     private val countries = MutableStateFlow<Set<String>>(value = emptySet())
@@ -28,7 +28,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
     override suspend fun checkLog(message: String): CensorContainer? {
         var container = CensorContainer(message)
 
-        qrCodeFlow.first().forEach {
+        qrCodes.first().forEach {
             container = container.censor(it, "#qrCode" + it.takeLast(4))
         }
         identifiers.first().forEach {
@@ -40,34 +40,39 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         dates.first().forEach {
             container = container.censor(it, "#date")
         }
-
         countries.first().forEach {
-            container = container.censor(" $it ", "#date")
-            container = container.censor("\"${it}\"", "#date")
+            container = container.censor(" $it ", "#country")
+            container = container.censor("\"${it}\"", "#country")
+        }
+        testDetails.first().forEach {
+            container = container.censor(it, "#testDetail")
+        }
+        issuers.first().forEach {
+            container = container.censor(it, "#issuer")
         }
 
         return container.nullIfEmpty()
     }
 
-    fun addQRCodeStringToCensor(rawString: String) = qrCodeFlow.update {
+    fun addQRCodeStringToCensor(rawString: String) = qrCodes.update {
         it.plus(rawString)
     }
 
-    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>)  {
+    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) {
         dates.update {
             it.plus(cert.certificate.dateOfBirthFormatted)
         }
 
-        censorNameData(cert.certificate.nameData)
+        addNameData(cert.certificate.nameData)
 
         when (cert.certificate) {
-            is VaccinationDccV1 -> censorVaccinationData(cert.certificate.vaccination)
-            is TestDccV1 -> censorTestData(cert.certificate.test)
-            is RecoveryDccV1 -> censorRecoveryData(cert.certificate.recovery)
+            is VaccinationDccV1 -> addVaccinationData(cert.certificate.vaccination)
+            is TestDccV1 -> addTestData(cert.certificate.test)
+            is RecoveryDccV1 -> addRecoveryData(cert.certificate.recovery)
         }
     }
 
-    private fun censorRecoveryData(
+    private fun addRecoveryData(
         data: DccV1.RecoveryCertificateData
     ) {
 
@@ -97,7 +102,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         }
     }
 
-    private fun censorVaccinationData(
+    private fun addVaccinationData(
         data: DccV1.VaccinationData,
     ) {
         issuers.update {
@@ -135,7 +140,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         }
     }
 
-    private fun censorTestData(
+    private fun addTestData(
         data: DccV1.TestCertificateData,
     ) {
 
@@ -179,7 +184,6 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
             it.plus(data.testResult).plus(data.testType)
         }
 
-
         data.testName?.let {
             testDetails.update {
                 it.plus(
@@ -195,7 +199,7 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         }
     }
 
-    private fun censorNameData(nameData: DccV1.NameData) {
+    private fun addNameData(nameData: DccV1.NameData) {
         nameData.familyName?.let { name ->
             names.update {
                 it.plus(name)
