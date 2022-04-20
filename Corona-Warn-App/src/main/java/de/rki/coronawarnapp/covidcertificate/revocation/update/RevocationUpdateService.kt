@@ -4,6 +4,8 @@ import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvi
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.calculateCoordinatesToHash
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.kidHash
+import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationChecker
+import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidList
 import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
@@ -15,23 +17,34 @@ import javax.inject.Inject
 
 class RevocationUpdateService @Inject constructor(
     private val revocationServer: RevocationServer,
-    private val revocationRepository: RevocationRepository
+    private val revocationRepository: RevocationRepository,
+    private val dccRevocationChecker: DccRevocationChecker
 ) {
 
     suspend fun updateRevocationList(container: CertificateProvider.CertificateContainer) = try {
         Timber.tag(TAG).d("Updating Revocation List")
-        val coordinatesDccMap = container.createCoordinatesDccMap()
-        val chunks = coordinatesDccMap.flatMapTo(HashSet()) { entry ->
+        val coordinatesDccMap = container.createCoordinatesDccMap().also { Timber.tag(TAG).d("coordinatesDccMap=%s", it) }
+        val chunks = mutableSetOf<CachedRevocationChunk>()
+        for (entry in coordinatesDccMap) {
+            val chunkList = chunks.toList()
+            if (entry.value.any { dccRevocationChecker.isRevoked(it.dccData, chunkList) }) {
+                Timber.tag(TAG).d("Found matching hash, skipping entry=%s", entry)
+                continue
+            }
+
             val index = with(entry) { revocationServer.getRevocationKidTypeIndex(key.kid, key.type) }
+                .also { Timber.tag(TAG).d("index=%s", it) }
+
             val coordinates = index.revocationKidTypeIndex.items.flatMap { item ->
                 item.y.map { Coordinate(item.x, it) }
             }
             val f = coordinatesDccMap
-                .filter { it.key.coordinate in coordinates }
+                .filterKeys { it.coordinate in coordinates }
 
-            f.keys.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
+            chunks += f.keys.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
         }
 
+        Timber.tag(TAG).d("Saving chunks=%s", chunks)
         revocationRepository.saveCachedRevocationChunks(chunks)
     } catch (e: Exception) {
         Timber.tag(TAG).e(e, "Failed to update revocation list")
@@ -41,14 +54,14 @@ class RevocationUpdateService @Inject constructor(
         val dccsByKID = groupDCCsByKID().also { Timber.tag(TAG).d("dccsByKID=%s", it) }
 
         // Update KID List
-        val revocationKidList = revocationServer.getRevocationKidList()
+        val revocationKidList = revocationServer.getRevocationKidList().also { Timber.tag(TAG).d("revocationKidList=%s", it) }
 
         // Filter KID groups by KID list
         val filteredDccsByKID = dccsByKID.filterBy(revocationKidList)
             .also { Timber.tag(TAG).d("DccsByKID filtered by KID list: %s", it) }
 
         return filteredDccsByKID.calculateRevocationListCoordinates(revocationKidList)
-            .toSortedMap(compareBy { it.type.type })
+            .toSortedMap(compareBy<RevocationEntryCoordinates> { it.type.type }.thenBy { it.hashCode() })
     }
 
     private fun CertificateProvider.CertificateContainer.groupDCCsByKID(): DCCsByKID {
@@ -71,11 +84,13 @@ class RevocationUpdateService @Inject constructor(
             for (item in this@calculateRevocationListCoordinates) {
                 val hashTypes = revocationKidList.items.firstOrNull { it.kid == item.key }?.hashTypes ?: continue
 
-                item.value.forEach { dcc ->
-                    hashTypes.forEach {
-                        val key = dcc.dccData.calculateCoordinatesToHash(type = it).first
-                        val list = getOrPut(key) { mutableListOf() }
+                hashTypes.forEach { type ->
+                    item.value.forEach { dcc ->
+                        val (coordinate, hash) = dcc.dccData.calculateCoordinatesToHash(type)
+                        Timber.tag(TAG).d("coordinate=%s, hash=%s", coordinate, coordinate.hashCode())
+                        val list = getOrPut(coordinate) { mutableListOf() }
                         list.add(dcc)
+                        Timber.tag(TAG).d("list=%s", list)
                     }
                 }
             }
