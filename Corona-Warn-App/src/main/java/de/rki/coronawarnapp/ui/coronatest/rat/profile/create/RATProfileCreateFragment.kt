@@ -32,13 +32,16 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
-    private val binding: RatProfileCreateFragmentBinding by viewBinding()
     private val navArgs by navArgs<RATProfileCreateFragmentArgs>()
+    private val binding: RatProfileCreateFragmentBinding by viewBinding()
     private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RATProfileCreateFragmentViewModel.Factory
-            factory.create(navArgs.id, formatter)
+            factory.create(
+                formatter,
+                if (navArgs.profileId > 0) navArgs.profileId else null
+            )
         }
     )
 
@@ -58,7 +61,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
             profileSaveButton.setOnClickListener {
                 it.hideKeyboard()
-                viewModel.createProfile()
+                viewModel.saveProfile()
             }
 
             // Full name
@@ -121,7 +124,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                     CreateRATProfileNavigation.Back -> popBackStack()
                     is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.id)
+                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.profileId)
                     )
                 }
             }
