@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.storage
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -69,6 +70,7 @@ class RevocationRepository @Inject constructor(
 
 private val TAG = tag<RevocationRepository>()
 
-private val CACHED_REVOCATION_CHUNKS_KEY by lazy {
+@VisibleForTesting
+internal val CACHED_REVOCATION_CHUNKS_KEY by lazy {
     stringPreferencesKey("RevocationStorage.revocationListJson")
 }
