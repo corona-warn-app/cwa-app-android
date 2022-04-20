@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.bugreporting.censors.dcc
 
-import dagger.Reusable
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor
 import de.rki.coronawarnapp.bugreporting.censors.BugCensor.CensorContainer
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
@@ -13,275 +12,207 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@Reusable
+@Singleton
 class DccQrCodeCensor @Inject constructor() : BugCensor {
 
+    private val qrCodeFlow = MutableStateFlow<Set<String>>(value = emptySet())
+    private val names = MutableStateFlow<Set<String>>(value = emptySet())
+    private val dates = MutableStateFlow<Set<String>>(value = emptySet())
+    private val countries = MutableStateFlow<Set<String>>(value = emptySet())
+    private val identifiers = MutableStateFlow<Set<String>>(value = emptySet())
+    private val issuers = MutableStateFlow<Set<String>>(value = emptySet())
+    private val testDetails = MutableStateFlow<Set<String>>(value = emptySet())
+
     override suspend fun checkLog(message: String): CensorContainer? {
-        var newMessage = CensorContainer(message)
+        var container = CensorContainer(message)
 
         qrCodeFlow.first().forEach {
-            newMessage = newMessage.censor(it, PLACEHOLDER + it.takeLast(4))
+            container = container.censor(it, "#qrCode" + it.takeLast(4))
+        }
+        identifiers.first().forEach {
+            container = container.censor(it, "#identifier")
+        }
+        names.first().forEach {
+            container = container.censor(it, "#name")
+        }
+        dates.first().forEach {
+            container = container.censor(it, "#date")
         }
 
-        certificateFlow.first().forEach {
-            it.certificate.apply {
-                newMessage = newMessage.censor(
-                    dateOfBirthFormatted,
-                    "dcc/dateOfBirth"
-                )
-
-                newMessage = censorNameData(nameData, newMessage)
-
-                newMessage = when (it.certificate) {
-                    is VaccinationDccV1 -> censorVaccinationData(it.certificate.vaccination, newMessage)
-                    is TestDccV1 -> censorTestData(it.certificate.test, newMessage)
-                    is RecoveryDccV1 -> censorRecoveryData(it.certificate.recovery, newMessage)
-                    else -> newMessage
-                }
-            }
+        countries.first().forEach {
+            container = container.censor(" $it ", "#date")
+            container = container.censor("\"${it}\"", "#date")
         }
 
-        return newMessage.nullIfEmpty()
+        return container.nullIfEmpty()
+    }
+
+    fun addQRCodeStringToCensor(rawString: String) = qrCodeFlow.update {
+        it.plus(rawString)
+    }
+
+    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>)  {
+        dates.update {
+            it.plus(cert.certificate.dateOfBirthFormatted)
+        }
+
+        censorNameData(cert.certificate.nameData)
+
+        when (cert.certificate) {
+            is VaccinationDccV1 -> censorVaccinationData(cert.certificate.vaccination)
+            is TestDccV1 -> censorTestData(cert.certificate.test)
+            is RecoveryDccV1 -> censorRecoveryData(cert.certificate.recovery)
+        }
     }
 
     private fun censorRecoveryData(
-        data: DccV1.RecoveryCertificateData,
-        message: CensorContainer
-    ): CensorContainer {
-        var newMessage = message
-        newMessage = newMessage.censor(
-            data.certificateIssuer,
-            "recovery/certificateIssuer"
-        )
+        data: DccV1.RecoveryCertificateData
+    ) {
 
-        newMessage = newMessage.censor(
-            data.uniqueCertificateIdentifier,
-            "recovery/uniqueCertificateIdentifier"
-        )
-
-        newMessage = newMessage.censor(
-            " ${data.certificateCountry} ",
-            " recovery/certificateCountry "
-        )
-
-        newMessage = newMessage.censor(
-            "\"${data.certificateCountry}\"",
-            "\"recovery/certificateCountry\""
-        )
-
-        newMessage = newMessage.censor(
-            data.testedPositiveOnFormatted,
-            "recovery/testedPositiveOnFormatted"
-        )
-
-        newMessage = newMessage.censor(
-            data.validFromFormatted,
-            "recovery/validFromFormatted"
-        )
-
-        newMessage = newMessage.censor(
-            data.validUntilFormatted,
-            "recovery/validUntilFormatted"
-        )
-
-        data.validUntil?.toShortDayFormat()?.let { validUntil ->
-            newMessage = newMessage.censor(
-                validUntil,
-                "recovery/validFromFormatted"
-            )
+        issuers.update {
+            it.plus(data.certificateIssuer)
         }
 
-        return newMessage
+        identifiers.update {
+            it.plus(data.uniqueCertificateIdentifier)
+        }
+
+        countries.update {
+            it.plus(data.certificateCountry)
+        }
+
+        dates.update {
+            it
+                .plus(data.testedPositiveOnFormatted)
+                .plus(data.validFromFormatted)
+                .plus(data.validUntilFormatted)
+        }
+
+        data.validUntil?.toShortDayFormat()?.let { validUntil ->
+            dates.update {
+                it.plus(validUntil)
+            }
+        }
     }
 
     private fun censorVaccinationData(
-        vaccinationData: DccV1.VaccinationData,
-        message: CensorContainer
-    ): CensorContainer {
-        var newMessage = message
+        data: DccV1.VaccinationData,
+    ) {
+        issuers.update {
+            it.plus(data.certificateIssuer)
+        }
 
-        newMessage = newMessage.censor(
-            vaccinationData.marketAuthorizationHolderId,
-            "vaccination/marketAuthorizationHolderId"
-        )
+        identifiers.update {
+            it.plus(data.uniqueCertificateIdentifier)
+        }
 
-        newMessage = newMessage.censor(
-            vaccinationData.medicalProductId,
-            "vaccination/medicalProductId"
-        )
+        countries.update {
+            it.plus(data.certificateCountry)
+        }
 
-        newMessage = newMessage.censor(
-            vaccinationData.targetId,
-            "vaccination/targetId"
-        )
+        identifiers.update {
+            it.plus(data.marketAuthorizationHolderId)
+        }
 
-        newMessage = newMessage.censor(
-            vaccinationData.certificateIssuer,
-            "vaccination/certificateIssuer"
-        )
+        identifiers.update {
+            it.plus(data.medicalProductId)
+        }
 
-        newMessage = newMessage.censor(
-            vaccinationData.uniqueCertificateIdentifier,
-            "vaccination/uniqueCertificateIdentifier"
-        )
+        identifiers.update {
+            it.plus(data.targetId)
+        }
 
-        newMessage = newMessage.censor(
-            " ${vaccinationData.certificateCountry} ",
-            " vaccination/certificateCountry "
-        )
-
-        newMessage = newMessage.censor(
-            "\"${vaccinationData.certificateCountry}\"",
-            "\"vaccination/certificateCountry\""
-        )
-
-        newMessage = newMessage.censor(
-            vaccinationData.vaccineId,
-            "vaccination/vaccineId"
-        )
-
-        val vaccinatedOn = vaccinationData.vaccinatedOnFormatted
-        newMessage = newMessage.censor(
-            vaccinatedOn,
-            "vaccination/vaccinatedOnFormatted"
-        )
-        if (vaccinatedOn != vaccinationData.dt) {
-            newMessage = newMessage.censor(
-                vaccinationData.dt,
-                "vaccination/dt"
+        identifiers.update {
+            it.plus(
+                data.vaccineId
             )
         }
 
-        return newMessage
+        dates.update {
+            it.plus(data.vaccinatedOnFormatted).plus(data.dt)
+        }
     }
 
     private fun censorTestData(
         data: DccV1.TestCertificateData,
-        message: CensorContainer
-    ): CensorContainer {
-        var newMessage = message
+    ) {
 
-        data.testCenter?.let {
-            newMessage = newMessage.censor(
-                data.testCenter,
-                "test/testCenter"
+        issuers.update {
+            it.plus(data.certificateIssuer)
+        }
+
+        identifiers.update {
+            it.plus(data.uniqueCertificateIdentifier)
+        }
+
+        countries.update {
+            it.plus(data.certificateCountry)
+        }
+
+        dates.update {
+            it.plus(
+                data.sampleCollectedAtFormatted,
             )
         }
 
-        newMessage = newMessage.censor(
-            data.testResult,
-            "test/testResult"
-        )
+        data.sampleCollectedAt?.toShortDayFormat()?.let { sampleCollectedAt ->
+            dates.update {
+                it.plus(
+                    sampleCollectedAt,
+                )
+            }
+        }
 
-        newMessage = newMessage.censor(
-            data.testType,
-            "test/testType"
-        )
+        identifiers.update {
+            it.plus(data.targetId)
+        }
+
+        data.testCenter?.let {
+            testDetails.update {
+                it.plus(data.testCenter)
+            }
+        }
+
+        testDetails.update {
+            it.plus(data.testResult).plus(data.testType)
+        }
+
 
         data.testName?.let {
-            newMessage = newMessage.censor(
-                data.testName,
-                "test/testName"
-            )
+            testDetails.update {
+                it.plus(
+                    data.testName
+                )
+            }
         }
 
         data.testNameAndManufacturer?.let {
-            newMessage = newMessage.censor(
-                data.testNameAndManufacturer,
-                "test/testNameAndManufacturer"
-            )
+            testDetails.update {
+                it.plus(data.testNameAndManufacturer)
+            }
         }
-
-        newMessage = newMessage.censor(
-            data.sampleCollectedAtFormatted,
-            "test/sampleCollectedAtFormatted"
-        )
-
-        data.sampleCollectedAt?.toShortDayFormat()?.let { sampleCollectedAt ->
-            newMessage = newMessage.censor(
-                sampleCollectedAt,
-                "test/sampleCollectedAt"
-            )
-        }
-
-        newMessage = newMessage.censor(
-            data.targetId,
-            "test/targetId"
-        )
-
-        newMessage = newMessage.censor(
-            data.certificateIssuer,
-            "test/certificateIssuer"
-        )
-
-        newMessage = newMessage.censor(
-            data.uniqueCertificateIdentifier,
-            "test/uniqueCertificateIdentifier"
-        )
-
-        newMessage = newMessage.censor(
-            " ${data.certificateCountry} ",
-            " test/certificateCountry "
-        )
-
-        newMessage = newMessage.censor(
-            "\"${data.certificateCountry}\"",
-            "\"test/certificateCountry\""
-        )
-
-        return newMessage
     }
 
-    private fun censorNameData(nameData: DccV1.NameData, message: CensorContainer): CensorContainer {
-        var newMessage = message
-
-        nameData.familyName?.let { fName ->
-            newMessage = newMessage.censor(
-                fName,
-                "nameData/familyName"
-            )
+    private fun censorNameData(nameData: DccV1.NameData) {
+        nameData.familyName?.let { name ->
+            names.update {
+                it.plus(name)
+            }
         }
-
-        newMessage = newMessage.censor(
-            nameData.familyNameStandardized,
-            "nameData/familyNameStandardized"
-        )
-
-        nameData.givenName?.let { gName ->
-            newMessage = newMessage.censor(
-                gName,
-                "nameData/givenName"
-            )
+        names.update {
+            it.plus(nameData.familyNameStandardized)
         }
-
-        nameData.givenNameStandardized?.let { gName ->
-            newMessage = newMessage.censor(
-                gName,
-                "nameData/givenNameStandardized"
-            )
+        nameData.givenName?.let { name ->
+            names.update {
+                it.plus(name)
+            }
         }
-
-        return newMessage
-    }
-
-    companion object {
-
-        private val qrCodeFlow = MutableStateFlow<Set<String>>(value = emptySet())
-        private val certificateFlow = MutableStateFlow<Set<DccData<out DccV1.MetaData>>>(value = emptySet())
-
-        fun addQRCodeStringToCensor(rawString: String) = qrCodeFlow.update {
-            it.plus(rawString)
+        nameData.givenNameStandardized?.let { name ->
+            names.update {
+                it.plus(name)
+            }
         }
-
-        fun clearQRCodeStringToCensor() = qrCodeFlow.update { emptySet() }
-
-        fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = certificateFlow.update {
-            it.plus(cert)
-        }
-
-        fun clearCertificateToCensor() = certificateFlow.update { emptySet() }
-
-        private const val PLACEHOLDER = "###"
     }
 }
