@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import javax.inject.Inject
 
@@ -29,7 +28,7 @@ class ProfileCensor @Inject constructor(
     private val mutex = Mutex()
     private val dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
     private val names = mutableSetOf<String>()
-    private val dates = mutableSetOf<LocalDate>()
+    private val dates = mutableSetOf<String>()
     private val emails = mutableSetOf<String>()
     private val cities = mutableSetOf<String>()
     private val phoneNumbers = mutableSetOf<String>()
@@ -44,7 +43,7 @@ class ProfileCensor @Inject constructor(
                     profiles.forEach { profile ->
                         names.add(profile.firstName)
                         names.add(profile.lastName)
-                        profile.birthDate?.let { dates.add(it) }
+                        profile.birthDate?.let { dates.add(it.toString(dateFormatter)) }
                         emails.add(profile.email)
                         cities.add(profile.city)
                         phoneNumbers.add(profile.phone)
@@ -64,10 +63,8 @@ class ProfileCensor @Inject constructor(
             }
         }
 
-        dates.forEach {
-            it.toString(dateFormatter)?.let { dateString ->
-                container = container.censor(dateString, "#date")
-            }
+        dates.forEach { dateString ->
+            container = container.censor(dateString, "#date")
         }
 
         streets.forEach {
