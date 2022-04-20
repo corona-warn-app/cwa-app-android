@@ -7,8 +7,10 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.google.gson.Gson
 import de.rki.coronawarnapp.covidcertificate.revocation.RevocationDataStore
+import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestViewModel
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -48,8 +50,17 @@ class RevocationRepository @Inject constructor(
         dataStore.edit { prefs -> prefs[CACHED_REVOCATION_CHUNKS_KEY] = data }
     }
 
-    suspend fun clear() {
-
+    /**
+     * This is only used for testing in [DccStateValidationTestViewModel]
+     * The [DataStore] for revocation gets entirely cleared in [RevocationReset]
+     **/
+    internal suspend fun clear() {
+        Timber.tag(TAG).d("Clearing Revocation List.")
+        runCatching {
+            dataStore.edit { prefs -> prefs.remove(CACHED_REVOCATION_CHUNKS_KEY) }
+        }.onFailure { e ->
+            Timber.tag(TAG).e(e, "Failed to clear Revocation List.")
+        }
     }
 
     private fun String.toCachedRevocationChunks(): List<CachedRevocationChunk> = gson.fromJson(this)
