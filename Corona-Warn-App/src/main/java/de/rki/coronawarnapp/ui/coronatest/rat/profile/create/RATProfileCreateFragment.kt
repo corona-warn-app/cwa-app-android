@@ -124,7 +124,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                     CreateRATProfileNavigation.Back -> popBackStack()
                     is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment(it.profileId)
+                            .actionProfileCreateFragmentToProfileQrCodeFragment(it.profileId)
                     )
                 }
             }
@@ -160,6 +160,6 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                     binding.birthDateInputEdit.setText(LocalDate(it).toString(formatter))
                 }
             }
-            .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")
+            .show(childFragmentManager, "ProfileCreateFragment.MaterialDatePicker")
     }
 }

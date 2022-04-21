@@ -41,7 +41,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
         binding.toolbar.setNavigationOnClickListener { popBackStack() }
         binding.toolbar.setOnMenuItemClickListener {
             doNavigate(
-                ProfileListFragmentDirections.actionProfileListFragmentToRatProfileOnboardingFragment(
+                ProfileListFragmentDirections.actionProfileListFragmentToProfileOnboardingFragment(
                     showButton = false
                 )
             )
@@ -63,7 +63,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
             when (it) {
                 ProfileListEvent.NavigateToAddProfile -> {
                     findNavController().navigate(
-                        R.id.action_profileListFragment_to_ratProfileCreateFragment,
+                        R.id.action_profileListFragment_to_profileCreateFragment,
                         null,
                         null,
                         FragmentNavigatorExtras(binding.profileFab to binding.profileFab.transitionName)
@@ -73,7 +73,7 @@ class ProfileListFragment : Fragment(R.layout.profile_list_fragment), AutoInject
                     setupHoldTransition()
                     doNavigate(
                         ProfileListFragmentDirections
-                            .actionProfileListFragmentToRatProfileQrCodeFragment(it.id)
+                            .actionProfileListFragmentToProfileQrCodeFragment(it.id)
                     )
                 }
             }
