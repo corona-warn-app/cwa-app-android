@@ -23,6 +23,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/CWAMaterialToolbar.OverflowMenu"
             android:touchscreenBlocksFocus="false"
             app:menu="@menu/menu_main">
             <ImageView
