@@ -429,7 +429,7 @@ class PersonOverviewFragmentTest : BaseUITest() {
                         OverviewCertificate(
                             mockVaccinationCertificate("Andrea Schneider"),
                             buttonText = when (Locale.getDefault()) {
-                                Locale.GERMANY, Locale.GERMAN -> "Geimpf"
+                                Locale.GERMANY, Locale.GERMAN -> "Geimpft"
                                 else -> "2G Certificate"
                             }
                         ),
