@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.revocation.update
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
