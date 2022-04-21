@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidList
 import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
 import de.rki.coronawarnapp.tag
+import de.rki.coronawarnapp.util.collections.groupByNotNull
 import okio.ByteString
 import timber.log.Timber
 import javax.inject.Inject
@@ -94,16 +95,6 @@ class RevocationUpdateService @Inject constructor(
         dccData.kidHash()
     } catch (e: Exception) {
         null
-    }
-
-    private fun <T, K : Any> Iterable<T>.groupByNotNull(
-        keySelector: (T) -> K?
-    ): Map<K, List<T>> = buildMap<K, MutableList<T>> {
-        for (item in this@groupByNotNull) {
-            val key = keySelector(item) ?: continue
-            val list = getOrPut(key) { mutableListOf() }
-            list.add(item)
-        }
     }
 }
 
