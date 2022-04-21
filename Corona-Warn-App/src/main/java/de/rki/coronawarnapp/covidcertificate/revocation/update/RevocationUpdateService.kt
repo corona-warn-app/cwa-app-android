@@ -130,4 +130,4 @@ private fun CwaCovidCertificate.kidHex(): ByteString? = try {
 
 private val RevocationEntryCoordinates.coordinate:
     Coordinate
-    get() = Coordinate(x, y)
+        get() = Coordinate(x, y)
