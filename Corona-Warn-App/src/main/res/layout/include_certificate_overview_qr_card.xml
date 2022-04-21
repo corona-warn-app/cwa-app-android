@@ -113,7 +113,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:checkedButton="@id/primary_certificate_button"
+        app:checkedButton="@id/first_certificate_button"
         app:layout_constraintEnd_toEndOf="@id/image"
         app:layout_constraintStart_toStartOf="@id/image"
         app:layout_constraintTop_toBottomOf="@id/covpass_info_title"
@@ -121,7 +121,7 @@
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/primary_certificate_button"
+            android:id="@+id/first_certificate_button"
             style="@style/certificateSelectionToggleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -129,7 +129,15 @@
             android:text="@string/person_overview_two_g_certificate_text" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/secondary_certificate_button"
+            android:id="@+id/second_certificate_button"
+            style="@style/certificateSelectionToggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/person_overview_test_certificate_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/third_certificate_button"
             style="@style/certificateSelectionToggleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
