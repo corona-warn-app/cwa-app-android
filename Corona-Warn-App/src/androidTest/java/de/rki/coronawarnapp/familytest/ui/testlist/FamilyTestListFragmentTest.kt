@@ -9,12 +9,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.coronatest.server.CoronaTestResult
 import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.familytest.core.model.CoronaTest
 import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
-import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestInvalidCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestNegativeCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyPcrTestPendingCard
@@ -27,46 +25,32 @@ import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPendingC
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestPositiveCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyRapidTestRedeemedCard
 import de.rki.coronawarnapp.familytest.ui.testlist.items.FamilyTestListItem
-import de.rki.coronawarnapp.util.TimeStamper
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
-import io.mockk.spyk
-import kotlinx.coroutines.CoroutineScope
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
 
 @RunWith(AndroidJUnit4::class)
 class FamilyTestListFragmentTest : BaseUITest() {
 
-    @MockK lateinit var appConfigProvider: AppConfigProvider
-    @MockK lateinit var familyTestRepository: FamilyTestRepository
-    @MockK lateinit var timeStamper: TimeStamper
-    @MockK lateinit var appScope: CoroutineScope
-
-    private lateinit var viewModel: FamilyTestListViewModel
+    @MockK lateinit var viewModel: FamilyTestListViewModel
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        viewModel = spyk(
-            FamilyTestListViewModel(
-                TestDispatcherProvider(),
-                appConfigProvider,
-                familyTestRepository,
-                timeStamper,
-                appScope
-            )
-        )
+
         every { viewModel.familyTests } returns testCards()
+        every { viewModel.markAllTestAsViewed() } just Runs
 
         setupMockViewModel(
             object : FamilyTestListViewModel.Factory {

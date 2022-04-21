@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
 import de.rki.coronawarnapp.databinding.FragmentFamilyTestConsentBinding
+import de.rki.coronawarnapp.qrcode.ui.QrcodeSharedViewModel
 import de.rki.coronawarnapp.util.di.AutoInject
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
@@ -32,6 +34,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
             factory.create(navArgs.coronaTestQrCode)
         }
     )
+    private val qrcodeSharedViewModel: QrcodeSharedViewModel by navGraphViewModels(R.id.nav_graph)
     private val binding: FragmentFamilyTestConsentBinding by viewBinding()
     private val navOptions = NavOptions.Builder().setPopUpTo(R.id.familyTestConsentFragment, true).build()
 
@@ -75,6 +78,7 @@ class FamilyTestConsentFragment : Fragment(R.layout.fragment_family_test_consent
                     else -> true
                 }
             }
+            nameInputEdit.setText(qrcodeSharedViewModel.familyTestPersonName)
             toolbar.setNavigationOnClickListener {
                 viewModel.onNavigateBack()
             }

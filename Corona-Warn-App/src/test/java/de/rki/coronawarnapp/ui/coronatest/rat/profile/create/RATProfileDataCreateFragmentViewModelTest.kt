@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -30,13 +31,13 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { profileRepository.profilesFlow } returns flowOf(emptySet())
-        every { profileRepository.upsertProfile(any()) } returns Job()
+        coEvery { profileRepository.upsertProfile(any()) } returns 1
     }
 
     @Test
     fun `createProfile doesn't create profile when profile is invalid`() {
         viewModel().apply {
-            createProfile()
+            saveProfile()
             profile.getOrAwaitValue().isValid shouldBe false
         }
 
@@ -60,7 +61,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         )
         every { profileRepository.profilesFlow } returns flowOf(setOf(savedProfile))
 
-        viewModel().apply {
+        viewModel(savedProfile.id).apply {
             // Fields updated
             firstNameChanged(savedProfile.firstName)
             lastNameChanged(savedProfile.lastName)
@@ -87,7 +88,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     fun `createProfile create profile when at least one field is set`() {
         viewModel().apply {
             firstNameChanged("First name")
-            createProfile()
+            saveProfile()
             events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen(1)
         }
 
@@ -219,5 +220,6 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel() = RATProfileCreateFragmentViewModel(profileRepository, 1, formatter)
+    fun viewModel(profileId: ProfileId? = null) =
+        RATProfileCreateFragmentViewModel(profileRepository, formatter, profileId)
 }
