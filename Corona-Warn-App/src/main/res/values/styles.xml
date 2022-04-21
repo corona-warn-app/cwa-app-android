@@ -25,6 +25,7 @@
 
     <style name="CertificateDetailTheme" parent="BaseTheme">
         <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme" />
@@ -71,6 +72,10 @@
 
     <style name="CWAMaterialToolbar.BackArrow.Transparent">
         <item name="android:background">@color/colorTransparent</item>
+    </style>
+
+    <style name="CWAMaterialToolbar.OverflowMenu" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
     </style>
 
     <style name="BottomNavigationViewStyle" parent="Widget.Material3.BottomNavigationView">
