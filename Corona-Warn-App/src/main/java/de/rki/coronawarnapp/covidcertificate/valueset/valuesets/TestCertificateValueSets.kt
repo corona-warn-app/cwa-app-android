@@ -18,6 +18,11 @@ data class TestCertificateValueSets(
 
     override fun getDisplayText(key: String): String? =
         tg.getDisplayText(key) ?: tt.getDisplayText(key) ?: ma.getDisplayText(key) ?: tr.getDisplayText(key)
+
+    override fun toString(): String {
+        // reduce output for logging
+        return return "value set for language $languageCode ..."
+    }
 }
 
 val emptyTestCertificateValueSets: TestCertificateValueSets by lazy {
