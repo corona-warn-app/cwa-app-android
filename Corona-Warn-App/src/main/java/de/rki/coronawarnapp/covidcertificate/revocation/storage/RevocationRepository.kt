@@ -11,7 +11,6 @@ import de.rki.coronawarnapp.covidcertificate.revocation.RevocationDataStore
 import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.tag
-import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestViewModel
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
 import de.rki.coronawarnapp.util.serialization.BaseGson
@@ -52,7 +51,7 @@ class RevocationRepository @Inject constructor(
     }
 
     /**
-     * This is only used for testing in [DccStateValidationTestViewModel]
+     * This is only used for testing in DccStateValidationTestViewModel
      * The [DataStore] for revocation gets entirely cleared in [RevocationReset]
      **/
     internal suspend fun clear() {
