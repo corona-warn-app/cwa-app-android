@@ -57,19 +57,24 @@ class RevocationUpdateService @Inject constructor(
         val chunks = mutableSetOf<CachedRevocationChunk>()
         for (entry in coordinatesDccMap) {
             val chunkList = chunks.toList()
+            // Check for matches: if there is a match, skip this entry to avoid unnecessary requests related to
+            // checking a revocation by another type
             if (entry.value.any { dccRevocationChecker.isRevoked(it.dccData, chunkList) }) {
                 Timber.tag(TAG).d("Entry contains already revoked dcc, skipping entry=%s", entry)
                 continue
             }
 
+            // Update KID-Type Index
             val index = with(entry) { revocationServer.getRevocationKidTypeIndex(key.kid, key.type) }
 
             val coordinates = index.revocationKidTypeIndex.items
                 .flatMap { item -> item.y.map { Coordinate(item.x, it) } }
 
+            // Filter CoordinatesDccMap against index
             val filteredCoordinates = coordinatesDccMap.keys
                 .filter { it.coordinate in coordinates }
 
+            // Update KID-Type-X-Y Chunk: for each remaining Revocation List Coordinates
             chunks += filteredCoordinates.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
         }
 
@@ -104,13 +109,6 @@ class RevocationUpdateService @Inject constructor(
             }
         }
     }
-
-
-    private fun CwaCovidCertificate.kidHex(): ByteString? = try {
-        dccData.kidHash()
-    } catch (e: Exception) {
-        null
-    }
 }
 
 private val TAG = tag<RevocationUpdateService>()
@@ -118,10 +116,18 @@ private val TAG = tag<RevocationUpdateService>()
 private typealias DCCsByKID = Map<ByteString, List<CwaCovidCertificate>>
 private typealias CoordinatesDccMap = Map<RevocationEntryCoordinates, List<CwaCovidCertificate>>
 
+// Helpers
 private data class Coordinate(
     val x: ByteString,
     val y: ByteString
 )
 
+private fun CwaCovidCertificate.kidHex(): ByteString? = try {
+    dccData.kidHash()
+} catch (e: Exception) {
+    null
+}
+
 private val RevocationEntryCoordinates.coordinate:
-    Coordinate get() = Coordinate(x, y)
+    Coordinate
+    get() = Coordinate(x, y)
