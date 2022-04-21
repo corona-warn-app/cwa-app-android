@@ -29,7 +29,7 @@ class PresenceTracingConfigMapper @Inject constructor() : PresenceTracingConfig.
             )
         }
 
-        return rawConfig.presenceTracingConfig().also { Timber.v("PresenceTracingConfig: $it") }
+        return rawConfig.presenceTracingConfig()
     }
 
     private fun PresenceTracingSubmissionParameters.mapSubmissionParameters() =
