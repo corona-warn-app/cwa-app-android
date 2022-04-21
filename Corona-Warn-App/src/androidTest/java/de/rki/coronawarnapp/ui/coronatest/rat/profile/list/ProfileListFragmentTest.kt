@@ -82,19 +82,19 @@ class ProfileListFragmentTest : BaseUITest() {
                 ProfileCard.Item(
                     profile = Profile(
                         id = 2,
-                        firstName = "Bax",
-                        lastName = "Bustermann",
+                        firstName = "Max",
+                        lastName = "Mustermann",
                         birthDate = LocalDate(1997, 7, 24),
                         city = "Potsdam",
                         zipCode = "14471",
-                        street = "Shorte Straße 5",
+                        street = "Lange Straße 5",
                         phone = "0234523454545",
-                        email = "baxbustermann@web.de"
+                        email = "maxmustermann@web.de"
                     ),
                     qrCode = "BEGIN:VCARD\n" +
                         "VERSION:4.0\n" +
-                        "N:Busterman;Bax;;;\n" +
-                        "FN:Bax Busterman\n" +
+                        "N:Musterman;Max;;;\n" +
+                        "FN:Max Musterman\n" +
                         "BDAY:19690420\n" +
                         "EMAIL;TYPE=home:max.musterman@gmail.com\n" +
                         "TEL;TYPE=\"cell,home\":(359) 260-345\n" +
