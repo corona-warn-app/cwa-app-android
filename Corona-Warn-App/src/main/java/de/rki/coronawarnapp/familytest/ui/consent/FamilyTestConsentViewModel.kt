@@ -4,6 +4,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.map
 class FamilyTestConsentViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     @Assisted private val coronaTestQRCode: CoronaTestQRCode,
+    private val familyTestCensor: FamilyTestCensor,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     val routeToScreen = SingleLiveEvent<FamilyTestConsentNavigationEvents>()
@@ -39,11 +41,13 @@ class FamilyTestConsentViewModel @AssistedInject constructor(
     }
 
     fun onConsentButtonClick() = launch {
+        val personName = personName.first()
+        familyTestCensor.addName(personName)
         FamilyTestConsentNavigationEvents.NavigateToCertificateRequest(
             coronaTestQRCode = coronaTestQRCode,
             consentGiven = true,
             allowReplacement = false,
-            personName = personName.first()
+            personName = personName
         ).run { routeToScreen.postValue(this) }
     }
 

@@ -28,6 +28,10 @@
         android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragment"
         android:label="rat_profile_create_fragment"
         tools:layout="@layout/rat_profile_create_fragment">
+        <argument
+            android:name="profileId"
+            android:defaultValue="0"
+            app:argType="integer" />
         <action
             android:id="@+id/action_ratProfileCreateFragment_to_ratProfileQrCodeFragment"
             app:destination="@id/ratProfileQrCodeFragment"
@@ -47,7 +51,7 @@
             android:id="@+id/action_ratProfileQrCodeFragment_to_ratProfileCreateFragment"
             app:destination="@id/ratProfileCreateFragment" />
         <argument
-            android:name="id"
+            android:name="profileId"
             app:argType="integer" />
     </fragment>
 

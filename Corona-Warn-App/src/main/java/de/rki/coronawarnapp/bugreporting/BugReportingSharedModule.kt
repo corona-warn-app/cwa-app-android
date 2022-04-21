@@ -13,14 +13,15 @@ import de.rki.coronawarnapp.bugreporting.censors.contactdiary.OrganizerRegistrat
 import de.rki.coronawarnapp.bugreporting.censors.dcc.CwaUserCensor
 import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.dccticketing.DccTicketingJwtCensor
+import de.rki.coronawarnapp.bugreporting.censors.family.FamilyTestCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.CheckInsCensor
 import de.rki.coronawarnapp.bugreporting.censors.presencetracing.TraceLocationCensor
+import de.rki.coronawarnapp.bugreporting.censors.profile.ProfileCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.CoronaTestCertificateCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.PcrTeleTanCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RACoronaTestCensor
-import de.rki.coronawarnapp.bugreporting.censors.submission.RatProfileCensor
 import de.rki.coronawarnapp.bugreporting.censors.submission.RapidQrCodeCensor
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebugLoggerScope
 import de.rki.coronawarnapp.bugreporting.debuglog.internal.DebuggerScope
@@ -131,7 +132,7 @@ class BugReportingSharedModule {
 
     @Provides
     @IntoSet
-    fun ratProfileCensor(censor: RatProfileCensor): BugCensor = censor
+    fun profileCensor(censor: ProfileCensor): BugCensor = censor
 
     @Provides
     @IntoSet
@@ -148,4 +149,8 @@ class BugReportingSharedModule {
     @Provides
     @IntoSet
     fun ticketingJwtCensor(censor: DccTicketingJwtCensor): BugCensor = censor
+
+    @Provides
+    @IntoSet
+    fun familyTestCensor(censor: FamilyTestCensor): BugCensor = censor
 }

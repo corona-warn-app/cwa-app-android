@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -10,7 +11,6 @@ import androidx.test.filters.FlakyTest
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanFragment
 import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel
 import io.mockk.MockKAnnotations
@@ -21,7 +21,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import testhelpers.BaseUITest
 import testhelpers.Screenshot
-import testhelpers.TestDispatcherProvider
 import testhelpers.launchFragment2
 import testhelpers.launchFragmentInContainer2
 import testhelpers.takeScreenshot
@@ -29,12 +28,7 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class SubmissionTanFragmentTest : BaseUITest() {
 
-    @MockK lateinit var submissionRepository: SubmissionRepository
-
-    private fun createViewModel() = SubmissionTanViewModel(
-        dispatcherProvider = TestDispatcherProvider(),
-        submissionRepository = submissionRepository
-    )
+    @MockK lateinit var viewModel: SubmissionTanViewModel
 
     @Before
     fun setup() {
@@ -42,7 +36,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
 
         setupMockViewModel(
             object : SubmissionTanViewModel.Factory {
-                override fun create(): SubmissionTanViewModel = createViewModel()
+                override fun create(): SubmissionTanViewModel = viewModel
             }
         )
     }
@@ -61,18 +55,15 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @FlakyTest
     fun testEventTanNextClicked() {
         launchFragmentInContainer2<SubmissionTanFragment>()
-        closeSoftKeyboard()
-        onView(withId(R.id.submission_tan_button_enter))
-            .perform(click())
+        onView(withId(R.id.submission_tan_button_enter)).perform(click(), closeSoftKeyboard())
     }
 
     @Test
     @Screenshot
     fun capture_fragment_empty() {
         launchFragmentInContainer2<SubmissionTanFragment>()
-        onView(withId(R.id.tan_input_edittext))
-            .perform(click())
-            .perform(closeSoftKeyboard())
+        onView(withId(R.id.tan_input_edittext)).perform(click(), closeSoftKeyboard())
+
         takeScreenshot<SubmissionTanFragment>()
     }
 
@@ -80,9 +71,9 @@ class SubmissionTanFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_done() {
         launchFragmentInContainer2<SubmissionTanFragment>()
-        onView(withId(R.id.tan_input_edittext))
-            .perform(click())
-            .perform(typeText("AC9UHD65AF"), closeSoftKeyboard())
+        onView(withId(R.id.tan_input_edittext)).perform(
+            click(), replaceText("AC9UHD65AF"), closeSoftKeyboard()
+        )
         takeScreenshot<SubmissionTanFragment>("done")
     }
 
@@ -91,8 +82,7 @@ class SubmissionTanFragmentTest : BaseUITest() {
     fun capture_fragment_invalid() {
         launchFragmentInContainer2<SubmissionTanFragment>()
         onView(withId(R.id.tan_input_edittext))
-            .perform(click())
-            .perform(typeText("AC9U0"), closeSoftKeyboard())
+            .perform(click(), typeText("AC9U0"), closeSoftKeyboard())
         takeScreenshot<SubmissionTanFragment>("invalid")
     }
 }
