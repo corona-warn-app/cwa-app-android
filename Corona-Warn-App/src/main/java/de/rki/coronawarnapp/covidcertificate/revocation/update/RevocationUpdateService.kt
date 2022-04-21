@@ -24,7 +24,36 @@ class RevocationUpdateService @Inject constructor(
 
     suspend fun updateRevocationList(container: CertificateProvider.CertificateContainer) {
         Timber.tag(TAG).d("Updating Revocation List")
-        val coordinatesDccMap = container.createCoordinatesDccMap()
+        val coordinatesDccMap = createCoordinatesDccMap(container)
+        val chunks = createRevocationChunks(coordinatesDccMap)
+        revocationRepository.saveCachedRevocationChunks(chunks)
+    }
+
+    private suspend fun createCoordinatesDccMap(
+        container: CertificateProvider.CertificateContainer
+    ): CoordinatesDccMap {
+        val dccsByKID = container.groupDCCsByKID().also { Timber.tag(TAG).d("dccsByKID=%s", it) }
+
+        // Update KID List
+        val revocationKidList = revocationServer.getRevocationKidList()
+            .also { Timber.tag(TAG).d("revocationKidList=%s", it) }
+
+        // Filter KID groups by KID list
+        val filteredDccsByKID = dccsByKID.filterBy(revocationKidList)
+            .also { Timber.tag(TAG).d("DccsByKID filtered by KID list: %s", it) }
+
+        // Calculate Revocation List Coordinates and group with DCCs
+        return filteredDccsByKID.calculateRevocationListCoordinates(revocationKidList)
+            .toSortedMap(
+                compareBy<RevocationEntryCoordinates> { it.type.type }
+                    .thenBy { it.hashCode() } // Used to avoid items get dropped
+            )
+            .also { Timber.tag(TAG).d("coordinatesDccMap=%s", it) }
+    }
+
+    private suspend fun createRevocationChunks(
+        coordinatesDccMap: Map<RevocationEntryCoordinates, List<CwaCovidCertificate>>
+    ): Set<CachedRevocationChunk> {
         val chunks = mutableSetOf<CachedRevocationChunk>()
         for (entry in coordinatesDccMap) {
             val chunkList = chunks.toList()
@@ -44,21 +73,7 @@ class RevocationUpdateService @Inject constructor(
             chunks += filteredCoordinates.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
         }
 
-        revocationRepository.saveCachedRevocationChunks(chunks)
-    }
-
-    private suspend fun CertificateProvider.CertificateContainer.createCoordinatesDccMap(): Map<RevocationEntryCoordinates, List<CwaCovidCertificate>> {
-        val dccsByKID = groupDCCsByKID().also { Timber.tag(TAG).d("dccsByKID=%s", it) }
-
-        // Update KID List
-        val revocationKidList = revocationServer.getRevocationKidList().also { Timber.tag(TAG).d("revocationKidList=%s", it) }
-
-        // Filter KID groups by KID list
-        val filteredDccsByKID = dccsByKID.filterBy(revocationKidList)
-            .also { Timber.tag(TAG).d("DccsByKID filtered by KID list: %s", it) }
-
-        return filteredDccsByKID.calculateRevocationListCoordinates(revocationKidList)
-            .toSortedMap(compareBy<RevocationEntryCoordinates> { it.type.type }.thenBy { it.hashCode() })
+        return chunks.also { Timber.tag(TAG).d("chunks=%s", it) }
     }
 
     private fun CertificateProvider.CertificateContainer.groupDCCsByKID(): DCCsByKID {
@@ -76,20 +91,20 @@ class RevocationUpdateService @Inject constructor(
 
     private fun DCCsByKID.calculateRevocationListCoordinates(
         revocationKidList: RevocationKidList
-    ): Map<RevocationEntryCoordinates, List<CwaCovidCertificate>> =
-        buildMap<RevocationEntryCoordinates, MutableList<CwaCovidCertificate>> {
-            for (item in this@calculateRevocationListCoordinates) {
-                val hashTypes = revocationKidList.items.firstOrNull { it.kid == item.key }?.hashTypes ?: continue
+    ): CoordinatesDccMap = buildMap<RevocationEntryCoordinates, MutableList<CwaCovidCertificate>> {
+        for (item in this@calculateRevocationListCoordinates) {
+            val hashTypes = revocationKidList.items.firstOrNull { it.kid == item.key }?.hashTypes ?: continue
 
-                hashTypes.forEach { type ->
-                    item.value.forEach { dcc ->
-                        val coordinate = dcc.dccData.calculateCoordinatesToHash(type).first
-                        val list = getOrPut(coordinate) { mutableListOf() }
-                        list.add(dcc)
-                    }
+            hashTypes.forEach { type ->
+                item.value.forEach { dcc ->
+                    val coordinate = dcc.dccData.calculateCoordinatesToHash(type).first
+                    val list = getOrPut(coordinate) { mutableListOf() }
+                    list.add(dcc)
                 }
             }
         }
+    }
+
 
     private fun CwaCovidCertificate.kidHex(): ByteString? = try {
         dccData.kidHash()
@@ -101,6 +116,7 @@ class RevocationUpdateService @Inject constructor(
 private val TAG = tag<RevocationUpdateService>()
 
 private typealias DCCsByKID = Map<ByteString, List<CwaCovidCertificate>>
+private typealias CoordinatesDccMap = Map<RevocationEntryCoordinates, List<CwaCovidCertificate>>
 
 private data class Coordinate(
     val x: ByteString,
