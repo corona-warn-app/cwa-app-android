@@ -46,6 +46,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     )
     private val personDetailsAdapter = PersonDetailsAdapter()
+    private var numberOfCertificates = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +76,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             viewModel.uiState.observe(viewLifecycleOwner) {
                 name.text = it.name
                 personDetailsAdapter.update(it.certificateItems)
+                numberOfCertificates = it.numberOfCertificates
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
             viewModel.currentColorShade.observe(viewLifecycleOwner) { color ->
@@ -98,6 +100,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -106,6 +109,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToTestCertificateDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -114,6 +118,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToVaccinationDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -146,25 +151,25 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
 
     private fun setToolbarOverlay() {
         binding.recyclerViewCertificatesList.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (binding.recyclerViewCertificatesList.childCount > 0) {
-                        val firstElement = binding.recyclerViewCertificatesList[0]
-                        val emptySpaceToTop = firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
-                        val overlap = (firstElement.height / 2) + emptySpaceToTop
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                if (binding.recyclerViewCertificatesList.childCount > 0) {
+                    val firstElement = binding.recyclerViewCertificatesList[0]
+                    val emptySpaceToTop = firstElement.marginTop + binding.recyclerViewCertificatesList.paddingTop
+                    val overlap = (firstElement.height / 2) + emptySpaceToTop
 
-                        val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
-                            binding.recyclerViewCertificatesList.layoutParams
-                                as (CoordinatorLayout.LayoutParams)
-                        val behavior: AppBarLayout.ScrollingViewBehavior =
-                            layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
-                        behavior.overlayTop = overlap
+                    val layoutParamsRecyclerView: CoordinatorLayout.LayoutParams =
+                        binding.recyclerViewCertificatesList.layoutParams
+                            as (CoordinatorLayout.LayoutParams)
+                    val behavior: AppBarLayout.ScrollingViewBehavior =
+                        layoutParamsRecyclerView.behavior as (AppBarLayout.ScrollingViewBehavior)
+                    behavior.overlayTop = overlap
 
-                        binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
-                        binding.europaImage.requestLayout()
-                        binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    }
+                    binding.europaImage.layoutParams.height = binding.collapsingToolbarLayout.height + overlap
+                    binding.europaImage.requestLayout()
+                    binding.recyclerViewCertificatesList.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
-            })
+            }
+        })
     }
 }

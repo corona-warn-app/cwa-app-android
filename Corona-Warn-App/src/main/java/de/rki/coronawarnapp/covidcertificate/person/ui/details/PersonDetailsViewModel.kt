@@ -116,7 +116,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
         return UiState(
             name = priorityCertificate.fullName,
-            certificateItems = certificateItems
+            certificateItems = certificateItems,
+            numberOfCertificates = personCertificates.certificates.size
         )
     }
 
@@ -277,7 +278,8 @@ class PersonDetailsViewModel @AssistedInject constructor(
 
     data class UiState(
         val name: String,
-        val certificateItems: List<CertificateItem>
+        val certificateItems: List<CertificateItem>,
+        val numberOfCertificates: Int = 0
     )
 
     @AssistedFactory
