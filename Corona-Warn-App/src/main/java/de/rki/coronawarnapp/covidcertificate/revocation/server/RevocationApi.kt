@@ -24,4 +24,3 @@ interface RevocationApi {
         @Path("y") y: String
     ): Response<ResponseBody>
 }
-
