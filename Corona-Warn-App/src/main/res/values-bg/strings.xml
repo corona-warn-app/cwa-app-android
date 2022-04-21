@@ -1150,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Сканиране на QR код"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Получете резултата си, както и резултатите за членовете на семейството Ви в приложението и предупредете останалите потребители или заявете своя сертификат за тест за COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Получете резултатите от Вашия тест и тези на членовете от Вашето семейство в приложението и заявете своя сертификат за тест за COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Търсене на център за тестване"</string>
     <!-- YTXT: Body text for test center dispatcher option -->

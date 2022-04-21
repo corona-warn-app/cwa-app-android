@@ -16,25 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Gestionarea testelor familiei dvs."</item>
-        <item>"Android 12 și Material Design 3"</item>
+        <item>"Profiluri de test rapid pentru membrii familiei"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți gestiona testele pentru membrii familiei dvs. în aplicația dvs.: puteți primi rezultatele testelor acestora pe smartphone-ul dvs. și puteți solicita certificate de test COVID digitale. Însă, dacă un test al acestora este pozitiv, nu puteți avertiza alte persoane. Avertizarea este posibilă doar dacă înregistrați un test personal."</item>
-        <item>"Aplicația Corona-Warn a fost optimizată pentru a rula pe Android 12. Acum suportă și Material Design 3."</item>
+        <item>"Acum puteți crea profiluri de test rapid pentru membrii familiei dvs., pentru a grăbi înregistrarea în punctele de testare. După ce efectuați acest lucru, trebuie doar să prezentați codul QR pentru respectivul profil de test rapid, pentru a pune la dispoziție informațiile personale."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
         <item/>
     </string-array>
 
