@@ -27,12 +27,12 @@ class RevocationParser @Inject constructor() {
         .toRevocationChunk()
 
     private fun RevocationKidListProto.toRevocationKidList() = RevocationKidList(
-        items = itemsList.map { it.toRevocationKidListItem() }
+        items = itemsList.map { it.toRevocationKidListItem() }.toSet()
     )
 
     private fun RevocationKidListItemProto.toRevocationKidListItem() = RevocationKidListItem(
         kid = kid.toOkioByteString(),
-        hashTypes = hashTypesList.map { RevocationHashType.from(it.toOkioByteString()) }
+        hashTypes = hashTypesList.map { RevocationHashType.from(it.toOkioByteString()) }.toSet()
     )
 
     private fun RevocationKidTypeIndexProto.toRevocationKidTypeIndex() = RevocationKidTypeIndex(

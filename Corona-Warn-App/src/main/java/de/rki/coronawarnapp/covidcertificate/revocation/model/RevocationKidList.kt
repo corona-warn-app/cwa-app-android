@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 import okio.ByteString
 
 data class RevocationKidList(
-    @SerializedName("items") val items: List<RevocationKidListItem>
+    @SerializedName("items") val items: Set<RevocationKidListItem>
 )
 
 data class RevocationKidListItem(
     @SerializedName("kid") val kid: ByteString,
-    @SerializedName("hashTypes") val hashTypes: List<RevocationHashType>
+    @SerializedName("hashTypes") val hashTypes: Set<RevocationHashType>
 )

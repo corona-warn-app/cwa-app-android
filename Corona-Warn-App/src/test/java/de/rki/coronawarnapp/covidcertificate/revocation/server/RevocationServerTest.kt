@@ -87,10 +87,10 @@ class RevocationServerTest : BaseTest() {
     @Test
     fun `happy path - getRevocationKidList`() = runBlockingTest2 {
         val kidList = RevocationKidList(
-            items = listOf(
+            items = setOf(
                 RevocationKidListItem(
                     kid = "kid".sha256(),
-                    hashTypes = listOf(RevocationHashType.UCI)
+                    hashTypes = setOf(RevocationHashType.UCI)
                 )
             )
         )

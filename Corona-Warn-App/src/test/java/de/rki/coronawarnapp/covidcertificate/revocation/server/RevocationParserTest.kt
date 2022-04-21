@@ -26,10 +26,10 @@ class RevocationParserTest : BaseTest() {
     fun `create kid list`() {
         val kidListItem = RevocationKidListItem(
             kid = "kid".decodeBase64()!!,
-            hashTypes = listOf(RevocationHashType.UCI)
+            hashTypes = setOf(RevocationHashType.UCI)
         )
         val kidList = RevocationKidList(
-            items = listOf(kidListItem)
+            items = setOf(kidListItem)
         )
 
         val revocationKidListItemProto = RevocationKidListOuterClass.RevocationKidListItem.newBuilder()
