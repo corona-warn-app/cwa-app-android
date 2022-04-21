@@ -139,6 +139,8 @@
     <string name="rat_profile_open_card_subtitle">"Профил за бързи тестове в Вашите лични данни, който може да използвате при ползване на всеки пункт за тестване чрез QR кода."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Профил за бързи тестове"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Профили за бързи тестове"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Име"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,6 +165,12 @@
     <string name="rat_profile_create_phone_error">"Невалиден телефонен номер"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Невалиден имейл адрес"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Профил за бързи тестове"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Все още няма профили за бързи тестове"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Можете да създадете профил за бързи тестове с личните си данни, който да представяте чрез QR код във всеки включен пункт за тестване."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жена със смартфон в ръката стои пред сграда. QR кодът символизира профила за бързи тестове, който трябва да се сканира."</string>

@@ -139,6 +139,8 @@
     <string name="rat_profile_open_card_subtitle">"Профіль експрес-тесту з вашими особистими даними, які ви можете надіслати до будь-якого пункту тестування, що приймає участь, за допомогою QR-коду."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Профіль експрес-тесту"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Профілі експрес-тестів"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Ім\'я"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,6 +165,12 @@
     <string name="rat_profile_create_phone_error">"Недійсний номер телефону"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Недійсна адреса електронної пошти"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Профіль експрес-тесту"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Профілі експрес-тестів ще не створені"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Ви можете створити профіль експрес-тесту зі своїми особистими даними, які ви можете надіслати за допомогою QR-коду до кожного залученого пункту тестування."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Жінка зі смартфоном у руці стоїть перед будівлею. QR-код символізує профіль експрес-тесту, який потрібно сканувати."</string>

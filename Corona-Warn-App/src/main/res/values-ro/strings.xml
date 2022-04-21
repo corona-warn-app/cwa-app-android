@@ -1150,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. și rezultatele pentru membrii familiei în aplicație și avertizați-i pe ceilalți sau solicitați certificatul dvs. de test COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. și rezultatele pentru membrii familiei dvs. în aplicație și solicitați certificatul dvs. de test COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Găsire centru de testare"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1511,7 +1511,7 @@
     <!-- XTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend">"Tendința compară valoarea din ziua anterioară cu valoarea de acum două zile (pentru incidența pe 7 zile, incidența spitalizării pe 7 zile, pacienții COVID-19 din unitățile de terapie intensivă, valoarea R pe 7 zile) sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din cele 7 zile anterioare acestora (pentru valoarea medie pe 7 zile a infectărilor noi confirmate, avertizări de către utilizatorii aplicației, dozele de vaccin administrate). Este utilizată versiunea respectivă a datelor publicate inițial; actualizările ulterioare nu sunt luate în considerare."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
+    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă (ținând cont de pozițiile zecimale). Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Exemple de tendințe afișate:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1626,7 +1626,7 @@
                Business Error Messages
         ###################################### -->
     <!-- XTXT: error dialog - detailed text if device is offline  -->
-    <string name="errors_no_network">"Nu sunteţi conectat la internet."</string>
+    <string name="errors_no_network">"Nu sunteți conectat la internet."</string>
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
     <string name="errors_not_enough_device_storage">"Nu aveți suficientă memorie liberă."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->
