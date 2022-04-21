@@ -46,11 +46,6 @@ fun IncludeCertificateQrcodeCardBinding.bindValidityViews(
     invalidOverlay.isGone = isActualQrCodeVisible
     image.isEnabled = isActualQrCodeVisible // Disable Qr-Code full-screen mode
 
-    // Check this from 2.22
-    // invalidOverlay.isGone = valid || (isCertificateDetails && !certificate.isNotBlocked)
-    // image.isEnabled = isCertificateDetails && (valid || !certificate.isNotBlocked) // Disable Qr-Code full-screen mode
-
-
     when (certificate.displayedState()) {
         is ExpiringSoon -> {
             statusIcon.constraintLayoutParams.verticalBias = 0f
@@ -169,8 +164,7 @@ fun PersonOverviewItemBinding.setUIState(
     }
 
     when (firstCertificate.cwaCertificate.displayedState()) {
-        is CwaCovidCertificate.State.Expired -> updateExpirationViews(
-
+        is Expired -> updateExpirationViews(
             badgeCount,
             verticalBias = 1.0f,
             expirationText = R.string.certificate_qr_expired
