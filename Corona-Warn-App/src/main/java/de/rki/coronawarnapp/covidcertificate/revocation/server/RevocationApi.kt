@@ -10,7 +10,7 @@ interface RevocationApi {
     @GET("/version/v1/dcc-rl/kid")
     suspend fun getRevocationKidList(): Response<ResponseBody>
 
-    @GET("/version/v1/dcc-rl/{kid}{type}/index")
+    @GET("/version/v1/dcc-rl/{kid}{type}")
     suspend fun getRevocationKidTypeIndex(
         @Path("kid") kid: String,
         @Path("type") type: String
