@@ -2,7 +2,6 @@ package de.rki.coronawarnapp.covidcertificate.revocation.update
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.util.TimeStamper
@@ -34,7 +33,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var certificatesProvider: CertificateProvider
     @MockK lateinit var revocationUpdateSettings: RevocationUpdateSettings
-    @MockK lateinit var revocationRepository: RevocationRepository
+    @MockK lateinit var revocationUpdateService: RevocationUpdateService
     private val container = mockk<CertificateProvider.CertificateContainer>().apply {
         every { allCwaCertificates } returns setOf(
             mockk<VaccinationCertificate>(),
@@ -52,7 +51,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
 
         coEvery { revocationUpdateSettings.getLastUpdateTime() } returns Instant.EPOCH
         coEvery { revocationUpdateSettings.setUpdateTimeToNow(any()) } just Runs
-        coEvery { revocationRepository.updateRevocationList(any()) } just Runs
+        coEvery { revocationUpdateService.updateRevocationList(any()) } just Runs
     }
 
     @Test
@@ -60,7 +59,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
         getInstance(this)
         coVerify {
             revocationUpdateSettings wasNot Called
-            revocationRepository wasNot Called
+            revocationUpdateService wasNot Called
         }
     }
 
@@ -68,7 +67,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
     fun `update is not triggered when day is the same`() = runBlockingTest {
         getInstance(this).updateRevocationList(false)
         coVerify(exactly = 0) {
-            revocationRepository.updateRevocationList(any())
+            revocationUpdateService.updateRevocationList(any())
             revocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
@@ -79,7 +78,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
         getInstance(this).updateRevocationList(false)
 
         coVerify(exactly = 1) {
-            revocationRepository.updateRevocationList(any())
+            revocationUpdateService.updateRevocationList(any())
             revocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
@@ -88,14 +87,14 @@ internal class RevocationListUpdaterTest : BaseTest() {
     fun `update is triggered when force flag is on despite day check`() = runBlockingTest {
         getInstance(this).updateRevocationList(true)
         coVerify(exactly = 1) {
-            revocationRepository.updateRevocationList(any())
+            revocationUpdateService.updateRevocationList(any())
             revocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
 
     @Test
     fun `update error is caught`() = runBlockingTest {
-        coEvery { revocationRepository.updateRevocationList(any()) } throws Exception("WOW!")
+        coEvery { revocationUpdateService.updateRevocationList(any()) } throws Exception("WOW!")
         shouldNotThrow<Exception> {
             getInstance(this).updateRevocationList(true)
         }
@@ -120,7 +119,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
 
         coVerify(exactly = 1) {
             revocationUpdateSettings.getLastUpdateTime()
-            revocationRepository.updateRevocationList(any())
+            revocationUpdateService.updateRevocationList(any())
             revocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
@@ -156,7 +155,7 @@ internal class RevocationListUpdaterTest : BaseTest() {
             timeStamper = timeStamper,
             revocationUpdateSettings = revocationUpdateSettings,
             certificatesProvider = certificatesProvider,
-            revocationRepository = revocationRepository
+            revocationUpdateService = revocationUpdateService
         )
     }
 }
