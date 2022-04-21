@@ -21,33 +21,29 @@ class RevocationUpdateService @Inject constructor(
     private val dccRevocationChecker: DccRevocationChecker
 ) {
 
-    suspend fun updateRevocationList(container: CertificateProvider.CertificateContainer) = try {
+    suspend fun updateRevocationList(container: CertificateProvider.CertificateContainer) {
         Timber.tag(TAG).d("Updating Revocation List")
-        val coordinatesDccMap = container.createCoordinatesDccMap().also { Timber.tag(TAG).d("coordinatesDccMap=%s", it) }
+        val coordinatesDccMap = container.createCoordinatesDccMap()
         val chunks = mutableSetOf<CachedRevocationChunk>()
         for (entry in coordinatesDccMap) {
             val chunkList = chunks.toList()
             if (entry.value.any { dccRevocationChecker.isRevoked(it.dccData, chunkList) }) {
-                Timber.tag(TAG).d("Found matching hash, skipping entry=%s", entry)
+                Timber.tag(TAG).d("Entry contains already revoked dcc, skipping entry=%s", entry)
                 continue
             }
 
             val index = with(entry) { revocationServer.getRevocationKidTypeIndex(key.kid, key.type) }
-                .also { Timber.tag(TAG).d("index=%s", it) }
 
-            val coordinates = index.revocationKidTypeIndex.items.flatMap { item ->
-                item.y.map { Coordinate(item.x, it) }
-            }
-            val f = coordinatesDccMap
-                .filterKeys { it.coordinate in coordinates }
+            val coordinates = index.revocationKidTypeIndex.items
+                .flatMap { item -> item.y.map { Coordinate(item.x, it) } }
 
-            chunks += f.keys.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
+            val filteredCoordinates = coordinatesDccMap.keys
+                .filter { it.coordinate in coordinates }
+
+            chunks += filteredCoordinates.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
         }
 
-        Timber.tag(TAG).d("Saving chunks=%s", chunks)
         revocationRepository.saveCachedRevocationChunks(chunks)
-    } catch (e: Exception) {
-        Timber.tag(TAG).e(e, "Failed to update revocation list")
     }
 
     private suspend fun CertificateProvider.CertificateContainer.createCoordinatesDccMap(): Map<RevocationEntryCoordinates, List<CwaCovidCertificate>> {
@@ -86,11 +82,9 @@ class RevocationUpdateService @Inject constructor(
 
                 hashTypes.forEach { type ->
                     item.value.forEach { dcc ->
-                        val (coordinate, hash) = dcc.dccData.calculateCoordinatesToHash(type)
-                        Timber.tag(TAG).d("coordinate=%s, hash=%s", coordinate, coordinate.hashCode())
+                        val coordinate = dcc.dccData.calculateCoordinatesToHash(type).first
                         val list = getOrPut(coordinate) { mutableListOf() }
                         list.add(dcc)
-                        Timber.tag(TAG).d("list=%s", list)
                     }
                 }
             }
