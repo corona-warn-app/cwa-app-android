@@ -25,10 +25,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockkObject
-import io.mockk.verify
-import okhttp3.Cache
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.jupiter.api.BeforeEach
@@ -46,7 +43,6 @@ class RevocationServerTest : BaseTest() {
     @MockK lateinit var revocationApi: RevocationApi
     @MockK lateinit var signatureValidation: SignatureValidation
     @MockK lateinit var revocationParser: RevocationParser
-    @RelaxedMockK lateinit var revocationCache: Cache
 
     private val exportSignature = "exportSignature".toByteArray()
     private val exportBinaryKidList = "exportBinaryKidList".toByteArray()
@@ -63,8 +59,7 @@ class RevocationServerTest : BaseTest() {
             revocationApiLazy = { revocationApi },
             dispatcherProvider = TestDispatcherProvider(),
             signatureValidation = signatureValidation,
-            revocationParser = revocationParser,
-            revocationCache = revocationCache
+            revocationParser = revocationParser
         )
 
     @BeforeEach
@@ -90,21 +85,12 @@ class RevocationServerTest : BaseTest() {
     }
 
     @Test
-    fun `evicts cache`() {
-        instance.clearCache()
-
-        verify {
-            revocationCache.evictAll()
-        }
-    }
-
-    @Test
     fun `happy path - getRevocationKidList`() = runBlockingTest2 {
         val kidList = RevocationKidList(
-            items = listOf(
+            items = setOf(
                 RevocationKidListItem(
                     kid = "kid".sha256(),
-                    hashTypes = listOf(RevocationHashType.UCI)
+                    hashTypes = setOf(RevocationHashType.UCI)
                 )
             )
         )

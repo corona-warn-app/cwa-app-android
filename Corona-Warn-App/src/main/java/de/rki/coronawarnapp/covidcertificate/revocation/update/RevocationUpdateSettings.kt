@@ -53,15 +53,6 @@ class RevocationUpdateSettings @Inject constructor(
         }
     }
 
-    suspend fun clear() {
-        Timber.tag(TAG).d("Clearing Revocation Settings data store.")
-        runCatching {
-            revocationDataStore.edit { prefs -> prefs.clear() }
-        }.onFailure { e ->
-            Timber.tag(TAG).e(e, "Failed to clear Revocation settings.")
-        }
-    }
-
     companion object {
         private val TAG = tag<RevocationUpdateSettings>()
         internal val LAST_UPDATE_TIME_KEY = longPreferencesKey("dccRevocationList.lastUpdateTime")

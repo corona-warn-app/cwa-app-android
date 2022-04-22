@@ -22,7 +22,7 @@ internal class RevocationUpdateSettingsTest : BaseTest() {
     }
 
     @Test
-    fun `test RevocationUpdateSettings - set last update value and clear it again`() =
+    fun `test RevocationUpdateSettings - set last update value`() =
         runBlockingTest {
             settings.getLastUpdateTime() shouldBe null
 
@@ -31,8 +31,5 @@ internal class RevocationUpdateSettingsTest : BaseTest() {
 
             fakeDataStore[RevocationUpdateSettings.LAST_UPDATE_TIME_KEY] shouldBe now.seconds
             settings.getLastUpdateTime() shouldBe now
-
-            settings.clear()
-            settings.getLastUpdateTime() shouldBe null
         }
 }
