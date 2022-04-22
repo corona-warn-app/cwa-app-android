@@ -2,15 +2,17 @@ package de.rki.coronawarnapp.covidcertificate.revocation.update
 
 import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
+import de.rki.coronawarnapp.util.flow.launchInLatest
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.joda.time.Instant
@@ -30,26 +32,32 @@ class RevocationListUpdater @Inject constructor(
     private val mutex = Mutex()
 
     init {
-        appScope.launch {
-            certificatesProvider.allCertificatesSize
-                .drop(1) // App start emission
-                .collectLatest {
-                    Timber.tag(TAG).d("Update revocation list on new registration")
-                    updateRevocationList(true)
-                }
-        }
+        certificatesProvider.allCertificates
+            .distinctUntilChangedBy { it.size }
+            .drop(1)
+            .catch { Timber.tag(TAG).e(it, "An error occurred while observing all certificates") }
+            .launchInLatest(appScope) {
+                Timber.tag(TAG).d("Update revocation list on new registration")
+                updateRevocationList(forceUpdate = true, allCertificates = it)
+            }
     }
 
-    suspend fun updateRevocationList(forceUpdate: Boolean = false) = mutex.withLock {
+    suspend fun updateRevocationList(forceUpdate: Boolean = false) = updateRevocationList(
+        forceUpdate = forceUpdate,
+        allCertificates = certificatesProvider.allCertificates.first()
+    )
+
+    private suspend fun updateRevocationList(
+        forceUpdate: Boolean,
+        allCertificates: Set<CwaCovidCertificate>
+    ) = mutex.withLock {
         try {
             val timeUpdateRequired = isUpdateRequired()
             Timber.tag(TAG).d("updateRevocationList(forceUpdate=$forceUpdate, timeUpdateRequired=$timeUpdateRequired)")
             when {
                 forceUpdate || timeUpdateRequired -> {
                     Timber.tag(TAG).d("updateRevocationList is required")
-                    revocationUpdateService.updateRevocationList(
-                        certificatesProvider.certificateContainer.first()
-                    )
+                    revocationUpdateService.updateRevocationList(allCertificates)
                     revocationUpdateSettings.setUpdateTimeToNow()
                 }
                 else -> Timber.tag(TAG).d("updateRevocationList isn't required")
