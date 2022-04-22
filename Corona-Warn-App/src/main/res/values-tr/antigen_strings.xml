@@ -139,6 +139,8 @@
     <string name="rat_profile_open_card_subtitle">"QR kod ile dilediğiniz katılımcı test noktasına gönderebileceğiniz, kişisel verilerinizi içeren hızlı test profili."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Hızlı Test Profili"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Hızlı Test Profilleri"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Ad"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,6 +165,12 @@
     <string name="rat_profile_create_phone_error">"Geçersiz telefon numarası"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Geçersiz e-posta adresi"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Hızlı test profili"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Henüz hiçbir hızlı test profili oluşturulmadı"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Kişisel verilerinizle bir hızlı test profili oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>

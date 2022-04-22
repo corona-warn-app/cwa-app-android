@@ -32,7 +32,7 @@ class RATProfileOnboardingFragment : Fragment(R.layout.rat_profile_onboarding_fr
                     viewModel.onNext()
                     doNavigate(
                         RATProfileOnboardingFragmentDirections
-                            .actionRatProfileOnboardingFragmentToProfileListFragment()
+                            .actionProfileOnboardingFragmentToProfileListFragment()
                     )
                 }
 
@@ -42,7 +42,7 @@ class RATProfileOnboardingFragment : Fragment(R.layout.rat_profile_onboarding_fr
             ratProfileOnboardingPrivacy.setOnClickListener {
                 doNavigate(
                     RATProfileOnboardingFragmentDirections
-                        .actionRatProfileOnboardingFragmentToPrivacyFragment()
+                        .actionProfileOnboardingFragmentToPrivacyFragment()
                 )
             }
         }
