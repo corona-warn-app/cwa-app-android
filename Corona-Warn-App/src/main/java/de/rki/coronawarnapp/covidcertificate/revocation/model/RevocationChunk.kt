@@ -1,19 +1,17 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import okio.ByteString
 
 data class RevocationChunk(
-    @SerializedName("hashes") val hashes: List<ByteString>
+    @JsonProperty("hashes") val hashes: List<ByteString>
 )
 
 data class CachedRevocationChunk(
     /**
      * Used as an identifier of the respective hashes list
      */
-    @SerializedName("coordinates")
-    val coordinates: RevocationEntryCoordinates,
+    @JsonProperty("coordinates") val coordinates: RevocationEntryCoordinates,
 
-    @SerializedName("revocationChunk")
-    val revocationChunk: RevocationChunk
+    @JsonProperty("revocationChunk") val revocationChunk: RevocationChunk
 )

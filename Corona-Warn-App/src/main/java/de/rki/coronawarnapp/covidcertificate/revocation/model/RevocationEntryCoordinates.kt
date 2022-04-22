@@ -1,22 +1,18 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 import okio.ByteString
 
 data class RevocationEntryCoordinates(
     /** The hex-encoded KID of a DCC (usually 16 characters) */
-    @SerializedName("kid")
-    val kid: ByteString,
+    @JsonProperty("kid") val kid: ByteString,
 
     /** See [RevocationHashType] */
-    @SerializedName("type")
-    val type: RevocationHashType,
+    @JsonProperty("type") val type: RevocationHashType,
 
     /** A hex-encoded byte representing the first byte of the hash */
-    @SerializedName("x")
-    val x: ByteString,
+    @JsonProperty("x") val x: ByteString,
 
     /** A hex-encoded byte representing the second byte of the hash */
-    @SerializedName("y")
-    val y: ByteString
+    @JsonProperty("y") val y: ByteString
 )
