@@ -167,6 +167,11 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 cert.state shouldBe CwaCovidCertificate.State.Recycled
                 cert.isRecycled shouldBe true
             }
+
+            allCertificates.first().also {
+                it.certificates.first().recoveryCertificate.state shouldBe CwaCovidCertificate.State.Valid(nowUTC)
+                it.recycledCertificates.first().state shouldBe CwaCovidCertificate.State.Recycled
+            }
         }
     }
 

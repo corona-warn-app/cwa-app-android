@@ -85,8 +85,6 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val allCertificateSize = internalData.data.map { it.values.size }
-
     data class RecoveryCertificatesHolder(
         val certificates: Set<RecoveryCertificateWrapper>,
         val recycledCertificates: Set<RecoveryCertificate>
