@@ -12,20 +12,23 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-            style="@style/CWAToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorSurface"
             app:liftOnScroll="true">
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="@style/CWAMaterialToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:theme="@style/CWAMaterialToolbar.OverflowMenu"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:menu="@menu/menu_person_overview"
                 app:title="@string/certification_screen_title" />
 
             <include
                 android:id="@+id/admission_container"
+                android:visibility="gone"
                 layout="@layout/admission_scenario_tile" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -69,13 +72,12 @@
                 app:srcCompat="@drawable/ic_person_overview_illustration" />
 
             <TextView
-                style="@style/subtitleMedium"
+                style="@style/subtitleMediumBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="36dp"
-                android:text="@string/person_overview_no_certificates_title"
-                android:textStyle="bold" />
+                android:text="@string/person_overview_no_certificates_title" />
 
             <TextView
                 style="@style/body2Medium"
@@ -107,14 +109,13 @@
 
         <TextView
             android:id="@+id/loading_text"
-            style="@style/subtitleMedium"
+            style="@style/subtitleMediumBold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/spacing_medium"
             android:text="@string/certificate_loading_text"
             android:textAlignment="center"
-            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/loading_progress_bar" />
 
         <androidx.constraintlayout.widget.Group

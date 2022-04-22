@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Bir gün için düşük riskli maruz kalmalar"</item>
+        <item quantity="one">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için düşük riskli maruz kalmalar"</item>
         <item quantity="zero">"Hiçbir maruz kalma yok"</item>
         <item quantity="two">"%1$d gün için düşük riskli maruz kalmalar"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Bir gün için artmış riskli maruz kalmalar"</item>
+        <item quantity="one">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="other">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="zero">"%1$d gün için artmış riskli maruz kalmalar"</item>
         <item quantity="two">"%1$d gün için artmış riskli maruz kalmalar"</item>
@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Risk Durumunuzda Değişiklik"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma 14 günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
+    <string name="risk_lowered_dialog_body">"Risk durumunuzun artmasına neden olan son maruz kalma %d günden uzun süre önce gerçekleşti. Bu nedenle enfeksiyon riskiniz yeniden düşük olarak derecelendirildi.\n\nYapmanız gerekenler:\n1. Herhangi bir COVID-19 belirtiniz yoksa mesafe ve hijyen konusunda belirlenen kurallara riayet etmenizi öneririz.\n2. COVID-19 belirtiniz varsa doktorunuzu ziyaret edip test yaptırmanızı öneririz."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"Tamam"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Müşteri hizmetlerimiz şu dillerde size yardımcı olmaya hazır:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"İngilizce, Almanca, Türkçe\n\nMesai saatleri:\nPazartesi - Cumartesi: 7.00 - 22.00 (CET)\n(ulusal tatiller hariçtir)"</string>
+    <string name="information_contact_body_open">"Almanca\n\nMesai saatleri:\nPazartesi - Cuma: 9.00 - 17.00 (CET)\n(ulusal tatiller hariçtir)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Herhangi bir sorunuz varsa lütfen 116 117\'yi (Almanya\'da) arayın. Ardından otomatik mesaj sırasında, Federal Sağlık Bakanlığı hizmet noktası için 2\'ye basın. Belirtileriniz varsa sadece 1\'e (genel tıbbi acil servis) basın."</string>
     <!-- XACT: describes illustration -->
@@ -1031,10 +1031,18 @@
     <string name="submission_test_result_steps_added_heading">"PCR Testiniz Eklendi"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"PCR testi eklendi"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Hızlı test eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Test Sonucu Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için TAN Talebi başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Test sonucu çıkar çıkmaz uygulamada görüntülenecektir.\nTest sonucu uygulama dışından da tarafınıza iletilecektir. Testin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1045,13 +1053,21 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Test sonucunuz temas güncenize eklenecektir"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Test sonucu çıkar çıkmaz uygulamada görüntülenecektir."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"COVID Test Sertifikanız"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID Test Sertifikası"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Dijital COVID test sertifikasını \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden resmi bir dijital COVID test sertifikası talep edemezsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Resmi dijital COVID test sertifikanız henüz çıkmadı. Çıkar çıkmaz uygulamanızda görüntülenecektir."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Resmi dijital COVID test sertifikası henüz çıkmadı. Çıkar çıkmaz uygulamada görüntülenecektir."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Talebiniz üzerine, hiçbir resmi dijital COVID test sertifikası düzenlenmeyecektir."</string>
 
@@ -1134,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR Kodu Tara"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Uygulamada test sonucunuzu alın ve diğer kullanıcıları uyarın ya da COVID test sertifikanızı talep edin."</string>
+    <string name="submission_dispatcher_qr_card_text">"Uygulamadaki test sonucunuzu ve aile üyelerinizin test sonuçlarını alın ve COVID test sertifikanızı talep edin."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1341,6 +1357,8 @@
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"%s tanınız:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"%s tanısı:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->

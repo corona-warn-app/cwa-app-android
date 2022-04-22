@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.ui.main.home
 
 import androidx.annotation.StringRes
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 
 sealed class HomeFragmentEvents {
@@ -12,6 +12,10 @@ sealed class HomeFragmentEvents {
     object ShowErrorResetDialog : HomeFragmentEvents()
 
     data class ShowAdditionalHighRiskLevelDialogEvent(
+        val maxEncounterAgeInDays: Int
+    ) : HomeFragmentEvents()
+
+    data class ShowLoweredRiskLevelDialogEvent(
         val maxEncounterAgeInDays: Int
     ) : HomeFragmentEvents()
 
@@ -27,12 +31,14 @@ sealed class HomeFragmentEvents {
 
     object OpenFAQUrl : HomeFragmentEvents()
 
+    object GoToFamilyTests : HomeFragmentEvents()
+
     data class GoToRapidTestResultNegativeFragment(val identifier: TestIdentifier) : HomeFragmentEvents()
 
-    data class GoToPcrTestResultNegativeFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+    data class GoToPcrTestResultNegativeFragment(val type: BaseCoronaTest.Type, val identifier: TestIdentifier) :
         HomeFragmentEvents()
 
-    data class GoToTestResultKeysSharedFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+    data class GoToTestResultKeysSharedFragment(val type: BaseCoronaTest.Type, val identifier: TestIdentifier) :
         HomeFragmentEvents()
 
     data class OpenIncompatibleUrl(val scanningSupported: Boolean) : HomeFragmentEvents() {
@@ -47,21 +53,21 @@ sealed class HomeFragmentEvents {
     data class OpenTraceLocationOrganizerGraph(val qrInfoAcknowledged: Boolean) : HomeFragmentEvents()
 
     data class GoToTestResultPendingFragment(
-        val testType: CoronaTest.Type,
+        val testType: BaseCoronaTest.Type,
         val forceUpdate: Boolean = false,
         val identifier: TestIdentifier
     ) : HomeFragmentEvents()
 
     data class ShowDeleteTestDialog(
-        val type: CoronaTest.Type,
+        val type: BaseCoronaTest.Type,
         val submission: Boolean = true,
         val identifier: TestIdentifier
     ) : HomeFragmentEvents()
 
-    data class GoToTestResultAvailableFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+    data class GoToTestResultAvailableFragment(val type: BaseCoronaTest.Type, val identifier: TestIdentifier) :
         HomeFragmentEvents()
 
-    data class GoToTestResultPositiveFragment(val type: CoronaTest.Type, val identifier: TestIdentifier) :
+    data class GoToTestResultPositiveFragment(val type: BaseCoronaTest.Type, val identifier: TestIdentifier) :
         HomeFragmentEvents()
 
     data class DeleteOutdatedRAT(val identifier: TestIdentifier) : HomeFragmentEvents()

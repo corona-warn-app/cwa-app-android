@@ -17,8 +17,6 @@ import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.plus
 import javax.inject.Inject
@@ -28,7 +26,7 @@ class CertificateProvider @Inject constructor(
     vcRepo: VaccinationCertificateRepository,
     tcRepo: TestCertificateRepository,
     rcRepo: RecoveryCertificateRepository,
-    @AppScope appScope: CoroutineScope,
+    @AppScope private val appScope: CoroutineScope,
     dispatcherProvider: DispatcherProvider
 ) {
 
@@ -37,8 +35,6 @@ class CertificateProvider @Inject constructor(
         tcRepo.certificates,
         vcRepo.certificates
     ) { recoveries, tests, vaccinations -> CertificateContainer(recoveries, tests, vaccinations) }
-        .conflate()
-        .distinctUntilChanged()
         .shareLatest(scope = appScope + dispatcherProvider.IO)
 
     /**

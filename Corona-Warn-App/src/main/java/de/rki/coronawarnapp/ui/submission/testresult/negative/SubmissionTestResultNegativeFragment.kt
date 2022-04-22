@@ -5,12 +5,15 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.covidcertificate.test.ui.details.TestCertificateDetailsFragment
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultNegativeBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
@@ -32,7 +35,7 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultNegativeViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -40,22 +43,64 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.onTestOpened()
-
         binding.apply {
             submissionTestResultButtonNegativeRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { popBackStack() }
+            binding.toolbar.setNavigationOnClickListener { popBackStack() }
             testCertificateCard.setOnClickListener { viewModel.onCertificateClicked() }
         }
 
-        viewModel.testResult.observe2(this) {
+        viewModel.testResult.observe2(this) { uiState ->
+            val coronaTest = uiState.coronaTest
             binding.apply {
-                submissionTestResultSection.setTestResultSection(it.coronaTest)
+                submissionTestResultSection.setTestResultSection(coronaTest)
+                if (coronaTest is FamilyCoronaTest) {
+                    familyMemberName.isVisible = true
+                    familyMemberName.text = coronaTest.personName
+                    toolbar.title = getText(R.string.submission_test_result_headline)
+                    testResultNegativeStepsRemoveTest.isVisible = false
+                    testResultNegativeStepsCertificate.setEntryTitle(
+                        getText(
+                            R.string.submission_family_test_result_pending_steps_certificate_heading
+                        )
+                    )
+                    testResultNegativeStepsCertificate.setEntryText(
+                        getText(
+                            R.string.submission_family_test_result_negative_steps_certificate_text
+                        )
+                    )
+                    when (coronaTest.type) {
+                        BaseCoronaTest.Type.PCR -> {
+                            testResultNegativeStepsAdded.setEntryTitle(
+                                getText(
+                                    R.string.submission_family_test_result_steps_added_pcr_heading
+                                )
+                            )
+                            testResultNegativeStepsAdded.setEntryText("")
+                            testResultNegativeStepsNegativeResult.setEntryText(
+                                getText(
+                                    R.string.submission_test_result_negative_steps_negative_body
+                                )
+                            )
+                        }
+                        BaseCoronaTest.Type.RAPID_ANTIGEN -> {
+                            testResultNegativeStepsAdded.setEntryTitle(
+                                getText(
+                                    R.string.submission_family_test_result_steps_added_rat_heading
+                                )
+                            )
+                            testResultNegativeStepsAdded.setEntryText("")
+                            testResultNegativeStepsNegativeResult.setEntryText(
+                                getText(
+                                    R.string.coronatest_negative_antigen_result_second_info_body
+                                )
+                            )
+                        }
+                    }
+                }
 
-                when (it.certificateState) {
+                when (uiState.certificateState) {
                     SubmissionTestResultNegativeViewModel.CertificateState.NOT_REQUESTED -> {
                         testResultNegativeStepsRemoveTest.setIsFinal(true)
                         testResultNegativeStepsCertificate.isGone = true
@@ -97,10 +142,16 @@ class SubmissionTestResultNegativeFragment : Fragment(R.layout.fragment_submissi
             }
         }
 
-        viewModel.certificate.observe(viewLifecycleOwner) {
+        viewModel.certificate.observe(viewLifecycleOwner) { certificate ->
+            if (certificate?.isPCRTestCertificate == true) {
+                R.string.test_certificate_pcr_test_type
+            } else {
+                R.string.test_certificate_rapid_test_type
+            }.also { binding.testCertificateType.setText(it) }
+
             binding.certificateDate.text = getString(
                 R.string.test_certificate_sampled_on,
-                it?.testCertificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
+                certificate?.sampleCollectedAt?.toUserTimeZone()?.toDayFormat()
             )
         }
     }

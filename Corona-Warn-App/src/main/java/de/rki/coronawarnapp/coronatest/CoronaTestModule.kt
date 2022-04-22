@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.multibindings.IntoSet
 import de.rki.coronawarnapp.coronatest.antigen.profile.RatProfileModule
 import de.rki.coronawarnapp.coronatest.server.VerificationModule
-import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRTestProcessor
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RATestProcessor
 
@@ -18,11 +18,11 @@ abstract class CoronaTestModule {
     @IntoSet
     abstract fun pcrProcessor(
         processor: PCRTestProcessor
-    ): CoronaTestProcessor
+    ): PersonalCoronaTestProcessor
 
     @Binds
     @IntoSet
     abstract fun ratProcessor(
         processor: RATestProcessor
-    ): CoronaTestProcessor
+    ): PersonalCoronaTestProcessor
 }

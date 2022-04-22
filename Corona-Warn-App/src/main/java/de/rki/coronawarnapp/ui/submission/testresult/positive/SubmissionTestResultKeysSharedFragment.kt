@@ -7,8 +7,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPositiveKeysSharedBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -35,7 +36,7 @@ class SubmissionTestResultKeysSharedFragment :
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultKeysSharedViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier)
+            factory.create(navArgs.testIdentifier)
         }
     )
 
@@ -45,10 +46,6 @@ class SubmissionTestResultKeysSharedFragment :
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.onTestOpened()
-
-        binding.submissionDonePcrValidation.root.isVisible = viewModel.testType == CoronaTest.Type.RAPID_ANTIGEN
-
-        binding.submissionDoneIllness.root.isVisible = viewModel.testType == CoronaTest.Type.PCR
 
         binding.toolbar.setNavigationOnClickListener {
             popBackStack()
@@ -61,6 +58,16 @@ class SubmissionTestResultKeysSharedFragment :
         viewModel.uiState.observe2(this) {
             binding.apply {
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
+                submissionDonePcrValidation.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.RAPID_ANTIGEN
+
+                submissionDoneIllness.root.isVisible = it.coronaTest.type == BaseCoronaTest.Type.PCR
+
+                if (it.coronaTest is FamilyCoronaTest) {
+                    toolbar.title = getText(R.string.submission_test_result_headline)
+                    submissionDoneText.isVisible = false
+                    familyMemberName.isVisible = true
+                    familyMemberName.text = it.coronaTest.personName
+                }
             }
         }
 

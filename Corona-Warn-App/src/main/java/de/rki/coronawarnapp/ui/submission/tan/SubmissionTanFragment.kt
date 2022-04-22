@@ -6,13 +6,11 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.fragment.app.Fragment
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTanBinding
 import de.rki.coronawarnapp.exception.http.BadRequestException
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
 import de.rki.coronawarnapp.exception.http.CwaWebException
-import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -23,6 +21,7 @@ import de.rki.coronawarnapp.util.ui.setGone
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.ui.submission.tan.SubmissionTanViewModel.TanApiRequestState
 import javax.inject.Inject
 
 /**
@@ -75,20 +74,19 @@ class SubmissionTanFragment : Fragment(R.layout.fragment_submission_tan), AutoIn
                 submissionTanButtonEnter.hideKeyboard()
                 viewModel.startTanSubmission()
             }
-            submissionTanHeader.headerButtonBack.buttonIcon.setOnClickListener { goBack() }
+            toolbar.setNavigationOnClickListener { goBack() }
         }
 
         viewModel.registrationState.observe2(this) {
             binding.submissionTanSpinner.visibility = when (it) {
-                ApiRequestState.STARTED -> View.VISIBLE
+                TanApiRequestState.STARTED -> View.VISIBLE
                 else -> View.GONE
             }
 
-            if (ApiRequestState.SUCCESS == it) {
-                // TODO What about negative tests and consent?
+            if (it is TanApiRequestState.SUCCESS) {
                 doNavigate(
                     SubmissionTanFragmentDirections.actionSubmissionTanFragmentToSubmissionTestResultNoConsentFragment(
-                        CoronaTest.Type.PCR
+                        testIdentifier = it.identifier
                     )
                 )
             }

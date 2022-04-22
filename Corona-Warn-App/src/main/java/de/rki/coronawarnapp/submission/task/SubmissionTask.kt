@@ -4,8 +4,8 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.bugreporting.reportProblem
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
 import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.playbook.Playbook
@@ -126,10 +126,10 @@ class SubmissionTask @Inject constructor(
     }
 
     /**
-     * Submission could be triggered manually by user where [CoronaTest.Type] parameter is required or
-     * automatically by periodic worker where the [CoronaTest.Type] parameter is not required
+     * Submission could be triggered manually by user where [BaseCoronaTest.Type] parameter is required or
+     * automatically by periodic worker where the [BaseCoronaTest.Type] parameter is not required
      */
-    private suspend fun performSubmission(testType: CoronaTest.Type?): Result {
+    private suspend fun performSubmission(testType: BaseCoronaTest.Type?): Result {
         val availableTests = coronaTestRepository.coronaTests.first()
         Timber.tag(TAG).v("Available tests: %s", availableTests)
         val coronaTest = availableTests
@@ -203,7 +203,7 @@ class SubmissionTask @Inject constructor(
         return Result(state = Result.State.SUCCESSFUL)
     }
 
-    private suspend fun setSubmissionFinished(coronaTest: CoronaTest) {
+    private suspend fun setSubmissionFinished(coronaTest: BaseCoronaTest) {
         Timber.tag(TAG).d("setSubmissionFinished()")
         coronaTestRepository.markAsSubmitted(coronaTest.identifier)
 
@@ -212,7 +212,7 @@ class SubmissionTask @Inject constructor(
 
     data class Arguments(
         val checkUserActivity: Boolean = false,
-        val testType: CoronaTest.Type? = null
+        val testType: BaseCoronaTest.Type? = null
     ) : Task.Arguments
 
     data class Result(
@@ -270,7 +270,7 @@ class SubmissionTask @Inject constructor(
     }
 }
 
-private fun CoronaTest.Type.toSubmissionType() = when (this) {
+private fun BaseCoronaTest.Type.toSubmissionType() = when (this) {
     PCR -> SubmissionType.SUBMISSION_TYPE_PCR_TEST
-    CoronaTest.Type.RAPID_ANTIGEN -> SubmissionType.SUBMISSION_TYPE_RAPID_TEST
+    BaseCoronaTest.Type.RAPID_ANTIGEN -> SubmissionType.SUBMISSION_TYPE_RAPID_TEST
 }

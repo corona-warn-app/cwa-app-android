@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+    <!-- ####################################
+                 Release Info Screen
+     ###################################### -->
+
+    <!-- XHED: Title for the release info screen -->
+    <string name="release_info_header">"Нові функції"</string>
+    <!-- XHED: Version title for the release info screen -->
+    <string name="release_info_version_title">"Версія %1$s"</string>
+    <!-- XTXT: Description for the release info screen -->
+    <string name="release_info_version_body">"Поряд із виправленнями помилок, це оновлення також містить нові й розширені функції."</string>
+    <!-- XBUT: Continue button for the release info screen -->
+    <string name="release_info_continue_button">"Далі"</string>
+    <!-- XTXT: New release info footer -->
+    <string name="new_release_bottom">"Зміни у цій версії можна знайти в інформації про застосунок в розділі «Нові функції»."</string>
+
+    <!-- XHED: Titles for the release info screen bullet points -->
+    <string-array name="new_release_title">
+        <item>"Профілі експрес-тестів для членів родини"</item>
+    </string-array>
+
+    <!-- XTXT: Text bodies for the release info screen bullet points -->
+    <string-array name="new_release_body">
+        <item>"Тепер ви можете створювати профілі експрес-тестів для членів вашої родини, щоб прискорити реєстрацію в пунктах тестування. Після цього вам потрібно лише представити QR-код для відповідного профілю експрес-тесту, щоб надати особисту інформацію."</item>
+    </string-array>
+
+    <!-- XTXT: Text labels that will be converted to Links -->
+    <string-array name="new_release_linkified_labels">
+        <item/>
+    </string-array>
+
+    <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
+    <string-array name="new_release_target_urls">
+        <item/>
+    </string-array>
+
+</resources>

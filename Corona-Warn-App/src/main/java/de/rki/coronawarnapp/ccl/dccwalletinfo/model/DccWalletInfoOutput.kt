@@ -29,7 +29,10 @@ data class DccWalletInfo(
     val validUntil: String,
 
     @JsonProperty("certificateReissuance")
-    val certificateReissuance: CertificateReissuance? = null
+    val certificateReissuance: CertificateReissuance? = null,
+
+    @JsonProperty("certificatesRevokedByInvalidationRules")
+    val certificatesRevokedByInvalidationRules: List<CertificatesRevokedByInvalidationRules>? = null
 
 ) {
     @get:JsonIgnore
@@ -90,7 +93,12 @@ data class SingleText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-) : CclText
+) : CclText {
+    override fun toString(): String {
+        // reduce output for logging
+        return " Text type $type ..."
+    }
+}
 
 /**
  * Text
@@ -104,7 +112,12 @@ data class SystemTimeDependentText(
 
     @JsonProperty("parameters")
     val parameters: ObjectNode
-) : CclText
+) : CclText {
+    override fun toString(): String {
+        // reduce output for logging
+        return " Text type $type ..."
+    }
+}
 
 data class QuantityText(
     @JsonProperty("zero")
@@ -150,7 +163,12 @@ data class PluralText(
 
     @JsonProperty("parameters")
     val parameters: List<Parameters>
-) : CclText
+) : CclText {
+    override fun toString(): String {
+        // reduce output for logging
+        return " Text type $type ..."
+    }
+}
 
 data class BoosterNotification(
     @JsonProperty("visible")
@@ -263,4 +281,9 @@ data class ReissuanceDivision(
 
     @JsonProperty("faqAnchor")
     val faqAnchor: String?
+)
+
+data class CertificatesRevokedByInvalidationRules(
+    @JsonProperty("certificateRef")
+    val certificateRef: CertificateRef
 )

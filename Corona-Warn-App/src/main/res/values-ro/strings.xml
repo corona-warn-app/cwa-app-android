@@ -108,7 +108,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Expuneri cu risc redus într-o zi"</item>
+        <item quantity="one">"Expuneri cu risc redus în %1$d zi"</item>
         <item quantity="other">"Expuneri cu risc redus în %1$d de zile"</item>
         <item quantity="zero">"Nicio expunere"</item>
         <item quantity="two">"Expuneri cu risc redus în %1$d de zile"</item>
@@ -131,7 +131,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Expuneri cu risc crescut într-o zi"</item>
+        <item quantity="one">"Expuneri cu risc crescut în %1$d zi"</item>
         <item quantity="other">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="zero">"Expuneri cu risc crescut în %1$d de zile"</item>
         <item quantity="two">"Expuneri cu risc crescut în %1$d de zile"</item>
@@ -345,7 +345,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Modificarea stării riscului dvs."</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Ultima expunere care a generat riscul dvs. crescut a avut loc cu mai mult de 14 zile în urmă. Prin urmare, riscul dvs. de infectare a fost clasificat ca fiind din nou redus.\n\nIată ce trebuie să faceți:\n1. Dacă nu aveți simptome specifice COVID-19, continuați să respectați regulile generale privind distanțarea și igiena.\n2. Dacă aveți simptome specifice COVID-19, vă recomandăm să mergeți la medic și să vă testați."</string>
+    <string name="risk_lowered_dialog_body">"Ultima expunere care a generat riscul dvs. crescut a avut loc cu mai mult de %d (de) zile în urmă. Prin urmare, riscul dvs. de infectare a fost clasificat ca fiind din nou redus.\n\nCe trebuie să faceți:\n1. Dacă nu aveți simptome specifice COVID-19, continuați să respectați regulile generale privind distanțarea și igiena.\n2. Dacă aveți simptome specifice COVID-19, vă recomandăm să mergeți la medic și să vă testați."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -751,7 +751,7 @@
     <!-- XTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_phone">"Serviciul clienți vă stă la dispoziție în următoarele limbi:"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
-    <string name="information_contact_body_open">"engleză, germană, turcă\n\nProgram de lucru:\nluni - sâmbătă: 07:00 - 22:00 (CET)\n(exceptând sărbătorile legale)"</string>
+    <string name="information_contact_body_open">"germană\n\nProgram de lucru:\nluni - vineri: 09:00 - 17:00 (CET)\n(exceptând sărbătorile legale)"</string>
     <!-- YTXT: Body text for technical contact and hotline information page -->
     <string name="information_contact_body_other">"Dacă aveți alte întrebări, vă rugăm să sunați la 116 117 (în Germania). Apoi, în timpul mesajului automat, apăsați tasta 2 pentru punctul de asistență al Ministerului Federal al Sănătății. Apăsați tasta 1 (serviciul de urgență medical general), doar dacă aveți simptome."</string>
     <!-- XACT: describes illustration -->
@@ -1031,10 +1031,18 @@
     <string name="submission_test_result_steps_added_heading">"Testul dvs. PCR a fost adăugat"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testul dvs. a fost stocat în Corona-Warn-App."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"Testul PCR a fost adăugat"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Testul rapid a fost adăugat"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Rezultatul testului dvs. nu este încă disponibil"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Rezultatul testului nu este încă disponibil"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație.\n\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul dvs. este pozitiv.\n\nDacă sunteți notificat privind un rezultat pozitiv al testului în afara aplicației, ștergeți testul curent înregistrat în aplicație. Apelați numărul indicat la Solicitare TAN pentru a obține un număr TAN. Apoi, puteți utiliza acest TAN pentru a vă înregistra rezultatul în aplicație și pentru a-i avertiza pe ceilalți."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Imediat ce devine disponibil, rezultatul testului va fi afișat în aplicație.\nDe asemenea, veți primi rezultatul testului în afara aplicației. Autoritățile de sănătate publică vă vor anunța dacă testul este pozitiv."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Testul dvs. rapid a fost adăugat"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1045,13 +1053,21 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Rezultatul testului dvs. va fi adăugat la jurnalul dvs. de contacte"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Imediat ce devine disponibil, rezultatul testului dvs. va fi afișat în aplicație."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Imediat ce devine disponibil, rezultatul testului va fi afișat în aplicație."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Certificatul dvs. de test COVID"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"Certificat de test COVID"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Certificatul de test COVID digital este disponibil pe tabul „Certificate”."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Un certificat de test COVID digital oficial nu poate fi emis deoarece acest punct de testare nu suportă emiterea de certificate de test."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Certificatul dvs. de test COVID digital oficial nu este disponibil încă. De îndată ce devine disponibil, va fi afișat în aplicație."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Certificatul de test COVID digital oficial nu este disponibil încă. De îndată ce devine disponibil, va fi afișat în aplicație."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Nu va fi emis niciun certificat de test COVID digital oficial, conform cererii dvs."</string>
 
@@ -1134,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Scanare cod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. în aplicație și avertizați-i pe ceilalți sau solicitați certificatul dvs. de test COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Primiți rezultatul testului dvs. și rezultatele pentru membrii familiei dvs. în aplicație și solicitați certificatul dvs. de test COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Găsire centru de testare"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1341,6 +1357,8 @@
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Diagnosticul dvs. pentru %s:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"Diagnostic %s:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->
@@ -1493,7 +1511,7 @@
     <!-- XTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend">"Tendința compară valoarea din ziua anterioară cu valoarea de acum două zile (pentru incidența pe 7 zile, incidența spitalizării pe 7 zile, pacienții COVID-19 din unitățile de terapie intensivă, valoarea R pe 7 zile) sau, pentru tendințele pe 7 zile, valoarea medie din ultimele 7 zile cu valoarea medie din cele 7 zile anterioare acestora (pentru valoarea medie pe 7 zile a infectărilor noi confirmate, avertizări de către utilizatorii aplicației, dozele de vaccin administrate). Este utilizată versiunea respectivă a datelor publicate inițial; actualizările ulterioare nu sunt luate în considerare."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă. Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
+    <string name="statistics_explanation_trend_text">"Direcția săgeții indică dacă tendința este în creștere, în scădere sau dacă rămâne constantă – mai exact, demonstrează o abatere de sub 1%% în comparație cu ziua precedentă sau de 5%% în comparație cu săptămâna precedentă (ținând cont de pozițiile zecimale). Culoarea indică faptul că tendința este pozitivă (verde), negativă (roșu) sau neutră (gri)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Exemple de tendințe afișate:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
@@ -1608,7 +1626,7 @@
                Business Error Messages
         ###################################### -->
     <!-- XTXT: error dialog - detailed text if device is offline  -->
-    <string name="errors_no_network">"Nu sunteţi conectat la internet."</string>
+    <string name="errors_no_network">"Nu sunteți conectat la internet."</string>
     <!-- XTXT: error dialog - detailed text if device has not enough device space  -->
     <string name="errors_not_enough_device_storage">"Nu aveți suficientă memorie liberă."</string>
     <!-- XTXT: error dialog - detailed text if there is error with Google API  -->

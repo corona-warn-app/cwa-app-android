@@ -14,8 +14,7 @@ data class PersonCertificates(
     val hasDccReissuanceBadge: Boolean = false,
     val hasNewAdmissionState: Boolean = false,
 ) {
-    val personIdentifier: CertificatePersonIdentifier?
-        get() = certificates.firstOrNull()?.personIdentifier
+    val personIdentifier: CertificatePersonIdentifier get() = certificates.identifier
 
     // PersonDetails
     val highestPriorityCertificate: CwaCovidCertificate? by lazy {
@@ -33,7 +32,7 @@ data class PersonCertificates(
                     buttonText = certRef.buttonText
                 )
             }
-        }.take(2).ifEmpty {
+        }.take(3).ifEmpty {
             when (val cert = certificates.findFallbackDcc()) {
                 null -> emptyList()
                 else -> listOf(VerificationCertificate(cert))
@@ -41,6 +40,11 @@ data class PersonCertificates(
         }
     }
 }
+
+/**
+ * First certificate identifier in the sorted certificates to insure consistency
+ */
+val Collection<CwaCovidCertificate>.identifier get() = toCertificateSortOrder().first().personIdentifier
 
 data class VerificationCertificate(
     val cwaCertificate: CwaCovidCertificate,

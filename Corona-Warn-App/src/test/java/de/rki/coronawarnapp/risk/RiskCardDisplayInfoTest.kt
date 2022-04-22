@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.risk
 import de.rki.coronawarnapp.appconfig.AppConfigProvider
 import de.rki.coronawarnapp.appconfig.ConfigData
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.pcr.PCRCoronaTest
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.RACoronaTest
 import de.rki.coronawarnapp.util.TimeStamper
@@ -206,26 +207,26 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
         }
 
         private val negativeRatTest = mockk<RACoronaTest> {
-            every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+            every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
             every { isPositive } returns false
             every { isViewed } returns false
         }
 
         private val negativePcrTest = mockk<PCRCoronaTest> {
-            every { type } returns CoronaTest.Type.PCR
+            every { type } returns BaseCoronaTest.Type.PCR
             every { isPositive } returns false
             every { isViewed } returns false
         }
 
         private val positiveRatTest = mockk<RACoronaTest> {
-            every { type } returns CoronaTest.Type.RAPID_ANTIGEN
+            every { type } returns BaseCoronaTest.Type.RAPID_ANTIGEN
             every { isPositive } returns true
             every { isViewed } returns true
             every { testTakenAt } returns Instant.EPOCH
         }
 
         private val positivePcrTest = mockk<PCRCoronaTest> {
-            every { type } returns CoronaTest.Type.PCR
+            every { type } returns BaseCoronaTest.Type.PCR
             every { isPositive } returns true
             every { isViewed } returns true
             every { registeredAt } returns Instant.EPOCH
@@ -240,7 +241,7 @@ internal class RiskCardDisplayInfoTest : BaseTest() {
 
     data class TestCase(
         val riskState: RiskState?,
-        val testSet: Set<CoronaTest>,
+        val testSet: Set<PersonalCoronaTest>,
         val durationPassed: Duration,
         val showRiskCardExpectedReturnValue: Boolean
     )

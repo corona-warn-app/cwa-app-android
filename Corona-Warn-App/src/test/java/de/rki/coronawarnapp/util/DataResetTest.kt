@@ -33,6 +33,7 @@ import de.rki.coronawarnapp.presencetracing.TraceLocationSettings
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.presencetracing.warning.storage.TraceWarningRepository
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.risk.storage.RiskLevelStorage
 import de.rki.coronawarnapp.statistics.local.source.LocalStatisticsProvider
 import de.rki.coronawarnapp.statistics.source.StatisticsProvider
@@ -92,6 +93,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
+    @MockK lateinit var profileRepository: ProfileRepository
 
     @BeforeEach
     fun setUp() {
@@ -140,6 +142,7 @@ internal class DataResetTest : BaseTest() {
         dccWalletInfoRepository = dccWalletInfoRepository,
         cclSettings = cclSettings,
         familyTestRepository = familyTestRepository,
+        profileRepository = profileRepository
     )
 
     @Test
@@ -187,6 +190,7 @@ internal class DataResetTest : BaseTest() {
             cclConfigurationRepository.clear()
             dccWalletInfoRepository.clear()
             familyTestRepository.clear()
+            profileRepository.clear()
         }
     }
 }

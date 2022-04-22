@@ -6,13 +6,14 @@
         android:id="@+id/onboarding_ppa_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorSurface"
         android:contentDescription=""
         android:fillViewport="true"
         android:focusable="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/settings_ppa_header"
-            style="@style/CWAToolbar.BackArrow"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

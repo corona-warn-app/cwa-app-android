@@ -16,15 +16,16 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/information_privacy_title"
         android:focusable="true"
+        android:background="@color/colorSurface"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/information_privacy_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
-            app:title="@{@string/information_privacy_title}" />
+            android:focusable="true"
+            app:title="@string/information_privacy_title" />
 
         <ScrollView
             android:layout_width="match_parent"

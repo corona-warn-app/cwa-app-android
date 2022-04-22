@@ -109,7 +109,7 @@
     </plurals>
     <!-- XACT: risk card - Low risk state - Days with low risk encounters description -->
     <plurals name="risk_card_low_risk_encounter_days_body_description">
-        <item quantity="one">"Begegnungen mit niedrigem Risiko an einem Tag"</item>
+        <item quantity="one">"Begegnungen mit niedrigem Risiko an %1$d Tag"</item>
         <item quantity="other">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
         <item quantity="zero">"Keine Risiko-Begegnungen"</item>
         <item quantity="two">"Begegnungen mit niedrigem Risiko an %1$d Tagen"</item>
@@ -132,7 +132,7 @@
     </plurals>
     <!-- XACT: risk card - High risk state - Days with high risk encounters description -->
     <plurals name="risk_card_high_risk_encounter_days_body_description">
-        <item quantity="one">"Begegnungen an einem Tag mit erhöhtem Risiko"</item>
+        <item quantity="one">"Begegnungen an %1$d Tag mit erhöhtem Risiko"</item>
         <item quantity="other">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
         <item quantity="zero">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
         <item quantity="two">"Begegnungen an %1$d Tagen mit erhöhtem Risiko"</item>
@@ -346,7 +346,7 @@
     <!-- XHED: risk lowered - dialog headline -->
     <string name="risk_lowered_dialog_headline">"Änderung Ihres Risikostatus"</string>
     <!-- XTXT: risk lowered - dialog content -->
-    <string name="risk_lowered_dialog_body">"Die Risiko-Begegnung, die zu einem erhöhten Risiko für Sie geführt hat, liegt mehr als 14 Tage zurück. Daher wird das Infektionsrisiko wieder als niedrig für Sie eingestuft.\n\nSo verhalten Sie sich richtig:\n1. Wenn Sie keine Symptome von COVID-19 aufweisen, halten Sie sich an die allgemein geltenden Verhaltensregeln zu Abstand und Hygiene.\n2. Wenn Sie Symptome von COVID-19 aufweisen, empfehlen wir, dass Sie Ihren Arzt aufsuchen und sich testen lassen."</string>
+    <string name="risk_lowered_dialog_body">"Die Risiko-Begegnung, die zu einem erhöhten Risiko für Sie geführt hat, liegt mehr als %d Tage zurück. Daher wird das Infektionsrisiko wieder als niedrig für Sie eingestuft.\n\nSo verhalten Sie sich richtig:\n1. Wenn Sie keine Symptome von COVID-19 aufweisen, halten Sie sich an die allgemein geltenden Verhaltensregeln zu Abstand und Hygiene.\n2. Wenn Sie Symptome von COVID-19 aufweisen, empfehlen wir, dass Sie Ihren Arzt aufsuchen und sich testen lassen."</string>
     <!-- XBUT: risk lowerd - dialog confirm -->
     <string name="risk_lowered_dialog_button_confirm">"OK"</string>
 
@@ -1034,10 +1034,18 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_test_result_steps_added_heading">"Ihr PCR-Test wurde hinzugefügt"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Ihr Test wurde in der Corona-Warn-App registriert."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"Der PCR-Test wurde hinzugefügt"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Der Schnelltest wurde hinzugefügt"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Ihr Testergebnis liegt noch nicht vor"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Das Testergebnis liegt noch nicht vor"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\n\nSie bekommen Ihr Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung.\n\nWenn Ihnen außerhalb der App ein positives Testergebnis mitgeteilt wurde, löschen Sie den aktuell in der App registrierten Test. Rufen Sie die unter "TAN anfragen" angegebene Nummer an, um eine TAN zu erhalten. Registrieren Sie dann Ihr Testergebnis mithilfe der TAN in der App."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt.\nSie bekommen das Testergebnis auch außerhalb der App mitgeteilt. Falls Ihr Test positiv ist, bekommen Sie vom Gesundheitsamt eine Mitteilung."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Ihr Schnelltest wurde hinzugefügt"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1048,13 +1056,21 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Ihr Testergebnis wird dem Kontakt-Tagebuch hinzugefügt"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Sobald Ihr Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Sobald das Testergebnis vorliegt, wird es Ihnen in der App angezeigt."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"Ihr COVID-Testzertifikat"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID-Testzertifikat"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Das digitale  COVID-Testzertifikat liegt im Tab „Zertifikate“ vor."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Ein offizielles digitales COVID-Testzertifikat kann nicht ausgestellt werden, da diese Teststelle die Ausstellung der Testzertifikate nicht unterstützt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Ihr offizielles digitales COVID-Testzertifikat liegt noch nicht vor. Sobald es vorliegt, wird es Ihnen in der App angezeigt."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Das offizielle digitale COVID-Testzertifikat liegt noch nicht vor. Sobald es vorliegt, wird es Ihnen in der App angezeigt."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Auf Ihren Wunsch hin wird kein offizielles digitales COVID-Testzertifikat ausgestellt."</string>
 
@@ -1137,7 +1153,7 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR-Code scannen"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis in der App und warnen Sie andere oder fordern Sie Ihr COVID-Testzertifikat an."</string>
+    <string name="submission_dispatcher_qr_card_text">"Erhalten Sie Ihr Testergebnis und das Ihrer Familienmitglieder und fordern Sie Ihr COVID-Testzertifikat an."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Testmöglichkeit finden"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1344,6 +1360,8 @@ Sollten Sie den Test in der App gelöscht haben, können Sie ihn aus dem Papierk
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"Ihr %s-Befund:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"%s-Befund:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->

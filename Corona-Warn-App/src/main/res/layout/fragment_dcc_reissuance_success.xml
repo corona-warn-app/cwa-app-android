@@ -5,17 +5,18 @@
     android:id="@+id/content_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     android:contentDescription="@string/dcc_reissuance_success_screen_title"
     android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
+        style="@style/CWAMaterialToolbar.Close"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_close"
         app:title="@string/dcc_reissuance_success_screen_title" />
 
     <ScrollView

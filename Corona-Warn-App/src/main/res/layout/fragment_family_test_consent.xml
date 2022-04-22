@@ -1,13 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     tools:context=".familytest.ui.consent.FamilyTestConsentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close.Transparent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/family_consent_header" />
 
-</FrameLayout>
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_action"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_normal">
+
+            <ImageView
+                android:id="@+id/consent_illustration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/family_consent_image_descr"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_family_consent_illustration" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/headline5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/family_consent_subtitle"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/consent_illustration" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/subtitleBoldSixteen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/family_consent_person_name_label"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/title" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_input_layout"
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:hint="@string/family_consent_person_name_tooltip"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/subtitle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_input_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/test_type_icon"
+                android:layout_width="@dimen/circle_icon"
+                android:layout_height="@dimen/circle_icon"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/card_dark"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@+id/name_input_layout"
+                app:srcCompat="@drawable/ic_family_item" />
+
+            <TextView
+                android:id="@+id/test_type_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/family_consent_test_type"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/test_type_icon"
+                app:layout_constraintTop_toBottomOf="@+id/name_input_layout" />
+
+            <ImageView
+                android:id="@+id/test_result_icon"
+                android:layout_width="@dimen/circle_icon"
+                android:layout_height="@dimen/circle_icon"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/card_dark"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/test_type_text"
+                app:srcCompat="@drawable/ic_family_consent_cert_item" />
+
+            <TextView
+                android:id="@+id/test_result_text"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:text="@string/family_consent_test_result"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toEndOf="@id/test_result_icon"
+                app:layout_constraintTop_toBottomOf="@id/test_type_text" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/consent_layout"
+                style="@style/GreyCard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="11dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_result_text">
+
+                <TextView
+                    android:id="@+id/consent_headline"
+                    style="@style/headline6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:paddingTop="30dp"
+                    android:text="@string/family_consent_legal_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/consent_tapping_agree"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/family_consent_legal_body"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/consent_headline"
+                    app:layout_constraintTop_toBottomOf="@+id/consent_headline" />
+
+                <include
+                    android:id="@+id/consent_first_point_bullet"
+                    layout="@layout/include_bullet_point"
+                    android:layout_width="@dimen/bullet_point_size"
+                    android:layout_height="@dimen/bullet_point_size"
+                    app:layout_constraintBaseline_toBaselineOf="@id/consent_first_point_text"
+                    app:layout_constraintStart_toStartOf="@id/consent_headline" />
+
+                <TextView
+                    android:id="@+id/consent_first_point_text"
+                    style="@style/subtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="21dp"
+                    android:paddingBottom="32dp"
+                    android:text="@string/family_consent_legal_point_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/consent_first_point_bullet"
+                    app:layout_constraintTop_toBottomOf="@+id/consent_tapping_agree" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_divider"
+                android:layout_marginTop="24dp"
+                android:background="@color/dividerColor"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/consent_layout" />
+
+            <TextView
+                android:id="@+id/data_privacy"
+                style="@style/subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingVertical="@dimen/spacing_tiny"
+                android:text="@string/family_consent_legal_bottom_link"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/card_divider"
+                android:background="@color/dividerColor"
+                app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintTop_toBottomOf="@id/data_privacy" />
+
+            <include layout="@layout/merge_guidelines_side" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/consent_button"
+        style="@style/buttonPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/family_consent_cofirm_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/guideline_action" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/guideline_action" />
+
+    <include layout="@layout/merge_guidelines_side" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

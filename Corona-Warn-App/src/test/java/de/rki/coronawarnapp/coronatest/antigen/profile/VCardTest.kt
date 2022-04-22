@@ -1,5 +1,6 @@
 package de.rki.coronawarnapp.coronatest.antigen.profile
 
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.util.TimeStamper
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -7,9 +8,8 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.joda.time.Instant
 import org.joda.time.format.ISODateTimeFormat
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
 class VCardTest : BaseTest() {
@@ -25,7 +25,8 @@ class VCardTest : BaseTest() {
 
     @Test
     fun `Case 1`() {
-        val profile = RATProfile(
+        val profile = Profile(
+            id = 1,
             firstName = "Max",
             lastName = "Mustermann",
             birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
@@ -52,7 +53,8 @@ class VCardTest : BaseTest() {
 
     @Test
     fun `Case 2`() {
-        val profile = RATProfile(
+        val profile = Profile(
+            id = 1,
             firstName = "",
             lastName = "",
             birthDate = null,
@@ -79,7 +81,8 @@ class VCardTest : BaseTest() {
 
     @Test
     fun `Case 3`() {
-        val profile = RATProfile(
+        val profile = Profile(
+            id = 1,
             firstName = "Max",
             lastName = "Mustermann",
             birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),
@@ -106,7 +109,8 @@ class VCardTest : BaseTest() {
 
     @Test
     fun `Case 4`() {
-        val profile = RATProfile(
+        val profile = Profile(
+            id = 1,
             firstName = "Max,",
             lastName = "Mustermann;",
             birthDate = ISODateTimeFormat.basicDate().parseLocalDate("19800625"),

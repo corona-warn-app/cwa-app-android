@@ -16,29 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Hızlı PCR Testlerinin Kaydı"</item>
-        <item>"Sertifika Ataması"</item>
-        <item>"Sertifika Güncellemesi"</item>
+        <item>"Aile Üyeleri için Hızlı Test Profilleri"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Artık Corona-Warn-App uygulamasında hızlı PCR testlerini kaydedebilir ve sonucunuzu ve test sertifikanızı uygulama üzerinden alabilirsiniz."</item>
-        <item>"Kişilere sertifika ataması daha hata toleranslı hale getirildi. Ad ve soyadı yazımlarındaki ufak farklılıklar göz ardı edilir ve böylece etkilenen sertifikalar yine de aynı kişiye atanabilir."</item>
-        <item>"Hatırlatma aşılarının sertifikalarına ilişkin AB spesifikasyonları değişti. Sertifikanız güncel spesifikasyonları karşılamıyorsa doğrudan Corona-Warn-App uygulamasından yeni bir sertifika talebi oluşturabilirsiniz."</item>
+        <item>"Test noktalarında kaydınızı hızlandırmak amacıyla artık aile üyeleriniz için hızlı test profilleri oluşturabilirsiniz. Test profilleri oluşturduktan sonra kişisel bilgileri sunmak için yalnızca ilgili hızlı test profiline ilişkin QR kodu sağlamanız gerekir."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

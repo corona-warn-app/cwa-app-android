@@ -4,11 +4,15 @@ import androidx.annotation.VisibleForTesting
 import de.rki.coronawarnapp.ccl.configuration.storage.CclConfigurationRepository
 import de.rki.coronawarnapp.ccl.dccwalletinfo.update.DccWalletInfoUpdateTrigger
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
+import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toLocalDateUtc
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.repositories.UpdateResult
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.joda.time.Instant
 import timber.log.Timber
 import javax.inject.Inject
@@ -20,10 +24,13 @@ class CclConfigurationUpdater @Inject constructor(
     private val cclSettings: CclSettings,
     private val boosterRulesRepository: BoosterRulesRepository,
     private val cclConfigurationRepository: CclConfigurationRepository,
-    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger
+    private val dccWalletInfoUpdateTrigger: DccWalletInfoUpdateTrigger,
+    private val dccValidationRepository: DccValidationRepository
 ) {
 
-    suspend fun updateIfRequired() {
+    private val mutex = Mutex()
+
+    suspend fun updateIfRequired() = mutex.withLock {
         Timber.d("update()")
 
         if (isUpdateRequired()) {
@@ -31,7 +38,7 @@ class CclConfigurationUpdater @Inject constructor(
             updateAndTriggerRecalculation()
         } else {
             Timber.d("No CCLConfig update required!")
-            triggerRecalculation(configurationChanged = false)
+            triggerRecalculation(configurationChanged = cclSettings.forceCclCalculation())
         }
     }
 
@@ -64,25 +71,13 @@ class CclConfigurationUpdater @Inject constructor(
         return coroutineScope {
             val boosterRulesDeferred = async { boosterRulesRepository.update() }
             val cclConfigDeferred = async { cclConfigurationRepository.updateCclConfiguration() }
+            val invalidationRulesDeferred = async { dccValidationRepository.updateInvalidationRules() }
 
-            val boosterRulesResult = boosterRulesDeferred.await()
-            val cclConfigResult = cclConfigDeferred.await()
+            val updateResults = awaitAll(boosterRulesDeferred, cclConfigDeferred, invalidationRulesDeferred)
 
-            updateExecutionTimeOnSuccess(boosterRulesResult, cclConfigResult)
+            if (updateResults.none { it == UpdateResult.FAIL }) cclSettings.setExecutionTimeToNow()
 
-            val newBoosterRules = (boosterRulesResult == UpdateResult.UPDATE)
-            val newCclConfig = (cclConfigResult == UpdateResult.UPDATE)
-
-            return@coroutineScope newBoosterRules || newCclConfig
-        }
-    }
-
-    private fun updateExecutionTimeOnSuccess(
-        boosterRulesUpdateResult: UpdateResult,
-        cclConfigUpdateResult: UpdateResult
-    ) {
-        if (boosterRulesUpdateResult != UpdateResult.FAIL && cclConfigUpdateResult != UpdateResult.FAIL) {
-            cclSettings.setExecutionTimeToNow()
+            return@coroutineScope updateResults.any { it == UpdateResult.UPDATE }
         }
     }
 }

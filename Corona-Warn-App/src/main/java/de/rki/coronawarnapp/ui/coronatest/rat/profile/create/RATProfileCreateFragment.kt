@@ -6,13 +6,15 @@ import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.contactdiary.util.hideKeyboard
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileCreateFragmentBinding
+import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.ui.view.addEmojiFilter
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -30,14 +32,26 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
     private val formatter: DateTimeFormatter = DateTimeFormat.mediumDate()
+    private val navArgs by navArgs<RATProfileCreateFragmentArgs>()
     private val binding: RatProfileCreateFragmentBinding by viewBinding()
     private val viewModel: RATProfileCreateFragmentViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RATProfileCreateFragmentViewModel.Factory
-            factory.create(formatter)
+            factory.create(
+                formatter,
+                if (navArgs.profileId > 0) navArgs.profileId else null
+            )
         }
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val transform = MaterialContainerTransform()
+        sharedElementEnterTransition = transform
+        sharedElementReturnTransition = transform
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) =
         with(binding) {
@@ -47,7 +61,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
 
             profileSaveButton.setOnClickListener {
                 it.hideKeyboard()
-                viewModel.createProfile()
+                viewModel.saveProfile()
             }
 
             // Full name
@@ -57,7 +71,7 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             // Birth date
             birthDateInputEdit.setOnClickListener { openDatePicker() }
             birthDateInputEdit.doAfterTextChanged {
-                val dob = if (it.toString().isBlank()) null else it.toString()
+                val dob = it.toString().ifBlank { null }
                 viewModel.birthDateChanged(dob)
             }
 
@@ -104,19 +118,19 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
             }
 
             viewModel.profile.observe(viewLifecycleOwner) { profileSaveButton.isEnabled = it.isValid }
-            viewModel.latestProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
+            viewModel.savedProfile.observe(viewLifecycleOwner) { it?.let { bindProfile(it) } }
             viewModel.events.observe(viewLifecycleOwner) {
                 when (it) {
                     CreateRATProfileNavigation.Back -> popBackStack()
-                    CreateRATProfileNavigation.ProfileScreen -> doNavigate(
+                    is CreateRATProfileNavigation.ProfileScreen -> doNavigate(
                         RATProfileCreateFragmentDirections
-                            .actionRatProfileCreateFragmentToRatProfileQrCodeFragment()
+                            .actionProfileCreateFragmentToProfileQrCodeFragment(it.profileId)
                     )
                 }
             }
         }
 
-    private fun RatProfileCreateFragmentBinding.bindProfile(data: RATProfile) {
+    private fun RatProfileCreateFragmentBinding.bindProfile(data: Profile) {
         firstNameInputEdit.setText(data.firstName)
         lastNameInputEdit.setText(data.lastName)
 
@@ -146,6 +160,6 @@ class RATProfileCreateFragment : Fragment(R.layout.rat_profile_create_fragment),
                     binding.birthDateInputEdit.setText(LocalDate(it).toString(formatter))
                 }
             }
-            .show(childFragmentManager, "RATProfileCreateFragment.MaterialDatePicker")
+            .show(childFragmentManager, "ProfileCreateFragment.MaterialDatePicker")
     }
 }

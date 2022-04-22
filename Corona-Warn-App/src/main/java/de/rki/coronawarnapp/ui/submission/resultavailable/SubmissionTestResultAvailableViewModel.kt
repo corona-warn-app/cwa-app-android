@@ -8,13 +8,14 @@ import com.google.android.gms.nearby.exposurenotification.TemporaryExposureKey
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -29,17 +30,21 @@ import timber.log.Timber
 class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
     tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory,
-    submissionRepository: SubmissionRepository,
     private val checkInRepository: CheckInRepository,
     private val autoSubmission: AutoSubmission,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testIdentifier: TestIdentifier,
+    private val coronaTestProvider: CoronaTestProvider,
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
     val routeToScreen = SingleLiveEvent<NavDirections>()
 
-    private val consentFlow = submissionRepository.testForType(type = testType)
-        .filterNotNull()
-        .map { it.isAdvancedConsentGiven }
+    private val coronaTestFlow = coronaTestProvider.getTestForIdentifier(testIdentifier).filterNotNull()
+    private val consentFlow = coronaTestFlow
+        .map {
+            if (it is PersonalCoronaTest) {
+                it.isAdvancedConsentGiven
+            } else false
+        }
     val consent = consentFlow.asLiveData(dispatcherProvider.Default)
     val showPermissionRequest = SingleLiveEvent<(Activity) -> Unit>()
     val showCloseDialog = SingleLiveEvent<Unit>()
@@ -55,22 +60,28 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 val navDirections = if (completedCheckInsExist) {
                     Timber.tag(TAG).d("Navigate to CheckInsConsentFragment")
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToCheckInsConsentFragment(testType)
+                        .actionSubmissionTestResultAvailableFragmentToCheckInsConsentFragment(
+                            coronaTestFlow.first().type
+                        )
                 } else {
                     autoSubmission.updateMode(AutoSubmission.Mode.MONITOR)
                     Timber.tag(TAG).d("Navigate to SubmissionTestResultConsentGivenFragment")
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment(testType)
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultConsentGivenFragment(
+                            coronaTestFlow.first().type
+                        )
                 }
                 routeToScreen.postValue(navDirections)
             }
 
-            override fun onTEKPermissionDeclined() {
+            override fun onTEKPermissionDeclined() = launch {
                 Timber.d("onTEKPermissionDeclined")
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
+                            testIdentifier
+                        )
                 )
             }
 
@@ -108,11 +119,11 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
         )
     }
 
-    fun goConsent() {
+    fun goConsent() = launch {
         routeToScreen.postValue(
             SubmissionTestResultAvailableFragmentDirections
                 .actionSubmissionTestResultAvailableFragmentToSubmissionYourConsentFragment(
-                    testType = testType,
+                    testType = coronaTestFlow.first().type,
                     isTestResultAvailable = true
                 )
         )
@@ -126,11 +137,16 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
                 tekHistoryUpdater.updateTEKHistoryOrRequestPermission()
             } else {
                 Timber.tag(TAG).d("routeToScreen:SubmissionTestResultNoConsentFragment")
-                analyticsKeySubmissionCollector.reportConsentWithdrawn(testType)
+                coronaTestFlow.first().let {
+                    if (it is PersonalCoronaTest)
+                        analyticsKeySubmissionCollector.reportConsentWithdrawn(it.type)
+                }
                 showKeysRetrievalProgress.postValue(false)
                 routeToScreen.postValue(
                     SubmissionTestResultAvailableFragmentDirections
-                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(testType)
+                        .actionSubmissionTestResultAvailableFragmentToSubmissionTestResultNoConsentFragment(
+                            testIdentifier = testIdentifier
+                        )
                 )
             }
         }
@@ -143,7 +159,7 @@ class SubmissionTestResultAvailableViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultAvailableViewModel> {
-        fun create(testType: CoronaTest.Type): SubmissionTestResultAvailableViewModel
+        fun create(testIdentifier: TestIdentifier): SubmissionTestResultAvailableViewModel
     }
 
     companion object {

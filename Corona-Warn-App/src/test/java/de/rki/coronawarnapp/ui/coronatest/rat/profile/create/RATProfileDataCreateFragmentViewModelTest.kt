@@ -1,13 +1,14 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
+import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.model.ProfileId
+import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOf
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -21,7 +22,7 @@ import testhelpers.extensions.getOrAwaitValue
 @ExtendWith(InstantExecutorExtension::class)
 internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
 
-    @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
+    @MockK lateinit var profileRepository: ProfileRepository
 
     private val formatter = DateTimeFormat.forPattern("dd.MM.yyyy")
     private val birthDate: LocalDate = formatter.parseDateTime("01.01.1980").toLocalDate()
@@ -29,25 +30,26 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-        every { ratProfileSettings.profileFlow } returns flowOf(null)
-        every { ratProfileSettings.updateProfile(any()) } returns Job()
+        every { profileRepository.profilesFlow } returns flowOf(emptySet())
+        coEvery { profileRepository.upsertProfile(any()) } returns 1
     }
 
     @Test
     fun `createProfile doesn't create profile when profile is invalid`() {
         viewModel().apply {
-            createProfile()
+            saveProfile()
             profile.getOrAwaitValue().isValid shouldBe false
         }
 
         verify(exactly = 1) {
-            ratProfileSettings.profileFlow
+            profileRepository.profilesFlow
         }
     }
 
     @Test
     fun `Saved profile is displayed`() {
-        val savedProfile = RATProfile(
+        val savedProfile = Profile(
+            id = 1,
             firstName = "First name",
             lastName = "Last name",
             birthDate = birthDate,
@@ -57,9 +59,9 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             phone = "111111111",
             email = "email@example.com"
         )
-        every { ratProfileSettings.profileFlow } returns flowOf(savedProfile)
+        every { profileRepository.profilesFlow } returns flowOf(setOf(savedProfile))
 
-        viewModel().apply {
+        viewModel(savedProfile.id).apply {
             // Fields updated
             firstNameChanged(savedProfile.firstName)
             lastNameChanged(savedProfile.lastName)
@@ -70,7 +72,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             phoneChanged(savedProfile.phone)
             emailChanged(savedProfile.email)
 
-            val input = latestProfile.getOrAwaitValue()!!
+            val input = this.savedProfile.getOrAwaitValue()!!
             val output = profile.getOrAwaitValue()
             input.firstName shouldBe output.firstName
             input.lastName shouldBe output.lastName
@@ -86,12 +88,12 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     fun `createProfile create profile when at least one field is set`() {
         viewModel().apply {
             firstNameChanged("First name")
-            createProfile()
-            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen
+            saveProfile()
+            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen(1)
         }
 
         verify {
-            ratProfileSettings.profileFlow
+            profileRepository.profilesFlow
         }
     }
 
@@ -196,7 +198,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
             emailChanged("email@example.com")
             profile.getOrAwaitValue().apply {
                 isValid shouldBe true
-                this shouldBe RATProfileData(
+                this shouldBe Profile(
                     firstName = "First name",
                     lastName = "Last name",
                     birthDate = birthDate,
@@ -218,5 +220,6 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         }
     }
 
-    fun viewModel() = RATProfileCreateFragmentViewModel(ratProfileSettings, formatter)
+    fun viewModel(profileId: ProfileId? = null) =
+        RATProfileCreateFragmentViewModel(profileRepository, formatter, profileId)
 }

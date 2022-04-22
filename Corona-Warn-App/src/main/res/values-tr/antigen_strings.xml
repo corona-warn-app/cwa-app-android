@@ -75,7 +75,7 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Test %1$s tarihinde kaydedildi"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Devam"</string>
+    <string name="submission_deletion_warning_continue_button">"Testin Üzerine Yaz"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Not"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
@@ -136,9 +136,11 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Hızlı Test Profili"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Zamandan tasarruf edip test noktasında hızlı test profilinizi sunabilirsiniz."</string>
+    <string name="rat_profile_open_card_subtitle">"QR kod ile dilediğiniz katılımcı test noktasına gönderebileceğiniz, kişisel verilerinizi içeren hızlı test profili."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Hızlı Test Profili"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Hızlı Test Profilleri"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Ad"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,13 +165,19 @@
     <string name="rat_profile_create_phone_error">"Geçersiz telefon numarası"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Geçersiz e-posta adresi"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Hızlı test profili"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Henüz hiçbir hızlı test profili oluşturulmadı"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Kişisel verilerinizle bir hızlı test profili oluşturabilir ve her katılan test noktasına QR kod aracılığıyla gönderebilirsiniz."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Elinde akıllı telefon tutan bir kadın bir binanın önünde duruyor. QR kod, taranacak hızlı test profilini sembolize ediyor."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Test noktalarında kaydınızı hızlandırmak için kişisel verilerinizi bir QR kod olarak kaydedin."</string>
+    <string name="rat_profile_onboarding_title">"Kişisel verilerinizi, dilediğiniz katılımcı test noktasına gönderebileceğiniz bir QR kod olarak kaydedin."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Hızlı test profili oluşturduğunuzda her hızlı testten önce kişisel verilerinizi yeniden doldurmanız gerekmez."</string>
+    <string name="rat_profile_onboarding_subtitle">"Hızlı test profili oluşturduğunuzda her hızlı testten önce kişisel verilerinizi yeniden doldurmanız gerekmez.\nBirden fazla hızlı test profili oluşturabilirsiniz, ör. bir tane kendiniz için ve birer tane her aile üyeniz için."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Devam Et"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->

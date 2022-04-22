@@ -75,7 +75,7 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Test zarejestrowany dnia %1$s"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Kontynuuj"</string>
+    <string name="submission_deletion_warning_continue_button">"Nadpisz test"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Uwaga"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
@@ -136,9 +136,11 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Profil szybkiego testu"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Zaoszczędź czas i przedstaw swój profil szybkiego testu w punkcie testowania."</string>
+    <string name="rat_profile_open_card_subtitle">"Profil szybkiego testu z Twoimi danymi osobowymi, który możesz przesłać do dowolnego uczestniczącego punktu testowania za pomocą kodu QR."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Profil szybkiego testu"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Profile szybkich testów"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Imię"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,13 +165,19 @@
     <string name="rat_profile_create_phone_error">"Nieprawidłowy numer telefonu"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Nieprawidłowy adres e-mail"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Profil szybkiego testu"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Nie utworzono jeszcze profili szybkich testów"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Możesz utworzyć profil szybkiego testu ze swoimi danymi osobowymi, który będziesz przesyłać za pomocą kodu QR do każdego uczestniczącego punktu testowania."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"Przed budynkiem stoi kobieta ze smartfonem w dłoni. Kod QR symbolizuje profil szybkiego testu do zeskanowania."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Zapisz swoje dane osobowe w postaci kodu QR, aby przyspieszyć rejestrację w punktach testowania."</string>
+    <string name="rat_profile_onboarding_title">"Zapisz swoje dane osobowe w postaci kodu QR w celu przesłania do dowolnego uczestniczącego punktu testowania."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Dzięki utworzeniu profilu szybkiego testu, nie będziesz musiał(a) ponownie wypełniać swoich danych osobowych przed wykonaniem szybkiego testu."</string>
+    <string name="rat_profile_onboarding_subtitle">"Dzięki utworzeniu profilu szybkiego testu nie będziesz musiał(a) ponownie podawać swoich danych osobowych przed wykonaniem szybkiego testu.\nMożesz utworzyć kilka profili szybkiego testu, np. jeden dla siebie i po jednym dla członków rodziny."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Kontynuuj"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->

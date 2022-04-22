@@ -75,7 +75,7 @@
     <string name="ag_homescreen_card_pcr_body_result_date">"Test înregistrat pe %1$s"</string>
 
     <!-- XBUT: submission deletion warning button continue -->
-    <string name="submission_deletion_warning_continue_button">"Continuare"</string>
+    <string name="submission_deletion_warning_continue_button">"Suprascriere test"</string>
     <!-- XHED: submission deletion warning title -->
     <string name="submission_deletion_warning_title">"Notă"</string>
     <!-- YTXT: Headline for rapid test submission deletion warning -->
@@ -136,9 +136,11 @@
     <!-- XHED: Open RAT profile card title -->
     <string name="rat_profile_open_card_title">"Profil de test rapid"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
-    <string name="rat_profile_open_card_subtitle">"Economisiți timp și prezentați profilul dvs. de test rapid la punctul de testare."</string>
+    <string name="rat_profile_open_card_subtitle">"Profilul de test rapid cu datele dvs. personale, pe care îl puteți trimite la orice punct de testare participant prin intermediul codului QR."</string>
     <!-- XHED: Create RAT profile title -->
     <string name="rat_profile_create_title">"Profil de test rapid"</string>
+    <!-- XHED: Profiles List screen title -->
+    <string name="profiles_list_title">"Profiluri de test rapid"</string>
     <!-- XTXT: Create RAT profile first name hint -->
     <string name="rat_profile_create_first_name_hint">"Prenume"</string>
     <!-- XTXT: Create RAT profile last name hint -->
@@ -163,13 +165,19 @@
     <string name="rat_profile_create_phone_error">"Număr de telefon nevalabil"</string>
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Adresă de e-mail nevalabilă"</string>
+    <!-- XTXT: Profile fab text -->
+    <string name="profile_fab_text">"Profil de test rapid"</string>
+    <!-- XTXT: RAT profile list no profiles title -->
+    <string name="rat_profile_list_no_profiles_title">"Nu a fost creat încă niciun profil de test rapid"</string>
+    <!-- XTXT: RAT profile list no profiles subtitle -->
+    <string name="rat_profile_list_no_profiles_subtitle">"Puteți crea un profil de test rapid cu datele dvs. personale, pe care îl puteți transmite prin intermediul codului QR la fiecare punct de testare participant."</string>
 
     <!--RAT profile onboarding-->
     <string name="rat_profile_onboarding_image_content_description">"O femeie cu un smartphone în mână stă în fața unei clădiri. Un cod QR simbolizează profilul de test rapid de scanat."</string>
     <!-- XTXT: Create RAT profile onboarding title -->
-    <string name="rat_profile_onboarding_title">"Salvați datele dvs. personale sub formă de cod QR pentru a grăbi înregistrarea în punctele de testare."</string>
+    <string name="rat_profile_onboarding_title">"Salvați datele dvs. personale sub formă de cod QR pe care îl puteți transmite la orice punct de testare participant."</string>
     <!-- XTXT: Create RAT profile onboarding subtitle -->
-    <string name="rat_profile_onboarding_subtitle">"Când creați un profil de test rapid nu va trebui să completați din nou datele dvs. înainte de fiecare test rapid."</string>
+    <string name="rat_profile_onboarding_subtitle">"Când creați un profil de test rapid nu va trebui să completați din nou datele dvs. personale înainte de fiecare test rapid.\nPuteți crea mai multe profiluri de test rapide, de exemplu, unul pentru dvs. și unul pentru fiecare membru al familiei."</string>
     <!-- XTXT: Create RAT profile onboarding next button -->
     <string name="rat_profile_onboarding_next">"Continuare"</string>
     <!-- XTXT: Create RAT profile onboarding privacy -->

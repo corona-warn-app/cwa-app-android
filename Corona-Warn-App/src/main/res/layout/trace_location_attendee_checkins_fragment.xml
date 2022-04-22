@@ -9,8 +9,10 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:theme="@style/CWAMaterialToolbar.OverflowMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,12 +40,12 @@
         android:layout_marginHorizontal="@dimen/spacing_small"
         android:gravity="center"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_fab_padding"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:paddingBottom="@dimen/spacing_fab_padding"
         tools:visibility="visible">
 
         <ImageView
@@ -53,13 +55,12 @@
             app:srcCompat="@drawable/trace_location_my_check_ins_empty_illustration" />
 
         <TextView
-            style="@style/subtitleMedium"
+            style="@style/subtitleMediumBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="36dp"
-            android:text="@string/trace_location_checkins_empty_label"
-            android:textStyle="bold" />
+            android:text="@string/trace_location_checkins_empty_label" />
 
         <TextView
             style="@style/body2Medium"

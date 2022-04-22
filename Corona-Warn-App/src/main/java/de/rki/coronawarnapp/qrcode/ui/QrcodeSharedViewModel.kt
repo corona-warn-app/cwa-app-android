@@ -7,6 +7,7 @@ import de.rki.coronawarnapp.presencetracing.checkins.qrcode.VerifiedTraceLocatio
 
 /**
  * Shares [VerifiedTraceLocation] between start and end destinations.
+ * Shares profile name for family tests
  * Since deep-links do not support sharing Parcelables specially when
  * navigation from Main graph to Nested graph is required. To avoid verifying the location url multiple times in the
  * universal scanner and again in here this ViewModel is used to share the location
@@ -18,6 +19,8 @@ class QrcodeSharedViewModel : ViewModel() {
     private val dccQrCodeCache = mutableMapOf<String, DccQrCode>()
 
     private val dccTicketingTransactionContextCache = mutableMapOf<String, DccTicketingTransactionContext>()
+
+    var familyTestPersonName: String = ""
 
     fun verifiedTraceLocation(locationId: String): VerifiedTraceLocation {
         return verifiedTraceLocationCache.remove(locationId) ?: throw IllegalArgumentException(

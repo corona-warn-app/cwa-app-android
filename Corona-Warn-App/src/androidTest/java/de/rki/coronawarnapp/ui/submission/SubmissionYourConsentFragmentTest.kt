@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.ui.submission
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.yourconsent.SubmissionYourConsentFragment
@@ -28,7 +28,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
 
     @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var interoperabilityRepository: InteroperabilityRepository
-    val testType = CoronaTest.Type.PCR
+    val testType = BaseCoronaTest.Type.PCR
 
     private lateinit var viewModel: SubmissionYourConsentViewModel
 
@@ -45,7 +45,7 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
             )
         setupMockViewModel(
             object : SubmissionYourConsentViewModel.Factory {
-                override fun create(testType: CoronaTest.Type): SubmissionYourConsentViewModel = viewModel
+                override fun create(testType: BaseCoronaTest.Type): SubmissionYourConsentViewModel = viewModel
             }
         )
     }
@@ -59,7 +59,10 @@ class SubmissionYourConsentFragmentTest : BaseUITest() {
     @Screenshot
     fun capture_fragment_results() {
         launchFragmentInContainer2<SubmissionYourConsentFragment>(
-            fragmentArgs = SubmissionYourConsentFragmentArgs(true, testType).toBundle()
+            fragmentArgs = SubmissionYourConsentFragmentArgs(
+                isTestResultAvailable = true,
+                testType = testType
+            ).toBundle()
         )
         takeScreenshot<SubmissionYourConsentFragment>()
     }

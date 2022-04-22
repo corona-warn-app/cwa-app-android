@@ -31,9 +31,11 @@ class DccWalletInfoCalculation @Inject constructor(
 ) {
 
     private var boosterRulesNode: JsonNode = NullNode.instance
+    private var invalidationRulesNode: JsonNode = NullNode.instance
 
-    fun init(boosterRules: List<DccValidationRule>) {
-        boosterRulesNode = gson.toJson(boosterRules).toJsonNode()
+    fun init(boosterRules: List<DccValidationRule>, invalidationRules: List<DccValidationRule>) {
+        boosterRulesNode = boosterRules.toJsonNode()
+        invalidationRulesNode = invalidationRules.toJsonNode()
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
@@ -48,7 +50,8 @@ class DccWalletInfoCalculation @Inject constructor(
                 dccList = dccList,
                 boosterNotificationRules = boosterRulesNode,
                 defaultInputParameters = getDefaultInputParameters(dateTime),
-                scenarioIdentifier = admissionScenarioId
+                scenarioIdentifier = admissionScenarioId,
+                invalidationRules = invalidationRulesNode
             ).toJsonNode()
         )
 
@@ -60,7 +63,8 @@ class DccWalletInfoCalculation @Inject constructor(
         dccList: List<CwaCovidCertificate>,
         boosterNotificationRules: JsonNode,
         defaultInputParameters: CclInputParameters,
-        scenarioIdentifier: String
+        scenarioIdentifier: String,
+        invalidationRules: JsonNode
     ) = DccWalletInfoInput(
         os = defaultInputParameters.os,
         language = defaultInputParameters.language,
@@ -76,6 +80,7 @@ class DccWalletInfoCalculation @Inject constructor(
         certificates = dccList.toCclCertificateList(),
         boosterNotificationRules = boosterNotificationRules,
         scenarioIdentifier = scenarioIdentifier,
+        invalidationRules = invalidationRules
     )
 
     private fun List<CwaCovidCertificate>.toCclCertificateList(): List<CclCertificate> {
@@ -97,4 +102,5 @@ class DccWalletInfoCalculation @Inject constructor(
     private fun DccWalletInfoInput.toJsonNode(): JsonNode = mapper.valueToTree(this)
 
     private fun String.toJsonNode(): JsonNode = mapper.readTree(this)
+    private fun List<DccValidationRule>.toJsonNode(): JsonNode = gson.toJson(this).toJsonNode()
 }

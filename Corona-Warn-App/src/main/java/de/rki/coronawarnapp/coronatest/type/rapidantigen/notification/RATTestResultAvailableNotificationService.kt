@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.coronatest.type.rapidantigen.notification
 
 import android.content.Context
-import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.errors.CoronaTestNotFoundException
 import de.rki.coronawarnapp.coronatest.latestRAT
@@ -12,27 +11,27 @@ import de.rki.coronawarnapp.notification.NotificationConstants
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.device.ForegroundState
 import de.rki.coronawarnapp.util.di.AppContext
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class RATTestResultAvailableNotificationService @Inject constructor(
     @AppContext context: Context,
     foregroundState: ForegroundState,
-    navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
+    navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationHelper: GeneralNotifications,
     private val coronaTestRepository: CoronaTestRepository,
     @AppScope private val appScope: CoroutineScope,
 ) : TestResultAvailableNotificationService(
     context,
     foregroundState,
-    navDeepLinkBuilderProvider,
+    navDeepLinkBuilderFactory,
     notificationHelper,
     NotificationConstants.RAT_TEST_RESULT_AVAILABLE_NOTIFICATION_ID,
     logTag = TAG,

@@ -16,29 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Înregistrarea testelor PCR rapide"</item>
-        <item>"Atribuirea certificatului"</item>
-        <item>"Actualizarea certificatului"</item>
+        <item>"Profiluri de test rapid pentru membrii familiei"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Acum puteți înregistra teste PCR rapide în Corona-Warn-App și puteți primi rezultatul și certificatul dvs. de test prin aplicație."</item>
-        <item>"Atribuirea certificatelor la persoane a fost făcută mai tolerantă la erori. Sunt ignorate diferențele minore de ortografie în cazul prenumelor și numelor, astfel încât certificatele afectate pot fi totuși atribuite persoanelor în cauză."</item>
-        <item>"Prevederile UE pentru certificatele de vaccinare care presupun vaccinarea cu doza booster s-au modificat. Dacă certificatul dvs. nu mai corespunde cu prevederile curente, puteți solicita un certificat nou direct din Corona-Warn-App."</item>
+        <item>"Acum puteți crea profiluri de test rapid pentru membrii familiei dvs., pentru a grăbi înregistrarea în punctele de testare. După ce efectuați acest lucru, trebuie doar să prezentați codul QR pentru respectivul profil de test rapid, pentru a pune la dispoziție informațiile personale."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

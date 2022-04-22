@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- ####################################
+       Special string files for the strings
+       that should always keep the german / english
+       version independent from the selected system language
+   ###################################### -->
+
+    <!-- #####################################################
+         COMMON STRINGS FOR ALL TYPES OF CERTIFICATES BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Person overview no certificates title-->
+    <string name="person_overview_no_certificates_title">"Поки що сертифікати недоступні"</string>
+    <!-- XTXT: Person overview no certificates subtitle-->
+    <string name="person_overview_no_certificates_subtitle">"Тут відображаються збережені цифрові сертифікати вакцинації, сертифікати одужання та сертифікати тестів."</string>
+    <!-- XTXT: Person overview no certificates subtitle 2-->
+    <string name="person_overview_no_certificates_subtitle_2">"Щоб відсканувати QR-код сертифіката, скористайтеся кнопкою «Сканувати» на нижній панелі навігації."</string>
+    <!-- XTXT: Person overview no certificates image content description-->
+    <string name="person_overview_no_certificates_image_description">"Сертифікат із символом QR-коду."</string>
+    <!-- XTXT: Overview certificate status text -->
+    <string name="person_overview_status_text">"Підтвердження статусу"</string>
+    <!-- XTXT: Overview certificate 2G selection button text -->
+    <string name="person_overview_two_g_certificate_text">"Сертифікат 2G"</string>
+    <!-- XTXT: Overview screen test certificate selection button text -->
+    <string name="person_overview_test_certificate_text">"Сертифікат тесту"</string>
+    <!-- XTXT: Person card title-->
+    <string name="person_card_title">"ЄС"</string>
+    <!-- XTXT: Person card subtitle-->
+    <string name="person_card_subtitle">"Цифровий COVID-сертифікат"</string>
+    <!-- XTXT: Certificate QR code expiration text-->
+    <string name="certificate_qr_expiration">"Дата %s час %s завершення строку дії сертифіката"</string>
+    <!-- XTXT: Certificate person details card expiration text -->
+    <string name="certificate_person_details_card_expiration">"Дата %s час %sзавершення строку дії "</string>
+    <!-- XTXT: Certificate QR code expired text-->
+    <string name="certificate_qr_expired">"Строк дії сертифіката минув"</string>
+    <!-- XTXT: Certificate QR code invalid signature-->
+    <string name="certificate_qr_invalid_signature">"Сертифікат (підпис) недійсний"</string>
+    <!-- XTXT: Certificate badge text -->
+    <string name="certificate_badge_text">"Є новини про ваші сертифікати"</string>
+    <!-- XTXT: Certificate loading text -->
+    <string name="certificate_loading_text">"Завантаження ваших сертифікатів..."</string>
+
+    <!-- XTXT: Vaccination Consent subtitle-->
+    <string name="vaccination_consent_headline">"Додати сертифікати"</string>
+    <!-- XTXT: Vaccination Consent subtitle of qr info -->
+    <string name="vaccination_consent_info_subtitle_text">"Додайте свої цифрові COVID-сертифікати ЄС у застосунку. Це дозволить вам підтвердити свій захист від вакцинації, негативний результат тесту або одужання після зараження за допомогою застосунку."</string>
+    <!-- XTXT: Vaccination Consent text of qr info -->
+    <string name="vaccination_consent_qr_info_text">"У застосунку можна додати цифрові COVID-сертифікати про вакцинацію, сертифікати про тести на COVID і COVID-сертифікати про одужання."</string>
+    <!-- XTXT: Vaccination Consent qr code text -->
+    <string name="vaccination_consent_qr_info_qr_code_text">"Ці сертифікати вважаються дійсними доказами в межах ЄС (наприклад, для подорожей)."</string>
+    <!-- XTXT: Vaccination Consent time text  -->
+    <string name="vaccination_consent_qr_info_time_text">"Після того, як ви додасте сертифікат, він залишиться на вашому смартфоні. Він буде доступний іншим, лише якщо ви надасте сертифікат для перевірки."</string>
+    <!-- XTXT: Vaccination Consent family certificates text  -->
+    <string name="vaccination_consent_family_certificates_text">"Додайте ніснуючі сертифікати для себе та членів вашої родини."</string>
+    <!-- XTXT: Text for vaccination consent legal information button -->
+    <string name="vaccination_consent_onboarding_legal_information">"Щоб отримати детальнішу інформацію про обробку даних, див. Сповіщення про конфіденційність."</string>
+    <!-- XBUT: Text for vaccination consent accept button -->
+    <string name="vaccination_consent_accept_button">"Продовжити"</string>
+
+    <!-- XTXT: Vaccination card booster eligible FAQ -->
+    <string name="vaccination_card_booster_eligible_faq">"Для отримання додаткової інформації, див. нашу сторінку ЗіВ."</string>
+    <!-- XTXT: Current priority certificate info -->
+    <string name="certificate_card_bookmark_info">"Наразі використані сертифікати"</string>
+    <!-- XHED: Person certificate details title -->
+    <string name="person_details_certificate_title">"Цифровий COVID-сертифікат ЄС"</string>
+    <!-- XHED: Person certificate CovPas Header Info-->
+    <string name="person_details_certificate_covpass_info_title">"Цей QR-код можна надійно перевірити за допомогою застосунку CovPassCheck."</string>
+    <!-- XTXT: Test Certificate CWA User card description -->
+    <string name="person_details_cwa_user_description">"Увімкніть цей перемикач, якщо ви є %1$s та є основним користувачем застосунку. Ваші сертифікати з’являться у верхній частині списку."</string>
+    <!-- XTXT: Test Certificate CWA User card birthdate -->
+    <string name="person_details_cwa_user_birthdate">"Народився %1$s"</string>
+    <!-- #####################################################
+         VACCINATION CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Vaccination certificate vaccinated on -->
+    <string name="vaccination_certificate_vaccinated_on">"Дата вакцинації %s"</string>
+    <!-- XTXT: Vaccination  card doses-->
+    <string name="vaccination_certificate_doses">"Вакцинація %1$d з %2$d"</string>
+    <!-- XTXT: Vaccination card name-->
+    <string name="vaccination_certificate_name">"Сертифікат вакцинації"</string>
+
+    <!-- #####################################################
+         RECOVERY CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+
+    <!-- XTXT: Recovery certificate detail title -->
+    <string name="recovery_certificate_details_title">"Сертифікат одужання"</string>
+    <!-- XTXT: Recovery certificate detail subtitle -->
+    <string name="recovery_certificate_details_subtitle">"Цифровий COVID-сертифікат ЄС"</string>
+    <!-- XTXT: Recovery certificate card name  -->
+    <string name="recovery_certificate_name">"Сертифікат одужання"</string>
+    <!-- XTXT: Recovery certificate the date of the sample collection -->
+    <string name="recovery_certificate_sample_collection">"Позитивний тест з %s"</string>
+    <!-- #####################################################
+         TEST CERTIFICATE STRINGS BELOW
+         ##################################################### -->
+    <!-- XTXT: Test certificate sampled on -->
+    <string name="test_certificate_sampled_on">"Взято зразок %s"</string>
+    <!-- XTXT: Test certificate sampled on date and time -->
+    <string name="test_certificate_qrcode_card_sampled_on">"Взято зразок %s"</string>
+    <!-- XTXT: Test certificate card name  -->
+    <string name="test_certificate_name">"Сертифікат тесту"</string>
+    <!-- XTXT: Test certificate PCR test type  -->
+    <string name="test_certificate_pcr_test_type">"ПЛР-тест"</string>
+    <!-- XTXT: Test certificate Rapid test Type  -->
+    <string name="test_certificate_rapid_test_type">"Експрес-тест"</string>
+    <!-- XTXT: Dialog description for error 409 recovery-->
+    <string name="test_certificate_error_409_recovery_description">"Для цього тесту не можна створити сертифікат. Додайте новий тест, щоб отримати сертифікат."</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_invalid">"Цей QR-код не є дійсним сертифікатом.\n\nДля отримання додаткової інформації про те, як отримати сертифікат, перегляньте нашу сторінку ЗіВ."</string>
+    <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
+    <string name="error_button_dcc_faq">"ЗіВ для сертифікатів"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_in_blocklist_message">"Сертифікат було відкликано органом, який його видав. Отримайте новий цифровий сертифікат."</string>
+    <!-- XTXT: DCC QR code scan error title-->
+    <string name="error_dcc_in_blocklist_title">"Сертифікат недійсний"</string>
+
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_scan_again">"Не вдалося зберегти сертифікат на вашому смартфоні. Спробуйте пізніше або зв’яжіться з гарячою лінією технічної підтримки в розділі «Інформація про застосунок»."</string>
+    <!-- XTXT: DCC QR code scan error message-->
+    <string name="error_dcc_already_registered">"Сертифікат вже зареєстровано у вашому застосунку."</string>
+
+    <!-- XTXT: Test Certificate QR code new text-->
+    <string name="test_certificate_qr_new">"Новий"</string>
+
+    <!-- #####################################################
+    VALIDATION RULES INFO SCREEN STRINGS BELOW
+    ##################################################### -->
+    <!-- XTXT: Validation Rule Info Screen: Car Text  -->
+    <string name="validation_rules_info_car">"Введіть запланований місцевий час прибуття на кордоні країни призначення."</string>
+    <!-- XTXT: Validation Rule Info Screen: Flight Text  -->
+    <string name="validation_rules_info_flight">"Якщо ви подорожуєте повітряним транспортом, введіть запланований час відправлення вашого рейсу."</string>
+    <!-- XTXT: Validation Rule Info Screen Title -->
+    <string name="validation_rules_info_title">"Інформація"</string>
+    <!-- XTXT: Accessibility: Validation Rule Info Screen Image Description -->
+    <string name="validation_rules_info_image">"Карта Європи"</string>
+    <!-- XTXT: Start Validation Rule Check Button -->
+    <string name="start_validation_rule_check_button">"Перевірте дійсність для подорожей"</string>
+    <!-- XTXT: Start Validation Rule Check Loading Text -->
+    <string name="start_validation_rule_check_loading_text">"Зачекайте..."</string>
+    <!-- XTXT: Digital covid certificate validation error message - no network -->
+    <string name="dcc_validation_error_no_network">"Ваше з’єднання з Інтернетом було втрачено. Щоб завершити перевірку сертифіката, перевірте з’єднання та повторіть спробу."</string>
+    <!-- XTXT: Digital covid certificate validation error message - try again -->
+    <string name="dcc_validation_error_try_again">"Сталась помилка. Спробуйте пізніше або зв’яжіться з технічною гарячою лінією через Інформація про застосунок -&gt; Технічна гаряча лінія."</string>
+
+    <!-- #####################################################
+         VALIDATION START SCREEN
+         ##################################################### -->
+
+    <!-- XHED: Validation start header -->
+    <string name="validation_start_header">"Чинність сертифіката"</string>
+    <!-- XTXT: Validation start body -->
+    <string name="validation_start_body">"Заздалегідь перевірте, чи буде ваш сертифікат дійсним у вашій країні призначення на час вашої подорожі. Будуть враховані правила в\'їзду для вибраної країни призначення."</string>
+    <!-- XTXT: Validation start subtitle -->
+    <string name="validation_start_subtitle">"Перевірити для"</string>
+    <!-- XTXT: Validation start land dropdown hint -->
+    <string name="validation_start_land_hint">"Країна"</string>
+    <!-- XTXT: Validation start date and time dropdown hint -->
+    <string name="validation_start_date_hint">"Дата та час"</string>
+    <!-- XTXT: Validation start date and time info -->
+    <string name="validation_start_date_info">"Введіть дату в’їзду та місцевий час."</string>
+    <!-- XTXT: Validation start certificate proof -->
+    <string name="validation_start_certificate_proof">"Сертифікат COVID є дійсним доказом для подорожей в межах ЄС."</string>
+    <!-- XTXT: Validation start note subtitle -->
+    <string name="validation_start_note_subtitle">"Нотатки"</string>
+    <!-- XTXT: Validation start note point 1 -->
+    <string name="validation_start_note_point_1">"Зверніть увагу, що правила в’їзду можуть бути змінені. Тому перевірте сертифікат незадовго до в’їзду в країну призначення (макс. 48 годин)."</string>
+    <!-- XTXT: Validation start note point 2 -->
+    <string name="validation_start_note_point_2">"В окремих регіонах можуть застосовуватися додаткові правила та обмеження."</string>
+    <!-- XTXT: Validation start note point 4 -->
+    <string name="validation_start_note_point_4">"Застосунок Corona-Warn-App не перевіряє, чи дійсні дані, записані в сертифікаті."</string>
+    <!-- XTXT: Validation start FAQ -->
+    <string name="validation_start_faq">"Для отримання додаткової інформації зверніться до ЗіВ та відвідайте https://reopen.europa.eu/en."</string>
+    <!-- XTXT: Validation start FAQ label -->
+    <string name="validation_start_faq_label">"ЗіВ"</string>
+    <!-- XTXT: Validation start data protection button -->
+    <string name="validation_start_data_protection">"Щоб отримати детальнішу інформацію про обробку даних, див. Сповіщення про конфіденційність."</string>
+    <!-- XBUT: Validation start check button -->
+    <string name="validation_start_check_button">"Перевірка"</string>
+    <!-- XTXT: Validation start time error message -->
+    <string name="validation_start_time_error">"Вказаний час уже минув. Введіть майбутній час для вашого місцевого часу в’їзду."</string>
+
+    <!-- XHED: No Internet connection diaglog title -->
+    <string name="validation_start_no_internet_dialog_title">"Помилка перевірки"</string>
+    <!-- XTXT: No Internet connection diaglog message -->
+    <string name="validation_start_no_internet_dialog_msg">"Ваше з’єднання з Інтернетом було втрачено. Щоб завершити перевірку сертифіката, перевірте з’єднання та повторіть спробу."</string>
+    <!-- XBUT: No Internet connection diaglog positive button -->
+    <string name="validation_start_no_internet_dialog_positive_button">"OK"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Infos about country, date and check date -->
+    <string name="validation_rules_result_valid_result_country_and_time">"Введення %1$s на %2$s, дата перевірки %3$s"</string>
+
+    <!-- XTXT: Validation Rule Result Valid - Result  -->
+    <string name="validation_rules_result_valid_result_title">"Ваш сертифікат дійсний для в\'їзду у вибрану країну"</string>
+    <!-- XTXT: Validation Rule Result No Rules - Result  -->
+    <string name="validation_rules_result_no_rules_title">"Не вдалося перевірити ваш сертифікат"</string>
+    <!-- XTXT: Validation Rule Result Cannot be checked  - Result  -->
+    <string name="validation_rules_result_cannot_be_checked_result_title">"Не вдалося повністю перевірити ваш сертифікат"</string>
+    <!-- XTXT: Validation Rule Result Not Valid - Result  -->
+    <string name="validation_rules_result_not_valid_result_title">"Ваш сертифікат не дійсний для в\'їзду у вибрану країну"</string>
+
+    <!-- XTXT: Validation Rule Open Header Title  -->
+    <string name="validation_rules_open_header_title">"Перевірка неможлива"</string>
+    <!-- XTXT: Validation Rule Open Header Subtitle  -->
+    <string name="validation_rules_open_header_subtitle">"Не вдалося перевірити наступні правила. Переконайтеся, що сертифікат відповідає правилам країни призначення."</string>
+    <!-- XTXT: Validation Rule Failure Header Title  -->
+    <string name="validation_rules_failure_header_title">"Перевірка завершена"</string>
+    <!-- XTXT: Validation Rule Failure Header Subtitle  -->
+    <string name="validation_rules_failure_header_subtitle">"Не виконуються наступні правила:"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Title  -->
+    <string name="validation_rules_technical_failure_header_title">"Технічна перевірка"</string>
+    <!-- XTXT: Validation Rule Technical Failure Header Subtitle  -->
+    <string name="validation_rules_technical_failure_header_subtitle">"Не виконуються наступні правила:"</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Format  -->
+    <string name="validation_rule_technical_error_date_format">"Сертифікат повинен мати очікуваний формат даних."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Signature validation  -->
+    <string name="validation_rule_technical_error_signature">"Підпис сертифіката має бути дійсним."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired  -->
+    <string name="validation_rule_technical_error_date_expired">"Технічна дата закінчення строку дії сертифіката не повинна минути."</string>
+    <!-- XTXT: Validation Rule Technical Failure - Date Expired format -->
+    <string name="validation_rule_technical_error_date_expired_format">"Діє до %1$s, %2$s"</string>
+
+    <!-- Validation Passed Screen-->
+    <!-- XHED: Toolbar title for the validation passed screen  -->
+    <string name="validation_rules_result_valid_header">"Сертифікат дійсний"</string>
+    <!-- XTXT: No rules available text for the validation passed screen  -->
+    <string name="validation_no_rules_available_valid_text">"Наразі немає правил в’їзду для вибраної країни та вибраного часу для цього типу сертифіката. Зверніть увагу на інформацію, наведену нижче."</string>
+    <!-- XTXT: Rule validation text for the validation passed screen  -->
+    <string name="validation_rules_result_valid_rule_text">"%1$d правила країни призначення були успішно переглянуті."</string>
+    <!-- XTXT: Button text - Check another country -->
+    <string name="validation_rules_result_valid_result_button">"Перевірте іншу країну"</string>
+    <!-- Validation Failed Screen-->
+    <!-- XHED: Toolbar title for the validation failed screen -->
+    <string name="validation_failed_title">"Сертифікат не дійсний"</string>
+    <!-- XHED: Toolbar title for the validation open screen -->
+    <string name="validation_open_title">"Сертифікат не можна перевірити"</string>
+
+    <!-- Validation Rule View Holder: Business Rule Validation Open -->
+
+    <!-- Validation Rule View Holder: Business Rule Validation Failed -->
+    <!-- XHED: title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_title_uncertified_test_center">"Сертифікат тесту має бути виданий сертифікованим центром тестування."</string>
+    <!-- XTXT: test center title for the validation failed card  -->
+    <string name="validation_rules_failed_vh_test_center_title">"Testzentrum oder -einrichtung / Центр тестування"</string>
+    <!-- XHED: travel country for the validation failed card  -->
+    <string name="validation_rules_acceptance_country">"Це правило вашої країни призначення, %s."</string>
+    <!-- XHED: issuer country for the validation failed card  -->
+    <string name="validation_rules_invalidation_country">"Це правило країни-емітента."</string>
+
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_title">"Конфіденційність та безпека даних"</string>
+    <!-- XTXT: Validation start privacy title -->
+    <string name="validation_start_privacy_body">"Поточні правила в’їзду завантажуються з серверів RKI. Для цього потрібне підключення до Інтернету. Дані доступу передаються в RKI."</string>
+
+    <!-- XHED: Vaccination Detail expiration Date title -->
+    <string name="expiration_date_title">"Дата закінчення строку технічної придатності"</string>
+    <!-- XHED: Vaccination Detail expiration Date -->
+    <string name="expiration_date">"Діє до %s, %s"</string>
+    <!-- XHED: Vaccination Detail expiration info -->
+    <string name="expiration_info">"Не забудьте вчасно отримати новий цифровий сертифікат."</string>
+    <!-- XTXT: Expired certificate info -->
+    <string name="expired_certificate_info">"Дата закінчення строку дії минула. Отримайте новий цифровий сертифікат."</string>
+    <!-- XTXT: Invalid certificate signature info -->
+    <string name="invalid_certificate_signature_info">"Довідка видана неуповноваженим органом або була видана неправильно. Попросіть уповноважений орган видати вам новий сертифікат. "</string>
+
+
+    <!--    Dcc Signature validation-->
+    <!-- XHED: Signature validation dialog title-->
+    <string name="dcc_signature_validation_dialog_title">"Підпис недійсний"</string>
+    <!-- XTXT: Signature validation dialog message-->
+    <string name="dcc_signature_validation_dialog_message">"Підпис сертифіката недійсний. Сертифікат не може бути використаний як доказ і тому не може бути імпортований."</string>
+    <!-- XBUT: Signature validation dialog FAQ button-->
+    <string name="dcc_signature_validation_dialog_faq_button">"ЗіВ щодо перевірки підпису"</string>
+
+    <!-- DCC notification channel-->
+    <!-- XTXT: certificate notification channel title -->
+    <string name="dcc_notification_channel_title">"Сертифікати"</string>
+    <!-- XTXT: certificate notification channel description -->
+    <string name="dcc_notification_channel_description">"Керувати сповіщеннями для сертифікатів"</string>
+
+    <!-- PDF Export: Not possible dialog -->
+    <!-- XHED: PDF Export: Not possible dialog title -->
+    <string name="certificate_export_error_dialog_title">"Неможливо відобразити версію для друку"</string>
+    <!-- XHED: PDF Export: Not possible dialog body -->
+    <string name="certificate_export_error_dialog_body">"Версію для друку сертифіката неможливо відобразити, оскільки сертифікат виданий не в Німеччині"</string>
+    <!-- XBUT: PDF Export: Not possible dialog faq button -->
+    <string name="certificate_export_error_dialog_faq_button">"ЗіВ щодо версії для друку"</string>
+
+    <!-- XBUT: PDF Export: Not possible dialog ok button -->
+    <string name="certificate_export_error_dialog_ok_button">"OK"</string>
+
+    <!-- PDF Export: Info screen -->
+    <!-- XHED: PDF Export: Info screen title -->
+    <string name="pdf_export_info_title">"Відобразити версію для друку"</string>
+    <!-- XTXT: PDF Export: Info screen subtitle-->
+    <string name="pdf_export_info_subtitle">"Створення роздруківки для ЄС"</string>
+    <!-- XTXT: PDF Export: Info screen point regarding PDF storage -->
+    <string name="pdf_export_info_point_pdf">"Ви можете зберегти сертифікат у форматі PDF-документа. Цей крок є добровільним. Ви єдина людина, яка може спочатку отримати доступ до PDF-документа. Потім ви можете вирішити, чи хочете ви зберегти його на своєму смартфоні або імпортувати в інші застосунки."</string>
+    <!-- XTXT: PDF Export: Info screen point regarding sensitive information in PDF file -->
+    <string name="pdf_export_info_point_sensitive">"Зверніть увагу, що PDF-документ містить конфіденційну інформацію. Ми рекомендуємо поводитися з ним обережно і показувати його лише тим людям, яким ви довіряєте і які уповноважені перевіряти сертифікат."</string>
+    <!-- XTXT: PDF Export: Info screen point with recommendations -->
+    <string name="pdf_export_info_point_recommendations">"Ми рекомендуємо не публікувати PDF-документ, не надсилати його електронною поштою та не ділитися ним через інші застосунки."</string>
+
+    <!-- PDF Export: Error message -->
+    <!-- XHED: PDF Export: Error message title -->
+    <string name="pdf_export_error_title">"Неможливо відобразити версію для друку"</string>
+    <!-- XHED: PDF Export: Error message body -->
+    <string name="pdf_export_error_message">"Версію для друку сертифіката неможливо відобразити, оскільки зараз неможливо отримати сертифікат. Спробуйте пізніше."</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_title">"Перевірка сертифіката третіми сторонами"</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_subtitle">"Треті сторони можуть використовувати застосунок CovPassCheck, щоб достовірно визначити, чи дійсний сертифікат про вакцинацію, сертифікат про одужання чи сертифікат тесту."</string>
+    <!-- XTXT: Cov Pass Info Fragment link label -->
+    <string name="cov_pass_info_faq_link_label">"ЗіВ щодо підтвердження сертифіката третіми сторонами"</string>
+
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_one">"Ви можете самостійно перевірити дійсність своїх сертифікатів у застосунку Corona-Warn-App перед подорожжю, і вам не потрібен застосунок CovPassCheck."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_two">"Однак візуальної перевірки сертифікатів для третіх осіб недостатньо. Вони повинні використовувати застосунок CovPassCheck в Німеччині."</string>
+    <!-- XHED: Cov Pass Info Fragment title -->
+    <string name="cov_pass_info_section_three">"Зверніть увагу, що треті сторони в інших країнах можуть використовувати різні застосунки для перевірки сертифікатів."</string>
+
+    <!-- #####################################################
+        CONFIRMED STATUS CARD
+        ##################################################### -->
+
+    <!-- XTXT: Confirmed status card FAQ link -->
+    <string name="confirmed_status_faq_text">"Для отримання додаткової інформації, див. нашу сторінку ЗіВ."</string>
+
+    <!-- XTXT: CCL Admission scenario tile title -->
+    <string name="ccl_admission_state_tile_title">"Статус для наступної федеральної землі"</string>
+    <!-- XTXT: CCL Admission scenario tile subtitle -->
+    <string name="ccl_admission_state_tile_subtitle">"Постанови федерального уряду"</string>
+    <!-- XTXT: CCL Admission calculation progress message-->
+    <string name="admission_calculation_message">"Визначення статусу..."</string>
+
+    <!-- XTXT: Certificate Migratiomn Dialog Title -->
+    <string name="certificate_migration_dialog_title">"Присвоювання сертифіката"</string>
+    <!-- XTXT: Certificate Migratiomn Dialog Message -->
+    <string name="certificate_migration_dialog_message">"Удосконалено групування сертифікатів. Сертифікати з незначними відмінностями в імені більше не присвоюватимуться іншим людям."</string>
+</resources>

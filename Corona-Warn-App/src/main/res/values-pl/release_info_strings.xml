@@ -16,29 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Rejestracja szybkich testów PCR"</item>
-        <item>"Przypisywanie certyfikatów"</item>
-        <item>"Aktualizacja certyfikatu"</item>
+        <item>"Profile szybkich testów dla członków rodziny"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"Możesz teraz zarejestrować szybkie testy PCR w aplikacji Corona-Warn-App i otrzymać za jej pośrednictwem wynik i certyfikat testu."</item>
-        <item>"Przypisywanie certyfikatów do osób stało się bardziej odporne na błędy. Niewielkie różnice w pisowni imion i nazwisk są ignorowane, więc certyfikaty, w których takie różnice występują, mogą zostać mimo to przypisane do tej samej osoby."</item>
-        <item>"Zmieniły się specyfikacje UE dla certyfikatów szczepień przypominających. Jeśli Twój certyfikat nie jest zgodny z aktualnymi specyfikacjami, możesz zamówić nowy bezpośrednio w aplikacji Corona-Warn-App."</item>
+        <item>"Możesz teraz tworzyć profile szybkich testów dla członków swojej rodziny, aby przyspieszyć rejestrację w punktach testowania. Po utworzeniu profilu wystarczy okazać kod QR odpowiedniego profilu szybkiego testu, aby podać dane osobowe."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

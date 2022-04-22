@@ -1,17 +1,13 @@
 package testhelpers
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.annotation.StyleRes
 import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.testing.FragmentScenario
-import androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity
 import androidx.navigation.Navigation
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ActivityScenario
@@ -21,7 +17,6 @@ import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.ui.main.FakeEmptyActivity
 import de.rki.coronawarnapp.ui.main.FakeMainActivity
 import de.rki.coronawarnapp.ui.main.MainActivity
-import java.util.Locale
 
 /** Delay time before taking screenshot
  */
@@ -80,9 +75,10 @@ inline fun <reified F : Fragment> launchInMainActivity(
             ApplicationProvider.getApplicationContext(),
             FakeMainActivity::class.java
         )
-    ).putExtra(EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY, R.style.AppTheme_Main)
+    )
 
     return ActivityScenario.launch<FakeMainActivity>(startActivityIntent).onActivity { activity ->
+        activity.setTheme(R.style.AppTheme_Main)
         val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
             Preconditions.checkNotNull(F::class.java.classLoader),
             F::class.java.name
@@ -131,9 +127,10 @@ inline fun <reified F : Fragment> launchInEmptyActivity(
             ApplicationProvider.getApplicationContext(),
             FakeEmptyActivity::class.java
         )
-    ).putExtra(EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY, R.style.AppTheme_Main)
+    )
 
     return ActivityScenario.launch<FakeEmptyActivity>(startActivityIntent).onActivity { activity ->
+        activity.setTheme(R.style.AppTheme_Main)
         val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
             Preconditions.checkNotNull(F::class.java.classLoader),
             F::class.java.name
@@ -151,15 +148,4 @@ inline fun <reified F : Fragment> launchInEmptyActivity(
             .add(android.R.id.content, fragment, "")
             .commitNow()
     }
-}
-
-/**
- * Helper to get a string for a specific locale
- */
-fun stringForLocale(locale: Locale, @StringRes stringRes: Int): String {
-    val ctx: Context = ApplicationProvider.getApplicationContext()
-    val conf = ctx.resources.configuration
-        .let { Configuration(it) }
-        .apply { setLocale(locale) }
-    return ctx.createConfigurationContext(conf).getString(stringRes)
 }

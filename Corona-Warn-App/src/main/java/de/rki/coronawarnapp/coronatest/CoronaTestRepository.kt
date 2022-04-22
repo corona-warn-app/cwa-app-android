@@ -8,15 +8,15 @@ import de.rki.coronawarnapp.coronatest.errors.DuplicateCoronaTestException
 import de.rki.coronawarnapp.coronatest.migration.PCRTestMigration
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestGUID
 import de.rki.coronawarnapp.coronatest.storage.CoronaTestStorage
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.exception.ExceptionCategory
 import de.rki.coronawarnapp.exception.reporting.report
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.flow.HotDataFlow
-import de.rki.coronawarnapp.util.flow.shareLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -39,39 +39,41 @@ class CoronaTestRepository @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val dispatcherProvider: DispatcherProvider,
     private val storage: CoronaTestStorage,
-    private val processors: Set<@JvmSuppressWildcards CoronaTestProcessor>,
+    private val processors: Set<@JvmSuppressWildcards PersonalCoronaTestProcessor>,
     private val legacyMigration: PCRTestMigration,
     private val contactDiaryRepository: ContactDiaryRepository
 ) {
 
-    private val internalData: HotDataFlow<Map<CoronaTestGUID, CoronaTest>> = HotDataFlow(
+    private val internalData: HotDataFlow<Map<CoronaTestGUID, PersonalCoronaTest>> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.IO,
         sharingBehavior = SharingStarted.Eagerly,
     ) {
         val legacyTests = legacyMigration.startMigration()
         val persistedTests = storage.coronaTests
-        (legacyTests + persistedTests).map { it.identifier to it }.toMap().also {
-            Timber.tag(TAG).v("Restored CoronaTest data: %s", it)
-        }
+        legacyTests.plus(persistedTests)
+            .associateBy { it.identifier }
+            .also {
+                Timber.tag(TAG).v("Restored CoronaTest data: %s", it)
+            }
     }
 
     /**
-     * Returns a flow with an unfiltered set of [CoronaTest]
+     * Returns a flow with an unfiltered set of [PersonalCoronaTest]
      */
-    val allCoronaTests: Flow<Set<CoronaTest>> = internalData.data.map { it.values.toSet() }
+    val allCoronaTests: Flow<Set<PersonalCoronaTest>> = internalData.data.map { it.values.toSet() }
 
     /**
-     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isNotRecycled]
+     * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isNotRecycled]
      */
-    val coronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+    val coronaTests: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isNotRecycled }.toSet()
     }
 
     /**
-     * Returns a flow with a set of [CoronaTest] matching the predicate [CoronaTest.isRecycled]
+     * Returns a flow with a set of [PersonalCoronaTest] matching the predicate [PersonalCoronaTest.isRecycled]
      */
-    val recycledCoronaTests: Flow<Set<CoronaTest>> = allCoronaTests.map { tests ->
+    val personalTestsInRecycleBin: Flow<Set<PersonalCoronaTest>> = allCoronaTests.map { tests ->
         tests.filter { it.isRecycled }.toSet()
     }
 
@@ -91,7 +93,7 @@ class CoronaTestRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    private fun getProcessor(type: CoronaTest.Type) = processors.single { it.type == type }
+    private fun getProcessor(type: BaseCoronaTest.Type) = processors.single { it.type == type }
 
     /**
      * Default preconditions prevent duplicate test registration,
@@ -102,20 +104,20 @@ class CoronaTestRepository @Inject constructor(
      */
     suspend fun registerTest(
         request: TestRegistrationRequest,
-        preCondition: ((Collection<CoronaTest>) -> Boolean) = { currentTests ->
+        preCondition: ((Collection<PersonalCoronaTest>) -> Boolean) = { currentTests ->
             if (currentTests.any { it.type == request.type && it.isNotRecycled }) {
                 throw DuplicateCoronaTestException("There is already a test of this type: ${request.type}.")
             }
             true
         },
-        postCondition: ((CoronaTest) -> Boolean) = { newTest ->
+        postCondition: ((PersonalCoronaTest) -> Boolean) = { newTest ->
             if (newTest.isRedeemed) {
                 Timber.w("Replacement test was already redeemed, removing it, will not use.")
                 throw AlreadyRedeemedException(newTest)
             }
             true
         }
-    ): CoronaTest {
+    ): PersonalCoronaTest {
         Timber.tag(TAG).i(
             "registerTest(request=%s, preCondition=%s, postCondition=%s)",
             request, preCondition, postCondition
@@ -156,10 +158,10 @@ class CoronaTestRepository @Inject constructor(
         return currentTests[request.identifier]!!
     }
 
-    suspend fun removeTest(identifier: TestIdentifier): CoronaTest {
-        Timber.tag(TAG).i("removeTest(identifier=%s)", identifier)
+    suspend fun deleteTest(identifier: TestIdentifier): BaseCoronaTest {
+        Timber.tag(TAG).i("deleteTest(identifier=%s)", identifier)
 
-        var removedTest: CoronaTest? = null
+        var removedTest: BaseCoronaTest? = null
 
         internalData.updateBlocking {
             val toBeRemoved = values.singleOrNull { it.identifier == identifier }
@@ -180,7 +182,7 @@ class CoronaTestRepository @Inject constructor(
      * Move Corona test to recycled state.
      * it does not throw any exception if test is not found
      */
-    suspend fun recycleTest(identifier: TestIdentifier): Unit = try {
+    suspend fun moveTestToRecycleBin(identifier: TestIdentifier): Unit = try {
         Timber.tag(TAG).d("recycleTest(identifier=%s)", identifier)
         modifyTest(identifier) { processor, test ->
             processor.recycle(test)
@@ -205,7 +207,7 @@ class CoronaTestRepository @Inject constructor(
     /**
      * Passing **null** will refresh all test types.
      */
-    suspend fun refresh(type: CoronaTest.Type? = null): Set<CoronaTest> {
+    suspend fun refresh(type: BaseCoronaTest.Type? = null): Set<BaseCoronaTest> {
         Timber.tag(TAG).d("refresh(type=%s)", type)
 
         val toRefresh = coronaTests
@@ -306,7 +308,7 @@ class CoronaTestRepository @Inject constructor(
 
     private suspend fun modifyTest(
         identifier: TestIdentifier,
-        update: suspend (CoronaTestProcessor, CoronaTest) -> CoronaTest
+        update: suspend (PersonalCoronaTestProcessor, PersonalCoronaTest) -> PersonalCoronaTest
     ) {
         internalData.updateBlocking {
             val original = values.singleOrNull { it.identifier == identifier }
@@ -328,11 +330,6 @@ class CoronaTestRepository @Inject constructor(
             processor.markDccCreated(before, created)
         }
     }
-
-    private fun Flow<Set<CoronaTest>>.shareLatest() = shareLatest(
-        tag = TAG,
-        scope = appScope
-    )
 
     companion object {
         const val TAG = "CoronaTestRepository"

@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.test.core.qrcode
 
 import android.content.res.AssetManager
 import com.google.gson.Gson
+import de.rki.coronawarnapp.bugreporting.censors.dcc.DccQrCodeCensor
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchemaValidator
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
@@ -18,11 +19,16 @@ import de.rki.coronawarnapp.util.serialization.SerializationModule
 import de.rki.coronawarnapp.util.serialization.validation.JsonSchemaValidator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runBlockingTest
 import okio.ByteString.Companion.decodeBase64
 import org.joda.time.Instant
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
@@ -41,7 +47,16 @@ class TestCertificateQRCodeExtractorTest : BaseTest() {
     private val coseDecoder = DccCoseDecoder(AesCryptography())
     private val headerParser = DccHeaderParser()
     private val bodyParser = DccV1Parser(Gson(), schemaValidator)
-    private val extractor = DccQrCodeExtractor(coseDecoder, headerParser, bodyParser)
+    @MockK lateinit var censor: DccQrCodeCensor
+    lateinit var extractor: DccQrCodeExtractor
+
+    @BeforeEach
+    fun setUp() {
+        MockKAnnotations.init(this)
+        every { censor.addQRCodeStringToCensor(any()) } just Runs
+        every { censor.addCertificateToCensor(any()) } just Runs
+        extractor = DccQrCodeExtractor(coseDecoder, headerParser, bodyParser, censor)
+    }
 
     @Test
     fun `happy path qr code`() = runBlockingTest {

@@ -40,8 +40,10 @@ class ProgressLoadingButton @JvmOverloads constructor(
                 addView(this, 0)
                 layoutParams = LayoutParams(LayoutParams.MATCH_CONSTRAINT, LayoutParams.WRAP_CONTENT)
                 textAlignment = TEXT_ALIGNMENT_CENTER
-                isAllCaps = true
+                maxWidth = Int.MAX_VALUE
             }
+
+            parentLayout.maxWidth = Int.MAX_VALUE
 
             ConstraintSet().apply {
                 clone(parentLayout)
@@ -66,7 +68,7 @@ class ProgressLoadingButton @JvmOverloads constructor(
     var isLoading: Boolean = false
         set(value) {
             binding.apply {
-                defaultButton.isEnabled = !value
+                defaultButton.isClickable = !value
                 loadingButtonContainer.isVisible = value
                 defaultButton.text = if (value) "" else defaultText
             }

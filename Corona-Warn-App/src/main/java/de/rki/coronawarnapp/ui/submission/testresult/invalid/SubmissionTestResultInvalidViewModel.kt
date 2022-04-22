@@ -6,11 +6,9 @@ import androidx.navigation.NavDirections
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
-import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvailableNotificationService
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.TestResultUIState
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -22,22 +20,21 @@ import timber.log.Timber
 
 class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val submissionRepository: SubmissionRepository,
     private val recycledTestProvider: RecycledCoronaTestsProvider,
-    private val testResultAvailableNotificationService: PCRTestResultAvailableNotificationService,
-    @Assisted private val testType: CoronaTest.Type,
-    @Assisted private val testIdentifier: TestIdentifier
+    @Assisted private val testIdentifier: TestIdentifier,
+    private val coronaTestProvider: CoronaTestProvider
 ) : CWAViewModel(dispatcherProvider = dispatcherProvider) {
 
     init {
-        Timber.v("init() coronaTestType=%s", testType)
+        Timber.v("init() testIdentifier=%s", testIdentifier)
     }
 
     val routeToScreen = SingleLiveEvent<NavDirections?>()
 
-    val testResult: LiveData<TestResultUIState> = submissionRepository.testForType(type = testType)
+    val testResult: LiveData<TestResultUIState> = coronaTestProvider.getTestForIdentifier(testIdentifier)
         .filterNotNull()
         .map { test ->
+            coronaTestProvider.setTestAsViewed(test)
             TestResultUIState(coronaTest = test)
         }.asLiveData(context = dispatcherProvider.Default)
 
@@ -46,14 +43,8 @@ class SubmissionTestResultInvalidViewModel @AssistedInject constructor(
         routeToScreen.postValue(null)
     }
 
-    fun onTestOpened() = launch {
-        Timber.d("onTestOpened()")
-        submissionRepository.setViewedTestResult(type = testType)
-        testResultAvailableNotificationService.cancelTestResultAvailableNotification()
-    }
-
     @AssistedFactory
     interface Factory : CWAViewModelFactory<SubmissionTestResultInvalidViewModel> {
-        fun create(testType: CoronaTest.Type, testIdentifier: TestIdentifier): SubmissionTestResultInvalidViewModel
+        fun create(testIdentifier: TestIdentifier): SubmissionTestResultInvalidViewModel
     }
 }

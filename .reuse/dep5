@@ -83,3 +83,7 @@ License: Apache-2.0
 Files: Corona-Warn-App/src/main/res/animator/fab_show.xml
 Copyright: 2019 Google Inc.
 License: Apache-2.0
+
+Files: Corona-Warn-App/src/main/java/de/rki/coronawarnapp/util/SafeNavDeepLinkBuilder.java
+Copyright: 2017 Google Inc.
+License: Apache-2.0

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Family Test Home Card Tile -->
+    <!-- XHED Title of the family test card -->
+    <string name="family_test_card_title">"Тести\nчленів родини"</string>
+    <!-- XTXT News about family test subtitle -->
+    <string name="family_test_card_subtitle_news">"Новини"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_test_reg_selection_header">"Зареєструвати тест"</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_test_reg_selection_subtitle">"Ви отримаєте результат на свій смартфон і зможете запитати цифровий сертифікат тесту на COVID. Ви можете попередити інших, лише якщо тест ваш і у вас діагностовано коронавірусну інфекцію."</string>
+    <!-- XTXT: Test registration selection: person title -->
+    <string name="family_test_reg_selection_person_title">"Для мене"</string>
+    <!-- XTXT: Test registration selection: person subtitle -->
+    <string name="family_test_reg_selection_person_subtitle">"Ваш тест"</string>
+    <!-- XTXT: Test registration selection: family title -->
+    <string name="family_test_reg_selection_family_title">"Для інших"</string>
+    <!-- XTXT: Test registration selection: family subtitle -->
+    <string name="family_test_reg_selection_family_subtitle">"Тест для члена родини"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_consent_header">"Ваша згода"</string>
+    <!-- XACT: Test registration selection: description for screen readers -->
+    <string name="family_consent_image_descr">"Родина з декількох членів; є документ із QR-кодом у фоновому режимі."</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_consent_subtitle">"Отримати результат тесту для члена родини"</string>
+    <!-- XTXT: Test registration selection: person name label -->
+    <string name="family_consent_person_name_label">"Ім\'я особи, для якої було зроблено тест:"</string>
+    <!-- XTXT: Test registration selection: person name tooltip -->
+    <string name="family_consent_person_name_tooltip">"Ім\'я"</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_type">"Ви реєструєте тест для члена родини. Якщо це ваш тест, поверніться назад і виберіть «Для мене». Ви повинні зробити це, щоб попередити інших у разі виявлення у вас коронавірусу."</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_result">"Якщо результат тесту члена вашої родини негативний, ви можете попросити офіційний сертифікат тесту на COVID у наступних кроках."</string>
+    <!-- XBUT: Test registration selection: confirm button -->
+    <string name="family_consent_cofirm_button">"Прийняти"</string>
+
+    <!-- Family tests -->
+    <!-- XTXT: Family tests: Cards: PCR title -->
+    <string name="family_tests_cards_pcr_title">"Діагноз на основі тесту ПЛР"</string>
+    <!-- XTXT: Family tests: Cards: Rapid title -->
+    <string name="family_tests_cards_rapid_title">"Діагноз на основі експрес-тесту"</string>
+    <!-- XTXT: Family tests: Cards: PCR date -->
+    <string name="family_tests_cards_pcr_date">"Тест додано %s"</string>
+    <!-- XTXT: Family tests: Cards: Rapid date -->
+    <string name="family_tests_cards_rapid_date">"Дата виконання %1$s"</string>
+    <!-- XTXT: Family tests: Cards: PCR pending body -->
+    <string name="family_tests_cards_pcr_pending_body">"Аналіз тесту ПЛР ще не виконаний."</string>
+    <!-- XTXT: Family tests: Cards: Rapid pending body -->
+    <string name="family_tests_cards_rapid_pending_body">"Аналіз експрес-тесту ще не виконано."</string>
+    <!-- XTXT: Family tests: Cards: Invalid body -->
+    <string name="family_tests_cards_invalid_body">"Тест неможливо проаналізувати."</string>
+    <!-- XTXT: Family tests: Cards: Redeemed body -->
+    <string name="family_tests_cards_redeemed_body">"Тесту більше 21 дня, тому він більше не є релевантним."</string>
+
+    <!-- Family tests list fragment -->
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_title">"Тести членів родини"</string>
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_menu_remove_all">"Видалити все"</string>
+    <!-- XHED: family tests list: Deletion alert window: header single test -->
+    <string name="family_tests_list_deletion_alert_header_single">"Видалити результат тесту?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body single test -->
+    <string name="family_tests_list_deletion_alert_body_single">"Результат тесту буде переміщено в кошик. Ви знайдете кошик на закладці «Статус» під трьома крапками у верхньому правому куті. Ви можете назавжди видалити або відновити його там. Результат тесту буде автоматично видалено через 30 днів."</string>
+    <!-- XHED: family tests list: Deletion alert window: header all tests -->
+    <string name="family_tests_list_deletion_alert_header_all">"Видалити результати тестів?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body all tests -->
+    <string name="family_tests_list_deletion_alert_body_all">"Результати тестів будуть переміщені в кошик. Ви знайдете кошик на плитці «Більше» на закладці статусу.\nВи можете назавжди видалити результати тестів або відновити їх там. Результати тестів будуть автоматично видалено через 30 днів."</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button">"Видалити результат тесту"</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button_all">"Видалити результати тестів"</string>
+    <!-- XBUT: family tests list: Deletion alert window: cancel button -->
+    <string name="family_tests_list_deletion_alert_cancel_button">"Скасувати"</string>
+
+</resources>

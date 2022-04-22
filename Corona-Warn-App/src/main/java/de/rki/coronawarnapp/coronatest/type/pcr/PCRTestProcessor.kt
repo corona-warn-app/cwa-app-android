@@ -20,9 +20,10 @@ import de.rki.coronawarnapp.coronatest.server.RegistrationRequest
 import de.rki.coronawarnapp.coronatest.server.VerificationKeyType
 import de.rki.coronawarnapp.coronatest.server.VerificationServer
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTestProcessor
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.CoronaTestService
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTestProcessor
 import de.rki.coronawarnapp.coronatest.type.common.DateOfBirthKey
 import de.rki.coronawarnapp.coronatest.type.isOlderThan21Days
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
@@ -44,11 +45,11 @@ class PCRTestProcessor @Inject constructor(
     private val submissionService: CoronaTestService,
     private val analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector,
     private val analyticsTestResultCollector: AnalyticsTestResultCollector
-) : CoronaTestProcessor {
+) : PersonalCoronaTestProcessor {
 
-    override val type: CoronaTest.Type = CoronaTest.Type.PCR
+    override val type: BaseCoronaTest.Type = BaseCoronaTest.Type.PCR
 
-    override suspend fun create(request: TestRegistrationRequest): CoronaTest = when (request) {
+    override suspend fun create(request: TestRegistrationRequest): PersonalCoronaTest = when (request) {
         is CoronaTestQRCode.PCR -> createQR(request)
         is CoronaTestTAN.PCR -> createTAN(request)
         is CoronaTestQRCode.RapidPCR -> createQR(request)
@@ -73,7 +74,7 @@ class PCRTestProcessor @Inject constructor(
 
         val testResult = registrationData.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result was %s", it)
-            it.toValidatedResult()
+            it.toValidatedPcrResult()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered(type)
@@ -122,7 +123,7 @@ class PCRTestProcessor @Inject constructor(
         return createCoronaTest(request, registrationData, request.rawQrCode.toSHA256())
     }
 
-    private suspend fun createTAN(request: CoronaTestTAN.PCR): CoronaTest {
+    private suspend fun createTAN(request: CoronaTestTAN.PCR): PersonalCoronaTest {
         Timber.tag(TAG).d("createTAN(data=%s)", request)
 
         analyticsKeySubmissionCollector.reset(type)
@@ -152,7 +153,7 @@ class PCRTestProcessor @Inject constructor(
         val testResult = response.testResultResponse.coronaTestResult.let {
             Timber.tag(TAG).v("Raw test result $it")
 
-            it.toValidatedResult()
+            it.toValidatedPcrResult()
         }
 
         analyticsKeySubmissionCollector.reportTestRegistered(type)
@@ -182,7 +183,7 @@ class PCRTestProcessor @Inject constructor(
         )
     }
 
-    override suspend fun pollServer(test: CoronaTest): CoronaTest {
+    override suspend fun pollServer(test: PersonalCoronaTest): PersonalCoronaTest {
         return try {
             Timber.tag(TAG).v("pollServer(test=%s)", test)
             test as PCRCoronaTest
@@ -206,7 +207,7 @@ class PCRTestProcessor @Inject constructor(
                         Timber.tag(TAG).d("Raw test result was %s", it)
                     }
                     .let { orig ->
-                        orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedResult())
+                        orig.copy(coronaTestResult = orig.coronaTestResult.toValidatedPcrResult())
                     }
             } catch (e: BadRequestException) {
                 if (isOlderThan21Days) {
@@ -224,7 +225,7 @@ class PCRTestProcessor @Inject constructor(
             analyticsTestResultCollector.reportTestResultReceived(response.coronaTestResult, type)
 
             test.copy(
-                testResult = check60Days(test, response.coronaTestResult),
+                testResult = check60DaysPcr(test, response.coronaTestResult, timeStamper.nowUTC),
                 testResultReceivedAt = determineReceivedDate(test, response.coronaTestResult),
                 lastUpdatedAt = nowUTC,
                 labId = response.labId ?: test.labId,
@@ -239,87 +240,74 @@ class PCRTestProcessor @Inject constructor(
         }
     }
 
-    // After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
-    private fun check60Days(test: CoronaTest, newResult: CoronaTestResult): CoronaTestResult {
-        val calculateDays = Duration(test.registeredAt, timeStamper.nowUTC)
-        Timber.tag(TAG).d("Calculated test age: %d days, newResult=%s", calculateDays.standardDays, newResult)
-
-        return if (newResult == PCR_OR_RAT_PENDING && calculateDays > VerificationServer.TEST_AVAILABLBILITY) {
-            Timber.tag(TAG).d("$calculateDays is exceeding the test availability.")
-            PCR_OR_RAT_REDEEMED
-        } else {
-            newResult
-        }
-    }
-
     private fun determineReceivedDate(oldTest: PCRCoronaTest?, newTestResult: CoronaTestResult): Instant? = when {
         oldTest != null && FINAL_STATES.contains(oldTest.testResult) -> oldTest.testResultReceivedAt
         FINAL_STATES.contains(newTestResult) -> timeStamper.nowUTC
         else -> null
     }
 
-    override suspend fun onRemove(toBeRemoved: CoronaTest) {
+    override suspend fun onRemove(toBeRemoved: PersonalCoronaTest) {
         Timber.tag(TAG).v("onRemove(toBeRemoved=%s)", toBeRemoved)
         // Currently nothing to do
     }
 
-    override suspend fun markSubmitted(test: CoronaTest): PCRCoronaTest {
+    override suspend fun markSubmitted(test: PersonalCoronaTest): PCRCoronaTest {
         Timber.tag(TAG).v("markSubmitted(test=%s)", test)
         test as PCRCoronaTest
 
         return test.copy(isSubmitted = true)
     }
 
-    override suspend fun markProcessing(test: CoronaTest, isProcessing: Boolean): CoronaTest {
+    override suspend fun markProcessing(test: PersonalCoronaTest, isProcessing: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("markProcessing(test=%s, isProcessing=%b)", test, isProcessing)
         test as PCRCoronaTest
 
         return test.copy(isProcessing = isProcessing)
     }
 
-    override suspend fun markViewed(test: CoronaTest): CoronaTest {
+    override suspend fun markViewed(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("markViewed(test=%s)", test)
         test as PCRCoronaTest
 
         return test.copy(isViewed = true)
     }
 
-    override suspend fun markBadgeAsViewed(test: CoronaTest): CoronaTest {
+    override suspend fun markBadgeAsViewed(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("markBadgeAsViewed(test=%s)", test)
         test as PCRCoronaTest
 
         return test.copy(didShowBadge = true)
     }
 
-    override suspend fun updateSubmissionConsent(test: CoronaTest, consented: Boolean): CoronaTest {
+    override suspend fun updateSubmissionConsent(test: PersonalCoronaTest, consented: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("updateSubmissionConsent(test=%s, consented=%b)", test, consented)
         test as PCRCoronaTest
 
         return test.copy(isAdvancedConsentGiven = consented)
     }
 
-    override suspend fun updateResultNotification(test: CoronaTest, sent: Boolean): CoronaTest {
+    override suspend fun updateResultNotification(test: PersonalCoronaTest, sent: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("updateResultNotification(test=%s, sent=%b)", test, sent)
         test as PCRCoronaTest
 
         return test.copy(isResultAvailableNotificationSent = sent)
     }
 
-    override suspend fun markDccCreated(test: CoronaTest, created: Boolean): CoronaTest {
+    override suspend fun markDccCreated(test: PersonalCoronaTest, created: Boolean): PersonalCoronaTest {
         Timber.tag(TAG).v("markDccCreated(test=%s, created=%b)", test, created)
         test as PCRCoronaTest
 
         return test.copy(isDccDataSetCreated = created)
     }
 
-    override suspend fun recycle(test: CoronaTest): CoronaTest {
+    override suspend fun recycle(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("recycle(test=%s)", test)
         test as PCRCoronaTest
 
         return test.copy(recycledAt = timeStamper.nowUTC)
     }
 
-    override suspend fun restore(test: CoronaTest): CoronaTest {
+    override suspend fun restore(test: PersonalCoronaTest): PersonalCoronaTest {
         Timber.tag(TAG).v("restore(test=%s)", test)
         test as PCRCoronaTest
 
@@ -332,7 +320,7 @@ class PCRTestProcessor @Inject constructor(
     }
 }
 
-private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
+fun CoronaTestResult.toValidatedPcrResult(): CoronaTestResult {
     val isValid = when (this) {
         PCR_OR_RAT_PENDING,
         PCR_NEGATIVE,
@@ -350,7 +338,20 @@ private fun CoronaTestResult.toValidatedResult(): CoronaTestResult {
     return if (isValid) {
         this
     } else {
-        Timber.tag(PCRTestProcessor.TAG).e("Server returned invalid PCR testresult $this")
+        Timber.tag(PCRTestProcessor.TAG).e("Server returned invalid PCR test result =%s", this)
         PCR_INVALID
+    }
+}
+
+// After 60 days, the previously EXPIRED test is deleted from the server, and it may return pending again.
+fun check60DaysPcr(test: BaseCoronaTest, newResult: CoronaTestResult, now: Instant): CoronaTestResult {
+    val testAge = Duration(test.registeredAt, now)
+    Timber.tag(PCRTestProcessor.TAG).d("Calculated test age: %d days, newResult=%s", testAge.standardDays, newResult)
+
+    return if (newResult == PCR_OR_RAT_PENDING && testAge > VerificationServer.TestAvailabilityDuration) {
+        Timber.tag(PCRTestProcessor.TAG).d("%s is exceeding the test availability.", testAge)
+        PCR_OR_RAT_REDEEMED
+    } else {
+        newResult
     }
 }

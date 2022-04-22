@@ -16,29 +16,21 @@
 
     <!-- XHED: Titles for the release info screen bullet points -->
     <string-array name="new_release_title">
-        <item>"Registration of Rapid PCR Tests"</item>
-        <item>"Certificate Assignment"</item>
-        <item>"Certificate Update"</item>
+        <item>"Rapid Test Profiles for Family Members"</item>
     </string-array>
 
     <!-- XTXT: Text bodies for the release info screen bullet points -->
     <string-array name="new_release_body">
-        <item>"You can now register rapid PCR tests in the Corona-Warn-App and receive the result and your test certificate through the app."</item>
-        <item>"The assignment of certificates to people has been made more error-tolerant. Minor differences in the spelling of first and last names are ignored, so affected certificates can still be assigned to the same person."</item>
-        <item>"The EU specifications for vaccination certificates for booster vaccinations have changed. If your certificate no longer matches the current specifications, you can request a new one directly in the Corona-Warn-App."</item>
+        <item>"You can now create rapid test profiles for your family members, to speed up registration at testing points. Once you do, you only have to present the QR code for the respective rapid test profile to provide the personal information."</item>
     </string-array>
 
     <!-- XTXT: Text labels that will be converted to Links -->
     <string-array name="new_release_linkified_labels">
         <item/>
-        <item/>
-        <item/>
     </string-array>
 
     <!-- XTXT: URL destinations for the lables in new_release_linkified_labels -->
     <string-array name="new_release_target_urls">
-        <item/>
-        <item/>
         <item/>
     </string-array>
 

@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import coil.loadAny
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
 import de.rki.coronawarnapp.databinding.RatProfileQrCodeFragmentBinding
+import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentDirections
 import de.rki.coronawarnapp.ui.qrcode.fullscreen.QrCodeFullScreenFragmentArgs
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.coil.loadingView
@@ -26,7 +28,7 @@ import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
-import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
+import de.rki.coronawarnapp.util.viewmodel.cwaViewModelsAssisted
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -34,8 +36,15 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val viewModel: RATProfileQrCodeFragmentViewModel by cwaViewModels { viewModelFactory }
     private val binding: RatProfileQrCodeFragmentBinding by viewBinding()
+    private val navArgs by navArgs<RATProfileQrCodeFragmentArgs>()
+    private val viewModel: RATProfileQrCodeFragmentViewModel by cwaViewModelsAssisted(
+        factoryProducer = { viewModelFactory },
+        constructorCall = { factory, _ ->
+            factory as RATProfileQrCodeFragmentViewModel.Factory
+            factory.create(navArgs.profileId)
+        }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarOverlay()
@@ -51,15 +60,16 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             toolbar.setNavigationOnClickListener { viewModel.onClose() }
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.rat_profile_information -> doNavigate(
-                        RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileOnboardingFragment(false)
-                    )
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment()
+                            .actionProfileQrCodeFragmentToProfileCreateFragment(navArgs.profileId)
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()
+                    R.id.rat_profile_information -> doNavigate(
+                        RATProfileQrCodeFragmentDirections.actionProfileQrCodeFragmentToProfileOnboardingFragment(
+                            showButton = false
+                        )
+                    )
                 }
                 true
             }
@@ -68,9 +78,9 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 viewModel.openFullScreen()
             }
         }
-        viewModel.profile.observe(viewLifecycleOwner) { personProfile ->
+        viewModel.personProfile.observe(viewLifecycleOwner) { personProfile ->
             with(binding) {
-                personProfile.profile?.let { bindPersonInfo(it) }
+                personProfile.profile.let { bindPersonInfo(it) }
 
                 val request = personProfile?.qrCode?.let { CoilQrCode(content = it) }
                 qrCodeImage.loadAny(request) {
@@ -83,13 +93,13 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
         viewModel.events.observe(viewLifecycleOwner) {
             when (it) {
                 ProfileQrCodeNavigation.Back -> popBackStack()
-                ProfileQrCodeNavigation.OpenScanner -> {
+                is ProfileQrCodeNavigation.OpenScanner -> {
                     val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.ratProfileQrCodeFragment, false)
+                        .setPopUpTo(R.id.profileQrCodeFragment, false)
                         .build()
                     findNavController().navigate(
                         R.id.action_to_universal_scanner,
-                        null,
+                        QrCodeScannerFragmentDirections.actionToUniversalScanner(it.personName).arguments,
                         navOptions,
                         FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
                     )
@@ -117,8 +127,8 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             .show()
     }
 
-    private fun bindPersonInfo(ratProfile: RATProfile) = with(ratProfile) {
-        val name = buildSpannedString { bold { append("$firstName $lastName") } }
+    private fun bindPersonInfo(profile: Profile) = with(profile) {
+        val name = buildSpannedString { bold { append("$firstName $lastName".trim()) } }
         val birthDate = birthDate?.let {
             getString(
                 R.string.rat_qr_code_profile_birth_date,
@@ -126,7 +136,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             )
         }.orEmpty()
 
-        val address = "$zipCode $city"
+        val address = "$zipCode $city".trim()
         binding.profileInfo.text = arrayOf(name, birthDate, street, address, phone, email)
             .filter { it.isNotBlank() }
             .joinToSpannable("\n")

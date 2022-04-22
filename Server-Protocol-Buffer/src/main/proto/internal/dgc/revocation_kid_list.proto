@@ -1,0 +1,13 @@
+// This file is auto-generated, DO NOT make any changes here
+syntax = "proto3";
+package de.rki.coronawarnapp.server.protocols.internal.dgc;
+
+
+message RevocationKidList {
+  repeated RevocationKidListItem items = 1;
+}
+
+message RevocationKidListItem {
+  bytes kid = 1;
+  repeated bytes hashTypes = 2; // 0a, 0b, 0c
+}

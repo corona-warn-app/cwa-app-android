@@ -3,7 +3,8 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode
 import androidx.lifecycle.MutableLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
+import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentArgs
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -22,20 +23,22 @@ class RATProfileQrCodeFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: RATProfileQrCodeFragmentViewModel
 
+    private val args = RATProfileCreateFragmentArgs(id = 1).toBundle()
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         setupMockViewModel(
             object : RATProfileQrCodeFragmentViewModel.Factory {
-                override fun create(): RATProfileQrCodeFragmentViewModel = viewModel
+                override fun create(id: Int): RATProfileQrCodeFragmentViewModel = viewModel
             }
         )
 
         viewModel.apply {
             every { events } returns SingleLiveEvent()
-            every { profile } returns MutableLiveData(
+            every { personProfile } returns MutableLiveData(
                 PersonProfile(
-                    profile = RATProfile(
+                    profile = Profile(
                         firstName = "Max",
                         lastName = "Mustermann",
                         birthDate = LocalDate(1990, 11, 17),
@@ -64,13 +67,17 @@ class RATProfileQrCodeFragmentTest : BaseUITest() {
 
     @Test
     fun launch_fragment() {
-        launchFragment2<RATProfileQrCodeFragment>()
+        launchFragment2<RATProfileQrCodeFragment>(
+            fragmentArgs = args
+        )
     }
 
     @Test
     @Screenshot
     fun capture_fragment() {
-        launchFragmentInContainer2<RATProfileQrCodeFragment>()
+        launchFragmentInContainer2<RATProfileQrCodeFragment>(
+            fragmentArgs = args
+        )
         takeScreenshot<RATProfileQrCodeFragment>()
     }
 

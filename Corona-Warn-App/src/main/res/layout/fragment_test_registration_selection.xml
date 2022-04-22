@@ -1,14 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:background="@color/colorSurface"
+    android:orientation="vertical"
     tools:context=".familytest.ui.selection.TestRegistrationSelectionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/CWAMaterialToolbar.Close.Transparent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-   />
+        android:layout_height="wrap_content"
+        app:title="@string/family_test_reg_selection_header" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/subtitle"
+        style="@style/subtitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/family_test_reg_selection_subtitle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/person"
+        style="@style/GreyCard.Ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/person_icon"
+            android:layout_width="@dimen/circle_icon"
+            android:layout_height="@dimen/circle_icon"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/card_dark"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_person_test_selection_item" />
+
+        <TextView
+            android:id="@+id/person_title"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/family_test_reg_selection_person_title"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/person_icon"
+            app:layout_constraintTop_toTopOf="@id/person_icon" />
+
+        <TextView
+            android:id="@+id/person_subtitle"
+            style="@style/body2Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="24dp"
+            android:paddingBottom="16dp"
+            android:text="@string/family_test_reg_selection_person_subtitle"
+            app:layout_constraintStart_toEndOf="@id/person_icon"
+            app:layout_constraintTop_toBottomOf="@id/person_title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="16dp"
+            android:hyphenationFrequency="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_contact_diary_right_arrow"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/family"
+        style="@style/GreyCard.Ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/family_icon"
+            android:layout_width="@dimen/circle_icon"
+            android:layout_height="@dimen/circle_icon"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/card_dark"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_family_test_selection_item" />
+
+        <TextView
+            android:id="@+id/family_title"
+            style="@style/headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/family_test_reg_selection_family_title"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/family_icon"
+            app:layout_constraintTop_toTopOf="@id/family_icon" />
+
+        <TextView
+            android:id="@+id/family_subtitle"
+            style="@style/body2Medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="24dp"
+            android:paddingBottom="16dp"
+            android:text="@string/family_test_reg_selection_family_subtitle"
+            app:layout_constraintStart_toEndOf="@id/family_icon"
+            app:layout_constraintTop_toBottomOf="@id/family_title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:layout_marginEnd="16dp"
+            android:hyphenationFrequency="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_contact_diary_right_arrow"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

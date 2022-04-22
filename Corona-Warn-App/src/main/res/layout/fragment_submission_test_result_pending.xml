@@ -8,18 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:accessibilityLiveRegion="assertive"
+        android:background="@color/colorSurface"
         android:contentDescription="@string/submission_test_result_headline">
 
-        <include
-            android:id="@+id/submission_test_result_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.Close"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_close}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/submission_test_result_toolbar_text}" />
+            app:title="@string/submission_test_result_toolbar_text" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/submission_test_result_spinner"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toTopOf="@+id/button_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submission_test_result_header"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +53,18 @@
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:paddingBottom="@dimen/spacing_medium">
 
+                <TextView
+                    android:id="@+id/family_member_name"
+                    style="@style/headline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Lara"
+                    tools:visibility="visible" />
+
                 <de.rki.coronawarnapp.ui.view.TestResultSectionView
                     android:id="@+id/submission_test_result_section"
                     android:layout_width="0dp"
@@ -61,7 +73,7 @@
                     android:importantForAccessibility="yes"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/family_member_name"
                     app:test_result_section_headline="@string/test_result_card_headline" />
 
                 <TextView
@@ -79,7 +91,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/submission_test_result_section" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_pending_steps_pcr_added"
+                    android:id="@+id/type_of_pending_test_result"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
@@ -91,44 +103,16 @@
                     app:step_entry_icon="@drawable/ic_test_result_step_done" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_pending_steps_rat_added"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_pcr_added"
-                    app:simple_step_entry_title="@string/submission_test_result_steps_added_rat_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_test_result_step_done"
-                    tools:visibility="visible" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_pending_steps_waiting_pcr_result"
+                    android:id="@+id/pending_test_result_steps_waiting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_rat_added"
+                    app:layout_constraintTop_toBottomOf="@+id/type_of_pending_test_result"
                     app:simple_step_entry_text="@string/submission_test_result_pending_steps_waiting_pcr_body"
                     app:simple_step_entry_title="@string/submission_test_result_pending_steps_waiting_pcr_heading"
                     app:step_entry_final="false"
                     app:step_entry_icon="@drawable/ic_hourglass" />
-
-                <de.rki.coronawarnapp.ui.view.SimpleStepEntry
-                    android:id="@+id/test_result_pending_steps_waiting_antigen_result"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_waiting_pcr_result"
-                    app:simple_step_entry_text="@string/submission_test_result_pending_steps_waiting_rat_body"
-                    app:simple_step_entry_title="@string/submission_test_result_pending_steps_waiting_rat_heading"
-                    app:step_entry_final="false"
-                    app:step_entry_icon="@drawable/ic_hourglass"
-                    tools:visibility="visible" />
 
                 <de.rki.coronawarnapp.ui.view.SimpleStepEntry
                     android:id="@+id/test_result_pending_steps_contact_diary_result"
@@ -136,7 +120,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="@id/submission_test_result_subtitle"
                     app:layout_constraintStart_toStartOf="@id/submission_test_result_subtitle"
-                    app:layout_constraintTop_toBottomOf="@+id/test_result_pending_steps_waiting_antigen_result"
+                    app:layout_constraintTop_toBottomOf="@+id/pending_test_result_steps_waiting"
                     app:simple_step_entry_text="@string/submission_test_result_pending_steps_contact_diary_body"
                     app:simple_step_entry_title="@string/submission_test_result_pending_steps_contact_diary_heading"
                     app:step_entry_final="false"

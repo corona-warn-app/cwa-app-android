@@ -21,19 +21,6 @@
         tools:text="Booster" />
 
     <ImageView
-        android:id="@+id/booster_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="6dp"
-        android:importantForAccessibility="no"
-        android:src="@drawable/ic_badge"
-        app:layout_constraintStart_toEndOf="@id/title"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
-    <ImageView
         android:id="@+id/arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,6 +33,7 @@
 
     <TextView
         android:id="@+id/subtitle"
+        style="@style/body2Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
