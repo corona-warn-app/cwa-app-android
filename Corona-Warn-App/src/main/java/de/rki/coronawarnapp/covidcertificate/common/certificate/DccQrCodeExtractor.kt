@@ -40,6 +40,7 @@ class DccQrCodeExtractor @Inject constructor(
     private val coseDecoder: DccCoseDecoder,
     private val headerParser: DccHeaderParser,
     private val bodyParser: DccV1Parser,
+    private val censor: DccQrCodeCensor,
 ) : QrCodeExtractor<DccQrCode> {
 
     override suspend fun canHandle(rawString: String): Boolean = rawString.startsWith(PREFIX)
@@ -69,7 +70,7 @@ class DccQrCodeExtractor @Inject constructor(
         parserMode: DccV1Parser.Mode,
         decoderMode: Base45Decoder.Mode = Base45Decoder.Mode.LENIENT
     ): DccQrCode {
-        DccQrCodeCensor.addQRCodeStringToCensor(rawString)
+        censor.addQRCodeStringToCensor(rawString)
 
         return try {
             val parsedData = rawString
@@ -195,7 +196,7 @@ class DccQrCodeExtractor @Inject constructor(
             kid = message.kid,
             dscMessage = dscMessage
         ).also {
-            DccQrCodeCensor.addCertificateToCensor(it)
+            censor.addCertificateToCensor(it)
         }.also {
             Timber.v("Parsed covid certificate for %s", it.certificate.nameData.familyNameStandardized)
         }
