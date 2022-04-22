@@ -91,15 +91,9 @@ class VaccinationCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    data class VaccinationCertificatesHolder(
-        val certificates: Set<VaccinationCertificateWrapper>,
-        val recycledCertificates: Set<VaccinationCertificate>
-    ) {
-        val allCertificates: Set<VaccinationCertificate> by lazy {
-            certificates.map { it.vaccinationCertificate }.toSet() + recycledCertificates
-        }
-    }
-
+    /**
+     * All [VaccinationCertificate] in the app whether recycled or not
+     */
     val allCertificates: Flow<VaccinationCertificatesHolder> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
@@ -128,23 +122,10 @@ class VaccinationCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    private suspend fun VaccinationCertificateContainer.toVaccinationCertificateWrapper(
-        valueSets: VaccinationValueSets,
-        dccValidityMeasures: DccValidityMeasures
-    ): VaccinationCertificateWrapper {
-        val state = dccState(
-            dccData = certificateData,
-            qrCodeHash = qrCodeHash,
-            dccValidityMeasures = dccValidityMeasures
-        )
-
-        return VaccinationCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state
-        )
-    }
-
+    /**
+     * Returns a flow with a set of [VaccinationCertificate] matching the predicate
+     * [VaccinationCertificate.isNotRecycled]
+     */
     val certificates: Flow<Set<VaccinationCertificateWrapper>> = allCertificates
         .map { it.certificates }
         .shareLatest(
@@ -352,6 +333,23 @@ class VaccinationCertificateRepository @Inject constructor(
             qrCodeExtractor = qrCodeExtractor,
             certificateSeenByUser = false,
         )
+
+    private suspend fun VaccinationCertificateContainer.toVaccinationCertificateWrapper(
+        valueSets: VaccinationValueSets,
+        dccValidityMeasures: DccValidityMeasures
+    ): VaccinationCertificateWrapper {
+        val state = dccState(
+            dccData = certificateData,
+            qrCodeHash = qrCodeHash,
+            dccValidityMeasures = dccValidityMeasures
+        )
+
+        return VaccinationCertificateWrapper(
+            valueSets = valueSets,
+            container = this,
+            certificateState = state
+        )
+    }
 
     companion object {
         private const val TAG = "VaccinationRepository"

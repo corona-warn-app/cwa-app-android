@@ -98,15 +98,9 @@ class TestCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    data class TestCertificatesHolder(
-        val certificates: Set<TestCertificateWrapper>,
-        val recycledCertificates: Set<TestCertificate>
-    ) {
-        val allCertificates: Set<TestCertificate> by lazy {
-            certificates.mapNotNull { it.testCertificate }.toSet() + recycledCertificates
-        }
-    }
-
+    /**
+     * All [TestCertificate] in the app whether recycled or not
+     */
     val allCertificates: Flow<TestCertificatesHolder> = combine(
         internalData.data,
         valueSetsRepository.latestTestCertificateValueSets,
@@ -135,28 +129,9 @@ class TestCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    private suspend fun TestCertificateContainer.toTestCertificateWrapper(
-        valueSets: TestCertificateValueSets,
-        dccValidityMeasures: DccValidityMeasures
-    ): TestCertificateWrapper {
-        val state = when {
-            isCertificateRetrievalPending -> Invalid()
-            else -> testCertificateQRCode?.let {
-                dccState(
-                    dccData = it.data,
-                    qrCodeHash = it.qrCode.toSHA256(),
-                    dccValidityMeasures = dccValidityMeasures
-                )
-            } ?: Invalid()
-        }
-
-        return TestCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state,
-        )
-    }
-
+    /**
+     * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isNotRecycled]
+     */
     val certificates: Flow<Set<TestCertificateWrapper>> = allCertificates
         .map { it.certificates }
         .shareLatest(
@@ -675,6 +650,28 @@ class TestCertificateRepository @Inject constructor(
         return TestCertificateContainer(
             data = data,
             qrCodeExtractor = qrCodeExtractor,
+        )
+    }
+
+    private suspend fun TestCertificateContainer.toTestCertificateWrapper(
+        valueSets: TestCertificateValueSets,
+        dccValidityMeasures: DccValidityMeasures
+    ): TestCertificateWrapper {
+        val state = when {
+            isCertificateRetrievalPending -> Invalid()
+            else -> testCertificateQRCode?.let {
+                dccState(
+                    dccData = it.data,
+                    qrCodeHash = it.qrCode.toSHA256(),
+                    dccValidityMeasures = dccValidityMeasures
+                )
+            } ?: Invalid()
+        }
+
+        return TestCertificateWrapper(
+            valueSets = valueSets,
+            container = this,
+            certificateState = state,
         )
     }
 

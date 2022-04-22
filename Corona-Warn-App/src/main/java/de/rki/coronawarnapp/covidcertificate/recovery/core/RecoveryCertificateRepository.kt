@@ -85,15 +85,9 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    data class RecoveryCertificatesHolder(
-        val certificates: Set<RecoveryCertificateWrapper>,
-        val recycledCertificates: Set<RecoveryCertificate>
-    ) {
-        val allCertificates: Set<RecoveryCertificate> by lazy {
-            certificates.map { it.recoveryCertificate }.toSet() + recycledCertificates
-        }
-    }
-
+    /**
+     * All [RecoveryCertificate] in the app whether recycled or not
+     */
     val allCertificates: Flow<RecoveryCertificatesHolder> = combine(
         internalData.data,
         valueSetsRepository.latestVaccinationValueSets,
@@ -122,23 +116,9 @@ class RecoveryCertificateRepository @Inject constructor(
             scope = appScope
         )
 
-    private suspend fun RecoveryCertificateContainer.toRecoveryCertificateWrapper(
-        valueSets: VaccinationValueSets,
-        dccValidityMeasures: DccValidityMeasures
-    ): RecoveryCertificateWrapper {
-        val state = dccState(
-            dccData = certificateData,
-            qrCodeHash = qrCodeHash,
-            dccValidityMeasures = dccValidityMeasures
-        )
-
-        return RecoveryCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state
-        )
-    }
-
+    /**
+     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isNotRecycled]
+     */
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = allCertificates
         .map { it.certificates }
         .shareLatest(
@@ -344,6 +324,23 @@ class RecoveryCertificateRepository @Inject constructor(
         return copy(data = data.copy(certificateSeenByUser = true)).also {
             Timber.tag(TAG).d("markAsSeenByUser %s", it.containerId)
         }
+    }
+
+    private suspend fun RecoveryCertificateContainer.toRecoveryCertificateWrapper(
+        valueSets: VaccinationValueSets,
+        dccValidityMeasures: DccValidityMeasures
+    ): RecoveryCertificateWrapper {
+        val state = dccState(
+            dccData = certificateData,
+            qrCodeHash = qrCodeHash,
+            dccValidityMeasures = dccValidityMeasures
+        )
+
+        return RecoveryCertificateWrapper(
+            valueSets = valueSets,
+            container = this,
+            certificateState = state
+        )
     }
 
     companion object {
