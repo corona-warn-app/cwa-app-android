@@ -13,11 +13,13 @@ import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidRecoveryCer
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainer
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -30,7 +32,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -84,44 +85,52 @@ class RecoveryCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val allCertificateSize = internalData.data.map { it.values.size }
-
-    val certificates: Flow<Set<RecoveryCertificateWrapper>> = combine(
+    /**
+     * All [RecoveryCertificate] in the app whether recycled or not
+     */
+    val allCertificates: Flow<RecoveryCertificatesHolder> = combine(
         internalData.data,
+        valueSetsRepository.latestVaccinationValueSets,
         dccValidityMeasuresObserver.dccValidityMeasures
-    ) { certMap, dccValidityMeasures ->
-        certMap.values.filter {
-            it.isNotRecycled
-        }.map { container ->
-            val state = dccState(
-                dccData = container.certificateData,
-                qrCodeHash = container.qrCodeHash,
-                dccValidityMeasures = dccValidityMeasures
-            )
+    ) { certMap, valueSets, dccValidityMeasures ->
+        val certificates = mutableSetOf<RecoveryCertificateWrapper>()
+        val recycledCertificates = mutableSetOf<RecoveryCertificate>()
 
-            RecoveryCertificateWrapper(
-                valueSets = valueSetsRepository.latestVaccinationValueSets.first(),
-                container = container,
-                certificateState = state
-            )
-        }.toSet()
-    }.shareLatest(
-        tag = TAG,
-        scope = appScope
-    )
+        certMap.values.forEach {
+            when {
+                it.isNotRecycled -> certificates += it.toRecoveryCertificateWrapper(valueSets, dccValidityMeasures)
+                it.isRecycled -> recycledCertificates += it.toRecoveryCertificate(
+                    valueSet = valueSets,
+                    certificateState = CwaCovidCertificate.State.Recycled
+                )
+            }
+        }
+
+        RecoveryCertificatesHolder(
+            certificates = certificates,
+            recycledCertificates = recycledCertificates
+        )
+    }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isNotRecycled]
+     */
+    val certificates: Flow<Set<RecoveryCertificateWrapper>> = allCertificates
+        .map { it.certificates }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
 
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<RecoveryCertificate>> = internalData.data
-        .map { certMap ->
-            certMap.values
-                .filter { it.isRecycled }
-                .map {
-                    it.toRecoveryCertificate(certificateState = CwaCovidCertificate.State.Recycled)
-                }
-                .toSet()
-        }
+    val recycledCertificates: Flow<Set<RecoveryCertificate>> = allCertificates
+        .map { it.recycledCertificates }
         .shareLatest(
             tag = TAG,
             scope = appScope
@@ -315,6 +324,23 @@ class RecoveryCertificateRepository @Inject constructor(
         return copy(data = data.copy(certificateSeenByUser = true)).also {
             Timber.tag(TAG).d("markAsSeenByUser %s", it.containerId)
         }
+    }
+
+    private suspend fun RecoveryCertificateContainer.toRecoveryCertificateWrapper(
+        valueSets: VaccinationValueSets,
+        dccValidityMeasures: DccValidityMeasures
+    ): RecoveryCertificateWrapper {
+        val state = dccState(
+            dccData = certificateData,
+            qrCodeHash = qrCodeHash,
+            dccValidityMeasures = dccValidityMeasures
+        )
+
+        return RecoveryCertificateWrapper(
+            valueSets = valueSets,
+            container = this,
+            certificateState = state
+        )
     }
 
     companion object {

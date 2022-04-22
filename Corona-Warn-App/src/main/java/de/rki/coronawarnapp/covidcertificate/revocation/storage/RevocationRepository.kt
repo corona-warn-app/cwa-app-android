@@ -6,15 +6,15 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.Gson
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import de.rki.coronawarnapp.covidcertificate.revocation.RevocationDataStore
 import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.flow.shareLatest
-import de.rki.coronawarnapp.util.serialization.BaseGson
-import de.rki.coronawarnapp.util.serialization.fromJson
+import de.rki.coronawarnapp.util.serialization.BaseJackson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -27,7 +27,7 @@ import javax.inject.Singleton
 @Singleton
 class RevocationRepository @Inject constructor(
     @AppScope appScope: CoroutineScope,
-    @BaseGson private val gson: Gson,
+    @BaseJackson private val objectMapper: ObjectMapper,
     @RevocationDataStore private val dataStore: DataStore<Preferences>
 ) {
 
@@ -63,8 +63,8 @@ class RevocationRepository @Inject constructor(
         }
     }
 
-    private fun String.toCachedRevocationChunks(): List<CachedRevocationChunk> = gson.fromJson(this)
-    private fun List<CachedRevocationChunk>.toJson(): String = gson.toJson(this)
+    private fun String.toCachedRevocationChunks(): List<CachedRevocationChunk> = objectMapper.readValue(this)
+    private fun List<CachedRevocationChunk>.toJson(): String = objectMapper.writeValueAsString(this)
 }
 
 private val TAG = tag<RevocationRepository>()

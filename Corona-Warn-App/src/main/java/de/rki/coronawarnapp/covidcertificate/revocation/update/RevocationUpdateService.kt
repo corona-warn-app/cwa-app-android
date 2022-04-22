@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.update
 
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificate
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.calculateCoordinatesToHash
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.kidHash
 import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationChecker
@@ -10,6 +10,7 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoo
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidList
 import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.collections.groupByNotNull
 import okio.ByteString
@@ -22,17 +23,20 @@ class RevocationUpdateService @Inject constructor(
     private val dccRevocationChecker: DccRevocationChecker
 ) {
 
-    suspend fun updateRevocationList(container: CertificateProvider.CertificateContainer) {
+    suspend fun updateRevocationList(allCertificates: Set<CwaCovidCertificate>) {
         Timber.tag(TAG).d("Updating Revocation List")
-        val coordinatesDccMap = createCoordinatesDccMap(container)
+        val coordinatesDccMap = createCoordinatesDccMap(allCertificates)
         val chunks = createRevocationChunks(coordinatesDccMap)
         revocationRepository.saveCachedRevocationChunks(chunks)
     }
 
     private suspend fun createCoordinatesDccMap(
-        container: CertificateProvider.CertificateContainer
+        allCertificates: Set<CwaCovidCertificate>
     ): CoordinatesDccMap {
-        val dccsByKID = container.groupDCCsByKID().also { Timber.tag(TAG).d("dccsByKID=%s", it) }
+        val dccsByKID = allCertificates
+            .filter { it is VaccinationCertificate || it is RecoveryCertificate } // Filter by certificate type
+            .groupByNotNull { it.kidHex() } // Group DCCs by KID
+            .also { Timber.tag(TAG).d("dccsByKID=%s", it) }
 
         // Update KID List
         val revocationKidList = revocationServer.getRevocationKidList()
@@ -81,14 +85,6 @@ class RevocationUpdateService @Inject constructor(
         return chunks.also { Timber.tag(TAG).d("chunks=%s", it) }
     }
 
-    private fun CertificateProvider.CertificateContainer.groupDCCsByKID(): DCCsByKID {
-        // Filter by certificate type
-        val certificates = vaccinationCwaCertificates + recoveryCwaCertificates
-
-        // Group DCCs by KID
-        return certificates.groupByNotNull { it.kidHex() }
-    }
-
     private fun DCCsByKID.filterBy(revocationKidList: RevocationKidList): DCCsByKID {
         val kids = revocationKidList.items.map { it.kid }
         return filter { it.key in kids }
@@ -128,6 +124,5 @@ private fun CwaCovidCertificate.kidHex(): ByteString? = try {
     null
 }
 
-private val RevocationEntryCoordinates.coordinate:
-    Coordinate
-        get() = Coordinate(x, y)
+private val RevocationEntryCoordinates.coordinate: Coordinate
+    get() = Coordinate(x, y)

@@ -29,7 +29,7 @@ import java.io.IOException
 class RevocationRepositoryTest : BaseTest() {
 
     private lateinit var dataStore: DataStore<Preferences>
-    private val gson = SerializationModule().baseGson()
+    private val objectMapper = SerializationModule().jacksonObjectMapper()
 
     private val cachedRevocationChunk = CachedRevocationChunk(
         coordinates = RevocationEntryCoordinates(
@@ -46,7 +46,7 @@ class RevocationRepositoryTest : BaseTest() {
         data: DataStore<Preferences> = dataStore
     ): RevocationRepository = RevocationRepository(
         appScope = scope,
-        gson = gson,
+        objectMapper = objectMapper,
         dataStore = data
     )
 
