@@ -31,17 +31,6 @@ class CertificateProvider @Inject constructor(
 ) {
 
     /**
-     * All certificates in the App size recycled or not
-     */
-    val allCertificatesSize = combine(
-        vcRepo.allCertificateSize,
-        rcRepo.allCertificateSize,
-        tcRepo.allCertificateSize
-    ) { vs, rs, ts ->
-        vs + rs + ts
-    }.shareLatest(scope = appScope)
-
-    /**
      * All certificates in the app whether recycled or not
      */
     val allCertificates = combine(

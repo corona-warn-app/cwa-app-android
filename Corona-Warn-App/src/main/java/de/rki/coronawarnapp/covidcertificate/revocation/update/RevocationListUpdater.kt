@@ -42,14 +42,9 @@ class RevocationListUpdater @Inject constructor(
             }
     }
 
-    suspend fun updateRevocationList(forceUpdate: Boolean = false) = updateRevocationList(
-        forceUpdate = forceUpdate,
-        allCertificates = certificatesProvider.allCertificates.first()
-    )
-
-    private suspend fun updateRevocationList(
-        forceUpdate: Boolean,
-        allCertificates: Set<CwaCovidCertificate>
+    suspend fun updateRevocationList(
+        forceUpdate: Boolean = false,
+        allCertificates: Set<CwaCovidCertificate>? = null
     ) = mutex.withLock {
         try {
             val timeUpdateRequired = isUpdateRequired()
@@ -57,7 +52,9 @@ class RevocationListUpdater @Inject constructor(
             when {
                 forceUpdate || timeUpdateRequired -> {
                     Timber.tag(TAG).d("updateRevocationList is required")
-                    revocationUpdateService.updateRevocationList(allCertificates)
+                    revocationUpdateService.updateRevocationList(
+                        allCertificates = allCertificates ?: certificatesProvider.allCertificates.first()
+                    )
                     revocationUpdateSettings.setUpdateTimeToNow()
                 }
                 else -> Timber.tag(TAG).d("updateRevocationList isn't required")
