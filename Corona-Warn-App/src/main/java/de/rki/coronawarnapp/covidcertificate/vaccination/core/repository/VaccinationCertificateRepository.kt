@@ -91,8 +91,6 @@ class VaccinationCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val allCertificateSize = internalData.data.map { it.values.size }
-
     data class VaccinationCertificatesHolder(
         val certificates: Set<VaccinationCertificateWrapper>,
         val recycledCertificates: Set<VaccinationCertificate>

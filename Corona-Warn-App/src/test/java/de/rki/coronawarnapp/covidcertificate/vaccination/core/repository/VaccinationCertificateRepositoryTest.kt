@@ -85,6 +85,8 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
                 blockedQrCodeHashes = setOf()
             )
         )
+
+        coEvery { vaccinationMigration.doMigration() } returns emptySet()
     }
 
     private fun createInstance(scope: CoroutineScope) = VaccinationCertificateRepository(
@@ -350,6 +352,43 @@ class VaccinationCertificateRepositoryTest : BaseTest() {
         with(instance.recycledCertificates.first()) {
             size shouldBe 1
             this.first().containerId shouldBe vaccinationTestData.personAVac1Container.containerId
+        }
+    }
+
+    @Test
+    fun `filter by recycled`() = runBlockingTest2(ignoreActive = true) {
+        val recycled = vaccinationTestData.personAVac2StoredCertificateData.copy(
+            recycledAt = nowUTC
+        )
+        val notRecycled = vaccinationTestData.personAVac1StoredCertificateData.copy(
+            recycledAt = null
+        )
+
+        coEvery { storage.load() } returns setOf(recycled, notRecycled)
+
+        createInstance(this).run {
+            certificates.first().also {
+                it.size shouldBe 1
+
+                val wrapper = it.first()
+                wrapper.containerId.qrCodeHash shouldBe notRecycled.vaccinationQrCode.toSHA256()
+                wrapper.recycleInfo.isNotRecycled shouldBe true
+                wrapper.vaccinationCertificate.state shouldBe CwaCovidCertificate.State.Invalid()
+            }
+
+            recycledCertificates.first().also {
+                it.size shouldBe 1
+
+                val cert = it.first()
+                cert.containerId.qrCodeHash shouldBe recycled.vaccinationQrCode.toSHA256()
+                cert.isRecycled shouldBe true
+                cert.state shouldBe CwaCovidCertificate.State.Recycled
+            }
+
+            allCertificates.first().also {
+                it.certificates shouldBe certificates.first()
+                it.recycledCertificates shouldBe recycledCertificates.first()
+            }
         }
     }
 }
