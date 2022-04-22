@@ -117,6 +117,7 @@ fun PersonOverviewItemBinding.setUIState(
         } else {
             button.typeface = typeface
             button.text = certificate.buttonText
+            button.isGone = false
         }
     }
 
