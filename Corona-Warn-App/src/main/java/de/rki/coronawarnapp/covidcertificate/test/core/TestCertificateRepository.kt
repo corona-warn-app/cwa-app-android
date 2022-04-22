@@ -98,10 +98,6 @@ class TestCertificateRepository @Inject constructor(
             .launchIn(appScope + dispatcherProvider.IO)
     }
 
-    val allCertificateSize = internalData.data.map {
-        it.values.count { c -> !c.isCertificateRetrievalPending }
-    }
-
     data class TestCertificatesHolder(
         val certificates: Set<TestCertificateWrapper>,
         val recycledCertificates: Set<TestCertificate>
