@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.coronatest.notification
 
 import de.rki.coronawarnapp.coronatest.CoronaTestRepository
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.main.CWASettings
 import de.rki.coronawarnapp.notification.NotificationConstants.POSITIVE_PCR_RESULT_NOTIFICATION_ID
@@ -29,7 +29,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
     @MockK lateinit var shareTestResultNotification: ShareTestResultNotification
 
     private val coronaTestFlow = MutableStateFlow(
-        emptySet<CoronaTest>()
+        emptySet<PersonalCoronaTest>()
     )
     private var numberOfRemainingSharePositiveTestResultRemindersPcr: Int = Int.MIN_VALUE
     private var numberOfRemainingSharePositiveTestResultRemindersRat: Int = Int.MIN_VALUE
@@ -67,7 +67,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
         every { shareTestResultNotification.showSharePositiveTestResultNotification(any(), any()) } just Runs
         every { shareTestResultNotification.cancelSharePositiveTestResultNotification(any(), any()) } just Runs
-        every { shareTestResultNotification.scheduleSharePositiveTestResultReminder(any(), any()) } just Runs
+        every { shareTestResultNotification.scheduleSharePositiveTestResultReminder(any(), any(), any()) } just Runs
     }
 
     private fun createInstance(scope: CoroutineScope) = ShareTestResultNotificationService(
@@ -82,14 +82,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         val instance = createInstance(this)
 
         coronaTestFlow.value = setOf(
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { identifier } returns "PCR-ID"
                 every { type } returns PCR
                 every { isSubmissionAllowed } returns true
                 every { isSubmitted } returns false
                 every { isViewed } returns true
             },
-            mockk<CoronaTest>().apply {
+            mockk<PersonalCoronaTest>().apply {
                 every { identifier } returns "RAT-ID"
                 every { type } returns RAPID_ANTIGEN
                 every { isSubmissionAllowed } returns true
@@ -103,12 +103,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         verify(exactly = 1) {
             shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                 PCR,
+                PCR_ID,
                 POSITIVE_PCR_RESULT_NOTIFICATION_ID
             )
         }
         verify(exactly = 1) {
             shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                 RAPID_ANTIGEN,
+                RAT_ID,
                 POSITIVE_RAT_RESULT_NOTIFICATION_ID
             )
         }
@@ -125,15 +127,15 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             val instance = createInstance(this)
 
             coronaTestFlow.value = setOf(
-                mockk<CoronaTest>().apply {
-                    every { identifier } returns "PCR-ID"
+                mockk<PersonalCoronaTest>().apply {
+                    every { identifier } returns PCR_ID
                     every { type } returns PCR
                     every { isSubmissionAllowed } returns true
                     every { isSubmitted } returns false
                     every { isViewed } returns false
                 },
-                mockk<CoronaTest>().apply {
-                    every { identifier } returns "RAT-ID"
+                mockk<PersonalCoronaTest>().apply {
+                    every { identifier } returns RAT_ID
                     every { type } returns RAPID_ANTIGEN
                     every { isSubmissionAllowed } returns true
                     every { isSubmitted } returns false
@@ -145,12 +147,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
             verify(exactly = 0) {
                 shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                     PCR,
+                    PCR_ID,
                     POSITIVE_PCR_RESULT_NOTIFICATION_ID
                 )
             }
             verify(exactly = 0) {
                 shareTestResultNotification.scheduleSharePositiveTestResultReminder(
                     RAPID_ANTIGEN,
+                    RAT_ID,
                     POSITIVE_RAT_RESULT_NOTIFICATION_ID
                 )
             }
@@ -165,14 +169,14 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         numberOfRemainingSharePositiveTestResultRemindersPcr = 2
         numberOfRemainingSharePositiveTestResultRemindersRat = 2
 
-        instance.maybeShowSharePositiveTestResultNotification(1, PCR)
-        instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN)
+        instance.maybeShowSharePositiveTestResultNotification(1, PCR, PCR_ID)
+        instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN, RAT_ID)
 
         numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 1
         numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 1
 
-        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, PCR) }
-        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, RAPID_ANTIGEN) }
+        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, PCR_ID) }
+        verify { shareTestResultNotification.showSharePositiveTestResultNotification(1, RAT_ID) }
     }
 
     @Test
@@ -182,7 +186,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
             // PCR
             numberOfRemainingSharePositiveTestResultRemindersPcr = 0
-            instance.maybeShowSharePositiveTestResultNotification(1, PCR)
+            instance.maybeShowSharePositiveTestResultNotification(1, PCR, PCR_ID)
             numberOfRemainingSharePositiveTestResultRemindersPcr shouldBe 0
             verify {
                 shareTestResultNotification.cancelSharePositiveTestResultNotification(
@@ -193,7 +197,7 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
 
             // RAT
             numberOfRemainingSharePositiveTestResultRemindersRat = 0
-            instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN)
+            instance.maybeShowSharePositiveTestResultNotification(1, RAPID_ANTIGEN, RAT_ID)
             numberOfRemainingSharePositiveTestResultRemindersRat shouldBe 0
             verify {
                 shareTestResultNotification.cancelSharePositiveTestResultNotification(
@@ -227,5 +231,10 @@ class ShareTestResultNotificationServiceTest : BaseTest() {
         }
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersPcr = Int.MIN_VALUE }
         verify { cwaSettings.numberOfRemainingSharePositiveTestResultRemindersRat = Int.MIN_VALUE }
+    }
+
+    companion object {
+        private const val PCR_ID = "PCR-ID"
+        private const val RAT_ID = "RAT-ID"
     }
 }

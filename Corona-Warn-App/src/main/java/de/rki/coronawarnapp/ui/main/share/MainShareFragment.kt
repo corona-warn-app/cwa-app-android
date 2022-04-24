@@ -26,9 +26,7 @@ class MainShareFragment : Fragment(R.layout.fragment_main_share) {
         binding.mainShareButton.setOnClickListener {
             shareText(getString(R.string.main_share_message), null)
         }
-        binding.mainShareHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
+        binding.toolbar.setNavigationOnClickListener { popBackStack() }
     }
 
     override fun onResume() {

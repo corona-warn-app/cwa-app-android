@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
+import de.rki.coronawarnapp.familytest.core.repository.FamilyTestRepository
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.storage.repo.TraceLocationRepository
 import de.rki.coronawarnapp.submission.SubmissionSettings
@@ -88,7 +89,7 @@ class MockProvider {
     fun coronaTestRepository(): CoronaTestRepository = mockk {
         every { coronaTests } returns flowOf(emptySet())
         every { allCoronaTests } returns flowOf(emptySet())
-        every { recycledCoronaTests } returns flowOf(emptySet())
+        every { personalTestsInRecycleBin } returns flowOf(emptySet())
     }
 
     @Singleton
@@ -117,5 +118,12 @@ class MockProvider {
     @Provides
     fun personCertificatesSettings(): PersonCertificatesSettings = mockk {
         every { currentCwaUser } returns flowOf(null)
+    }
+
+    @Singleton
+    @Provides
+    fun familyTestRepository(): FamilyTestRepository = mockk {
+        every { familyTests } returns flowOf(emptySet())
+        every { familyTestsInRecycleBin } returns flowOf(emptySet())
     }
 }

@@ -36,6 +36,7 @@
         <TextView
             android:id="@+id/location_label"
             android:layout_width="0dp"
+            style="@style/StatisticsCardValueLabel"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_small"
             android:textSize="@dimen/font_small"
@@ -60,8 +61,10 @@
         <TextView
             android:id="@+id/primary_label"
             android:layout_width="0dp"
+            style="@style/StatisticsCardValueLabel"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
+            android:textSize="14sp"
             android:text="@string/statistics_primary_value_until_yesterday"
             app:layout_constraintStart_toStartOf="@id/location_label"
             app:layout_constraintTop_toTopOf="@id/background_image" />
@@ -88,6 +91,8 @@
         <TextView
             android:id="@+id/primary_subtitle"
             android:layout_width="0dp"
+            style="@style/StatisticsCardValueLabel"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:text="@string/statistics_card_local_incidence_value_description"
             app:layout_constraintEnd_toStartOf="@id/background_image"
@@ -97,6 +102,8 @@
         <TextView
             android:id="@+id/secondary_label"
             android:layout_width="0dp"
+            style="@style/StatisticsCardValueLabel"
+            android:textSize="14sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             app:layout_constraintStart_toStartOf="@id/location_label"
@@ -125,6 +132,8 @@
         <TextView
             android:id="@+id/secondary_subtitle"
             android:layout_width="0dp"
+            android:textSize="14sp"
+            style="@style/StatisticsCardValueLabel"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/spacing_huge"
             app:layout_constraintEnd_toEndOf="parent"

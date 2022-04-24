@@ -14,11 +14,13 @@ import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvaila
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
+import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChangeObserver
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
 import de.rki.coronawarnapp.deadman.DeadmanNotificationScheduler
 import de.rki.coronawarnapp.environment.EnvironmentSetup
+import de.rki.coronawarnapp.familytest.worker.FamilyTestResultRetrievalScheduler
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.presencetracing.checkins.checkout.auto.AutoCheckOut
 import de.rki.coronawarnapp.presencetracing.risk.execution.PresenceTracingRiskWorkScheduler
@@ -89,6 +91,8 @@ class CoronaWarnApplicationTest : BaseTest() {
     @MockK lateinit var recycleBinCleanUpScheduler: RecycleBinCleanUpScheduler
     @MockK lateinit var vaccinationStorage: VaccinationStorage
     @MockK lateinit var cclConfigurationUpdateScheduler: CclConfigurationUpdateScheduler
+    @MockK lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
+    @MockK lateinit var dccExpirationChangeObserver: DccExpirationChangeObserver
 
     @ExperimentalCoroutinesApi
     @BeforeEach
@@ -154,6 +158,8 @@ class CoronaWarnApplicationTest : BaseTest() {
                 app.recycleBinCleanUpScheduler = recycleBinCleanUpScheduler
                 app.vaccinationStorage = vaccinationStorage
                 app.cclConfigurationUpdaterScheduler = cclConfigurationUpdateScheduler
+                app.familyTestResultRetrievalScheduler = familyTestResultRetrievalScheduler
+                app.dccExpirationChangeObserver = dccExpirationChangeObserver
             }
         }
     }
@@ -176,6 +182,7 @@ class CoronaWarnApplicationTest : BaseTest() {
 
             pcrTestResultScheduler.setup()
             raTestResultScheduler.setup()
+            familyTestResultRetrievalScheduler.setup()
 
             pcrTestResultAvailableNotificationService.setup()
             raTestResultAvailableNotificationService.setup()
@@ -193,6 +200,7 @@ class CoronaWarnApplicationTest : BaseTest() {
             dscCheckScheduler.setup()
             recycleBinCleanUpScheduler.setup()
             cclConfigurationUpdateScheduler.setup()
+            dccExpirationChangeObserver.setup()
         }
     }
 }

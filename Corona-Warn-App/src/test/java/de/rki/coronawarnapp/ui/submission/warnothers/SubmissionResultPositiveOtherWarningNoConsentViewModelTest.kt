@@ -1,14 +1,14 @@
 package de.rki.coronawarnapp.ui.submission.warnothers
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.PCR
-import de.rki.coronawarnapp.coronatest.type.CoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.PCR
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest.Type.RAPID_ANTIGEN
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.Screen
 import de.rki.coronawarnapp.nearby.ENFClient
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.storage.interoperability.InteroperabilityRepository
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.auto.AutoSubmission
 import de.rki.coronawarnapp.submission.data.tekhistory.TEKHistoryUpdater
 import io.mockk.MockKAnnotations
@@ -34,7 +34,6 @@ import testhelpers.extensions.InstantExecutorExtension
 @ExtendWith(InstantExecutorExtension::class, CoroutinesTestExtension::class)
 class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
-    @MockK lateinit var submissionRepository: SubmissionRepository
     @MockK lateinit var autoSubmission: AutoSubmission
     @MockK lateinit var tekHistoryUpdater: TEKHistoryUpdater
     @MockK lateinit var tekHistoryUpdaterFactory: TEKHistoryUpdater.Factory
@@ -42,10 +41,10 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
     @MockK lateinit var enfClient: ENFClient
     @MockK lateinit var analyticsKeySubmissionCollector: AnalyticsKeySubmissionCollector
     @MockK lateinit var checkInRepository: CheckInRepository
-    @MockK lateinit var testType: CoronaTest.Type
+    @MockK lateinit var coronaTestProvider: CoronaTestProvider
 
     private val coronaTestFlow = MutableStateFlow(
-        mockk<CoronaTest>().apply {
+        mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns true
         }
     )
@@ -58,9 +57,9 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
         every { interoperabilityRepository.countryList } returns emptyFlow()
 
-        submissionRepository.apply {
-            coEvery { giveConsentToSubmission(any()) } just Runs
-            every { testForType(any()) } returns coronaTestFlow
+        coronaTestProvider.apply {
+            coEvery { giveConsent(any()) } just Runs
+            every { getTestForIdentifier(any()) } returns coronaTestFlow
         }
 
         every { enfClient.isTracingEnabled } returns flowOf(true)
@@ -72,16 +71,16 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
         tekHistoryUpdaterFactory = tekHistoryUpdaterFactory,
         autoSubmission = autoSubmission,
         enfClient = enfClient,
+        coronaTestProvider = coronaTestProvider,
         interoperabilityRepository = interoperabilityRepository,
-        submissionRepository = submissionRepository,
         analyticsKeySubmissionCollector = analyticsKeySubmissionCollector,
         checkInRepository = checkInRepository,
-        testType = testType
+        testIdentifier = ""
     )
 
     @Test
     fun `consent is stored and tek history updated`() {
-        coronaTestFlow.value = mockk<CoronaTest>().apply {
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
             every { isAdvancedConsentGiven } returns false
         }
 
@@ -89,23 +88,15 @@ class SubmissionResultPositiveOtherWarningNoConsentViewModelTest : BaseTest() {
 
         viewModel.onConsentButtonClicked()
 
-        coVerify { submissionRepository.giveConsentToSubmission(any()) }
+        coVerify { coronaTestProvider.giveConsent(any()) }
         verify { tekHistoryUpdater.updateTEKHistoryOrRequestPermission() }
     }
 
     @Test
-    fun `onResume() should call analyticsKeySubmissionCollector for PCR tests`() {
-        testType = PCR
-        createViewModel().onResume()
-        verify(exactly = 1) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR) }
-        verify(exactly = 0) {
-            analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, RAPID_ANTIGEN)
-        }
-    }
-
-    @Test
     fun `onResume() should call analyticsKeySubmissionCollector for RAT tests`() {
-        testType = RAPID_ANTIGEN
+        coronaTestFlow.value = mockk<PersonalCoronaTest>().apply {
+            every { type } returns RAPID_ANTIGEN
+        }
         createViewModel().onResume()
         verify(exactly = 0) { analyticsKeySubmissionCollector.reportLastSubmissionFlowScreen(Screen.WARN_OTHERS, PCR) }
         verify(exactly = 1) {

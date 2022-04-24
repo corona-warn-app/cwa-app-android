@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.submission.testresult.pending
 
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.CoronaTestProvider
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.exception.http.CwaWebException
 import de.rki.coronawarnapp.reyclebin.coronatest.RecycledCoronaTestsProvider
-import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -27,30 +27,25 @@ import testhelpers.extensions.InstantExecutorExtension
 @ExtendWith(InstantExecutorExtension::class)
 class SubmissionTestResultPendingViewModelTest : BaseTest() {
 
-    @MockK lateinit var submissionRepository: SubmissionRepository
-    @MockK lateinit var testType: CoronaTest.Type
     @MockK lateinit var recycledTestProvider: RecycledCoronaTestsProvider
+    @MockK lateinit var coronaTestProvider: CoronaTestProvider
 
-    private val testFlow = MutableStateFlow<CoronaTest?>(null)
+    private val testFlow = MutableStateFlow<PersonalCoronaTest?>(null)
 
     @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
-
-        submissionRepository.apply {
-            every { testForType(any()) } returns testFlow
-            coEvery { setViewedTestResult(any()) } just Runs
-        }
+        coEvery { coronaTestProvider.refreshTest(any()) } just Runs
+        every { coronaTestProvider.getTestForIdentifier(any()) } returns testFlow
     }
 
     fun createInstance(scope: CoroutineScope = TestCoroutineScope(), forceInitialUpdate: Boolean = false) =
         SubmissionTestResultPendingViewModel(
             dispatcherProvider = scope.asDispatcherProvider(),
-            submissionRepository = submissionRepository,
-            testType = testType,
             initialUpdate = forceInitialUpdate,
             recycledTestProvider = recycledTestProvider,
-            testIdentifier = ""
+            testIdentifier = "",
+            coronaTestProvider = coronaTestProvider
         )
 
     @Test
@@ -58,28 +53,21 @@ class SubmissionTestResultPendingViewModelTest : BaseTest() {
         val expectedError = CwaWebException(statusCode = 1, message = "message")
         val unexpectedError = UnsupportedOperationException()
 
-        testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns expectedError }
+        testFlow.value = mockk<PersonalCoronaTest>().apply { every { lastError } returns expectedError }
 
         createInstance().apply {
             cwaWebExceptionLiveData.observeForever {}
             cwaWebExceptionLiveData.value shouldBe expectedError
 
-            testFlow.value = mockk<CoronaTest>().apply { every { lastError } returns unexpectedError }
+            testFlow.value = mockk<PersonalCoronaTest>().apply { every { lastError } returns unexpectedError }
             cwaWebExceptionLiveData.value shouldBe unexpectedError
-        }
-    }
-
-    @Test
-    fun `initial update triggered when forced`() {
-        createInstance(forceInitialUpdate = true).apply {
-            coVerify(exactly = 1) { submissionRepository.refreshTest(any()) }
         }
     }
 
     @Test
     fun `initial update not triggered when not forced`() {
         createInstance().apply {
-            coVerify(exactly = 0) { submissionRepository.refreshTest(any()) }
+            coVerify(exactly = 0) { coronaTestProvider.refreshTest(any()) }
         }
     }
 }

@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="true"
                 app:collapsedTitleTextAppearance="@style/headline5"
+                app:contentScrim="@color/colorTransparent"
                 app:expandedTitleTextAppearance="@style/headline5"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -62,11 +63,11 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
+                    style="@style/CWAMaterialToolbar.Close.Transparent"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_close"
                     app:navigationIconTint="@color/colorStableLight">
 
                     <LinearLayout
@@ -195,7 +196,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/confirm_checkin_settings_card_checkout_toggle_label"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:thumbTint="@color/colorCertificateUserSwitch" />
 
                     <View
                         android:layout_width="match_parent"

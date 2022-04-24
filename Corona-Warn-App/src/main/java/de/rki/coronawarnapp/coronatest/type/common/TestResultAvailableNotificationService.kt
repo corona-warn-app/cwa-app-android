@@ -1,29 +1,28 @@
 package de.rki.coronawarnapp.coronatest.type.common
 
 import android.content.Context
-import androidx.navigation.NavDeepLinkBuilder
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.notification.GeneralNotifications
 import de.rki.coronawarnapp.notification.NotificationId
 import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.testresult.pending.SubmissionTestResultPendingFragmentArgs
 import de.rki.coronawarnapp.util.device.ForegroundState
+import de.rki.coronawarnapp.util.notifications.NavDeepLinkBuilderFactory
 import de.rki.coronawarnapp.util.notifications.setContentTextExpandable
 import kotlinx.coroutines.flow.first
 import timber.log.Timber
-import javax.inject.Provider
 
 open class TestResultAvailableNotificationService(
     private val context: Context,
     private val foregroundState: ForegroundState,
-    private val navDeepLinkBuilderProvider: Provider<NavDeepLinkBuilder>,
+    private val navDeepLinkBuilderFactory: NavDeepLinkBuilderFactory,
     private val notificationHelper: GeneralNotifications,
     private val notificationId: NotificationId,
     private val logTag: String,
 ) {
 
-    suspend fun showTestResultAvailableNotification(test: CoronaTest) {
+    suspend fun showTestResultAvailableNotification(test: BaseCoronaTest) {
         Timber.tag(logTag).v("showTestResultAvailableNotification(test=%s)", test)
 
         if (foregroundState.isInForeground.first()) {
@@ -31,12 +30,11 @@ open class TestResultAvailableNotificationService(
             return
         }
 
-        val pendingIntent = navDeepLinkBuilderProvider.get().apply {
+        val pendingIntent = navDeepLinkBuilderFactory.create(context).apply {
             setGraph(R.navigation.nav_graph)
             setComponentName(MainActivity::class.java)
             setArguments(
                 SubmissionTestResultPendingFragmentArgs(
-                    testType = test.type,
                     testIdentifier = test.identifier
                 ).toBundle()
             )

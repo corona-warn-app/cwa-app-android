@@ -30,9 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:touchscreenBlocksFocus="false"
             android:outlineAmbientShadowColor="@android:color/transparent"
             android:outlineSpotShadowColor="@android:color/transparent"
+            android:touchscreenBlocksFocus="false"
             app:menu="@menu/menu_bottom_nav"
             tools:targetApi="p" />
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -41,11 +41,11 @@
         android:id="@+id/scanner_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="32dp"
         android:contentDescription="@string/bottom_nav_scanner_title"
         app:backgroundTint="@color/fab_tint"
         app:elevation="2dp"
-        android:layout_marginBottom="32dp"
-        android:layout_gravity="bottom|center"
         app:srcCompat="@drawable/ic_nav_qrcode"
         app:tint="@android:color/white" />
 

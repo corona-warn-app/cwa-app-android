@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.ui.submission.covidcertificate
 
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
@@ -25,7 +25,7 @@ import testhelpers.extensions.getOrAwaitValue
 internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @MockK lateinit var testRegistrationStateProcessor: TestRegistrationStateProcessor
-    @MockK lateinit var coronaTest: CoronaTest
+    @MockK lateinit var coronaTest: BaseCoronaTest
 
     private val date = LocalDate.parse(
         "01.01.1987",
@@ -51,7 +51,7 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
         MockKAnnotations.init(this)
 
         testRegistrationStateProcessor.apply {
-            coEvery { startRegistration(any(), any(), any()) } returns mockk()
+            coEvery { startTestRegistration(any(), any(), any()) } returns mockk()
             coEvery { state } returns flowOf(TestRegistrationStateProcessor.State.Idle)
         }
 
@@ -61,11 +61,12 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
     private fun createInstance(
         coronaTestQRCode: CoronaTestQRCode = pcrQRCode,
         coronTestConsent: Boolean = true,
-        deleteOldTest: Boolean = false
+        allowTestReplacement: Boolean = false
     ) = RequestCovidCertificateViewModel(
-        testRegistrationRequest = coronaTestQRCode,
+        testRequest = coronaTestQRCode,
         coronaTestConsent = coronTestConsent,
-        deleteOldTest = deleteOldTest,
+        allowTestReplacement = allowTestReplacement,
+        personName = "Lara",
         registrationStateProcessor = testRegistrationStateProcessor,
     )
 
@@ -79,15 +80,15 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `PCR onAgreeGC removes and registers new test`() {
-        createInstance(deleteOldTest = true).apply {
+        createInstance(allowTestReplacement = true).apply {
             birthDateChanged(date)
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
             }
         }
@@ -95,15 +96,15 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `PCR onAgreeGC registers new test and does not remove old Test`() {
-        createInstance(deleteOldTest = false).apply {
+        createInstance(allowTestReplacement = false).apply {
             birthDateChanged(date)
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = false
+                    allowTestReplacement = false
                 )
             }
         }
@@ -111,14 +112,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `PCR onDisagreeGC removes and registers new test`() {
-        createInstance(deleteOldTest = true).apply {
+        createInstance(allowTestReplacement = true).apply {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
             }
         }
@@ -126,14 +127,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `PCR onDisagreeGC registers new test and does not remove old Test`() {
-        createInstance(deleteOldTest = false).apply {
+        createInstance(allowTestReplacement = false).apply {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = pcrQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = false
+                    allowTestReplacement = false
                 )
             }
         }
@@ -141,14 +142,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `RAT onAgreeGC removes and registers new test`() {
-        createInstance(coronaTestQRCode = ratQRCode, deleteOldTest = true).apply {
+        createInstance(coronaTestQRCode = ratQRCode, allowTestReplacement = true).apply {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
             }
         }
@@ -156,14 +157,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `RAT onAgreeGC registers new test and does not remove old Test`() {
-        createInstance(coronaTestQRCode = ratQRCode, deleteOldTest = false).apply {
+        createInstance(coronaTestQRCode = ratQRCode, allowTestReplacement = false).apply {
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = true),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = false
+                    allowTestReplacement = false
                 )
             }
         }
@@ -171,14 +172,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `RAT onDisagreeGC removes and registers new test`() {
-        createInstance(coronaTestQRCode = ratQRCode, deleteOldTest = true).apply {
+        createInstance(coronaTestQRCode = ratQRCode, allowTestReplacement = true).apply {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
             }
         }
@@ -186,14 +187,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `RAT onDisagreeGC registers new test and does not remove old Test`() {
-        createInstance(coronaTestQRCode = ratQRCode, deleteOldTest = false).apply {
+        createInstance(coronaTestQRCode = ratQRCode, allowTestReplacement = false).apply {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = ratQRCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = false
+                    allowTestReplacement = false
                 )
             }
         }
@@ -201,15 +202,15 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `Rapid PCR onAgreeGC removes and registers new test`() {
-        createInstance(coronaTestQRCode = rapidPCRQrCode, deleteOldTest = true).apply {
+        createInstance(coronaTestQRCode = rapidPCRQrCode, allowTestReplacement = true).apply {
             birthDateChanged(date)
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
             }
         }
@@ -217,15 +218,15 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `Rapid PCR onAgreeGC registers new test and does not remove old Test`() {
-        createInstance(coronaTestQRCode = rapidPCRQrCode, deleteOldTest = false).apply {
+        createInstance(coronaTestQRCode = rapidPCRQrCode, allowTestReplacement = false).apply {
             birthDateChanged(date)
             onAgreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = true, dateOfBirth = date),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = false
+                    allowTestReplacement = false
                 )
             }
         }
@@ -233,14 +234,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `Rapid PCR onDisagreeGC removes and registers new test`() {
-        createInstance(coronaTestQRCode = rapidPCRQrCode, deleteOldTest = true).apply {
+        createInstance(coronaTestQRCode = rapidPCRQrCode, allowTestReplacement = true).apply {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = true
+                    allowTestReplacement = true
                 )
             }
         }
@@ -248,14 +249,14 @@ internal class RequestCovidCertificateViewModelTest : BaseTest() {
 
     @Test
     fun `Rapid PCR onDisagreeGC registers new test and does not remove old Test`() {
-        createInstance(coronaTestQRCode = rapidPCRQrCode, deleteOldTest = false).apply {
+        createInstance(coronaTestQRCode = rapidPCRQrCode, allowTestReplacement = false).apply {
             onDisagreeGC()
 
             coVerify {
-                testRegistrationStateProcessor.startRegistration(
+                testRegistrationStateProcessor.startTestRegistration(
                     request = rapidPCRQrCode.copy(isDccConsentGiven = false),
                     isSubmissionConsentGiven = any(),
-                    allowReplacement = false
+                    allowTestReplacement = false
                 )
             }
         }

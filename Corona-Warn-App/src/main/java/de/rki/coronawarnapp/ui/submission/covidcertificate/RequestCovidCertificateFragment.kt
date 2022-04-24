@@ -18,6 +18,7 @@ import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
 import de.rki.coronawarnapp.databinding.FragmentRequestCovidCertificateBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toDayFormat
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -35,7 +36,12 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as RequestCovidCertificateViewModel.Factory
-            factory.create(args.testRegistrationRequest, args.coronaTestConsent, args.allowTestReplacement)
+            factory.create(
+                testRegistrationRequest = args.testRegistrationRequest,
+                coronaTestConsent = args.coronaTestConsent,
+                allowTestReplacement = args.allowTestReplacement,
+                personName = args.personName
+            )
         }
     )
     private val binding by viewBinding<FragmentRequestCovidCertificateBinding>()
@@ -88,12 +94,19 @@ class RequestCovidCertificateFragment : Fragment(R.layout.fragment_request_covid
             }
             is State.TestRegistered -> when {
                 state.test.isPositive ->
-                    NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                    if (state.test is FamilyCoronaTest) {
+                        NavGraphDirections.actionSubmissionTestResultPendingFragment(
+                            testIdentifier = state.test.identifier
+                        )
+                    } else {
+                        NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                            testIdentifier = state.test.identifier
+                        )
+                    }
                         .run { findNavController().navigate(this, navOptions) }
 
                 else ->
                     NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                        testType = state.test.type,
                         testIdentifier = state.test.identifier
                     )
                         .run { findNavController().navigate(this, navOptions) }

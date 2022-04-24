@@ -1031,10 +1031,18 @@
     <string name="submission_test_result_steps_added_heading">"PCR Testiniz Eklendi"</string>
     <!-- YTXT: Body text for for results next steps  -->
     <string name="submission_test_result_steps_added_body">"Testiniz Corona-Warn-App\'e kaydedildi."</string>
+    <!-- XHED: Page headline for family results next steps PCR -->
+    <string name="submission_family_test_result_steps_added_pcr_heading">"PCR testi eklendi"</string>
+    <!-- XHED: Page headline for family results next steps RAT -->
+    <string name="submission_family_test_result_steps_added_rat_heading">"Hızlı test eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
     <string name="submission_test_result_pending_steps_waiting_pcr_heading">"Test Sonucunuz Henüz Çıkmadı"</string>
+    <!-- XHED: Page headline for pendin family test result next steps -->
+    <string name="submission_family_test_result_pending_steps_waiting_heading">"Test Sonucu Henüz Çıkmadı"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_waiting_pcr_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir.\n\nTest sonucunuz uygulama dışından da tarafınıza iletilecektir. Testinizin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir.\n\nUygulama dışından bir pozitif test sonucu aldıysanız lütfen uygulamaya kayıtlı testi silin. TAN almak için TAN Talebi başlığının altında gösterilen numarayı arayın. Ardından bu TAN\'yi kullanarak sonucunuzu uygulamaya kaydedin ve diğer kullanıcıları uyarın."</string>
+    <!-- XTXT: Body text for next steps section of waiting family PCR test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_pcr_body">"Test sonucu çıkar çıkmaz uygulamada görüntülenecektir.\nTest sonucu uygulama dışından da tarafınıza iletilecektir. Testin pozitif sonuç vermesi halinde kamu sağlığı yetkilileri sizi bilgilendirecektir."</string>
     <!-- XHED: Page headline for results next steps  -->
     <string name="submission_test_result_steps_added_rat_heading">"Hızlı testiniz eklendi"</string>
     <!-- XHED: Page headline for pending test result next steps  -->
@@ -1045,13 +1053,21 @@
     <string name="submission_test_result_pending_steps_contact_diary_heading">"Test sonucunuz temas güncenize eklenecektir"</string>
     <!-- YTXT: Body text for next steps section of waiting test result page -->
     <string name="submission_test_result_pending_steps_contact_diary_body">"Test sonucunuz çıkar çıkmaz uygulamada görüntülenecektir."</string>
+    <!-- XTXT: Body text for next steps section of waiting family rat test result page -->
+    <string name="submission_family_test_result_pending_steps_waiting_rat_body">"Test sonucu çıkar çıkmaz uygulamada görüntülenecektir."</string>
 
     <!-- XHED: Page headline for test result certifcate info title  -->
     <string name="submission_test_result_pending_steps_test_certificate_heading">"COVID Test Sertifikanız"</string>
+    <!-- XHED: Page headline for family test result certificate info title -->
+    <string name="submission_family_test_result_pending_steps_certificate_heading">"COVID Test Sertifikası"</string>
+    <!-- XTXT: Family test result certificate info text for negative result -->
+    <string name="submission_family_test_result_negative_steps_certificate_text">"Dijital COVID test sertifikasını \"Sertifikalar\" sekmesinde bulabilirsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not supported, RAT Test -->
     <string name="submission_test_result_pending_steps_test_certificate_not_supported_body">"Bu test noktasında test sertifikalarının düzenlenmesi desteklenmediğinden resmi bir dijital COVID test sertifikası talep edemezsiniz."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_available_yet_body">"Resmi dijital COVID test sertifikanız henüz çıkmadı. Çıkar çıkmaz uygulamanızda görüntülenecektir."</string>
+    <!-- YTXT: Body text for family test result certifcate info, if certifcate is not available yet, PCR Test consent given -->
+    <string name="submission_family_test_result_pending_steps_test_certificate_not_available_yet_body">"Resmi dijital COVID test sertifikası henüz çıkmadı. Çıkar çıkmaz uygulamada görüntülenecektir."</string>
     <!-- YTXT: Body text for test result certifcate info, if certifcate is not desired by the user, PCR Test no consent given -->
     <string name="submission_test_result_pending_steps_test_certificate_not_desired_by_user_body">"Talebiniz üzerine, hiçbir resmi dijital COVID test sertifikası düzenlenmeyecektir."</string>
 
@@ -1134,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"QR Kodu Tara"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Uygulamada test sonucunuzu alın ve diğer kullanıcıları uyarın ya da COVID test sertifikanızı talep edin."</string>
+    <string name="submission_dispatcher_qr_card_text">"Uygulamada size ait test sonucunu ve aile üyelerinize ait test sonuçlarını alın ve diğer kullanıcıları uyarın ya da COVID test sertifikanızı talep edin."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Test Merkezi Bul"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1341,6 +1357,8 @@
 
     <!-- Test Result Card -->
     <string name="test_result_card_headline">"%s tanınız:"</string>
+    <!-- Family Test Result Card -->
+    <string name="family_test_result_card_headline">"%s tanısı:"</string>
     <!-- YTXT: virus name text -->
     <string name="test_result_card_virus_name_text">"SARS-CoV-2"</string>
     <!-- YTXT: registered at text -->

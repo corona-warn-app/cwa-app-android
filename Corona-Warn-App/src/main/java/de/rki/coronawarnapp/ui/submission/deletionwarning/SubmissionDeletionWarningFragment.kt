@@ -11,13 +11,10 @@ import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.NavGraphDirections
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.coronatest.tan.CoronaTestTAN
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDeletionWarningBinding
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor.State
-import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
-import de.rki.coronawarnapp.util.ui.SingleLiveEvent
-import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.popBackStack
 import de.rki.coronawarnapp.util.ui.viewBinding
@@ -30,9 +27,16 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
     @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
 
-    private val navOptions = NavOptions.Builder().setPopUpTo(R.id.submissionDeletionWarningFragment, true).build()
+    private val navOptions by lazy {
+        NavOptions.Builder().setPopUpTo(
+            when {
+                args.popToTestCategorySelection -> R.id.testRegistrationSelectionFragment
+                else -> R.id.submissionDeletionWarningFragment
+            },
+            true
+        ).build()
+    }
     private val args by navArgs<SubmissionDeletionWarningFragmentArgs>()
-    val routeToScreen: SingleLiveEvent<SubmissionNavigationEvents> = SingleLiveEvent()
 
     private val viewModel: SubmissionDeletionWarningViewModel by cwaViewModelsAssisted(
         factoryProducer = { viewModelFactory },
@@ -48,12 +52,12 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
 
         binding.apply {
             when (viewModel.getTestType()) {
-                CoronaTest.Type.PCR -> {
+                BaseCoronaTest.Type.PCR -> {
                     headline.text = getString(R.string.submission_deletion_warning_headline_pcr_test)
                     body.text = getString(R.string.submission_deletion_warning_body_pcr_test)
                 }
 
-                CoronaTest.Type.RAPID_ANTIGEN -> {
+                BaseCoronaTest.Type.RAPID_ANTIGEN -> {
                     headline.text = getString(R.string.submission_deletion_warning_headline_antigen_test)
                     body.text = getString(R.string.submission_deletion_warning_body_antigen_test)
                 }
@@ -84,14 +88,15 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                         if (args.testRegistrationRequest is CoronaTestTAN) {
                             SubmissionDeletionWarningFragmentDirections
                                 .actionSubmissionDeletionFragmentToSubmissionTestResultNoConsentFragment(
-                                    testType = state.test.type
+                                    testIdentifier = state.test.identifier
                                 )
                         } else {
-                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(testType = state.test.type)
+                            NavGraphDirections.actionToSubmissionTestResultAvailableFragment(
+                                testIdentifier = state.test.identifier
+                            )
                         }
                     }
                     else -> NavGraphDirections.actionSubmissionTestResultPendingFragment(
-                        testType = state.test.type,
                         testIdentifier = state.test.identifier
                     )
                 }.also { findNavController().navigate(it, navOptions) }
@@ -101,7 +106,7 @@ class SubmissionDeletionWarningFragment : Fragment(R.layout.fragment_submission_
                 Timber.d("Navigating to %s", event)
                 when (event) {
                     DuplicateWarningEvent.Back -> popBackStack()
-                    is DuplicateWarningEvent.Direction -> doNavigate(event.direction)
+                    is DuplicateWarningEvent.Direction -> findNavController().navigate(event.direction, navOptions)
                 }
             }
         }

@@ -12,7 +12,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close.Transparent"
+        style="@style/CWAMaterialToolbar.Close"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/tracelocation_organizer_category_title" />

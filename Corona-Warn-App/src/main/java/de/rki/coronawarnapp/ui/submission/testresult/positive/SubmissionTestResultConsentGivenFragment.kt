@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultConsentGivenBinding
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.ui.submission.SubmissionBlockingDialog
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
 import de.rki.coronawarnapp.util.di.AutoInject
@@ -57,6 +59,11 @@ class SubmissionTestResultConsentGivenFragment :
             binding.apply {
                 uiState = it
                 submissionTestResultSection.setTestResultSection(it.coronaTest)
+                if (it.coronaTest is FamilyCoronaTest) {
+                    toolbar.title = getText(R.string.submission_test_result_headline)
+                    familyMemberName.isVisible = true
+                    familyMemberName.text = it.coronaTest.personName
+                }
             }
         }
 
@@ -102,9 +109,7 @@ class SubmissionTestResultConsentGivenFragment :
             viewModel.onShowCancelDialog()
         }
 
-        binding.submissionTestResultConsentGivenHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            viewModel.onShowCancelDialog()
-        }
+        binding.toolbar.setNavigationOnClickListener { viewModel.onShowCancelDialog() }
     }
 
     private fun showCancelDialog() {

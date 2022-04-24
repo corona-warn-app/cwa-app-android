@@ -14,11 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.coronatest.type.TestIdentifier
 import de.rki.coronawarnapp.databinding.HomeFragmentLayoutBinding
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
@@ -42,6 +43,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactoryProvider
 import de.rki.coronawarnapp.util.viewmodel.cwaViewModels
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.abs
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -81,6 +83,20 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             doNavigate(HomeFragmentDirections.actionMainFragmentToSettingsTracingFragment())
         }
 
+        binding.mainTracingAppBarLayout.addOnOffsetChangedListener(
+            AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                try {
+                    if (abs(verticalOffset) >= appBarLayout.totalScrollRange) {
+                        binding.toolbar.setBackgroundResource(R.drawable.top_app_bar_shape)
+                    } else {
+                        binding.toolbar.setBackgroundResource(R.color.colorTopBarBackground)
+                    }
+                } catch (e: Exception) {
+                    Timber.e(e, "Listener has been triggered after onDestroyView()")
+                }
+            }
+        )
+
         viewModel.showPopUps()
         viewModel.events.observe2(this) { event -> navigate(event) }
         viewModel.homeItems.observe2(this) { homeAdapter.update(it) }
@@ -93,8 +109,8 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             tests.forEach { test ->
                 test.lastError?.toErrorDialogBuilder(requireContext())?.apply {
                     val testName = when (test.type) {
-                        CoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
-                        CoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
+                        BaseCoronaTest.Type.PCR -> R.string.ag_homescreen_card_pcr_title
+                        BaseCoronaTest.Type.RAPID_ANTIGEN -> R.string.ag_homescreen_card_rapidtest_title
                     }
                     setTitle(getString(testName) + " " + getString(R.string.errors_generic_headline_short))
                 }?.show()
@@ -224,34 +240,31 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
             )
             HomeFragmentEvents.OpenFAQUrl -> openUrl(getString(R.string.main_about_link))
             is HomeFragmentEvents.GoToRapidTestResultNegativeFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionNegativeAntigenTestResultFragment(event.identifier)
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(event.identifier)
             )
             is HomeFragmentEvents.ShowDeleteTestDialog -> showMoveToRecycleBinDialog(event.identifier)
             is HomeFragmentEvents.OpenIncompatibleUrl -> openUrl(getString(event.url))
             is HomeFragmentEvents.OpenTraceLocationOrganizerGraph -> openPresenceTracingOrganizerGraph(event)
             is HomeFragmentEvents.GoToTestResultAvailableFragment -> doNavigate(
-                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.type)
+                HomeFragmentDirections.actionMainFragmentToSubmissionTestResultAvailableFragment(event.identifier)
             )
             is HomeFragmentEvents.GoToPcrTestResultNegativeFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultNegativeFragment(
-                    event.type,
                     event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultKeysSharedFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultKeysSharedFragment(
-                    event.type,
-                    event.identifier
+                    testIdentifier = event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultPositiveFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionResultPositiveOtherWarningNoConsentFragment(
-                    event.type
+                    testIdentifier = event.identifier
                 )
             )
             is HomeFragmentEvents.GoToTestResultPendingFragment -> doNavigate(
                 HomeFragmentDirections.actionMainFragmentToSubmissionTestResultPendingFragment(
-                    event.testType,
                     event.identifier,
                     event.forceUpdate,
                 )
@@ -260,12 +273,15 @@ class HomeFragment : Fragment(R.layout.home_fragment_layout), AutoInject {
                 HomeFragmentDirections.actionMainFragmentToFederalStateSelectionFragment()
             )
             is HomeFragmentEvents.DeleteOutdatedRAT -> viewModel.deleteCoronaTest(event.identifier)
+            is HomeFragmentEvents.GoToFamilyTests -> doNavigate(
+                HomeFragmentDirections.actionMainFragmentToFamilyTestListFragment()
+            )
         }
     }
 
     private fun openPresenceTracingOrganizerGraph(event: HomeFragmentEvents.OpenTraceLocationOrganizerGraph) {
         if (event.qrInfoAcknowledged) {
-            findNestedGraph(R.id.trace_location_organizer_nav_graph).startDestination = R.id.traceLocationsFragment
+            findNestedGraph(R.id.trace_location_organizer_nav_graph).setStartDestination(R.id.traceLocationsFragment)
         }
         doNavigate(HomeFragmentDirections.actionMainFragmentToTraceLocationOrganizerNavGraph())
     }

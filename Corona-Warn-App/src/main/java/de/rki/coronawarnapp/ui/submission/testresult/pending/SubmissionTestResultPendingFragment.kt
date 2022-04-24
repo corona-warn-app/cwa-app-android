@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
+import de.rki.coronawarnapp.coronatest.type.PersonalCoronaTest
 import de.rki.coronawarnapp.databinding.FragmentSubmissionTestResultPendingBinding
 import de.rki.coronawarnapp.exception.http.CwaClientError
 import de.rki.coronawarnapp.exception.http.CwaServerError
+import de.rki.coronawarnapp.familytest.core.model.FamilyCoronaTest
 import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
 import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.util.DialogHelper
@@ -40,7 +42,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         factoryProducer = { viewModelFactory },
         constructorCall = { factory, _ ->
             factory as SubmissionTestResultPendingViewModel.Factory
-            factory.create(navArgs.testType, navArgs.testIdentifier, navArgs.forceTestResultUpdate)
+            factory.create(navArgs.testIdentifier, navArgs.forceTestResultUpdate)
         }
     )
 
@@ -52,26 +54,71 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
         }
 
         viewModel.testState.observe2(this) { result ->
-            val hasResult = !result.coronaTest.isProcessing
+            val isPcr = result.coronaTest.type == BaseCoronaTest.Type.PCR
             binding.apply {
+                when (result.coronaTest) {
+                    is FamilyCoronaTest -> {
+                        if (isPcr) {
+                            typeOfPendingTestResult.setEntryTitle(
+                                requireContext().getText(R.string.submission_family_test_result_steps_added_pcr_heading)
+                            )
+                            pendingTestResultStepsWaiting.setEntryText(
+                                getText(R.string.submission_family_test_result_pending_steps_waiting_pcr_body)
+                            )
+                        } else {
+                            typeOfPendingTestResult.setEntryTitle(
+                                requireContext().getText(R.string.submission_family_test_result_steps_added_rat_heading)
+                            )
+                            pendingTestResultStepsWaiting.setEntryText(
+                                getText(R.string.submission_family_test_result_pending_steps_waiting_rat_body)
+                            )
+                        }
+                        pendingTestResultStepsWaiting.setEntryTitle(
+                            getText(R.string.submission_family_test_result_pending_steps_waiting_heading)
+                        )
+                        testResultPendingStepsCertificateInfo.setEntryTitle(
+                            getText(R.string.submission_family_test_result_pending_steps_certificate_heading)
+                        )
+                        toolbar.title = getText(R.string.submission_test_result_headline)
+                        familyMemberName.isVisible = true
+                        familyMemberName.text = result.coronaTest.personName
+                        testResultPendingStepsContactDiaryResult.isVisible = false
+                        consentStatus.isVisible = false
+                        submissionTestResultSpinner.isVisible = false
+                        submissionTestResultContent.isVisible = true
+                        buttonContainer.isVisible = true
+                    }
+
+                    is PersonalCoronaTest -> {
+                        val hasResult = !result.coronaTest.isProcessing
+                        if (isPcr) {
+                            typeOfPendingTestResult.setEntryTitle(
+                                requireContext().getText(R.string.submission_test_result_steps_added_heading)
+                            )
+                            pendingTestResultStepsWaiting.setEntryText(
+                                getText(R.string.submission_test_result_pending_steps_waiting_pcr_body)
+                            )
+                        } else {
+                            typeOfPendingTestResult.setEntryTitle(
+                                requireContext().getText(R.string.submission_test_result_steps_added_rat_heading)
+                            )
+                            pendingTestResultStepsWaiting.setEntryText(
+                                getText(R.string.submission_test_result_pending_steps_waiting_rat_body)
+                            )
+                        }
+                        submissionTestResultSpinner.isInvisible = hasResult
+                        submissionTestResultContent.isInvisible = !hasResult
+                        buttonContainer.isInvisible = !hasResult
+                        testResultPendingStepsContactDiaryResult.isVisible = true
+                        consentStatus.isVisible = true
+                    }
+                }
                 submissionTestResultSection.setTestResultSection(result.coronaTest)
-                submissionTestResultSpinner.isInvisible = hasResult
-                submissionTestResultContent.isInvisible = !hasResult
-                buttonContainer.isInvisible = !hasResult
             }
         }
 
         viewModel.testCertResultInfo.observe2(this) { result ->
             binding.testResultPendingStepsCertificateInfo.setEntryText(result.get(requireContext()))
-        }
-
-        binding.apply {
-            val isPcr = navArgs.testType == CoronaTest.Type.PCR
-            testResultPendingStepsWaitingAntigenResult.isVisible = !isPcr
-            testResultPendingStepsRatAdded.isVisible = !isPcr
-
-            testResultPendingStepsWaitingPcrResult.isVisible = isPcr
-            testResultPendingStepsPcrAdded.isVisible = isPcr
         }
 
         binding.apply {
@@ -83,7 +130,7 @@ class SubmissionTestResultPendingFragment : Fragment(R.layout.fragment_submissio
             submissionTestResultButtonPendingRemoveTest.setOnClickListener {
                 showMoveToRecycleBinDialog()
             }
-            submissionTestResultHeader.headerButtonBack.buttonIcon.setOnClickListener { navigateToMainScreen() }
+            binding.toolbar.setNavigationOnClickListener { navigateToMainScreen() }
             consentStatus.setOnClickListener { viewModel.onConsentClicked() }
         }
 

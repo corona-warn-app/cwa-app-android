@@ -7,6 +7,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.coronatest.TestRegistrationRequest
 import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode
+import de.rki.coronawarnapp.coronatest.qrcode.CoronaTestQRCode.CategoryType
 import de.rki.coronawarnapp.submission.TestRegistrationStateProcessor
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import de.rki.coronawarnapp.util.viewmodel.CWAViewModel
@@ -14,9 +15,10 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelFactory
 import org.joda.time.LocalDate
 
 class RequestCovidCertificateViewModel @AssistedInject constructor(
-    @Assisted private val testRegistrationRequest: TestRegistrationRequest,
+    @Assisted private val testRequest: TestRegistrationRequest,
     @Assisted("coronaTestConsent") private val coronaTestConsent: Boolean,
-    @Assisted("deleteOldTest") private val deleteOldTest: Boolean,
+    @Assisted("allowTestReplacement") private val allowTestReplacement: Boolean,
+    @Assisted private val personName: String?,
     private val registrationStateProcessor: TestRegistrationStateProcessor,
 ) : CWAViewModel() {
 
@@ -30,30 +32,36 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         birthDateData.value = localDate
     }
 
-    fun onAgreeGC() = registerAndMaybeDelete(dccConsent = true)
+    fun onAgreeGC() = registerTestWithDccConsent(dccConsent = true)
 
-    fun onDisagreeGC() = registerAndMaybeDelete(dccConsent = false)
+    fun onDisagreeGC() = registerTestWithDccConsent(dccConsent = false)
 
-    fun navigateBack() {
-        events.postValue(Back)
-    }
+    fun navigateBack() = events.postValue(Back)
 
-    private fun registerAndMaybeDelete(dccConsent: Boolean) = launch {
-        val consentedQrCode = when (testRegistrationRequest) {
-            is CoronaTestQRCode.PCR -> testRegistrationRequest.copy(
+    private fun registerTestWithDccConsent(dccConsent: Boolean) = launch {
+        val consentedQrCode = when (testRequest) {
+            is CoronaTestQRCode.PCR -> testRequest.copy(
                 dateOfBirth = birthDateData.value,
                 isDccConsentGiven = dccConsent
             )
-            is CoronaTestQRCode.RapidPCR -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
-            is CoronaTestQRCode.RapidAntigen -> testRegistrationRequest.copy(isDccConsentGiven = dccConsent)
-            else -> testRegistrationRequest
+            is CoronaTestQRCode.RapidPCR -> testRequest.copy(isDccConsentGiven = dccConsent)
+            is CoronaTestQRCode.RapidAntigen -> testRequest.copy(isDccConsentGiven = dccConsent)
+            else -> testRequest
         }
 
-        registrationStateProcessor.startRegistration(
-            request = consentedQrCode,
-            isSubmissionConsentGiven = coronaTestConsent,
-            allowReplacement = deleteOldTest
-        )
+        if (consentedQrCode is CoronaTestQRCode && consentedQrCode.categoryType == CategoryType.FAMILY) {
+            requireNotNull(personName) { "Family test should have a person name" }
+            registrationStateProcessor.startFamilyTestRegistration(
+                request = consentedQrCode,
+                personName = personName,
+            )
+        } else {
+            registrationStateProcessor.startTestRegistration(
+                request = consentedQrCode,
+                isSubmissionConsentGiven = coronaTestConsent,
+                allowTestReplacement = allowTestReplacement
+            )
+        }
     }
 
     @AssistedFactory
@@ -61,7 +69,8 @@ class RequestCovidCertificateViewModel @AssistedInject constructor(
         fun create(
             testRegistrationRequest: TestRegistrationRequest,
             @Assisted("coronaTestConsent") coronaTestConsent: Boolean,
-            @Assisted("deleteOldTest") deleteOldTest: Boolean
+            @Assisted("allowTestReplacement") allowTestReplacement: Boolean,
+            @Assisted personName: String?,
         ): RequestCovidCertificateViewModel
     }
 }

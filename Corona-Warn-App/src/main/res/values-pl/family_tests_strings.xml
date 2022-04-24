@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Family Test Home Card Tile -->
+    <!-- XHED Title of the family test card -->
+    <string name="family_test_card_title">"Testy\nczłonków rodziny"</string>
+    <!-- XTXT News about family test subtitle -->
+    <string name="family_test_card_subtitle_news">"Nowa informacja"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_test_reg_selection_header">"Zarejestruj test"</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_test_reg_selection_subtitle">"Wynik otrzymasz na swój smartfon. Możesz poprosić o cyfrowy certyfikat testu na COVID. Inne osoby możesz ostrzegać tylko wtedy, gdy test dotyczy Ciebie i otrzymasz diagnozę zakażenia koronawirusem."</string>
+    <!-- XTXT: Test registration selection: person title -->
+    <string name="family_test_reg_selection_person_title">"Dla mnie"</string>
+    <!-- XTXT: Test registration selection: person subtitle -->
+    <string name="family_test_reg_selection_person_subtitle">"Twój test"</string>
+    <!-- XTXT: Test registration selection: family title -->
+    <string name="family_test_reg_selection_family_title">"Dla innych"</string>
+    <!-- XTXT: Test registration selection: family subtitle -->
+    <string name="family_test_reg_selection_family_subtitle">"Test dla członka rodziny"</string>
+
+    <!-- XHED: Test registration selection: header -->
+    <string name="family_consent_header">"Twoja zgoda"</string>
+    <!-- XACT: Test registration selection: description for screen readers -->
+    <string name="family_consent_image_descr">"Rodzina składająca się z kilku członków; w tle znajduje się dokument z kodem QR."</string>
+    <!-- XTXT: Test registration selection: subtitle -->
+    <string name="family_consent_subtitle">"Pobierz wynik testu dla członka rodziny"</string>
+    <!-- XTXT: Test registration selection: person name label -->
+    <string name="family_consent_person_name_label">"Imię i nazwisko osoby, dla której wykonano test:"</string>
+    <!-- XTXT: Test registration selection: person name tooltip -->
+    <string name="family_consent_person_name_tooltip">"Imię i nazwisko"</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_type">"Rejestrujesz test dla członka rodziny. Jeśli to jest Twój test, wróć i wybierz opcję „Dla mnie”. Musisz to zrobić, aby ostrzegać innych w przypadku zdiagnozowania u Ciebie koronawirusa."</string>
+    <!-- XTXT: Test registration selection: test type -->
+    <string name="family_consent_test_result">"Jeśli wynik testu członka Twojej rodziny jest negatywny, w następnych krokach możesz poprosić o oficjalny certyfikat testu na COVID."</string>
+    <!-- XBUT: Test registration selection: confirm button -->
+    <string name="family_consent_cofirm_button">"Akceptuj"</string>
+
+    <!-- Family tests -->
+    <!-- XTXT: Family tests: Cards: PCR title -->
+    <string name="family_tests_cards_pcr_title">"Diagnoza za pomocą testu PCR"</string>
+    <!-- XTXT: Family tests: Cards: Rapid title -->
+    <string name="family_tests_cards_rapid_title">"Diagnoza za pomocą szybkiego testu"</string>
+    <!-- XTXT: Family tests: Cards: PCR date -->
+    <string name="family_tests_cards_pcr_date">"Test dodany dnia %s"</string>
+    <!-- XTXT: Family tests: Cards: Rapid date -->
+    <string name="family_tests_cards_rapid_date">"Wykonany dnia %1$s"</string>
+    <!-- XTXT: Family tests: Cards: PCR pending body -->
+    <string name="family_tests_cards_pcr_pending_body">"Ustalanie wyniku testu PCR jeszcze się nie zakończyło."</string>
+    <!-- XTXT: Family tests: Cards: Rapid pending body -->
+    <string name="family_tests_cards_rapid_pending_body">"Ustalanie wyniku szybkiego testu jeszcze się nie zakończyło."</string>
+    <!-- XTXT: Family tests: Cards: Invalid body -->
+    <string name="family_tests_cards_invalid_body">"Ustalenie wyniku testu jest niemożliwe."</string>
+    <!-- XTXT: Family tests: Cards: Redeemed body -->
+    <string name="family_tests_cards_redeemed_body">"Test został przeprowadzony ponad 21 dni temu i dlatego nie jest już aktualny."</string>
+
+    <!-- Family tests list fragment -->
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_title">"Testy członków rodziny"</string>
+    <!-- XHED: family tests list: Menu: Remove all -->
+    <string name="family_tests_list_menu_remove_all">"Usuń wszystkie"</string>
+    <!-- XHED: family tests list: Deletion alert window: header single test -->
+    <string name="family_tests_list_deletion_alert_header_single">"Usunąć wynik testu?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body single test -->
+    <string name="family_tests_list_deletion_alert_body_single">"Wynik testu zostanie przeniesiony do kosza. Kosz znajduje się na stronie karty „Status”, pod trzema kropkami w prawym górnym rogu. W tym miejscu możesz go trwale usunąć lub odzyskać. Wynik testu zostanie automatycznie usunięty po 30 dniach."</string>
+    <!-- XHED: family tests list: Deletion alert window: header all tests -->
+    <string name="family_tests_list_deletion_alert_header_all">"Usunąć wyniki testów?"</string>
+    <!-- XHED: family tests list: Deletion alert window: body all tests -->
+    <string name="family_tests_list_deletion_alert_body_all">"Wyniki testów zostaną przeniesione do kosza. Kosz znajduje się na kafelku „Więcej” na stronie karty statusu.\nMożesz w tym miejscu trwale usunąć wyniki testów lub je odzyskać. Wyniki testów zostaną automatycznie usunięte po 30 dniach."</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button">"Usuń wynik testu"</string>
+    <!-- XBUT: family tests list: Deletion alert window: delete button -->
+    <string name="family_tests_list_deletion_alert_delete_button_all">"Usuń wyniki testów"</string>
+    <!-- XBUT: family tests list: Deletion alert window: cancel button -->
+    <string name="family_tests_list_deletion_alert_cancel_button">"Anuluj"</string>
+
+</resources>

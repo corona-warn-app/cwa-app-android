@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.datadonation.analytics.modules.keysubmission.AnalyticsKeySubmissionCollector
 import de.rki.coronawarnapp.submission.SubmissionRepository
 import de.rki.coronawarnapp.submission.Symptoms
@@ -45,7 +45,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         viewModel = spyk(
             SubmissionSymptomCalendarViewModel(
                 Symptoms.Indication.POSITIVE,
-                CoronaTest.Type.PCR,
+                BaseCoronaTest.Type.PCR,
                 TestDispatcherProvider(),
                 submissionRepository,
                 autoSubmission,
@@ -59,7 +59,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
             object : SubmissionSymptomCalendarViewModel.Factory {
                 override fun create(
                     symptomIndication: Symptoms.Indication,
-                    testType: CoronaTest.Type
+                    testType: BaseCoronaTest.Type
                 ): SubmissionSymptomCalendarViewModel = viewModel
             }
         )
@@ -76,7 +76,7 @@ class SubmissionSymptomCalendarFragmentTest : BaseUITest() {
         launchFragmentInContainer2<SubmissionSymptomCalendarFragment>(
             fragmentArgs = SubmissionSymptomCalendarFragmentArgs(
                 Symptoms.Indication.POSITIVE,
-                CoronaTest.Type.PCR
+                BaseCoronaTest.Type.PCR
             ).toBundle()
         )
 

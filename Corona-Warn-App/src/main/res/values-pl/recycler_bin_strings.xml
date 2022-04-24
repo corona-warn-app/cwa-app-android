@@ -73,6 +73,8 @@
     <!-- Recycle bin item-->
     <!-- XTXT: Recycle Bin - test item name -->
     <string name="recycle_bin_test_item_name">"Test"</string>
+    <!-- XTXT: Recycle Bin - family test item name -->
+    <string name="recycle_bin_family_test_item_name">"Testy\nczłonków rodziny"</string>
     <!-- XTXT: Recycle Bin  - Restore Corona PCR Test date-->
     <string name="reycle_bin_pcr_test_date">"Zarejestrowano dnia %1$s"</string>
     <!-- XTXT: Recycle Bin  - Restore Corona RAT Test date-->

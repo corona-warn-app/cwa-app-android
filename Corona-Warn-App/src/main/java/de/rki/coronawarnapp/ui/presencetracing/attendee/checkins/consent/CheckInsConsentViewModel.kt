@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.coronatest.type.CoronaTest
+import de.rki.coronawarnapp.coronatest.type.BaseCoronaTest
 import de.rki.coronawarnapp.presencetracing.checkins.CheckIn
 import de.rki.coronawarnapp.presencetracing.checkins.CheckInRepository
 import de.rki.coronawarnapp.presencetracing.checkins.common.completedCheckIns
@@ -28,7 +28,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     private val checkInRepository: CheckInRepository,
     private val submissionRepository: SubmissionRepository,
     private val autoSubmission: AutoSubmission,
-    @Assisted private val testType: CoronaTest.Type
+    @Assisted private val testType: BaseCoronaTest.Type
 ) : CWAViewModel(dispatcherProvider) {
 
     private val selectedSetFlow = MutableStateFlow(initialSet())
@@ -162,7 +162,7 @@ class CheckInsConsentViewModel @AssistedInject constructor(
     interface Factory : CWAViewModelFactory<CheckInsConsentViewModel> {
         fun create(
             savedState: SavedStateHandle,
-            testType: CoronaTest.Type
+            testType: BaseCoronaTest.Type
         ): CheckInsConsentViewModel
     }
 

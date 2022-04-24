@@ -3,15 +3,15 @@
     android:id="@+id/settings_notifications_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorSurface"
     android:contentDescription="@string/risk_details_hygiene_rules_title"
     android:focusable="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        style="@style/CWAToolbar.Close.Transparent"
+        style="@style/CWAMaterialToolbar.Close"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,8 +42,8 @@
                 android:focusable="true"
                 android:paddingBottom="@dimen/spacing_small"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_illustration_hygiene_rules"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_illustration_hygiene_rules" />
 
             <de.rki.coronawarnapp.tracing.ui.details.items.behavior.BehaviorInfoRow
                 android:layout_width="match_parent"

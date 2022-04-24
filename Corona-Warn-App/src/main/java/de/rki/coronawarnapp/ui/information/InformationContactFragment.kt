@@ -31,14 +31,14 @@ class InformationContactFragment : Fragment(R.layout.fragment_information_contac
     }
 
     private fun setButtonOnClickListener() {
-        binding.informationContactHeader.headerButtonBack.buttonIcon.setOnClickListener {
-            popBackStack()
-        }
-        binding.informationContactNavigationRowPhone.navigationRow.setOnClickListener {
-            callPhone(getString(R.string.information_contact_phone_call_number))
-        }
-        binding.informationContactNavigationRowInternationalPhone.navigationRow.setOnClickListener {
-            callPhone(getString(R.string.information_contact_button_international_phone))
+        with(binding) {
+            toolbar.setNavigationOnClickListener { popBackStack() }
+            informationContactNavigationRowPhone.navigationRow.setOnClickListener {
+                callPhone(getString(R.string.information_contact_phone_call_number))
+            }
+            informationContactNavigationRowInternationalPhone.navigationRow.setOnClickListener {
+                callPhone(getString(R.string.information_contact_button_international_phone))
+            }
         }
     }
 }

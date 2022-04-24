@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/caption"
-        style="@style/TextAppearance.MaterialComponents.Body2"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"

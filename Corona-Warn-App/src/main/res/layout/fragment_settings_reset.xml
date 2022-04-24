@@ -4,21 +4,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_reset_container"
-        android:contentDescription="@string/settings_reset_title"
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorSurface"
+        android:contentDescription="@string/settings_reset_title"
+        android:focusable="true">
 
-        <include
-            android:id="@+id/settings_reset_header"
-            layout="@layout/include_header"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/CWAMaterialToolbar.BackArrow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:icon="@{@drawable/ic_back}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{@string/settings_reset_title}" />
+            app:title="@string/settings_reset_title" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toTopOf="@+id/settings_reset_button_delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_reset_header">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
