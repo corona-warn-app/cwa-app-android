@@ -62,9 +62,14 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 when (it.itemId) {
                     R.id.rat_profile_edit -> doNavigate(
                         RATProfileQrCodeFragmentDirections
-                            .actionRatProfileQrCodeFragmentToRatProfileCreateFragment(navArgs.profileId)
+                            .actionProfileQrCodeFragmentToProfileCreateFragment(navArgs.profileId)
                     )
                     R.id.rat_profile_delete -> confirmDeletionDialog()
+                    R.id.rat_profile_information -> doNavigate(
+                        RATProfileQrCodeFragmentDirections.actionProfileQrCodeFragmentToProfileOnboardingFragment(
+                            showButton = false
+                        )
+                    )
                 }
                 true
             }
@@ -90,7 +95,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
                 ProfileQrCodeNavigation.Back -> popBackStack()
                 is ProfileQrCodeNavigation.OpenScanner -> {
                     val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.ratProfileQrCodeFragment, false)
+                        .setPopUpTo(R.id.profileQrCodeFragment, false)
                         .build()
                     findNavController().navigate(
                         R.id.action_to_universal_scanner,
@@ -123,7 +128,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
     }
 
     private fun bindPersonInfo(profile: Profile) = with(profile) {
-        val name = buildSpannedString { bold { append("$firstName $lastName") } }
+        val name = buildSpannedString { bold { append("$firstName $lastName".trim()) } }
         val birthDate = birthDate?.let {
             getString(
                 R.string.rat_qr_code_profile_birth_date,
@@ -131,7 +136,7 @@ class RATProfileQrCodeFragment : Fragment(R.layout.rat_profile_qr_code_fragment)
             )
         }.orEmpty()
 
-        val address = "$zipCode $city"
+        val address = "$zipCode $city".trim()
         binding.profileInfo.text = arrayOf(name, birthDate, street, address, phone, email)
             .filter { it.isNotBlank() }
             .joinToSpannable("\n")

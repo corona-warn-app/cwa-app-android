@@ -1150,7 +1150,7 @@
     <!-- YTXT: Dispatcher text for QR code option -->
     <string name="submission_dispatcher_card_qr">"Skanuj kod QR"</string>
     <!-- YTXT: Body text for QR code dispatcher option -->
-    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik swojego testu i wyniki testów członków swojej rodziny w aplikacji i ostrzegaj innych lub poproś o certyfikat testu na COVID."</string>
+    <string name="submission_dispatcher_qr_card_text">"Odbierz wynik swojego testu oraz testów członków swojej rodziny w aplikacji i poproś o certyfikat testu na COVID."</string>
     <!-- XHED: Dispatcher text for test center option -->
     <string name="submission_dispatcher_card_test_center">"Znajdź ośrodek testujący"</string>
     <!-- YTXT: Body text for test center dispatcher option -->
@@ -1511,7 +1511,7 @@
     <!-- XTXT: Explanation screen trend text -->
     <string name="statistics_explanation_trend">"W trendzie porównuje się wartość z poprzedniego dnia z wartością sprzed dwóch dni (dla 7-dniowej zapadalności, 7-dniowego wskaźnika hospitalizacji, liczby pacjentów COVID-19 na oddziałach intensywnej terapii, 7-dniowej wartości R) lub w przypadku 7-dniowych trendów – średnią wartość z ostatnich 7 dni ze średnią wartością z 7 dni poprzedzających (dla 7-dniowej średniej wartości potwierdzonych nowych zakażeń, ostrzeżeń użytkowników aplikacji, podanych dawek szczepionek). Wykorzystywana jest odpowiednia wersja danych opublikowana pierwotnie; późniejsze aktualizacje nie są brane pod uwagę."</string>
     <!-- YTXT: Explanation screen trend text -->
-    <string name="statistics_explanation_trend_text">"Kierunek strzałki wskazuje, czy trend rośnie, maleje, czy też pozostaje stabilny, czyli wykazuje odchylenie mniejsze niż 1%% w porównaniu z poprzednim dniem lub 5%% w porównaniu z poprzednim tygodniem (z uwzględnieniem miejsc po przecinku). Kolor wskazuje, że trend jest pozytywny (zielony), negatywny (czerwony) lub neutralny (szary)."</string>
+    <string name="statistics_explanation_trend_text">"Kierunek strzałki wskazuje, czy trend jest rosnący, malejący czy stabilny, czyli wykazuje odchylenie mniejsze niż 1%% w porównaniu z poprzednim dniem lub 5%% w porównaniu z poprzednim tygodniem (z uwzględnieniem miejsc po przecinku). Kolor wskazuje, że trend jest pozytywny (zielony), negatywny (czerwony) czy neutralny (szary)."</string>
     <!-- XHED: Explanation screen trend icons title -->
     <string name="statistics_explanation_trend_icons_title">"Przykłady wyświetlanych trendów:"</string>
     <!-- XHED: Explanation screen trend increasing title -->
