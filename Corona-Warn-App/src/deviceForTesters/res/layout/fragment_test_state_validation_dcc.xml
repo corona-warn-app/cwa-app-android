@@ -24,24 +24,57 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Certificate Validity"
+                android:text="Certificate Signature Validity"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/check_validity_notifications"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Check Validity Notifications" />
+                android:text="Check Signature validity notifications" />
 
             <Button
                 android:id="@+id/reset_last_check_time"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Reset last check time" />
 
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_tiny">
+            <TextView
+                android:id="@+id/revocation_title"
+                style="@style/headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dcc Revocation list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/refresh_revocation_list"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Refresh"
+                app:layout_constraintTop_toBottomOf="@id/revocation_title" />
+            <Button
+                android:id="@+id/clear_revocation_list"
+                style="@style/buttonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear cache"
+                app:layout_constraintTop_toBottomOf="@id/refresh_revocation_list" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dsc_list_container"
             style="@style/Card"
@@ -53,18 +86,20 @@
                 style="@style/headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="List of DSCs"
+                android:text="List of Dsc signature list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <Button
                 android:id="@+id/refresh_cache"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Refresh"
                 app:layout_constraintTop_toBottomOf="@id/container_title" />
             <Button
                 android:id="@+id/clear_cache"
+                style="@style/buttonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Clear cache"
@@ -75,13 +110,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@id/search_edit_text" />
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Filter"
                 app:layout_constraintTop_toBottomOf="@id/clear_cache" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

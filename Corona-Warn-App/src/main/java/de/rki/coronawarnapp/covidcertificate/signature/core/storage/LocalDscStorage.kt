@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.signature.core.storage
 
 import android.content.Context
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscDataParser
 import de.rki.coronawarnapp.util.di.AppContext
 import kotlinx.coroutines.sync.Mutex
@@ -21,7 +21,7 @@ class LocalDscStorage @Inject constructor(
     private val dscDir = File(context.filesDir, "dsc_storage")
     private val dscFile = File(dscDir, "dsclist")
 
-    suspend fun load(): DscData? = mutex.withLock {
+    suspend fun load(): DscSignatureList? = mutex.withLock {
         Timber.v("load()")
 
         if (dscFile.exists()) {

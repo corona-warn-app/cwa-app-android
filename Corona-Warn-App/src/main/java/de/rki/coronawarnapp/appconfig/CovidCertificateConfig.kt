@@ -10,18 +10,11 @@ interface CovidCertificateConfig {
 
     val expirationThreshold: Duration
 
-    val blockListParameters: List<BlockedChunk>
-
     val reissueServicePublicKeyDigest: ByteString
 
     interface TestCertificate {
         val waitAfterPublicKeyRegistration: Duration
         val waitForRetry: Duration
-    }
-
-    interface BlockedChunk {
-        val indices: List<Int>
-        val hash: ByteString
     }
 
     interface Mapper : ConfigMapper<CovidCertificateConfig>

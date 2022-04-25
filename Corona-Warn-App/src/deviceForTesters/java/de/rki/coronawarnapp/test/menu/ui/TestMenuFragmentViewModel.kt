@@ -13,7 +13,7 @@ import de.rki.coronawarnapp.test.datadonation.ui.DataDonationTestFragment
 import de.rki.coronawarnapp.test.dccticketing.DccTicketingTestFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.deltaonboarding.ui.DeltaOnboardingFragment
-import de.rki.coronawarnapp.test.dsc.ui.DscTestFragment
+import de.rki.coronawarnapp.test.dsc.ui.DccStateValidationTestFragment
 import de.rki.coronawarnapp.test.hometestcards.ui.HomeTestCardsFragment
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
 import de.rki.coronawarnapp.test.playground.ui.PlaygroundFragment
@@ -54,7 +54,7 @@ class TestMenuFragmentViewModel @AssistedInject constructor(
             PresenceTracingTestFragment.MENU_ITEM,
             HomeTestCardsFragment.MENU_ITEM,
             QrCodeTestFragment.MENU_ITEM,
-            DscTestFragment.MENU_ITEM,
+            DccStateValidationTestFragment.MENU_ITEM,
             DccTicketingTestFragment.MENU_ITEM,
         ).let { MutableLiveData(it) }
     }

@@ -60,8 +60,8 @@ class RecoveryCertificateCard(parent: ViewGroup) :
         certificateExpiration.displayExpirationState(curItem.certificate)
 
         startValidationCheckButton.apply {
-            defaultButton.isEnabled = certificate.isNotBlocked
-            isEnabled = certificate.isNotBlocked
+            defaultButton.isEnabled = certificate.isNotScreened
+            isEnabled = certificate.isNotScreened
             isLoading = curItem.isLoading
             defaultButton.setOnClickListener {
                 curItem.validateCertificate(certificate.containerId)
