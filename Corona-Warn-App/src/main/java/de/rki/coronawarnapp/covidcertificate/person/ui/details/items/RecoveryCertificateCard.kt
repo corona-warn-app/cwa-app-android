@@ -33,47 +33,50 @@ class RecoveryCertificateCard(parent: ViewGroup) :
     override val onBindData: RecoveryCertificateCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { boundItem, payloads ->
 
-        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = latestItem!!.certificate
-        root.setOnClickListener { latestItem!!.onClick() }
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: boundItem
 
-        certificateDate.text = context.getString(
-            R.string.recovery_certificate_sample_collection,
-            certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
-        )
+        latestItem?.let { item ->
+            val certificate = item.certificate
+            root.setOnClickListener { item.onClick() }
 
-        val bookmarkIcon = if (latestItem!!.certificate.isDisplayValid)
-            latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificateGroup.isVisible = latestItem!!.isCurrentCertificate
-        bookmark.setImageResource(bookmarkIcon)
+            certificateDate.text = context.getString(
+                R.string.recovery_certificate_sample_collection,
+                certificate.testedPositiveOn?.toShortDayFormat() ?: certificate.rawCertificate.recovery.fr
+            )
 
-        val color = when {
-            latestItem!!.certificate.isDisplayValid -> latestItem!!.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+            val bookmarkIcon = if (item.certificate.isDisplayValid)
+                item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            bookmark.setImageResource(bookmarkIcon)
 
-        when {
-            latestItem!!.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
-            else -> R.drawable.ic_certificate_invalid
-        }.also { certificateIcon.setImageResource(it) }
+            val color = when {
+                item.certificate.isDisplayValid -> item.colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }
 
-        when {
-            latestItem!!.isCurrentCertificate -> color.currentCertificateBg
-            else -> color.defaultCertificateBg
-        }.also { certificateBg.setImageResource(it) }
+            when {
+                item.certificate.isDisplayValid -> R.drawable.ic_recovery_certificate
+                else -> R.drawable.ic_certificate_invalid
+            }.also { certificateIcon.setImageResource(it) }
 
-        notificationBadge.isVisible = latestItem!!.certificate.hasNotificationBadge
+            when {
+                item.isCurrentCertificate -> color.currentCertificateBg
+                else -> color.defaultCertificateBg
+            }.also { certificateBg.setImageResource(it) }
 
-        certificateExpiration.displayExpirationState(latestItem!!.certificate)
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge
 
-        startValidationCheckButton.apply {
-            defaultButton.isEnabled = certificate.isNotBlocked
-            isEnabled = certificate.isNotBlocked
-            isLoading = latestItem!!.isLoading
-            defaultButton.setOnClickListener {
-                latestItem!!.validateCertificate(certificate.containerId)
+            certificateExpiration.displayExpirationState(item.certificate)
+
+            startValidationCheckButton.apply {
+                defaultButton.isEnabled = certificate.isNotBlocked
+                isEnabled = certificate.isNotBlocked
+                isLoading = item.isLoading
+                defaultButton.setOnClickListener {
+                    item.validateCertificate(certificate.containerId)
+                }
             }
         }
     }

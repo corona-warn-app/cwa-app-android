@@ -34,53 +34,56 @@ class TestCertificateCard(parent: ViewGroup) :
     override val onBindData: TestCertificateCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { boundItem, payloads ->
 
-        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = latestItem!!.certificate
-        root.setOnClickListener { latestItem!!.onClick() }
-        certificateDate.text = context.getString(
-            R.string.test_certificate_sampled_on,
-            certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: certificate.rawCertificate.test.sc
-        )
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: boundItem
 
-        when {
-            // PCR Test
-            certificate.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
-            // RAT Test
-            else -> R.string.test_certificate_rapid_test_type
-        }.also { testCertificateType.setText(it) }
+        latestItem?.let { item ->
+            val certificate = item.certificate
+            root.setOnClickListener { item.onClick() }
+            certificateDate.text = context.getString(
+                R.string.test_certificate_sampled_on,
+                certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat()
+                    ?: certificate.rawCertificate.test.sc
+            )
 
-        val bookmarkIcon = if (latestItem!!.certificate.isDisplayValid)
-            latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificateGroup.isVisible = latestItem!!.isCurrentCertificate
-        bookmark.setImageResource(bookmarkIcon)
-        val color = when {
-            latestItem!!.certificate.isDisplayValid -> latestItem!!.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+            when {
+                // PCR Test
+                certificate.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
+                // RAT Test
+                else -> R.string.test_certificate_rapid_test_type
+            }.also { testCertificateType.setText(it) }
 
-        when {
-            latestItem!!.certificate.isDisplayValid -> R.drawable.ic_test_certificate
-            else -> R.drawable.ic_certificate_invalid
-        }.also { certificateIcon.setImageResource(it) }
+            val bookmarkIcon = if (item.certificate.isDisplayValid)
+                item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
 
-        val background = when {
-            latestItem!!.isCurrentCertificate -> color.currentCertificateBg
-            else -> color.defaultCertificateBg
-        }
-        certificateBg.setImageResource(background)
+            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            bookmark.setImageResource(bookmarkIcon)
+            val color = when {
+                item.certificate.isDisplayValid -> item.colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }
 
-        notificationBadge.isVisible = latestItem!!.certificate.hasNotificationBadge
+            when {
+                item.certificate.isDisplayValid -> R.drawable.ic_test_certificate
+                else -> R.drawable.ic_certificate_invalid
+            }.also { certificateIcon.setImageResource(it) }
 
-        certificateExpiration.displayExpirationState(latestItem!!.certificate)
+            val background = when {
+                item.isCurrentCertificate -> color.currentCertificateBg
+                else -> color.defaultCertificateBg
+            }
+            certificateBg.setImageResource(background)
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            certificateExpiration.displayExpirationState(item.certificate)
 
-        startValidationCheckButton.apply {
-            defaultButton.isEnabled = certificate.isNotBlocked
-            isEnabled = certificate.isNotBlocked
-            isLoading = latestItem!!.isLoading
-            defaultButton.setOnClickListener {
-                latestItem!!.validateCertificate(certificate.containerId)
+            startValidationCheckButton.apply {
+                defaultButton.isEnabled = certificate.isNotBlocked
+                isEnabled = certificate.isNotBlocked
+                isLoading = item.isLoading
+                defaultButton.setOnClickListener {
+                    item.validateCertificate(certificate.containerId)
+                }
             }
         }
     }

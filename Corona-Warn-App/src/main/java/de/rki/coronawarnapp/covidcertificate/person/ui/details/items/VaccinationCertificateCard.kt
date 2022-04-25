@@ -34,56 +34,57 @@ class VaccinationCertificateCard(parent: ViewGroup) :
     override val onBindData: VaccinationCertificateCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { boundItem, payloads ->
 
-        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = latestItem!!.certificate
-        root.setOnClickListener { latestItem!!.onClick() }
-        vaccinationDosesInfo.text = context.getString(
-            R.string.vaccination_certificate_doses,
-            certificate.doseNumber,
-            certificate.totalSeriesOfDoses
-        )
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: boundItem
 
-        certificateDate.text = context.getString(
-            R.string.vaccination_certificate_vaccinated_on,
-            certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
-        )
-        val bookmarkIcon = if (latestItem!!.certificate.isDisplayValid)
-            latestItem!!.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificateGroup.isVisible = latestItem!!.isCurrentCertificate
-        bookmark.setImageResource(bookmarkIcon)
+        latestItem?.let { item ->
+            val certificate = item.certificate
+            root.setOnClickListener { item.onClick() }
+            vaccinationDosesInfo.text = context.getString(
+                R.string.vaccination_certificate_doses,
+                certificate.doseNumber,
+                certificate.totalSeriesOfDoses
+            )
 
-        val color = when {
-            latestItem!!.certificate.isDisplayValid -> latestItem!!.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+            certificateDate.text = context.getString(
+                R.string.vaccination_certificate_vaccinated_on,
+                certificate.vaccinatedOn?.toShortDayFormat() ?: certificate.rawCertificate.vaccination.dt
+            )
+            val bookmarkIcon = if (item.certificate.isDisplayValid)
+                item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
+            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            bookmark.setImageResource(bookmarkIcon)
 
-        when {
-            // Invalid state first
-            !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
+            val color = when {
+                item.certificate.isDisplayValid -> item.colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }
 
-            // Final shot
-            certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
+            when {
+                // Invalid state first
+                !certificate.isDisplayValid -> R.drawable.ic_certificate_invalid
+                // Final shot
+                certificate.isSeriesCompletingShot -> R.drawable.ic_vaccination_immune
+                // Other shots
+                else -> R.drawable.ic_vaccination_incomplete
+            }.also { certificateIcon.setImageResource(it) }
 
-            // Other shots
-            else -> R.drawable.ic_vaccination_incomplete
-        }.also { certificateIcon.setImageResource(it) }
+            when {
+                item.isCurrentCertificate -> color.currentCertificateBg
+                else -> color.defaultCertificateBg
+            }.also { certificateBg.setImageResource(it) }
 
-        when {
-            latestItem!!.isCurrentCertificate -> color.currentCertificateBg
-            else -> color.defaultCertificateBg
-        }.also { certificateBg.setImageResource(it) }
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge
 
-        notificationBadge.isVisible = latestItem!!.certificate.hasNotificationBadge
-
-        certificateExpiration.displayExpirationState(latestItem!!.certificate)
-        startValidationCheckButton.apply {
-            defaultButton.isEnabled = certificate.isNotBlocked
-            isEnabled = certificate.isNotBlocked
-            isLoading = latestItem!!.isLoading
-            defaultButton.setOnClickListener {
-                latestItem!!.validateCertificate(certificate.containerId)
+            certificateExpiration.displayExpirationState(item.certificate)
+            startValidationCheckButton.apply {
+                defaultButton.isEnabled = certificate.isNotBlocked
+                isEnabled = certificate.isNotBlocked
+                isLoading = item.isLoading
+                defaultButton.setOnClickListener {
+                    item.validateCertificate(certificate.containerId)
+                }
             }
         }
     }
