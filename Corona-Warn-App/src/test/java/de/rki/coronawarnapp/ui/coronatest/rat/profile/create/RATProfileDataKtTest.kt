@@ -1,6 +1,8 @@
 package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
+import de.rki.coronawarnapp.profile.legacy.RATProfile
+import de.rki.coronawarnapp.profile.ui.create.RATProfileData
+import de.rki.coronawarnapp.profile.ui.create.toRATProfile
 import io.kotest.matchers.shouldBe
 import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.Test

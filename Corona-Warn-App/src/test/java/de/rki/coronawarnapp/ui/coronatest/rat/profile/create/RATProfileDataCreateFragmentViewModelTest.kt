@@ -3,6 +3,8 @@ package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.model.ProfileId
 import de.rki.coronawarnapp.profile.storage.ProfileRepository
+import de.rki.coronawarnapp.profile.ui.create.CreateProfileNavigation
+import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentViewModel
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -89,7 +91,7 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
         viewModel().apply {
             firstNameChanged("First name")
             saveProfile()
-            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.ProfileScreen(1)
+            events.getOrAwaitValue() shouldBe CreateProfileNavigation.ProfileScreen(1)
         }
 
         verify {
@@ -216,10 +218,10 @@ internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
     fun navigateBack() {
         viewModel().apply {
             navigateBack()
-            events.getOrAwaitValue() shouldBe CreateRATProfileNavigation.Back
+            events.getOrAwaitValue() shouldBe CreateProfileNavigation.Back
         }
     }
 
     fun viewModel(profileId: ProfileId? = null) =
-        RATProfileCreateFragmentViewModel(profileRepository, formatter, profileId)
+        ProfileCreateFragmentViewModel(profileRepository, formatter, profileId)
 }

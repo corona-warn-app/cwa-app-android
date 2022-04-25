@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/profileOnboardingFragment"
-        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragment"
+        android:name="de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragment"
         android:label="profile_onboarding_fragment"
-        tools:layout="@layout/rat_profile_onboarding_fragment">
+        tools:layout="@layout/profile_onboarding_fragment">
         <action
             android:id="@+id/action_profileOnboardingFragment_to_privacyFragment"
             app:destination="@id/privacyFragment" />
@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/profileCreateFragment"
-        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragment"
+        android:name="de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragment"
         android:label="profile_create_fragment"
-        tools:layout="@layout/rat_profile_create_fragment">
+        tools:layout="@layout/profile_create_fragment">
         <argument
             android:name="profileId"
             android:defaultValue="0"
@@ -44,9 +44,9 @@
     </fragment>
     <fragment
         android:id="@+id/profileQrCodeFragment"
-        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragment"
+        android:name="de.rki.coronawarnapp.profile.ui.qrcode.ProfileQrCodeFragment"
         android:label="profile_qr_code_fragment"
-        tools:layout="@layout/rat_profile_qr_code_fragment">
+        tools:layout="@layout/profile_qr_code_fragment">
         <action
             android:id="@+id/action_profileQrCodeFragment_to_profileCreateFragment"
             app:destination="@id/profileCreateFragment" />
@@ -65,7 +65,7 @@
         tools:layout="@layout/fragment_information_privacy" />
     <fragment
         android:id="@+id/profileListFragment"
-        android:name="de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragment"
+        android:name="de.rki.coronawarnapp.profile.ui.list.ProfileListFragment"
         android:label="profile_list_fragment"
         tools:layout="@layout/profile_list_fragment">
 
