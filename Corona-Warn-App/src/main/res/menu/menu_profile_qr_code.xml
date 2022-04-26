@@ -7,4 +7,13 @@
         android:title="@string/rat_qr_code_profile_information_item"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/profile_edit"
+        android:title="@string/rat_qr_code_profile_edit_item"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/profile_delete"
+        android:title="@string/rat_qr_code_profile_delete_item"
+        app:showAsAction="never" />
 </menu>
