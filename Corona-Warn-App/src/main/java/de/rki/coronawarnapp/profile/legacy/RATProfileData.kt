@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.profile.legacy
 
 import org.joda.time.LocalDate
 
-@Deprecated("Legacy data class")
+//Deprecated("Legacy data class")
 data class RATProfileData(
     val firstName: String = "",
     val lastName: String = "",

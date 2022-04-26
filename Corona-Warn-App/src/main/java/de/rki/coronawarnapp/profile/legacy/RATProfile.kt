@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.profile.legacy
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
 
-@Deprecated("Legacy data class")
+//Deprecated("Legacy data class")
 data class RATProfile(
     @SerializedName("firstName") val firstName: String,
     @SerializedName("lastName") val lastName: String,
