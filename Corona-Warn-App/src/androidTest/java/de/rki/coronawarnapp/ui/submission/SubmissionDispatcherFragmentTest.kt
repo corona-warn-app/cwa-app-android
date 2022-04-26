@@ -13,7 +13,7 @@ import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiT
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.R
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
+import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.ui.submission.fragment.SubmissionDispatcherFragment
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionDispatcherViewModel
 import io.mockk.MockKAnnotations
@@ -34,10 +34,10 @@ import testhelpers.takeScreenshot
 @RunWith(AndroidJUnit4::class)
 class SubmissionDispatcherFragmentTest : BaseUITest() {
 
-    @MockK lateinit var ratProfileSettings: RATProfileSettingsDataStore
+    @MockK lateinit var profileSettings: ProfileSettingsDataStore
 
     private fun createViewModel() = SubmissionDispatcherViewModel(
-        ratProfileSettings,
+        profileSettings,
         TestDispatcherProvider()
     )
 
@@ -50,7 +50,7 @@ class SubmissionDispatcherFragmentTest : BaseUITest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { ratProfileSettings.profileFlow } returns flowOf(null)
+        every { profileSettings.profileFlow } returns flowOf(null)
         setupMockViewModel(
             object : SubmissionDispatcherViewModel.Factory {
                 override fun create(): SubmissionDispatcherViewModel = createViewModel()
