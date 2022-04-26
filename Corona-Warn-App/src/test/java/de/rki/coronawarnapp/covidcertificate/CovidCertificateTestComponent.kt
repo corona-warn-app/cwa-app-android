@@ -17,7 +17,7 @@ import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationCheckerTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepositoryTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateContainerTest
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorageTest
-import de.rki.coronawarnapp.covidcertificate.revocation.calculation.RevocationCalculationTest
+import de.rki.coronawarnapp.covidcertificate.revocation.calculation.DccRevocationCalculationTest
 import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationCheckerTest
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureValidatorTest
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepositoryTest
@@ -73,7 +73,7 @@ interface CovidCertificateTestComponent {
     fun inject(testClass: AnalyticsTestResultSettingsTest)
     fun inject(testClass: DccTicketingQrCodeExtractorTest)
     fun inject(testClass: DccHolderComparisonTest)
-    fun inject(testClass: RevocationCalculationTest)
+    fun inject(testClassDcc: DccRevocationCalculationTest)
     fun inject(testClass: DccRevocationCheckerTest)
 
     @Component.Factory

@@ -16,7 +16,7 @@ import de.rki.coronawarnapp.covidcertificate.booster.BoosterNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccJsonSchema
 import de.rki.coronawarnapp.covidcertificate.pdf.core.ExportCertificateModule
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonSettingsDataStore
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationModule
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationModule
 import de.rki.coronawarnapp.covidcertificate.signature.core.server.DscServerModule
 import de.rki.coronawarnapp.covidcertificate.test.core.server.TestCertificateServerModule
 import de.rki.coronawarnapp.covidcertificate.validation.core.DccValidationModule
@@ -34,7 +34,7 @@ import dgca.verifier.app.engine.DefaultJsonLogicValidator
         DccValidationModule::class,
         DscServerModule::class,
         ExportCertificateModule::class,
-        RevocationModule::class
+        DccRevocationModule::class
     ]
 )
 class DigitalCovidCertificateModule {

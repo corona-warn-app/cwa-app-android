@@ -11,25 +11,25 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.preferences.FakeDataStore
 
-internal class RevocationUpdateSettingsTest : BaseTest() {
+internal class DccRevocationUpdateSettingsTest : BaseTest() {
 
     private val fakeDataStore = FakeDataStore()
-    private lateinit var settings: RevocationUpdateSettings
+    private lateinit var settingsDcc: DccRevocationUpdateSettings
 
     @BeforeEach
     fun setup() {
-        settings = RevocationUpdateSettings(fakeDataStore)
+        settingsDcc = DccRevocationUpdateSettings(fakeDataStore)
     }
 
     @Test
     fun `test RevocationUpdateSettings - set last update value`() =
         runBlockingTest {
-            settings.getLastUpdateTime() shouldBe null
+            settingsDcc.getLastUpdateTime() shouldBe null
 
             val now = Instant.parse("2022-04-14T00:00:00.000Z")
-            settings.setUpdateTimeToNow(now)
+            settingsDcc.setUpdateTimeToNow(now)
 
-            fakeDataStore[RevocationUpdateSettings.LAST_UPDATE_TIME_KEY] shouldBe now.seconds
-            settings.getLastUpdateTime() shouldBe now
+            fakeDataStore[DccRevocationUpdateSettings.LAST_UPDATE_TIME_KEY] shouldBe now.seconds
+            settingsDcc.getLastUpdateTime() shouldBe now
         }
 }

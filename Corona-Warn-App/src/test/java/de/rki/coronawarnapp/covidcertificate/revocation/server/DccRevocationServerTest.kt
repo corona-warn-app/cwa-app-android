@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.server
 
-import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationErrorCode
-import de.rki.coronawarnapp.covidcertificate.revocation.error.RevocationException
+import de.rki.coronawarnapp.covidcertificate.revocation.error.DccRevocationErrorCode
+import de.rki.coronawarnapp.covidcertificate.revocation.error.DccRevocationException
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationKidTypeIndex
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationChunk
@@ -38,11 +38,11 @@ import java.io.ByteArrayOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class RevocationServerTest : BaseTest() {
+class DccRevocationServerTest : BaseTest() {
 
-    @MockK lateinit var revocationApi: RevocationApi
+    @MockK lateinit var dccRevocationApi: DccRevocationApi
     @MockK lateinit var signatureValidation: SignatureValidation
-    @MockK lateinit var revocationParser: RevocationParser
+    @MockK lateinit var dccRevocationParser: DccRevocationParser
 
     private val exportSignature = "exportSignature".toByteArray()
     private val exportBinaryKidList = "exportBinaryKidList".toByteArray()
@@ -54,12 +54,12 @@ class RevocationServerTest : BaseTest() {
     private val x = "x".sha256()
     private val y = "y".sha256()
 
-    private val instance: RevocationServer
-        get() = RevocationServer(
-            revocationApiLazy = { revocationApi },
+    private val instance: DccRevocationServer
+        get() = DccRevocationServer(
+            revocationApiLazy = { dccRevocationApi },
             dispatcherProvider = TestDispatcherProvider(),
             signatureValidation = signatureValidation,
-            revocationParser = revocationParser
+            revocationParser = dccRevocationParser
         )
 
     @BeforeEach
@@ -68,15 +68,15 @@ class RevocationServerTest : BaseTest() {
 
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
 
-        coEvery { revocationApi.getRevocationKidList() } returns Response.success(
+        coEvery { dccRevocationApi.getRevocationKidList() } returns Response.success(
             createBundledResponse(exportBinaryKidList)
         )
 
-        coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } returns Response.success(
+        coEvery { dccRevocationApi.getRevocationKidTypeIndex(any(), any()) } returns Response.success(
             createBundledResponse(exportBinaryKidTypeIndex)
         )
 
-        coEvery { revocationApi.getRevocationChunk(any(), any(), any(), any()) } returns Response.success(
+        coEvery { dccRevocationApi.getRevocationChunk(any(), any(), any(), any()) } returns Response.success(
             createBundledResponse(exportBinaryChunk)
         )
 
@@ -95,14 +95,14 @@ class RevocationServerTest : BaseTest() {
             )
         )
 
-        coEvery { revocationParser.kidListFrom(exportBinaryKidList) } returns kidList
+        coEvery { dccRevocationParser.kidListFrom(exportBinaryKidList) } returns kidList
 
         instance.getRevocationKidList() shouldBe kidList
 
         coVerify {
-            revocationApi.getRevocationKidList()
+            dccRevocationApi.getRevocationKidList()
             signatureValidation.hasValidSignature(exportBinaryKidList, any())
-            revocationParser.kidListFrom(exportBinaryKidList)
+            dccRevocationParser.kidListFrom(exportBinaryKidList)
         }
     }
 
@@ -121,15 +121,15 @@ class RevocationServerTest : BaseTest() {
             )
         )
 
-        coEvery { revocationParser.kidTypeIndexFrom(exportBinaryKidTypeIndex) } returns
+        coEvery { dccRevocationParser.kidTypeIndexFrom(exportBinaryKidTypeIndex) } returns
             kidTypeIndex.revocationKidTypeIndex
 
         instance.getRevocationKidTypeIndex(kid, hashType) shouldBe kidTypeIndex
 
         coVerify {
-            revocationApi.getRevocationKidTypeIndex(kid.hex(), hashType.type)
+            dccRevocationApi.getRevocationKidTypeIndex(kid.hex(), hashType.type)
             signatureValidation.hasValidSignature(exportBinaryKidTypeIndex, any())
-            revocationParser.kidTypeIndexFrom(exportBinaryKidTypeIndex)
+            dccRevocationParser.kidTypeIndexFrom(exportBinaryKidTypeIndex)
         }
     }
 
@@ -145,14 +145,14 @@ class RevocationServerTest : BaseTest() {
             revocationChunk = RevocationChunk(hashes = listOf("RevocationChunk".sha256()))
         )
 
-        coEvery { revocationParser.chunkFrom(exportBinaryChunk) } returns chunk.revocationChunk
+        coEvery { dccRevocationParser.chunkFrom(exportBinaryChunk) } returns chunk.revocationChunk
 
         instance.getRevocationChunk(kid, hashType, x, y) shouldBe chunk
 
         coVerify {
-            revocationApi.getRevocationChunk(kid.hex(), hashType.type, x.hex(), y.hex())
+            dccRevocationApi.getRevocationChunk(kid.hex(), hashType.type, x.hex(), y.hex())
             signatureValidation.hasValidSignature(exportBinaryChunk, any())
-            revocationParser.chunkFrom(exportBinaryChunk)
+            dccRevocationParser.chunkFrom(exportBinaryChunk)
         }
     }
 
@@ -161,47 +161,47 @@ class RevocationServerTest : BaseTest() {
         every { signatureValidation.hasValidSignature(any(), any()) } returns false
 
         with(instance) {
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidList()
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
         }
 
         every { signatureValidation.hasValidSignature(any(), any()) } returns true
 
         fun invalid() = "Invalid Response".toResponseBody()
-        coEvery { revocationApi.getRevocationKidList() } returns Response.success(invalid())
+        coEvery { dccRevocationApi.getRevocationKidList() } returns Response.success(invalid())
 
-        coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } returns Response.success(invalid())
+        coEvery { dccRevocationApi.getRevocationKidTypeIndex(any(), any()) } returns Response.success(invalid())
 
-        coEvery { revocationApi.getRevocationChunk(any(), any(), any(), any()) } returns Response.success(invalid())
+        coEvery { dccRevocationApi.getRevocationChunk(any(), any(), any(), any()) } returns Response.success(invalid())
 
         with(instance) {
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidList()
             }.also {
-                it.errorCode shouldBe RevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
+                it.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
                 it.cause should beInstanceOf(IllegalStateException::class)
             }
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
             }.also {
-                it.errorCode shouldBe RevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
+                it.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
                 it.cause should beInstanceOf(IllegalStateException::class)
             }
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
             }.also {
-                it.errorCode shouldBe RevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
+                it.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
                 it.cause should beInstanceOf(IllegalStateException::class)
             }
         }
@@ -210,66 +210,66 @@ class RevocationServerTest : BaseTest() {
     @Test
     fun `reports no network`() = runBlockingTest2 {
         val error = NetworkConnectTimeoutException(message = "Test error")
-        coEvery { revocationApi.getRevocationKidList() } throws error
-        coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
-        coEvery { revocationApi.getRevocationChunk(any(), any(), any(), any()) } throws error
+        coEvery { dccRevocationApi.getRevocationKidList() } throws error
+        coEvery { dccRevocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
+        coEvery { dccRevocationApi.getRevocationChunk(any(), any(), any(), any()) } throws error
 
         with(instance) {
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidList()
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KID_LIST_NO_NETWORK
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_NO_NETWORK
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KT_IDX_NO_NETWORK
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_NO_NETWORK
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KTXY_CHUNK_NO_NETWORK
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_NO_NETWORK
         }
     }
 
     @Test
     fun `reports client error`() = runBlockingTest2 {
         val error = CwaClientError(statusCode = 400, message = "Test error")
-        coEvery { revocationApi.getRevocationKidList() } throws error
-        coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
-        coEvery { revocationApi.getRevocationChunk(any(), any(), any(), any()) } throws error
+        coEvery { dccRevocationApi.getRevocationKidList() } throws error
+        coEvery { dccRevocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
+        coEvery { dccRevocationApi.getRevocationChunk(any(), any(), any(), any()) } throws error
 
         with(instance) {
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidList()
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERRORDcc
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERROR
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERRORDcc
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERROR
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERRORDcc
         }
     }
 
     @Test
     fun `reports server error`() = runBlockingTest2 {
         val error = CwaServerError(statusCode = 500, message = "Test error")
-        coEvery { revocationApi.getRevocationKidList() } throws error
-        coEvery { revocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
-        coEvery { revocationApi.getRevocationChunk(any(), any(), any(), any()) } throws error
+        coEvery { dccRevocationApi.getRevocationKidList() } throws error
+        coEvery { dccRevocationApi.getRevocationKidTypeIndex(any(), any()) } throws error
+        coEvery { dccRevocationApi.getRevocationChunk(any(), any(), any(), any()) } throws error
 
         with(instance) {
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidList()
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERROR
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERRORDcc
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERROR
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERRORDcc
 
-            shouldThrow<RevocationException> {
+            shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
-            }.errorCode shouldBe RevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERROR
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERRORDcc
         }
     }
 

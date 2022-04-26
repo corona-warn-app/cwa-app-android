@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataSto
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationReset
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -93,7 +93,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
-    @MockK lateinit var revocationReset: RevocationReset
+    @MockK lateinit var dccRevocationReset: DccRevocationReset
 
     @BeforeEach
     fun setUp() {
@@ -142,7 +142,7 @@ internal class DataResetTest : BaseTest() {
         dccWalletInfoRepository = dccWalletInfoRepository,
         cclSettings = cclSettings,
         familyTestRepository = familyTestRepository,
-        revocationReset = revocationReset,
+        revocationReset = dccRevocationReset,
     )
 
     @Test
@@ -190,7 +190,7 @@ internal class DataResetTest : BaseTest() {
             cclConfigurationRepository.clear()
             dccWalletInfoRepository.clear()
             familyTestRepository.clear()
-            revocationReset.clear()
+            dccRevocationReset.clear()
         }
     }
 }

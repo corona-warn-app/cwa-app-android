@@ -26,7 +26,7 @@ import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 import java.io.IOException
 
-class RevocationRepositoryTest : BaseTest() {
+class DccRevocationRepositoryTest : BaseTest() {
 
     private lateinit var dataStore: DataStore<Preferences>
     private val objectMapper = SerializationModule().jacksonObjectMapper()
@@ -44,7 +44,7 @@ class RevocationRepositoryTest : BaseTest() {
     private fun createInstance(
         scope: CoroutineScope,
         data: DataStore<Preferences> = dataStore
-    ): RevocationRepository = RevocationRepository(
+    ): DccRevocationRepository = DccRevocationRepository(
         appScope = scope,
         objectMapper = objectMapper,
         dataStore = data

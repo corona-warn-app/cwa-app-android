@@ -3,8 +3,8 @@ package de.rki.coronawarnapp.covidcertificate.revocation.check
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccData
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
-import de.rki.coronawarnapp.covidcertificate.revocation.calculation.RevocationCalculationTestCase
-import de.rki.coronawarnapp.covidcertificate.revocation.calculation.RevocationCalculationTestCaseProvider
+import de.rki.coronawarnapp.covidcertificate.revocation.calculation.DccRevocationCalculationTestCase
+import de.rki.coronawarnapp.covidcertificate.revocation.calculation.DccRevocationCalculationTestCaseProvider
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
@@ -32,16 +32,16 @@ class DccRevocationCheckerTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `all not revoked when no revocation list`(testCase: RevocationCalculationTestCase) = runBlockingTest {
-        val dccData = dccQrCodeExtractor.extract(testCase.barcodeData).data
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `all not revoked when no revocation list`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+        val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(dccData, listOf()) shouldBe false
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `all revoked for type SIGNATURE`(testCase: RevocationCalculationTestCase) = runBlockingTest {
-        val dccData = dccQrCodeExtractor.extract(testCase.barcodeData).data
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `all revoked for type SIGNATURE`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+        val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
             listOf(
@@ -89,9 +89,9 @@ class DccRevocationCheckerTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `all revoked for type UCI`(testCase: RevocationCalculationTestCase) = runBlockingTest {
-        val dccData = dccQrCodeExtractor.extract(testCase.barcodeData).data
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `all revoked for type UCI`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+        val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
             listOf(
@@ -139,9 +139,9 @@ class DccRevocationCheckerTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `all revoked for type COUNTRYCODEUCI`(testCase: RevocationCalculationTestCase) = runBlockingTest {
-        val dccData = dccQrCodeExtractor.extract(testCase.barcodeData).data
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `all revoked for type COUNTRYCODEUCI`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+        val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
             listOf(
@@ -189,9 +189,9 @@ class DccRevocationCheckerTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `all revoked for combination`(testCase: RevocationCalculationTestCase) = runBlockingTest {
-        val dccData = dccQrCodeExtractor.extract(testCase.barcodeData).data
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `all revoked for combination`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest {
+        val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
         DccRevocationChecker().isRevoked(
             dccData,
             listOf(
@@ -239,10 +239,10 @@ class DccRevocationCheckerTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `all not revoked when coordinate exist but no hashes`(testCase: RevocationCalculationTestCase) =
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `all not revoked when coordinate exist but no hashes`(testCaseDcc: DccRevocationCalculationTestCase) =
         runBlockingTest {
-            val dccData = dccQrCodeExtractor.extract(testCase.barcodeData).data
+            val dccData = dccQrCodeExtractor.extract(testCaseDcc.barcodeData).data
             DccRevocationChecker().isRevoked(
                 dccData,
                 listOf(

@@ -8,8 +8,8 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationDataStore
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationDataStore
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationReset
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -25,10 +25,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RevocationRepository @Inject constructor(
+class DccRevocationRepository @Inject constructor(
     @AppScope appScope: CoroutineScope,
     @BaseJackson private val objectMapper: ObjectMapper,
-    @RevocationDataStore private val dataStore: DataStore<Preferences>
+    @DccRevocationDataStore private val dataStore: DataStore<Preferences>
 ) {
 
     val revocationList: Flow<List<CachedRevocationChunk>> = dataStore.data
@@ -52,7 +52,7 @@ class RevocationRepository @Inject constructor(
 
     /**
      * This is only used for testing in DccStateValidationTestViewModel
-     * The [DataStore] for revocation gets entirely cleared in [RevocationReset]
+     * The [DataStore] for revocation gets entirely cleared in [DccRevocationReset]
      **/
     internal suspend fun clear() {
         Timber.tag(TAG).d("Clearing Revocation List.")
@@ -67,7 +67,7 @@ class RevocationRepository @Inject constructor(
     private fun List<CachedRevocationChunk>.toJson(): String = objectMapper.writeValueAsString(this)
 }
 
-private val TAG = tag<RevocationRepository>()
+private val TAG = tag<DccRevocationRepository>()
 
 @VisibleForTesting
 internal val CACHED_REVOCATION_CHUNKS_KEY by lazy {

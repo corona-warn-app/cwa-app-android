@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationCheck
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidList
-import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationServer
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.collections.groupByNotNull
@@ -17,9 +17,9 @@ import okio.ByteString
 import timber.log.Timber
 import javax.inject.Inject
 
-class RevocationUpdateService @Inject constructor(
-    private val revocationServer: RevocationServer,
-    private val revocationRepository: RevocationRepository,
+class DccRevocationUpdateService @Inject constructor(
+    private val dccRevocationServer: DccRevocationServer,
+    private val dccRevocationRepository: DccRevocationRepository,
     private val dccRevocationChecker: DccRevocationChecker
 ) {
 
@@ -27,7 +27,7 @@ class RevocationUpdateService @Inject constructor(
         Timber.tag(TAG).d("Updating Revocation List")
         val coordinatesDccMap = createCoordinatesDccMap(allCertificates)
         val chunks = createRevocationChunks(coordinatesDccMap)
-        revocationRepository.saveCachedRevocationChunks(chunks)
+        dccRevocationRepository.saveCachedRevocationChunks(chunks)
     }
 
     private suspend fun createCoordinatesDccMap(
@@ -39,7 +39,7 @@ class RevocationUpdateService @Inject constructor(
             .also { Timber.tag(TAG).d("dccsByKID=%s", it) }
 
         // Update KID List
-        val revocationKidList = revocationServer.getRevocationKidList()
+        val revocationKidList = dccRevocationServer.getRevocationKidList()
             .also { Timber.tag(TAG).d("revocationKidList=%s", it) }
 
         // Filter KID groups by KID list
@@ -69,7 +69,7 @@ class RevocationUpdateService @Inject constructor(
             }
 
             // Update KID-Type Index
-            val index = with(entry) { revocationServer.getRevocationKidTypeIndex(key.kid, key.type) }
+            val index = with(entry) { dccRevocationServer.getRevocationKidTypeIndex(key.kid, key.type) }
 
             val coordinates = index.revocationKidTypeIndex.items
                 .flatMap { item -> item.y.map { Coordinate(item.x, it) } }
@@ -79,7 +79,7 @@ class RevocationUpdateService @Inject constructor(
                 .filter { it.coordinate in coordinates }
 
             // Update KID-Type-X-Y Chunk: for each remaining Revocation List Coordinates
-            chunks += filteredCoordinates.map { revocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
+            chunks += filteredCoordinates.map { dccRevocationServer.getRevocationChunk(it.kid, it.type, it.x, it.y) }
         }
 
         return chunks.also { Timber.tag(TAG).d("chunks=%s", it) }
@@ -107,7 +107,7 @@ class RevocationUpdateService @Inject constructor(
     }
 }
 
-private val TAG = tag<RevocationUpdateService>()
+private val TAG = tag<DccRevocationUpdateService>()
 
 private typealias DCCsByKID = Map<ByteString, List<CwaCovidCertificate>>
 private typealias CoordinatesDccMap = Map<RevocationEntryCoordinates, List<CwaCovidCertificate>>
