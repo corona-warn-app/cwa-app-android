@@ -1,18 +1,18 @@
 package de.rki.coronawarnapp.covidcertificate.recovery.core
 
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.DaggerCovidCertificateTestComponent
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.repository.RecoveryCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
 import de.rki.coronawarnapp.covidcertificate.recovery.RecoveryQrCodeTestData
 import de.rki.coronawarnapp.covidcertificate.recovery.core.qrcode.RecoveryCertificateQRCode
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.RecoveryCertificateStorage
 import de.rki.coronawarnapp.covidcertificate.recovery.core.storage.StoredRecoveryCertificateData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyTestCertificateValueSets
 import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.emptyVaccinationValueSets
@@ -43,8 +43,7 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
     @MockK lateinit var storage: RecoveryCertificateStorage
     @MockK lateinit var valueSetsRepository: ValueSetsRepository
     @MockK lateinit var dccStateChecker: DccStateChecker
-    @MockK lateinit var dscRepository: DscRepository
-    @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
+    @MockK lateinit var dccValidityMeasuresObserver: DccValidityMeasuresObserver
 
     @Inject lateinit var qrCodeExtractor: DccQrCodeExtractor
 
@@ -61,8 +60,6 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         DaggerCovidCertificateTestComponent.factory().create().inject(this)
 
         every { timeStamper.nowUTC } returns nowUTC
-        every { dscRepository.dscData } returns flowOf(DscData(listOf(), nowUTC))
-        every { dccWalletInfoRepository.blockedCertificateQrCodeHashes } returns flowOf(emptySet())
 
         valueSetsRepository.apply {
             every { latestTestCertificateValueSets } returns flowOf(emptyTestCertificateValueSets)
@@ -74,17 +71,24 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
             coEvery { save(any()) } answers { testStorage = arg(0) }
         }
 
+        every { dccValidityMeasuresObserver.dccValidityMeasures } returns flowOf(
+            DccValidityMeasures(
+                dscSignatureList = DscSignatureList(listOf(), Instant.EPOCH),
+                revocationList = listOf(),
+                blockedQrCodeHashes = setOf()
+            )
+        )
+
         coEvery {
-            dccStateChecker.checkState(
+            dccStateChecker(
                 any(),
                 any(),
                 any()
             )
-        } returns flowOf(
+        } returns
             CwaCovidCertificate.State.Valid(
                 Instant.EPOCH
             )
-        )
     }
 
     private fun createInstance(scope: CoroutineScope) = RecoveryCertificateRepository(
@@ -93,10 +97,9 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
         storage = storage,
         valueSetsRepository = valueSetsRepository,
         qrCodeExtractor = qrCodeExtractor,
-        dccStateChecker = dccStateChecker,
+        dccState = dccStateChecker,
         timeStamper = timeStamper,
-        dscRepository = dscRepository,
-        dccWalletInfoRepository = dccWalletInfoRepository
+        dccValidityMeasuresObserver = dccValidityMeasuresObserver
     )
 
     @Test
@@ -141,19 +144,19 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
 
         coEvery { storage.load() } returns setOf(recycled, notRecycled)
         coEvery {
-            dccStateChecker.checkState(
+            dccStateChecker(
                 any(),
                 any(),
                 any()
             )
-        } returns flowOf(CwaCovidCertificate.State.Valid(nowUTC))
+        } returns CwaCovidCertificate.State.Valid(nowUTC)
 
         createInstance(this).run {
             certificates.first().also {
                 it.size shouldBe 1
 
                 val wrapper = it.first()
-                wrapper.recoveryCertificate.getState() shouldBe CwaCovidCertificate.State.Valid(nowUTC)
+                wrapper.recoveryCertificate.state shouldBe CwaCovidCertificate.State.Valid(nowUTC)
                 wrapper.recycleInfo.isNotRecycled shouldBe true
             }
 
@@ -161,8 +164,13 @@ class RecoveryCertificateRepositoryTest : BaseTest() {
                 it.size shouldBe 1
 
                 val cert = it.first()
-                cert.getState() shouldBe CwaCovidCertificate.State.Recycled
+                cert.state shouldBe CwaCovidCertificate.State.Recycled
                 cert.isRecycled shouldBe true
+            }
+
+            allCertificates.first().also {
+                it.certificates shouldBe certificates.first()
+                it.recycledCertificates shouldBe recycledCertificates.first()
             }
         }
     }

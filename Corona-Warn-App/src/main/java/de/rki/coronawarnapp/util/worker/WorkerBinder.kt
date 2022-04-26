@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.contactdiary.retention.ContactDiaryRetentionWorker
 import de.rki.coronawarnapp.coronatest.type.pcr.execution.PCRResultRetrievalWorker
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultRetrievalWorker
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckWorker
+import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationListUpdateWorker
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalWorker
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsPeriodicWorker
 import de.rki.coronawarnapp.deadman.DeadmanNotificationOneTimeWorker
@@ -150,5 +151,12 @@ abstract class WorkerBinder {
     @WorkerKey(FamilyTestResultRetrievalWorker::class)
     abstract fun familyTestResultRetrievalWorker(
         factory: FamilyTestResultRetrievalWorker.Factory
+    ): InjectedWorkerFactory<out ListenableWorker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(RevocationListUpdateWorker::class)
+    abstract fun revocationUpdateWorker(
+        factory: RevocationListUpdateWorker.Factory
     ): InjectedWorkerFactory<out ListenableWorker>
 }

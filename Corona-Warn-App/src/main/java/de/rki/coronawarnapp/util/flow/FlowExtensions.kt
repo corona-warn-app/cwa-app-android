@@ -1,15 +1,18 @@
 package de.rki.coronawarnapp.util.flow
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -41,6 +44,13 @@ fun <T : Any> Flow<T>.shareLatest(
         initialValue = null
     )
     .filterNotNull()
+
+/**
+ * This is a shorthand for `scope.launch { flow.collectLatest(action) }`
+ */
+fun <T> Flow<T>.launchInLatest(scope: CoroutineScope, action: suspend (value: T) -> Unit): Job = scope.launch {
+    collectLatest(action) // tail-call
+}
 
 @Suppress("UNCHECKED_CAST", "LongParameterList")
 inline fun <T1, T2, R> combine(

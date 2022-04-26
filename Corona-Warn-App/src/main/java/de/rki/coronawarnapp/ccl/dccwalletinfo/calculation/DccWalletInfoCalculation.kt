@@ -94,7 +94,7 @@ class DccWalletInfoCalculation @Inject constructor(
                     exp = it.headerExpiresAt.seconds
                 ),
                 hcert = it.dccData.certificateJson.toJsonNode(),
-                validityState = it.getState().toCclState()
+                validityState = it.state.toCclState()
             )
         }
     }

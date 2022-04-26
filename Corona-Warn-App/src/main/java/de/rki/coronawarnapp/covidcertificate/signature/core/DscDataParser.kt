@@ -9,7 +9,7 @@ import javax.inject.Inject
 @Reusable
 class DscDataParser @Inject constructor() {
 
-    fun parse(rawData: ByteArray, updatedAt: Instant = Instant.now()): DscData = DscData(
+    fun parse(rawData: ByteArray, updatedAt: Instant = Instant.now()): DscSignatureList = DscSignatureList(
         dscList = DscListOuterClass.DscList.parseFrom(rawData).certificatesList.map {
             DscItem(
                 kid = it.kid.toOkioByteString().base64(),
