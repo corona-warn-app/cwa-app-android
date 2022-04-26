@@ -40,14 +40,14 @@ class DccRevocationServer @Inject constructor(
 
     @Throws(DccRevocationException::class)
     suspend fun getRevocationKidList(): RevocationKidList = execute(
-        noNetworkErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_NO_NETWORK,
-        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR,
-        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERROR
+        noNetworkErrorCode = DccRevocationErrorCode.DCC_RL_KID_LIST_NO_NETWORK,
+        clientErrorCode = DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR,
+        serverErrorCode = DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERROR
     ) {
         Timber.tag(TAG).d("getRevocationKidList()")
         val response = dccRevocationApi.getRevocationKidList()
         val rawData = response.parseAndValidate(
-            parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
+            parseErrorCode = DccRevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
         )
 
         return@execute revocationParser.kidListFrom(rawData).also {
@@ -60,14 +60,14 @@ class DccRevocationServer @Inject constructor(
         kid: ByteString,
         hashType: RevocationHashType
     ): CachedRevocationKidTypeIndex = execute(
-        noNetworkErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_NO_NETWORK,
-        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERROR,
-        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERROR
+        noNetworkErrorCode = DccRevocationErrorCode.DCC_RL_KT_IDX_NO_NETWORK,
+        clientErrorCode = DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERROR,
+        serverErrorCode = DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERROR
     ) {
         Timber.tag(TAG).d("getRevocationKidTypeIndex(kid=%s, hashType=%s)", kid, hashType)
         val response = dccRevocationApi.getRevocationKidTypeIndex(kid = kid.hex(), type = hashType.type)
         val rawData = response.parseAndValidate(
-            parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
+            parseErrorCode = DccRevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
         )
         val revocationKidTypeIndex = revocationParser.kidTypeIndexFrom(rawData)
 
@@ -85,9 +85,9 @@ class DccRevocationServer @Inject constructor(
         x: ByteString,
         y: ByteString
     ): CachedRevocationChunk = execute(
-        noNetworkErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_NO_NETWORK,
-        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERROR,
-        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERROR
+        noNetworkErrorCode = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_NO_NETWORK,
+        clientErrorCode = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERROR,
+        serverErrorCode = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERROR
     ) {
         Timber.tag(TAG).d(
             "getRevocationChunk(kid=%s, hashType=%s, x=%s, y=%s)",
@@ -103,7 +103,7 @@ class DccRevocationServer @Inject constructor(
             y = y.hex()
         )
         val rawData = response.parseAndValidate(
-            parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
+            parseErrorCode = DccRevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
         )
         val revocationChunk = revocationParser.chunkFrom(rawData)
         val revocationEntryCoordinates = RevocationEntryCoordinates(kid = kid, type = hashType, x = x, y = y)
@@ -115,9 +115,9 @@ class DccRevocationServer @Inject constructor(
     }
 
     private suspend fun <T> execute(
-        noNetworkErrorCodeDcc: DccRevocationErrorCode,
-        clientErrorCodeDcc: DccRevocationErrorCode,
-        serverErrorCodeDcc: DccRevocationErrorCode,
+        noNetworkErrorCode: DccRevocationErrorCode,
+        clientErrorCode: DccRevocationErrorCode,
+        serverErrorCode: DccRevocationErrorCode,
         block: suspend () -> T
     ): T = withContext(dispatcherProvider.IO) {
         try {
@@ -128,14 +128,14 @@ class DccRevocationServer @Inject constructor(
             throw when (e) {
                 is CwaUnknownHostException,
                 is NetworkReadTimeoutException,
-                is NetworkConnectTimeoutException -> noNetworkErrorCodeDcc
-                is CwaClientError -> clientErrorCodeDcc
-                else -> serverErrorCodeDcc
-            }.let { DccRevocationException(errorCodeDcc = it, cause = e) }
+                is NetworkConnectTimeoutException -> noNetworkErrorCode
+                is CwaClientError -> clientErrorCode
+                else -> serverErrorCode
+            }.let { DccRevocationException(errorCode = it, cause = e) }
         }
     }
 
-    private fun Response<ResponseBody>.parseAndValidate(parseErrorCodeDcc: DccRevocationErrorCode): ByteArray = try {
+    private fun Response<ResponseBody>.parseAndValidate(parseErrorCode: DccRevocationErrorCode): ByteArray = try {
         if (!isSuccessful) throw HttpException(this)
 
         val fileMap = requireNotNull(body()) { "Response was successful but body was null" }
@@ -151,13 +151,13 @@ class DccRevocationServer @Inject constructor(
             toVerify = exportBinary,
             signatureList = SignatureValidation.parseTEKStyleSignature(exportSignature)
         )
-        if (!isSignatureValid) throw DccRevocationException(errorCodeDcc = parseErrorCodeDcc)
+        if (!isSignatureValid) throw DccRevocationException(errorCode = parseErrorCode)
 
         exportBinary
     } catch (e: Exception) {
         throw when (e) {
             is DccRevocationException -> e
-            else -> DccRevocationException(errorCodeDcc = parseErrorCodeDcc, cause = e)
+            else -> DccRevocationException(errorCode = parseErrorCode, cause = e)
         }
     }
 }
