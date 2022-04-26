@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import de.rki.coronawarnapp.profile.model.Profile
+import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentArgs
 import de.rki.coronawarnapp.profile.ui.qrcode.PersonProfile
 import de.rki.coronawarnapp.profile.ui.qrcode.ProfileQrCodeFragment
 import de.rki.coronawarnapp.profile.ui.qrcode.ProfileQrCodeFragmentViewModel
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentArgs
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -26,7 +26,7 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
 
     @MockK lateinit var viewModel: ProfileQrCodeFragmentViewModel
 
-    private val args = RATProfileCreateFragmentArgs(id = 1).toBundle()
+    private val args = ProfileCreateFragmentArgs(id = 1).toBundle()
 
     @Before
     fun setup() {
@@ -91,7 +91,7 @@ class ProfileQrCodeFragmentTest : BaseUITest() {
 }
 
 @Module
-abstract class RATProfileQrCodeFragmentTestModule {
+abstract class ProfileQrCodeFragmentTestModule {
     @ContributesAndroidInjector
-    abstract fun ratProfileQrCodeFragment(): ProfileQrCodeFragment
+    abstract fun profileQrCodeFragment(): ProfileQrCodeFragment
 }
