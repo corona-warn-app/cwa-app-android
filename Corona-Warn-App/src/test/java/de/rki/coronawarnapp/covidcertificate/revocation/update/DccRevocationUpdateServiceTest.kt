@@ -8,6 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.revocation.calculation.DccRevocatio
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.DccRevocationCalculationTestCaseProvider
 import de.rki.coronawarnapp.covidcertificate.revocation.calculation.kidHash
 import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationChecker
+import de.rki.coronawarnapp.covidcertificate.revocation.error.DccRevocationErrorCode
+import de.rki.coronawarnapp.covidcertificate.revocation.error.DccRevocationException
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationKidTypeIndex
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationChunk
@@ -20,7 +22,10 @@ import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidTypeI
 import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationServer
 import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
+import io.mockk.called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -60,10 +65,96 @@ class DccRevocationUpdateServiceTest : BaseTest() {
 
     @ParameterizedTest
     @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
-    fun `Happy path`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
+    fun `happy path`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
         testCase.checkFor(RevocationHashType.SIGNATURE)
         testCase.checkFor(RevocationHashType.UCI)
         testCase.checkFor(RevocationHashType.COUNTRYCODEUCI)
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `skips already revoked entries`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
+        val cert = testCase.toCert()
+        val kidHash = cert.dccData.kidHash()
+        val hashType = RevocationHashType.UCI
+        val kidList = RevocationKidList(
+            items = setOf(
+                RevocationKidListItem(kid = kidHash, hashTypes = setOf(hashType))
+            )
+        )
+
+        every { dccRevocationChecker.isRevoked(dccData = any(), any()) } returns true
+        coEvery { dccRevocationServer.getRevocationKidList() } returns kidList
+
+        instance.updateRevocationList(allCertificates = setOf(cert))
+
+        // Just mockk things ¯\_(ツ)_/¯
+        val data = cert.dccData
+        coVerify {
+            with(dccRevocationServer) {
+                getRevocationKidList()
+            }
+            dccRevocationChecker.isRevoked(dccData = data, listOf())
+            dccRevocationRepository.saveCachedRevocationChunks(emptySet())
+        }
+
+        coVerify(exactly = 0) {
+            with(dccRevocationServer) {
+                getRevocationKidTypeIndex(any(), any())
+                getRevocationChunk(any(), any(), any(), any())
+            }
+        }
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `aborts on error`(testCase: DccRevocationCalculationTestCase) = runBlockingTest {
+        val cert = testCase.toCert()
+        val kidHash = cert.dccData.kidHash()
+        val hashType = RevocationHashType.COUNTRYCODEUCI
+        val chunk = testCase.toChunk(kidHash, hashType)
+        val index = CachedRevocationKidTypeIndex(
+            kid = kidHash,
+            hashType = hashType,
+            revocationKidTypeIndex = RevocationKidTypeIndex(
+                listOf(
+                    RevocationKidTypeIndexItem(x = chunk.coordinates.x, y = listOf(chunk.coordinates.y))
+                )
+            )
+        )
+        val kidList = RevocationKidList(
+            items = setOf(
+                RevocationKidListItem(kid = kidHash, hashTypes = setOf(hashType))
+            )
+        )
+
+        val chunkError = DccRevocationException(DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERROR)
+        every { dccRevocationChecker.isRevoked(dccData = any(), any()) } returns false
+        coEvery { dccRevocationServer.getRevocationKidList() } returns kidList
+        coEvery { dccRevocationServer.getRevocationKidTypeIndex(any(), any()) } returns index
+        coEvery { dccRevocationServer.getRevocationChunk(any(), any(), any(), any()) } throws chunkError
+
+        shouldThrow<DccRevocationException> {
+            instance.updateRevocationList(setOf(cert))
+        } shouldBe chunkError
+
+        val indexError = DccRevocationException(DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERROR)
+        coEvery { dccRevocationServer.getRevocationKidTypeIndex(any(), any()) } throws indexError
+
+        shouldThrow<DccRevocationException> {
+            instance.updateRevocationList(setOf(cert))
+        } shouldBe indexError
+
+        val kidListError = DccRevocationException(DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR)
+        coEvery { dccRevocationServer.getRevocationKidList() } throws kidListError
+
+        shouldThrow<DccRevocationException> {
+            instance.updateRevocationList(setOf(cert))
+        } shouldBe kidListError
+
+        coVerify {
+            dccRevocationRepository wasNot called
+        }
     }
 
     private suspend fun DccRevocationCalculationTestCase.checkFor(hashType: RevocationHashType) {
