@@ -3,7 +3,7 @@ package de.rki.coronawarnapp.covidcertificate.signature.core
 import okio.ByteString
 import org.joda.time.Instant
 
-data class DscData(
+data class DscSignatureList(
     val dscList: List<DscItem>,
     val updatedAt: Instant,
 )

@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.covidcertificate.expiration
 
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
-import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Valid
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import kotlinx.coroutines.CoroutineScope
@@ -17,10 +17,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DccExpirationChangeObserver @Inject constructor(
+class DccValidityStateChangeObserver @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val certificateProvider: CertificateProvider,
-    private val dccExpirationNotificationService: DccExpirationNotificationService
+    private val dccValidityStateNotificationService: DccValidityStateNotificationService
 ) {
 
     fun setup() {
@@ -30,18 +30,18 @@ class DccExpirationChangeObserver @Inject constructor(
             .onStart { Timber.tag(TAG).d("Started monitoring certs for state changes") }
             .mapLatest { certificateContainer ->
                 certificateContainer.allCwaCertificates
-                    .filterNot { it.getState() is CwaCovidCertificate.State.Valid }
-                    .associate { it.uniqueCertificateIdentifier to it.getState() }
+                    .filterNot { it.state is Valid }
+                    .associate { it.qrCodeHash to it.state }
             }
             .distinctUntilChanged()
             .filter { it.isNotEmpty() }
             .onEach {
-                Timber.tag(TAG).d("Expiration changed: %s", it)
-                dccExpirationNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
+                Timber.tag(TAG).d("Dcc validity states: %s", it)
+                dccValidityStateNotificationService.showNotificationIfStateChanged(ignoreLastCheck = true)
             }
             .catch { Timber.tag(TAG).e("Failed to observe certs for state changes") }
             .launchIn(scope = appScope)
     }
 }
 
-private val TAG = tag<DccExpirationChangeObserver>()
+private val TAG = tag<DccValidityStateChangeObserver>()

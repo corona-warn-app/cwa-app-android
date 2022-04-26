@@ -188,7 +188,7 @@ class PersonDetailsViewModelTest : BaseTest() {
         every { registeredAt } returns Instant.parse("2021-05-21T11:35:00.000Z")
         every { personIdentifier } returns certificatePersonIdentifier
         every { isDisplayValid } returns true
-        every { getState() } returns State.Valid(headerExpiresAt)
+        every { state } returns State.Valid(headerExpiresAt)
         every { qrCodeToDisplay } returns CoilQrCode("qrCode")
         every { qrCodeHash } returns "TC"
     }
@@ -215,7 +215,7 @@ class PersonDetailsViewModelTest : BaseTest() {
             every { isSeriesCompletingShot } returns final
             every { headerIssuedAt } returns Instant.EPOCH
             every { isDisplayValid } returns true
-            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+            every { state } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeToDisplay } returns CoilQrCode("qrCode")
             every { qrCodeHash } returns "VC$number"
         }
@@ -234,7 +234,7 @@ class PersonDetailsViewModelTest : BaseTest() {
                     every { validFrom } returns LocalDate.now()
                 }
             }
-            every { getState() } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
+            every { state } returns State.Valid(expiresAt = Instant.parse("2022-01-01T11:35:00.000Z"))
             every { qrCodeHash } returns "RC"
         }
 

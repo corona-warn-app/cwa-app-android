@@ -69,10 +69,10 @@ class RecoveryCertificateCard(parent: ViewGroup) :
             notificationBadge.isVisible = item.certificate.hasNotificationBadge
 
             certificateExpiration.displayExpirationState(item.certificate)
-
+            
             startValidationCheckButton.apply {
-                defaultButton.isEnabled = certificate.isNotBlocked
-                isEnabled = certificate.isNotBlocked
+                defaultButton.isEnabled = certificate.isNotScreened
+                isEnabled = certificate.isNotScreened
                 isLoading = item.isLoading
                 defaultButton.setOnClickListener {
                     item.validateCertificate(certificate.containerId)
