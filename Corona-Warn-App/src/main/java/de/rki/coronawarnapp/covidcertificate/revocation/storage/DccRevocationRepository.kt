@@ -39,10 +39,7 @@ class DccRevocationRepository @Inject constructor(
         .map { prefs ->
             prefs[CACHED_REVOCATION_CHUNKS_KEY]?.toCachedRevocationChunks() ?: emptyList()
         }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     suspend fun saveCachedRevocationChunks(cachedRevocationChunks: Collection<CachedRevocationChunk>) {
         Timber.tag(TAG).d("Saving %d cachedRevocationChunks", cachedRevocationChunks.size)
