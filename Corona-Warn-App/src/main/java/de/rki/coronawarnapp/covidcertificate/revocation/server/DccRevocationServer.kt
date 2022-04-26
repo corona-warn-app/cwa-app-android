@@ -41,8 +41,8 @@ class DccRevocationServer @Inject constructor(
     @Throws(DccRevocationException::class)
     suspend fun getRevocationKidList(): RevocationKidList = execute(
         noNetworkErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_NO_NETWORK,
-        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERRORDcc,
-        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERRORDcc
+        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR,
+        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERROR
     ) {
         Timber.tag(TAG).d("getRevocationKidList()")
         val response = dccRevocationApi.getRevocationKidList()
@@ -61,8 +61,8 @@ class DccRevocationServer @Inject constructor(
         hashType: RevocationHashType
     ): CachedRevocationKidTypeIndex = execute(
         noNetworkErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_NO_NETWORK,
-        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERRORDcc,
-        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERRORDcc
+        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERROR,
+        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERROR
     ) {
         Timber.tag(TAG).d("getRevocationKidTypeIndex(kid=%s, hashType=%s)", kid, hashType)
         val response = dccRevocationApi.getRevocationKidTypeIndex(kid = kid.hex(), type = hashType.type)
@@ -86,8 +86,8 @@ class DccRevocationServer @Inject constructor(
         y: ByteString
     ): CachedRevocationChunk = execute(
         noNetworkErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_NO_NETWORK,
-        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERRORDcc,
-        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERRORDcc
+        clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERROR,
+        serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERROR
     ) {
         Timber.tag(TAG).d(
             "getRevocationChunk(kid=%s, hashType=%s, x=%s, y=%s)",

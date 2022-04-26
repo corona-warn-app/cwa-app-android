@@ -239,15 +239,15 @@ class DccRevocationServerTest : BaseTest() {
         with(instance) {
             shouldThrow<DccRevocationException> {
                 getRevocationKidList()
-            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERRORDcc
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_CLIENT_ERROR
 
             shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
-            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERRORDcc
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_CLIENT_ERROR
 
             shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
-            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERRORDcc
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERROR
         }
     }
 
@@ -261,15 +261,15 @@ class DccRevocationServerTest : BaseTest() {
         with(instance) {
             shouldThrow<DccRevocationException> {
                 getRevocationKidList()
-            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERRORDcc
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KID_LIST_SERVER_ERROR
 
             shouldThrow<DccRevocationException> {
                 getRevocationKidTypeIndex(kid, hashType)
-            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERRORDcc
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KT_IDX_SERVER_ERROR
 
             shouldThrow<DccRevocationException> {
                 getRevocationChunk(kid, hashType, x, y)
-            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERRORDcc
+            }.errorCodeDcc shouldBe DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERROR
         }
     }
 
