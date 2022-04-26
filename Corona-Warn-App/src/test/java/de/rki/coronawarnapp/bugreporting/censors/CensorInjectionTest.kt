@@ -15,6 +15,7 @@ import de.rki.coronawarnapp.profile.storage.ProfileRepository
 import de.rki.coronawarnapp.profile.storage.ProfileSettingsDataStore
 import de.rki.coronawarnapp.submission.SubmissionSettings
 import io.github.classgraph.ClassGraph
+import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
