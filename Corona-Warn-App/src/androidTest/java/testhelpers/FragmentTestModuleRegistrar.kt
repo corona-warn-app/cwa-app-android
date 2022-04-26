@@ -11,13 +11,15 @@ import de.rki.coronawarnapp.covidcertificate.recovery.ui.RecoveryCertificateDeta
 import de.rki.coronawarnapp.covidcertificate.test.ui.CovidCertificateDetailsFragmentTestModule
 import de.rki.coronawarnapp.covidcertificate.vaccination.ui.details.VaccinationDetailsFragmentTestModule
 import de.rki.coronawarnapp.dccreissuance.ui.consent.DccReissuanceConsentFragmentTestModule
-import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationResultFragmentTestModule
 import de.rki.coronawarnapp.dccticketing.ui.certificateselection.DccTicketingCertificateSelectionFragmentModule
-import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
 import de.rki.coronawarnapp.dccticketing.ui.consent.one.DccTicketingConsentOneFragmentTestModule
+import de.rki.coronawarnapp.dccticketing.ui.consent.two.DccTicketingConsentTwoFragmentModule
+import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketingValidationResultFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
+import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentTestModule
+import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
@@ -27,9 +29,7 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryLocationListFragmentTest
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragmentTestModule
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.ProfileQrCodeFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.QrCodeDetailFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmentTestModule
@@ -129,10 +129,10 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         BoosterInfoDetailsFragmentTestModule::class,
         DccReissuanceConsentFragmentTestModule::class,
 
-        // -------- RAT profile ------------
-        RATProfileCreateFragmentTestModule::class,
-        RATProfileOnboardingFragmentTestModule::class,
-        RATProfileQrCodeFragmentTestModule::class,
+        // -------- Profile ------------
+        ProfileCreateFragmentTestModule::class,
+        ProfileOnboardingFragmentTestModule::class,
+        ProfileQrCodeFragmentTestModule::class,
 
         QrCodeScannerFragmentTestModule::class,
 

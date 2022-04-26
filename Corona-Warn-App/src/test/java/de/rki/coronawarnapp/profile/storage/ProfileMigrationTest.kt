@@ -3,8 +3,7 @@ package de.rki.coronawarnapp.profile.storage
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
+import de.rki.coronawarnapp.profile.legacy.RATProfile
 import io.mockk.MockKAnnotations
 import io.mockk.Runs
 import io.mockk.every
@@ -23,7 +22,7 @@ import org.junit.jupiter.api.Test
 class ProfileMigrationTest {
 
     @MockK lateinit var context: Context
-    @MockK lateinit var settingsDataStore: RATProfileSettingsDataStore
+    @MockK lateinit var settingsDataStore: ProfileSettingsDataStore
     @MockK lateinit var db: SupportSQLiteDatabase
 
     lateinit var factory: ProfileDatabase.Factory
