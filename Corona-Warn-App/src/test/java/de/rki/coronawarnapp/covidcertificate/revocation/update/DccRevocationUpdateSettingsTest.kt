@@ -14,22 +14,22 @@ import testhelpers.preferences.FakeDataStore
 internal class DccRevocationUpdateSettingsTest : BaseTest() {
 
     private val fakeDataStore = FakeDataStore()
-    private lateinit var settingsDcc: DccRevocationUpdateSettings
+    private lateinit var settings: DccRevocationUpdateSettings
 
     @BeforeEach
     fun setup() {
-        settingsDcc = DccRevocationUpdateSettings(fakeDataStore)
+        settings = DccRevocationUpdateSettings(fakeDataStore)
     }
 
     @Test
     fun `test RevocationUpdateSettings - set last update value`() =
         runBlockingTest {
-            settingsDcc.getLastUpdateTime() shouldBe null
+            settings.getLastUpdateTime() shouldBe null
 
             val now = Instant.parse("2022-04-14T00:00:00.000Z")
-            settingsDcc.setUpdateTimeToNow(now)
+            settings.setUpdateTimeToNow(now)
 
             fakeDataStore[DccRevocationUpdateSettings.LAST_UPDATE_TIME_KEY] shouldBe now.seconds
-            settingsDcc.getLastUpdateTime() shouldBe now
+            settings.getLastUpdateTime() shouldBe now
         }
 }
