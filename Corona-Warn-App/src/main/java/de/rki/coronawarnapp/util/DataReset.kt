@@ -96,7 +96,7 @@ class DataReset @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
     private val familyTestRepository: FamilyTestRepository,
-    private val dccRevocationReset: DccRevocationReset
+    private val revocationReset: DccRevocationReset
 ) {
 
     private val mutex = Mutex()
@@ -167,7 +167,7 @@ class DataReset @Inject constructor(
 
         familyTestRepository.clear()
 
-        dccRevocationReset.clear()
+        revocationReset.clear()
 
         Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
