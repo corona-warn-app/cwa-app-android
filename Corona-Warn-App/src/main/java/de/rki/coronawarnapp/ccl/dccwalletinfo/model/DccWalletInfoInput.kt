@@ -64,6 +64,7 @@ data class CclCertificate(
         EXPIRING_SOON("EXPIRING_SOON"),
         EXPIRED("EXPIRED"),
         INVALID("INVALID"),
+        REVOKED("REVOKED"),
         BLOCKED("BLOCKED");
 
         @JsonValue

@@ -1,14 +1,19 @@
 package de.rki.coronawarnapp.covidcertificate.vaccination.core.repository
 
 import de.rki.coronawarnapp.bugreporting.reportProblem
-import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Blocked
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Expired
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.ExpiringSoon
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Invalid
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate.State.Revoked
 import de.rki.coronawarnapp.covidcertificate.common.certificate.DccQrCodeExtractor
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidHealthCertificateException.ErrorCode.ALREADY_REGISTERED
 import de.rki.coronawarnapp.covidcertificate.common.exception.InvalidVaccinationCertificateException
 import de.rki.coronawarnapp.covidcertificate.common.repository.VaccinationCertificateContainerId
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasuresObserver
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
+import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccValidityMeasures
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationMigration
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.qrcode.VaccinationCertificateQRCode
@@ -16,6 +21,7 @@ import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.toVaccinationContainer
 import de.rki.coronawarnapp.covidcertificate.valueset.ValueSetsRepository
+import de.rki.coronawarnapp.covidcertificate.valueset.valuesets.VaccinationValueSets
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.coroutine.DispatcherProvider
@@ -28,7 +34,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -47,11 +52,10 @@ class VaccinationCertificateRepository @Inject constructor(
     private val timeStamper: TimeStamper,
     private val storage: VaccinationStorage,
     private val qrCodeExtractor: DccQrCodeExtractor,
-    private val dccStateChecker: DccStateChecker,
+    private val dccState: DccStateChecker,
     private val vaccinationMigration: VaccinationMigration,
     @AppScope private val appScope: CoroutineScope,
-    dscRepository: DscRepository,
-    private val dccWalletInfoRepository: DccWalletInfoRepository
+    private val dccValidityMeasuresObserver: DccValidityMeasuresObserver
 ) {
 
     private val internalData: HotDataFlow<Map<VaccinationCertificateContainerId, VaccinationCertificateContainer>> =
@@ -72,36 +76,6 @@ class VaccinationCertificateRepository @Inject constructor(
                 .also { Timber.tag(TAG).v("Restored vaccination data, %d items", it.size) }
         }
 
-    val freshCertificates: Flow<Set<VaccinationCertificateWrapper>> = combine(
-        internalData.data,
-        valueSetsRepository.latestVaccinationValueSets,
-        dscRepository.dscData,
-        dccWalletInfoRepository.blockedCertificateQrCodeHashes
-    ) { certMap, valueSets, _, blockedCertificateQrCodeHashes ->
-        certMap.values
-            .filter { it.isNotRecycled }
-            .map { container ->
-
-                val state = dccStateChecker.checkState(
-                    container.certificateData,
-                    container.qrCodeHash,
-                    blockedCertificateQrCodeHashes
-                ).first()
-
-                VaccinationCertificateWrapper(
-                    valueSets = valueSets,
-                    container = container,
-                    certificateState = state
-                )
-            }.toSet()
-    }
-
-    val certificates: Flow<Set<VaccinationCertificateWrapper>> = freshCertificates
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
-
     init {
         internalData.data
             .onStart { Timber.tag(TAG).d("Observing VaccinationContainer data.") }
@@ -118,20 +92,52 @@ class VaccinationCertificateRepository @Inject constructor(
     }
 
     /**
+     * All [VaccinationCertificate] in the app whether recycled or not
+     */
+    val allCertificates: Flow<VaccinationCertificatesHolder> = combine(
+        internalData.data,
+        valueSetsRepository.latestVaccinationValueSets,
+        dccValidityMeasuresObserver.dccValidityMeasures
+    ) { certMap, valueSets, dccValidityMeasures ->
+        val certificates = mutableSetOf<VaccinationCertificateWrapper>()
+        val recycledCertificates = mutableSetOf<VaccinationCertificate>()
+
+        certMap.values.forEach {
+            when {
+                it.isNotRecycled -> certificates += it.toVaccinationCertificateWrapper(valueSets, dccValidityMeasures)
+                it.isRecycled -> recycledCertificates += it.toVaccinationCertificate(
+                    certificateState = CwaCovidCertificate.State.Recycled,
+                    valueSet = valueSets
+                )
+            }
+        }
+
+        VaccinationCertificatesHolder(
+            certificates = certificates,
+            recycledCertificates = recycledCertificates
+        )
+    }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
+     * Returns a flow with a set of [VaccinationCertificate] matching the predicate
+     * [VaccinationCertificate.isNotRecycled]
+     */
+    val certificates: Flow<Set<VaccinationCertificateWrapper>> = allCertificates
+        .map { it.certificates }
+        .shareLatest(
+            tag = TAG,
+            scope = appScope
+        )
+
+    /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
      */
-    val recycledCertificates: Flow<Set<VaccinationCertificate>> = internalData.data
-        .map { certMap ->
-            certMap.values
-                .filter { it.isRecycled }
-                .map {
-                    it.toVaccinationCertificate(
-                        certificateState = CwaCovidCertificate.State.Recycled,
-                        valueSet = valueSetsRepository.latestVaccinationValueSets.first()
-                    )
-                }
-                .toSet()
-        }
+    val recycledCertificates: Flow<Set<VaccinationCertificate>> = allCertificates
+        .map { it.recycledCertificates }
         .shareLatest(
             tag = TAG,
             scope = appScope
@@ -184,10 +190,11 @@ class VaccinationCertificateRepository @Inject constructor(
             }
 
             val newData = when (state) {
-                is CwaCovidCertificate.State.Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
-                is CwaCovidCertificate.State.ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
-                is CwaCovidCertificate.State.Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
-                is CwaCovidCertificate.State.Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
+                is Expired -> toUpdate.data.copy(notifiedExpiredAt = time)
+                is ExpiringSoon -> toUpdate.data.copy(notifiedExpiresSoonAt = time)
+                is Invalid -> toUpdate.data.copy(notifiedInvalidAt = time)
+                is Blocked -> toUpdate.data.copy(notifiedBlockedAt = time)
+                is Revoked -> toUpdate.data.copy(notifiedRevokedAt = time)
                 else -> throw UnsupportedOperationException("$state is not supported.")
             }
 
@@ -207,11 +214,11 @@ class VaccinationCertificateRepository @Inject constructor(
                 return@updateBlocking this
             }
 
-            val currentState = dccStateChecker.checkState(
-                toUpdate.certificateData,
-                toUpdate.qrCodeHash,
-                dccWalletInfoRepository.blockedCertificateQrCodeHashes.first()
-            ).first()
+            val currentState = dccState(
+                dccData = toUpdate.certificateData,
+                qrCodeHash = toUpdate.qrCodeHash,
+                dccValidityMeasures = dccValidityMeasuresObserver.dccValidityMeasures()
+            )
 
             if (currentState == toUpdate.data.lastSeenStateChange) {
                 Timber.tag(TAG).w("State equals last acknowledged state.")
@@ -289,12 +296,6 @@ class VaccinationCertificateRepository @Inject constructor(
         certificateToReplace: VaccinationCertificateContainerId,
         newCertificateQrCode: VaccinationCertificateQRCode
     ) {
-        val newContainer = newCertificateQrCode.toVaccinationContainer(
-            scannedAt = timeStamper.nowUTC,
-            qrCodeExtractor = qrCodeExtractor,
-            certificateSeenByUser = false,
-        )
-
         internalData.updateBlocking {
             val recycledCertificate = this[certificateToReplace]?.setRecycled(true)
             val newCertificate = newCertificateQrCode.createContainer()
@@ -332,6 +333,23 @@ class VaccinationCertificateRepository @Inject constructor(
             qrCodeExtractor = qrCodeExtractor,
             certificateSeenByUser = false,
         )
+
+    private suspend fun VaccinationCertificateContainer.toVaccinationCertificateWrapper(
+        valueSets: VaccinationValueSets,
+        dccValidityMeasures: DccValidityMeasures
+    ): VaccinationCertificateWrapper {
+        val state = dccState(
+            dccData = certificateData,
+            qrCodeHash = qrCodeHash,
+            dccValidityMeasures = dccValidityMeasures
+        )
+
+        return VaccinationCertificateWrapper(
+            valueSets = valueSets,
+            container = this,
+            certificateState = state
+        )
+    }
 
     companion object {
         private const val TAG = "VaccinationRepository"

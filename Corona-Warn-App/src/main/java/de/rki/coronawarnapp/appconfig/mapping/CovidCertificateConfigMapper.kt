@@ -19,7 +19,6 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
         CovidCertificateConfigContainer(
             testCertificate = rawConfig.dgcParameters.mapCovidCertificateConfig(),
             expirationThreshold = rawConfig.dgcParameters.mapExpirationThreshold(),
-            blockListParameters = rawConfig.dgcParameters.mapBlockList(),
             reissueServicePublicKeyDigest = rawConfig.dgcParameters.mapReissueServicePublicKeyDigest()
         )
     } catch (e: Exception) {
@@ -27,19 +26,6 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
             cause = e,
             message = "Failed to create 'CovidCertificateConfigContainer' from rawConfig=$rawConfig"
         )
-    }
-
-    private fun DgcParameters.DGCParameters.mapBlockList(): List<CovidCertificateConfig.BlockedChunk> {
-        if (!this.hasBlockListParameters()) {
-            Timber.w("DCC config has no blocklist parameters.")
-            return emptyList()
-        }
-        return blockListParameters.blockedUvciChunksList.map {
-            BlockedUvciChunk(
-                it.indicesList,
-                it.hash.toOkioByteString()
-            )
-        }
     }
 
     private fun DgcParameters.DGCParameters.mapCovidCertificateConfig(): CovidCertificateConfig.TestCertificate {
@@ -88,14 +74,8 @@ class CovidCertificateConfigMapper @Inject constructor() : CovidCertificateConfi
     data class CovidCertificateConfigContainer(
         override val testCertificate: CovidCertificateConfig.TestCertificate = TestCertificateConfigContainer(),
         override val expirationThreshold: Duration = DEFAULT_EXPIRATION_THRESHOLD,
-        override val blockListParameters: List<CovidCertificateConfig.BlockedChunk> = emptyList(),
         override val reissueServicePublicKeyDigest: ByteString
     ) : CovidCertificateConfig
-
-    data class BlockedUvciChunk(
-        override val indices: List<Int>,
-        override val hash: ByteString
-    ) : CovidCertificateConfig.BlockedChunk
 
     data class TestCertificateConfigContainer(
         override val waitAfterPublicKeyRegistration: Duration = Duration.standardSeconds(10),
