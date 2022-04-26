@@ -9,6 +9,7 @@ import de.rki.coronawarnapp.datadonation.analytics.ui.AnalyticsUIModule
 import de.rki.coronawarnapp.dccreissuance.DccReissuanceUiModule
 import de.rki.coronawarnapp.dccticketing.DccTicketingUIModule
 import de.rki.coronawarnapp.familytest.ui.FamilyTestUiModule
+import de.rki.coronawarnapp.profile.ui.ProfileUIModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragment
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentModule
 import de.rki.coronawarnapp.release.NewReleaseInfoFragment
@@ -16,7 +17,6 @@ import de.rki.coronawarnapp.release.NewReleaseInfoFragmentModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinUIModule
 import de.rki.coronawarnapp.statistics.ui.stateselection.FederalStateSelectionModule
 import de.rki.coronawarnapp.tracing.ui.details.TracingDetailsFragmentModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.RATProfileUIModule
 import de.rki.coronawarnapp.ui.information.InformationFragmentModule
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragment
 import de.rki.coronawarnapp.ui.interoperability.InteroperabilityConfigurationFragmentModule
@@ -51,7 +51,7 @@ import de.rki.coronawarnapp.util.viewmodel.CWAViewModelKey
         NewReleaseInfoFragmentModule::class,
         AnalyticsUIModule::class,
         PresenceTracingUIModule::class,
-        RATProfileUIModule::class,
+        ProfileUIModule::class,
         DigitalCovidCertificateUIModule::class,
         RecyclerBinUIModule::class,
         DccTicketingUIModule::class,

@@ -14,7 +14,7 @@
     <include app:graph="@navigation/trace_location_attendee_nav_graph" />
 
     <!--    Rapid antigen test profile graph-->
-    <include app:graph="@navigation/rapid_antigen_test_profile_nav_graph" />
+    <include app:graph="@navigation/profile_nav_graph" />
 
     <!--    Covid certificates graph-->
     <include app:graph="@navigation/covid_certificates_graph" />
