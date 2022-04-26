@@ -24,7 +24,7 @@ import javax.inject.Singleton
 @Singleton
 class DccRevocationUpdateScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val dccRevocationListUpdater: DccRevocationListUpdater,
+    private val revocationListUpdater: DccRevocationListUpdater,
     private val foregroundState: ForegroundState,
     private val workManager: WorkManager
 ) {
@@ -45,7 +45,7 @@ class DccRevocationUpdateScheduler @Inject constructor(
         triggerUpdate(forceUpdate = true)
     }
 
-    private suspend fun triggerUpdate(forceUpdate: Boolean) = dccRevocationListUpdater.updateRevocationList(forceUpdate)
+    private suspend fun triggerUpdate(forceUpdate: Boolean) = revocationListUpdater.updateRevocationList(forceUpdate)
 
     private fun scheduleDailyWorker() {
         Timber.tag(TAG).d("scheduleDailyWorker()")

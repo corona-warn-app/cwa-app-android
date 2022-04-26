@@ -93,7 +93,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var cclSettings: CclSettings
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
-    @MockK lateinit var dccRevocationReset: DccRevocationReset
+    @MockK lateinit var revocationReset: DccRevocationReset
 
     @BeforeEach
     fun setUp() {
@@ -142,7 +142,7 @@ internal class DataResetTest : BaseTest() {
         dccWalletInfoRepository = dccWalletInfoRepository,
         cclSettings = cclSettings,
         familyTestRepository = familyTestRepository,
-        revocationReset = dccRevocationReset,
+        revocationReset = revocationReset,
     )
 
     @Test
@@ -190,7 +190,7 @@ internal class DataResetTest : BaseTest() {
             cclConfigurationRepository.clear()
             dccWalletInfoRepository.clear()
             familyTestRepository.clear()
-            dccRevocationReset.clear()
+            revocationReset.clear()
         }
     }
 }
