@@ -93,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@id/name" />
 
     <ImageView
-        android:id="@+id/expiration_status_icon"
+        android:id="@+id/status_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -106,16 +106,16 @@
         tools:visibility="gone" />
 
     <TextView
-        android:id="@+id/expiration_status_text"
+        android:id="@+id/status_title"
         style="@style/body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_tiny"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/expiration_status_icon"
+        app:layout_constraintBottom_toBottomOf="@id/status_icon"
         app:layout_constraintEnd_toEndOf="@id/qr_code_card"
-        app:layout_constraintStart_toEndOf="@id/expiration_status_icon"
-        app:layout_constraintTop_toTopOf="@id/expiration_status_icon"
+        app:layout_constraintStart_toEndOf="@id/status_icon"
+        app:layout_constraintTop_toTopOf="@id/status_icon"
         tools:text="Zertifikat läuft am 21.08.21 um 14:12 Uhr ab"
         tools:visibility="gone" />
 

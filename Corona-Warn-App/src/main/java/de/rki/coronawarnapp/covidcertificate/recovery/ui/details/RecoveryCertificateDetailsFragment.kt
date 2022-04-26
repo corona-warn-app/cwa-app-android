@@ -97,13 +97,12 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         certificate: RecoveryCertificate
     ) {
         startValidationCheck.apply {
-            isEnabled = certificate.isNotBlocked
-            defaultButton.isEnabled = certificate.isNotBlocked
+            isEnabled = certificate.isNotScreened
+            defaultButton.isEnabled = certificate.isNotScreened
         }
-        toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotBlocked
+        toolbar.menu.findItem(R.id.menu_recovery_certificate_export).isEnabled = certificate.isNotScreened
         qrCodeCard.bindValidityViews(
             certificate,
-            isCertificateDetails = true,
             onCovPassInfoAction = { onNavEvent(RecoveryCertificateDetailsNavigation.OpenCovPassInfo) }
         )
         fullname.text = certificate.fullNameFormatted

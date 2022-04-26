@@ -29,7 +29,7 @@ internal class DscRepositoryTest {
     @MockK lateinit var dscServer: DscServer
     @MockK lateinit var dscDataParser: DscDataParser
 
-    private val emptyDscList = DscData(listOf(), Instant.EPOCH)
+    private val emptyDscList = DscSignatureList(listOf(), Instant.EPOCH)
 
     @BeforeEach
     fun setup() {
@@ -45,7 +45,7 @@ internal class DscRepositoryTest {
     @Test
     fun `local cache is loaded from default storage - no server requests`() = runBlockingTest2(ignoreActive = true) {
         createInstance(this).apply {
-            dscData.first() shouldBe emptyDscList
+            dscSignatureList.first() shouldBe emptyDscList
         }
 
         coVerify {
@@ -66,7 +66,7 @@ internal class DscRepositoryTest {
         coEvery { localStorage.load() } returns emptyDscList
 
         createInstance(this).apply {
-            dscData.first() shouldBe emptyDscList
+            dscSignatureList.first() shouldBe emptyDscList
         }
 
         coVerify {
@@ -87,7 +87,7 @@ internal class DscRepositoryTest {
         createInstance(this).apply {
             refresh()
 
-            dscData.first() shouldBe emptyDscList
+            dscSignatureList.first() shouldBe emptyDscList
 
             coVerify {
                 dscServer.getDscList()

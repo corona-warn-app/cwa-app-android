@@ -25,7 +25,8 @@ import de.rki.coronawarnapp.coronatest.type.pcr.notification.PCRTestResultAvaila
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultScheduler
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationChangeObserver
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
+import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationUpdateScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -62,7 +63,6 @@ import javax.inject.Inject
 class CoronaWarnApplication : Application(), HasAndroidInjector {
 
     @Inject lateinit var component: ApplicationComponent
-
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
@@ -100,7 +100,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var vaccinationStorage: VaccinationStorage
     @Inject lateinit var cclConfigurationUpdaterScheduler: CclConfigurationUpdateScheduler
     @Inject lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
-    @Inject lateinit var dccExpirationChangeObserver: DccExpirationChangeObserver
+    @Inject lateinit var dccValidityStateChangeObserver: DccValidityStateChangeObserver
+    @Inject lateinit var revocationUpdateScheduler: RevocationUpdateScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -176,7 +177,8 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         dccStateCheckScheduler.setup()
         recycleBinCleanUpScheduler.setup()
         cclConfigurationUpdaterScheduler.setup()
-        dccExpirationChangeObserver.setup()
+        dccValidityStateChangeObserver.setup()
+        revocationUpdateScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class DccExpirationNotificationTest : BaseTest() {
+class DccValidityStateNotificationTest : BaseTest() {
 
     @MockK(relaxed = true) lateinit var context: Context
     @MockK lateinit var foregroundState: ForegroundState
@@ -49,7 +49,7 @@ class DccExpirationNotificationTest : BaseTest() {
         } just Runs
     }
 
-    fun createInstance() = DccExpirationNotification(
+    fun createInstance() = DccValidityStateNotification(
         context = context,
         deepLinkBuilderFactory = deepLinkBuilderFactory,
         notificationHelper = notificationHelper,

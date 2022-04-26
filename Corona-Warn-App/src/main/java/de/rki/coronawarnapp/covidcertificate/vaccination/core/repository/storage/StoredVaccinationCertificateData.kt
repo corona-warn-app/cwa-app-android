@@ -12,6 +12,7 @@ data class StoredVaccinationCertificateData(
     @SerializedName("notifiedExpiredAt") val notifiedExpiredAt: Instant? = null,
     @SerializedName("notifiedInvalidAt") val notifiedInvalidAt: Instant? = null,
     @SerializedName("notifiedBlockedAt") val notifiedBlockedAt: Instant? = null,
+    @SerializedName("notifiedRevokedAt") val notifiedRevokedAt: Instant? = null,
     @SerializedName("lastSeenStateChange") val lastSeenStateChange: CwaCovidCertificate.State? = null,
     @SerializedName("lastSeenStateChangeAt") val lastSeenStateChangeAt: Instant? = null,
     @SerializedName("certificateSeenByUser") val certificateSeenByUser: Boolean = true,
