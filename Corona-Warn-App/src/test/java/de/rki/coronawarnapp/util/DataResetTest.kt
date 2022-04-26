@@ -97,7 +97,6 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var revocationReset: DccRevocationReset
     @MockK lateinit var profileRepository: ProfileRepository
 
-
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
