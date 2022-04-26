@@ -46,7 +46,9 @@ class DccRevocationServer @Inject constructor(
     ) {
         Timber.tag(TAG).d("getRevocationKidList()")
         val response = dccRevocationApi.getRevocationKidList()
-        val rawData = response.parseAndValidate(parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE)
+        val rawData = response.parseAndValidate(
+            parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KID_LIST_INVALID_SIGNATURE
+        )
 
         return@execute revocationParser.kidListFrom(rawData).also {
             Timber.tag(TAG).d("returning kid list with %d items", it.items.size)
@@ -64,7 +66,9 @@ class DccRevocationServer @Inject constructor(
     ) {
         Timber.tag(TAG).d("getRevocationKidTypeIndex(kid=%s, hashType=%s)", kid, hashType)
         val response = dccRevocationApi.getRevocationKidTypeIndex(kid = kid.hex(), type = hashType.type)
-        val rawData = response.parseAndValidate(parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE)
+        val rawData = response.parseAndValidate(
+            parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KT_IDX_INVALID_SIGNATURE
+        )
         val revocationKidTypeIndex = revocationParser.kidTypeIndexFrom(rawData)
 
         return@execute CachedRevocationKidTypeIndex(
@@ -85,9 +89,22 @@ class DccRevocationServer @Inject constructor(
         clientErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_CLIENT_ERRORDcc,
         serverErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_CHUNK_SERVER_ERRORDcc
     ) {
-        Timber.tag(TAG).d("getRevocationChunk(kid=%s, hashType=%s, x=%s, y=%s)", kid, hashType, x, y)
-        val response = dccRevocationApi.getRevocationChunk(kid = kid.hex(), type = hashType.type, x = x.hex(), y = y.hex())
-        val rawData = response.parseAndValidate(parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE)
+        Timber.tag(TAG).d(
+            "getRevocationChunk(kid=%s, hashType=%s, x=%s, y=%s)",
+            kid,
+            hashType,
+            x,
+            y
+        )
+        val response = dccRevocationApi.getRevocationChunk(
+            kid = kid.hex(),
+            type = hashType.type,
+            x = x.hex(),
+            y = y.hex()
+        )
+        val rawData = response.parseAndValidate(
+            parseErrorCodeDcc = DccRevocationErrorCode.DCC_RL_KTXY_INVALID_SIGNATURE
+        )
         val revocationChunk = revocationParser.chunkFrom(rawData)
         val revocationEntryCoordinates = RevocationEntryCoordinates(kid = kid, type = hashType, x = x, y = y)
 
