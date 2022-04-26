@@ -3,7 +3,9 @@ package de.rki.coronawarnapp.test.dsc.ui
 import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import de.rki.coronawarnapp.covidcertificate.expiration.DccExpirationNotificationService
+import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotificationService
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationListUpdater
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -13,20 +15,22 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import org.joda.time.Instant
 
-class DscTestViewModel @AssistedInject constructor(
+class DccStateValidationTestViewModel @AssistedInject constructor(
     private val dscRepository: DscRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
-    private val dccExpirationNotificationService: DccExpirationNotificationService,
+    private val dccValidityStateNotificationService: DccValidityStateNotificationService,
+    private val revocationRepository: RevocationRepository,
+    private val revocationListUpdater: RevocationListUpdater
 ) : CWAViewModel() {
 
     @AssistedFactory
-    interface Factory : SimpleCWAViewModelFactory<DscTestViewModel>
+    interface Factory : SimpleCWAViewModelFactory<DccStateValidationTestViewModel>
 
     val errorEvent = SingleLiveEvent<Unit>()
 
     private val searchTerm = MutableStateFlow("")
 
-    val dscData: LiveData<DscDataInfo> = searchTerm.combine(dscRepository.dscData) { searchTerm, dscList ->
+    val dscData: LiveData<DscDataInfo> = searchTerm.combine(dscRepository.dscSignatureList) { searchTerm, dscList ->
         DscDataInfo(
             lastUpdate = if (dscList.updatedAt == Instant.EPOCH)
                 "NEVER (using default_dsc_list)"
@@ -65,7 +69,15 @@ class DscTestViewModel @AssistedInject constructor(
 
     fun checkValidityNotifications() = launch {
         covidCertificateSettings.lastDccStateBackgroundCheck.update { Instant.EPOCH }
-        dccExpirationNotificationService.showNotificationIfStateChanged()
+        dccValidityStateNotificationService.showNotificationIfStateChanged()
+    }
+
+    fun refreshRevocationList() = launch {
+        revocationListUpdater.updateRevocationList(true)
+    }
+
+    fun clearRevocationList() = launch {
+        revocationRepository.clear()
     }
 
     data class DscDataInfo(

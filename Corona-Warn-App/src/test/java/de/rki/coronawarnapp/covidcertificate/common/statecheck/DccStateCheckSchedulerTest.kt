@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
-import de.rki.coronawarnapp.covidcertificate.signature.core.DscData
+import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.device.ForegroundState
@@ -30,7 +30,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
     @MockK(relaxed = true) lateinit var workManager: WorkManager
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var dscRepository: DscRepository
-    @MockK lateinit var mockDscData: DscData
+    @MockK lateinit var mockDscData: DscSignatureList
 
     private val isForeground = MutableStateFlow(false)
 
@@ -42,7 +42,7 @@ class DccStateCheckSchedulerTest : BaseTest() {
 
         dscRepository.apply {
             coEvery { refresh() } just Runs
-            every { dscData } returns flowOf(mockDscData)
+            every { dscSignatureList } returns flowOf(mockDscData)
         }
 
         every { mockDscData.updatedAt } returns Instant.EPOCH

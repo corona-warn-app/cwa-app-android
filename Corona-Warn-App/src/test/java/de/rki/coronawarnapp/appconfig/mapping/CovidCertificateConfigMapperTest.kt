@@ -57,12 +57,6 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(60)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(60)
             expirationThreshold shouldBe Duration.standardDays(13)
-            blockListParameters shouldBe listOf(
-                CovidCertificateConfigMapper.BlockedUvciChunk(
-                    listOf(0),
-                    "fcde2b2edba56bf408601fb721fe9b5c338d10ee429ea04fae5511b68fbf8fb9".toByteArray().toByteString()
-                )
-            )
             reissueServicePublicKeyDigest shouldBe testReissueServicePublicKeyDigestByteString
         }
     }
@@ -103,7 +97,6 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
             expirationThreshold shouldBe Duration.standardDays(14)
-            blockListParameters shouldBe emptyList()
             reissueServicePublicKeyDigest shouldBe testReissueServicePublicKeyDigestByteString
         }
     }
@@ -125,7 +118,6 @@ class CovidCertificateConfigMapperTest : BaseTest() {
             testCertificate.waitAfterPublicKeyRegistration shouldBe Duration.standardSeconds(10)
             testCertificate.waitForRetry shouldBe Duration.standardSeconds(10)
             expirationThreshold shouldBe Duration.standardDays(14)
-            blockListParameters shouldBe emptyList()
             reissueServicePublicKeyDigest shouldBe testReissueServicePublicKeyDigestByteString
         }
     }

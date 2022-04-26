@@ -45,7 +45,7 @@ fun Collection<CwaCovidCertificate>.toCertificateSortOrder(): List<CwaCovidCerti
  */
 fun List<CwaCovidCertificate>.findFallbackDcc(): CwaCovidCertificate? {
     val validCerts = filter {
-        when (it.getState()) {
+        when (it.state) {
             is Valid, is ExpiringSoon -> true
             else -> false
         }

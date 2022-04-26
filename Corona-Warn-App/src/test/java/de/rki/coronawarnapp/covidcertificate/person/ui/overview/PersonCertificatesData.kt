@@ -50,7 +50,7 @@ fun testCertificate(
     isPending: Boolean = false,
     isUpdating: Boolean = false
 ) = object : TestCertificate {
-    override fun getState(): CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
+    override val state: CwaCovidCertificate.State = CwaCovidCertificate.State.Valid(expiresAt = Instant.EPOCH)
 
     override val containerId: TestCertificateContainerId
         get() = TestCertificateContainerId(UUID.randomUUID().toString())
@@ -106,5 +106,8 @@ fun testCertificate(
     override val recycledAt: Instant?
         get() = null
     override val notifiedBlockedAt: Instant?
+        get() = null
+
+    override val notifiedRevokedAt: Instant?
         get() = null
 }

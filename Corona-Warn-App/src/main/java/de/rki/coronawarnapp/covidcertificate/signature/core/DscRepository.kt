@@ -23,7 +23,7 @@ class DscRepository @Inject constructor(
     private val dscServer: DscServer,
     private val dscDataParser: DscDataParser,
 ) {
-    private val internalData: HotDataFlow<DscData> = HotDataFlow(
+    private val internalData: HotDataFlow<DscSignatureList> = HotDataFlow(
         loggingTag = TAG,
         scope = appScope + dispatcherProvider.Default,
         sharingBehavior = SharingStarted.WhileSubscribed(
@@ -42,7 +42,7 @@ class DscRepository @Inject constructor(
         }
     }
 
-    val dscData = internalData.data
+    val dscSignatureList = internalData.data
 
     suspend fun refresh() {
         Timber.tag(TAG).d("refresh() - START")
@@ -64,7 +64,7 @@ class DscRepository @Inject constructor(
         }
     }
 
-    private fun mapDscList(rawData: ByteArray): DscData {
+    private fun mapDscList(rawData: ByteArray): DscSignatureList {
         return dscDataParser.parse(rawData)
     }
 
