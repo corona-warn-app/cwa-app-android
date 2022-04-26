@@ -97,6 +97,7 @@ class TracingDetailsItemProviderTest : BaseTest() {
         )
 
         every { combinedResult.matchedRiskCount } returns matchedKeyCount
+        every { combinedResult.daysWithEncounters } returns matchedKeyCount
 
         val lastCombined = LastCombinedRiskResults(
             lastCalculated = combinedResult,
