@@ -112,7 +112,7 @@ class MockProvider {
 
     @Singleton
     @Provides
-    fun ratProfileSettings(): ProfileSettingsDataStore = mockk()
+    fun profileSettings(): ProfileSettingsDataStore = mockk()
 
     @Singleton
     @Provides

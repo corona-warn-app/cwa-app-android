@@ -1,6 +1,5 @@
-package de.rki.coronawarnapp.profile.ui.create
+package de.rki.coronawarnapp.profile.legacy
 
-import de.rki.coronawarnapp.profile.legacy.RATProfile
 import org.joda.time.LocalDate
 
 @Deprecated("Legacy data class")

@@ -24,7 +24,7 @@ class ProfileModule {
 
     @ProfileDataStore
     @Provides
-    fun ratProfileDataStore(
+    fun profileDataStore(
         @AppContext context: Context
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         migrations = listOf(

@@ -12,7 +12,6 @@ import org.joda.time.format.DateTimeFormat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
-import testhelpers.extensions.toComparableJsonPretty
 import testhelpers.preferences.FakeDataStore
 
 internal class ProfileSettingsTest : BaseTest() {
@@ -40,62 +39,6 @@ internal class ProfileSettingsTest : BaseTest() {
             SerializationModule().baseGson(),
             TestCoroutineScope()
         )
-    }
-
-    @Test
-    fun `Profile has birth date`() {
-        profileSettings.updateProfile(profile)
-        val json = (fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] as String)
-        json.toComparableJsonPretty() shouldBe
-            """
-                {
-                  "firstName": "First name",
-                  "lastName": "Last name",
-                  "birthDate": "1950-08-01",
-                  "street": "Main street",
-                  "zipCode": "12132",
-                  "city": "London",
-                  "phone": "111111111",
-                  "email": "email@example.com"
-                }
-            """.trimIndent()
-    }
-
-    @Test
-    fun `Profile hasn't birth date`() {
-        profileSettings.updateProfile(profile.copy(birthDate = null))
-        val json = (fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] as String)
-        json.toComparableJsonPretty() shouldBe
-            """
-                {
-                  "firstName": "First name",
-                  "lastName": "Last name",
-                  "street": "Main street",
-                  "zipCode": "12132",
-                  "city": "London",
-                  "phone": "111111111",
-                  "email": "email@example.com"
-                }
-            """.trimIndent()
-    }
-
-    @Test
-    fun `Profile has empty properties`() {
-        profileSettings.updateProfile(profile.copy(firstName = "", lastName = ""))
-        val json = (fakeDataStore[ProfileSettingsDataStore.PROFILE_KEY] as String)
-        json.toComparableJsonPretty() shouldBe
-            """
-                {
-                  "firstName": "",
-                  "lastName": "",
-                  "birthDate": "1950-08-01",
-                  "street": "Main street",
-                  "zipCode": "12132",
-                  "city": "London",
-                  "phone": "111111111",
-                  "email": "email@example.com"
-                }
-            """.trimIndent()
     }
 
     @Test

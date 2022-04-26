@@ -1,4 +1,4 @@
-package de.rki.coronawarnapp.ui.coronatest.rat.profile.create
+package de.rki.coronawarnapp.profile
 
 import de.rki.coronawarnapp.profile.model.Profile
 import de.rki.coronawarnapp.profile.model.ProfileId
@@ -22,7 +22,7 @@ import testhelpers.extensions.InstantExecutorExtension
 import testhelpers.extensions.getOrAwaitValue
 
 @ExtendWith(InstantExecutorExtension::class)
-internal class RATProfileDataCreateFragmentViewModelTest : BaseTest() {
+internal class ProfileDataCreateFragmentViewModelTest : BaseTest() {
 
     @MockK lateinit var profileRepository: ProfileRepository
 
