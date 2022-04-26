@@ -114,8 +114,6 @@
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_dcc_faq">FAQ zu Zertifikaten</string>
 
-    <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_in_blocklist_message">"Das Zertifikat wurde von der ausstellenden Behörde zurückgerufen. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
     <!-- XTXT: DCC QR code scan error title-->
     <string name="error_dcc_in_blocklist_title">"Zertifikat ungültig"</string>
 
@@ -126,6 +124,11 @@
 
     <!-- XTXT: Test Certificate QR code new text-->
     <string name="test_certificate_qr_new">"Neu"</string>
+
+    <!-- XTXT: DCC Revoked DE error message-->
+    <string name="dcc_screened_de_message">"Das RKI hat das Zertifikat aufgrund einer behördlichen Verfügung gesperrt. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
+    <!-- XTXT: DCC Revoked foreign error message-->
+    <string name="dcc_screened_foreign_message">"Das Zertifikat wurde vom Zertifikataussteller aufgrund einer behördlichen Entscheidung gesperrt. Bitte bemühen Sie sich darum, einen neuen digitalen Nachweis ausstellen zu lassen."</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW

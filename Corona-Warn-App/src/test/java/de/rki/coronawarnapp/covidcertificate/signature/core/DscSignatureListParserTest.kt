@@ -8,7 +8,7 @@ import okio.ByteString.Companion.decodeBase64
 import org.junit.Test
 
 @Suppress("MaxLineLength")
-internal class DscDataParserTest {
+internal class DscSignatureListParserTest {
 
     private val parser = DscDataParser()
 
