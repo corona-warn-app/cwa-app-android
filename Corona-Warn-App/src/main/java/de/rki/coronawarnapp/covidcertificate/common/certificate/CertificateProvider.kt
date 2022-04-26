@@ -30,12 +30,24 @@ class CertificateProvider @Inject constructor(
     dispatcherProvider: DispatcherProvider
 ) {
 
+    /**
+     * All certificates in the app whether recycled or not
+     */
+    val allCertificates = combine(
+        vcRepo.allCertificates,
+        rcRepo.allCertificates,
+        tcRepo.allCertificates
+    ) { vs, rs, ts ->
+        vs.allCertificates + rs.allCertificates + ts.allCertificates
+    }.shareLatest(scope = appScope)
+
     val certificateContainer: Flow<CertificateContainer> = combine(
         rcRepo.certificates,
         tcRepo.certificates,
         vcRepo.certificates
-    ) { recoveries, tests, vaccinations -> CertificateContainer(recoveries, tests, vaccinations) }
-        .shareLatest(scope = appScope + dispatcherProvider.IO)
+    ) { recoveries, tests, vaccinations ->
+        CertificateContainer(recoveries, tests, vaccinations)
+    }.shareLatest(scope = appScope + dispatcherProvider.IO)
 
     /**
      * Finds a [CwaCovidCertificate] by [CertificateContainerId]

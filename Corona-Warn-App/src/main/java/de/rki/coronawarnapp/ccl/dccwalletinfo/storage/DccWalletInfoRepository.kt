@@ -39,7 +39,7 @@ class DccWalletInfoRepository @Inject constructor(
             scope = appScope + dispatcherProvider.IO
         )
 
-    val blockedCertificateQrCodeHashes: Flow<Set<String>> = personWallets
+    val blockedQrCodeHashes: Flow<Set<String>> = personWallets
         .map { it.toBlockedCertificateQrCodeHashes() }
         .shareLatest(
             tag = TAG,

@@ -57,7 +57,7 @@ class DccWalletInfoCalculationTest : BaseTest() {
         every { headerExpiresAt } returns expiresAt
         every { headerIssuedAt } returns issuedAt
         every { qrCodeToDisplay } returns qrCode
-        every { getState() } returns CwaCovidCertificate.State.Blocked
+        every { state } returns CwaCovidCertificate.State.Blocked
         every { dccData } returns dccDataVac
     }
 

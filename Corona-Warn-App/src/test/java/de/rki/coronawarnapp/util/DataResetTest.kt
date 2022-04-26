@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -94,6 +95,7 @@ internal class DataResetTest : BaseTest() {
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
     @MockK lateinit var familyTestRepository: FamilyTestRepository
     @MockK lateinit var profileRepository: ProfileRepository
+    @MockK lateinit var revocationReset: RevocationReset
 
     @BeforeEach
     fun setUp() {
@@ -142,7 +144,8 @@ internal class DataResetTest : BaseTest() {
         dccWalletInfoRepository = dccWalletInfoRepository,
         cclSettings = cclSettings,
         familyTestRepository = familyTestRepository,
-        profileRepository = profileRepository
+        profileRepository = profileRepository,
+        revocationReset = revocationReset,
     )
 
     @Test
@@ -191,6 +194,7 @@ internal class DataResetTest : BaseTest() {
             dccWalletInfoRepository.clear()
             familyTestRepository.clear()
             profileRepository.clear()
+            revocationReset.clear()
         }
     }
 }

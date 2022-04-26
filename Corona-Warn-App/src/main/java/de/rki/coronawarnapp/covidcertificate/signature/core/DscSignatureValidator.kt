@@ -63,10 +63,10 @@ class DscSignatureValidator @Inject constructor(
      */
     suspend fun validateSignature(
         dccData: DccData<*>,
-        preFetchedDscData: DscData? = null,
+        preFetchedDscData: DscSignatureList? = null,
         date: Date = Date()
     ) {
-        val dscData = preFetchedDscData ?: dscRepository.dscData.first()
+        val dscData = preFetchedDscData ?: dscRepository.dscSignatureList.first()
         findDscCertificate(dscData, dccData.dscMessage).apply {
             validate(date)
             checkOidsIntersect(dccData)
@@ -74,7 +74,7 @@ class DscSignatureValidator @Inject constructor(
     }
 
     private fun findDscCertificate(
-        dscData: DscData,
+        dscData: DscSignatureList,
         dscMessage: DscMessage
     ): X509Certificate {
         val toVerify = dscMessage.signedPayload()

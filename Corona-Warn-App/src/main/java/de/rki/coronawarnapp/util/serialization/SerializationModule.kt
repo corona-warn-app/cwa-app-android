@@ -3,6 +3,7 @@ package de.rki.coronawarnapp.util.serialization
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.joda.JodaModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.jsonMapper
@@ -19,6 +20,7 @@ import de.rki.coronawarnapp.util.serialization.adapter.DurationAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.InstantAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.JsonNodeAdapter
 import de.rki.coronawarnapp.util.serialization.adapter.LocalDateAdapter
+import de.rki.coronawarnapp.util.serialization.jackson.registerByteStringSerialization
 import okio.ByteString
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -39,8 +41,11 @@ class SerializationModule {
 
     companion object {
         val jacksonBaseMapper: ObjectMapper by lazy {
+            val jacksonSerializationModule = SimpleModule()
+                .registerByteStringSerialization()
+
             jsonMapper {
-                addModules(kotlinModule(), JodaModule())
+                addModules(kotlinModule(), JodaModule(), jacksonSerializationModule)
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             }
         }
