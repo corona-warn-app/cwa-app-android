@@ -97,7 +97,6 @@ class DataReset @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
     private val familyTestRepository: FamilyTestRepository,
-
     private val revocationReset: DccRevocationReset,
     private val profileRepository: ProfileRepository,
 ) {
