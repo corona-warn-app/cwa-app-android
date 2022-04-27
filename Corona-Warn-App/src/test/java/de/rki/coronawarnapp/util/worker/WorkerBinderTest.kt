@@ -15,7 +15,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultSched
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateChecker
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotification
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationListUpdater
+import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationListUpdater
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.VaccinationCertificateRepository
 import de.rki.coronawarnapp.datadonation.analytics.Analytics
@@ -207,5 +207,5 @@ class MockProvider {
     fun familyTestRepository(): FamilyTestRepository = mockk()
 
     @Provides
-    fun revocationUpdater(): RevocationListUpdater = mockk()
+    fun revocationUpdater(): DccRevocationListUpdater = mockk()
 }

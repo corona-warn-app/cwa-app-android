@@ -21,12 +21,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RevocationListUpdater @Inject constructor(
+class DccRevocationListUpdater @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
     private val timeStamper: TimeStamper,
     private val certificatesProvider: CertificateProvider,
-    private val revocationUpdateSettings: RevocationUpdateSettings,
-    private val revocationUpdateService: RevocationUpdateService
+    private val revocationUpdateSettings: DccRevocationUpdateSettings,
+    private val revocationUpdateService: DccRevocationUpdateService
 ) {
 
     private val mutex = Mutex()
@@ -73,6 +73,6 @@ class RevocationListUpdater @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<RevocationListUpdater>()
+        private val TAG = tag<DccRevocationListUpdater>()
     }
 }
