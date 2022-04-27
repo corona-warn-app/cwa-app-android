@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.longPreferencesKey
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationDataStore
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationDataStore
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.seconds
 import kotlinx.coroutines.flow.catch
@@ -16,8 +16,8 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-class RevocationUpdateSettings @Inject constructor(
-    @RevocationDataStore private val revocationDataStore: DataStore<Preferences>
+class DccRevocationUpdateSettings @Inject constructor(
+    @DccRevocationDataStore private val revocationDataStore: DataStore<Preferences>
 ) {
     private val dataStoreFlow = revocationDataStore.data
         .catch { e ->
@@ -54,7 +54,7 @@ class RevocationUpdateSettings @Inject constructor(
     }
 
     companion object {
-        private val TAG = tag<RevocationUpdateSettings>()
+        private val TAG = tag<DccRevocationUpdateSettings>()
         internal val LAST_UPDATE_TIME_KEY = longPreferencesKey("dccRevocationList.lastUpdateTime")
     }
 }

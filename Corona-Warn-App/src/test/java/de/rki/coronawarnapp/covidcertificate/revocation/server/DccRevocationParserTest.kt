@@ -18,9 +18,9 @@ import okio.ByteString.Companion.decodeHex
 import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 
-class RevocationParserTest : BaseTest() {
+class DccRevocationParserTest : BaseTest() {
 
-    private val instance = RevocationParser()
+    private val instance = DccRevocationParser()
 
     @Test
     fun `create kid list`() {

@@ -26,7 +26,7 @@ import de.rki.coronawarnapp.coronatest.type.rapidantigen.execution.RAResultSched
 import de.rki.coronawarnapp.coronatest.type.rapidantigen.notification.RATTestResultAvailableNotificationService
 import de.rki.coronawarnapp.covidcertificate.common.statecheck.DccStateCheckScheduler
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateChangeObserver
-import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationUpdateScheduler
+import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationUpdateScheduler
 import de.rki.coronawarnapp.covidcertificate.test.core.execution.TestCertificateRetrievalScheduler
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.repository.storage.VaccinationStorage
 import de.rki.coronawarnapp.datadonation.analytics.worker.DataDonationAnalyticsScheduler
@@ -101,7 +101,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
     @Inject lateinit var cclConfigurationUpdaterScheduler: CclConfigurationUpdateScheduler
     @Inject lateinit var familyTestResultRetrievalScheduler: FamilyTestResultRetrievalScheduler
     @Inject lateinit var dccValidityStateChangeObserver: DccValidityStateChangeObserver
-    @Inject lateinit var revocationUpdateScheduler: RevocationUpdateScheduler
+    @Inject lateinit var dccRevocationUpdateScheduler: DccRevocationUpdateScheduler
 
     @AppScope
     @Inject lateinit var appScope: CoroutineScope
@@ -178,7 +178,7 @@ class CoronaWarnApplication : Application(), HasAndroidInjector {
         recycleBinCleanUpScheduler.setup()
         cclConfigurationUpdaterScheduler.setup()
         dccValidityStateChangeObserver.setup()
-        revocationUpdateScheduler.setup()
+        dccRevocationUpdateScheduler.setup()
     }
 
     private val activityLifecycleCallback = object : ActivityLifecycleCallbacks {

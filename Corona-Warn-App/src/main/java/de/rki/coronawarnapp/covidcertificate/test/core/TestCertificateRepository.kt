@@ -134,20 +134,14 @@ class TestCertificateRepository @Inject constructor(
      */
     val certificates: Flow<Set<TestCertificateWrapper>> = allCertificates
         .map { it.certificates }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     /**
      * Returns a flow with a set of [TestCertificate] matching the predicate [TestCertificate.isRecycled]
      */
     val recycledCertificates: Flow<Set<TestCertificate>> = allCertificates
         .map { it.recycledCertificates }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     /**
      * Will create a new test certificate entry.

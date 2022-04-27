@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import dagger.Module
 import dagger.Provides
-import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationApi
+import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationApi
 import de.rki.coronawarnapp.environment.download.DownloadCDNHttpClient
 import de.rki.coronawarnapp.environment.download.DownloadCDNServerUrl
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -23,10 +23,10 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
-object RevocationModule {
+object DccRevocationModule {
 
     @Singleton
-    @RevocationCache
+    @DccRevocationCache
     @Provides
     fun provideCache(@AppContext context: Context): Cache {
         val cacheDir = File(context.cacheDir, CACHE_DIR)
@@ -37,19 +37,19 @@ object RevocationModule {
     fun provideRevocationApi(
         @DownloadCDNHttpClient httpClient: OkHttpClient,
         @DownloadCDNServerUrl url: String,
-        @RevocationCache cache: Cache
-    ): RevocationApi {
+        @DccRevocationCache cache: Cache
+    ): DccRevocationApi {
         val revocationClient = httpClient.newBuilder().cache(cache).build()
         return Retrofit.Builder()
             .client(revocationClient)
             .baseUrl(url)
             .build()
-            .create(RevocationApi::class.java)
+            .create(DccRevocationApi::class.java)
     }
 
     @Singleton
     @Provides
-    @RevocationDataStore
+    @DccRevocationDataStore
     fun provideRevocationDataStore(
         @AppContext context: Context,
         @AppScope scope: CoroutineScope,
@@ -68,9 +68,9 @@ private const val REVOCATION_DATASTORE_NAME = "revocation_localdata"
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class RevocationDataStore
+annotation class DccRevocationDataStore
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class RevocationCache
+annotation class DccRevocationCache

@@ -121,20 +121,14 @@ class RecoveryCertificateRepository @Inject constructor(
      */
     val certificates: Flow<Set<RecoveryCertificateWrapper>> = allCertificates
         .map { it.certificates }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     /**
      * Returns a flow with a set of [RecoveryCertificate] matching the predicate [RecoveryCertificate.isRecycled]
      */
     val recycledCertificates: Flow<Set<RecoveryCertificate>> = allCertificates
         .map { it.recycledCertificates }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     @Throws(InvalidRecoveryCertificateException::class)
     suspend fun registerCertificate(qrCode: RecoveryCertificateQRCode): RecoveryCertificateContainer {

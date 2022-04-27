@@ -19,6 +19,7 @@ import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestM
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentTestModule
+import de.rki.coronawarnapp.profile.ui.list.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
@@ -133,6 +134,7 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         ProfileCreateFragmentTestModule::class,
         ProfileOnboardingFragmentTestModule::class,
         ProfileQrCodeFragmentTestModule::class,
+        ProfileListFragmentTestModule::class,
 
         QrCodeScannerFragmentTestModule::class,
 

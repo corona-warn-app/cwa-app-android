@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.coronatest.CoronaTestRepository
 import de.rki.coronawarnapp.covidcertificate.booster.BoosterRulesRepository
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificatesSettings
 import de.rki.coronawarnapp.covidcertificate.recovery.core.RecoveryCertificateRepository
-import de.rki.coronawarnapp.covidcertificate.revocation.RevocationReset
+import de.rki.coronawarnapp.covidcertificate.revocation.DccRevocationReset
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.test.core.TestCertificateRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
@@ -97,8 +97,8 @@ class DataReset @Inject constructor(
     private val dccWalletInfoRepository: DccWalletInfoRepository,
     private val cclSettings: CclSettings,
     private val familyTestRepository: FamilyTestRepository,
+    private val revocationReset: DccRevocationReset,
     private val profileRepository: ProfileRepository,
-    private val revocationReset: RevocationReset
 ) {
 
     private val mutex = Mutex()
