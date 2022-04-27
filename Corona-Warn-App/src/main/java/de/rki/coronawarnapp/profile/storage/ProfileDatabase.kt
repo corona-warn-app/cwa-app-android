@@ -17,8 +17,7 @@ import androidx.room.Transaction
 import androidx.room.TypeConverters
 import androidx.room.Update
 import androidx.sqlite.db.SupportSQLiteDatabase
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfile
-import de.rki.coronawarnapp.coronatest.antigen.profile.RATProfileSettingsDataStore
+import de.rki.coronawarnapp.profile.legacy.RATProfile
 import de.rki.coronawarnapp.util.coroutine.AppScope
 import de.rki.coronawarnapp.util.database.CommonConverters
 import de.rki.coronawarnapp.util.di.AppContext
@@ -44,7 +43,7 @@ abstract class ProfileDatabase : RoomDatabase() {
     class Factory @Inject constructor(
         @AppContext private val context: Context,
         @AppScope private val scope: CoroutineScope,
-        private val settings: RATProfileSettingsDataStore,
+        private val settings: ProfileSettingsDataStore,
     ) {
         fun create(): ProfileDatabase = Room
             .databaseBuilder(context, ProfileDatabase::class.java, PROFILE_DATABASE_NAME)

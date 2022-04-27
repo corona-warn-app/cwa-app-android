@@ -2,6 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.person.ui.details.items
 
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.ui.details.PersonDetailsAdapter
@@ -11,13 +12,21 @@ import de.rki.coronawarnapp.databinding.TestCertificateCardBinding
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toShortDayFormat
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.toUserTimeZone
 import de.rki.coronawarnapp.util.displayExpirationState
+import de.rki.coronawarnapp.util.list.Swipeable
 import de.rki.coronawarnapp.util.lists.diffutil.HasPayloadDiffer
 
 class TestCertificateCard(parent: ViewGroup) :
     PersonDetailsAdapter.PersonDetailsItemVH<TestCertificateCard.Item, TestCertificateCardBinding>(
         layoutRes = R.layout.test_certificate_card,
         parent = parent
-    ) {
+    ),
+    Swipeable {
+
+    private var latestItem: Item? = null
+
+    override fun onSwipe(holder: RecyclerView.ViewHolder, direction: Int) {
+        latestItem?.let { it.onSwipeItem(it.certificate, holder.bindingAdapterPosition) }
+    }
 
     override val viewBinding: Lazy<TestCertificateCardBinding> = lazy {
         TestCertificateCardBinding.bind(itemView)
@@ -25,53 +34,56 @@ class TestCertificateCard(parent: ViewGroup) :
     override val onBindData: TestCertificateCardBinding.(
         item: Item,
         payloads: List<Any>
-    ) -> Unit = { item, payloads ->
+    ) -> Unit = { boundItem, payloads ->
 
-        val curItem = payloads.filterIsInstance<Item>().lastOrNull() ?: item
-        val certificate = curItem.certificate
-        root.setOnClickListener { curItem.onClick() }
-        certificateDate.text = context.getString(
-            R.string.test_certificate_sampled_on,
-            certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat() ?: certificate.rawCertificate.test.sc
-        )
+        latestItem = payloads.filterIsInstance<Item>().lastOrNull() ?: boundItem
 
-        when {
-            // PCR Test
-            certificate.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
-            // RAT Test
-            else -> R.string.test_certificate_rapid_test_type
-        }.also { testCertificateType.setText(it) }
+        latestItem?.let { item ->
+            val certificate = item.certificate
+            root.setOnClickListener { item.onClick() }
+            certificateDate.text = context.getString(
+                R.string.test_certificate_sampled_on,
+                certificate.sampleCollectedAt?.toUserTimeZone()?.toShortDayFormat()
+                    ?: certificate.rawCertificate.test.sc
+            )
 
-        val bookmarkIcon =
-            if (curItem.certificate.isDisplayValid) curItem.colorShade.bookmarkIcon else R.drawable.ic_bookmark
-        currentCertificateGroup.isVisible = curItem.isCurrentCertificate
-        bookmark.setImageResource(bookmarkIcon)
-        val color = when {
-            curItem.certificate.isDisplayValid -> curItem.colorShade
-            else -> PersonColorShade.COLOR_INVALID
-        }
+            when {
+                // PCR Test
+                certificate.isPCRTestCertificate -> R.string.test_certificate_pcr_test_type
+                // RAT Test
+                else -> R.string.test_certificate_rapid_test_type
+            }.also { testCertificateType.setText(it) }
 
-        when {
-            curItem.certificate.isDisplayValid -> R.drawable.ic_test_certificate
-            else -> R.drawable.ic_certificate_invalid
-        }.also { certificateIcon.setImageResource(it) }
+            val bookmarkIcon = if (item.certificate.isDisplayValid)
+                item.colorShade.bookmarkIcon else R.drawable.ic_bookmark
 
-        val background = when {
-            curItem.isCurrentCertificate -> color.currentCertificateBg
-            else -> color.defaultCertificateBg
-        }
-        certificateBg.setImageResource(background)
+            currentCertificateGroup.isVisible = item.isCurrentCertificate
+            bookmark.setImageResource(bookmarkIcon)
+            val color = when {
+                item.certificate.isDisplayValid -> item.colorShade
+                else -> PersonColorShade.COLOR_INVALID
+            }
 
-        notificationBadge.isVisible = curItem.certificate.hasNotificationBadge
+            when {
+                item.certificate.isDisplayValid -> R.drawable.ic_test_certificate
+                else -> R.drawable.ic_certificate_invalid
+            }.also { certificateIcon.setImageResource(it) }
 
-        certificateExpiration.displayExpirationState(curItem.certificate)
+            val background = when {
+                item.isCurrentCertificate -> color.currentCertificateBg
+                else -> color.defaultCertificateBg
+            }
+            certificateBg.setImageResource(background)
+            notificationBadge.isVisible = item.certificate.hasNotificationBadge
+            certificateExpiration.displayExpirationState(item.certificate)
 
-        startValidationCheckButton.apply {
-            defaultButton.isEnabled = certificate.isNotScreened
-            isEnabled = certificate.isNotScreened
-            isLoading = curItem.isLoading
-            defaultButton.setOnClickListener {
-                curItem.validateCertificate(certificate.containerId)
+            startValidationCheckButton.apply {
+                defaultButton.isEnabled = certificate.isNotScreened
+                isEnabled = certificate.isNotScreened
+                isLoading = item.isLoading
+                defaultButton.setOnClickListener {
+                    item.validateCertificate(certificate.containerId)
+                }
             }
         }
     }
@@ -82,6 +94,7 @@ class TestCertificateCard(parent: ViewGroup) :
         val colorShade: PersonColorShade,
         val isLoading: Boolean = false,
         val onClick: () -> Unit,
+        val onSwipeItem: (TestCertificate, Int) -> Unit,
         val validateCertificate: (CertificateContainerId) -> Unit,
     ) : CertificateItem, HasPayloadDiffer {
         override val stableId = certificate.containerId.hashCode().toLong()

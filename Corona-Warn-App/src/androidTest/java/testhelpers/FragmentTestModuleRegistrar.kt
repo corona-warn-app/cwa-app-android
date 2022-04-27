@@ -18,6 +18,8 @@ import de.rki.coronawarnapp.dccticketing.ui.validationresult.success.DccTicketin
 import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
+import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentTestModule
+import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryDayFragmentTestModule
@@ -27,10 +29,8 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryLocationListFragmentTest
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.create.RATProfileCreateFragmentTestModule
+import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.ProfileQrCodeFragmentTestModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragmentTest.ProfileListFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.onboarding.RATProfileOnboardingFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.RATProfileQrCodeFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.QrCodeDetailFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmentTestModule
@@ -130,10 +130,10 @@ import de.rki.coronawarnapp.ui.vaccination.CovidCertificateInfoFragmentTestModul
         BoosterInfoDetailsFragmentTestModule::class,
         DccReissuanceConsentFragmentTestModule::class,
 
-        // -------- RAT profile ------------
-        RATProfileCreateFragmentTestModule::class,
-        RATProfileOnboardingFragmentTestModule::class,
-        RATProfileQrCodeFragmentTestModule::class,
+        // -------- Profile ------------
+        ProfileCreateFragmentTestModule::class,
+        ProfileOnboardingFragmentTestModule::class,
+        ProfileQrCodeFragmentTestModule::class,
         ProfileListFragmentTestModule::class,
 
         QrCodeScannerFragmentTestModule::class,
