@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import io.kotest.matchers.shouldBe
@@ -23,7 +23,7 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
 
     @MockK lateinit var dscRepository: DscRepository
     @MockK lateinit var dccWalletInfoRepository: DccWalletInfoRepository
-    @MockK lateinit var revocationRepository: RevocationRepository
+    @MockK lateinit var dccRevocationRepository: DccRevocationRepository
 
     @MockK lateinit var dscSignatureList: DscSignatureList
     @MockK lateinit var cachedRevocationChunk: CachedRevocationChunk
@@ -34,7 +34,7 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
 
         every { dscRepository.dscSignatureList } returns flowOf(dscSignatureList)
         every { dccWalletInfoRepository.blockedQrCodeHashes } returns flowOf(setOf("hash-1"))
-        every { revocationRepository.revocationList } returns flowOf(listOf(cachedRevocationChunk))
+        every { dccRevocationRepository.revocationList } returns flowOf(listOf(cachedRevocationChunk))
     }
 
     @Test
@@ -59,6 +59,6 @@ internal class DccValidityMeasuresObserverTest : BaseTest() {
         appScope = scope,
         dscRepository = dscRepository,
         dccWalletInfoRepository = dccWalletInfoRepository,
-        revocationRepository = revocationRepository
+        dccRevocationRepository = dccRevocationRepository
     )
 }

@@ -22,9 +22,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RevocationUpdateScheduler @Inject constructor(
+class DccRevocationUpdateScheduler @Inject constructor(
     @AppScope private val appScope: CoroutineScope,
-    private val revocationListUpdater: RevocationListUpdater,
+    private val revocationListUpdater: DccRevocationListUpdater,
     private val foregroundState: ForegroundState,
     private val workManager: WorkManager
 ) {
@@ -53,7 +53,7 @@ class RevocationUpdateScheduler @Inject constructor(
     }
 
     private fun buildWorkRequest(): PeriodicWorkRequest {
-        return PeriodicWorkRequestBuilder<RevocationListUpdateWorker>(
+        return PeriodicWorkRequestBuilder<DccRevocationListUpdateWorker>(
             repeatInterval = 24,
             repeatIntervalTimeUnit = TimeUnit.HOURS
         ).setInitialDelay(
@@ -64,4 +64,4 @@ class RevocationUpdateScheduler @Inject constructor(
 }
 
 private const val WORKER_NAME = "RevocationListUpdateWorker"
-private val TAG = tag<RevocationUpdateScheduler>()
+private val TAG = tag<DccRevocationUpdateScheduler>()

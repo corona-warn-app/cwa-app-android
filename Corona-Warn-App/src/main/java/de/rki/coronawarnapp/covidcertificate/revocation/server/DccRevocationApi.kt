@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface RevocationApi {
+interface DccRevocationApi {
 
     @GET("/version/v1/dcc-rl/kid")
     suspend fun getRevocationKidList(): Response<ResponseBody>

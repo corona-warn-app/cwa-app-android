@@ -16,7 +16,7 @@ import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 import javax.inject.Inject
 
-class RevocationCalculationTest : BaseTest() {
+class DccRevocationCalculationTest : BaseTest() {
 
     @Inject lateinit var dccQrCodeExtractor: DccQrCodeExtractor
 
@@ -26,21 +26,21 @@ class RevocationCalculationTest : BaseTest() {
     }
 
     @ParameterizedTest
-    @ArgumentsSource(RevocationCalculationTestCaseProvider::class)
-    fun `run test cases`(testCase: RevocationCalculationTestCase) = runBlockingTest2 {
-        val dgc = createMockCert(testCase.barcodeData)
+    @ArgumentsSource(DccRevocationCalculationTestCaseProvider::class)
+    fun `run test cases`(testCaseDcc: DccRevocationCalculationTestCase) = runBlockingTest2 {
+        val dgc = createMockCert(testCaseDcc.barcodeData)
 
         val uci = dgc.calculateRevocationEntryForType(RevocationHashType.UCI).hex()
-        println("calculated uci=$uci, expUCI=${testCase.expUCI}")
-        uci shouldBe testCase.expUCI
+        println("calculated uci=$uci, expUCI=${testCaseDcc.expUCI}")
+        uci shouldBe testCaseDcc.expUCI
 
         val countryUci = dgc.calculateRevocationEntryForType(RevocationHashType.COUNTRYCODEUCI).hex()
-        println("calculated countryUci=$countryUci, expCOUNTRYCODEUCI=${testCase.expCOUNTRYCODEUCI}")
-        countryUci shouldBe testCase.expCOUNTRYCODEUCI
+        println("calculated countryUci=$countryUci, expCOUNTRYCODEUCI=${testCaseDcc.expCOUNTRYCODEUCI}")
+        countryUci shouldBe testCaseDcc.expCOUNTRYCODEUCI
 
         val signature = dgc.calculateRevocationEntryForType(RevocationHashType.SIGNATURE).hex()
-        println("calculated signature=$signature, expSIGNATURE=${testCase.expSIGNATURE}")
-        signature shouldBe testCase.expSIGNATURE
+        println("calculated signature=$signature, expSIGNATURE=${testCaseDcc.expSIGNATURE}")
+        signature shouldBe testCaseDcc.expSIGNATURE
     }
 
     @Test

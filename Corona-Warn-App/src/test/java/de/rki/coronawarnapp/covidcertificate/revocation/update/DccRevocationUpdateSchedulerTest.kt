@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
-internal class RevocationUpdateSchedulerTest : BaseTest() {
+internal class DccRevocationUpdateSchedulerTest : BaseTest() {
 
     @MockK lateinit var foregroundState: ForegroundState
     @MockK(relaxed = true) lateinit var workManager: WorkManager
-    @MockK lateinit var revocationListUpdater: RevocationListUpdater
+    @MockK lateinit var dccRevocationListUpdater: DccRevocationListUpdater
 
     private val isForeground = MutableStateFlow(false)
 
@@ -33,7 +33,7 @@ internal class RevocationUpdateSchedulerTest : BaseTest() {
     fun setup() {
         MockKAnnotations.init(this)
         every { foregroundState.isInForeground } returns isForeground
-        coEvery { revocationListUpdater.updateRevocationList(any()) } just Runs
+        coEvery { dccRevocationListUpdater.updateRevocationList(any()) } just Runs
     }
 
     @Test
@@ -59,7 +59,7 @@ internal class RevocationUpdateSchedulerTest : BaseTest() {
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify { revocationListUpdater wasNot called }
+            coVerify { dccRevocationListUpdater wasNot called }
 
             isForeground.value = true
             advanceUntilIdle()
@@ -69,15 +69,15 @@ internal class RevocationUpdateSchedulerTest : BaseTest() {
             isForeground.value = false
             advanceUntilIdle()
 
-            coVerify(exactly = 1) { revocationListUpdater.updateRevocationList() }
+            coVerify(exactly = 1) { dccRevocationListUpdater.updateRevocationList() }
         }
     }
 
-    private fun createScheduler(scope: CoroutineScope): RevocationUpdateScheduler {
-        return RevocationUpdateScheduler(
+    private fun createScheduler(scope: CoroutineScope): DccRevocationUpdateScheduler {
+        return DccRevocationUpdateScheduler(
             appScope = scope,
             foregroundState = foregroundState,
-            revocationListUpdater = revocationListUpdater,
+            revocationListUpdater = dccRevocationListUpdater,
             workManager = workManager
         )
     }

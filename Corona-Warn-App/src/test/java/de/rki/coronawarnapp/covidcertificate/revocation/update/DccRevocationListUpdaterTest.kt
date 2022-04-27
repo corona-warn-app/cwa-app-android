@@ -25,12 +25,12 @@ import org.junit.jupiter.api.Test
 import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 
-internal class RevocationListUpdaterTest : BaseTest() {
+internal class DccRevocationListUpdaterTest : BaseTest() {
 
     @MockK lateinit var timeStamper: TimeStamper
     @MockK lateinit var certificatesProvider: CertificateProvider
-    @MockK lateinit var revocationUpdateSettings: RevocationUpdateSettings
-    @MockK lateinit var revocationUpdateService: RevocationUpdateService
+    @MockK lateinit var dccRevocationUpdateSettings: DccRevocationUpdateSettings
+    @MockK lateinit var dccRevocationUpdateService: DccRevocationUpdateService
 
     private val vacc = mockk<VaccinationCertificate>()
     private val test = mockk<TestCertificate>()
@@ -47,17 +47,17 @@ internal class RevocationListUpdaterTest : BaseTest() {
         every { certificatesProvider.allCertificates } returns allCertificatesFlow
         every { timeStamper.nowUTC } returns Instant.EPOCH
 
-        coEvery { revocationUpdateSettings.getLastUpdateTime() } returns Instant.EPOCH
-        coEvery { revocationUpdateSettings.setUpdateTimeToNow(any()) } just Runs
-        coEvery { revocationUpdateService.updateRevocationList(any()) } just Runs
+        coEvery { dccRevocationUpdateSettings.getLastUpdateTime() } returns Instant.EPOCH
+        coEvery { dccRevocationUpdateSettings.setUpdateTimeToNow(any()) } just Runs
+        coEvery { dccRevocationUpdateService.updateRevocationList(any()) } just Runs
     }
 
     @Test
     fun `update is not triggered on App start - first flow emission`() = runBlockingTest2(ignoreActive = true) {
         getInstance(this)
         coVerify {
-            revocationUpdateSettings wasNot Called
-            revocationUpdateService wasNot Called
+            dccRevocationUpdateSettings wasNot Called
+            dccRevocationUpdateService wasNot Called
         }
     }
 
@@ -65,8 +65,8 @@ internal class RevocationListUpdaterTest : BaseTest() {
     fun `update is not triggered when day is the same`() = runBlockingTest2(ignoreActive = true) {
         getInstance(this).updateRevocationList(false)
         coVerify(exactly = 0) {
-            revocationUpdateService.updateRevocationList(any())
-            revocationUpdateSettings.setUpdateTimeToNow(any())
+            dccRevocationUpdateService.updateRevocationList(any())
+            dccRevocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
 
@@ -76,8 +76,8 @@ internal class RevocationListUpdaterTest : BaseTest() {
         getInstance(this).updateRevocationList(false)
 
         coVerify(exactly = 1) {
-            revocationUpdateService.updateRevocationList(any())
-            revocationUpdateSettings.setUpdateTimeToNow(any())
+            dccRevocationUpdateService.updateRevocationList(any())
+            dccRevocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
 
@@ -85,14 +85,14 @@ internal class RevocationListUpdaterTest : BaseTest() {
     fun `update is triggered when force flag is on despite day check`() = runBlockingTest2(ignoreActive = true) {
         getInstance(this).updateRevocationList(true)
         coVerify(exactly = 1) {
-            revocationUpdateService.updateRevocationList(any())
-            revocationUpdateSettings.setUpdateTimeToNow(any())
+            dccRevocationUpdateService.updateRevocationList(any())
+            dccRevocationUpdateSettings.setUpdateTimeToNow(any())
         }
     }
 
     @Test
     fun `update error is caught`() = runBlockingTest2(ignoreActive = true) {
-        coEvery { revocationUpdateService.updateRevocationList(any()) } throws Exception("WOW!")
+        coEvery { dccRevocationUpdateService.updateRevocationList(any()) } throws Exception("WOW!")
         shouldNotThrow<Exception> {
             getInstance(this).updateRevocationList(true)
         }
@@ -108,19 +108,19 @@ internal class RevocationListUpdaterTest : BaseTest() {
             allCertificatesFlow.value = setOf(rec)
 
             coVerify(exactly = 0) {
-                revocationUpdateSettings.getLastUpdateTime()
-                revocationUpdateService.updateRevocationList(any())
-                revocationUpdateSettings.setUpdateTimeToNow(any())
+                dccRevocationUpdateSettings.getLastUpdateTime()
+                dccRevocationUpdateService.updateRevocationList(any())
+                dccRevocationUpdateSettings.setUpdateTimeToNow(any())
             }
 
             // Size finally changes
             allCertificatesFlow.value = certificateSet
 
             coVerify(exactly = 1) {
-                revocationUpdateSettings.getLastUpdateTime()
-                revocationUpdateService.updateRevocationList(any())
-                revocationUpdateService.updateRevocationList(certificateSet)
-                revocationUpdateSettings.setUpdateTimeToNow(any())
+                dccRevocationUpdateSettings.getLastUpdateTime()
+                dccRevocationUpdateService.updateRevocationList(any())
+                dccRevocationUpdateService.updateRevocationList(certificateSet)
+                dccRevocationUpdateSettings.setUpdateTimeToNow(any())
             }
         }
 
@@ -129,10 +129,10 @@ internal class RevocationListUpdaterTest : BaseTest() {
         val updater = getInstance(this)
 
         // update is required when none was performed yet
-        coEvery { revocationUpdateSettings.getLastUpdateTime() } returns null
+        coEvery { dccRevocationUpdateSettings.getLastUpdateTime() } returns null
         updater.isUpdateRequired(Instant.now()) shouldBe true
 
-        coEvery { revocationUpdateSettings.getLastUpdateTime() } returns Instant.parse("2000-01-01T00:00:00Z")
+        coEvery { dccRevocationUpdateSettings.getLastUpdateTime() } returns Instant.parse("2000-01-01T00:00:00Z")
 
         // no update required on the same day
         val sameDayBeginning = Instant.parse("2000-01-01T00:00:00Z")
@@ -155,25 +155,25 @@ internal class RevocationListUpdaterTest : BaseTest() {
 
             with(getInstance(scope = this)) {
                 updateRevocationList(forceUpdate = true)
-                coVerify { revocationUpdateService.updateRevocationList(allCertificates = certificateSet) }
+                coVerify { dccRevocationUpdateService.updateRevocationList(allCertificates = certificateSet) }
 
                 val vaccSet = setOf(vacc)
                 updateRevocationList(forceUpdate = true, allCertificates = vaccSet)
-                coVerify { revocationUpdateService.updateRevocationList(allCertificates = vaccSet) }
+                coVerify { dccRevocationUpdateService.updateRevocationList(allCertificates = vaccSet) }
 
                 val empty = emptySet<CwaCovidCertificate>()
                 updateRevocationList(forceUpdate = true, allCertificates = empty)
-                coVerify { revocationUpdateService.updateRevocationList(allCertificates = empty) }
+                coVerify { dccRevocationUpdateService.updateRevocationList(allCertificates = empty) }
             }
         }
 
-    private fun getInstance(scope: CoroutineScope): RevocationListUpdater {
-        return RevocationListUpdater(
+    private fun getInstance(scope: CoroutineScope): DccRevocationListUpdater {
+        return DccRevocationListUpdater(
             appScope = scope,
             timeStamper = timeStamper,
-            revocationUpdateSettings = revocationUpdateSettings,
+            revocationUpdateSettings = dccRevocationUpdateSettings,
             certificatesProvider = certificatesProvider,
-            revocationUpdateService = revocationUpdateService
+            revocationUpdateService = dccRevocationUpdateService
         )
     }
 }
