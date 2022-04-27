@@ -14,13 +14,13 @@ import testhelpers.BaseTest
 import testhelpers.coroutines.runBlockingTest2
 import java.io.IOException
 
-class RevocationResetTest : BaseTest() {
+class DccRevocationResetTest : BaseTest() {
 
     @RelaxedMockK lateinit var cache: Cache
     @RelaxedMockK lateinit var dataStore: DataStore<Preferences>
 
-    private val instance: RevocationReset
-        get() = RevocationReset(
+    private val instance: DccRevocationReset
+        get() = DccRevocationReset(
             cache = cache,
             dataStore = dataStore
         )

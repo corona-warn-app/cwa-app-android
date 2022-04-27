@@ -12,7 +12,7 @@ import de.rki.coronawarnapp.server.protocols.internal.dgc.RevocationKidTypeIndex
 import de.rki.coronawarnapp.util.toOkioByteString
 import javax.inject.Inject
 
-class RevocationParser @Inject constructor() {
+class DccRevocationParser @Inject constructor() {
 
     fun kidListFrom(data: ByteArray): RevocationKidList = RevocationKidListProto
         .parseFrom(data)

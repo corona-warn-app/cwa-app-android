@@ -128,20 +128,14 @@ class VaccinationCertificateRepository @Inject constructor(
      */
     val certificates: Flow<Set<VaccinationCertificateWrapper>> = allCertificates
         .map { it.certificates }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     /**
      * Returns a flow with a set of [VaccinationCertificate] matching the predicate [VaccinationCertificate.isRecycled]
      */
     val recycledCertificates: Flow<Set<VaccinationCertificate>> = allCertificates
         .map { it.recycledCertificates }
-        .shareLatest(
-            tag = TAG,
-            scope = appScope
-        )
+        .shareLatest(scope = appScope)
 
     suspend fun registerCertificate(
         qrCode: VaccinationCertificateQRCode,
