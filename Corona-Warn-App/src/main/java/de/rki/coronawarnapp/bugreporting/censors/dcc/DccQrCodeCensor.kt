@@ -152,13 +152,13 @@ private fun Data.toMutableData() = MutableData(
 )
 
 private fun MutableData.toData() = Data(
-    qrCodes,
-    names,
-    dates,
-    countries,
-    identifiers,
-    issuers,
-    testDetails
+    qrCodes = qrCodes,
+    names = names,
+    dates = dates,
+    countries = countries,
+    identifiers = identifiers,
+    issuers = issuers,
+    testDetails = testDetails
 )
 
 private fun MutableStateFlow<Data>.edit(transform: MutableData.() -> Unit) = update {
