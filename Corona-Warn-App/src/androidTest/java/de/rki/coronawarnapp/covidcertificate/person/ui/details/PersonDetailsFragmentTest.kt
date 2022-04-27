@@ -204,7 +204,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
             add(
@@ -213,7 +214,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
 
@@ -223,7 +225,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
 
@@ -233,7 +236,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = true,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
             add(
@@ -242,7 +246,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = false,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
         }
@@ -326,7 +331,8 @@ class PersonDetailsFragmentTest : BaseUITest() {
                     isCurrentCertificate = true,
                     colorShade = PersonColorShade.COLOR_1,
                     validateCertificate = {},
-                    onClick = {}
+                    onClick = {},
+                    onSwipeItem = { _, _ -> }
                 )
             )
         }

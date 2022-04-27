@@ -13,12 +13,16 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.transition.MaterialContainerTransform
 import de.rki.coronawarnapp.R
 import de.rki.coronawarnapp.bugreporting.ui.toErrorDialogBuilder
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.validation.core.common.exception.DccValidationException
 import de.rki.coronawarnapp.covidcertificate.validation.ui.common.DccValidationNoInternetErrorDialog
 import de.rki.coronawarnapp.databinding.PersonDetailsFragmentBinding
+import de.rki.coronawarnapp.reyclebin.ui.dialog.RecycleBinDialogType
+import de.rki.coronawarnapp.reyclebin.ui.dialog.show
 import de.rki.coronawarnapp.ui.view.onOffsetChange
 import de.rki.coronawarnapp.util.ContextExtensions.getColorCompat
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.list.setupSwipe
 import de.rki.coronawarnapp.util.lists.diffutil.update
 import de.rki.coronawarnapp.util.mutateDrawable
 import de.rki.coronawarnapp.util.ui.doNavigate
@@ -65,6 +69,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             }
             recyclerViewCertificatesList.apply {
                 adapter = personDetailsAdapter
+                setupSwipe(context = requireContext())
             }
             appBarLayout.onOffsetChange { titleAlpha, subtitleAlpha ->
                 title.alpha = titleAlpha
@@ -146,7 +151,16 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             OpenCovPassInfo ->
                 doNavigate(PersonDetailsFragmentDirections.actionPersonDetailsFragmentToCovPassInfoFragment())
                     .also { viewModel.dismissAdmissionStateBadge() }
+            is RecycleCertificate -> showCertificateDeletionRequest(event.cwaCovidCertificate, event.position)
         }
+    }
+
+    private fun showCertificateDeletionRequest(cwaCovidCertificate: CwaCovidCertificate, position: Int) {
+        RecycleBinDialogType.RecycleCertificateConfirmation.show(
+            fragment = this,
+            positiveButtonAction = { viewModel.recycleCertificate(cwaCovidCertificate) },
+            negativeButtonAction = { personDetailsAdapter.notifyItemChanged(position) }
+        )
     }
 
     private fun setToolbarOverlay() {

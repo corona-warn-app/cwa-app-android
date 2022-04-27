@@ -11,6 +11,7 @@ import de.rki.coronawarnapp.ccl.dccwalletinfo.model.BoosterNotification
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.ReissuanceDivision
 import de.rki.coronawarnapp.ccl.dccwalletinfo.model.VaccinationState
 import de.rki.coronawarnapp.ccl.ui.text.CclTextFormatter
+import de.rki.coronawarnapp.covidcertificate.common.certificate.CertificateProvider
 import de.rki.coronawarnapp.covidcertificate.common.certificate.CwaCovidCertificate
 import de.rki.coronawarnapp.covidcertificate.common.repository.CertificateContainerId
 import de.rki.coronawarnapp.covidcertificate.person.core.PersonCertificates
@@ -48,6 +49,7 @@ class PersonDetailsViewModel @AssistedInject constructor(
     private val personCertificatesProvider: PersonCertificatesProvider,
     private val personCertificatesSettings: PersonCertificatesSettings,
     private val dccValidationRepository: DccValidationRepository,
+    private val certificateProvider: CertificateProvider,
     @Assisted private val personIdentifierCode: String,
     @Assisted private val colorShade: PersonColorShade,
     private val format: CclTextFormatter,
@@ -216,8 +218,17 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                 )
             )
+        },
+        onSwipeItem = { certificate, position ->
+            events.postValue(RecycleCertificate(certificate, position))
         }
     )
+
+    fun recycleCertificate(certificate: CwaCovidCertificate) {
+        viewModelScope.launch {
+            certificateProvider.recycleCertificate(certificate.containerId)
+        }
+    }
 
     private fun vcItem(
         certificate: VaccinationCertificate,
@@ -236,6 +247,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                 )
             )
+        },
+        onSwipeItem = { certificate, position ->
+            events.postValue(RecycleCertificate(certificate, position))
         }
     )
 
@@ -256,6 +270,9 @@ class PersonDetailsViewModel @AssistedInject constructor(
                     colorShade = getItemColorShade(certificate.isDisplayValid, isCurrentCertificate)
                 )
             )
+        },
+        onSwipeItem = { certificate, position ->
+            events.postValue(RecycleCertificate(certificate, position))
         }
     )
 
