@@ -8,8 +8,8 @@ import de.rki.coronawarnapp.covidcertificate.revocation.check.DccRevocationCheck
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationEntryCoordinates
 import de.rki.coronawarnapp.covidcertificate.revocation.model.RevocationKidList
-import de.rki.coronawarnapp.covidcertificate.revocation.server.RevocationServer
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.server.DccRevocationServer
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.VaccinationCertificate
 import de.rki.coronawarnapp.tag
 import de.rki.coronawarnapp.util.collections.groupByNotNull
@@ -17,9 +17,9 @@ import okio.ByteString
 import timber.log.Timber
 import javax.inject.Inject
 
-class RevocationUpdateService @Inject constructor(
-    private val revocationServer: RevocationServer,
-    private val revocationRepository: RevocationRepository,
+class DccRevocationUpdateService @Inject constructor(
+    private val revocationServer: DccRevocationServer,
+    private val revocationRepository: DccRevocationRepository,
     private val dccRevocationChecker: DccRevocationChecker
 ) {
 
@@ -107,7 +107,7 @@ class RevocationUpdateService @Inject constructor(
     }
 }
 
-private val TAG = tag<RevocationUpdateService>()
+private val TAG = tag<DccRevocationUpdateService>()
 
 private typealias DCCsByKID = Map<ByteString, List<CwaCovidCertificate>>
 private typealias CoordinatesDccMap = Map<RevocationEntryCoordinates, List<CwaCovidCertificate>>

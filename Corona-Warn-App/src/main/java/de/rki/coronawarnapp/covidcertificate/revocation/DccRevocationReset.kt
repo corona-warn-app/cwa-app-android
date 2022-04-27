@@ -8,9 +8,9 @@ import okhttp3.Cache
 import timber.log.Timber
 import javax.inject.Inject
 
-class RevocationReset @Inject constructor(
-    @RevocationCache private val cache: Cache,
-    @RevocationDataStore private val dataStore: DataStore<Preferences>
+class DccRevocationReset @Inject constructor(
+    @DccRevocationCache private val cache: Cache,
+    @DccRevocationDataStore private val dataStore: DataStore<Preferences>
 ) {
 
     @Suppress("BlockingMethodInNonBlockingContext")
@@ -23,4 +23,4 @@ class RevocationReset @Inject constructor(
     }
 }
 
-private val TAG = tag<RevocationReset>()
+private val TAG = tag<DccRevocationReset>()

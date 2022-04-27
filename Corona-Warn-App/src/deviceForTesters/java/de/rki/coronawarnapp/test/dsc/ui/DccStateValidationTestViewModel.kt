@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import de.rki.coronawarnapp.covidcertificate.expiration.DccValidityStateNotificationService
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
-import de.rki.coronawarnapp.covidcertificate.revocation.update.RevocationListUpdater
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.update.DccRevocationListUpdater
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.covidcertificate.vaccination.core.CovidCertificateSettings
 import de.rki.coronawarnapp.util.ui.SingleLiveEvent
@@ -19,8 +19,8 @@ class DccStateValidationTestViewModel @AssistedInject constructor(
     private val dscRepository: DscRepository,
     private val covidCertificateSettings: CovidCertificateSettings,
     private val dccValidityStateNotificationService: DccValidityStateNotificationService,
-    private val revocationRepository: RevocationRepository,
-    private val revocationListUpdater: RevocationListUpdater
+    private val dccRevocationRepository: DccRevocationRepository,
+    private val dccRevocationListUpdater: DccRevocationListUpdater
 ) : CWAViewModel() {
 
     @AssistedFactory
@@ -73,11 +73,11 @@ class DccStateValidationTestViewModel @AssistedInject constructor(
     }
 
     fun refreshRevocationList() = launch {
-        revocationListUpdater.updateRevocationList(true)
+        dccRevocationListUpdater.updateRevocationList(true)
     }
 
     fun clearRevocationList() = launch {
-        revocationRepository.clear()
+        dccRevocationRepository.clear()
     }
 
     data class DscDataInfo(
