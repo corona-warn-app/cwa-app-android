@@ -135,7 +135,7 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">Legen Sie Ihre persönlichen Daten als QR-Code ab, um die Registrierung an der Teststelle zu beschleunigen.</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">Schnelltest-Profil</string>
+    <string name="rat_profile_open_card_title">Schnelltest-Profile</string>
     <!-- XTXT: Open RAT profile card subtitle -->
     <string name="rat_profile_open_card_subtitle">Schnelltest-Profil mit Ihren persönlichen Daten, das Sie per QR-Code bei jeder teilnehmenden Teststelle vorlegen können.</string>
     <!-- XHED: Create RAT profile title -->
