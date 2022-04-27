@@ -17,12 +17,12 @@ import javax.inject.Singleton
 @Singleton
 class DccQrCodeCensor @Inject constructor() : BugCensor {
 
-    private val data = MutableStateFlow(Data())
+    private val state = MutableStateFlow(Data())
 
     override suspend fun checkLog(message: String): CensorContainer? {
         var container = CensorContainer(message)
 
-        with(data.first()) {
+        with(state.first()) {
             qrCodes.forEach {
                 container = container.censor(it, "#qrCode" + it.takeLast(4))
             }
@@ -50,11 +50,11 @@ class DccQrCodeCensor @Inject constructor() : BugCensor {
         return container.nullIfEmpty()
     }
 
-    fun addQRCodeStringToCensor(rawString: String) = data.edit {
+    fun addQRCodeStringToCensor(rawString: String) = state.edit {
         qrCodes += rawString
     }
 
-    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = data.edit {
+    fun addCertificateToCensor(cert: DccData<out DccV1.MetaData>) = state.edit {
         dates += cert.certificate.dateOfBirthFormatted
 
         addNameData(cert.certificate.nameData)
