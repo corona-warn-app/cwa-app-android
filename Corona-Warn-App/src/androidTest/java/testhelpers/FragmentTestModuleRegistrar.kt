@@ -1,5 +1,6 @@
 package testhelpers
 
+import ProfileListFragmentTest.ProfileListFragmentTestModule
 import dagger.Module
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
@@ -30,7 +31,6 @@ import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOnboardingFragmentTestMo
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryOverviewFragmentTestModule
 import de.rki.coronawarnapp.ui.contactdiary.ContactDiaryPersonListFragmentTestModule
 import de.rki.coronawarnapp.ui.coronatest.rat.profile.qrcode.ProfileQrCodeFragmentTestModule
-import de.rki.coronawarnapp.ui.coronatest.rat.profile.list.ProfileListFragmentTest.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.CreateEventTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.QrCodeDetailFragmentTestModule
 import de.rki.coronawarnapp.ui.eventregistration.organizer.TraceLocationsFragmentTestModule
