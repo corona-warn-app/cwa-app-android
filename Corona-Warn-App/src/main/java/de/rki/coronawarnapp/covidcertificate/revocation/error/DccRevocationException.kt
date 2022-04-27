@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.covidcertificate.revocation.error
 
-class RevocationException(
-    val errorCode: RevocationErrorCode,
+class DccRevocationException(
+    val errorCode: DccRevocationErrorCode,
     cause: Throwable? = null
 ) : Exception(errorCode.message, cause)
 
-enum class RevocationErrorCode(val message: String) {
+enum class DccRevocationErrorCode(val message: String) {
     DCC_RL_KID_LIST_SERVER_ERROR("Update KID List failed with an HTTP status code 50x"),
     DCC_RL_KID_LIST_CLIENT_ERROR("Update KID List failed with an HTTP status code 40x"),
     DCC_RL_KID_LIST_NO_NETWORK("Update KID List failed due to missing or poor network connection"),

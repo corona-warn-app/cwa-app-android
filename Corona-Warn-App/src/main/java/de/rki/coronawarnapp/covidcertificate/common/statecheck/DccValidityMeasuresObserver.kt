@@ -2,7 +2,7 @@ package de.rki.coronawarnapp.covidcertificate.common.statecheck
 
 import de.rki.coronawarnapp.ccl.dccwalletinfo.storage.DccWalletInfoRepository
 import de.rki.coronawarnapp.covidcertificate.revocation.model.CachedRevocationChunk
-import de.rki.coronawarnapp.covidcertificate.revocation.storage.RevocationRepository
+import de.rki.coronawarnapp.covidcertificate.revocation.storage.DccRevocationRepository
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscSignatureList
 import de.rki.coronawarnapp.covidcertificate.signature.core.DscRepository
 import de.rki.coronawarnapp.util.coroutine.AppScope
@@ -19,13 +19,13 @@ class DccValidityMeasuresObserver @Inject constructor(
     @AppScope appScope: CoroutineScope,
     dscRepository: DscRepository,
     dccWalletInfoRepository: DccWalletInfoRepository,
-    revocationRepository: RevocationRepository,
+    dccRevocationRepository: DccRevocationRepository,
 ) {
 
     val dccValidityMeasures: Flow<DccValidityMeasures> = combine(
         dscRepository.dscSignatureList,
         dccWalletInfoRepository.blockedQrCodeHashes,
-        revocationRepository.revocationList
+        dccRevocationRepository.revocationList
     ) { dscSignatureList, blockedQrCodeHashes, revocationList ->
         DccValidityMeasures(
             dscSignatureList = dscSignatureList,
