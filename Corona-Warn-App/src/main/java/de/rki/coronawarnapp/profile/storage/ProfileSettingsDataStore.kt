@@ -31,7 +31,7 @@ class ProfileSettingsDataStore @Inject constructor(
     @AppScope private val appScope: CoroutineScope
 ) {
 
-    private val dataStore = dataStoreLazy.get()
+    private val dataStore: DataStore<Preferences> get() = dataStoreLazy.get()
     private val dataStoreFlow = dataStore.data
         .catch { e ->
             Timber.tag(TAG).e(e, "Failed to read RAT profile")
@@ -47,10 +47,7 @@ class ProfileSettingsDataStore @Inject constructor(
     }
 
     val profileFlow: Flow<RATProfile?> = dataStoreFlow.map { preferences ->
-        when (val rawProfile = preferences[PROFILE_KEY]) {
-            null -> null
-            else -> gson.fromJson<RATProfile>(rawProfile)
-        }
+        preferences[PROFILE_KEY]?.let { gson.fromJson(it) }
     }
 
     fun setOnboarded() = appScope.launch {
