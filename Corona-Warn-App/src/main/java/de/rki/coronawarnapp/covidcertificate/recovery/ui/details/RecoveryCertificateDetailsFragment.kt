@@ -82,7 +82,7 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.recoveryCertificate.observe(viewLifecycleOwner) {
-            when(it != null) {
+            when (it != null) {
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)

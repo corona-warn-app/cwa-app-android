@@ -83,7 +83,7 @@ class TestCertificateDetailsFragment : Fragment(R.layout.fragment_test_certifica
         viewModel.errors.observe(viewLifecycleOwner) { onError(it) }
         viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
         viewModel.covidCertificate.observe(viewLifecycleOwner) {
-            when(it != null) {
+            when (it != null) {
                 true -> onCertificateReady(it)
                 false -> {
                     Timber.tag(TAG).d("Certificate is null. Closing %s", TAG)
