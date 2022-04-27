@@ -1,6 +1,5 @@
 package testhelpers
 
-import ProfileListFragmentTest.ProfileListFragmentTestModule
 import dagger.Module
 import de.rki.coronawarnapp.bugreporting.DebugLogTestModule
 import de.rki.coronawarnapp.bugreporting.DebugLogUploadTestModule
@@ -20,6 +19,7 @@ import de.rki.coronawarnapp.familytest.ui.consent.FamilyTestConsentFragmentTestM
 import de.rki.coronawarnapp.familytest.ui.selection.TestRegistrationSelectionFragmentTestModule
 import de.rki.coronawarnapp.familytest.ui.testlist.FamilyTestsListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.create.ProfileCreateFragmentTestModule
+import de.rki.coronawarnapp.profile.ui.list.ProfileListFragmentTestModule
 import de.rki.coronawarnapp.profile.ui.onboarding.ProfileOnboardingFragmentTestModule
 import de.rki.coronawarnapp.qrcode.ui.QrCodeScannerFragmentTestModule
 import de.rki.coronawarnapp.reyclebin.ui.RecyclerBinOverviewFragmentTestModule
