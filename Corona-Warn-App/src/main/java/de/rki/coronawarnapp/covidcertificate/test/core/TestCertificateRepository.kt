@@ -111,11 +111,10 @@ class TestCertificateRepository @Inject constructor(
 
         certMap.values.forEach {
             when {
-                it.isNotRecycled -> certificates += it.toTestCertificateWrapper(valueSets, dccValidityMeasures)
-                it.isRecycled -> recycledCertificates += it.toTestCertificate(
-                    valueSet = valueSets,
-                    certificateState = CwaCovidCertificate.State.Recycled
-                )
+                it.isNotRecycled -> it.toTestCertificateWrapper(valueSets, dccValidityMeasures)
+                    ?.let { tc -> certificates += tc }
+                it.isRecycled -> it.toTestCertificateOrNull(valueSets, CwaCovidCertificate.State.Recycled)
+                    ?.let { tc -> recycledCertificates += tc }
             }
         }
 
@@ -647,26 +646,43 @@ class TestCertificateRepository @Inject constructor(
         )
     }
 
+    private fun TestCertificateContainer.toTestCertificateOrNull(
+        valueSet: TestCertificateValueSets?,
+        certificateState: CwaCovidCertificate.State
+    ): TestCertificate? {
+        try {
+            return toTestCertificate(valueSet, certificateState)
+        } catch (e: Exception) {
+            Timber.e(e, "Creating TestCertificate failed")
+        }
+        return null
+    }
+
     private suspend fun TestCertificateContainer.toTestCertificateWrapper(
         valueSets: TestCertificateValueSets,
         dccValidityMeasures: DccValidityMeasures
-    ): TestCertificateWrapper {
-        val state = when {
-            isCertificateRetrievalPending -> Invalid()
-            else -> testCertificateQRCode?.let {
-                dccState(
-                    dccData = it.data,
-                    qrCodeHash = it.qrCode.toSHA256(),
-                    dccValidityMeasures = dccValidityMeasures
-                )
-            } ?: Invalid()
-        }
+    ): TestCertificateWrapper? {
+        try {
+            val state = when {
+                isCertificateRetrievalPending -> Invalid()
+                else -> testCertificateQRCode?.let {
+                    dccState(
+                        dccData = it.data,
+                        qrCodeHash = it.qrCode.toSHA256(),
+                        dccValidityMeasures = dccValidityMeasures
+                    )
+                } ?: Invalid()
+            }
 
-        return TestCertificateWrapper(
-            valueSets = valueSets,
-            container = this,
-            certificateState = state,
-        )
+            return TestCertificateWrapper(
+                valueSets = valueSets,
+                container = this,
+                certificateState = state,
+            )
+        } catch (e: Exception) {
+            Timber.e(e, "Creating TestCertificateWrapper failed")
+        }
+        return null
     }
 
     companion object {
