@@ -113,8 +113,6 @@
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_dcc_faq">"Sertifikalar için SSS"</string>
 
-    <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_in_blocklist_message">"Sertifika, düzenleyen makam tarafından geri çağırıldı. Lütfen yeni bir dijital sertifika alın."</string>
     <!-- XTXT: DCC QR code scan error title-->
     <string name="error_dcc_in_blocklist_title">"Sertifika Geçersiz"</string>
 
@@ -125,6 +123,11 @@
 
     <!-- XTXT: Test Certificate QR code new text-->
     <string name="test_certificate_qr_new">"Yeni"</string>
+
+    <!-- XTXT: DCC Revoked DE error message-->
+    <string name="dcc_screened_de_message">"RKI, hükûmet kararnamesi doğrultusunda sertifikayı devre dışı bıraktı. Lütfen yeni bir dijital sertifika alın."</string>
+    <!-- XTXT: DCC Revoked foreign error message-->
+    <string name="dcc_screened_foreign_message">"Düzenleyen yetkili merci, idari karar doğrultusunda sertifikayı devre dışı bıraktı. Lütfen yeni bir dijital sertifika alın."</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW

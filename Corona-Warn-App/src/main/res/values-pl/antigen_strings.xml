@@ -134,7 +134,7 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Zapisz swoje dane osobowe w postaci kodu QR, aby przyspieszyć rejestrację w punktach testowania."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Profil szybkiego testu"</string>
+    <string name="rat_profile_open_card_title">"Profile szybkich testów"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
     <string name="rat_profile_open_card_subtitle">"Profil szybkiego testu z Twoimi danymi osobowymi, który możesz przesłać do dowolnego uczestniczącego punktu testowania za pomocą kodu QR."</string>
     <!-- XHED: Create RAT profile title -->
@@ -187,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Data urodzenia %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Kontynuuj"</string>
+    <string name="rat_qr_code_profile_next_button">"Skanuj test"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Usuń profil szybkiego testu"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->

@@ -134,7 +134,7 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Save your personal data as a QR code to speed up registration at testing points."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Rapid Test Profile"</string>
+    <string name="rat_profile_open_card_title">"Rapid Test Profiles"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
     <string name="rat_profile_open_card_subtitle">"Rapid test profile with your personal data, which you can submit to any participating testing point via the QR code."</string>
     <!-- XHED: Create RAT profile title -->
@@ -166,7 +166,7 @@
     <!-- XTXT: Create RAT profile email error message -->
     <string name="rat_profile_create_email_error">"Invalid e-mail address"</string>
     <!-- XTXT: Profile fab text -->
-    <string name="profile_fab_text">"Rapid test profile"</string>
+    <string name="profile_fab_text">"Rapid Test Profile"</string>
     <!-- XTXT: RAT profile list no profiles title -->
     <string name="rat_profile_list_no_profiles_title">"No rapid test profiles created yet"</string>
     <!-- XTXT: RAT profile list no profiles subtitle -->
@@ -187,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Born %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Continue"</string>
+    <string name="rat_qr_code_profile_next_button">"Scan Test"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Delete Rapid Test Profile"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->
