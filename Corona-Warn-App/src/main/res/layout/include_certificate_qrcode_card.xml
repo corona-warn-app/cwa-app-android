@@ -136,4 +136,10 @@
         app:layout_constraintStart_toStartOf="@id/status_icon"
         app:layout_constraintTop_toBottomOf="@id/status_title" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/status_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="status_icon,status_title,status_body" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
