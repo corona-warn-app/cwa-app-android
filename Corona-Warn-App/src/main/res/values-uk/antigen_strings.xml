@@ -134,7 +134,7 @@
     <!-- XTXT: Create RAT profile card subtitle -->
     <string name="rat_profile_create_card_subtitle">"Збережіть свої особисті дані у вигляді QR-коду, щоб пришвидшити реєстрацію в пунктах тестування."</string>
     <!-- XHED: Open RAT profile card title -->
-    <string name="rat_profile_open_card_title">"Профіль експрес-тесту"</string>
+    <string name="rat_profile_open_card_title">"Профілі експрес-тестів"</string>
     <!-- XTXT: Open RAT profile card subtitle -->
     <string name="rat_profile_open_card_subtitle">"Профіль експрес-тесту з вашими особистими даними, які ви можете надіслати до будь-якого пункту тестування, що приймає участь, за допомогою QR-коду."</string>
     <!-- XHED: Create RAT profile title -->
@@ -187,7 +187,7 @@
     <!-- XTXT: Create RAT Qr code profile birth date-->
     <string name="rat_qr_code_profile_birth_date">"Народився %1$s"</string>
     <!-- XBUT: Create RAT Qr code profile next button-->
-    <string name="rat_qr_code_profile_next_button">"Продовжити"</string>
+    <string name="rat_qr_code_profile_next_button">"Сканувати тест"</string>
     <!-- XTXT: Create RAT Qr code profile delete item-->
     <string name="rat_qr_code_profile_delete_item">"Видалити профіль експрес-тесту"</string>
     <!-- XTXT: Create RAT Qr code profile edit item-->

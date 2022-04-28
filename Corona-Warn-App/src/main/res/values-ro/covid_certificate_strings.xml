@@ -113,8 +113,6 @@
     <!-- XBUT: Text for invalid certificate error button, linking to FAQ-->
     <string name="error_button_dcc_faq">"Întrebări frecvente privind certificatele"</string>
 
-    <!-- XTXT: DCC QR code scan error message-->
-    <string name="error_dcc_in_blocklist_message">"Certificatul a fost revocat de către autoritatea emitentă. Obțineți un certificat digital nou."</string>
     <!-- XTXT: DCC QR code scan error title-->
     <string name="error_dcc_in_blocklist_title">"Certificat nevalabil"</string>
 
@@ -125,6 +123,11 @@
 
     <!-- XTXT: Test Certificate QR code new text-->
     <string name="test_certificate_qr_new">"Nou"</string>
+
+    <!-- XTXT: DCC Revoked DE error message-->
+    <string name="dcc_screened_de_message">"RKI a dezactivat certificatul ca urmare a unui decret guvernamental. Vă rugăm să obțineți un certificat digital nou."</string>
+    <!-- XTXT: DCC Revoked foreign error message-->
+    <string name="dcc_screened_foreign_message">"Autoritatea emitentă a dezactivat certificatul ca urmare a unei decizii administrative. Vă rugăm să obțineți un certificat digital nou."</string>
 
     <!-- #####################################################
     VALIDATION RULES INFO SCREEN STRINGS BELOW
