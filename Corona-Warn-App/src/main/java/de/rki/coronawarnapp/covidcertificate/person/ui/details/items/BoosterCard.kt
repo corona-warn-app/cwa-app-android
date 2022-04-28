@@ -28,22 +28,22 @@ class BoosterCard(parent: ViewGroup) :
         title.text = curItem.title
         if (curItem.badgeVisible) {
             val boosterBadgeDrawable = ImageSpan(context, R.drawable.ic_badge_with_space, 2)
-            title.post {
-                val textOnFirstLine = curItem.title.subSequence(
-                    title.layout.getLineStart(0), title.layout.getLineEnd(0)
-                )
-                val restOfText = curItem.title.subSequence(title.layout.getLineEnd(0), curItem.title.length)
-                val spannableString = SpannableString("$textOnFirstLine*$restOfText")
-                spannableString.setSpan(
-                    boosterBadgeDrawable,
-                    textOnFirstLine.length,
-                    textOnFirstLine.length + 1,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                title.text = spannableString
+            if (title.text.isNotEmpty() && title.layout != null) {
+                title.post {
+                    val textOnFirstLine = title.text.subSequence(
+                        title.layout.getLineStart(0), title.layout.getLineEnd(0)
+                    )
+                    val restOfText = title.text.subSequence(title.layout.getLineEnd(0), title.text.length)
+                    val spannableString = SpannableString("$textOnFirstLine*$restOfText")
+                    spannableString.setSpan(
+                        boosterBadgeDrawable,
+                        textOnFirstLine.length,
+                        textOnFirstLine.length + 1,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    title.text = spannableString
+                }
             }
-        } else {
-            title.text = curItem.title
         }
         subtitle.text = curItem.subtitle
     }

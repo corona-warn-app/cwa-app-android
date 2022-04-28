@@ -50,6 +50,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
         }
     )
     private val personDetailsAdapter = PersonDetailsAdapter()
+    private var numberOfCertificates = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +81,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
             viewModel.uiState.observe(viewLifecycleOwner) {
                 name.text = it.name
                 personDetailsAdapter.update(it.certificateItems)
+                numberOfCertificates = it.numberOfCertificates
             }
             viewModel.events.observe(viewLifecycleOwner) { onNavEvent(it) }
             viewModel.currentColorShade.observe(viewLifecycleOwner) { color ->
@@ -103,6 +105,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToRecoveryCertificateDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -111,6 +114,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToTestCertificateDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -119,6 +123,7 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
                 PersonDetailsFragmentDirections
                     .actionPersonDetailsFragmentToVaccinationDetailsFragment(
                         certIdentifier = event.containerId.qrCodeHash,
+                        numberOfCertificates = numberOfCertificates,
                         fromScanner = false,
                         colorShade = event.colorShade
                     ).also { viewModel.dismissAdmissionStateBadge() }
@@ -159,8 +164,8 @@ class PersonDetailsFragment : Fragment(R.layout.person_details_fragment), AutoIn
     }
 
     private fun setToolbarOverlay() {
-        binding.recyclerViewCertificatesList.viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalLayoutListener {
+        binding.recyclerViewCertificatesList.viewTreeObserver
+            .addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     if (binding.recyclerViewCertificatesList.childCount > 0) {
                         val firstElement = binding.recyclerViewCertificatesList[0]

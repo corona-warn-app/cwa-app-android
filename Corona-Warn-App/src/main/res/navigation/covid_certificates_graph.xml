@@ -70,6 +70,11 @@
             app:argType="string" />
 
         <argument
+            android:name="numberOfCertificates"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
             android:name="fromScanner"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -88,6 +93,11 @@
         <action
             android:id="@+id/action_testCertificateDetailsFragment_to_covPassInfoFragment"
             app:destination="@id/covPassInfoFragment" />
+        <action
+            android:id="@+id/action_testCertificateDetailsFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment"
+            app:popUpTo="@id/personOverviewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -146,6 +156,11 @@
             app:argType="string" />
 
         <argument
+            android:name="numberOfCertificates"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
             android:name="fromScanner"
             android:defaultValue="false"
             app:argType="boolean" />
@@ -164,6 +179,11 @@
         <action
             android:id="@+id/action_vaccinationDetailsFragment_to_covPassInfoFragment"
             app:destination="@id/covPassInfoFragment" />
+        <action
+            android:id="@+id/action_vaccinationDetailsFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment"
+            app:popUpTo="@id/personOverviewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/recoveryCertificateDetailsFragment"
@@ -176,6 +196,11 @@
         <argument
             android:name="certIdentifier"
             app:argType="string" />
+
+        <argument
+            android:name="numberOfCertificates"
+            android:defaultValue="0"
+            app:argType="integer" />
 
         <argument
             android:name="fromScanner"
@@ -196,6 +221,11 @@
         <action
             android:id="@+id/action_recoveryCertificateDetailsFragment_to_covPassInfoFragment"
             app:destination="@id/covPassInfoFragment" />
+        <action
+            android:id="@+id/action_recoveryCertificateDetailsFragment_to_personOverviewFragment"
+            app:destination="@id/personOverviewFragment"
+            app:popUpTo="@id/personOverviewFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/validationStartFragment"

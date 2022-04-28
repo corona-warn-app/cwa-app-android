@@ -149,6 +149,14 @@ class RecoveryCertificateDetailsFragment : Fragment(R.layout.fragment_recovery_c
     private fun FragmentRecoveryCertificateDetailsBinding.onNavEvent(event: RecoveryCertificateDetailsNavigation) {
         when (event) {
             RecoveryCertificateDetailsNavigation.Back -> popBackStack()
+            RecoveryCertificateDetailsNavigation.ReturnToPersonDetailsAfterRecycling -> {
+                if (args.numberOfCertificates == 1) {
+                    doNavigate(
+                        RecoveryCertificateDetailsFragmentDirections
+                            .actionRecoveryCertificateDetailsFragmentToPersonOverviewFragment()
+                    )
+                } else popBackStack()
+            }
             is RecoveryCertificateDetailsNavigation.FullQrCode -> findNavController().navigate(
                 R.id.action_global_qrCodeFullScreenFragment,
                 QrCodeFullScreenFragmentArgs(event.qrCode).toBundle(),
