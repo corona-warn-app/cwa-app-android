@@ -7,7 +7,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -94,13 +93,10 @@ class ProfileQrCodeFragment : Fragment(R.layout.profile_qr_code_fragment), AutoI
             when (it) {
                 ProfileQrCodeNavigation.Back -> popBackStack()
                 is ProfileQrCodeNavigation.OpenScanner -> {
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.profileQrCodeFragment, false)
-                        .build()
                     findNavController().navigate(
                         R.id.action_to_universal_scanner,
                         QrCodeScannerFragmentDirections.actionToUniversalScanner(it.personName).arguments,
-                        navOptions,
+                        null,
                         FragmentNavigatorExtras(binding.nextButton to binding.nextButton.transitionName)
                     )
                 }
